@@ -1,0 +1,37 @@
+Unknown Speaker  0:01  
+The training BM process, the intake process is split into different categories.
+
+Speaker 1  0:11  
+Initially, we go through and we confirm first that we've even received the device. We enter the serial number on Monday. And what should that should do is we should remove, we should change the status to received. And then when we enter the serial number in the serial number column on the Monday board, that should trigger immediately a iCloud check. And we should go through the iCloud flow that we currently have in an end that needs to be ported through to our server. Once devices pass the iCloud check, because the iCloud if it fails, it goes through a iCloud flow, then the diagnostic should be split by the reported functionality. If it's functional and non functional, functional devices are those that are functional, but should just have a break to the screen. That's what the client is noting to say all else is functional. So technically, it's a functional device with a cracked screen, and then we're looking for anything else that's at fault. That machine can be plugged into an external monitor, because it's a MacBook with a broken screen, and test it that way. I was going to say that when it comes to testing like the components, sometimes it's the screen is broken, but it's not actually broken, it's just that the backlights failed. So we need to break that level of testing down. We're
+
+Speaker 1  1:44  
+I can come back to you with regards to the different tests that we would need to complete. But if it's non functional, then so functional is just screen broken. If it's non functional, then that's Pat. That could be power related, that could be liquid damage related. I Yeah, sorry, I've skipped a point going back to the functional we're going through. And we're noting in the grading of the screen, the grading of the house, and we're going through that flow so aesthetically, and also checking things like the charging port, rechecking them for liquid damage. We've taken off the back cover, checking that for liquid damage, checking the bezel, making sure there's no breaks. This is us making sure that there is a specific test completed, so that nothing pops up when a technician is completing his repair. The more thorough the intake is, the better the repair process in the middle functional devices. It should be the case that we complete these intakes, and it's perfect. It then goes through to technician. Technician completes his repair with some basic testing, first, then a full test, and then passes QC. That's how this should work.
+
+Speaker 1  3:09  
+With the non functional side we're testing to see if it has any power going into the system. So ammeter reading again for the functional side as well. We need to confirm that the ammeter reading is right. I amateur reading, what did the client report was the battery working? Not working? What is the reason why they've labelled it non functional? Because sometimes a client calls it non functional, but we wouldn't call it non functional. Sometimes clients think that the screen is broken, but it's not just needed restarting. So what do we think if there is a power fault, we need to be confirming that via the ammeter readings, and also we need to be checking for liquid. Liquid is imperative.
+
+Speaker 1  3:59  
+Again, it's building up this story, because we don't get to talk to the customer. If it's this level of diagnostic for non functional, we don't get to the see the machine fresh, or we're looking out for anything.
+
+Speaker 2  4:22  
+You i
+
+Speaker 1  4:51  
+i forgot to say about the functional side is that when we confirm the fault, so, for example, just the screen before allocating there should be a stock check, confirm that we have the stock in part for this,
+
+Speaker 1  5:14  
+filling out the parts required. Should then take them out of stock and allocate them to this repair the
+
+Speaker 1  5:44  
+now the non functionals, when they go through the intake process, then get put into SAS Q, our job for the non functionals is to break down whether this is a heavily Liquid damaged, slightly liquid damaged, and there is a crossover there. Is it slightly liquid damaged, but everything works perfectly. And then we need to assess that risk. Is this just where the logic board needs to be taken out and go through an ultrasonic cleaner and then it restores everything back to normal, because all the functionals function? Or does it need to go to SAF? Because I feel like SAF has to go over, look all of this stuff, but it shouldn't be the case. It should be the case that the intake makes that decision if they're right, if they're the right technician, when SAF is doing his diagnostic, when he's marking, he should be marking to say which parts does he think have failed, and then what parts are required that should then take them out of stock and put allocate them towards this repair. And as he uses them and puts them in parts used, that then deducts the parts from stock and puts them actually towards this repair, and says these have been used
+
+Speaker 1  7:13  
+when devices require a screen replacement, but they also require a logic board or liquid damage repair, we should be separating the screens at that point. I don't fundamentally believe that they all the devices should stay together. The parts can go separately and they come back to a central point to be assembled. If a device is having a liquid damage repair by SAF the screen can be the screen can go off and be repaired and come back to SAS so that you can test everything together. It should not be going to Misha. We need to stop that cycle of this. You
+
+Speaker 1  8:19  
+when a liquid damage, when a device has been liquid damage, liquid damaged, we need to be looking at the peripherals to see where the liquid goes and if it damaged any of those components. So like a speaker or a fan, the device should be spotless internally. You
+
+Speaker 1  8:45  
+it, and at the end of the point, at the end of a repair, no matter what repair it is, the device should go to QC without the bottom cover attached, so the device can be looked over and confirmed that everything is all good, because we're looking out for any thing that's been missed until we get to the point where we're trusting the repair guys to notice stuff like that. Ultrasonics will help that, and imagery will help this as well. Do.
+
+Transcribed by https://otter.ai

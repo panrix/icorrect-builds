@@ -1,0 +1,19 @@
+Speaker 1  0:02  
+Using the walk in service. We either have clients that are walking in out of the blue random walk ins, or we have clients that are booked in and we know about them, clients that are booked in with validated information. We don't need to go through a lot of intake. It's just confirming those details for a client walking in, if they're booked in and we have no information about their repair we need to obviously check that information and take it from them. When a client randomly walks in, it may be the case that they've had email correspondence with us or DM correspondence. At the point that a client is putting their name in, we should be doing an API call at that point to see if we have information about the device that they want to come in, they fill out the device in the fault and we can cross reference that information, as long as We're holding it somewhere that could be cross
+
+Speaker 2  1:02  
+referenced. Maya, now
+
+Unknown Speaker  1:08  
+a customer who randomly walks in, they have to answer
+
+Speaker 1  1:15  
+a question, which is, have you looked on our website for the information about your repair and do you know the pricing? They can answer yes, no, or I need more information. If they click yes, that shouldn't end the flow. Then we shouldn't go up and see them at that point. It's a great stage that we've put in, but at that point we need to ask them, Are you looking to book this in? And we could be showing them the expected turnaround and the price of that particular repair for the model that they've chosen. And at the point they're saying, Yes, I'd like to book it in. I'd like to book it in a future date, they can complete that full flow with us, because sometimes they they're coming in and they just want to book it in for another day because they're walking past sometimes I want to book it in right now, that's a better flow. That means that whenever going up see a customer, we know exactly what they want to see, to see about now, if they haven't checked the website and they answer no, it should go through a flow of speaking to them about this fault that they have, because we should really only been seeing customers at the point that they want to drop off. So it could be that delivering them a quote for the fault if they have any questions about their repair, completing some level of testing with them or answering some questions with regards to the fault that they have, so that we can go and have more information about their repair. Again, needs to be cross referencing to see if they've spoken to us before. I
+
+Speaker 1  2:53  
+because some of this stuff that we can answer for them without even going up and seeing them and then taking them down, the flow to the point of saying, Do you want to book in now? Or should we just email you the quote? If they email the quote or they say, actually, that's too much like they can hand the iPad back to reception, and we can continue that flow going. We can contact them after with a written quote and try get them booked in for a future date. We're really only going up to see clients if they need to see us, rather than going up to see every client.
+
+Speaker 2  3:22  
+I i.
+
+Transcribed by https://otter.ai
