@@ -7,9 +7,9 @@ Source of truth for active iCorrect build planning and spec readiness.
 | # | Build | Status | Priority | Spec | Owner Agent | Blockers | Dependencies | Link |
 |---|---|---|---|---|---|---|---|---|
 | 1 | Intake System | ready-to-build | HIGHEST | Full | operations | Monday audit prerequisite | feeds Inventory + Intercom | `intake-system/SPEC.md` |
-| 2 | Intercom Agent | specced | HIGH | Full | customer-service | n8n replacement complexity | depends on workflow replacement | `intercom-agent/SPEC.md` |
-| 3 | Inventory System | specced | HIGH | Full | parts + operations | parts board audit quality | depends on Monday parts clarity | `inventory-system/SPEC.md` |
-| 4 | Website Conversion | specced | HIGH | Full | website | Shopify theme access | independent | `website-conversion/SPEC.md` |
+| 2 | Intercom Agent | ready-to-build | HIGH | Full | customer-service | routing and n8n hardening | depends on workflow replacement | `intercom-agent/SPEC.md` |
+| 3 | Inventory System | ready-to-build | HIGH | Full | parts + operations | data quality cleanup sequence | depends on Monday parts clarity | `inventory-system/SPEC.md` |
+| 4 | Website Conversion | ready-to-build | HIGH | Full | website | theme rollout QA discipline | independent | `website-conversion/SPEC.md` |
 | 5 | QA System | in-progress | MEDIUM | Stub | operations | active parallel build | independent | `qa-system/README.md` |
 | 6 | BM Pricing Module | blocked | MEDIUM | Stub | backmarket | algorithm not finalized | needs Ricky decision | `bm-pricing-module/README.md` |
 | 7 | Marketing Intelligence | needs-rethink | MEDIUM | Stub | marketing | phase 1 quality gap | strategy reset required | `marketing-intelligence/README.md` |
