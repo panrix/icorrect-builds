@@ -803,7 +803,24 @@ Ricky confirmed finance splits back out of operations. This means:
 
 **Kimi 2.5 via NVIDIA:** Deferred. NVIDIA NIM has reliability concerns (rate limits, availability). Grok is cheap enough that the cost saving doesn't justify the risk. Revisit if Grok costs become a problem.
 
-**Open question for Code:** Does OpenClaw support model fallback chains natively in config? If not, this needs building.
+**Answer from Code:** YES — OpenClaw supports per-agent fallback chains natively. Pure config, no code to build.
+
+Per-agent syntax:
+```json5
+{ "id": "ops-team", "model": { "primary": "xai/grok-4.1-fast", "fallbacks": ["anthropic/claude-haiku-4-5"] } }
+```
+
+Custom providers added via `models.providers` in openclaw.json:
+```json5
+"models": { "providers": { "xai": {
+  "baseUrl": "https://api.x.ai/v1",
+  "apiKey": "${XAI_API_KEY}",
+  "api": "openai-completions",
+  "models": [{ "id": "grok-4.1-fast", "name": "Grok 4.1 Fast", "contextWindow": 2097152, "cost": { "input": 0.20, "output": 0.50 } }]
+}}}
+```
+
+API keys go in `env.vars` or `~/.openclaw/.env`. OpenClaw auto-rotates on auth failures, rate limits, and timeouts. Moonshot/Kimi is even documented as an example provider in OpenClaw docs if we revisit later.
 
 **Estimated monthly cost: ~$500**
 
