@@ -961,18 +961,96 @@ Sub-agents: fin-cashflow, fin-kpis
 - All prefixes dropped (ops-intake → intake, etc.)
 - 18 sub-agents → 6 day one. Rest emerge from proven need.
 
-### 10.13 What Still Needs Research
+### 10.13 Blind Spots — Multi-Bot Migration Risks (Code, 23 Feb)
 
-Before this research doc is complete, these questions remain:
+Things that could bite us during implementation that weren't previously documented:
 
-1. **Agent structure** — How do team/parts/website fit in? (Ricky to discuss with Jarvis)
-2. **Bot naming convention** — What should each bot be called in Telegram? (@iCorrectOpsBot? @OpsJarvisBot?)
-3. **Sub-agent model decision** — Haiku vs Kimi 2.5 vs Grok. SOUL files say Haiku but cost analysis suggests cheaper alternatives. Needs testing.
-4. **Webhook handler updates** — agent-trigger.py currently uses shared bot token for notifications. Multi-bot migration needs this updated. How complex is the change?
+**1. Telegram IP-level throttling**
+21 bots on one VPS IP. Per-bot limit is 30 msg/sec, but Telegram can throttle at IP level. During bursts (morning briefing triggers 8 agents responding simultaneously, or a delegation chain cascading through 4 agents) we could hit 429 errors. Probably fine at day-one scale (21 agents), but if we scale to 30+ or agents get chatty, this becomes a real risk. No mitigation needed now, but monitor 429s after go-live.
+
+**2. 8 notification scripts use the shared bot token**
+The multi-bot migration is NOT just openclaw.json. 8 files on the VPS send Telegram notifications using the shared token. All need updating:
+
+| File | What it does | Token source | Migration complexity |
+|---|---|---|---|
+| `scripts/utils/telegram-alert.py` | Central alert utility — imported by 4 cron scripts | `TELEGRAM_BOT_TOKEN` env var | **HIGH** — single refactor fixes 4 callers |
+| `scripts/webhooks/agent-trigger.py` | Webhook handler — sends to 8+ agent groups | `TELEGRAM_BOT_TOKEN` env var | **MEDIUM-HIGH** — already has agent→chatID mapping, needs agent→botToken added |
+| `scripts/cron/qa-retry.py` | Alerts Ricky when items stuck >30min | `TELEGRAM_BOT_TOKEN` env var | **LOW** — only sends to Ricky DM (use Jarvis bot) |
+| `hooks/agent-activity-logger/handler.js` | Logs session events to Activity group | `process.env.TELEGRAM_BOT_TOKEN` | **LOW** — single target |
+| `hooks/dependency-check/handler.js` | Alerts Systems when Supabase unreachable | `process.env.TELEGRAM_BOT_TOKEN` | **LOW** — single target |
+| `config/cron/daily-briefing.py` | Morning briefing to Ricky | Imports telegram-alert.py | **ZERO** — auto-fixes when utility is updated |
+| `config/cron/health-check.py` | Health alerts to Systems group | Imports telegram-alert.py | **ZERO** — auto-fixes when utility is updated |
+| `config/cron/reconciliation.py` | Stuck item alerts | Imports telegram-alert.py | **ZERO** — auto-fixes when utility is updated |
+
+**Migration order:** Fix `telegram-alert.py` first (fixes 4 cron scripts automatically) → then `agent-trigger.py` → then hooks + qa-retry.
+
+**Needs:** A bot token lookup utility + config file (e.g. `config/telegram-bots.json` mapping agent_id → bot_token). All scripts reference this single source instead of one env var.
+
+**3. Bot token management (1 → ~21 tokens)**
+Currently: one `TELEGRAM_BOT_TOKEN` env var. After: ~21 tokens to manage. Need:
+- Single config file with all bot tokens (not scattered across .env files)
+- Lookup utility that both Python scripts and JS hooks can use
+- Token rotation plan (what if a bot token is revoked or leaked?)
+- Backup of all tokens somewhere recoverable
+
+**4. 21 Telegram groups + ADHD = information overload**
+Ricky cannot monitor 21 groups. Sub-agent groups should be muted by default. Ricky's interface is:
+- Morning briefing (8am Bali) — aggregated summary from Jarvis
+- Mission Control dashboard — real-time overview
+- Jarvis DM — for direct questions and decisions
+- Domain lead groups — only when Ricky specifically wants to engage a domain
+
+Sub-agent groups are for agent-to-agent communication and debugging. Ricky should never need to read them unless investigating an issue. This needs to be explicit in the SOUL files: "Your Telegram group is for agent communication. Ricky sees your work through your domain lead's summaries."
+
+**5. Sub-agent rename breaks existing data**
+Hierarchy changed from prefixed (ops-intake) to plain (intake). This affects:
+- 18 rows in Supabase `agent_registry` — have old prefixed names, need updating
+- Memory_facts `namespace` fields — may reference old agent IDs
+- Agent CLAUDE.md routing tables — reference old names
+- Directory names at `mission-control-v2/agents/` — still use old prefixes (ops-intake/, not intake/)
+- Supabase memory bridge — syncs from directory names
+
+**Recommendation:** Before migration, decide: rename the directories too, or keep old directory names and just change the agent IDs in OpenClaw/Supabase? Renaming everything is cleaner but more work. Keeping old dirs with new IDs creates a naming mismatch.
+
+**6. Workspace + agentDir setup for new/promoted agents**
+Promoted agents (team, parts, website) already have workspaces at `~/.openclaw/agents/{id}/`. New sub-agents (intake, queue, qc, sop, hiring, seo) need:
+- `~/.openclaw/agents/{id}/workspace/` — created with correct structure
+- `~/.openclaw/agents/{id}/agent/` — containing SOUL.md, CLAUDE.md, auth-profiles.json
+- Git repo initialized in workspace
+- SOUL/CLAUDE files either symlinked from mission-control-v2 or copied
+- Shared foundation docs symlinked (`~/.openclaw/shared/`)
+
+This is scriptable but needs to be done for each new agent. `openclaw agents add` may handle some of this automatically — needs testing.
+
+**7. OpenClaw restart = full outage**
+Migrating from single-token to multi-account config requires gateway restart (`systemctl --user restart openclaw-gateway`). During restart:
+- All 14+ agents go offline
+- Active sessions are interrupted
+- Webhook notifications may queue and retry
+- Cron jobs may fail if they try to notify during downtime
+
+**Mitigation:** Schedule restart during quiet hours (e.g. 4am UTC / noon Bali). Have rollback plan: keep backup of current openclaw.json, revert + restart if multi-bot config fails. Test with 2 bots first (Jarvis + one domain lead) before migrating all.
+
+**8. Grok tool calling — confirmed working, but untested in OpenClaw**
+Grok 4.1 Fast supports OpenAI-compatible function calling (parallel tool calls, standard schema). BUT: we haven't tested Grok through OpenClaw's custom provider mechanism. OpenClaw's tool system may have quirks with non-Anthropic models (different error handling, tool result formats, streaming differences). Need a pilot test before committing all 6 sub-agents to Grok.
+
+**Bonus: Grok server-side tools** — xAI provides free server-side tools (web browsing, X search at $0.005/search, code execution). The SEO sub-agent could use X search for competitive monitoring. Worth exploring but not blocking.
+
+### 10.14 What Still Needs Research
+
+Before this research doc is complete and ready for planning:
+
+1. ~~Agent structure~~ — **RESOLVED** in §10.12. 8 domain leads, 6 sub-agents day one.
+2. **Bot naming convention** — What should each bot be called in Telegram? Needs Ricky decision.
+3. ~~Sub-agent model decision~~ — **RESOLVED** in §10.9. Grok primary, Haiku fallback.
+4. ~~Webhook handler updates~~ — **RESOLVED** in §10.13 blind spot #2. 8 files, migration order documented.
 5. **Security audit items** — mc.icorrect.co.uk open RLS, mi.icorrect.co.uk SQL injection. Not blocking but on the list.
 6. **n8n status** — Docker container still running? Replacement scripts proven?
 7. **PM agent future** — Keep disabled or revive with new role? Crons cover its old job.
+8. **Sub-agent directory rename strategy** — Keep old prefixed dirs or rename? (§10.13 blind spot #5)
+9. **`openclaw agents add` behaviour** — Does it auto-create workspace/agentDir/git? Or manual setup needed?
+10. **Grok pilot through OpenClaw** — Test one sub-agent on Grok before committing all 6. Verify tool calling works end-to-end.
 
 ---
 
-*Section 10 added by Code on 23 Feb 2026 after VPS verification session with Ricky. All claims verified against actual VPS state. Corrections to sections 1-9 are noted in §10.1.*
+*Section 10 compiled by Code on 23 Feb 2026 after VPS verification session with Ricky. All claims verified against actual VPS state. Updated with Jarvis additions (§10.9-10.12) and Code blind spot analysis (§10.13). Corrections to sections 1-9 are noted in §10.1.*
