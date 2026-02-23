@@ -1,9 +1,12 @@
 # Research — Agent System Rebuild
 
 **Compiled by:** Jarvis (having read every file in builds/agents/)
+**Updated by:** Code (VPS ground truth verification, 23 Feb evening session with Ricky)
 **Date:** 23 February 2026
-**Source:** 21+ documents, conversation context with Ricky, current VPS state
+**Source:** 21+ documents, conversation context with Ricky, current VPS state, Code VPS verification
 **Purpose:** Complete, honest picture of where we are, where we're going, and what's in the way. This is the foundation document for the plan.
+
+> **IMPORTANT — Section 10 contains Code's VPS verification findings and Ricky's latest decisions. Several claims in sections 2-5 are corrected there. Read section 10 before planning.**
 
 ---
 
@@ -466,4 +469,349 @@ This section is a bridge to the plan. Not the plan itself.
 
 ---
 
-*This document was compiled by Jarvis after reading every file in builds/agents/, the full conversation with Ricky on 23 Feb, and the current VPS state. Every claim above can be traced to a source document. If something is wrong, it's because the source document is wrong — and that should be fixed too.*
+*Sections 1-9 compiled by Jarvis after reading every file in builds/agents/, the full conversation with Ricky on 23 Feb, and the current VPS state. Every claim above can be traced to a source document. If something is wrong, it's because the source document is wrong — and that should be fixed too.*
+
+---
+
+## 10. CODE VERIFICATION SESSION (23 Feb evening)
+
+**Context:** Ricky asked Code to verify research.md against the actual VPS and continue researching. Code read every file in builds/agents/, verified VPS state, read the full PRD + PRD-HANDOFF, checked OpenClaw docs, and discussed decisions with Ricky.
+
+### 10.1 Ground Truth Corrections
+
+Things this document got wrong or needs updating:
+
+| Original Claim | Reality (VPS verified) | Section |
+|---|---|---|
+| "4 model configs wrong" | **3 wrong.** team/website/parts inherit Opus (no override, no defaultModel in gateway). Systems IS correctly on Sonnet. | §2, §4 Gap 3 |
+| "4 broken crons (BM QC Watch + 3 SEO)" | **3 broken.** Only the 3 SEO rank scans are in error (Google Maps, Google Organic, YouTube). BM QC Watch is OK — ran successfully 44min ago. | §2, §4 Gap 4 |
+| "333+ memory facts" | **541 facts** in Supabase memory_facts table. Number has grown since Jarvis compiled this doc. | §2 |
+| "14 memory files for Jarvis" | **18 memory files** for Jarvis (main). 57 total across all agents. | §2 |
+| "Zero sub-agents registered in OpenClaw" | **Correct for openclaw.json.** But 18 sub-agents ARE registered in Supabase agent_registry (status: dormant). Seeded via seed-registry.sql. | §2, §4 Gap 2 |
+| "agentToAgent config" unclear | **agentToAgent IS enabled** with 15-agent allow list + maxPingPongTurns=2. Sessions visibility="all". Not null, not broken at config level. "schedule" is in the allow list but agent is retired. | §4 Gap 1 |
+| "10 git repos" | **18 git repos** on disk — 14 active + 4 orphan (finn, finance-archived, processes, schedule-archived). | §2 |
+| Sub-agents "have SOUL.md + CLAUDE.md written" | **Confirmed.** All 18 sub-agents have both files at `/home/ricky/mission-control-v2/agents/{id}/`. Files are production-quality, not stubs. | §2 |
+
+### 10.2 Inter-Agent Communication — SOLUTION FOUND
+
+**The shared bot token problem is solvable without building a poller or modifying OpenClaw internals.**
+
+OpenClaw v2026.2.17 natively supports **one Telegram bot per agent** via multi-account channels:
+
+```json5
+// Current config (broken — shared bot token):
+"channels": { "telegram": { "botToken": "..." } }
+
+// Target config (each agent gets own bot):
+"channels": {
+  "telegram": {
+    "accounts": {
+      "jarvis":     { "botToken": "<from BotFather>", "dmPolicy": "pairing" },
+      "operations": { "botToken": "<from BotFather>", "dmPolicy": "allowlist" },
+      "backmarket": { "botToken": "<from BotFather>", "dmPolicy": "allowlist" },
+      // ... one per agent
+    }
+  }
+}
+
+// Bindings get accountId:
+"bindings": [
+  { "agentId": "main", "match": { "channel": "telegram", "accountId": "jarvis" } },
+  { "agentId": "operations", "match": { "channel": "telegram", "accountId": "operations" } },
+  // ...
+]
+```
+
+**Source:** OpenClaw docs at `docs.openclaw.ai/concepts/multi-agent`:
+> "Create one bot per agent with BotFather and copy each token. Tokens live in `channels.telegram.accounts.<id>.botToken`"
+
+**Why this solves everything:**
+- Different bot tokens = no self-message filtering issue
+- Agent A's bot messages Agent B's group → Agent B's bot (different token) receives it → OpenClaw routes to Agent B
+- Real-time delivery, no polling, no Supabase consumer needed for top-level agents
+- Each agent has its own identity in Telegram (name, avatar)
+- OpenClaw's existing `agentToAgent` tool works naturally across separate bots
+
+**What's needed:**
+1. Ricky creates bots via @BotFather (manual, ~1 min each)
+2. Code migrates openclaw.json from single-token to multi-account structure
+3. Each bot added to its agent's Telegram group as admin
+4. Bindings updated with `accountId` matching
+5. Webhook handler (agent-trigger.py) updated to use correct bot token per agent
+
+**Ricky's decision (23 Feb):** Every agent gets its own bot — top-level AND sub-agents. Full 32 bots. "Harder now by a small margin, cleaner forever."
+
+**This replaces Gap 1 and Gap 2 solutions.** No Supabase poller needed. No sessions_send investigation needed. The delegation chain unblocks entirely with this config change.
+
+### 10.3 Sub-Agent Readiness Assessment
+
+Code read representative SOUL.md + CLAUDE.md files for sub-agents. Assessment:
+
+**Quality: Production-ready, not stubs.**
+
+All 18 sub-agents follow a consistent 70-line CLAUDE.md template:
+1. Identity + Role (agent_id, type, model, parent, domain)
+2. Agent Routing Table (cross-references 10-22 other agents)
+3. Supabase Instructions (namespace, table, credentials source)
+4. Memory Write Rules (atomic facts, deduplication, source + confidence)
+5. Degraded Mode Compliance (specific behaviors during system stress)
+6. Timezone (Ricky UTC+8, London UTC+0/+1, storage UTC)
+7. Communication Style (concise, actionable, lead with answer)
+
+SOUL.md files define clear scope, explicit "What I Am NOT" boundaries, escalation triggers, and parent relationship.
+
+**Deployment blockers (infrastructure, not content):**
+1. **Not in openclaw.json** — OpenClaw Gateway doesn't know they exist
+2. **No workspace directories** — need `~/.openclaw/agents/{id}/workspace/` created
+3. **SOUL/CLAUDE files in wrong location** — OpenClaw expects them at `{agentDir}/SOUL.md`, they're at `mission-control-v2/agents/{id}/` (need symlinks or copy)
+4. **Model mismatch** — SOUL files say "Haiku" but Supabase registry says "sonnet"
+5. **No Telegram groups** — each sub-agent needs a group created + bot added
+
+**Referenced tools verified to exist:**
+- `save-fact.py` at `/home/ricky/mission-control-v2/scripts/utils/save-fact.py`
+- Supabase client via environment vars at `/home/ricky/config/supabase/.env`
+- API keys at `/home/ricky/config/api-keys/.env`
+
+**Knowledge gap:** Sub-agents reference "inherited knowledge" from retired v1 agents (finn → cs-intercom, team → ops-team, parts → ops-parts) but that knowledge hasn't been extracted to `builds/documentation/`. This is a docs task, not a blocker for deployment.
+
+### 10.4 Supabase Actual State
+
+| Table | Rows | Notes |
+|---|---|---|
+| memory_facts | 541 | Growing. Was 333+ when Jarvis compiled §2. |
+| agent_registry | 30 | 12 top-level (active/disabled) + 18 sub-agents (dormant) |
+| work_items | 15 | Low volume. QA pipeline items + test items. |
+| agent_messages | 0 unread | Consumer gap confirmed — but may be moot with multi-bot solution |
+
+Sub-agents in Supabase agent_registry (all status `dormant`, all model `sonnet`):
+```
+ops-team, ops-parts, ops-intake, ops-queue, ops-sop, ops-qc
+bm-listings, bm-pricing, bm-grading, bm-ops
+fin-cashflow, fin-kpis
+cs-intercom, cs-escalation
+mkt-website, mkt-content, mkt-seo, mkt-adwords
+```
+
+### 10.5 OpenClaw Capabilities (Verified)
+
+**CLI commands available:**
+- `openclaw agents add` — Add a new isolated agent
+- `openclaw agents list` — List configured agents
+- `openclaw agents delete` — Delete agent and prune workspace
+- `openclaw channels add --channel telegram --token <token>` — Add channel account
+- `openclaw agent` — Run one agent turn via Gateway
+- `openclaw sessions` — List stored conversation sessions
+- `openclaw message` — Send, read, manage messages
+
+**Multi-account support:** Confirmed via docs + config reference. `channels.telegram.accounts.<id>` structure. Per-account overrides for dmPolicy, allowFrom, etc.
+
+**Binding hierarchy (most specific wins):**
+1. `match.peer` (direct/group + id)
+2. `match.guildId`
+3. `match.teamId`
+4. `match.accountId` (exact)
+5. `match.accountId: "*"` (channel-wide)
+6. Default agent
+
+**Hooks deployed (4):**
+- `supabase-bootstrap` — Injects memory summaries + unread messages at session start
+- `supabase-memory` — Writes session-end heartbeat
+- `agent-activity-logger` — Logs to agent_activity table + Telegram activity group
+- `dependency-check` — Validates dependencies before agent starts
+
+### 10.6 PRD Architecture — Key Constraints for Planning
+
+Code read the full PRD.md (56k) and PRD-HANDOFF.md (35k). Key architectural decisions that constrain future work:
+
+**Three Pillars (non-negotiable):**
+1. Git = source of truth for files
+2. Supabase = persistent structured storage
+3. OpenClaw = agent runtime
+
+**Session architecture:** Sessions are per-agent, per-channel, isolated. NOT shared. Inter-agent comms CANNOT rely on shared session state.
+
+**Interaction model (Option B, chosen):** Ricky talks to Jarvis OR domain agents directly. Jarvis is C-suite exec, NOT a message router. Domain agents are equals, not subordinates.
+
+**Sub-agent design (PRD):** Pre-configured, own SOUL, own memory, own workspace. NOT dynamically spawned. Domain leads manage them, don't create them. Sub-agents have no Telegram presence — background workers only.
+
+**Note:** Ricky has since decided (23 Feb) that sub-agents WILL get Telegram presence (own bots). This supersedes the PRD's "no Telegram presence" design. The sub-agents become full agents with their own communication channel.
+
+**Source anchoring:** `work_items.source_input` contains Ricky's exact words. Never modified. Every agent in chain can reference original intent. QA checks against this.
+
+**Domain ownership:** Each field in `business_state` has `owned_by` agent. Only owner writes. RLS enforces. Prevents contradictory writes.
+
+**Memory namespace isolation:** Each agent writes ONLY to its own namespace in `memory_facts`. `UNIQUE(agent_id, namespace, key)` constraint. Agents can read any namespace. Jarvis reads all.
+
+### 10.7 Full Agent Hierarchy (Current Definitions)
+
+All agents verified. SOUL.md read for each. Summary:
+
+**COORDINATOR:**
+| ID | Model | Role |
+|---|---|---|
+| jarvis (main) | Opus | C-suite coordinator. Briefings, work items, cross-agent delegation. |
+
+**INFRASTRUCTURE (5):**
+| ID | Model | Role |
+|---|---|---|
+| systems | Haiku (misconfigured as Sonnet) | VPS watchdog. Service monitoring, SSL, deployments. |
+| pm | Sonnet (disabled) | Workflow state machine. 5-min sweep, conflict detection. Currently replaced by crons. |
+| qa-plan | Sonnet (PROTECTED) | Strategy reviewer. Logic, completeness, goal alignment. |
+| qa-code | Sonnet (PROTECTED) | Code reviewer. Bugs, security, architecture, idempotency. |
+| qa-data | Sonnet (PROTECTED) | Fact verifier. Source accuracy, cross-namespace contradictions. |
+| slack-jarvis | Sonnet | Slack bridge for Jarvis. |
+
+**DOMAIN LEADS (5 current + 3 being discussed):**
+| ID | Model | Role | Sub-agents |
+|---|---|---|---|
+| operations | Sonnet | Workshop engine + finance (finance being split back out). | ops-intake, ops-queue, ops-sop, ops-qc, fin-cashflow, fin-kpis |
+| backmarket | Sonnet | Revenue engine, BM channel (~60% revenue, ~31k/mo). | bm-listings, bm-pricing, bm-grading, bm-ops |
+| customer-service | Sonnet | Customer experience, Intercom, triage. | cs-intercom, cs-escalation |
+| marketing | Sonnet | Growth. Content, SEO, future AdWords. | mkt-content, mkt-seo, mkt-adwords (dormant) |
+| **team** | **Opus (wrong)** | People: profiles, performance, dynamics, hiring. | (see open question below) |
+| **parts** | **Opus (wrong)** | Inventory: stock, suppliers, Nancy, demand forecasting. | (see open question below) |
+| **website** | **Opus (wrong)** | Shopify: conversion, SEO, PostHog, UX. | (see open question below) |
+
+**SUB-AGENTS — OPERATIONS (8):**
+| ID | Model (SOUL) | Role |
+|---|---|---|
+| ops-team | Haiku | People management, hiring, 1:1s, capacity. |
+| ops-parts | Haiku | Stock tracking, reorder triggers, Monday boards. |
+| ops-intake | Haiku | Device intake, Adil's process, customer comms. |
+| ops-queue | Haiku | Priority, workstation allocation, bottleneck ID. |
+| ops-sop | Haiku | SOP creation, templates, gap analysis. |
+| ops-qc | Haiku | Quality control, BM grade verification, rework. |
+| fin-cashflow | Haiku | 4-week cash flow forecasts, HMRC tracking, runway. |
+| fin-kpis | Haiku | KPI dashboards, Ali Greenwood prep, trend analysis. |
+
+**SUB-AGENTS — BACKMARKET (4):**
+| ID | Model (SOUL) | Role |
+|---|---|---|
+| bm-listings | Haiku | Listing creation, optimization, compliance. |
+| bm-pricing | Haiku | Competitor monitoring, margins, buy box strategy. |
+| bm-grading | Haiku | Grade accuracy, photo standards, cosmetic assessment. |
+| bm-ops | Haiku | Order processing, shipping, trade-ins, returns. |
+
+**SUB-AGENTS — CUSTOMER SERVICE (2):**
+| ID | Model (SOUL) | Role |
+|---|---|---|
+| cs-intercom | Haiku | Intercom inbox, triage, FAQs, tagging. Inherits from finn. |
+| cs-escalation | Haiku | Complaints, refunds, VIPs, GDPR. 0-50 GBP goodwill authority. |
+
+**SUB-AGENTS — MARKETING (4):**
+| ID | Model (SOUL) | Role |
+|---|---|---|
+| mkt-website | Haiku | Shopify conversion (0.37%→2%), PostHog, A/B testing. |
+| mkt-content | Haiku | Blog (2/week), social media, landing page copy. |
+| mkt-seo | Haiku | Keywords, backlinks, Google Search Console, local SEO. |
+| mkt-adwords | Haiku | DORMANT. Google Ads when Ricky activates. |
+
+### 10.8 Open Questions — Agent Structure
+
+**Ricky's decisions (confirmed 23 Feb):**
+- ✅ Every agent gets its own Telegram bot (~32 bots)
+- ✅ Finance splits back out as own domain lead (not merged in operations)
+- ✅ V1 agents (team, parts, website) are NOT being retired
+- ✅ Full 32 agents, build it right from day one
+
+**Unresolved — needs Ricky + Jarvis discussion:**
+
+**The overlap problem.** Three v1 agents do nearly identical work to three sub-agents:
+- `team` (v1) ↔ `ops-team` (sub) — both do people management, hiring, KPIs
+- `parts` (v1) ↔ `ops-parts` (sub) — both do inventory, suppliers, stock tracking
+- `website` (v1) ↔ `mkt-website` (sub) — both do Shopify, conversion, SEO
+
+**Option A — Promote v1 agents to domain leads:**
+team, parts, website become full domain leads (peers of operations, not sub-agents). Their corresponding sub-agents become THEIR sub-agents. Operations narrows to workshop floor. Marketing narrows to content + ads.
+
+```
+JARVIS
+├── operations   → ops-intake, ops-queue, ops-sop, ops-qc
+├── team         → ops-team (renamed? or team gets own subs)
+├── parts        → ops-parts (renamed? or parts gets own subs)
+├── backmarket   → bm-listings, bm-pricing, bm-grading, bm-ops
+├── customer-service → cs-intercom, cs-escalation
+├── marketing    → mkt-content, mkt-seo, mkt-adwords
+├── website      → mkt-website (renamed? or website gets own subs)
+├── finance      → fin-cashflow, fin-kpis
+└── [infrastructure: systems, qa-*, pm, slack-jarvis]
+```
+
+**Option B — Redefine sub-agents to avoid overlap:**
+Keep hierarchy as-is but rename/repurpose the overlapping sub-agents so their scope is distinct from the v1 agent.
+
+**Option C — Something else Ricky has in mind.**
+
+This decision affects:
+- How many domain leads exist (currently 5, could become 8)
+- What operations owns (currently: workshop + team + parts + finance → could narrow to just workshop)
+- Sub-agent parent assignments
+- SOUL.md rewrites for affected agents
+- All CLAUDE.md agent routing tables
+
+**Finance as domain lead:**
+Ricky confirmed finance splits back out of operations. This means:
+- Finance becomes a domain lead (Sonnet)
+- fin-cashflow and fin-kpis become finance's sub-agents
+- Operations loses finance scope from its SOUL.md
+- Operations SOUL.md needs rewrite (remove Xero, HMRC, cashflow references)
+- FINANCE-MERGE.md changes are partially reversed
+
+### 10.9 Model Tiering Strategy (Ricky decision, 23 Feb)
+
+**Three tiers for sub-agents:**
+
+| Tier | Model | Use Case | Cost (in/out per M) |
+|---|---|---|---|
+| **Thinking** | Grok 4.1 Fast | Analysis, research, judgement calls, anything requiring reasoning | $0.20 / $0.50 |
+| **Execution** | Kimi 2.5 (NVIDIA NIM) | Pure task execution — scripted work, board updates, data formatting | $0.07 / $0.28 |
+| **Fallback** | Haiku | When NVIDIA or Grok are rate-limited or down | $0.80 / $4.00 |
+
+**Fallback chain:** Kimi (NVIDIA) → Grok → Haiku. Always available, progressively more expensive.
+
+**NVIDIA reliability concern:** Ricky has heard NVIDIA NIM can have rate limits and availability issues. Fallback pattern is essential, not optional.
+
+**Open question for Code:** Does OpenClaw support model fallback chains natively in config? If not, this needs building.
+
+**Coordinator + domain leads stay on current models:**
+- Jarvis: Opus (unchanged)
+- Domain leads: Sonnet (unchanged)
+- Systems: Haiku (unchanged — infrastructure monitoring doesn't need reasoning)
+- QA agents: Sonnet (unchanged — PROTECTED)
+
+### 10.10 VPS Structure & Janitor (Jarvis, 23 Feb)
+
+VPS directory structure has been reorganised. See `/home/ricky/README.md` for the canonical layout.
+
+**Key rules:**
+- Git-tracked: `builds/`, `mission-control-v2/`, agent workspaces
+- Local only: `config/`, `data/`, `logs/`
+- Credentials: single file at `/home/ricky/config/.env` (symlinked from old paths)
+- No new top-level directories without approval
+
+**Janitor responsibilities (spec needed):**
+- Rotate logs older than 7 days
+- Clean temp files (.claude.json.backup.*, /tmp scratch)
+- Flag orphan files in /home/ricky/
+- Flag data saved in wrong locations (e.g. raw data in builds/)
+- Report disk usage per directory
+- Verify git repos are clean (no uncommitted changes sitting for >24h)
+- Verify agents are saving to correct paths
+
+**Janitor should be a cron job, not a heartbeat task.** Runs daily at a quiet hour (e.g. 4am UTC / noon Bali).
+
+### 10.11 What Still Needs Research
+
+Before this research doc is complete, these questions remain:
+
+1. **Agent structure** — How do team/parts/website fit in? (Ricky to discuss with Jarvis)
+2. **Bot naming convention** — What should each bot be called in Telegram? (@iCorrectOpsBot? @OpsJarvisBot?)
+3. **Sub-agent model decision** — Haiku vs Kimi 2.5 vs Grok. SOUL files say Haiku but cost analysis suggests cheaper alternatives. Needs testing.
+4. **Webhook handler updates** — agent-trigger.py currently uses shared bot token for notifications. Multi-bot migration needs this updated. How complex is the change?
+5. **Security audit items** — mc.icorrect.co.uk open RLS, mi.icorrect.co.uk SQL injection. Not blocking but on the list.
+6. **n8n status** — Docker container still running? Replacement scripts proven?
+7. **PM agent future** — Keep disabled or revive with new role? Crons cover its old job.
+
+---
+
+*Section 10 added by Code on 23 Feb 2026 after VPS verification session with Ricky. All claims verified against actual VPS state. Corrections to sections 1-9 are noted in §10.1.*
