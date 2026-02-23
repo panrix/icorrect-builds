@@ -25,6 +25,10 @@ Source of truth for active iCorrect build planning and spec readiness.
 - Intercom Agent depends on replacement of brittle n8n flows.
 - Website Conversion is independent.
 
+## Handoff Protocol
+
+See `HANDOFF-PROTOCOL.md` — defines ops vs build boundary, escalation path, and handoff criteria.
+
 ## Maintenance Rules
 
 - Updated only by Ricky or Claude Code.
