@@ -785,25 +785,38 @@ Ricky confirmed finance splits back out of operations. This means:
 
 ### 10.9 Model Tiering Strategy (Ricky decision, 23 Feb)
 
-**Three tiers for sub-agents:**
+**Three tiers across all agents:**
 
-| Tier | Model | Use Case | Cost (in/out per M) |
+| Tier | Model | Assigned To | Cost (in/out per M) |
 |---|---|---|---|
-| **Thinking** | Grok 4.1 Fast | Analysis, research, judgement calls, anything requiring reasoning | $0.20 / $0.50 |
-| **Execution** | Kimi 2.5 (NVIDIA NIM) | Pure task execution — scripted work, board updates, data formatting | $0.07 / $0.28 |
-| **Fallback** | Haiku | When NVIDIA or Grok are rate-limited or down | $0.80 / $4.00 |
+| **Reasoning** | Opus | Jarvis only | $15 / $75 |
+| **Balanced** | Sonnet | Domain leads (8) + QA agents (3) + Slack-Jarvis | $3 / $15 |
+| **Execution** | Grok 4.1 Fast | Sub-agents (6) + Systems | $0.20 / $0.50 |
+| **Fallback** | Haiku | Any agent when Grok is down | $0.80 / $4.00 |
 
-**Fallback chain:** Kimi (NVIDIA) → Grok → Haiku. Always available, progressively more expensive.
+**Why Grok over Haiku for execution tier:**
+- 4x cheaper on input, 8x cheaper on output
+- 2M context window (vs 200K) — agents can read entire log files and docs without chunking
+- Haiku has no advantage except availability as a fallback
 
-**NVIDIA reliability concern:** Ricky has heard NVIDIA NIM can have rate limits and availability issues. Fallback pattern is essential, not optional.
+**Fallback chain:** Grok → Haiku. If Grok is rate-limited or down, Haiku takes over.
+
+**Kimi 2.5 via NVIDIA:** Deferred. NVIDIA NIM has reliability concerns (rate limits, availability). Grok is cheap enough that the cost saving doesn't justify the risk. Revisit if Grok costs become a problem.
 
 **Open question for Code:** Does OpenClaw support model fallback chains natively in config? If not, this needs building.
 
-**Coordinator + domain leads stay on current models:**
-- Jarvis: Opus (unchanged)
-- Domain leads: Sonnet (unchanged)
-- Systems: Haiku (unchanged — infrastructure monitoring doesn't need reasoning)
-- QA agents: Sonnet (unchanged — PROTECTED)
+**Estimated monthly cost: ~$500**
+
+| Agent(s) | Model | Daily Cost | Monthly |
+|---|---|---|---|
+| Jarvis | Opus | ~$12.66 | ~$380 |
+| 8 Domain Leads | Sonnet | ~$3.36 | ~$101 |
+| 6 Sub-agents + Systems | Grok Fast | ~$0.13 | ~$4 |
+| 3 QA agents | Sonnet | ~$0.31 | ~$9 |
+| Slack-Jarvis | Sonnet | ~$0.20 | ~$6 |
+| **Total** | | **~$16.66** | **~$500** |
+
+76% of cost is Jarvis (Opus). Sub-agents and Systems on Grok are essentially free. Domain leads are the next cost lever if optimisation is needed.
 
 ### 10.10 VPS Structure & Janitor (Jarvis, 23 Feb)
 
