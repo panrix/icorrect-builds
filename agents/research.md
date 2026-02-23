@@ -1,12 +1,12 @@
 # Research — Agent System Rebuild
 
-**Compiled by:** Jarvis (having read every file in builds/agents/)
-**Updated by:** Code (VPS ground truth verification, 23 Feb evening session with Ricky)
-**Date:** 23 February 2026
+**Compiled by:** Jarvis
+**Updated by:** Code (VPS verification) + Jarvis (agent structure finalisation with Ricky)
+**Date:** 23 February 2026 (last updated: 23 Feb, afternoon session)
 **Source:** 21+ documents, conversation context with Ricky, current VPS state, Code VPS verification
 **Purpose:** Complete, honest picture of where we are, where we're going, and what's in the way. This is the foundation document for the plan.
 
-> **IMPORTANT — Section 10 contains Code's VPS verification findings and Ricky's latest decisions. Several claims in sections 2-5 are corrected there. Read section 10 before planning.**
+> **NOTE:** This document has been through 3 revision passes. Sections 1-9 are now consistent with the finalised decisions in Section 10. Section 10 contains Code's VPS verification + Ricky's latest architecture decisions.
 
 ---
 
@@ -42,12 +42,14 @@ The concrete workflow:
 6. Ricky gets milestone updates, not every step
 
 ### End-State Architecture
-- **15 top-level agents** (1 coordinator + 5 infrastructure + 10 domain leads)
-- **~20 sub-agents** (pre-configured specialists, no Telegram presence)
-- **Multi-model:** Opus (Jarvis), Sonnet (domain leads + QA), cheap models for sub-agents (Kimi 2.5, Grok, or Haiku)
+- **21 agents total** (1 coordinator + 6 infrastructure + 8 domain leads + 6 sub-agents day one)
+- **Sub-agents grow from need** — domain leads assessed at 2-4 weeks, subs added when workload justifies it
+- **Every agent gets its own Telegram bot** (~21 bots day one)
+- **Multi-model:** Opus (Jarvis), Sonnet (domain leads + QA), Grok 4.1 Fast (sub-agents needing reasoning), Kimi 2.5 via NVIDIA (pure execution subs), Haiku (fallback + infrastructure)
 - **Three pillars:** Git (source of truth for files), Supabase (persistent structured storage), OpenClaw (agent runtime)
 - **Automated workflows:** cron + webhook + message triggers, QA review loops, dependency checks
 - **10-layer data architecture:** repair journey, customer experience, team performance, financial health, operations, parts, sales & marketing, quality, competitive intelligence, strategic & predictive
+- **No sub-agent name prefixes** — named by function (intake, queue, seo), parent relationship in SOUL only
 
 ### Target Numbers
 | Metric | Current | Target |
@@ -103,21 +105,34 @@ The concrete workflow:
 | **qa-data** | Sonnet 4.6 | ⚫ Dormant | Awaiting real work items |
 | **qa-plan** | Sonnet 4.6 | ⚫ Dormant | Was spamming from stuck test items |
 
-**3 transitional v1 agents** (team, parts, website) still running but scheduled for retirement once sub-agents replace them.
+**team, parts, website are being promoted to full domain leads** (Ricky decision, 23 Feb). They stay and get Sonnet model assignments. Not being retired.
 
-**4 model configs are wrong.** team/website/parts inherit Opus (no model override set, no defaultModel in gateway config). Systems on Sonnet but should be Haiku. This burns ~4x more tokens than needed on 3 agents. This is a 5-minute config fix.
+**3 model configs are wrong.** team/website/parts inherit Opus (no model override set, no defaultModel in gateway config). Need Sonnet overrides. This is a 5-minute config fix.
 
-### Sub-Agents — Files Only, Not Running
+### Sub-Agents — Reduced from 18 to 6 Day One
 
-18 sub-agents have SOUL.md + CLAUDE.md written and committed to Git at `/home/ricky/mission-control-v2/agents/`. **Zero are registered in OpenClaw.** The domain leads reference them in their SOUL files but have no mechanism to spawn or communicate with them.
+Original plan had 18 pre-defined sub-agents. Ricky decided (23 Feb) to only launch subs with proven workload. Rest emerge from need after 2-4 weeks of domain lead operation.
 
-| Domain | Sub-Agents (on paper) |
-|--------|----------------------|
-| Operations | ops-team, ops-parts, ops-intake, ops-queue, ops-sop, ops-qc |
-| Backmarket | bm-listings, bm-pricing, bm-grading, bm-ops |
-| Finance (reparented to ops) | fin-cashflow, fin-kpis |
-| Customer Service | cs-intercom, cs-escalation |
-| Marketing | mkt-website, mkt-content, mkt-seo, mkt-adwords (dormant) |
+**Day one sub-agents (6):**
+
+| Sub-Agent | Parent | Role |
+|-----------|--------|------|
+| intake | Operations | Device receiving, customer comms at drop-off, Typeform/Monday automation |
+| queue | Operations | Priority assignment, workstation allocation, bottleneck flagging |
+| qc | Operations | QC tracking, grade verification, rework routing |
+| sop | Operations | SOP template, gap analysis, quality audit across all domains |
+| hiring | Team | Recruitment, scheduling, capacity planning |
+| seo | Marketing | Rankings, keywords, Search Console, PostHog, YouTube transcript analysis |
+
+**Deferred (emerge from need):**
+- BM subs (listings, pricing, grading, ops) — BM runs solo first
+- CS subs (intercom, escalation) — pending Intercom Agent build project
+- Finance subs (cashflow, kpis) — Finance runs solo first
+- Marketing subs (content, ads) — Marketing runs with seo only
+- Parts subs — Parts runs solo first
+- Website subs — Website runs solo first
+
+**18 original SOUL.md + CLAUDE.md files** still exist at `/home/ricky/mission-control-v2/agents/`. Kept as templates. Names will change when activated (drop prefixes).
 
 ### What's Broken
 
@@ -125,12 +140,12 @@ The concrete workflow:
 |-------|----------|--------|
 | **Inter-agent messaging** | 🔴 CRITICAL | Shared bot token → bot ignores own messages → Jarvis can't delegate to any agent. The entire hierarchy is non-functional. |
 | **agent_messages no consumer** | 🔴 CRITICAL | Supabase table exists, agents write to it, nothing reads it. Health check spams about unread messages every 5 minutes. |
-| **4 model configs wrong** | 🟡 HIGH | team/website/parts on Opus, Systems on Sonnet. Token waste. |
-| **4 broken crons** | 🟡 HIGH | BM QC Watch + 3 SEO rank scans all in `error` state — delivery target missing. |
+| **3 model configs wrong** | 🟡 HIGH | team/website/parts on Opus (should be Sonnet). |
+| **3 broken crons** | 🟡 HIGH | 3 SEO rank scans in `error` state — delivery target missing. BM QC Watch is fine. |
 | **QA test items spam** | 🟡 MEDIUM | No `is_test` flag, no circuit breaker, approved items don't auto-complete. Jarvis manually cleared Supabase 5x in one day. |
 | **Slack-jarvis errors** | 🟡 MEDIUM | channel_not_found when reading Ferrari's DM. |
 | **Orphan directories** | 🟢 LOW | finn, processes, finance-archived, schedule-archived on disk but not in config. |
-| **Root CLAUDE.md outdated** | 🟢 LOW | References 11 agents, old names, old state. Code reads this first every session. |
+| **Root CLAUDE.md outdated** | ✅ FIXED | Rewritten 23 Feb — 123 lines, current state, vision, workflow, handoff protocol. |
 
 ### What Ricky Kept Hitting
 
@@ -198,15 +213,15 @@ From our conversation today and the pattern across the build docs:
 Agents cannot message each other via Telegram. Shared bot token means bot ignores own messages. Three proposed solutions: (a) session-aware bot message routing, (b) cross-agent `sessions_send`, (c) Supabase `agent_messages` consumer. Until this is fixed, the entire delegation chain is theoretical. This is the single highest-priority item in the system.
 
 **Gap 2: Sub-Agent Registration**
-18 sub-agents are files, not running agents. Domain leads reference them but can't spawn them. The multi-model cost-saving strategy (cheap models for sub-agents) isn't active. Blocked by Gap 1 — no point registering agents that can't communicate.
+6 sub-agents needed day one (intake, queue, qc, sop, hiring, seo). Files exist as templates but need renaming (drop prefixes), workspace creation, and OpenClaw registration. Blocked by Gap 1 — no point registering agents that can't communicate.
 
 ### Important Gaps (Fix Soon — Burning Tokens or Creating Spam)
 
 **Gap 3: Model Misconfiguration**
-4 agents on wrong models. 5-minute config fix + restart. Saving ~4x tokens on 3 agents immediately.
+3 agents on wrong models (team/website/parts on Opus, should be Sonnet). 5-minute config fix + restart.
 
 **Gap 4: Broken Crons**
-4 OpenClaw crons in error state. Need triage — are the underlying scripts functional or stubs? Fix delivery targets or disable.
+3 SEO rank scan crons in error state. Need triage — are the underlying scripts functional or stubs? Fix delivery targets or disable. BM QC Watch is working.
 
 **Gap 5: QA Test Isolation**
 No `is_test` flag, no circuit breaker, approved items don't auto-complete. Supabase migration + agent-trigger.py changes.
@@ -219,16 +234,16 @@ The 10-layer data architecture (data-architecture-brief.md) is entirely unbuilt.
 **Gap 7: SOP Framework**
 0% documented SOPs. No framework for agents to create, review, or iterate on them. Target: 100% by Q3 2026. Needs both the delegation chain (Gap 1) and a defined SOP creation workflow.
 
-**Gap 8: Root CLAUDE.md**
-`/home/ricky/CLAUDE.md` references old state. Code reads this first. Outdated info leads to wrong assumptions. Needs full rewrite to reflect current architecture, the research → plan → build workflow, and the handoff protocol.
+**Gap 8: Root CLAUDE.md** ✅ FIXED
+Rewritten 23 Feb. 123 lines. Includes vision, research → plan → build workflow, handoff protocol, correct agent count, Supabase backbone, known issues.
 
 ### Deferred Gaps
 
-**Gap 9: Agent Consolidation (16→8)**
-Overlap between customer-service/finn, operations/processes/team, marketing/website. The health audit recommends deferring this until sub-agents are running. Makes sense — fix delegation first, then consolidate.
+**Gap 9: Agent Restructure** ✅ RESOLVED
+Resolved 23 Feb. team, parts, website promoted to full domain leads. 8 domain leads total. No consolidation needed. See §10.12.
 
-**Gap 10: V1 Agent Retirement**
-team, parts, website still running alongside v2 replacements. Retire after their sub-agent replacements (ops-team, ops-parts, mkt-website) are active and proven.
+**Gap 10: V1 Agent Retirement** ✅ RESOLVED
+team, parts, website are NOT being retired — they're promoted. Their overlapping sub-agents (ops-team, ops-parts, mkt-website) are deleted.
 
 **Gap 11: n8n Removal**
 Docker container still running. Replacement scripts are running. Needs Ricky's explicit approval + 1 week proven.
@@ -255,9 +270,8 @@ mc.icorrect.co.uk has open Supabase RLS + exposed anon key (mitigated by Nginx b
 **Context:** PM is disabled. QA trigger replaced its QA orchestration. PRD envisioned PM as workflow state machine (5-min sweep, conflict detection, daily summary). Those functions now exist as standalone crons.
 **Recommendation:** Keep disabled. The crons do the job. Revive only if we find a gap the crons don't cover.
 
-### 4. CLAUDE.md Rewrite
-**Context:** Ricky now wants a research → plan → build workflow enforced for all builds. The root CLAUDE.md should encode this.
-**Decision needed from Ricky:** Approve the rewrite once drafted.
+### 4. CLAUDE.md Rewrite ✅ DONE
+Rewritten 23 Feb. 123 lines. Approved by Ricky.
 
 ### 5. Brave Search API
 **Context:** Web search from the VPS is blocked (Google, X). Brave API free tier gives 2,000 searches/month.
@@ -441,31 +455,43 @@ Agent wakes up → knows WHERE docs are → reads only what it needs for the cur
 
 This section is a bridge to the plan. Not the plan itself.
 
+**Done (23 Feb):**
+- ~~Rewrite root CLAUDE.md~~ ✅
+- ~~Resolve agent hierarchy (5→8 domain leads)~~ ✅
+- ~~VPS directory reorganisation~~ ✅
+- ~~Config consolidation (single .env)~~ ✅
+- ~~Reconciliation cron fix (mark-as-read)~~ ✅
+
 **Immediate (config fixes, no Code needed):**
-1. Fix 4 model configs (team/website/parts → Sonnet, Systems → Haiku)
-2. Triage 4 broken crons (fix or disable)
+1. Fix 3 model configs (team/website/parts → Sonnet)
+2. Triage 3 broken SEO crons (fix or disable)
 3. Remove "schedule" from agentToAgent.allow
-4. Rewrite root CLAUDE.md
+
+**This week — #1 priority (Jarvis + domain agents):**
+4. Process Claude.ai documentation exports → verify → store in builds/documentation/
+5. Monday board audit continues (Code running flow trace query)
+6. Update each domain lead's CLAUDE.md with reference doc paths
+7. Write janitor cron spec
 
 **Critical path (needs Code):**
-5. Fix inter-agent messaging (the #1 blocker)
-6. Build agent_messages consumer
-7. QA test isolation (is_test flag, circuit breaker, auto-complete)
+8. Multi-bot migration (one Telegram bot per agent — §10.2)
+9. Register 6 day-one sub-agents (intake, queue, qc, sop, hiring, seo)
+10. QA test isolation (is_test flag, circuit breaker, auto-complete)
 
-**After comms works:**
-8. Pilot 2-3 sub-agents (ops-team, bm-listings) on Kimi/Grok
-9. Scale to all 18 sub-agents
-10. Retire v1 agents (team, parts, website)
+**After multi-bot works:**
+11. Validate delegation chain (Jarvis → domain lead → sub-agent → back)
+12. Sign up for Grok API + Brave Search API
+13. Assign sub-agent models (Grok for thinking, Kimi for execution)
 
-**After sub-agents work:**
-11. Build SOP creation workflow
-12. Start data lake ETL (Priority 1-3: Monday.com, CDR, Xero)
-13. Agent consolidation (16→8 if still needed)
+**After delegation works:**
+14. Build SOP creation framework (ops-sop manages, everyone writes)
+15. Start data lake ETL (Monday.com first — schema is documented)
+16. Agent performance framework — first review at 4 weeks
 
 **Ongoing:**
-- Sign up for Grok API + Brave Search API
 - Update CLAUDE.md files as architecture evolves
-- Memory maintenance (nightly janitor running, verify quality)
+- Memory maintenance (nightly janitor)
+- Monthly agent performance reviews (Jarvis)
 
 ---
 
