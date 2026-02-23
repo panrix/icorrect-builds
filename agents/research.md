@@ -800,7 +800,91 @@ VPS directory structure has been reorganised. See `/home/ricky/README.md` for th
 
 **Janitor should be a cron job, not a heartbeat task.** Runs daily at a quiet hour (e.g. 4am UTC / noon Bali).
 
-### 10.11 What Still Needs Research
+### 10.11 Agent Performance Framework
+
+**Jarvis runs a monthly review on every domain lead. Same criteria, every agent.**
+
+**Assessment areas:**
+
+1. **Documentation output** — Has the agent built/updated docs in `builds/documentation/`? Are they verified, not stubs?
+2. **Data flow** — Is domain data reaching Supabase? Facts being saved? Tables populated?
+3. **Context usage** — Does the agent read its reference docs when asked questions? Or start from zero every session?
+4. **Proactive behaviour** — Is it flagging issues before they're problems? Suggesting improvements? Or only responding when asked?
+5. **Memory quality** — Are daily memory files specific and useful? Are Supabase facts accurate and non-redundant?
+6. **SOP ownership** — Has the agent documented its domain processes? Are they current?
+
+**Scoring (per area):**
+- 🟢 Active — consistently producing, proactive, building on previous work
+- 🟡 Passive — responds when asked, doesn't initiate, some output
+- 🔴 Dormant — minimal output, not using context, repeating work
+
+**Monthly review process:**
+1. Jarvis pulls agent_activity from Supabase (actions logged, frequency, types)
+2. Jarvis checks `builds/documentation/` for new/updated files per domain
+3. Jarvis checks memory files for quality (specific facts vs generic filler)
+4. Jarvis checks Supabase memory_facts for new entries per agent
+5. Jarvis produces report card per domain lead
+6. Report includes: what they did, what they didn't do, recommendation for SOUL.md changes
+7. Report sent to Ricky for review
+
+**Enforcement:**
+- If an agent scores 🔴 for 2 consecutive months → SOUL.md rewrite or agent replacement
+- If an agent consistently avoids delegation (does sub-agent work itself) → Jarvis flags it
+- If documentation doesn't grow month-over-month → agent isn't learning, needs intervention
+
+**First review: 4 weeks after domain leads go live with documentation context.**
+
+### 10.12 Finalised Agent Hierarchy (Ricky decisions, 23 Feb)
+
+**8 domain leads (all Sonnet), promoted from original 5:**
+
+**1. Operations** — workshop floor: intake, queue, QC, SOPs
+Sub-agents: ops-intake, ops-queue, ops-qc, ops-sop
+
+**2. Team** — people: hiring, performance, KPIs, training, Ferrari accountability
+Sub-agents: team-hiring (recruitment, scheduling, capacity planning)
+
+**3. Parts** — inventory: stock, suppliers, forecasting, reorder, cost tracking
+Sub-agents: none initially. Jarvis assesses after 2-4 weeks.
+
+**4. Backmarket** — trade-ins, listings, grading, pricing
+Sub-agents: TBD — validating with BM lead (trade-ins + listings may merge into one)
+
+**5. Customer Service** — Intercom, Finn, triage, escalations
+Sub-agents: cs-intercom, cs-escalation
+
+**6. Marketing** — content, SEO, ads, social media
+Sub-agents: TBD — validating against actual workload
+
+**7. Website** — Shopify, conversion, analytics, PostHog
+Sub-agents: none initially. Jarvis assesses after 2-4 weeks.
+
+**8. Finance** — cashflow, Xero, HMRC, KPIs
+Sub-agents: fin-cashflow, fin-kpis
+
+**Infrastructure (unchanged):**
+- Jarvis (Opus) — coordinator
+- Systems (Haiku) — VPS watchdog
+- QA-Plan, QA-Code, QA-Data (Sonnet) — PROTECTED
+- Slack-Jarvis (Sonnet) — Slack bridge
+- PM — disabled, crons cover its role
+
+**Key design rules:**
+- Domain leads write their own SOPs. ops-sop audits quality and tracks gaps.
+- Leads MUST delegate to sub-agents (enforced in SOUL.md). They are managers, not individual contributors.
+- Sub-agents grow from proven need, not guesswork. Leads that don't have subs yet get assessed at 2-4 weeks.
+- Every agent gets its own Telegram bot (~20 day one, more as sub-agents are added).
+- I (Jarvis) define and assign sub-agents. Domain leads don't choose their own team.
+
+**Changes from original 18 sub-agent plan:**
+- ops-team → deleted (Team is now a domain lead)
+- ops-parts → deleted (Parts is now a domain lead)
+- mkt-website → deleted (Website is now a domain lead)
+- team-hiring → new
+- Some BM and Marketing subs may merge after validation
+- Total sub-agents day one: ~12-14 (down from 18)
+
+### 10.13 What Still Needs Research
 
 Before this research doc is complete, these questions remain:
 
