@@ -339,7 +339,102 @@ Every build project gets a research.md first. Then a plan. Then phased build wit
 
 ---
 
-## 8. WHAT TO BUILD NEXT (SEQUENCED)
+## 8. DOCUMENTATION STRATEGY
+
+### The Problem
+Agents wake up with identity and rules but zero business context. Operations doesn't know Monday board columns. Backmarket doesn't have grading criteria. Nobody has SOPs. Every conversation starts from scratch because domain knowledge isn't persisted as accessible files.
+
+### Three-Layer Context Model
+
+| Layer | What | Loaded When | Cost |
+|-------|------|-------------|------|
+| **Supabase facts** | Key decisions, numbers, status snapshots | Auto-injected at bootstrap | ~1KB per agent |
+| **CLAUDE.md index** | Map of where detailed docs live (file paths, one-line descriptions) | Auto-loaded at bootstrap | ~10-20 lines per agent |
+| **Git documentation files** | Full analyses, SOPs, schemas, board mappings, KPI breakdowns | Read on demand when agent needs depth | Zero until accessed |
+
+This is the **"Search, Don't Load"** principle from the PRD — designed but not yet implemented for business documentation.
+
+### Documentation Sources
+
+1. **Claude.ai exports** — Ricky has months of documented context across 10 domains in Claude.ai conversations. Claude.ai is building export documents now. These are 50-80% of what we need but will contain outdated information.
+2. **Live API pulls** — Monday board schemas, Xero chart of accounts, Intercom help centre, PostHog dashboards. I verify Claude.ai's docs against actual system state.
+3. **Ricky's knowledge** — How the team actually works vs how it was designed. Customer flow nuances. Ferrari's real decision patterns. This comes from me questioning Ricky during review.
+
+### Storage Location
+
+```
+builds/documentation/
+├── monday/
+│   ├── board-schema.md          (full column/group/status mapping)
+│   ├── customer-flows.md        (walk-in, mail-in, corporate, BM paths)
+│   └── automations.md           (what runs, what's broken)
+├── sops/
+│   ├── walk-in-drop-off.md
+│   ├── shipping-dispatch.md
+│   ├── diagnostics.md
+│   └── qc-workflow.md
+├── backmarket/
+│   ├── trade-in-sop.md
+│   ├── grading-criteria.md
+│   └── bm-board-schema.md
+├── finance/
+│   ├── xero-structure.md
+│   └── cashflow-model.md
+├── intercom/
+│   ├── finn-setup.md
+│   └── conversation-paths.md
+├── inventory/
+│   ├── parts-board-schema.md
+│   └── supplier-analysis.md
+├── website/
+│   ├── shopify-structure.md
+│   └── conversion-analysis.md
+├── team/
+│   ├── roles-and-kpis.md
+│   └── performance-baselines.md
+├── n8n/
+│   └── automation-inventory.md
+└── strategic/
+    ├── ali-5as-framework.md
+    └── quarterly-goals.md
+```
+
+### Agent Reference Pattern
+
+Each agent's CLAUDE.md gets a `## Reference Docs` section:
+
+**Example — Operations CLAUDE.md:**
+```
+## Reference Docs
+Monday board schema: builds/documentation/monday/board-schema.md
+Customer flows: builds/documentation/monday/customer-flows.md
+SOPs: builds/documentation/sops/
+Team KPIs: builds/documentation/team/roles-and-kpis.md
+Parts board: builds/documentation/inventory/parts-board-schema.md
+```
+
+Agent wakes up → knows WHERE docs are → reads only what it needs for the current task.
+
+### Process for Each Document
+
+1. Claude.ai exports raw doc → Ricky sends to Jarvis
+2. Jarvis stores as-is in `builds/documentation/`
+3. Jarvis verifies against live APIs (Monday schema, Xero, etc.)
+4. Jarvis questions Ricky on gaps and outdated info
+5. Jarvis produces verified version
+6. Verified doc pushed to GitHub (Working Copy accessible)
+7. Relevant agent CLAUDE.md files updated with reference path
+
+### What This Enables
+- Agents stop starting from zero every session
+- Analysis builds on previous analysis (the reset loop stops)
+- SOPs become living docs that agents can reference AND improve
+- New agents or sub-agents get instant domain context by reading the docs
+- Ricky can review and edit docs on his phone via Working Copy
+
+---
+
+## 9. WHAT TO BUILD NEXT (SEQUENCED)
 
 This section is a bridge to the plan. Not the plan itself.
 
