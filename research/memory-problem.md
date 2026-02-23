@@ -116,6 +116,17 @@ AI agents forget everything between sessions. They need to remember. This is uns
 
 **Relevance to us:** Validates pgvector/Supabase as the storage layer (we already have both). His approach + auto-injection (like LanceDB's before_agent_start hook) could be the combined solution.
 
+### "Dear Sir, You Have Written a Database" (dx.tips/oops-database)
+**Author:** swyx (dx.tips)
+**Core argument:** Every team that avoids using a proper database ends up rebuilding one badly — schema, transactions, caching, indexing, query planning, security, audit logs — all in application code.
+
+**Direct parallel to our memory problem:**
+- "Just use markdown files" = "just use a basic KV store"
+- We're already building: versioning (SOP updates), search (memory_search), caching (auto-inject), triggers (lifecycle hooks), consistency checks (agent judgment to save), access control (per-agent memory)
+- We are building a database in SOUL.md rules and agent judgment
+
+**The lesson:** Stop building memory infrastructure in application code. Use a proper memory backend from the start — pgvector/Supabase, LanceDB, or a purpose-built service. The "simple" approach already got complex; accept it and use the right tool.
+
 ---
 
 ## Decision Criteria
