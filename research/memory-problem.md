@@ -94,7 +94,27 @@ AI agents forget everything between sessions. They need to remember. This is uns
 
 ## What the Community is Doing
 
-> TODO: Research how others on OpenClaw / Claude / AI agent platforms are solving memory persistence. Discord, GitHub issues, blog posts, forums.
+### @SimonHoiberg (X post, Feb 2026)
+**Approach:** PostgreSQL + pgvector + n8n as a RAG layer for OpenClaw.
+1. Install PostgreSQL + pgvector on same server as OpenClaw
+2. Create a search tool — agent labels memories, embeds them, stores label + vector + raw text
+3. Cron/heartbeat flushes short-term memory (daily file) into the database
+4. New sessions start lean — agent searches DB when it needs context
+
+**His results:** Claims "much better memory, much smarter, much less token-greedy"
+
+**What he got right:**
+- Context bloat is the #1 problem — loading everything makes agents dumber
+- Search-on-demand keeps context lean
+- Cron flush from short-term → long-term is solid pattern
+
+**What he didn't solve (our harder problem):**
+- Still relies on agent CHOOSING to use the search tool — same compliance gap we identified
+- No auto-injection before turn — agent must decide to search first
+- Solves "remember what I said" not "follow this SOP every time"
+- Single agent use case — no mention of scaling to multi-agent
+
+**Relevance to us:** Validates pgvector/Supabase as the storage layer (we already have both). His approach + auto-injection (like LanceDB's before_agent_start hook) could be the combined solution.
 
 ---
 
