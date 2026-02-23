@@ -127,6 +127,35 @@ AI agents forget everything between sessions. They need to remember. This is uns
 
 **The lesson:** Stop building memory infrastructure in application code. Use a proper memory backend from the start — pgvector/Supabase, LanceDB, or a purpose-built service. The "simple" approach already got complex; accept it and use the right tool.
 
+### Muratcan Koylan — "The File System Is the New Database: Personal OS for AI Agents"
+**Author:** @koylanai (Context Engineer at Sully.ai, 8,000+ GitHub stars)
+**System:** 80+ files (11 JSONL, 6 YAML, 50+ Markdown) in a Git repo. No database, no vector store.
+
+**Key patterns that transfer to us:**
+
+1. **Progressive Disclosure (3 levels):**
+   - L1: Routing file (always loaded) — tells agent which module is relevant
+   - L2: Module instructions (loaded when module needed)
+   - L3: Actual data (loaded when task requires it)
+   - Max 2 hops to any information. Don't dump everything into context.
+
+2. **Attention Budget:** Models have U-shaped attention — start and end are strong, middle blurs. More context ≠ better. Every token competes. This argues AGAINST injecting all SOPs and FOR injecting only the relevant one.
+
+3. **Auto-loading is the only reliable pattern:** Vercel's own evals confirmed "56% of the time, the skill was never invoked despite being available." Agents skip optional references. Auto-load or it won't be used.
+
+4. **Episodic Memory (not just facts):** Store experiences (with weight), decisions (with reasoning + alternatives + outcomes), and failures (root cause + prevention). "An AI with your files ≠ an AI with your judgment."
+
+5. **Format-Function Mapping:** JSONL = append-only logs (agents can't accidentally overwrite). YAML = config. Markdown = narrative. He lost 3 months of data when an agent rewrote a JSON file.
+
+6. **What he got wrong:** Over-engineered schemas (cut from 15+ to 8-10 fields). Voice guide too long (1,200 lines → agent drifts). Module boundaries wrong → loaded too much.
+
+**Relevance to us:**
+- Validates auto-loading over agent-initiated search (our core problem)
+- Progressive disclosure solves attention budget — inject the right SOP, not all SOPs
+- Episodic memory (decisions + failures) is what we need for lessons learned (e.g., £400 payout error)
+- His system is file-based for 1 person/1 agent. Won't scale to 21 agents — but patterns transfer to Supabase-backed system
+- Decision tree routing (L1) + auto-inject relevant SOP (L2) + pull data on demand (L3) maps perfectly to our architecture
+
 ---
 
 ## Decision Criteria
