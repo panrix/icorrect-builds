@@ -24,7 +24,7 @@ BACKMARKET_API_AUTH = os.environ.get("BACKMARKET_API_AUTH", "").strip("'\"")
 BACKMARKET_API_BASE = os.environ.get("BACKMARKET_API_BASE", "https://www.backmarket.co.uk")
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL")
-SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY")
+SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
 MONDAY_HEADERS = {
     "Authorization": MONDAY_API_TOKEN,
@@ -448,7 +448,7 @@ def main():
     if not SUPABASE_URL:
         missing.append("SUPABASE_URL")
     if not SUPABASE_SERVICE_KEY:
-        missing.append("SUPABASE_SERVICE_KEY")
+        missing.append("SUPABASE_SERVICE_ROLE_KEY")
     if missing:
         print(f"ERROR: Missing env vars: {', '.join(missing)}", file=sys.stderr)
         sys.exit(1)
