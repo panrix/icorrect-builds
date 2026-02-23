@@ -169,3 +169,21 @@ All stored at `/home/ricky/config/api-keys/.env`.
 3. Cron job configured at 06:00 UTC daily
 4. Output log per run: pages scraped, prices captured, errors
 5. Verification: query showing 3 rows (Fair/Good/Excellent) for at least one product after first run
+
+---
+
+## Note on Ownership
+
+> This document provides context and requirements. The technical implementation spec should be written by Code based on the architecture decisions made during the build. 
+
+## Sub-Agent Architecture (Backmarket)
+
+Once the Supabase tables are live, a dedicated daily pricing sub-agent will:
+
+1. **Run daily market scrape** — top 20 SKUs via ClawPod → upsert to `bm_market_prices`
+2. **Run pricing optimisation** — check all active BM listings against Supabase data
+3. **Identify price changes needed** — too high (not winning BackBox), too low (leaving money on table), broken min_price configs, cross-grade inversions
+4. **Escalate to Backmarket agent** — not directly to Ricky. The BM agent reviews, curates, and presents to Ricky for approval.
+
+**Flow:**  
+`Daily sub-agent → findings → BM agent → curated report → Ricky approval → BM agent applies`
