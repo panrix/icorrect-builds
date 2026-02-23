@@ -876,13 +876,34 @@ Sub-agents: fin-cashflow, fin-kpis
 - Every agent gets its own Telegram bot (~20 day one, more as sub-agents are added).
 - I (Jarvis) define and assign sub-agents. Domain leads don't choose their own team.
 
+**Finalised sub-agents day one:**
+
+| Domain Lead | Sub-Agents | Notes |
+|---|---|---|
+| Operations | intake, queue, qc, sop | sop audits SOPs across all agents, doesn't write them |
+| Team | hiring | recruitment, scheduling, capacity planning |
+| Parts | none | assess at 2-4 weeks |
+| Backmarket | none | assess at 2-4 weeks |
+| Customer Service | none | CS gathers data on Finn failures first. Sub-agent structure follows the Intercom Agent build. |
+| Marketing | seo | SEO has narrow deep focus (PostHog, Search Console, YouTube transcripts). Content + ads come later. |
+| Website | none | assess when design workload justifies it |
+| Finance | none | assess at 2-4 weeks |
+
+**Total day one: 8 domain leads + 6 sub-agents + 6 infrastructure + Jarvis = 21 agents**
+**Total Telegram bots needed: ~21**
+
+**Naming convention:** No prefixes. Sub-agents are named by function: intake, queue, qc, sop, hiring, seo. Parent relationship lives in the SOUL, not the name.
+
 **Changes from original 18 sub-agent plan:**
 - ops-team → deleted (Team is now a domain lead)
 - ops-parts → deleted (Parts is now a domain lead)
 - mkt-website → deleted (Website is now a domain lead)
-- team-hiring → new
-- Some BM and Marketing subs may merge after validation
-- Total sub-agents day one: ~12-14 (down from 18)
+- mkt-content, mkt-adwords → deferred
+- bm-listings, bm-pricing, bm-grading, bm-ops → deferred
+- cs-intercom, cs-escalation → deferred (pending Intercom Agent build)
+- fin-cashflow, fin-kpis → deferred
+- All prefixes dropped (ops-intake → intake, etc.)
+- 18 sub-agents → 6 day one. Rest emerge from proven need.
 
 ### 10.13 What Still Needs Research
 
