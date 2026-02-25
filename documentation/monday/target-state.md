@@ -1,9 +1,9 @@
 # Monday Main Board — Target State Design
 
 **Board:** iCorrect Main Board (349212843)
-**Date:** 23 Feb 2026
-**Status:** IN PROGRESS — Ricky decisions captured, some items pending
-**Source:** Ricky + Code design session (23 Feb), board-schema.md, repair-flow-traces.md
+**Date:** 23 Feb 2026 (updated 24 Feb — team standup corrections)
+**Status:** IN PROGRESS — All open items resolved 25 Feb. Column audit is next blocker.
+**Source:** Ricky + Code design session (23 Feb), team standup (24 Feb), board-schema.md, repair-flow-traces.md
 
 ---
 
@@ -41,7 +41,7 @@ The core repair journey. Slimmed from 39 to ~15 values.
 | Battery Testing | Active | Battery cycle testing (time-gated) |
 | Repair Paused | Hold | Work stopped — see Pause Reason column for why |
 | Repaired | Milestone | Repair complete, awaiting QC |
-| Ready To Collect | End | QC passed, customer notified |
+| Complete | End | QC passed, ready for collection or shipping |
 | Returned | End | Device back with customer |
 | BER/Parts | End | Beyond Economic Repair — dead end |
 
@@ -62,7 +62,7 @@ The core repair journey. Slimmed from 39 to ~15 values.
 
 | Status | Description |
 |--------|-------------|
-| In Review | Roni actively checking the repair |
+| Testing | Roni actively checking the repair |
 | Pass | QC approved — ready for customer |
 | Fail | QC rejected — back to tech with notes |
 
@@ -80,7 +80,9 @@ The core repair journey. Slimmed from 39 to ~15 values.
 | Contacted | Message/call sent, no response yet |
 | Awaiting Response | Follow-up sent, waiting on customer |
 | Quote Sent | Formal quote delivered |
-| Confirmed | Customer approved the work/quote |
+| Quote Accepted | Customer approved the quote |
+| Invoiced | Invoice sent to customer |
+| Confirmed | Customer confirmed and payment arranged |
 | Declined | Customer declined — either collect device or BER |
 
 **Who uses this:** Ferrari (primary — manages all client communication), techs (trigger "Client To Contact" when they need customer input)
@@ -95,14 +97,18 @@ Column already exists (`color_mkypbg6z`) but migration stalled — 75.6% of item
 |--------|-------------|
 | Trade-in | Tagged as BM trade-in |
 | Received | Device received from customer |
-| Graded | Reported vs actual comparison complete |
+| Intake | Grading/assessment during intake process |
+| Pay-Out | Payment processed to seller |
+| Purchased | Device purchased — now ours |
+| To List | Ready to be listed on BM |
 | Listed | Posted on Back Market |
 | Sold | Sold on BM |
-| Pay-Out | Payment processed |
 | Counter | Counteroffer in progress |
 | Return | BM return/refund |
 | Cancelled | Trade-in cancelled |
 | N/A | Not a trade-in item |
+
+**Updated 24 Feb:** "Graded" removed as a separate status — grading happens during intake, not as a standalone step. "Purchased" added between Pay-Out and To List to track ownership transfer.
 
 **Migration needed:** Move all BM lifecycle values out of Repair Type column into this column. Repair Type should only contain repair types (Diagnostic, Repair, Board Level, etc.).
 
@@ -115,7 +121,7 @@ Column already exists (`color_mkypbg6z`) but migration stalled — 75.6% of item
 | Awaiting Parts | Part ordered, waiting for delivery |
 | Awaiting Customer | Need customer decision/info/password |
 | Technical Issue | Complex repair needs research/specialist |
-| iCloud Lock | Device locked, waiting for customer to remove |
+| iCloud Lock | Device locked, waiting for customer/seller to remove |
 | Requires Specialist | Beyond current tech's capability |
 | Other | Free-text context needed |
 
@@ -152,11 +158,11 @@ Column already exists (`color_mkypbg6z`) but migration stalled — 75.6% of item
 ```
 ENTRY:         New Repair → Booking Confirmed → Received
 DIAGNOSIS:     Queued For Repair → Diagnostics → Diagnostic Complete
-QUOTE:         [Comms: Client To Contact → Quote Sent → Confirmed]
+QUOTE:         [Comms: Client To Contact → Quote Sent → Quote Accepted → Invoiced → Confirmed]
 REPAIR:        Queued For Repair → Under Repair → Repaired
                (if screen work: Under Refurb → Repaired)
-QC:            [QC: In Review → Pass]
-COMPLETION:    Ready To Collect → Returned
+QC:            [QC: Testing → Pass]
+COMPLETION:    Complete → Returned
 ```
 
 **Shipping Status:** N/A (walk-in)
@@ -168,11 +174,10 @@ COMPLETION:    Ready To Collect → Returned
 ```
 ENTRY:         New Repair → Booking Confirmed → Received
 DIAGNOSIS:     Queued For Repair → Diagnostics → Diagnostic Complete
-QUOTE:         [Comms: Client To Contact → Quote Sent → Confirmed]
-BILLING:       (Invoiced via Xero integration)
+QUOTE:         [Comms: Client To Contact → Quote Sent → Quote Accepted → Invoiced → Confirmed]
 REPAIR:        Queued For Repair → Under Repair → Repaired
-QC:            [QC: In Review → Pass]
-COMPLETION:    Ready To Collect → Returned
+QC:            [QC: Testing → Pass]
+COMPLETION:    Complete → Returned
 ```
 
 **Difference from repair:** Diagnostic flow always has a quote/approval step. Repair flow may skip it if pre-quoted.
@@ -183,12 +188,12 @@ COMPLETION:    Ready To Collect → Returned
 LOGISTICS IN:  [Shipping: Book Courier → Courier Booked → In Transit → Received]
 ENTRY:         New Repair → Received
 DIAGNOSIS:     Queued For Repair → Diagnostics → Diagnostic Complete
-QUOTE:         [Comms: Client To Contact → Quote Sent → Confirmed]
+QUOTE:         [Comms: Client To Contact → Quote Sent → Quote Accepted → Invoiced → Confirmed]
 REPAIR:        Queued For Repair → Under Repair → Repaired
                (if screen work: Under Refurb → Repaired)
-QC:            [QC: In Review → Pass]
+QC:            [QC: Testing → Pass]
 LOGISTICS OUT: [Shipping: Book Return → Return Booked → In Transit → Delivered]
-COMPLETION:    Returned
+COMPLETION:    Complete → Returned
 ```
 
 **Shipping Status:** Active throughout
@@ -200,11 +205,12 @@ COMPLETION:    Returned
 LOGISTICS IN:  [Shipping: In Transit → Received]  (BM ships to us)
 ENTRY:         Received
 DIAGNOSIS:     Diagnostics → Diagnostic Complete
-               [Trade-in: Trade-in → Graded]   (reported vs actual comparison)
+               [Trade-in: Trade-in → Intake]   (grading happens during intake)
+DECISION:      [Trade-in: Intake → Pay-Out → Purchased]
 REPAIR:        Queued For Repair → Under Refurb → Repaired
-QC:            [QC: In Review → Pass]
-LISTING:       [Trade-in: Graded → Listed → Sold → Pay-Out]
-COMPLETION:    Ready To Collect (ready to ship to buyer)
+QC:            [QC: Testing → Pass]
+LISTING:       [Trade-in: To List → Listed → Sold]
+COMPLETION:    Complete (ready to ship to buyer)
 ```
 
 **Key difference:** No customer communication loop. BM trade-ins follow a standard grading + refurb path.
@@ -268,7 +274,7 @@ Corporate flag is a filter, not a separate flow.
 | **Client Services - To Do** | YES | Ferrari's customer follow-ups |
 | **Client Services - Awaiting Confirmation** | YES | Waiting on customer response |
 | **BMs Awaiting Sale** | YES | Refurbed BM devices ready to list |
-| **Trade-In BMs Awaiting Validation** | YES | BM trade-ins being graded |
+| **Trade-In Locked / Counteroffer** | YES | BM trade-ins with iCloud lock or active counteroffer (renamed from "Trade-In BMs Awaiting Validation") |
 | **Returned** | YES | But with 30-day auto-archive (see below) |
 
 ### 3.4 Special Decisions
@@ -287,7 +293,7 @@ Corporate flag is a filter, not a separate flow.
   - Client Services groups (comms follow-ups)
   - Comms Status column filtered to items needing attention
   - Awaiting Collection (things to coordinate)
-- Ferrari's dropdown only shows statuses relevant to his role (via filtered views)
+- Note: Monday cannot filter dropdown *options* per user — Ferrari still sees all statuses in any column he can edit. The mitigation is that his primary columns (Comms Status, Shipping Status) only have 6-9 options each, not 39.
 
 **Returned Group — 30-Day Auto-Archive:**
 - **Ricky decision:** Move items to archive after 30 days in Returned status.
@@ -312,10 +318,14 @@ Define what each role sees in their daily Monday view:
 | **BM Operations** | TBD | BMs Awaiting Sale, Trade-In Validation | Trade-in Status, QC Status, BM grading columns | *TBD — needs Ricky* |
 | **Management** | Ricky | All groups (dashboard view) | All columns, KPI formulas | Full access |
 
-**Monday supports this via:**
-- Board views (filtered column sets per saved view)
-- Column permissions (restrict who can edit which columns)
-- Conditional status dropdowns are NOT natively supported — but filtered views limit what people see
+**Monday capabilities (verified 23 Feb):**
+- **Board views** — saved filters that show/hide *rows* and *columns* per view. Each person can have a default view.
+- **Column permissions** — restrict who can *edit* or *view* entire columns (not individual values within them).
+- **Conditional status changes** — require a field to be filled before a status change is allowed (e.g., "must set Pause Reason before Repair Paused"). Browser only, not mobile.
+- **Dynamic person filter** — one shared view that auto-filters to each person's assigned items.
+- **CANNOT** filter which status options appear in a dropdown per user or per role. Everyone sees all options in every status column they can access.
+
+**Implication:** The 6-column split is the primary mitigation. Instead of 1 column with 39 options, each role interacts with 1-2 columns of 3-15 options. Column permissions can hide irrelevant columns entirely from specific roles.
 
 ---
 
@@ -364,90 +374,104 @@ Define what each role sees in their daily Monday view:
 | Trigger | Action | Purpose |
 |---------|--------|---------|
 | Repair Status → "Repair Paused" | Require Pause Reason to be set | Context for all pauses |
-| Repair Status → "Repaired" | Set QC Status → "In Review" | Auto-queue for Roni |
-| QC Status → "Pass" | Set Repair Status → "Ready To Collect" | Move to completion |
+| Repair Status → "Repaired" | Set QC Status → "Testing" | Auto-queue for Roni |
+| QC Status → "Pass" | Set Repair Status → "Complete" | Move to completion |
 | QC Status → "Fail" | Set Repair Status → "Under Repair" | Send back to tech |
 | Returned for 30+ days | Move to archive board | Keep board lean |
 | Booking date = today | Move to Today's Repairs group | Existing automation, verify still works |
 
-### Existing Automations to Document
-**UNKNOWN — need Systems agent to extract all active Monday automations.**
-This is a prerequisite before changing any statuses, as automations reference specific status values.
+### Existing Automations — DOCUMENTED ✅
+**Completed 24 Feb 2026.** See `builds/documentation/monday/automations.md` and raw export `automations-export.csv`.
+- **187 total automations** (147 active, 40 deactivated)
+- Key status values referenced by active automations: Repaired (12x), Ready To Collect (9x), Queued For Repair (8x), Received (6x), Diagnostics (6x), Diagnostic Complete (5x), QC Failure (5x)
+- All referenced statuses must be preserved or remapped during migration
 
 ---
 
-## 7. Migration Sequence (Proposed)
+## 7. Migration Sequence — New Board Rebuild
 
-**Must happen in order — each step depends on the previous.**
+**Ricky decision (25 Feb):** Build a new clean board from scratch instead of modifying the existing one. Migrate active items over. Old board stays as rollback.
 
-### Phase 1: Document Existing Automations
-- Extract all Monday native automations (triggers, actions, referenced statuses)
-- Document in `builds/documentation/monday/automations.md`
-- **Why first:** Changing statuses will break automations if we don't know what they reference
+**Why rebuild beats in-place migration:**
+- Zero disruption — team keeps working on current board until cutover day
+- Clean rollback — if anything breaks, old board is untouched
+- No automation conflicts — current board's 187 automations keep running. New board gets only what's needed, deduplicated
+- Test data — load fake items covering every flow type, show the team how it works before go-live
+- Column audit forced by design — every column on the new board is a deliberate choice, not inherited cruft
 
-### Phase 2: Create New Columns
-- Create QC Status column (status type, 3 values)
-- Create Comms Status column (status type, 6 values)
-- Create Pause Reason column (status type, 6 values)
-- Create Shipping Status column (status type, 9 values)
-- **No data migration yet** — just column creation
+### Phase 1: Column Audit *(blocker — must complete first)*
+- Assess all 170 columns: keep, merge, or drop for new board
+- Cross-reference against: active automations (which columns they touch), flow traces (what's actually used), board relations (links to Parts/Devices boards), formulas (dependencies)
+- Output: `builds/documentation/monday/column-audit.md` — every column with verdict and reason
+- **Ricky reviews and approves** before Phase 2 begins
 
-### Phase 3: Archive Dead Weight
-- Script to identify items not updated in 90+ days
-- Create "iCorrect Archive" board
-- Move dead items (target: 4,122 → ~200 active)
-- Move Returned items older than 30 days
-- **Why before group cleanup:** Fewer items = safer group operations
+### Phase 2: Build New Board
+- Create "iCorrect Main Board v2" with clean structure
+- Groups: target ~17 groups from Section 3 (no dead groups, merges already applied)
+- Status columns: the 6 from Section 1 (Repair Status, QC Status, Comms Status, Trade-in Status, Pause Reason, Shipping Status)
+- Only columns that passed the audit in Phase 1
+- No items yet — structure only
 
-### Phase 4: Group Cleanup
-- Ricky reviews Safan Long Deadline items
-- Delete empty groups (Adil, Zara iPods, Completed Refurbs, Selling, etc.)
-- Execute merges (Dead/Uncollected, BM Dead/iCloud, Follow Up Required)
-- Verify no automation references deleted groups
+### Phase 3: Build Automations
+- Rebuild from scratch using `automations.md` (147 active) as reference
+- Deduplicate — current board has redundant automations (e.g. 5 separate "QC Failure → move to tech" rules, one per tech)
+- Fix conflicts — document known conflicts during rebuild
+- Map old status values to new column structure (e.g. "Client Contacted" in status4 → "Contacted" in Comms Status)
+- Rebuild external integrations: webhooks (8 active), Typeform/Shopify item creation, board relations to Parts/Devices boards
 
-### Phase 5: Status Migration
-- Populate new columns from existing data:
-  - Parse current `status4` values → set corresponding Comms/QC/Shipping Status
-  - Parse current `status24` BM values → set Trade-in Status
-- Update automations to use new columns
-- Test with 5-10 items before bulk migration
+### Phase 4: Test Data & Validation
+- Load 10-20 fake items covering every flow type (walk-in repair, walk-in diagnostic, mail-in, BM functional, BM not-functional, corporate)
+- Walk each flow end-to-end: trigger automations, verify group moves, verify status columns update correctly
+- Record short screen recordings for each flow type — training material for team
+- Ricky + Ferrari review and approve before migration
 
-### Phase 6: Status Cleanup
-- Remove migrated values from `status4` (comms, shipping, QC values)
-- Remove migrated values from `status24` (BM lifecycle, outcomes)
-- Slim `status4` to ~15 repair-only values
-- **Point of no return** — automations must be updated first
+### Phase 5: Migrate Active Items
+- Script to move ~100-150 active items from old board to new board
+- Map old status values → new column values (status4 → Repair Status + Comms Status + QC Status + Shipping Status)
+- Map old Repair Type BM values → Trade-in Status
+- Preserve all board relations (Parts Used, Device links)
+- Preserve all dates, people assignments, notes, financial data
+- **Test with 5 items first** — verify mapping is correct before bulk run
 
-### Phase 7: Views & Training
+### Phase 6: Cutover
+- Team switches to new board (Monday morning, announced in advance)
+- Old board renamed to "iCorrect Main Board (ARCHIVE)" — not deleted
+- Monitor for 1 week: any missing automations, broken flows, team confusion
+- Old board stays accessible for reference / rollback for 30 days minimum
+
+### Phase 7: Views & Training *(after cutover stabilises)*
 - Create role-based views (Ferrari, Techs, QC, BM, Management)
-- Create Ferrari's dashboard view
-- Record short training videos for each role
-- 1-week parallel run (old views accessible, new views as default)
+- Ferrari's dashboard view (deferred from open item #2 — design together with Ricky)
+- Training videos per role showing their daily workflow on the new board
+- 30-day auto-archive automation: items in Returned for 30+ days → archive board
 
 ---
 
 ## 8. Testing Strategy
 
-### Before Each Phase
-- Snapshot current board state (item count per group, status distribution)
-- Test on 5-10 items manually before scripting bulk changes
-- Verify all Monday automations still fire correctly
+### Test Data (Phase 4)
+- 10-20 fake items with clear names (e.g. "TEST Walk-in Repair 001")
+- Cover all 8 flow types from `repair-flow-traces.md`
+- Include edge cases: Repair Paused with Pause Reason, QC Failure loop, BM trade-in with casing mismatch, mail-in with courier booking
+- Walk each item through full lifecycle, triggering every automation
 
 ### Rollback Plan
-- Archive board preserves all moved items (Phase 3 is reversible)
-- New columns can be hidden without deletion (Phase 2 is reversible)
-- Status values can be re-added (Phase 6 is the hard point of no return)
-- **Key risk:** Phase 6 (removing old status values) — must verify automations work with new columns first
+- **Old board stays untouched** until cutover is proven stable (30 days minimum)
+- If new board has critical issues at cutover → team switches back to old board same day
+- If new board has minor issues → fix on new board, old board stays as reference
+- **No point of no return** — unlike in-place migration, the rebuild approach is fully reversible at every phase
 
-### Validation Criteria
-- [ ] All 8 flow types (from flow traces) can be completed with new status structure
-- [ ] Ferrari can manage his daily workflow with new views
-- [ ] Techs see only repair-relevant statuses in dropdown
-- [ ] Roni has a clear QC queue with pass/fail tracking
-- [ ] BM trade-ins tracked end-to-end in Trade-in Status
-- [ ] All paused repairs have a Pause Reason set
-- [ ] Mail-in shipping tracked separately from repair status
-- [ ] Active item count < 250 after archive phase
+### Validation Criteria (must pass before Phase 5 migration)
+- [ ] All 8 flow types can be completed end-to-end with new status structure
+- [ ] All automations fire correctly on test data (group moves, timestamps, notifications)
+- [ ] Board relations to Parts and Devices boards work on new board
+- [ ] Webhooks fire to correct endpoints from new board
+- [ ] Techs see only repair-relevant statuses in dropdown (max ~15 options)
+- [ ] Roni has clear QC queue with Testing / Pass / Fail tracking
+- [ ] BM trade-ins tracked end-to-end in Trade-in Status column
+- [ ] Paused repairs require Pause Reason to be set
+- [ ] Mail-in shipping tracked in Shipping Status, separate from Repair Status
+- [ ] Ricky and Ferrari approve after reviewing test data walkthrough
 
 ---
 
@@ -455,14 +479,15 @@ This is a prerequisite before changing any statuses, as automations reference sp
 
 | # | Decision Needed | Context |
 |---|----------------|---------|
-| 1 | **Role-based status dropdowns** — which statuses does each role see? | Monday can filter views but not dropdown options natively. May need workaround. |
-| 2 | **Ferrari's expanded view** — what specifically should he see beyond his group? | He said "there is a different view we make" — needs definition. |
-| 3 | **Safan Long Deadline items** — Ricky to go through and decide fate of each | Blocked on Ricky manual review. |
-| 4 | **Roni's QC workflow detail** — does she need sub-grades per component on QC fail? | Current QC columns have pre-grades but no post-QC result breakdown. |
-| 5 | **Monday automations extraction** — need Systems agent to pull these before any changes | Blocked on automation documentation. |
-| 6 | **BM operations owner** — who manages BM groups day-to-day? | Determines whose view to design. |
-| 7 | **Comms Status: who sets "Contacted"?** — Ferrari manually, or automation when email sent? | Affects automation design. |
-| 8 | **iCloud Lock handling** — keep IC ON/IC OFF in Repair Type, or move to Pause Reason? | Currently in Repair Type column. |
+| ~~1~~ | ~~**Role-based status dropdowns**~~ | **RESOLVED:** Monday cannot filter dropdown options per user. The 6-column split is the mitigation. |
+| ~~2~~ | ~~**Ferrari's expanded view**~~ | **RESOLVED 25 Feb:** Deferred until after board cleanup is complete. Ricky + Code will design Ferrari's dashboard view together once the new board is live. |
+| ~~3~~ | ~~**Safan Long Deadline items**~~ | **RESOLVED 25 Feb:** Move all items to Safan Short Deadline. Delete Long Deadline group. Ricky hasn't had time to review individually — consolidating is good enough. |
+| ~~4~~ | ~~**Roni's QC workflow detail**~~ | **RESOLVED 25 Feb:** No sub-grades. Keep it simple: QC Status = Testing / Pass / Fail. Roni writes failure details in a notes field. No per-component pass/fail breakdown. |
+| ~~5~~ | ~~**Monday automations extraction**~~ | **RESOLVED 24 Feb:** 187 automations documented. See `automations.md` + `automations-export.csv`. |
+| ~~6~~ | ~~**BM operations owner**~~ | **RESOLVED 24 Feb:** Jarvis (agents) manages BM groups day-to-day. |
+| ~~7~~ | ~~**Comms Status: who sets "Contacted"?**~~ | **RESOLVED 24 Feb:** Ferrari manually for now. Automation when agents take over client comms. |
+| ~~8~~ | ~~**iCloud Lock handling**~~ | **RESOLVED 24 Feb:** Moves to Pause Reason column. IC ON/IC OFF removed from Repair Type. |
+| ~~9~~ | ~~**New board vs modify existing**~~ | **RESOLVED 25 Feb:** New board rebuild. Duplicate Main board structure, strip to only needed columns, rebuild automations from scratch, load test data, migrate active items, cutover. Old board archived as rollback. See Section 7 (rewritten). |
 
 ---
 
@@ -474,8 +499,9 @@ This is a prerequisite before changing any statuses, as automations reference sp
 | `builds/documentation/monday/repair-flow-traces.md` | 80 items traced across 8 flow types |
 | `builds/documentation/monday/cleanup-brief.md` | Jarvis's cleanup problem statement |
 | `builds/documentation/monday/QUERY-SPEC.md` | Query spec for flow trace generation |
-| `builds/documentation/monday/automations.md` | **TO CREATE** — Monday native automations |
+| `builds/documentation/monday/automations.md` | ✅ Monday native automations (147 active, 40 deactivated) |
+| `builds/documentation/monday/automations-export.csv` | Raw CSV export from Monday (24 Feb 2026) |
 
 ---
 
-*This document captures all decisions from the Ricky + Code design session on 23 Feb 2026. It is a working document — open items in Section 9 need resolution before implementation begins.*
+*This document captures decisions from the Ricky + Code design session (23 Feb 2026), team standup corrections (24 Feb 2026), and Ricky's decisions on 25 Feb 2026. All open items resolved. Next step: column audit (Phase 1 of rebuild).*
