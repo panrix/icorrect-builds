@@ -58,9 +58,9 @@ Board created from scratch via API. Script: `build-new-board.py`. Manifest: `boa
 3. Run updated script to create new board with clean IDs
 4. Update `board-v2-manifest.json` with new board ID and column IDs
 
-### Phase 2 remaining — Manual setup in Monday UI
+### Phase 2 remaining — Manual setup in Monday UI (Cowork)
 
-These cannot be done via API:
+These cannot be done via API. **Delegate to Cowork** — provide the board URL and the instructions below. Code should generate a clear step-by-step checklist for Cowork to follow in the Monday UI.
 
 **15 mirror columns** (click board relation → select columns to mirror):
 - Parts Cost (via Parts Used → Parts board)
