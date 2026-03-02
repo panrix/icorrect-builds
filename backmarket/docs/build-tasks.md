@@ -395,13 +395,35 @@ Top opportunities by headroom:
 
 ---
 
-## Task 16: Incremental Bid Bumping [PENDING]
+## Task 16: Buybox Strategy & Bid Bumping [REVISED — PENDING FRESH CSV]
 
-- 23 SKUs identified with headroom to increase bids
-- Approach: small increments (£10-20), monitor for 1-2 weeks, adjust
-- Priority: high-demand NONFUNC.USED SKUs first
-- Need to refresh crossref data to get P&L for fishing line SKUs
-- Awaiting Ricky's go-ahead on increment strategy
+**Date:** 2 March 2026
+**Script:** `api/bm-bid-bump.py` (built, dry-run tested)
+**Report:** `audit/buybox-strategy-2026-03-02.md`
+**Plan:** `audit/bid-bump-plan-2026-03-02.json`
+
+### Strategy revision: blind bumping was WRONG
+
+Buybox mapping revealed we **already win 88% of buyboxes** (44/50 survivors). Bumping would just increase costs.
+
+### November price increase analysis
+- Orders: +63% (64/mo → 104/mo)
+- Total net: +23% (£11,224/mo → £13,828/mo)
+- Per-order net: -24% (£176 → £133)
+- NONFUNC.USED margins IMPROVED (+10%). FC margins dropped -30%, NFC -45%.
+
+### Revised approach (needs fresh BM CSV export)
+1. **Win 1 actionable loser:** MBP13 M2 8/256 NFU — bump +£4 (wins 9 orders/qtr)
+2. **Reduce overpay on high-demand winners:** ~£1,100/qtr savings possible
+   - MBP14 M1Pro FC: £273 → ~£225 (saves £256/qtr, no volume impact per monthly data)
+   - MBA M1 NFU: £111 → ~£95 (saves £250/qtr)
+   - MBP13 M1 NFU: £100 → ~£90 (saves £177/qtr)
+3. **Push NONFUNC.USED** — only grade where higher bids improve margins
+4. **Hold/reduce FUNC.CRACK** — volume grew but margins compressed
+
+### Blocked on
+- Fresh BM listings CSV export with `buybox_price`, `is_buybox`, `price_to_win` columns
+- Ricky's decision on MBP14 M1Pro FC bid reduction
 
 ---
 
@@ -500,3 +522,79 @@ Top opportunities by headroom:
 - Pull return reasons from BM API or Monday board for 18 returned FUNC.CRACK devices
 - Identify pattern: QC gap, cosmetic issues, or customer complaints
 - If QC gap: recommend checklist changes
+
+---
+
+## Task 22: Layer 3 — Saf Diagnostic Notes from Monday Replies [DONE]
+
+**Date:** 2 March 2026
+**Script:** `api/bm-saf-diagnostics.py` (supports `--all-clients` for future full Saf audit)
+**Data:** `audit/saf-diagnostics-2026-03-02.json`
+**Report:** `audit/saf-layer3-report-2026-03-02.md`
+
+### Key findings
+- 150 devices where Saf is repair_person, 146 with written notes (97%)
+- Saf writes notes as **replies** to Monday Systems Manager updates, not top-level updates
+- **Complexity (92 LB devices):** 32% routine (teachable), 31% moderate, 35% complex (specialist-only)
+- **Top faults:** Liquid damage (33%), Keyboard (32%), Battery (20%), Charging IC (15%)
+- **FUNC.CRACK investigation:** 20/37 had board issues found (justified). 17/37 needed component-level diagnosis (keyboard backlight, charging port, display flex, touch bar) — also justified, not screen swaps
+- **Revised recommendation:** Don't remove Saf from FUNC.CRACK — he's there because he's needed
+
+### Corrections to Layer 2 report
+- Saf on FUNC.CRACK is NOT wasted time — original recommendation was wrong
+- 34% of NONFUNC.USED on Saf's bench don't need board work — efficiency win by handing off after diagnosis
+
+---
+
+## Task 23: Zero Remaining Intel MBA Listings [DONE]
+
+**Date:** 2 March 2026
+**Log:** `audit/intel-zero-log-2026-03-02.json`
+
+- Order GB-26101-VXNDF came in for Intel MBA — discovered 208 Intel MBA listings still active
+- All MBA 2019 (i5) + 2020 (i3/i5/i7) were not caught by original repricing run (marked DEAD but not zeroed)
+- All 208 zeroed via API — 208/208 success, 0 failures
+- Intel MBPs (2016-2019) confirmed already at £0
+- M1+ listings we killed confirmed dead
+- M1+ active listings confirmed untouched
+
+---
+
+## Context for Next Session
+
+### What's done
+- Layers 1-3 complete with corrected financials (parts + RR&D labour)
+- Saf's diagnostic notes pulled and analysed — complexity categorisation done
+- FUNC.CRACK Saf investigation complete — assignments justified
+- All Intel listings confirmed zeroed
+- 365 repricing changes + 2 overbid fixes + 208 Intel zeroing = 575 total API changes
+- Buybox mapping complete: 88% of survivor SKUs already winning
+- November price increase analysis: +63% orders, +23% total net, NFU margins improved, FC/NFC margins compressed
+- Bid bump script built and dry-run tested (`api/bm-bid-bump.py`)
+- Strategy document written: `audit/buybox-strategy-2026-03-02.md`
+
+### What's next (blocked on fresh BM CSV export)
+- **Task 16: Buybox strategy** — REVISED. Not blind bumping. Win 1 loser (+£4), reduce overpay on winners (~£1,100/qtr savings), push NFU. Needs fresh CSV with buybox data.
+- **Task 17: Fishing line promotion** — all 19 fishing lines winning buybox. Need P&L data (crossref refresh) to confirm profitability.
+- **Task 20: Stuck device triage** — 24 devices 30+ days, £2,150 capital. Per-device decisions with team.
+- **Task 21: FUNC.CRACK returns** — 18 returned devices need return reason analysis
+- **Saf full diagnostic audit** — separate project scope. Script supports --all-clients.
+
+### Key files
+- `audit/buybox-strategy-2026-03-02.md` — **START HERE** — full buybox + price increase analysis
+- `audit/buybox-audit-2026-03-01.json` — 50 survivors + 19 fishing lines with buybox data
+- `audit/bid-bump-plan-2026-03-02.json` — dry-run bump plan (66 listings, pre-strategy revision)
+- `api/bm-bid-bump.py` — bid bump script (supports --grade, --increment, --execute)
+- `audit/repair-analysis-report-2026-03-02.md` — Layers 1-3 report (corrected financials)
+- `audit/saf-layer3-report-2026-03-02.md` — Layer 3 deep dive (Saf's repair complexity)
+- `audit/repair-analysis-data-2026-03-02.json` — 1,256 orders, 534 matched
+- `audit/saf-diagnostics-2026-03-02.json` — 150 Saf devices with notes + complexity
+- `api/bm-repair-analysis.py` — Data collection script (parts cost + RR&D labour)
+- `api/bm-saf-diagnostics.py` — Saf diagnostics (supports --all-clients)
+- `docs/repair-analysis-plan.md` — North star document
+
+### For next Code session
+1. Ricky uploads fresh BM listings CSV to `builds/backmarket/docs/`
+2. Code re-runs buybox analysis with fresh data
+3. Build overpay reduction plan + targeted bump plan
+4. Execute changes with Ricky's approval
