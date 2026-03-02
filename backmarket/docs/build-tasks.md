@@ -427,12 +427,26 @@ Top opportunities by headroom:
 
 ---
 
-## Task 17: Fishing Line Promotion [PENDING]
+## Task 17: Fishing Line P&L Assessment [DONE]
 
-- 5 high-demand M1+ DEAD SKUs need P&L data before max offers can be calculated
-- Requires crossref data refresh (run bm-crossref.py with updated exports)
-- Once P&L available, calculate max offers and set competitive prices
-- These 5 SKUs represent ~27 orders/3m = 2/week additional volume
+**Date:** 2 March 2026
+
+### Result: All 19 fishing lines winning buybox — no action needed
+
+**With confirmed P&L (8 SKUs, 11 sold orders):** All profitable, £102-£348 net/device
+- Best: MBA M2 16/256 NFU (£348), MBP16 M1Pro NFU (£331), MBP13 M1 16/1TB FC (£265)
+
+**In pipeline (6 SKUs, 12 unsold devices):** Can't calculate net yet — devices still in repair/sale
+
+**No crossref data (5 SKUs):** Estimated from closest survivor match:
+- 3 likely profitable: MBP16 M1Pro FC (est £582), MBP14 M4 FC (est £278), MBA15 M2 NFC (est £120)
+- 1 likely unprofitable: MBA15 M2 8/256 FC at £219 (est -£55, but proxy was MBA13 M2 — MBA15 sells higher)
+- 1 marginal: MBP16 M4Pro 24/512 NFC at £200 (est £48)
+
+### Action: HOLD — monitor via next crossref refresh
+- No price changes — all winning buybox at current prices
+- 12 unsold devices in pipeline will provide more data points
+- Flag MBA15 M2 FC (£219) for review once first device sells
 
 ---
 
