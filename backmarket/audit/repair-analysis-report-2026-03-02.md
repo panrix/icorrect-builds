@@ -101,7 +101,7 @@ NONFUNC.CRACK: lowest volume, moderate margin, worst loss rate — board work + 
 | Andres | 19 | 15 | £235 | 0% | 0 | 0 | 33min | 40min | 103min |
 | Roni | 13 | 4 | £203 | 0% | 2 | 3 | 31min | 101min | 93min |
 
-Saf handles 51% of all NONFUNC.USED — and every device that needs board-level work passes through him regardless of who is listed as technician. Misha/Andres handle the screen + refurb stage after Saf finishes board work.
+Saf handles 51% of all NONFUNC.USED — and every device that needs board-level work passes through him regardless of who is listed as technician. The workflow is: Saf does diag + board repair, then hands off to Misha/Andres for screen replacement + cosmetic refurb. Saf does not do screen work. The Repair column reflects Saf's board work; the Refurb column reflects the handoff stage done by Misha/Andres.
 
 #### NONFUNC.CRACK
 
@@ -111,7 +111,7 @@ Saf handles 51% of all NONFUNC.USED — and every device that needs board-level 
 | Andres | 17 | 9 | £219 | 0% | 0 | 1 | 53min | 60min | 131min |
 | Misha | 14 | 10 | £196 | 0% | 0 | 1 | 37min | 70min | 101min |
 
-Saf's repair time on NONFUNC.CRACK is 197min avg — 2.5x his NONFUNC.USED time. These need board work + screen/casing. Only grade with a loss on Saf's bench (1 of 14).
+Saf's repair time on NONFUNC.CRACK is 197min avg — 2.5x his NONFUNC.USED repair time. These need board work, then a handoff for screen/casing refurb. Only grade with a loss on Saf's bench (1 of 14).
 
 #### FUNC.CRACK
 
@@ -181,15 +181,17 @@ FUNC.CRACK moves fastest through the pipeline. NONFUNC grades take 3-4 extra day
 
 **Saf does every logic board repair.** No exceptions. No one else in the team has board-level skills.
 
-### Saf's time investment
+### Saf's actual bench time (diag + board repair only)
 
-| Grade | Avg Diag | Avg Repair | Avg Refurb | Combined |
-|-------|----------|------------|------------|----------|
-| NONFUNC.USED | 32min | 80min | 99min | 141min |
-| NONFUNC.CRACK | 36min | 197min | 100min | 266min |
-| FUNC.CRACK | 38min | 67min | 134min | 193min |
+Saf does diagnosis and board-level repair. He does not do screen replacements or cosmetic refurb — those are handed off to Misha/Andres. The Refurb column below is the handoff stage, not Saf's time.
 
-NONFUNC.USED is Saf's most efficient grade — 141min total bench time. NONFUNC.CRACK takes nearly double (266min) because it's board work + screen/casing.
+| Grade | Avg Diag | Avg Repair | **Saf bench (diag+repair)** | Refurb (handoff) |
+|-------|----------|------------|----------------------------|------------------|
+| NONFUNC.USED | 32min | 80min | **111min** | 99min (Misha/Andres) |
+| NONFUNC.CRACK | 36min | 197min | **230min** | 100min (Misha/Andres) |
+| FUNC.CRACK | 38min | 67min | **102min** | 134min (Misha/Andres) |
+
+NONFUNC.USED is Saf's most efficient grade — 111min of his bench time per device. NONFUNC.CRACK takes over double (230min) because it's board work on a more damaged device.
 
 ### Saf's throughput ramp
 
@@ -202,7 +204,9 @@ NONFUNC.USED is Saf's most efficient grade — 141min total bench time. NONFUNC.
 | Jan 2026 | 27 |
 | Feb 2026 | 30 |
 
-Saf is scaling — from 4/month to 30/month over 6 months. At 30/month and 141min/device for NONFUNC.USED, that's ~70 hours of board work per month (17.5h/week). There's room to push this higher if he's not pulled onto FUNC.CRACK work.
+Saf is scaling — from 4/month to 30/month over 6 months. At 30/month and 111min/device for NONFUNC.USED, that's ~55 hours of board work per month (14h/week).
+
+**Theoretical ceiling:** At 7 effective hours/day and 111min/device, Saf can do ~3.8 NONFUNC.USED devices/day = **83/month**. He's currently at 30/month — running at 36% of theoretical capacity. The bottleneck isn't Saf's hours, it's incoming volume and devices queued on other priorities (FUNC.CRACK, NONFUNC.CRACK).
 
 ### Ammeter readings vs outcomes (NONFUNC.USED)
 
@@ -300,14 +304,15 @@ The data confirms NONFUNC.USED is the best grade: £289 avg net, 0% loss rate, r
 
 **Strategy:**
 - Increase bids on NONFUNC.USED SKUs (the 23 bump candidates from Task 15)
-- Accept that Saf's throughput ceiling (~30-35/month for board work) limits how fast NONFUNC.USED can scale
+- Saf's theoretical ceiling is ~83 NONFUNC.USED/month (111min bench time, 7h/day, 22 days). He's at 30/month — plenty of headroom
+- The bottleneck is incoming volume and Saf being pulled onto FUNC.CRACK, not his capacity
 - The other 50% of NONFUNC.USED (non-board repairs) can be handled by any tech — these scale freely
 
-**At current mix:** If we increase NONFUNC.USED intake to 40/month, ~20 need Saf (board) and ~20 can go to Misha/Andres (battery/LCD/adapter). Saf's current 30/month throughput has headroom for this.
+**At current mix:** If we increase NONFUNC.USED intake to 60/month, ~30 need Saf (board) and ~30 can go to Misha/Andres (battery/LCD/adapter). That's still within Saf's capacity if he's not wasting time on FUNC.CRACK.
 
 ### 2. Stop putting Saf on FUNC.CRACK
 
-Saf repaired 28 FUNC.CRACK devices in the dataset. At 193min avg, that's ~90 hours he spent on screen swaps that any tech can do. Every FUNC.CRACK on Saf's bench is a NONFUNC.USED that's waiting.
+Saf repaired 28 FUNC.CRACK devices in the dataset. At 102min avg bench time (diag + repair), that's ~48 hours he spent on work that doesn't require board-level skills. Every FUNC.CRACK on Saf's bench is a NONFUNC.USED that's waiting.
 
 **Action:** Update Monday workflow — FUNC.CRACK should never be assigned to Saf unless there's a discovered board issue during screen repair.
 
@@ -327,7 +332,7 @@ Saf repaired 28 FUNC.CRACK devices in the dataset. At 193min avg, that's ~90 hou
 
 ### 5. Deprioritise NONFUNC.CRACK
 
-NONFUNC.CRACK is the worst grade: £195 avg net (vs £289 NONFUNC.USED), 3% loss rate, 266min avg bench time for Saf. It needs board work AND screen/casing — the most resource-intensive repair path.
+NONFUNC.CRACK is the worst grade: £195 avg net (vs £289 NONFUNC.USED), 3% loss rate, 230min of Saf's bench time plus a screen/refurb handoff. It needs board work AND screen/casing — the most resource-intensive repair path, consuming time from both Saf and the refurb team.
 
 **Action:** Don't increase NONFUNC.CRACK bids. Accept what comes in but don't chase volume. If Saf's queue gets long, NONFUNC.CRACK should be last priority.
 
@@ -353,6 +358,8 @@ This isn't actionable as a bid strategy (we can't predict which ones will arrive
 | Capital in stuck devices (30d+) | £2,150 |
 | Capital in all non-sold matched | £17,160 |
 | Saf monthly throughput (latest) | 30 devices |
+| Saf bench time per NONFUNC.USED | 111min (diag + board repair) |
+| Saf theoretical ceiling | ~83 devices/month (at 36% utilisation) |
 | NONFUNC.USED avg net | £289 |
 | FUNC.CRACK avg net | £169 |
 | NONFUNC.CRACK avg net | £195 |
