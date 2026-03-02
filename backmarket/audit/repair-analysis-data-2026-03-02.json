@@ -1,5 +1,5 @@
 {
-  "generated": "2026-03-02T02:59:03.602080",
+  "generated": "2026-03-02T05:33:27.465839",
   "config": {
     "months": 6,
     "cutoff": "2025-09-03"
@@ -110,10 +110,12 @@
       "repair_time_secs": 4046,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 14986510,
+      "total_time_secs": 14995756,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 16.86,
+      "rrd_hours": 1.1238888889,
       "shipping": 0,
       "net": null
     },
@@ -196,9 +198,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 30.78,
+      "rrd_hours": 2.0516666667,
       "shipping": 15,
-      "net": 239.21
+      "net": 140.21
     },
     {
       "order_id": "GB-25364-WFFSX",
@@ -261,7 +265,7 @@
         "LCD - A1989 | A2159",
         "Unknown-9951310434",
         "See Notes (All Models)",
-        "Unknown-10049546571"
+        "Speakers - A2289 / A2338 (Right)"
       ],
       "parts_used_ids": [
         "8624229157",
@@ -269,9 +273,11 @@
         "1002646549",
         "10049546571"
       ],
+      "parts_cost": 50.0,
       "labour": 96.78,
+      "rrd_hours": 6.4519444444,
       "shipping": 15,
-      "net": 99.14
+      "net": 49.14
     },
     {
       "order_id": "GB-25364-GEGHP",
@@ -332,7 +338,9 @@
       "total_time_secs": 149084,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 0.93,
+      "rrd_hours": 0.0619444444,
       "shipping": 15,
       "net": 207.29
     },
@@ -401,9 +409,11 @@
         "1288394574",
         "2471944321"
       ],
+      "parts_cost": 48.0,
       "labour": 29.82,
+      "rrd_hours": 1.9877777778,
       "shipping": 15,
-      "net": 124.84
+      "net": 76.84
     },
     {
       "order_id": "GB-25364-KJBEN",
@@ -463,7 +473,7 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 1220195,
       "parts_used": [
-        "Speakers - A2337 (Left)",
+        "Unknown-10031707818",
         "Unknown-10049471931",
         "LCD - A2337",
         "Unknown-9951309601",
@@ -478,9 +488,11 @@
         "10050030304",
         "2387600994"
       ],
+      "parts_cost": 119.0,
       "labour": 36.24,
+      "rrd_hours": 2.4158333333,
       "shipping": 15,
-      "net": 197.38
+      "net": 78.38
     },
     {
       "order_id": "GB-25364-NPCJU",
@@ -545,9 +557,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 34.98,
+      "rrd_hours": 2.3319444444,
       "shipping": 15,
-      "net": 304.9
+      "net": 209.9
     },
     {
       "order_id": "GB-25365-CDFYL",
@@ -655,16 +669,18 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 0,
       "parts_used": [
-        "Unknown-10027590692",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)"
       ],
       "parts_used_ids": [
         "10027590692",
         "2471944321"
       ],
+      "parts_cost": 87.0,
       "labour": 34.8,
+      "rrd_hours": 2.3197222222,
       "shipping": 15,
-      "net": 226.79
+      "net": 139.79
     },
     {
       "order_id": "GB-25366-RHNFI",
@@ -741,7 +757,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 0.61,
+      "rrd_hours": 0.0405555556,
       "shipping": 0,
       "net": null
     },
@@ -810,9 +828,11 @@
         "6220432084",
         "2387600994"
       ],
+      "parts_cost": 119.0,
       "labour": 36.69,
+      "rrd_hours": 2.4458333333,
       "shipping": 15,
-      "net": 234.57
+      "net": 115.57
     },
     {
       "order_id": "GB-25366-UFAHU",
@@ -902,14 +922,16 @@
       "repair_time_secs": 5472,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 13882966,
+      "total_time_secs": 13892207,
       "parts_used": [
         "Other (See Notes)"
       ],
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 26.31,
+      "rrd_hours": 1.7541666667,
       "shipping": 0,
       "net": null
     },
@@ -987,12 +1009,14 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 0,
       "parts_used": [
-        "A2338 - Sharp LCD (S018)"
+        "Unknown-10062984395"
       ],
       "parts_used_ids": [
         "10062984395"
       ],
+      "parts_cost": 0,
       "labour": 47.06,
+      "rrd_hours": 3.1375,
       "shipping": 15,
       "net": 224.69
     },
@@ -1075,9 +1099,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 22.23,
+      "rrd_hours": 1.4816666667,
       "shipping": 15,
-      "net": 202.83
+      "net": 103.83
     },
     {
       "order_id": "GB-25371-JFOFE",
@@ -1162,9 +1188,11 @@
         "9934296900",
         "2387729984"
       ],
+      "parts_cost": 28.0,
       "labour": 69.61,
+      "rrd_hours": 4.6405555556,
       "shipping": 15,
-      "net": 137.31
+      "net": 109.31
     },
     {
       "order_id": "GB-25372-QADGD",
@@ -1249,7 +1277,9 @@
         "10062992420",
         "1002646549"
       ],
+      "parts_cost": 0.0,
       "labour": 102.3,
+      "rrd_hours": 6.8197222222,
       "shipping": 15,
       "net": 216.35
     },
@@ -1320,9 +1350,11 @@
         "1002646549",
         "2387600994"
       ],
+      "parts_cost": 119.0,
       "labour": 69.99,
+      "rrd_hours": 4.6661111111,
       "shipping": 15,
-      "net": 136.0
+      "net": 17.0
     },
     {
       "order_id": "GB-25372-HJVID",
@@ -1405,9 +1437,11 @@
         "2387729195",
         "9951309601"
       ],
+      "parts_cost": 33.0,
       "labour": 19.09,
+      "rrd_hours": 1.2727777778,
       "shipping": 15,
-      "net": 130.9
+      "net": 97.9
     },
     {
       "order_id": "GB-25373-JWIPU",
@@ -1472,9 +1506,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 10.18,
+      "rrd_hours": 0.6788888889,
       "shipping": 15,
-      "net": 273.34
+      "net": 272.34
     },
     {
       "order_id": "GB-25373-VFKDN",
@@ -1555,9 +1591,11 @@
       "parts_used_ids": [
         "8624229157"
       ],
+      "parts_cost": 45.0,
       "labour": 37.26,
+      "rrd_hours": 2.4841666667,
       "shipping": 15,
-      "net": 149.13
+      "net": 104.13
     },
     {
       "order_id": "GB-25374-EHEOY",
@@ -1640,9 +1678,11 @@
         "6220432084",
         "10050030304"
       ],
+      "parts_cost": 99.0,
       "labour": 25.29,
+      "rrd_hours": 1.6858333333,
       "shipping": 15,
-      "net": 140.37
+      "net": 41.37
     },
     {
       "order_id": "GB-25375-DXXMQ",
@@ -1725,9 +1765,11 @@
         "1288394574",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 97.32,
+      "rrd_hours": 6.4877777778,
       "shipping": 15,
-      "net": 190.84
+      "net": 189.84
     },
     {
       "order_id": "GB-25376-DSMGJ",
@@ -1824,9 +1866,11 @@
       "parts_used_ids": [
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 13.11,
+      "rrd_hours": 0.8741666667,
       "shipping": 15,
-      "net": 136.88
+      "net": 103.88
     },
     {
       "order_id": "GB-25377-WOFJS",
@@ -1909,9 +1953,11 @@
         "6220432084",
         "9951309601"
       ],
+      "parts_cost": 99.0,
       "labour": 34.11,
+      "rrd_hours": 2.2738888889,
       "shipping": 15,
-      "net": 231.28
+      "net": 132.28
     },
     {
       "order_id": "GB-25377-XMQUW",
@@ -2008,9 +2054,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 40.41,
+      "rrd_hours": 2.6941666667,
       "shipping": 15,
-      "net": 174.38
+      "net": 75.38
     },
     {
       "order_id": "GB-25381-UGOSI",
@@ -2125,9 +2173,11 @@
         "2387729195",
         "2387729895"
       ],
+      "parts_cost": 62.0,
       "labour": 20.35,
+      "rrd_hours": 1.3566666667,
       "shipping": 15,
-      "net": 172.64
+      "net": 110.64
     },
     {
       "order_id": "GB-25382-USYHN",
@@ -2208,9 +2258,11 @@
       "parts_used_ids": [
         "6220431988"
       ],
+      "parts_cost": 100.0,
       "labour": 26.85,
+      "rrd_hours": 1.7902777778,
       "shipping": 15,
-      "net": 356.79
+      "net": 256.79
     },
     {
       "order_id": "GB-25382-MADOO",
@@ -2271,7 +2323,7 @@
       "total_time_secs": 2421141,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-9934322899",
+        "USB-C Port - A2681",
         "MacBook Backlight"
       ],
       "parts_used_ids": [
@@ -2279,7 +2331,9 @@
         "9934322899",
         "3359324263"
       ],
+      "parts_cost": 7.0,
       "labour": 104.78,
+      "rrd_hours": 6.9852777778,
       "shipping": 0,
       "net": null
     },
@@ -2442,9 +2496,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 15.95,
+      "rrd_hours": 1.0636111111,
       "shipping": 15,
-      "net": 283.7
+      "net": 282.7
     },
     {
       "order_id": "GB-25385-PKXNX",
@@ -2505,7 +2561,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 4.98,
+      "rrd_hours": 0.3319444444,
       "shipping": 0,
       "net": null
     },
@@ -2574,9 +2632,11 @@
         "1288394574",
         "6220432017"
       ],
+      "parts_cost": 229.0,
       "labour": 40.8,
+      "rrd_hours": 2.7202777778,
       "shipping": 15,
-      "net": 300.51
+      "net": 71.51
     },
     {
       "order_id": "GB-25385-HBUKV",
@@ -2659,9 +2719,11 @@
         "18096803587",
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 10.89,
+      "rrd_hours": 0.7258333333,
       "shipping": 15,
-      "net": 172.2
+      "net": 139.2
     },
     {
       "order_id": "GB-25386-QYESY",
@@ -2722,7 +2784,9 @@
       "total_time_secs": 2482784,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -2807,9 +2871,11 @@
         "3871061450",
         "6220432017"
       ],
+      "parts_cost": 278.0,
       "labour": 47.82,
+      "rrd_hours": 3.1877777778,
       "shipping": 15,
-      "net": 390.86
+      "net": 112.86
     },
     {
       "order_id": "GB-25387-WMTTQ",
@@ -2890,9 +2956,11 @@
       "parts_used_ids": [
         "6220432017"
       ],
+      "parts_cost": 228.0,
       "labour": 72.16,
+      "rrd_hours": 4.8105555556,
       "shipping": 15,
-      "net": 543.85
+      "net": 315.85
     },
     {
       "order_id": "GB-25387-QVBZJ",
@@ -3005,9 +3073,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 38.24,
+      "rrd_hours": 2.5494444444,
       "shipping": 15,
-      "net": 164.08
+      "net": 65.08
     },
     {
       "order_id": "GB-25391-AQJAF",
@@ -3078,9 +3148,11 @@
         "9934300405",
         "8624229157"
       ],
+      "parts_cost": 62.0,
       "labour": 47.1,
+      "rrd_hours": 3.1397222222,
       "shipping": 15,
-      "net": 196.06
+      "net": 134.06
     },
     {
       "order_id": "GB-25392-YVAOS",
@@ -3161,9 +3233,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 18.1,
+      "rrd_hours": 1.2063888889,
       "shipping": 15,
-      "net": 212.39
+      "net": 211.39
     },
     {
       "order_id": "GB-25392-RPHCA",
@@ -3244,9 +3318,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 27.76,
+      "rrd_hours": 1.8505555556,
       "shipping": 15,
-      "net": 176.03
+      "net": 77.03
     },
     {
       "order_id": "GB-25393-EWYVK",
@@ -3327,9 +3403,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 7.06,
+      "rrd_hours": 0.4705555556,
       "shipping": 15,
-      "net": 143.2
+      "net": 142.2
     },
     {
       "order_id": "GB-25393-XXOAL",
@@ -3429,7 +3507,9 @@
       "total_time_secs": 110098,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 15,
       "net": 272.45
     },
@@ -3500,9 +3580,11 @@
         "10050030304",
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 48.81,
+      "rrd_hours": 3.2538888889,
       "shipping": 15,
-      "net": 190.68
+      "net": 157.68
     },
     {
       "order_id": "GB-25393-NWLFJ",
@@ -3567,9 +3649,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 20.24,
+      "rrd_hours": 1.3491666667,
       "shipping": 15,
-      "net": 253.95
+      "net": 252.95
     },
     {
       "order_id": "GB-25394-IOLWL",
@@ -3636,9 +3720,11 @@
         "2387600994",
         "6220432084"
       ],
+      "parts_cost": 119.0,
       "labour": 47.97,
+      "rrd_hours": 3.1980555556,
       "shipping": 15,
-      "net": 141.89
+      "net": 22.89
     },
     {
       "order_id": "GB-25394-QMXBU",
@@ -3739,9 +3825,11 @@
         "7525012382",
         "3359324263"
       ],
+      "parts_cost": 55.0,
       "labour": 42.8,
+      "rrd_hours": 2.8533333333,
       "shipping": 15,
-      "net": 324.95
+      "net": 269.95
     },
     {
       "order_id": "GB-25394-DJDPV",
@@ -3808,9 +3896,11 @@
         "2387729195",
         "1403430686"
       ],
+      "parts_cost": 33.0,
       "labour": 33.41,
+      "rrd_hours": 2.2272222222,
       "shipping": 15,
-      "net": 190.75
+      "net": 157.75
     },
     {
       "order_id": "GB-25395-XDAKO",
@@ -3868,10 +3958,12 @@
       "repair_time_secs": 4210,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 12588679,
+      "total_time_secs": 12597915,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 25.61,
+      "rrd_hours": 1.7072222222,
       "shipping": 0,
       "net": null
     },
@@ -3942,9 +4034,11 @@
         "2387729195",
         "1288394574"
       ],
+      "parts_cost": 34.0,
       "labour": 17.38,
+      "rrd_hours": 1.1588888889,
       "shipping": 15,
-      "net": 136.61
+      "net": 102.61
     },
     {
       "order_id": "GB-25395-WNCHW",
@@ -4013,9 +4107,11 @@
         "2387729195",
         "1281183483"
       ],
+      "parts_cost": 34.0,
       "labour": 23.21,
+      "rrd_hours": 1.5472222222,
       "shipping": 15,
-      "net": 165.95
+      "net": 131.95
     },
     {
       "order_id": "GB-25395-QKYFL",
@@ -4082,9 +4178,11 @@
         "6220432084",
         "10050030304"
       ],
+      "parts_cost": 99.0,
       "labour": 27.65,
+      "rrd_hours": 1.8430555556,
       "shipping": 15,
-      "net": 123.35
+      "net": 24.35
     },
     {
       "order_id": "GB-25395-JJXJL",
@@ -4199,7 +4297,9 @@
         "9951309601",
         "18096803587"
       ],
+      "parts_cost": 0,
       "labour": 5.92,
+      "rrd_hours": 0.3947222222,
       "shipping": 15,
       "net": 129.41
     },
@@ -4300,7 +4400,9 @@
         "1112258883",
         "9951309601"
       ],
+      "parts_cost": 0.0,
       "labour": 10.98,
+      "rrd_hours": 0.7322222222,
       "shipping": 15,
       "net": 138.28
     },
@@ -4367,9 +4469,11 @@
       "parts_used_ids": [
         "6220432001"
       ],
+      "parts_cost": 100.0,
       "labour": 29.48,
+      "rrd_hours": 1.9655555556,
       "shipping": 15,
-      "net": 200.34
+      "net": 100.34
     },
     {
       "order_id": "GB-25396-AOMCW",
@@ -4470,9 +4574,11 @@
         "10050030636",
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 38.41,
+      "rrd_hours": 2.5608333333,
       "shipping": 15,
-      "net": 99.11
+      "net": 66.11
     },
     {
       "order_id": "GB-25397-ZIBAR",
@@ -4565,7 +4671,9 @@
       "total_time_secs": 254154,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.03,
+      "rrd_hours": 0.335,
       "shipping": 0,
       "net": null
     },
@@ -4634,9 +4742,11 @@
         "18096803587",
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 38.97,
+      "rrd_hours": 2.5977777778,
       "shipping": 15,
-      "net": 151.12
+      "net": 150.12
     },
     {
       "order_id": "GB-25397-FEDXG",
@@ -4797,9 +4907,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 34.18,
+      "rrd_hours": 2.2788888889,
       "shipping": 15,
-      "net": 183.54
+      "net": 84.54
     },
     {
       "order_id": "GB-25401-IGJND",
@@ -4884,9 +4996,11 @@
         "6220431941",
         "9951310434"
       ],
+      "parts_cost": 92.0,
       "labour": 32.02,
+      "rrd_hours": 2.1347222222,
       "shipping": 15,
-      "net": 163.9
+      "net": 71.9
     },
     {
       "order_id": "GB-25401-ANDZY",
@@ -4955,9 +5069,11 @@
         "6220432084",
         "10050030636"
       ],
+      "parts_cost": 100.0,
       "labour": 33.67,
+      "rrd_hours": 2.2444444444,
       "shipping": 15,
-      "net": 161.06
+      "net": 61.06
     },
     {
       "order_id": "GB-25402-BDDYL",
@@ -5024,9 +5140,11 @@
         "9951310434",
         "6220431988"
       ],
+      "parts_cost": 100.0,
       "labour": 37.05,
+      "rrd_hours": 2.47,
       "shipping": 15,
-      "net": 203.6
+      "net": 103.6
     },
     {
       "order_id": "GB-25402-TOBQJ",
@@ -5095,9 +5213,11 @@
         "1403430686",
         "7525012382"
       ],
+      "parts_cost": 58.0,
       "labour": 53.63,
+      "rrd_hours": 3.5755555556,
       "shipping": 15,
-      "net": 301.98
+      "net": 243.98
     },
     {
       "order_id": "GB-25402-CNALJ",
@@ -5168,9 +5288,11 @@
         "1403430686",
         "9934302586"
       ],
+      "parts_cost": 34.0,
       "labour": 14.63,
+      "rrd_hours": 0.9752777778,
       "shipping": 15,
-      "net": 179.03
+      "net": 145.03
     },
     {
       "order_id": "GB-25402-WLHYP",
@@ -5235,9 +5357,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 24.34,
+      "rrd_hours": 1.6227777778,
       "shipping": 15,
-      "net": 165.52
+      "net": 66.52
     },
     {
       "order_id": "GB-25402-ILVZO",
@@ -5302,7 +5426,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 9.19,
+      "rrd_hours": 0.6127777778,
       "shipping": 15,
       "net": 210.46
     },
@@ -5373,9 +5499,11 @@
         "6220432084",
         "2387600994"
       ],
+      "parts_cost": 119.0,
       "labour": 15.54,
+      "rrd_hours": 1.0361111111,
       "shipping": 15,
-      "net": 214.65
+      "net": 95.65
     },
     {
       "order_id": "GB-25402-LVDJA",
@@ -5488,7 +5616,9 @@
       "parts_used_ids": [
         "18276358203"
       ],
+      "parts_cost": 0,
       "labour": 43.97,
+      "rrd_hours": 2.9313888889,
       "shipping": 15,
       "net": 271.35
     },
@@ -5571,9 +5701,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 21.1,
+      "rrd_hours": 1.4069444444,
       "shipping": 15,
-      "net": 203.72
+      "net": 202.72
     },
     {
       "order_id": "GB-25403-YHSEL",
@@ -5672,9 +5804,11 @@
         "1403430686",
         "6220432001"
       ],
+      "parts_cost": 100.0,
       "labour": 22.92,
+      "rrd_hours": 1.5280555556,
       "shipping": 15,
-      "net": 206.9
+      "net": 106.9
     },
     {
       "order_id": "GB-25404-GBAQW",
@@ -5739,9 +5873,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 34.01,
+      "rrd_hours": 2.2675,
       "shipping": 15,
-      "net": 149.81
+      "net": 50.81
     },
     {
       "order_id": "GB-25405-HFPXK",
@@ -5815,10 +5951,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1155079,
+      "total_time_secs": 1164311,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -5891,9 +6029,11 @@
         "1002646549",
         "9951310434"
       ],
+      "parts_cost": 9.0,
       "labour": 49.87,
+      "rrd_hours": 3.3244444444,
       "shipping": 15,
-      "net": 240.65
+      "net": 231.65
     },
     {
       "order_id": "GB-25405-IVANG",
@@ -5958,9 +6098,11 @@
       "parts_used_ids": [
         "6220432001"
       ],
-      "labour": 156.73,
+      "parts_cost": 100.0,
+      "labour": 156.72,
+      "rrd_hours": 10.4483333333,
       "shipping": 15,
-      "net": 130.29
+      "net": 30.29
     },
     {
       "order_id": "GB-25411-WDVZF",
@@ -6021,7 +6163,7 @@
       "total_time_secs": 195715,
       "parts_used": [
         "MacBook Logic Board",
-        "Hall Sensor - A2681 / A3113",
+        "Unknown-9934303569",
         "LCD - A2681 | A3113 | A3240"
       ],
       "parts_used_ids": [
@@ -6029,9 +6171,11 @@
         "9934303569",
         "6220432101"
       ],
+      "parts_cost": 96.0,
       "labour": 51.5,
+      "rrd_hours": 3.4330555556,
       "shipping": 15,
-      "net": 359.48
+      "net": 263.48
     },
     {
       "order_id": "GB-25411-HJBYS",
@@ -6128,9 +6272,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 24.47,
+      "rrd_hours": 1.6313888889,
       "shipping": 15,
-      "net": 136.79
+      "net": 37.79
     },
     {
       "order_id": "GB-25411-HMQUL",
@@ -6263,9 +6409,11 @@
         "9934303575",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 91.19,
+      "rrd_hours": 6.0791666667,
       "shipping": 15,
-      "net": 319.29
+      "net": 318.29
     },
     {
       "order_id": "GB-25413-DNNWC",
@@ -6366,9 +6514,11 @@
         "6220432001",
         "9951310434"
       ],
+      "parts_cost": 100.0,
       "labour": 61.96,
+      "rrd_hours": 4.1305555556,
       "shipping": 15,
-      "net": 236.03
+      "net": 136.03
     },
     {
       "order_id": "GB-25413-ULNFQ",
@@ -6483,9 +6633,11 @@
         "6220432001",
         "6220431988"
       ],
+      "parts_cost": 200.0,
       "labour": 69.3,
+      "rrd_hours": 4.6197222222,
       "shipping": 15,
-      "net": 248.62
+      "net": 48.62
     },
     {
       "order_id": "GB-25414-QARVK",
@@ -6546,15 +6698,17 @@
       "total_time_secs": 264619,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-9934303580"
+        "Hall Sensor - A2485 / A2780 / A2991"
       ],
       "parts_used_ids": [
         "1288394574",
         "9934303580"
       ],
+      "parts_cost": 8.0,
       "labour": 23.35,
+      "rrd_hours": 1.5566666667,
       "shipping": 15,
-      "net": 442.69
+      "net": 434.69
     },
     {
       "order_id": "GB-25414-YIFZE",
@@ -6637,7 +6791,9 @@
         "8624229157",
         "2471944321"
       ],
+      "parts_cost": 92.0,
       "labour": 67.82,
+      "rrd_hours": 4.5211111111,
       "shipping": 0,
       "net": null
     },
@@ -6770,9 +6926,11 @@
         "6220432084",
         "1002646549"
       ],
+      "parts_cost": 99.0,
       "labour": 28.88,
+      "rrd_hours": 1.925,
       "shipping": 15,
-      "net": 201.31
+      "net": 102.31
     },
     {
       "order_id": "GB-25417-KATPR",
@@ -6871,9 +7029,11 @@
         "1288394574",
         "6220432001"
       ],
+      "parts_cost": 101.0,
       "labour": 58.8,
+      "rrd_hours": 3.9202777778,
       "shipping": 15,
-      "net": 209.18
+      "net": 108.18
     },
     {
       "order_id": "GB-25421-INPEL",
@@ -6934,7 +7094,7 @@
       "total_time_secs": 109854,
       "parts_used": [
         "Unknown-9951310434",
-        "Unknown-9934322933",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
         "Battery Flex - A1708 / A2159 / A2289 / A2338"
       ],
       "parts_used_ids": [
@@ -6942,9 +7102,11 @@
         "9934322933",
         "9934289438"
       ],
+      "parts_cost": 7.0,
       "labour": 15.05,
+      "rrd_hours": 1.0030555556,
       "shipping": 15,
-      "net": 166.94
+      "net": 159.94
     },
     {
       "order_id": "GB-25421-JAVQH",
@@ -7009,9 +7171,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 24.6,
+      "rrd_hours": 1.6397222222,
       "shipping": 15,
-      "net": 176.99
+      "net": 77.99
     },
     {
       "order_id": "GB-25421-UNPXG",
@@ -7094,7 +7258,9 @@
         "18096803587",
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 52.49,
+      "rrd_hours": 3.4994444444,
       "shipping": 0,
       "net": null
     },
@@ -7158,16 +7324,18 @@
       "parts_used": [
         "Unknown-18096807969",
         "MacBook Logic Board",
-        "Unknown-10027590692"
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2"
       ],
       "parts_used_ids": [
         "18096807969",
         "1288394574",
         "10027590692"
       ],
+      "parts_cost": 41.0,
       "labour": 76.84,
+      "rrd_hours": 5.1225,
       "shipping": 15,
-      "net": 195.48
+      "net": 154.48
     },
     {
       "order_id": "GB-25422-BTSYE",
@@ -7248,9 +7416,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 23.55,
+      "rrd_hours": 1.57,
       "shipping": 15,
-      "net": 150.54
+      "net": 51.54
     },
     {
       "order_id": "GB-25422-LWSJV",
@@ -7356,10 +7526,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 10602147,
+      "total_time_secs": 10611379,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -7428,9 +7600,11 @@
         "9934289445",
         "1002646549"
       ],
+      "parts_cost": 2.0,
       "labour": 65.84,
+      "rrd_hours": 4.3891666667,
       "shipping": 15,
-      "net": 405.64
+      "net": 403.64
     },
     {
       "order_id": "GB-25423-ODYXM",
@@ -7497,9 +7671,11 @@
         "1288394574",
         "9934303575"
       ],
+      "parts_cost": 1.0,
       "labour": 30.47,
+      "rrd_hours": 2.0313888889,
       "shipping": 15,
-      "net": 383.34
+      "net": 382.34
     },
     {
       "order_id": "GB-25424-KUFWH",
@@ -7566,9 +7742,11 @@
         "6220432084",
         "1403430686"
       ],
+      "parts_cost": 99.0,
       "labour": 38.04,
+      "rrd_hours": 2.5361111111,
       "shipping": 15,
-      "net": 200.21
+      "net": 101.21
     },
     {
       "order_id": "GB-25424-VTQPT",
@@ -7635,9 +7813,11 @@
         "18096807969",
         "2471944321"
       ],
+      "parts_cost": 47.0,
       "labour": 51.83,
+      "rrd_hours": 3.4552777778,
       "shipping": 15,
-      "net": 157.49
+      "net": 110.49
     },
     {
       "order_id": "GB-25424-JGUZE",
@@ -7704,9 +7884,11 @@
         "18096803587",
         "2387600994"
       ],
+      "parts_cost": 20.0,
       "labour": 8.16,
+      "rrd_hours": 0.5438888889,
       "shipping": 15,
-      "net": 164.1
+      "net": 144.1
     },
     {
       "order_id": "GB-25425-GFUXO",
@@ -7789,7 +7971,9 @@
         "18096807969",
         "9951310434"
       ],
+      "parts_cost": 0,
       "labour": 9.22,
+      "rrd_hours": 0.615,
       "shipping": 15,
       "net": 342.26
     },
@@ -7872,7 +8056,9 @@
       "parts_used_ids": [
         "18096807969"
       ],
+      "parts_cost": 0,
       "labour": 12.94,
+      "rrd_hours": 0.8625,
       "shipping": 15,
       "net": 191.55
     },
@@ -7939,7 +8125,9 @@
       "parts_used_ids": [
         "18096807969"
       ],
+      "parts_cost": 0,
       "labour": 27.8,
+      "rrd_hours": 1.8536111111,
       "shipping": 15,
       "net": 271.68
     },
@@ -8063,10 +8251,12 @@
       "repair_time_secs": 468,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 10602654,
+      "total_time_secs": 10611904,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 1.95,
+      "rrd_hours": 0.13,
       "shipping": 0,
       "net": null
     },
@@ -8197,7 +8387,9 @@
       "parts_used_ids": [
         "1002646549"
       ],
+      "parts_cost": 0.0,
       "labour": 50.24,
+      "rrd_hours": 3.3494444444,
       "shipping": 15,
       "net": 203.41
     },
@@ -8273,7 +8465,7 @@
       "repair_time_secs": 12544,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 10491915,
+      "total_time_secs": 10501131,
       "parts_used": [
         "LCD - A1989 | A2159",
         "Battery Flex - A1989 / A2251",
@@ -8284,7 +8476,9 @@
         "9934289440",
         "9934280800"
       ],
+      "parts_cost": 62.0,
       "labour": 53.68,
+      "rrd_hours": 3.5788888889,
       "shipping": 0,
       "net": null
     },
@@ -8367,7 +8561,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 3.8,
+      "rrd_hours": 0.2533333333,
       "shipping": 15,
       "net": 235.35
     },
@@ -8468,9 +8664,11 @@
         "1288394574",
         "1403430686"
       ],
-      "labour": 27.73,
+      "parts_cost": 1.0,
+      "labour": 27.72,
+      "rrd_hours": 1.8483333333,
       "shipping": 15,
-      "net": 211.26
+      "net": 210.26
     },
     {
       "order_id": "GB-25432-RHIOJ",
@@ -8615,7 +8813,9 @@
       "parts_used_ids": [
         "9951309601"
       ],
+      "parts_cost": 0,
       "labour": 36.95,
+      "rrd_hours": 2.4633333333,
       "shipping": 15,
       "net": 190.87
     },
@@ -8682,9 +8882,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 44.49,
+      "rrd_hours": 2.9658333333,
       "shipping": 15,
-      "net": 147.5
+      "net": 48.5
     },
     {
       "order_id": "GB-25433-FMYSE",
@@ -8749,7 +8951,9 @@
       "parts_used_ids": [
         "18096803587"
       ],
+      "parts_cost": 0,
       "labour": 17.1,
+      "rrd_hours": 1.14,
       "shipping": 15,
       "net": 96.49
     },
@@ -8848,7 +9052,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 30.86,
+      "rrd_hours": 2.0575,
       "shipping": 15,
       "net": 235.42
     },
@@ -8963,9 +9169,11 @@
       "parts_used_ids": [
         "6220432168"
       ],
+      "parts_cost": 228.0,
       "labour": 34.77,
+      "rrd_hours": 2.3180555556,
       "shipping": 15,
-      "net": 535.23
+      "net": 307.23
     },
     {
       "order_id": "GB-25435-WBNOJ",
@@ -9057,14 +9265,16 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 439898,
       "parts_used": [
-        "Unknown-9934322933"
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
       ],
       "parts_used_ids": [
         "9934322933"
       ],
+      "parts_cost": 5.0,
       "labour": 9.17,
+      "rrd_hours": 0.6111111111,
       "shipping": 15,
-      "net": 487.58
+      "net": 482.58
     },
     {
       "order_id": "GB-25435-GLXCL",
@@ -9131,9 +9341,11 @@
         "6220432084",
         "10050030304"
       ],
+      "parts_cost": 99.0,
       "labour": 136.25,
+      "rrd_hours": 9.0836111111,
       "shipping": 15,
-      "net": 63.87
+      "net": -35.13
     },
     {
       "order_id": "GB-25435-ASWLG",
@@ -9210,7 +9422,9 @@
       "total_time_secs": 246249,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 19.79,
+      "rrd_hours": 1.3191666667,
       "shipping": 15,
       "net": 103.97
     },
@@ -9293,9 +9507,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 16.6,
+      "rrd_hours": 1.1066666667,
       "shipping": 15,
-      "net": 250.32
+      "net": 249.32
     },
     {
       "order_id": "GB-25436-PZAUK",
@@ -9376,9 +9592,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 24.33,
+      "rrd_hours": 1.6222222222,
       "shipping": 15,
-      "net": 219.05
+      "net": 120.05
     },
     {
       "order_id": "GB-25436-KUZIS",
@@ -9455,7 +9673,9 @@
       "total_time_secs": 22535,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.72,
+      "rrd_hours": 0.5144444444,
       "shipping": 15,
       "net": 136.21
     },
@@ -9606,9 +9826,11 @@
         "18096803587",
         "9951309601"
       ],
+      "parts_cost": 33.0,
       "labour": 15.44,
+      "rrd_hours": 1.0294444444,
       "shipping": 15,
-      "net": 136.22
+      "net": 103.22
     },
     {
       "order_id": "GB-25441-OLUAW",
@@ -9675,9 +9897,11 @@
         "6220432084",
         "10050030304"
       ],
+      "parts_cost": 99.0,
       "labour": 23.05,
+      "rrd_hours": 1.5363888889,
       "shipping": 15,
-      "net": 177.08
+      "net": 78.08
     },
     {
       "order_id": "GB-25441-UKSRT",
@@ -9760,9 +9984,11 @@
         "18096807969",
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 23.89,
+      "rrd_hours": 1.5925,
       "shipping": 15,
-      "net": 314.2
+      "net": 313.2
     },
     {
       "order_id": "GB-25441-JRTTS",
@@ -9877,9 +10103,11 @@
         "6220432084",
         "9951309601"
       ],
+      "parts_cost": 99.0,
       "labour": 18.41,
+      "rrd_hours": 1.2275,
       "shipping": 15,
-      "net": 181.71
+      "net": 82.71
     },
     {
       "order_id": "GB-25442-UXGJH",
@@ -9941,16 +10169,18 @@
       "parts_used": [
         "LCD - A2338 (Sharp)",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Unknown-10027590692"
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2"
       ],
       "parts_used_ids": [
         "6220432001",
         "2471944321",
         "10027590692"
       ],
+      "parts_cost": 187.0,
       "labour": 55.58,
+      "rrd_hours": 3.7052777778,
       "shipping": 15,
-      "net": 211.31
+      "net": 24.31
     },
     {
       "order_id": "GB-25442-UIFJS",
@@ -10033,7 +10263,9 @@
         "18096803587",
         "9951309601"
       ],
+      "parts_cost": 0,
       "labour": 24.18,
+      "rrd_hours": 1.6119444444,
       "shipping": 15,
       "net": 157.58
     },
@@ -10100,7 +10332,9 @@
       "parts_used_ids": [
         "18096824351"
       ],
+      "parts_cost": 0,
       "labour": 21.11,
+      "rrd_hours": 1.4075,
       "shipping": 15,
       "net": 386.7
     },
@@ -10183,7 +10417,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 18.85,
+      "rrd_hours": 1.2563888889,
       "shipping": 15,
       "net": 244.81
     },
@@ -10272,9 +10508,11 @@
         "3359324263",
         "9951309601"
       ],
+      "parts_cost": 101.0,
       "labour": 72.01,
+      "rrd_hours": 4.8008333333,
       "shipping": 15,
-      "net": 109.78
+      "net": 8.78
     },
     {
       "order_id": "GB-25443-JOJSL",
@@ -10371,7 +10609,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
-      "labour": 0.0,
+      "parts_cost": 0.0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 15,
       "net": 344.15
     },
@@ -10438,9 +10678,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 19.8,
+      "rrd_hours": 1.32,
       "shipping": 15,
-      "net": 253.72
+      "net": 154.72
     },
     {
       "order_id": "GB-25444-GYHUS",
@@ -10523,9 +10765,11 @@
         "1288394574",
         "2382492726"
       ],
+      "parts_cost": 21.0,
       "labour": 13.8,
+      "rrd_hours": 0.9197222222,
       "shipping": 15,
-      "net": 272.12
+      "net": 251.12
     },
     {
       "order_id": "GB-25444-BDOVW",
@@ -10608,9 +10852,11 @@
         "3359324263",
         "2471944321"
       ],
+      "parts_cost": 48.0,
       "labour": 57.9,
+      "rrd_hours": 3.86,
       "shipping": 15,
-      "net": 223.79
+      "net": 175.79
     },
     {
       "order_id": "GB-25445-TJMYJ",
@@ -10771,9 +11017,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 22.47,
+      "rrd_hours": 1.4983333333,
       "shipping": 15,
-      "net": 153.62
+      "net": 54.62
     },
     {
       "order_id": "GB-25447-XRIOH",
@@ -10838,9 +11086,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 10.55,
+      "rrd_hours": 0.7030555556,
       "shipping": 15,
-      "net": 413.87
+      "net": 412.87
     },
     {
       "order_id": "GB-25451-XFYFT",
@@ -11017,9 +11267,11 @@
       "parts_used_ids": [
         "6220432001"
       ],
+      "parts_cost": 100.0,
       "labour": 12.39,
+      "rrd_hours": 0.8261111111,
       "shipping": 15,
-      "net": 246.86
+      "net": 146.86
     },
     {
       "order_id": "GB-25451-KFQLG",
@@ -11150,9 +11402,11 @@
         "6220432084",
         "3359324263"
       ],
+      "parts_cost": 100.0,
       "labour": 37.9,
+      "rrd_hours": 2.5263888889,
       "shipping": 15,
-      "net": 185.73
+      "net": 85.73
     },
     {
       "order_id": "GB-25452-UEEAH",
@@ -11210,10 +11464,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 8167564,
+      "total_time_secs": 8176827,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -11289,10 +11545,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 8167766,
+      "total_time_secs": 8177006,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 4.79,
+      "rrd_hours": 0.3194444444,
       "shipping": 0,
       "net": null
     },
@@ -11361,9 +11619,11 @@
         "1403430686",
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 31.02,
+      "rrd_hours": 2.0680555556,
       "shipping": 15,
-      "net": 143.6
+      "net": 142.6
     },
     {
       "order_id": "GB-25453-LSKHU",
@@ -11428,9 +11688,11 @@
       "parts_used_ids": [
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 43.96,
+      "rrd_hours": 2.9305555556,
       "shipping": 15,
-      "net": 81.0
+      "net": 48.0
     },
     {
       "order_id": "GB-25453-NOOVO",
@@ -11575,7 +11837,9 @@
       "parts_used_ids": [
         "18276358203"
       ],
+      "parts_cost": 0,
       "labour": 37.1,
+      "rrd_hours": 2.4733333333,
       "shipping": 15,
       "net": 267.39
     },
@@ -11686,7 +11950,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -11753,9 +12019,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 29.7,
+      "rrd_hours": 1.9802777778,
       "shipping": 15,
-      "net": 228.02
+      "net": 133.02
     },
     {
       "order_id": "GB-25455-KIPDP",
@@ -11870,9 +12138,11 @@
         "6220432001",
         "1403430686"
       ],
+      "parts_cost": 100.0,
       "labour": 298.74,
+      "rrd_hours": 19.9161111111,
       "shipping": 15,
-      "net": -39.49
+      "net": -139.49
     },
     {
       "order_id": "GB-25456-XWPBL",
@@ -11937,9 +12207,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 40.67,
+      "rrd_hours": 2.7111111111,
       "shipping": 15,
-      "net": 647.73
+      "net": 646.73
     },
     {
       "order_id": "GB-25457-EYYOT",
@@ -12016,7 +12288,9 @@
       "total_time_secs": 4046,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 1.37,
+      "rrd_hours": 0.0911111111,
       "shipping": 15,
       "net": 189.12
     },
@@ -12085,9 +12359,11 @@
         "1288394574",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 20.06,
+      "rrd_hours": 1.3375,
       "shipping": 15,
-      "net": 181.93
+      "net": 180.93
     },
     {
       "order_id": "GB-25457-UXKCI",
@@ -12152,9 +12428,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 21.68,
+      "rrd_hours": 1.445,
       "shipping": 15,
-      "net": 202.81
+      "net": 103.81
     },
     {
       "order_id": "GB-25457-SNSHT",
@@ -12215,7 +12493,7 @@
       "total_time_secs": 263690,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-10027590692",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
         "MacBook Backlight",
         "Unknown-18276358203"
       ],
@@ -12225,9 +12503,11 @@
         "3359324263",
         "18276358203"
       ],
+      "parts_cost": 42.0,
       "labour": 64.71,
+      "rrd_hours": 4.3141666667,
       "shipping": 15,
-      "net": 245.04
+      "net": 203.04
     },
     {
       "order_id": "GB-25457-HXGQP",
@@ -12358,9 +12638,11 @@
         "1403430686",
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 59.3,
+      "rrd_hours": 3.9536111111,
       "shipping": 15,
-      "net": 341.48
+      "net": 246.48
     },
     {
       "order_id": "GB-25461-DKDCG",
@@ -12418,14 +12700,16 @@
       "repair_time_secs": 7763,
       "refurb_time_secs": 11461,
       "cleaning_time_secs": 0,
-      "total_time_secs": 8073019,
+      "total_time_secs": 8082250,
       "parts_used": [
         "Unknown-18096827880"
       ],
       "parts_used_ids": [
         "18096827880"
       ],
+      "parts_cost": 0,
       "labour": 90.83,
+      "rrd_hours": 6.0555555556,
       "shipping": 0,
       "net": null
     },
@@ -12494,9 +12778,11 @@
         "6220432084",
         "10050030636"
       ],
+      "parts_cost": 99.0,
       "labour": 24.04,
+      "rrd_hours": 1.6027777778,
       "shipping": 15,
-      "net": 192.95
+      "net": 93.95
     },
     {
       "order_id": "GB-25461-XAIQJ",
@@ -12563,9 +12849,11 @@
         "6220432084",
         "9934322876"
       ],
+      "parts_cost": 99.0,
       "labour": 23.45,
+      "rrd_hours": 1.5636111111,
       "shipping": 15,
-      "net": 163.5
+      "net": 64.5
     },
     {
       "order_id": "GB-25461-NYOTG",
@@ -12626,7 +12914,9 @@
       "total_time_secs": 341967,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 11.37,
+      "rrd_hours": 0.7577777778,
       "shipping": 0,
       "net": null
     },
@@ -12693,7 +12983,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 23.06,
+      "rrd_hours": 1.5372222222,
       "shipping": 15,
       "net": 118.97
     },
@@ -12756,7 +13048,9 @@
       "total_time_secs": 4754,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 9.93,
+      "rrd_hours": 0.6619444444,
       "shipping": 15,
       "net": 110.23
     },
@@ -12829,9 +13123,11 @@
         "9934296930",
         "10049545772"
       ],
+      "parts_cost": 56.0,
       "labour": 88.96,
+      "rrd_hours": 5.9305555556,
       "shipping": 15,
-      "net": 192.13
+      "net": 136.13
     },
     {
       "order_id": "GB-25461-OANSJ",
@@ -12924,7 +13220,9 @@
       "total_time_secs": 167683,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 1235.5,
+      "rrd_hours": 82.3666666667,
       "shipping": 15,
       "net": -988.71
     },
@@ -12993,9 +13291,11 @@
         "1288394574",
         "2471944321"
       ],
+      "parts_cost": 48.0,
       "labour": 27.03,
+      "rrd_hours": 1.8022222222,
       "shipping": 15,
-      "net": 229.29
+      "net": 181.29
     },
     {
       "order_id": "GB-25462-ELMTU",
@@ -13094,9 +13394,11 @@
         "2387729195",
         "9951309601"
       ],
+      "parts_cost": 33.0,
       "labour": 17.92,
+      "rrd_hours": 1.1944444444,
       "shipping": 15,
-      "net": 147.77
+      "net": 114.77
     },
     {
       "order_id": "GB-25462-OCHWR",
@@ -13273,7 +13575,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
+      "parts_cost": 0.0,
       "labour": 4.18,
+      "rrd_hours": 0.2788888889,
       "shipping": 15,
       "net": 146.57
     },
@@ -13342,7 +13646,9 @@
         "1403430686",
         "10049785783"
       ],
+      "parts_cost": 0.0,
       "labour": 16.25,
+      "rrd_hours": 1.0833333333,
       "shipping": 15,
       "net": 143.57
     },
@@ -13427,7 +13733,9 @@
         "9951309601",
         "9934322876"
       ],
+      "parts_cost": 0,
       "labour": 10.93,
+      "rrd_hours": 0.7286111111,
       "shipping": 15,
       "net": 219.06
     },
@@ -13494,7 +13802,9 @@
       "parts_used_ids": [
         "9951310434"
       ],
+      "parts_cost": 0,
       "labour": 15.86,
+      "rrd_hours": 1.0572222222,
       "shipping": 0,
       "net": null
     },
@@ -13561,9 +13871,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 32.32,
+      "rrd_hours": 2.1544444444,
       "shipping": 15,
-      "net": 173.11
+      "net": 74.11
     },
     {
       "order_id": "GB-25464-UFORE",
@@ -13634,9 +13946,11 @@
         "9934302590",
         "3359324263"
       ],
+      "parts_cost": 2.0,
       "labour": 51.23,
+      "rrd_hours": 3.415,
       "shipping": 15,
-      "net": 163.6
+      "net": 161.6
     },
     {
       "order_id": "GB-25464-CRPJM",
@@ -13703,9 +14017,11 @@
         "3359324263",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 47.87,
+      "rrd_hours": 3.1913888889,
       "shipping": 15,
-      "net": 318.28
+      "net": 317.28
     },
     {
       "order_id": "GB-25464-EUAPL",
@@ -13786,7 +14102,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
+      "parts_cost": 0.0,
       "labour": 13.55,
+      "rrd_hours": 0.9030555556,
       "shipping": 15,
       "net": 149.95
     },
@@ -13869,9 +14187,11 @@
       "parts_used_ids": [
         "9934300385"
       ],
+      "parts_cost": 9.0,
       "labour": 23.7,
+      "rrd_hours": 1.5802777778,
       "shipping": 15,
-      "net": 172.52
+      "net": 163.52
     },
     {
       "order_id": "GB-25465-KTZKD",
@@ -13952,7 +14272,9 @@
       "parts_used_ids": [
         "18276358203"
       ],
+      "parts_cost": 0,
       "labour": 29.87,
+      "rrd_hours": 1.9913888889,
       "shipping": 15,
       "net": 274.75
     },
@@ -14083,9 +14405,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 6.48,
+      "rrd_hours": 0.4319444444,
       "shipping": 15,
-      "net": 202.94
+      "net": 103.94
     },
     {
       "order_id": "GB-25467-JBVFY",
@@ -14166,7 +14490,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 29.74,
+      "rrd_hours": 1.9825,
       "shipping": 15,
       "net": 340.24
     },
@@ -14233,9 +14559,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 22.46,
+      "rrd_hours": 1.4975,
       "shipping": 15,
-      "net": 208.03
+      "net": 207.03
     },
     {
       "order_id": "GB-25467-NGCFM",
@@ -14302,9 +14630,11 @@
         "1288394574",
         "9951309601"
       ],
+      "parts_cost": 1.0,
       "labour": 17.72,
+      "rrd_hours": 1.1813888889,
       "shipping": 15,
-      "net": 253.43
+      "net": 252.43
     },
     {
       "order_id": "GB-25467-YDOAQ",
@@ -14385,7 +14715,9 @@
       "parts_used_ids": [
         "18276358203"
       ],
+      "parts_cost": 0,
       "labour": 8.34,
+      "rrd_hours": 0.5561111111,
       "shipping": 15,
       "net": 110.92
     },
@@ -14464,7 +14796,9 @@
       "total_time_secs": 1209981,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -14531,9 +14865,11 @@
       "parts_used_ids": [
         "2471944321"
       ],
+      "parts_cost": 47.0,
       "labour": 14.37,
+      "rrd_hours": 0.9580555556,
       "shipping": 15,
-      "net": 242.38
+      "net": 195.38
     },
     {
       "order_id": "GB-25467-FQDAF",
@@ -14610,8 +14946,8 @@
       "total_time_secs": 860586,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-9934322899",
-        "Hall Sensor - A2681 / A3113",
+        "USB-C Port - A2681",
+        "Unknown-9934303569",
         "Other (See Notes)"
       ],
       "parts_used_ids": [
@@ -14620,9 +14956,11 @@
         "9934303569",
         "1403430686"
       ],
+      "parts_cost": 6.0,
       "labour": 60.68,
+      "rrd_hours": 4.0452777778,
       "shipping": 15,
-      "net": 292.8
+      "net": 286.8
     },
     {
       "order_id": "GB-25471-PRTXE",
@@ -14725,9 +15063,11 @@
         "9934296930",
         "1403430686"
       ],
+      "parts_cost": 18.0,
       "labour": 72.05,
+      "rrd_hours": 4.8036111111,
       "shipping": 15,
-      "net": 336.03
+      "net": 318.03
     },
     {
       "order_id": "GB-25471-OMUPZ",
@@ -14792,9 +15132,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 64.33,
+      "parts_cost": 99.0,
+      "labour": 64.32,
+      "rrd_hours": 4.2883333333,
       "shipping": 15,
-      "net": 147.3
+      "net": 48.3
     },
     {
       "order_id": "GB-25471-DBFYC",
@@ -14907,9 +15249,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 70.79,
+      "rrd_hours": 4.7191666667,
       "shipping": 15,
-      "net": 126.17
+      "net": 27.17
     },
     {
       "order_id": "GB-25472-DQFZS",
@@ -14990,7 +15334,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
+      "parts_cost": 0.0,
       "labour": 15.04,
+      "rrd_hours": 1.0027777778,
       "shipping": 15,
       "net": 61.12
     },
@@ -15057,9 +15403,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 27.67,
+      "rrd_hours": 1.8447222222,
       "shipping": 15,
-      "net": 433.97
+      "net": 432.97
     },
     {
       "order_id": "GB-25472-RWIRB",
@@ -15126,7 +15474,9 @@
         "18096824351",
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 39.52,
+      "rrd_hours": 2.635,
       "shipping": 15,
       "net": 272.76
     },
@@ -15193,9 +15543,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 22.99,
+      "rrd_hours": 1.5325,
       "shipping": 15,
-      "net": 185.37
+      "net": 86.37
     },
     {
       "order_id": "GB-25472-FTNQR",
@@ -15260,9 +15612,11 @@
       "parts_used_ids": [
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 16.98,
+      "rrd_hours": 1.1322222222,
       "shipping": 15,
-      "net": 153.84
+      "net": 120.84
     },
     {
       "order_id": "GB-25472-CHPNG",
@@ -15411,9 +15765,11 @@
         "2387600994",
         "9934300385"
       ],
+      "parts_cost": 29.0,
       "labour": 42.17,
+      "rrd_hours": 2.8111111111,
       "shipping": 15,
-      "net": 161.89
+      "net": 132.89
     },
     {
       "order_id": "GB-25472-FXOUJ",
@@ -15494,7 +15850,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
+      "parts_cost": 0.0,
       "labour": 14.36,
+      "rrd_hours": 0.9572222222,
       "shipping": 15,
       "net": 123.17
     },
@@ -15618,14 +15976,16 @@
       "repair_time_secs": 5329,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 7216147,
+      "total_time_secs": 7225372,
       "parts_used": [
         "MacBook Logic Board"
       ],
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 26.55,
+      "rrd_hours": 1.77,
       "shipping": 0,
       "net": null
     },
@@ -15708,7 +16068,9 @@
       "parts_used_ids": [
         "18388342275"
       ],
+      "parts_cost": 0,
       "labour": 24.08,
+      "rrd_hours": 1.6052777778,
       "shipping": 15,
       "net": 196.34
     },
@@ -15823,9 +16185,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 17.3,
+      "rrd_hours": 1.1536111111,
       "shipping": 15,
-      "net": 265.85
+      "net": 264.85
     },
     {
       "order_id": "GB-25473-JUXQF",
@@ -15926,9 +16290,11 @@
         "1288394574",
         "9934300415"
       ],
+      "parts_cost": 60.0,
       "labour": 44.68,
+      "rrd_hours": 2.9788888889,
       "shipping": 15,
-      "net": 425.93
+      "net": 365.93
     },
     {
       "order_id": "GB-25474-LZGRF",
@@ -15995,9 +16361,11 @@
         "1485302997",
         "2387729195"
       ],
+      "parts_cost": 34.0,
       "labour": 25.91,
+      "rrd_hours": 1.7272222222,
       "shipping": 15,
-      "net": 122.18
+      "net": 88.18
     },
     {
       "order_id": "GB-25474-IEIWN",
@@ -16094,9 +16462,11 @@
       "parts_used_ids": [
         "6220431988"
       ],
+      "parts_cost": 100.0,
       "labour": 33.2,
+      "rrd_hours": 2.2130555556,
       "shipping": 15,
-      "net": 233.02
+      "net": 133.02
     },
     {
       "order_id": "GB-25475-IEPSP",
@@ -16173,7 +16543,9 @@
       "total_time_secs": 693982,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 3.22,
+      "rrd_hours": 0.2147222222,
       "shipping": 0,
       "net": null
     },
@@ -16320,9 +16692,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 34.22,
+      "rrd_hours": 2.2811111111,
       "shipping": 15,
-      "net": 191.54
+      "net": 92.54
     },
     {
       "order_id": "GB-25475-QFJTG",
@@ -16383,7 +16757,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -16484,9 +16860,11 @@
         "6220432084",
         "2387600994"
       ],
+      "parts_cost": 119.0,
       "labour": 34.33,
+      "rrd_hours": 2.2886111111,
       "shipping": 15,
-      "net": 141.76
+      "net": 22.76
     },
     {
       "order_id": "GB-25476-ZGHMH",
@@ -16583,7 +16961,9 @@
       "parts_used_ids": [
         "10050030304"
       ],
+      "parts_cost": 0,
       "labour": 9.68,
+      "rrd_hours": 0.6452777778,
       "shipping": 15,
       "net": 138.41
     },
@@ -16670,9 +17050,11 @@
         "1403430686",
         "18096824351"
       ],
+      "parts_cost": 1.0,
       "labour": 47.19,
+      "rrd_hours": 3.1458333333,
       "shipping": 15,
-      "net": 337.29
+      "net": 336.29
     },
     {
       "order_id": "GB-25477-SJRGH",
@@ -16739,9 +17121,11 @@
         "18388342790",
         "2387600994"
       ],
+      "parts_cost": 20.0,
       "labour": 40.38,
+      "rrd_hours": 2.6922222222,
       "shipping": 15,
-      "net": 126.17
+      "net": 106.17
     },
     {
       "order_id": "GB-25477-VAEJH",
@@ -16918,7 +17302,9 @@
       "parts_used_ids": [
         "18388343442"
       ],
+      "parts_cost": 0,
       "labour": 19.27,
+      "rrd_hours": 1.285,
       "shipping": 15,
       "net": 282.38
     },
@@ -16989,9 +17375,11 @@
         "9951309601",
         "6220432084"
       ],
+      "parts_cost": 132.0,
       "labour": 41.97,
+      "rrd_hours": 2.7980555556,
       "shipping": 15,
-      "net": 134.12
+      "net": 2.12
     },
     {
       "order_id": "GB-25481-PCUZW",
@@ -17056,9 +17444,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 28.01,
+      "rrd_hours": 1.8675,
       "shipping": 15,
-      "net": 196.48
+      "net": 97.48
     },
     {
       "order_id": "GB-25481-XBCJT",
@@ -17127,9 +17517,11 @@
         "1288394574",
         "1112258883"
       ],
+      "parts_cost": 1.0,
       "labour": 24.42,
+      "rrd_hours": 1.6280555556,
       "shipping": 15,
-      "net": 227.57
+      "net": 226.57
     },
     {
       "order_id": "GB-25481-BVHTR",
@@ -17242,9 +17634,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 40.34,
+      "rrd_hours": 2.6891666667,
       "shipping": 15,
-      "net": 214.68
+      "net": 119.68
     },
     {
       "order_id": "GB-25482-QTYHC",
@@ -17341,9 +17735,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 43.55,
+      "rrd_hours": 2.9036111111,
       "shipping": 15,
-      "net": 240.76
+      "net": 239.76
     },
     {
       "order_id": "GB-25482-FWOSJ",
@@ -17481,10 +17877,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 7652878,
+      "total_time_secs": 7662143,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -17551,7 +17949,9 @@
       "parts_used_ids": [
         "18388343667"
       ],
+      "parts_cost": 0,
       "labour": 23.65,
+      "rrd_hours": 1.5769444444,
       "shipping": 15,
       "net": 185.37
     },
@@ -17650,7 +18050,9 @@
       "parts_used_ids": [
         "18388342657"
       ],
+      "parts_cost": 0,
       "labour": 246.46,
+      "rrd_hours": 16.4308333333,
       "shipping": 15,
       "net": -173.8
     },
@@ -17767,7 +18169,9 @@
         "10839537537",
         "18388343879"
       ],
+      "parts_cost": 0,
       "labour": 38.89,
+      "rrd_hours": 2.5927777778,
       "shipping": 15,
       "net": 149.53
     },
@@ -17907,9 +18311,11 @@
         "1288394574",
         "2382430146"
       ],
+      "parts_cost": 30.0,
       "labour": 46.64,
+      "rrd_hours": 3.1094444444,
       "shipping": 15,
-      "net": 167.68
+      "net": 137.68
     },
     {
       "order_id": "GB-25485-BXSDA",
@@ -17967,10 +18373,12 @@
       "repair_time_secs": 5261,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 6975409,
+      "total_time_secs": 6984628,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 23.45,
+      "rrd_hours": 1.5630555556,
       "shipping": 0,
       "net": null
     },
@@ -18037,9 +18445,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 38.09,
+      "parts_cost": 99.0,
+      "labour": 32.22,
+      "rrd_hours": 2.1480555556,
       "shipping": 15,
-      "net": 122.43
+      "net": 29.3
     },
     {
       "order_id": "GB-25485-RYJMU",
@@ -18104,7 +18514,9 @@
       "parts_used_ids": [
         "18096824351"
       ],
+      "parts_cost": 0,
       "labour": 28.89,
+      "rrd_hours": 1.9261111111,
       "shipping": 15,
       "net": 315.66
     },
@@ -18187,9 +18599,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 49.46,
+      "rrd_hours": 3.2972222222,
       "shipping": 15,
-      "net": 320.96
+      "net": 225.96
     },
     {
       "order_id": "GB-25485-YCRZJ",
@@ -18254,9 +18668,11 @@
       "parts_used_ids": [
         "6220431988"
       ],
+      "parts_cost": 100.0,
       "labour": 29.03,
+      "rrd_hours": 1.935,
       "shipping": 15,
-      "net": 307.16
+      "net": 207.16
     },
     {
       "order_id": "GB-25485-XTOJR",
@@ -18323,9 +18739,11 @@
         "6220432084",
         "10050030636"
       ],
+      "parts_cost": 99.0,
       "labour": 28.96,
+      "rrd_hours": 1.9305555556,
       "shipping": 15,
-      "net": 150.07
+      "net": 51.07
     },
     {
       "order_id": "GB-25485-CHFER",
@@ -18392,7 +18810,9 @@
         "18388342275",
         "9951309601"
       ],
+      "parts_cost": 0,
       "labour": 18.27,
+      "rrd_hours": 1.2180555556,
       "shipping": 15,
       "net": 138.45
     },
@@ -18475,7 +18895,9 @@
       "parts_used_ids": [
         "18096824351"
       ],
+      "parts_cost": 0,
       "labour": 22.93,
+      "rrd_hours": 1.5288888889,
       "shipping": 15,
       "net": 335.18
     },
@@ -18578,9 +19000,11 @@
         "1041859105",
         "18388343430"
       ],
+      "parts_cost": 14.0,
       "labour": 42.17,
+      "rrd_hours": 2.8111111111,
       "shipping": 15,
-      "net": 222.09
+      "net": 208.09
     },
     {
       "order_id": "GB-25486-JEDKU",
@@ -18725,9 +19149,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 27.61,
+      "rrd_hours": 1.8405555556,
       "shipping": 15,
-      "net": 214.88
+      "net": 115.88
     },
     {
       "order_id": "GB-25491-XYFLD",
@@ -18826,9 +19252,11 @@
         "6220432084",
         "9951309601"
       ],
+      "parts_cost": 99.0,
       "labour": 31.13,
+      "rrd_hours": 2.0755555556,
       "shipping": 15,
-      "net": 116.76
+      "net": 17.76
     },
     {
       "order_id": "GB-25491-OSSIQ",
@@ -18895,7 +19323,9 @@
         "18388342657",
         "10050030636"
       ],
+      "parts_cost": 0,
       "labour": 5.02,
+      "rrd_hours": 0.3344444444,
       "shipping": 15,
       "net": 176.61
     },
@@ -18955,10 +19385,12 @@
       "repair_time_secs": 148,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 6950176,
+      "total_time_secs": 6959414,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.13,
+      "rrd_hours": 0.3419444444,
       "shipping": 0,
       "net": null
     },
@@ -19027,9 +19459,11 @@
         "10049785783",
         "6220431988"
       ],
-      "labour": 35.54,
+      "parts_cost": 100.0,
+      "labour": 33.48,
+      "rrd_hours": 2.2322222222,
       "shipping": 15,
-      "net": 293.95
+      "net": 196.0
     },
     {
       "order_id": "GB-25491-KTGWQ",
@@ -19087,10 +19521,12 @@
       "repair_time_secs": 3795,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 7216080,
+      "total_time_secs": 7225328,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 15.81,
+      "rrd_hours": 1.0541666667,
       "shipping": 0,
       "net": null
     },
@@ -19179,9 +19615,11 @@
         "6220432084",
         "1112258883"
       ],
+      "parts_cost": 100.0,
       "labour": 37.05,
+      "rrd_hours": 2.47,
       "shipping": 15,
-      "net": 160.71
+      "net": 60.71
     },
     {
       "order_id": "GB-25491-LERED",
@@ -19284,9 +19722,11 @@
         "1403430686",
         "9951309601"
       ],
+      "parts_cost": 34.0,
       "labour": 50.85,
+      "rrd_hours": 3.39,
       "shipping": 15,
-      "net": 137.67
+      "net": 103.67
     },
     {
       "order_id": "GB-25492-HFBOR",
@@ -19367,9 +19807,11 @@
       "parts_used_ids": [
         "6220431988"
       ],
+      "parts_cost": 100.0,
       "labour": 33.57,
+      "rrd_hours": 2.2380555556,
       "shipping": 15,
-      "net": 199.32
+      "net": 99.32
     },
     {
       "order_id": "GB-25492-YXPYK",
@@ -19482,9 +19924,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 40.86,
+      "rrd_hours": 2.7238888889,
       "shipping": 15,
-      "net": 165.73
+      "net": 66.73
     },
     {
       "order_id": "GB-25493-DKVGU",
@@ -19553,7 +19997,9 @@
         "9951309601",
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 17.68,
+      "rrd_hours": 1.1788888889,
       "shipping": 15,
       "net": 129.18
     },
@@ -19620,9 +20066,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 6.55,
+      "rrd_hours": 0.4363888889,
       "shipping": 15,
-      "net": 232.28
+      "net": 133.28
     },
     {
       "order_id": "GB-25494-XXVGG",
@@ -19751,7 +20199,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
+      "parts_cost": 0.0,
       "labour": 7.46,
+      "rrd_hours": 0.4975,
       "shipping": 15,
       "net": 81.43
     },
@@ -19818,9 +20268,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 44.58,
+      "rrd_hours": 2.9722222222,
       "shipping": 15,
-      "net": 235.67
+      "net": 140.67
     },
     {
       "order_id": "GB-25495-EQFSU",
@@ -19889,9 +20341,11 @@
         "1403430686",
         "2387600994"
       ],
-      "labour": 18.76,
+      "parts_cost": 119.0,
+      "labour": 16.95,
+      "rrd_hours": 1.1297222222,
       "shipping": 15,
-      "net": 190.73
+      "net": 73.54
     },
     {
       "order_id": "GB-25495-RIRKH",
@@ -19958,9 +20412,11 @@
         "3871061450",
         "1281183483"
       ],
+      "parts_cost": 50.0,
       "labour": 14.63,
+      "rrd_hours": 0.9755555556,
       "shipping": 15,
-      "net": 500.34
+      "net": 450.34
     },
     {
       "order_id": "GB-25495-TBTED",
@@ -20025,9 +20481,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
-      "labour": 23.31,
+      "parts_cost": 1.0,
+      "labour": 22.92,
+      "rrd_hours": 1.5280555556,
       "shipping": 15,
-      "net": 230.51
+      "net": 229.9
     },
     {
       "order_id": "GB-25495-UFZPY",
@@ -20114,9 +20572,11 @@
         "9934322876",
         "1288394574"
       ],
+      "parts_cost": 18.0,
       "labour": 55.65,
+      "rrd_hours": 3.7102777778,
       "shipping": 15,
-      "net": 130.47
+      "net": 112.47
     },
     {
       "order_id": "GB-25495-PUVKG",
@@ -20177,7 +20637,7 @@
       "total_time_secs": 3628086,
       "parts_used": [
         "Other (See Notes)",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -20185,9 +20645,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 15.0,
       "labour": 44.57,
+      "rrd_hours": 2.9711111111,
       "shipping": 15,
-      "net": 80.73
+      "net": 65.73
     },
     {
       "order_id": "GB-25495-NLMVO",
@@ -20245,14 +20707,16 @@
       "repair_time_secs": 871,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 7129865,
+      "total_time_secs": 7139116,
       "parts_used": [
         "Unknown-9934322876"
       ],
       "parts_used_ids": [
         "9934322876"
       ],
+      "parts_cost": 0,
       "labour": 11.33,
+      "rrd_hours": 0.7555555556,
       "shipping": 0,
       "net": null
     },
@@ -20321,9 +20785,11 @@
         "2471944321",
         "1288394574"
       ],
+      "parts_cost": 48.0,
       "labour": 61.27,
+      "rrd_hours": 4.0844444444,
       "shipping": 15,
-      "net": 150.22
+      "net": 102.22
     },
     {
       "order_id": "GB-25496-AEOBF",
@@ -20404,9 +20870,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 71.02,
+      "rrd_hours": 4.7347222222,
       "shipping": 15,
-      "net": 228.13
+      "net": 133.13
     },
     {
       "order_id": "GB-25496-XQJRG",
@@ -20516,16 +20984,18 @@
       "parts_used": [
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
         "Unknown-18388343879",
-        "Unknown-9934322933"
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
       ],
       "parts_used_ids": [
         "2471944321",
         "18388343879",
         "9934322933"
       ],
+      "parts_cost": 52.0,
       "labour": 29.27,
+      "rrd_hours": 1.9511111111,
       "shipping": 15,
-      "net": 138.16
+      "net": 86.16
     },
     {
       "order_id": "GB-25496-NHZES",
@@ -20638,9 +21108,11 @@
       "parts_used_ids": [
         "2387603925"
       ],
+      "parts_cost": 29.0,
       "labour": 47.95,
+      "rrd_hours": 3.1963888889,
       "shipping": 15,
-      "net": 148.14
+      "net": 119.14
     },
     {
       "order_id": "GB-25497-LBHPC",
@@ -20733,7 +21205,9 @@
       "total_time_secs": 964880,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 0.78,
+      "rrd_hours": 0.0519444444,
       "shipping": 0,
       "net": null
     },
@@ -20804,9 +21278,11 @@
         "9934300408",
         "2471944321"
       ],
+      "parts_cost": 57.0,
       "labour": 49.83,
+      "rrd_hours": 3.3216666667,
       "shipping": 15,
-      "net": 291.26
+      "net": 234.26
     },
     {
       "order_id": "GB-25501-CYOHB",
@@ -20905,9 +21381,11 @@
         "1288394574",
         "9934302590"
       ],
+      "parts_cost": 1.0,
       "labour": 27.58,
+      "rrd_hours": 1.8388888889,
       "shipping": 15,
-      "net": 172.67
+      "net": 171.67
     },
     {
       "order_id": "GB-25501-YQXUP",
@@ -20972,9 +21450,11 @@
       "parts_used_ids": [
         "1403430686"
       ],
-      "labour": 22.26,
+      "parts_cost": 0.0,
+      "labour": 20.66,
+      "rrd_hours": 1.3775,
       "shipping": 15,
-      "net": 184.48
+      "net": 186.07
     },
     {
       "order_id": "GB-25501-NKTDD",
@@ -21075,9 +21555,11 @@
         "1288394574",
         "18388342275"
       ],
+      "parts_cost": 1.0,
       "labour": 16.4,
+      "rrd_hours": 1.0930555556,
       "shipping": 15,
-      "net": 176.86
+      "net": 175.86
     },
     {
       "order_id": "GB-25502-OAGTW",
@@ -21224,9 +21706,11 @@
         "9934300385",
         "9951309601"
       ],
-      "labour": 24.12,
+      "parts_cost": 9.0,
+      "labour": 21.92,
+      "rrd_hours": 1.4613888889,
       "shipping": 15,
-      "net": 186.74
+      "net": 179.94
     },
     {
       "order_id": "GB-26012-THLTZ",
@@ -21293,9 +21777,11 @@
         "1485302997",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 52.42,
+      "rrd_hours": 3.4947222222,
       "shipping": 15,
-      "net": 70.21
+      "net": 69.21
     },
     {
       "order_id": "GB-26012-EISVR",
@@ -21364,9 +21850,11 @@
         "1403430686",
         "9951310434"
       ],
-      "labour": 55.41,
+      "parts_cost": 9.0,
+      "labour": 50.78,
+      "rrd_hours": 3.3855555556,
       "shipping": 15,
-      "net": 210.87
+      "net": 206.5
     },
     {
       "order_id": "GB-26012-UNKFJ",
@@ -21427,7 +21915,7 @@
       "total_time_secs": 189164,
       "parts_used": [
         "Liquid Damage Treatment (All Models)",
-        "Unknown-9934322933",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
         "Other (See Notes)"
       ],
       "parts_used_ids": [
@@ -21435,9 +21923,11 @@
         "9934322933",
         "1403430686"
       ],
+      "parts_cost": 10.0,
       "labour": 32.82,
+      "rrd_hours": 2.1880555556,
       "shipping": 15,
-      "net": 275.66
+      "net": 265.66
     },
     {
       "order_id": "GB-26012-AHTIH",
@@ -21499,7 +21989,7 @@
       "parts_used": [
         "Trackpad - A2681  (Starlight Gold)",
         "Trackpad Flex - A2681",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -21508,9 +21998,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 69.0,
       "labour": 39.78,
+      "rrd_hours": 2.6519444444,
       "shipping": 15,
-      "net": 352.3
+      "net": 283.3
     },
     {
       "order_id": "GB-26012-EVQDE",
@@ -21579,9 +22071,11 @@
         "1403430686",
         "18388343858"
       ],
+      "parts_cost": 2.0,
       "labour": 39.39,
+      "rrd_hours": 2.6261111111,
       "shipping": 15,
-      "net": 179.76
+      "net": 177.76
     },
     {
       "order_id": "GB-25497-MQDZP",
@@ -21648,9 +22142,11 @@
         "18096803587",
         "2387729195"
       ],
-      "labour": 46.26,
+      "parts_cost": 33.0,
+      "labour": 39.0,
+      "rrd_hours": 2.6,
       "shipping": 15,
-      "net": 47.5
+      "net": 21.76
     },
     {
       "order_id": "GB-25497-PDFNT",
@@ -21772,10 +22268,12 @@
       "repair_time_secs": 4122,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 113,
-      "total_time_secs": 4799162,
+      "total_time_secs": 4808397,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 18.55,
+      "parts_cost": 0,
+      "labour": 18.08,
+      "rrd_hours": 1.205,
       "shipping": 0,
       "net": null
     },
@@ -21844,9 +22342,11 @@
         "2471944321",
         "9951310434"
       ],
+      "parts_cost": 47.0,
       "labour": 58.55,
+      "rrd_hours": 3.9033333333,
       "shipping": 15,
-      "net": 252.53
+      "net": 205.53
     },
     {
       "order_id": "GB-25503-YUUTK",
@@ -21911,9 +22411,11 @@
       "parts_used_ids": [
         "1112258883"
       ],
-      "labour": 41.93,
+      "parts_cost": 0.0,
+      "labour": 40.57,
+      "rrd_hours": 2.7044444444,
       "shipping": 15,
-      "net": 215.15
+      "net": 216.52
     },
     {
       "order_id": "GB-25503-MOZZP",
@@ -21978,7 +22480,7 @@
         "Keyboard Backlight - A2289 / A2338",
         "Unknown-18276358203",
         "Unknown-10049545772",
-        "Unknown-10027590692",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
         "Unknown-10839537537"
       ],
       "parts_used_ids": [
@@ -21990,9 +22492,11 @@
         "10027590692",
         "10839537537"
       ],
-      "labour": 138.32,
+      "parts_cost": 58.0,
+      "labour": 138.33,
+      "rrd_hours": 9.2216666667,
       "shipping": 15,
-      "net": 141.89
+      "net": 83.89
     },
     {
       "order_id": "GB-25503-ZXOSN",
@@ -22057,9 +22561,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 11.07,
+      "rrd_hours": 0.7383333333,
       "shipping": 15,
-      "net": 266.81
+      "net": 265.81
     },
     {
       "order_id": "GB-25503-MYIWM",
@@ -22124,9 +22630,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 49.0,
+      "rrd_hours": 3.2669444444,
       "shipping": 15,
-      "net": 722.39
+      "net": 721.39
     },
     {
       "order_id": "GB-25503-CJZKL",
@@ -22184,10 +22692,12 @@
       "repair_time_secs": 1059,
       "refurb_time_secs": 998,
       "cleaning_time_secs": 303,
-      "total_time_secs": 6353975,
+      "total_time_secs": 6363205,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 10.77,
+      "parts_cost": 0,
+      "labour": 9.5,
+      "rrd_hours": 0.6336111111,
       "shipping": 0,
       "net": null
     },
@@ -22279,14 +22789,16 @@
       "repair_time_secs": 8771,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 593,
-      "total_time_secs": 6352109,
+      "total_time_secs": 6361350,
       "parts_used": [
         "Other (See Notes)"
       ],
       "parts_used_ids": [
         "1403430686"
       ],
-      "labour": 48.49,
+      "parts_cost": 0.0,
+      "labour": 46.02,
+      "rrd_hours": 3.0677777778,
       "shipping": 0,
       "net": null
     },
@@ -22369,7 +22881,9 @@
       "parts_used_ids": [
         "18096824351"
       ],
+      "parts_cost": 0,
       "labour": 20.75,
+      "rrd_hours": 1.3836111111,
       "shipping": 15,
       "net": 328.09
     },
@@ -22429,10 +22943,12 @@
       "repair_time_secs": 267,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 6443431,
+      "total_time_secs": 6452677,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 2.6,
+      "rrd_hours": 0.1733333333,
       "shipping": 0,
       "net": null
     },
@@ -22499,7 +23015,9 @@
       "parts_used_ids": [
         "9951310434"
       ],
+      "parts_cost": 0,
       "labour": 12.61,
+      "rrd_hours": 0.8405555556,
       "shipping": 15,
       "net": 209.53
     },
@@ -22627,8 +23145,8 @@
       "parts_used": [
         "MacBook Logic Board",
         "Unknown-10839537537",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -22638,9 +23156,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 37.48,
+      "parts_cost": 1.0,
+      "labour": 37.47,
+      "rrd_hours": 2.4983333333,
       "shipping": 15,
-      "net": 291.78
+      "net": 290.78
     },
     {
       "order_id": "GB-25505-ENGUD",
@@ -22705,9 +23225,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 15.23,
+      "rrd_hours": 1.0152777778,
       "shipping": 15,
-      "net": 192.76
+      "net": 191.76
     },
     {
       "order_id": "GB-25505-HTEYE",
@@ -22772,9 +23294,11 @@
       "parts_used_ids": [
         "18285916257"
       ],
-      "labour": 22.23,
+      "parts_cost": 0,
+      "labour": 15.11,
+      "rrd_hours": 1.0072222222,
       "shipping": 15,
-      "net": 536.27
+      "net": 543.4
     },
     {
       "order_id": "GB-25505-BSFXR",
@@ -22835,7 +23359,7 @@
       "total_time_secs": 1796153,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-9934322933",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
         "Keyboard - A2338"
       ],
       "parts_used_ids": [
@@ -22843,9 +23367,11 @@
         "9934322933",
         "9934300408"
       ],
+      "parts_cost": 15.0,
       "labour": 24.12,
+      "rrd_hours": 1.6083333333,
       "shipping": 15,
-      "net": 276.53
+      "net": 261.53
     },
     {
       "order_id": "GB-25506-SISTZ",
@@ -22939,8 +23465,8 @@
       "parts_used": [
         "Keyboard - A2337",
         "Keyboard Backlight - A2179 / A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "9934300385",
@@ -22948,9 +23474,11 @@
         "11069491565",
         "11069617210"
       ],
+      "parts_cost": 32.0,
       "labour": 25.8,
+      "rrd_hours": 1.7197222222,
       "shipping": 15,
-      "net": 235.36
+      "net": 203.36
     },
     {
       "order_id": "GB-25506-GOWQL",
@@ -23008,10 +23536,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 6444063,
+      "total_time_secs": 6453282,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -23084,9 +23614,11 @@
         "9934276252",
         "9951309684"
       ],
-      "labour": 37.39,
+      "parts_cost": 62.0,
+      "labour": 35.35,
+      "rrd_hours": 2.3566666667,
       "shipping": 15,
-      "net": 420.35
+      "net": 360.39
     },
     {
       "order_id": "GB-25506-ZFFCS",
@@ -23226,14 +23758,16 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 172192,
       "parts_used": [
-        "Hall Sensor - A2681 / A3113",
+        "Unknown-9934303569",
         "Other (See Notes)"
       ],
       "parts_used_ids": [
         "9934303569",
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 3.1,
+      "rrd_hours": 0.2066666667,
       "shipping": 15,
       "net": 277.52
     },
@@ -23300,9 +23834,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 17.72,
+      "rrd_hours": 1.1811111111,
       "shipping": 15,
-      "net": 680.18
+      "net": 679.18
     },
     {
       "order_id": "GB-25511-MNSCR",
@@ -23379,15 +23915,17 @@
       "total_time_secs": 338123,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-9934322933"
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
       ],
       "parts_used_ids": [
         "1288394574",
         "9934322933"
       ],
+      "parts_cost": 6.0,
       "labour": 40.66,
+      "rrd_hours": 2.7108333333,
       "shipping": 15,
-      "net": 211.99
+      "net": 205.99
     },
     {
       "order_id": "GB-25511-WQCWX",
@@ -23456,9 +23994,11 @@
         "9934280800",
         "1288394574"
       ],
+      "parts_cost": 16.0,
       "labour": 72.24,
+      "rrd_hours": 4.8161111111,
       "shipping": 15,
-      "net": 123.85
+      "net": 107.85
     },
     {
       "order_id": "GB-25511-QNYPQ",
@@ -23555,7 +24095,9 @@
       "parts_used_ids": [
         "18388343614"
       ],
+      "parts_cost": 0,
       "labour": 19.29,
+      "rrd_hours": 1.2858333333,
       "shipping": 0,
       "net": null
     },
@@ -23640,9 +24182,11 @@
         "9934300408",
         "9951310434"
       ],
+      "parts_cost": 9.0,
       "labour": 32.74,
+      "rrd_hours": 2.1825,
       "shipping": 15,
-      "net": 259.85
+      "net": 250.85
     },
     {
       "order_id": "GB-25511-POSHH",
@@ -23745,9 +24289,11 @@
         "1403430686",
         "6220432101"
       ],
+      "parts_cost": 105.0,
       "labour": 146.96,
+      "rrd_hours": 9.7972222222,
       "shipping": 15,
-      "net": 164.79
+      "net": 59.79
     },
     {
       "order_id": "GB-25512-UJTWT",
@@ -23812,9 +24358,11 @@
       "parts_used_ids": [
         "6220432001"
       ],
+      "parts_cost": 100.0,
       "labour": 12.5,
+      "rrd_hours": 0.8333333333,
       "shipping": 15,
-      "net": 241.89
+      "net": 141.89
     },
     {
       "order_id": "GB-25512-YIKMN",
@@ -23875,7 +24423,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -23938,7 +24488,9 @@
       "total_time_secs": 238393,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.49,
+      "rrd_hours": 0.3661111111,
       "shipping": 15,
       "net": 263.3
     },
@@ -24005,9 +24557,11 @@
       "parts_used_ids": [
         "1403430686"
       ],
-      "labour": 47.12,
+      "parts_cost": 0.0,
+      "labour": 46.96,
+      "rrd_hours": 3.1308333333,
       "shipping": 15,
-      "net": 395.59
+      "net": 395.75
     },
     {
       "order_id": "GB-25512-FMERO",
@@ -24138,9 +24692,11 @@
         "6220432017",
         "3871061450"
       ],
-      "labour": 45.96,
+      "parts_cost": 278.0,
+      "labour": 45.43,
+      "rrd_hours": 3.0286111111,
       "shipping": 15,
-      "net": 302.79
+      "net": 25.32
     },
     {
       "order_id": "GB-25513-GHOXX",
@@ -24198,10 +24754,12 @@
       "repair_time_secs": 2103,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 4187349,
+      "total_time_secs": 4196594,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 9.45,
+      "rrd_hours": 0.63,
       "shipping": 0,
       "net": null
     },
@@ -24300,7 +24858,9 @@
       "parts_used_ids": [
         "18388342275"
       ],
+      "parts_cost": 0,
       "labour": 13.49,
+      "rrd_hours": 0.8991666667,
       "shipping": 15,
       "net": 105.67
     },
@@ -24365,7 +24925,7 @@
         "Keyboard Backlight - A2289 / A2338",
         "Unknown-9951310434",
         "Other (See Notes)",
-        "Unknown-10027590692",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
         "Trackpad Flex - A2338 M2",
         "Unknown-10062529433"
       ],
@@ -24377,9 +24937,11 @@
         "9934276288",
         "10062529433"
       ],
+      "parts_cost": 53.0,
       "labour": 51.62,
+      "rrd_hours": 3.4411111111,
       "shipping": 15,
-      "net": 338.43
+      "net": 285.43
     },
     {
       "order_id": "GB-25513-FFXBJ",
@@ -24448,9 +25010,11 @@
         "18388343629",
         "9934296930"
       ],
+      "parts_cost": 9.0,
       "labour": 70.26,
+      "rrd_hours": 4.6838888889,
       "shipping": 15,
-      "net": 196.03
+      "net": 187.03
     },
     {
       "order_id": "GB-25513-EUIQQ",
@@ -24533,9 +25097,11 @@
         "9934300379",
         "18096803587"
       ],
-      "labour": 89.85,
+      "parts_cost": 9.0,
+      "labour": 88.88,
+      "rrd_hours": 5.9255555556,
       "shipping": 15,
-      "net": 45.04
+      "net": 37.01
     },
     {
       "order_id": "GB-25514-YKICA",
@@ -24612,7 +25178,9 @@
       "total_time_secs": 1880971,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -24690,14 +25258,16 @@
       "cleaning_time_secs": 216,
       "total_time_secs": 81499,
       "parts_used": [
-        "Unknown-9934322933"
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
       ],
       "parts_used_ids": [
         "9934322933"
       ],
-      "labour": 19.57,
+      "parts_cost": 5.0,
+      "labour": 18.68,
+      "rrd_hours": 1.245,
       "shipping": 15,
-      "net": 137.08
+      "net": 132.98
     },
     {
       "order_id": "GB-25514-NDBHH",
@@ -24800,9 +25370,11 @@
         "9934296930",
         "9934300408"
       ],
-      "labour": 65.23,
+      "parts_cost": 118.0,
+      "labour": 65.22,
+      "rrd_hours": 4.3483333333,
       "shipping": 15,
-      "net": 199.19
+      "net": 81.2
     },
     {
       "order_id": "GB-25515-QIFJB",
@@ -24860,14 +25432,16 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 8932,
       "cleaning_time_secs": 104,
-      "total_time_secs": 5921607,
+      "total_time_secs": 5930842,
       "parts_used": [
         "LCD - A2337"
       ],
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 42.87,
+      "parts_cost": 99.0,
+      "labour": 42.43,
+      "rrd_hours": 2.8288888889,
       "shipping": 0,
       "net": null
     },
@@ -24950,9 +25524,11 @@
       "parts_used_ids": [
         "2471944321"
       ],
+      "parts_cost": 47.0,
       "labour": 21.25,
+      "rrd_hours": 1.4169444444,
       "shipping": 15,
-      "net": 180.97
+      "net": 133.97
     },
     {
       "order_id": "GB-25515-QAWUH",
@@ -25013,7 +25589,7 @@
       "total_time_secs": 1071618,
       "parts_used": [
         "LCD - A2337",
-        "Speakers - A2337 (Left)",
+        "Unknown-10031707818",
         "Unknown-10049471931"
       ],
       "parts_used_ids": [
@@ -25021,9 +25597,11 @@
         "10031707818",
         "10049471931"
       ],
+      "parts_cost": 99.0,
       "labour": 7.95,
+      "rrd_hours": 0.5302777778,
       "shipping": 15,
-      "net": 158.94
+      "net": 59.94
     },
     {
       "order_id": "GB-25515-DLKNS",
@@ -25088,9 +25666,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
-      "labour": 151.95,
+      "parts_cost": 95.0,
+      "labour": 149.28,
+      "rrd_hours": 9.9522222222,
       "shipping": 15,
-      "net": 147.21
+      "net": 54.87
     },
     {
       "order_id": "GB-25516-ZUFIH",
@@ -25161,7 +25741,9 @@
         "18388343879",
         "9951310434"
       ],
-      "labour": 37.82,
+      "parts_cost": 9.0,
+      "labour": 35.52,
+      "rrd_hours": 2.3683333333,
       "shipping": 0,
       "net": null
     },
@@ -25244,9 +25826,11 @@
       "parts_used_ids": [
         "2471944321"
       ],
-      "labour": 12.63,
+      "parts_cost": 47.0,
+      "labour": 9.54,
+      "rrd_hours": 0.6358333333,
       "shipping": 15,
-      "net": 162.46
+      "net": 118.55
     },
     {
       "order_id": "GB-25516-FDOWQ",
@@ -25335,9 +25919,11 @@
         "6220432084",
         "10839429574"
       ],
-      "labour": 81.02,
+      "parts_cost": 116.0,
+      "labour": 72.93,
+      "rrd_hours": 4.8616666667,
       "shipping": 15,
-      "net": 165.4
+      "net": 57.5
     },
     {
       "order_id": "GB-25516-WHIUC",
@@ -25398,7 +25984,9 @@
       "total_time_secs": 358967,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.16,
+      "rrd_hours": 0.4772222222,
       "shipping": 0,
       "net": null
     },
@@ -25483,9 +26071,11 @@
         "6220432017",
         "1288394574"
       ],
+      "parts_cost": 229.0,
       "labour": 55.9,
+      "rrd_hours": 3.7269444444,
       "shipping": 15,
-      "net": 380.21
+      "net": 151.21
     },
     {
       "order_id": "GB-25517-GEKEQ",
@@ -25582,7 +26172,9 @@
       "parts_used_ids": [
         "18388342275"
       ],
+      "parts_cost": 0,
       "labour": 35.79,
+      "rrd_hours": 2.3861111111,
       "shipping": 15,
       "net": 144.3
     },
@@ -25651,9 +26243,11 @@
         "1288394574",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 26.77,
+      "rrd_hours": 1.7844444444,
       "shipping": 15,
-      "net": 561.14
+      "net": 560.14
     },
     {
       "order_id": "GB-25517-EAQGI",
@@ -25800,9 +26394,11 @@
         "6220432084",
         "2387600994"
       ],
+      "parts_cost": 119.0,
       "labour": 47.07,
+      "rrd_hours": 3.1383333333,
       "shipping": 15,
-      "net": 130.92
+      "net": 11.92
     },
     {
       "order_id": "GB-25521-IOMLW",
@@ -25883,9 +26479,11 @@
       "parts_used_ids": [
         "2387729195"
       ],
+      "parts_cost": 33.0,
       "labour": 29.89,
+      "rrd_hours": 1.9925,
       "shipping": 15,
-      "net": 130.0
+      "net": 97.0
     },
     {
       "order_id": "GB-25521-OIJRP",
@@ -25950,7 +26548,9 @@
       "parts_used_ids": [
         "18388343442"
       ],
+      "parts_cost": 0,
       "labour": 53.3,
+      "rrd_hours": 3.5530555556,
       "shipping": 15,
       "net": 210.52
     },
@@ -26010,7 +26610,7 @@
       "repair_time_secs": 1669,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 766,
-      "total_time_secs": 4800481,
+      "total_time_secs": 4809710,
       "parts_used": [
         "Unknown-9934322876",
         "MacBook Logic Board"
@@ -26019,7 +26619,9 @@
         "9934322876",
         "1288394574"
       ],
-      "labour": 16.27,
+      "parts_cost": 1.0,
+      "labour": 13.08,
+      "rrd_hours": 0.8722222222,
       "shipping": 0,
       "net": null
     },
@@ -26253,9 +26855,11 @@
       "parts_used_ids": [
         "6220431988"
       ],
+      "parts_cost": 100.0,
       "labour": 53.92,
+      "rrd_hours": 3.5944444444,
       "shipping": 15,
-      "net": 329.3
+      "net": 229.3
     },
     {
       "order_id": "GB-25526-IVMAU",
@@ -26368,7 +26972,9 @@
       "parts_used_ids": [
         "10839429574"
       ],
+      "parts_cost": 0,
       "labour": 62.5,
+      "rrd_hours": 4.1663888889,
       "shipping": 15,
       "net": 135.49
     },
@@ -26439,7 +27045,9 @@
         "1403430686",
         "9934303575"
       ],
+      "parts_cost": 0.0,
       "labour": 61.37,
+      "rrd_hours": 4.0911111111,
       "shipping": 15,
       "net": 298.48
     },
@@ -26540,9 +27148,11 @@
         "2387600994",
         "6220432084"
       ],
-      "labour": 7.56,
+      "parts_cost": 119.0,
+      "labour": 5.76,
+      "rrd_hours": 0.3838888889,
       "shipping": 15,
-      "net": 165.7
+      "net": 48.5
     },
     {
       "order_id": "GB-25527-PUOJY",
@@ -26683,17 +27293,19 @@
       "total_time_secs": 417665,
       "parts_used": [
         "LCD - A1932",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432054",
         "11069491565",
         "11069617210"
       ],
+      "parts_cost": 60.0,
       "labour": 51.26,
+      "rrd_hours": 3.4175,
       "shipping": 15,
-      "net": 117.1
+      "net": 57.1
     },
     {
       "order_id": "GB-25527-UEISA",
@@ -26792,9 +27404,11 @@
         "9934296900",
         "1002646549"
       ],
+      "parts_cost": 8.0,
       "labour": 409.23,
+      "rrd_hours": 27.2822222222,
       "shipping": 15,
-      "net": -216.28
+      "net": -224.28
     },
     {
       "order_id": "GB-26011-MUQTD",
@@ -26855,7 +27469,9 @@
       "total_time_secs": 71087,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.19,
+      "rrd_hours": 0.3458333333,
       "shipping": 15,
       "net": 147.47
     },
@@ -26922,9 +27538,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 24.43,
+      "parts_cost": 99.0,
+      "labour": 22.81,
+      "rrd_hours": 1.5208333333,
       "shipping": 15,
-      "net": 185.73
+      "net": 88.34
     },
     {
       "order_id": "GB-26011-BHUGU",
@@ -27021,9 +27639,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
-      "labour": 26.79,
+      "parts_cost": 1.0,
+      "labour": 26.26,
+      "rrd_hours": 1.7508333333,
       "shipping": 15,
-      "net": 283.19
+      "net": 282.72
     },
     {
       "order_id": "GB-26012-OIIYX",
@@ -27088,9 +27708,11 @@
       "parts_used_ids": [
         "1002646549"
       ],
-      "labour": 33.92,
+      "parts_cost": 0.0,
+      "labour": 31.22,
+      "rrd_hours": 2.0811111111,
       "shipping": 15,
-      "net": 182.47
+      "net": 185.17
     },
     {
       "order_id": "GB-26012-TDTSQ",
@@ -27171,9 +27793,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 34.33,
+      "rrd_hours": 2.2888888889,
       "shipping": 15,
-      "net": 185.89
+      "net": 86.89
     },
     {
       "order_id": "GB-26013-VOZOI",
@@ -27252,8 +27876,8 @@
         "Unknown-18388343629",
         "MacBook Logic Board",
         "Other (See Notes)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069485348",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "18388343629",
@@ -27262,9 +27886,11 @@
         "11069485348",
         "11069617210"
       ],
+      "parts_cost": 1.0,
       "labour": 35.33,
+      "rrd_hours": 2.3555555556,
       "shipping": 15,
-      "net": 139.09
+      "net": 138.09
     },
     {
       "order_id": "GB-26013-WWUEX",
@@ -27441,9 +28067,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 38.12,
+      "parts_cost": 99.0,
+      "labour": 38.13,
+      "rrd_hours": 2.5416666667,
       "shipping": 15,
-      "net": 196.2
+      "net": 97.2
     },
     {
       "order_id": "GB-26013-CSIFQ",
@@ -27501,10 +28129,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 3843968,
+      "total_time_secs": 3853216,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -27621,7 +28251,9 @@
         "18388341905",
         "9951309601"
       ],
+      "parts_cost": 0,
       "labour": 26.93,
+      "rrd_hours": 1.7955555556,
       "shipping": 15,
       "net": 153.16
     },
@@ -27819,15 +28451,17 @@
       "total_time_secs": 942102,
       "parts_used": [
         "LCD (LG) - A2442 | A2779 | A2992 | A2918 | A3112 | A3185 | A3401",
-        "Unknown-9934322937"
+        "USB-C Port - A2442 / A2779  / A2485 / A2780"
       ],
       "parts_used_ids": [
         "6220432017",
         "9934322937"
       ],
-      "labour": 69.03,
+      "parts_cost": 233.0,
+      "labour": 65.09,
+      "rrd_hours": 4.3394444444,
       "shipping": 15,
-      "net": 474.72
+      "net": 245.65
     },
     {
       "order_id": "GB-26015-UKKMI",
@@ -27885,14 +28519,16 @@
       "repair_time_secs": 3454,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 4804485,
+      "total_time_secs": 4813733,
       "parts_used": [
         "MacBook Logic Board"
       ],
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 18.56,
+      "rrd_hours": 1.2372222222,
       "shipping": 0,
       "net": null
     },
@@ -27975,9 +28611,11 @@
       "parts_used_ids": [
         "18388342698"
       ],
-      "labour": 36.61,
+      "parts_cost": 0,
+      "labour": 35.23,
+      "rrd_hours": 2.3488888889,
       "shipping": 15,
-      "net": 123.28
+      "net": 124.66
     },
     {
       "order_id": "GB-26015-WXXNC",
@@ -28056,8 +28694,8 @@
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
         "MacBook Backlight",
         "Unknown-9951310434",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069485348",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "2471944321",
@@ -28066,9 +28704,11 @@
         "11069485348",
         "11069617210"
       ],
-      "labour": 26.82,
+      "parts_cost": 48.0,
+      "labour": 23.84,
+      "rrd_hours": 1.5891666667,
       "shipping": 15,
-      "net": 26.45
+      "net": -18.58
     },
     {
       "order_id": "GB-26015-DNZAA",
@@ -28133,9 +28773,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 33.97,
+      "parts_cost": 99.0,
+      "labour": 31.42,
+      "rrd_hours": 2.0947222222,
       "shipping": 15,
-      "net": 176.19
+      "net": 79.74
     },
     {
       "order_id": "GB-26015-OUXRI",
@@ -28200,9 +28842,11 @@
       "parts_used_ids": [
         "18388342275"
       ],
-      "labour": 55.56,
+      "parts_cost": 0,
+      "labour": 54.46,
+      "rrd_hours": 3.6308333333,
       "shipping": 15,
-      "net": 83.93
+      "net": 85.03
     },
     {
       "order_id": "GB-26015-FZKCV",
@@ -28263,15 +28907,17 @@
       "total_time_secs": 17162,
       "parts_used": [
         "No Parts Used (All Models)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069485348",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "1112258883",
         "11069485348",
         "11069617210"
       ],
+      "parts_cost": 0.0,
       "labour": 5.36,
+      "rrd_hours": 0.3575,
       "shipping": 15,
       "net": 129.83
     },
@@ -28374,9 +29020,11 @@
         "9934276252",
         "1403430686"
       ],
+      "parts_cost": 54.0,
       "labour": 21.56,
+      "rrd_hours": 1.4375,
       "shipping": 15,
-      "net": 333.85
+      "net": 279.85
     },
     {
       "order_id": "GB-26016-WPMEK",
@@ -28450,10 +29098,12 @@
       "repair_time_secs": 356,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 4537657,
+      "total_time_secs": 4546894,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 4.9,
+      "rrd_hours": 0.3269444444,
       "shipping": 0,
       "net": null
     },
@@ -28520,9 +29170,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 46.4,
+      "parts_cost": 99.0,
+      "labour": 42.07,
+      "rrd_hours": 2.8044444444,
       "shipping": 15,
-      "net": 98.99
+      "net": 4.33
     },
     {
       "order_id": "GB-26016-GGJQK",
@@ -28583,7 +29235,7 @@
       "total_time_secs": 612384,
       "parts_used": [
         "Unknown-18388342275",
-        "Speakers - A2337 (Left)",
+        "Unknown-10031707818",
         "Unknown-10049471931"
       ],
       "parts_used_ids": [
@@ -28591,9 +29243,11 @@
         "10031707818",
         "10049471931"
       ],
-      "labour": 55.23,
+      "parts_cost": 0,
+      "labour": 45.0,
+      "rrd_hours": 2.9997222222,
       "shipping": 15,
-      "net": 99.47
+      "net": 109.7
     },
     {
       "order_id": "GB-26016-ZXGZJ",
@@ -28660,9 +29314,11 @@
         "18388343614",
         "2382492726"
       ],
-      "labour": 40.42,
+      "parts_cost": 20.0,
+      "labour": 38.81,
+      "rrd_hours": 2.5875,
       "shipping": 15,
-      "net": 175.07
+      "net": 156.68
     },
     {
       "order_id": "GB-26017-AJHVB",
@@ -28775,7 +29431,9 @@
       "parts_used_ids": [
         "1112258883"
       ],
+      "parts_cost": 0.0,
       "labour": 257.89,
+      "rrd_hours": 17.1925,
       "shipping": 15,
       "net": -126.23
     },
@@ -28842,9 +29500,11 @@
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 27.59,
+      "rrd_hours": 1.8394444444,
       "shipping": 15,
-      "net": 627.48
+      "net": 626.48
     },
     {
       "order_id": "GB-26017-XPTMH",
@@ -28905,8 +29565,8 @@
       "total_time_secs": 92650,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -28915,9 +29575,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 16.0,
       "labour": 23.59,
+      "rrd_hours": 1.5727777778,
       "shipping": 15,
-      "net": 189.46
+      "net": 173.46
     },
     {
       "order_id": "GB-26017-RRQJE",
@@ -28982,7 +29644,9 @@
       "parts_used_ids": [
         "10049785783"
       ],
+      "parts_cost": 0,
       "labour": 9.85,
+      "rrd_hours": 0.6566666667,
       "shipping": 15,
       "net": 161.47
     },
@@ -29099,9 +29763,11 @@
         "6220432017",
         "1288394574"
       ],
-      "labour": 55.46,
+      "parts_cost": 229.0,
+      "labour": 53.35,
+      "rrd_hours": 3.5569444444,
       "shipping": 15,
-      "net": 352.62
+      "net": 125.73
     },
     {
       "order_id": "GB-26017-KYNWO",
@@ -29245,8 +29911,8 @@
         "LCD - A2337",
         "MacBook Air A2337 Battery (A2389)",
         "Unknown-10049471931",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -29258,9 +29924,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 30.94,
+      "parts_cost": 134.0,
+      "labour": 29.62,
+      "rrd_hours": 1.9744444444,
       "shipping": 15,
-      "net": 120.75
+      "net": -11.92
     },
     {
       "order_id": "GB-26021-HFYOO",
@@ -29393,9 +30061,11 @@
         "1288394574",
         "1403430686"
       ],
-      "labour": 30.11,
+      "parts_cost": 1.0,
+      "labour": 29.1,
+      "rrd_hours": 1.9397222222,
       "shipping": 15,
-      "net": 144.12
+      "net": 144.13
     },
     {
       "order_id": "GB-26021-CLRHH",
@@ -29460,7 +30130,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 17.81,
+      "rrd_hours": 1.1872222222,
       "shipping": 15,
       "net": 104.82
     },
@@ -29536,10 +30208,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 3843543,
+      "total_time_secs": 3852801,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -29599,10 +30273,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 361,
-      "total_time_secs": 3932887,
+      "total_time_secs": 3942121,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 4.46,
+      "parts_cost": 0,
+      "labour": 2.95,
+      "rrd_hours": 0.1969444444,
       "shipping": 0,
       "net": null
     },
@@ -29710,10 +30386,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 19,
       "cleaning_time_secs": 0,
-      "total_time_secs": 4025856,
+      "total_time_secs": 4035080,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 6.9,
+      "rrd_hours": 0.4597222222,
       "shipping": 0,
       "net": null
     },
@@ -29844,7 +30522,9 @@
       "parts_used_ids": [
         "1403430686"
       ],
+      "parts_cost": 0.0,
       "labour": 13.12,
+      "rrd_hours": 0.8744444444,
       "shipping": 15,
       "net": 110.21
     },
@@ -29939,8 +30619,8 @@
       "total_time_secs": 607724,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -29949,9 +30629,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 114.0,
       "labour": 33.6,
+      "rrd_hours": 2.2397222222,
       "shipping": 15,
-      "net": 105.2
+      "net": -8.8
     },
     {
       "order_id": "GB-26022-WYTNC",
@@ -30029,8 +30711,8 @@
       "parts_used": [
         "LCD (Sharp) - A2485 | A2780 | A2991 | A3403 | A3186",
         "Unknown-11069588689",
-        "Unknown-11069495691",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432168",
@@ -30038,7 +30720,9 @@
         "11069495691",
         "11069617210"
       ],
+      "parts_cost": 250.0,
       "labour": 49.16,
+      "rrd_hours": 3.2775,
       "shipping": 0,
       "net": null
     },
@@ -30107,9 +30791,11 @@
         "1288394574",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 37.65,
+      "rrd_hours": 2.51,
       "shipping": 15,
-      "net": 462.26
+      "net": 461.26
     },
     {
       "order_id": "GB-26022-BYMDE",
@@ -30176,9 +30862,11 @@
         "6220432101",
         "1403430686"
       ],
-      "labour": 38.16,
+      "parts_cost": 95.0,
+      "labour": 37.41,
+      "rrd_hours": 2.4938888889,
       "shipping": 15,
-      "net": 204.46
+      "net": 110.21
     },
     {
       "order_id": "GB-26022-EXNUU",
@@ -30257,8 +30945,8 @@
         "Keyboard Backlight - A2179 / A2337",
         "Trackpad - A2337 (Silver)",
         "Trackpad Flex - A2179 / A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "9934296900",
@@ -30267,9 +30955,11 @@
         "11069491565",
         "11069617210"
       ],
-      "labour": 22.65,
+      "parts_cost": 57.0,
+      "labour": 19.45,
+      "rrd_hours": 1.2966666667,
       "shipping": 15,
-      "net": 177.21
+      "net": 123.41
     },
     {
       "order_id": "GB-26022-GOSKC",
@@ -30350,9 +31040,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 91.74,
+      "rrd_hours": 6.1161111111,
       "shipping": 15,
-      "net": 119.98
+      "net": 20.98
     },
     {
       "order_id": "GB-26022-EAQNL",
@@ -30413,7 +31105,9 @@
       "total_time_secs": 22895,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.67,
+      "rrd_hours": 0.5113888889,
       "shipping": 15,
       "net": 157.99
     },
@@ -30481,8 +31175,8 @@
         "Keyboard - A2337",
         "Keyboard Backlight - A2179 / A2337",
         "Unknown-10839429574",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -30496,9 +31190,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 132.0,
       "labour": 62.01,
+      "rrd_hours": 4.1341666667,
       "shipping": 15,
-      "net": 145.31
+      "net": 13.31
     },
     {
       "order_id": "GB-26022-VWPTJ",
@@ -30575,17 +31271,19 @@
       "total_time_secs": 78647,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432084",
         "11069491565",
         "11069617210"
       ],
-      "labour": 25.5,
+      "parts_cost": 114.0,
+      "labour": 24.36,
+      "rrd_hours": 1.6241666667,
       "shipping": 15,
-      "net": 161.19
+      "net": 48.33
     },
     {
       "order_id": "GB-26023-AUYWZ",
@@ -30698,9 +31396,11 @@
       "parts_used_ids": [
         "18388343442"
       ],
-      "labour": 30.08,
+      "parts_cost": 0,
+      "labour": 28.09,
+      "rrd_hours": 1.8727777778,
       "shipping": 15,
-      "net": 206.47
+      "net": 208.46
     },
     {
       "order_id": "GB-26023-WPMGQ",
@@ -30783,9 +31483,11 @@
         "9934302590",
         "3359324263"
       ],
-      "labour": 50.92,
+      "parts_cost": 1.0,
+      "labour": 36.55,
+      "rrd_hours": 2.4369444444,
       "shipping": 15,
-      "net": 154.93
+      "net": 168.3
     },
     {
       "order_id": "GB-26023-HUEMQ",
@@ -30932,9 +31634,11 @@
         "1112258883",
         "18388347967"
       ],
-      "labour": 66.57,
+      "parts_cost": 0.0,
+      "labour": 62.72,
+      "rrd_hours": 4.1811111111,
       "shipping": 15,
-      "net": 100.32
+      "net": 104.17
     },
     {
       "order_id": "GB-26023-NKQXR",
@@ -31011,9 +31715,9 @@
       "total_time_secs": 16889,
       "parts_used": [
         "Unknown-9951309601",
-        "Speakers - A2337 (Left)",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-10031707818",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -31023,9 +31727,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 15.0,
       "labour": 18.84,
+      "rrd_hours": 1.2558333333,
       "shipping": 15,
-      "net": 86.19
+      "net": 71.19
     },
     {
       "order_id": "GB-26023-KXQFY",
@@ -31088,8 +31794,8 @@
         "LCD - A1932",
         "MacBook Backlight",
         "MacBook Logic Board",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432054",
@@ -31098,9 +31804,11 @@
         "11069491565",
         "11069617210"
       ],
-      "labour": 47.5,
+      "parts_cost": 62.0,
+      "labour": 44.98,
+      "rrd_hours": 2.9988888889,
       "shipping": 15,
-      "net": 141.69
+      "net": 82.21
     },
     {
       "order_id": "GB-26023-AXPRE",
@@ -31247,9 +31955,11 @@
         "18388347967",
         "3359324263"
       ],
+      "parts_cost": 1.0,
       "labour": 56.45,
+      "rrd_hours": 3.7633333333,
       "shipping": 15,
-      "net": 109.71
+      "net": 108.71
     },
     {
       "order_id": "GB-26024-MQWYE",
@@ -31378,9 +32088,11 @@
       "parts_used_ids": [
         "6220432001"
       ],
+      "parts_cost": 100.0,
       "labour": 36.29,
+      "rrd_hours": 2.4191666667,
       "shipping": 15,
-      "net": 183.53
+      "net": 83.53
     },
     {
       "order_id": "GB-26025-RYCEG",
@@ -31619,8 +32331,8 @@
         "LCD - A2681 | A3113 | A3240",
         "Other (See Notes)",
         "MacBook Logic Board",
-        "Unknown-9934322899",
-        "Unknown-11069491565",
+        "USB-C Port - A2681",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -31631,9 +32343,11 @@
         "11069491565",
         "11069588689"
       ],
-      "labour": 103.34,
+      "parts_cost": 116.0,
+      "labour": 101.25,
+      "rrd_hours": 6.75,
       "shipping": 15,
-      "net": 197.41
+      "net": 83.5
     },
     {
       "order_id": "GB-26026-DUFOB",
@@ -31691,7 +32405,7 @@
       "repair_time_secs": 5722,
       "refurb_time_secs": 7988,
       "cleaning_time_secs": 0,
-      "total_time_secs": 3584821,
+      "total_time_secs": 3594039,
       "parts_used": [
         "MacBook Logic Board",
         "Trackpad - A2337 (Space Grey)"
@@ -31700,7 +32414,9 @@
         "1288394574",
         "2387603925"
       ],
+      "parts_cost": 30.0,
       "labour": 59.62,
+      "rrd_hours": 3.9747222222,
       "shipping": 0,
       "net": null
     },
@@ -31808,10 +32524,12 @@
       "repair_time_secs": 380,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 3585454,
+      "total_time_secs": 3594695,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 3.74,
+      "rrd_hours": 0.2494444444,
       "shipping": 0,
       "net": null
     },
@@ -31894,9 +32612,11 @@
       "parts_used_ids": [
         "18096827880"
       ],
-      "labour": 57.34,
+      "parts_cost": 0,
+      "labour": 54.51,
+      "rrd_hours": 3.6341666667,
       "shipping": 15,
-      "net": 255.58
+      "net": 258.4
     },
     {
       "order_id": "GB-26027-AXPUY",
@@ -31961,9 +32681,11 @@
       "parts_used_ids": [
         "1403430686"
       ],
-      "labour": 44.45,
+      "parts_cost": 0.0,
+      "labour": 42.35,
+      "rrd_hours": 2.8236111111,
       "shipping": 15,
-      "net": 227.37
+      "net": 229.47
     },
     {
       "order_id": "GB-26027-UOTLQ",
@@ -32024,7 +32746,9 @@
       "total_time_secs": 2436005,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 0.4,
+      "rrd_hours": 0.0263888889,
       "shipping": 0,
       "net": null
     },
@@ -32139,9 +32863,11 @@
       "parts_used_ids": [
         "1403430686"
       ],
-      "labour": 46.7,
+      "parts_cost": 0.0,
+      "labour": 46.05,
+      "rrd_hours": 3.07,
       "shipping": 15,
-      "net": 240.55
+      "net": 241.2
     },
     {
       "order_id": "GB-26027-FMYQN",
@@ -32279,10 +33005,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 3419234,
+      "total_time_secs": 3428453,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 6.61,
+      "rrd_hours": 0.4408333333,
       "shipping": 0,
       "net": null
     },
@@ -32377,8 +33105,8 @@
       "total_time_secs": 155523,
       "parts_used": [
         "LCD - A1932",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -32387,9 +33115,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 60.0,
       "labour": 57.96,
+      "rrd_hours": 3.8638888889,
       "shipping": 15,
-      "net": 110.4
+      "net": 50.4
     },
     {
       "order_id": "GB-26031-QCNLV",
@@ -32456,7 +33186,9 @@
         "1403430686",
         "6220432017"
       ],
+      "parts_cost": 228.0,
       "labour": 23.18,
+      "rrd_hours": 1.5452777778,
       "shipping": 0,
       "net": null
     },
@@ -32519,9 +33251,9 @@
       "total_time_secs": 265878,
       "parts_used": [
         "LCD - A1932",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432054",
@@ -32529,9 +33261,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 60.0,
       "labour": 53.68,
+      "rrd_hours": 3.5786111111,
       "shipping": 15,
-      "net": 152.18
+      "net": 92.18
     },
     {
       "order_id": "GB-26032-RFAZG",
@@ -32591,8 +33325,8 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 96910,
       "parts_used": [
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689",
         "See Notes (All Models)"
       ],
@@ -32602,7 +33336,9 @@
         "11069588689",
         "1002646549"
       ],
+      "parts_cost": 0.0,
       "labour": 23.33,
+      "rrd_hours": 1.5555555556,
       "shipping": 15,
       "net": 267.39
     },
@@ -32669,9 +33405,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 12.9,
+      "parts_cost": 99.0,
+      "labour": 12.12,
+      "rrd_hours": 0.8080555556,
       "shipping": 15,
-      "net": 168.66
+      "net": 70.44
     },
     {
       "order_id": "GB-26033-TBYPB",
@@ -32748,17 +33486,19 @@
       "total_time_secs": 270925,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432084",
         "11069491565",
         "11069617210"
       ],
-      "labour": 28.99,
+      "parts_cost": 114.0,
+      "labour": 26.6,
+      "rrd_hours": 1.7733333333,
       "shipping": 15,
-      "net": 157.7
+      "net": 46.09
     },
     {
       "order_id": "GB-26034-NOHLE",
@@ -32819,8 +33559,8 @@
       "total_time_secs": 326771,
       "parts_used": [
         "LCD - A2681 | A3113 | A3240",
-        "Unknown-9951309780",
-        "Unknown-11069491565",
+        "Screen Bezel - A2681 / A3113 - Black",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -32829,9 +33569,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 113.0,
       "labour": 31.75,
+      "rrd_hours": 2.1163888889,
       "shipping": 15,
-      "net": 189.11
+      "net": 76.11
     },
     {
       "order_id": "GB-26034-JNNIJ",
@@ -32893,7 +33635,7 @@
       "parts_used": [
         "Unknown-18388343442",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Unknown-10027590692",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
         "Touch Bar Flex - A2251 / A2289 / A2338 M1 / A2338 M2",
         "Trackpad - A2338 M1 (Space Grey)"
       ],
@@ -32904,9 +33646,11 @@
         "9934288703",
         "2382327033"
       ],
+      "parts_cost": 150.5,
       "labour": 68.75,
+      "rrd_hours": 4.5836111111,
       "shipping": 15,
-      "net": 122.34
+      "net": -28.16
     },
     {
       "order_id": "GB-26034-PNRXJ",
@@ -32967,15 +33711,17 @@
       "total_time_secs": 329934,
       "parts_used": [
         "Unknown-18388343442",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069485348",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "18388343442",
         "11069485348",
         "11069617210"
       ],
+      "parts_cost": 0,
       "labour": 31.79,
+      "rrd_hours": 2.1191666667,
       "shipping": 15,
       "net": 241.0
     },
@@ -33150,17 +33896,19 @@
       "total_time_secs": 254040,
       "parts_used": [
         "LCD - A2337",
-        "Adapters head MacBook Air/Pro",
-        "Unknown-11069491565"
+        "Unknown-11069617210",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W"
       ],
       "parts_used_ids": [
         "6220432084",
         "11069617210",
         "11069491565"
       ],
-      "labour": 30.07,
+      "parts_cost": 114.0,
+      "labour": 27.24,
+      "rrd_hours": 1.8161111111,
       "shipping": 15,
-      "net": 177.45
+      "net": 66.28
     },
     {
       "order_id": "GB-26035-FUMFR",
@@ -33249,9 +33997,11 @@
         "1403430686",
         "1288394574"
       ],
+      "parts_cost": 100.0,
       "labour": 81.35,
+      "rrd_hours": 5.4233333333,
       "shipping": 15,
-      "net": 140.87
+      "net": 40.87
     },
     {
       "order_id": "GB-26035-AHPZX",
@@ -33316,9 +34066,11 @@
       "parts_used_ids": [
         "6220432001"
       ],
-      "labour": 28.07,
+      "parts_cost": 100.0,
+      "labour": 28.08,
+      "rrd_hours": 1.8716666667,
       "shipping": 15,
-      "net": 283.18
+      "net": 183.18
     },
     {
       "order_id": "GB-26035-RKVBB",
@@ -33392,10 +34144,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2203829,
+      "total_time_secs": 2213085,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -33492,8 +34246,8 @@
         "Unknown-18096803587",
         "MacBook Backlight",
         "Unknown-9951309601",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro"
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "18096803587",
@@ -33502,9 +34256,11 @@
         "11069491565",
         "11069617210"
       ],
-      "labour": 22.27,
+      "parts_cost": 16.0,
+      "labour": 19.88,
+      "rrd_hours": 1.3255555556,
       "shipping": 15,
-      "net": 119.96
+      "net": 106.34
     },
     {
       "order_id": "GB-26036-CPLQC",
@@ -33594,10 +34350,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 220,
-      "total_time_secs": 2803330,
+      "total_time_secs": 2812567,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 6.8,
+      "parts_cost": 0,
+      "labour": 5.88,
+      "rrd_hours": 0.3922222222,
       "shipping": 0,
       "net": null
     },
@@ -33673,10 +34431,12 @@
       "repair_time_secs": 364,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2723462,
+      "total_time_secs": 2732709,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 2.07,
+      "rrd_hours": 0.1380555556,
       "shipping": 0,
       "net": null
     },
@@ -33777,9 +34537,11 @@
         "6220432054",
         "2387603925"
       ],
-      "labour": 58.41,
+      "parts_cost": 74.0,
+      "labour": 56.34,
+      "rrd_hours": 3.7561111111,
       "shipping": 15,
-      "net": 114.11
+      "net": 42.18
     },
     {
       "order_id": "GB-26036-AAFEO",
@@ -33843,8 +34605,8 @@
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
         "Trackpad - A2251 / A2289 (Space Grey)",
         "Keyboard Backlight - A2289 / A2338",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -33856,7 +34618,9 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 61.69,
+      "parts_cost": 84.0,
+      "labour": 59.26,
+      "rrd_hours": 3.9505555556,
       "shipping": 0,
       "net": null
     },
@@ -33916,14 +34680,16 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 6581,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2803517,
+      "total_time_secs": 2812754,
       "parts_used": [
         "LCD - A2337"
       ],
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 29.85,
+      "rrd_hours": 1.99,
       "shipping": 0,
       "net": null
     },
@@ -33986,7 +34752,7 @@
       "total_time_secs": 445916,
       "parts_used": [
         "LCD - A2681 | A3113 | A3240",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -33994,9 +34760,11 @@
         "11069491565",
         "11069588689"
       ],
-      "labour": 42.03,
+      "parts_cost": 110.0,
+      "labour": 40.45,
+      "rrd_hours": 2.6966666667,
       "shipping": 15,
-      "net": 284.38
+      "net": 175.97
     },
     {
       "order_id": "GB-26036-JWNNW",
@@ -34077,9 +34845,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 35.16,
+      "rrd_hours": 2.3441666667,
       "shipping": 15,
-      "net": 375.45
+      "net": 280.45
     },
     {
       "order_id": "GB-26037-VIQSD",
@@ -34169,10 +34939,12 @@
       "repair_time_secs": 2484,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 605,
-      "total_time_secs": 3331440,
+      "total_time_secs": 3340680,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 17.2,
+      "parts_cost": 0,
+      "labour": 14.68,
+      "rrd_hours": 0.9788888889,
       "shipping": 0,
       "net": null
     },
@@ -34285,7 +35057,7 @@
         "MacBook Logic Board",
         "Unknown-9934302590",
         "Unknown-9934322876",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -34295,9 +35067,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 16.0,
       "labour": 55.83,
+      "rrd_hours": 3.7222222222,
       "shipping": 15,
-      "net": 123.49
+      "net": 107.49
     },
     {
       "order_id": "GB-26037-OTLSU",
@@ -34439,8 +35213,8 @@
       "parts_used": [
         "MacBook Logic Board",
         "Other (See Notes)",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -34450,9 +35224,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 16.0,
       "labour": 24.27,
+      "rrd_hours": 1.6180555556,
       "shipping": 15,
-      "net": 469.91
+      "net": 453.91
     },
     {
       "order_id": "GB-26041-MIMTV",
@@ -34553,7 +35329,9 @@
         "1288394574",
         "2387729195"
       ],
+      "parts_cost": 34.0,
       "labour": 22.87,
+      "rrd_hours": 1.5247222222,
       "shipping": 0,
       "net": null
     },
@@ -34654,9 +35432,11 @@
         "6220432084",
         "3359324263"
       ],
-      "labour": 39.74,
+      "parts_cost": 100.0,
+      "labour": 38.51,
+      "rrd_hours": 2.5675,
       "shipping": 15,
-      "net": 140.35
+      "net": 41.58
     },
     {
       "order_id": "GB-26041-NDROJ",
@@ -34899,9 +35679,11 @@
         "6220431988",
         "9951310434"
       ],
-      "labour": 39.79,
+      "parts_cost": 100.0,
+      "labour": 37.75,
+      "rrd_hours": 2.5163888889,
       "shipping": 15,
-      "net": 321.1
+      "net": 223.14
     },
     {
       "order_id": "GB-26042-DSCHA",
@@ -34963,9 +35745,9 @@
       "parts_used": [
         "LCD - A2338 (Sharp)",
         "Unknown-9951310434",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432001",
@@ -34974,9 +35756,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 100.0,
       "labour": 28.75,
+      "rrd_hours": 1.9169444444,
       "shipping": 15,
-      "net": 235.67
+      "net": 135.67
     },
     {
       "order_id": "GB-26042-VTFRY",
@@ -35034,10 +35818,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2810226,
+      "total_time_secs": 2819464,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -35100,8 +35886,8 @@
       "total_time_secs": 187461,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35110,9 +35896,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 24.91,
+      "parts_cost": 114.0,
+      "labour": 24.46,
+      "rrd_hours": 1.6308333333,
       "shipping": 15,
-      "net": 161.78
+      "net": 48.23
     },
     {
       "order_id": "GB-26042-XTEXR",
@@ -35173,8 +35961,8 @@
       "total_time_secs": 98838,
       "parts_used": [
         "No Parts Used (All Models)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35183,7 +35971,9 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 0.0,
       "labour": 30.67,
+      "rrd_hours": 2.0444444444,
       "shipping": 15,
       "net": 214.69
     },
@@ -35270,9 +36060,11 @@
         "3870899517",
         "11069588689"
       ],
-      "labour": 36.88,
+      "parts_cost": 50.0,
+      "labour": 30.45,
+      "rrd_hours": 2.0302777778,
       "shipping": 15,
-      "net": 558.92
+      "net": 515.35
     },
     {
       "order_id": "GB-26043-HASSI",
@@ -35333,8 +36125,8 @@
       "total_time_secs": 100519,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35343,9 +36135,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 258.69,
+      "parts_cost": 114.0,
+      "labour": 26.28,
+      "rrd_hours": 1.7519444444,
       "shipping": 15,
-      "net": -72.0
+      "net": 46.41
     },
     {
       "order_id": "GB-26043-ZFJNT",
@@ -35423,7 +36217,7 @@
       "parts_used": [
         "LCD - A2337",
         "Unknown-9951309601",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35432,9 +36226,11 @@
         "11069491565",
         "11069588689"
       ],
-      "labour": 25.64,
+      "parts_cost": 114.0,
+      "labour": 22.87,
+      "rrd_hours": 1.5244444444,
       "shipping": 15,
-      "net": 115.58
+      "net": 4.36
     },
     {
       "order_id": "GB-26043-BIOQQ",
@@ -35508,7 +36304,7 @@
       "repair_time_secs": 993,
       "refurb_time_secs": 9801,
       "cleaning_time_secs": 350,
-      "total_time_secs": 1427600,
+      "total_time_secs": 1436836,
       "parts_used": [
         "Trackpad - A2338 M1 (Space Grey)",
         "LCD - A2338 (LG)",
@@ -35519,7 +36315,9 @@
         "6220431988",
         "3359324263"
       ],
-      "labour": 50.18,
+      "parts_cost": 158.0,
+      "labour": 48.72,
+      "rrd_hours": 3.2483333333,
       "shipping": 0,
       "net": null
     },
@@ -35586,7 +36384,9 @@
       "parts_used_ids": [
         "18096827880"
       ],
+      "parts_cost": 0,
       "labour": 54.12,
+      "rrd_hours": 3.6077777778,
       "shipping": 15,
       "net": 243.4
     },
@@ -35649,9 +36449,9 @@
       "total_time_secs": 509745,
       "parts_used": [
         "Unknown-18096827880",
-        "Unknown-11069495691",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "18096827880",
@@ -35659,9 +36459,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 22.0,
       "labour": 52.08,
+      "rrd_hours": 3.4722222222,
       "shipping": 15,
-      "net": 496.22
+      "net": 474.22
     },
     {
       "order_id": "GB-26044-YPXFS",
@@ -35722,10 +36524,10 @@
       "total_time_secs": 1041705,
       "parts_used": [
         "Keyboard - A2338",
-        "Trackpad - A2338 M2 (Space Grey)",
+        "Unknown-10062530728",
         "Keyboard Backlight - A2289 / A2338",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35736,9 +36538,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 17.0,
       "labour": 35.71,
+      "rrd_hours": 2.3808333333,
       "shipping": 15,
-      "net": 212.24
+      "net": 195.24
     },
     {
       "order_id": "GB-26044-QXMHF",
@@ -35796,7 +36600,7 @@
       "repair_time_secs": 4526,
       "refurb_time_secs": 3943,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2803289,
+      "total_time_secs": 2812516,
       "parts_used": [
         "MacBook Logic Board",
         "Other (See Notes)"
@@ -35805,7 +36609,9 @@
         "1288394574",
         "1403430686"
       ],
+      "parts_cost": 1.0,
       "labour": 39.18,
+      "rrd_hours": 2.6116666667,
       "shipping": 0,
       "net": null
     },
@@ -35900,8 +36706,8 @@
       "total_time_secs": 81259,
       "parts_used": [
         "LCD - A2338 (Sharp)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35910,9 +36716,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 45.65,
+      "parts_cost": 100.0,
+      "labour": 41.94,
+      "rrd_hours": 2.7961111111,
       "shipping": 15,
-      "net": 201.5
+      "net": 105.21
     },
     {
       "order_id": "GB-26044-ZCMHO",
@@ -35989,7 +36797,7 @@
       "total_time_secs": 440205,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -35997,9 +36805,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 16.0,
       "labour": 16.56,
+      "rrd_hours": 1.1041666667,
       "shipping": 15,
-      "net": 176.86
+      "net": 160.86
     },
     {
       "order_id": "GB-26045-QDZTL",
@@ -36080,9 +36890,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
-      "labour": 25.4,
+      "parts_cost": 99.0,
+      "labour": 22.39,
+      "rrd_hours": 1.4927777778,
       "shipping": 15,
-      "net": 154.69
+      "net": 58.7
     },
     {
       "order_id": "GB-26045-NOHIQ",
@@ -36176,7 +36988,7 @@
       "parts_used": [
         "Keyboard Backlight - A2681",
         "Keyboard - A2681 / A3113 / A2941 / A3114 / A3240 / A3241",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -36185,9 +36997,11 @@
         "11069491565",
         "11069588689"
       ],
-      "labour": 45.37,
+      "parts_cost": 32.0,
+      "labour": 44.63,
+      "rrd_hours": 2.9752777778,
       "shipping": 15,
-      "net": 316.95
+      "net": 285.69
     },
     {
       "order_id": "GB-26045-UOMFL",
@@ -36261,10 +37075,12 @@
       "repair_time_secs": 580,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1602987,
+      "total_time_secs": 1612204,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.37,
+      "rrd_hours": 0.3577777778,
       "shipping": 0,
       "net": null
     },
@@ -36328,9 +37144,9 @@
       "parts_used": [
         "LCD - A2337",
         "MacBook Air A2337 Battery (A2389)",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432084",
@@ -36339,9 +37155,11 @@
         "11069588689",
         "11069617210"
       ],
-      "labour": 42.13,
+      "parts_cost": 134.0,
+      "labour": 41.09,
+      "rrd_hours": 2.7394444444,
       "shipping": 15,
-      "net": 122.12
+      "net": -10.83
     },
     {
       "order_id": "GB-26046-YWCSP",
@@ -36406,9 +37224,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
+      "parts_cost": 95.0,
       "labour": 49.57,
+      "rrd_hours": 3.3044444444,
       "shipping": 15,
-      "net": 180.82
+      "net": 85.82
     },
     {
       "order_id": "GB-26046-SSNZF",
@@ -36505,8 +37325,8 @@
         "Keyboard Backlight - A2442 / A2779 / A2918 / A2992 / A2485 / A2780 / A2991",
         "MacBook Pro A2442 Battery (A2519)",
         "Other (See Notes)",
-        "Unknown-11069495691",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210",
         "Unknown-11069619398"
       ],
       "parts_used_ids": [
@@ -36519,9 +37339,11 @@
         "11069617210",
         "11069619398"
       ],
-      "labour": 37.38,
+      "parts_cost": 89.0,
+      "labour": 36.32,
+      "rrd_hours": 2.4211111111,
       "shipping": 15,
-      "net": 589.39
+      "net": 501.45
     },
     {
       "order_id": "GB-26047-KCQJV",
@@ -36695,8 +37517,8 @@
       "parts_used": [
         "Keyboard Backlight - A2289 / A2338",
         "MacBook Logic Board",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -36706,9 +37528,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 57.17,
+      "parts_cost": 9.0,
+      "labour": 57.18,
+      "rrd_hours": 3.8116666667,
       "shipping": 15,
-      "net": 311.04
+      "net": 302.04
     },
     {
       "order_id": "GB-26051-CBCNK",
@@ -36770,7 +37594,7 @@
       "parts_used": [
         "Unknown-9934302590",
         "Unknown-9934322876",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -36779,9 +37603,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 15.0,
       "labour": 14.08,
+      "rrd_hours": 0.9388888889,
       "shipping": 15,
-      "net": 268.27
+      "net": 253.27
     },
     {
       "order_id": "GB-26051-HBUAX",
@@ -36954,8 +37780,8 @@
       "total_time_secs": 14490,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -36964,9 +37790,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 114.0,
       "labour": 31.53,
+      "rrd_hours": 2.1019444444,
       "shipping": 15,
-      "net": 155.16
+      "net": 41.16
     },
     {
       "order_id": "GB-26051-ODASR",
@@ -37047,9 +37875,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 28.92,
+      "rrd_hours": 1.9280555556,
       "shipping": 15,
-      "net": 157.77
+      "net": 58.77
     },
     {
       "order_id": "GB-26051-XDDWB",
@@ -37141,9 +37971,9 @@
       "cleaning_time_secs": 444,
       "total_time_secs": 82771,
       "parts_used": [
-        "Unknown-9934322933",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -37152,9 +37982,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 14.09,
+      "parts_cost": 5.0,
+      "labour": 12.24,
+      "rrd_hours": 0.8158333333,
       "shipping": 15,
-      "net": 142.57
+      "net": 139.42
     },
     {
       "order_id": "GB-26051-TTBWS",
@@ -37215,13 +38047,13 @@
       "total_time_secs": 181503,
       "parts_used": [
         "MacBook Logic Board",
-        "Unknown-9934322933",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
         "Other (See Notes)",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
         "Unknown-9951310434",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "1288394574",
@@ -37233,9 +38065,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 53.0,
       "labour": 28.49,
+      "rrd_hours": 1.8991666667,
       "shipping": 15,
-      "net": 221.67
+      "net": 168.67
     },
     {
       "order_id": "GB-26051-FHTHK",
@@ -37293,14 +38127,16 @@
       "repair_time_secs": 3133,
       "refurb_time_secs": 8017,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2205443,
+      "total_time_secs": 2214685,
       "parts_used": [
         "MacBook Logic Board"
       ],
       "parts_used_ids": [
         "1288394574"
       ],
+      "parts_cost": 1.0,
       "labour": 51.97,
+      "rrd_hours": 3.465,
       "shipping": 0,
       "net": null
     },
@@ -37379,7 +38215,7 @@
       "total_time_secs": 442845,
       "parts_used": [
         "Unknown-9934302590",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -37387,9 +38223,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 15.0,
       "labour": 34.6,
+      "rrd_hours": 2.3069444444,
       "shipping": 15,
-      "net": 158.29
+      "net": 143.29
     },
     {
       "order_id": "GB-26052-KOAQQ",
@@ -37463,10 +38301,12 @@
       "repair_time_secs": 5443,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1155828,
+      "total_time_secs": 1165057,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 24.42,
+      "rrd_hours": 1.6280555556,
       "shipping": 0,
       "net": null
     },
@@ -37526,7 +38366,7 @@
       "repair_time_secs": 3418,
       "refurb_time_secs": 1170,
       "cleaning_time_secs": 247,
-      "total_time_secs": 1601499,
+      "total_time_secs": 1610734,
       "parts_used": [
         "MacBook Logic Board",
         "MacBook Air A1932/A2179 Battery (A1965)"
@@ -37535,7 +38375,9 @@
         "1288394574",
         "2387729195"
       ],
-      "labour": 23.93,
+      "parts_cost": 34.0,
+      "labour": 22.9,
+      "rrd_hours": 1.5266666667,
       "shipping": 0,
       "net": null
     },
@@ -37611,10 +38453,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 997611,
+      "total_time_secs": 1006857,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 4.42,
+      "rrd_hours": 0.2947222222,
       "shipping": 0,
       "net": null
     },
@@ -37676,12 +38520,12 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 1099720,
       "parts_used": [
-        "Unknown-10027590692",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
         "Touch Bar Flex - A2251 / A2289 / A2338 M1 / A2338 M2",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "10027590692",
@@ -37691,9 +38535,11 @@
         "11069588689",
         "11069617210"
       ],
-      "labour": 49.07,
+      "parts_cost": 93.5,
+      "labour": 49.08,
+      "rrd_hours": 3.2716666667,
       "shipping": 15,
-      "net": 149.95
+      "net": 56.45
     },
     {
       "order_id": "GB-26052-JOZVJ",
@@ -37754,7 +38600,7 @@
       "total_time_secs": 257654,
       "parts_used": [
         "No Parts Used (All Models)",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -37762,9 +38608,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 15.0,
       "labour": 33.63,
+      "rrd_hours": 2.2422222222,
       "shipping": 15,
-      "net": 159.66
+      "net": 144.66
     },
     {
       "order_id": "GB-26052-OHSAZ",
@@ -37909,9 +38757,11 @@
       "parts_used_ids": [
         "6220432101"
       ],
-      "labour": 32.25,
+      "parts_cost": 95.0,
+      "labour": 31.13,
+      "rrd_hours": 2.0752777778,
       "shipping": 15,
-      "net": 172.47
+      "net": 78.59
     },
     {
       "order_id": "GB-26052-PTLPS",
@@ -37969,10 +38819,12 @@
       "repair_time_secs": 2156,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2021002,
+      "total_time_secs": 2030226,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 13.94,
+      "rrd_hours": 0.9294444444,
       "shipping": 0,
       "net": null
     },
@@ -38052,11 +38904,11 @@
       "parts_used": [
         "Unknown-18388343629",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Speakers - A1989 / A2251 (Left)",
+        "Unknown-10049537764",
         "Unknown-9951310434",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "18388343629",
@@ -38067,9 +38919,11 @@
         "11069588689",
         "11069617210"
       ],
-      "labour": 24.52,
+      "parts_cost": 47.0,
+      "labour": 23.0,
+      "rrd_hours": 1.5336111111,
       "shipping": 15,
-      "net": 167.9
+      "net": 122.42
     },
     {
       "order_id": "GB-26053-CLDIO",
@@ -38130,9 +38984,9 @@
       "total_time_secs": 620166,
       "parts_used": [
         "LCD - A2681 | A3113 | A3240",
-        "Hall Sensor - A2681 / A3113",
+        "Unknown-9934303569",
         "Unknown-11069588154",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069617210",
         "Unknown-11069619398"
       ],
       "parts_used_ids": [
@@ -38142,9 +38996,11 @@
         "11069617210",
         "11069619398"
       ],
+      "parts_cost": 95.0,
       "labour": 71.42,
+      "rrd_hours": 4.7611111111,
       "shipping": 15,
-      "net": 246.2
+      "net": 151.2
     },
     {
       "order_id": "GB-26053-MWUAZ",
@@ -38209,14 +39065,14 @@
         "Trackpad - A2337 (Space Grey)",
         "Trackpad Flex - A2179 / A2337",
         "MacBook Air A2337 Battery (A2389)",
-        "Speakers - A2337 (Left)",
-        "Unknown-11069491565",
+        "Unknown-10031707818",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689",
         "MacBook Logic Board",
         "LCD - A2337",
         "Keyboard Backlight - A2179 / A2337",
         "Keyboard - A2337",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "3359324263",
@@ -38233,9 +39089,11 @@
         "9934300385",
         "11069617210"
       ],
+      "parts_cost": 187.0,
       "labour": 63.36,
+      "rrd_hours": 4.2238888889,
       "shipping": 15,
-      "net": 117.57
+      "net": -69.43
     },
     {
       "order_id": "GB-26053-XRDUH",
@@ -38311,11 +39169,11 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 95611,
       "parts_used": [
-        "Unknown-9934303580",
+        "Hall Sensor - A2485 / A2780 / A2991",
         "Liquid Damage Treatment (All Models)",
         "Unknown-11069584232",
         "Unknown-11069619398",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "9934303580",
@@ -38324,9 +39182,11 @@
         "11069619398",
         "11069617210"
       ],
+      "parts_cost": 12.0,
       "labour": 22.69,
+      "rrd_hours": 1.5125,
       "shipping": 15,
-      "net": 571.55
+      "net": 559.55
     },
     {
       "order_id": "GB-26053-KJXOI",
@@ -38387,9 +39247,9 @@
       "total_time_secs": 96792,
       "parts_used": [
         "MacBook Logic Board",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "1288394574",
@@ -38397,7 +39257,9 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 1.0,
       "labour": 21.63,
+      "rrd_hours": 1.4422222222,
       "shipping": 0,
       "net": null
     },
@@ -38460,10 +39322,10 @@
       "total_time_secs": 414005,
       "parts_used": [
         "LCD - A2337",
-        "Speakers - A2337 (Left)",
+        "Unknown-10031707818",
         "Unknown-10049471931",
         "Unknown-10050030304",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -38474,9 +39336,11 @@
         "11069491565",
         "11069588689"
       ],
-      "labour": 36.77,
+      "parts_cost": 114.0,
+      "labour": 36.78,
+      "rrd_hours": 2.4516666667,
       "shipping": 15,
-      "net": 155.88
+      "net": 41.88
     },
     {
       "order_id": "GB-26053-BURRH",
@@ -38614,10 +39478,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2020893,
+      "total_time_secs": 2030118,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 10.02,
+      "rrd_hours": 0.6677777778,
       "shipping": 0,
       "net": null
     },
@@ -38709,10 +39575,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 482080,
+      "total_time_secs": 491315,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -38779,9 +39647,11 @@
       "parts_used_ids": [
         "6220432084"
       ],
+      "parts_cost": 99.0,
       "labour": 39.74,
+      "rrd_hours": 2.6494444444,
       "shipping": 15,
-      "net": 141.82
+      "net": 42.82
     },
     {
       "order_id": "GB-26054-XSUML",
@@ -38858,7 +39728,9 @@
       "total_time_secs": 770674,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -38970,8 +39842,8 @@
       "parts_used": [
         "Keyboard Backlight - A2442 / A2779 / A2918 / A2992 / A2485 / A2780 / A2991",
         "MacBook Logic Board",
-        "Unknown-11069495691",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -38981,9 +39853,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 48.77,
+      "parts_cost": 31.0,
+      "labour": 46.51,
+      "rrd_hours": 3.1008333333,
       "shipping": 15,
-      "net": 502.17
+      "net": 473.43
     },
     {
       "order_id": "GB-26054-YQYNW",
@@ -39089,10 +39963,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 481251,
+      "total_time_secs": 490502,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 3.95,
+      "rrd_hours": 0.2633333333,
       "shipping": 0,
       "net": null
     },
@@ -39155,8 +40031,8 @@
       "total_time_secs": 346833,
       "parts_used": [
         "LCD - A2338 (LG)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -39165,9 +40041,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 36.56,
+      "parts_cost": 100.0,
+      "labour": 34.15,
+      "rrd_hours": 2.2766666667,
       "shipping": 15,
-      "net": 289.59
+      "net": 192.0
     },
     {
       "order_id": "GB-26055-VYNGT",
@@ -39262,7 +40140,7 @@
         "LCD - A2337",
         "Unknown-9951309601",
         "MacBook Backlight",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689",
         "Other (See Notes)"
       ],
@@ -39274,9 +40152,11 @@
         "11069588689",
         "1403430686"
       ],
-      "labour": 44.08,
+      "parts_cost": 115.0,
+      "labour": 43.2,
+      "rrd_hours": 2.88,
       "shipping": 15,
-      "net": 60.98
+      "net": -53.14
     },
     {
       "order_id": "GB-26055-QFBUF",
@@ -39350,10 +40230,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 903221,
+      "total_time_secs": 912469,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 8.4,
+      "rrd_hours": 0.5597222222,
       "shipping": 0,
       "net": null
     },
@@ -39516,7 +40398,9 @@
       "parts_used_ids": [
         "9951309601"
       ],
+      "parts_cost": 0,
       "labour": 19.36,
+      "rrd_hours": 1.2905555556,
       "shipping": 15,
       "net": 156.33
     },
@@ -39596,8 +40480,8 @@
       "parts_used": [
         "LCD - A2338 (LG)",
         "Unknown-10049785783",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -39607,7 +40491,9 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 48.69,
+      "parts_cost": 100.0,
+      "labour": 44.97,
+      "rrd_hours": 2.9980555556,
       "shipping": 0,
       "net": null
     },
@@ -39720,9 +40606,9 @@
         "MacBook Pro A1989/A2251 Battery (A1964)",
         "Battery Flex - A1989 / A2251",
         "Other (See Notes)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069617210",
         "Unknown-11069588689",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)"
+        "Unknown-11069485348"
       ],
       "parts_used_ids": [
         "2382492726",
@@ -39732,9 +40618,11 @@
         "11069588689",
         "11069485348"
       ],
+      "parts_cost": 22.0,
       "labour": 23.95,
+      "rrd_hours": 1.5969444444,
       "shipping": 15,
-      "net": 226.49
+      "net": 204.49
     },
     {
       "order_id": "GB-26056-OAMVT",
@@ -39795,7 +40683,9 @@
       "total_time_secs": 13107,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.42,
+      "rrd_hours": 0.4944444444,
       "shipping": 15,
       "net": 131.44
     },
@@ -39874,7 +40764,9 @@
       "total_time_secs": 67546,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 8.95,
+      "rrd_hours": 0.5969444444,
       "shipping": 15,
       "net": 147.5
     },
@@ -39937,8 +40829,8 @@
       "total_time_secs": 74476,
       "parts_used": [
         "No Parts Used (All Models)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -39947,9 +40839,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 19.47,
+      "parts_cost": 0.0,
+      "labour": 19.33,
+      "rrd_hours": 1.2888888889,
       "shipping": 15,
-      "net": 111.36
+      "net": 111.49
     },
     {
       "order_id": "GB-26056-WYZQG",
@@ -40011,8 +40905,8 @@
       "parts_used": [
         "LCD - A2338 (LG)",
         "MacBook Backlight",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -40022,9 +40916,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 48.85,
+      "parts_cost": 101.0,
+      "labour": 47.63,
+      "rrd_hours": 3.1752777778,
       "shipping": 15,
-      "net": 158.51
+      "net": 58.73
     },
     {
       "order_id": "GB-26056-LRKVS",
@@ -40178,10 +41074,12 @@
       "repair_time_secs": 847,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 4319,
-      "total_time_secs": 997898,
+      "total_time_secs": 1007139,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 27.43,
+      "parts_cost": 0,
+      "labour": 9.43,
+      "rrd_hours": 0.6286111111,
       "shipping": 0,
       "net": null
     },
@@ -40241,7 +41139,7 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 1715,
       "cleaning_time_secs": 388,
-      "total_time_secs": 1765506,
+      "total_time_secs": 1774742,
       "parts_used": [
         "Keyboard - A2338",
         "Keyboard Backlight - A2289 / A2338"
@@ -40250,7 +41148,9 @@
         "9934300408",
         "9934296930"
       ],
-      "labour": 18.82,
+      "parts_cost": 17.0,
+      "labour": 17.21,
+      "rrd_hours": 1.1472222222,
       "shipping": 0,
       "net": null
     },
@@ -40313,7 +41213,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -40393,9 +41295,9 @@
       "parts_used": [
         "Keyboard Backlight - A2289 / A2338",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "9934296930",
@@ -40404,9 +41306,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 55.0,
       "labour": 38.62,
+      "rrd_hours": 2.575,
       "shipping": 15,
-      "net": 163.13
+      "net": 108.13
     },
     {
       "order_id": "GB-26057-YQGPX",
@@ -40496,10 +41400,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 1178,
       "cleaning_time_secs": 216,
-      "total_time_secs": 1603488,
+      "total_time_secs": 1612737,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 7.94,
+      "parts_cost": 0,
+      "labour": 7.04,
+      "rrd_hours": 0.4691666667,
       "shipping": 0,
       "net": null
     },
@@ -40594,9 +41500,9 @@
       "total_time_secs": 268278,
       "parts_used": [
         "Unknown-18388343442",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "18388343442",
@@ -40604,7 +41510,9 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 0,
       "labour": 10.28,
+      "rrd_hours": 0.685,
       "shipping": 0,
       "net": null
     },
@@ -40664,10 +41572,12 @@
       "repair_time_secs": 1698,
       "refurb_time_secs": 1382,
       "cleaning_time_secs": 0,
-      "total_time_secs": 2285581,
+      "total_time_secs": 2294801,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 15.2,
+      "rrd_hours": 1.0130555556,
       "shipping": 0,
       "net": null
     },
@@ -40768,7 +41678,9 @@
         "1112258883",
         "11069588689"
       ],
+      "parts_cost": 0.0,
       "labour": 13.61,
+      "rrd_hours": 0.9072222222,
       "shipping": 15,
       "net": 696.49
     },
@@ -40864,9 +41776,9 @@
       "parts_used": [
         "LCD - A2338 (LG)",
         "Unknown-9951310434",
-        "Unknown-9934322933",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -40877,9 +41789,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 105.0,
       "labour": 56.07,
+      "rrd_hours": 3.7377777778,
       "shipping": 15,
-      "net": 226.59
+      "net": 121.59
     },
     {
       "order_id": "GB-26062-BVCWZ",
@@ -40969,10 +41883,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 904195,
+      "total_time_secs": 913434,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -41037,8 +41953,8 @@
         "LCD - A2338 (LG)",
         "Unknown-9951310434",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -41049,7 +41965,9 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 147.0,
       "labour": 42.41,
+      "rrd_hours": 2.8272222222,
       "shipping": 0,
       "net": null
     },
@@ -41112,7 +42030,9 @@
       "total_time_secs": 1128527,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -41172,10 +42092,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 214691,
+      "total_time_secs": 223957,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -41235,10 +42157,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1602688,
+      "total_time_secs": 1611910,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 1.12,
+      "rrd_hours": 0.0744444444,
       "shipping": 0,
       "net": null
     },
@@ -41302,8 +42226,8 @@
       "parts_used": [
         "Unknown-18096827880",
         "MacBook Pro A2442 Battery (A2519)",
-        "Unknown-11069495691",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210",
         "Unknown-11069619398"
       ],
       "parts_used_ids": [
@@ -41313,9 +42237,11 @@
         "11069617210",
         "11069619398"
       ],
+      "parts_cost": 72.0,
       "labour": 43.32,
+      "rrd_hours": 2.8877777778,
       "shipping": 15,
-      "net": 259.31
+      "net": 187.31
     },
     {
       "order_id": "GB-26062-FRIRM",
@@ -41377,8 +42303,8 @@
       "parts_used": [
         "MacBook Air A1932/A2179 Battery (A1965)",
         "Other (See Notes)",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -41388,9 +42314,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 19.31,
+      "parts_cost": 48.0,
+      "labour": 17.09,
+      "rrd_hours": 1.1394444444,
       "shipping": 15,
-      "net": 117.91
+      "net": 72.13
     },
     {
       "order_id": "GB-26063-EBSWJ",
@@ -41483,8 +42411,8 @@
       "total_time_secs": 870229,
       "parts_used": [
         "MacBook Logic Board",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -41493,9 +42421,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 1.0,
       "labour": 33.77,
+      "rrd_hours": 2.2511111111,
       "shipping": 15,
-      "net": 209.79
+      "net": 208.79
     },
     {
       "order_id": "GB-26063-KFKWH",
@@ -41553,10 +42483,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 214857,
+      "total_time_secs": 224103,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.02,
+      "rrd_hours": 0.4677777778,
       "shipping": 0,
       "net": null
     },
@@ -41616,7 +42548,7 @@
       "repair_time_secs": 4364,
       "refurb_time_secs": 3196,
       "cleaning_time_secs": 0,
-      "total_time_secs": 482392,
+      "total_time_secs": 491651,
       "parts_used": [
         "Keyboard - A2681 / A3113 / A2941 / A3114 / A3240 / A3241",
         "Keyboard Backlight - A2681",
@@ -41629,7 +42561,9 @@
         "10681629190",
         "1288394574"
       ],
+      "parts_cost": 18.0,
       "labour": 40.07,
+      "rrd_hours": 2.6713888889,
       "shipping": 0,
       "net": null
     },
@@ -41753,10 +42687,12 @@
       "repair_time_secs": 1128,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1506439,
+      "total_time_secs": 1515666,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.2,
+      "rrd_hours": 0.3466666667,
       "shipping": 0,
       "net": null
     },
@@ -41816,10 +42752,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 384193,
+      "total_time_secs": 393445,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 6.93,
+      "rrd_hours": 0.4619444444,
       "shipping": 0,
       "net": null
     },
@@ -41963,7 +42901,7 @@
       "parts_used": [
         "MacBook Logic Board",
         "Unknown-11069584232",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069617210",
         "Unknown-11069619398"
       ],
       "parts_used_ids": [
@@ -41972,9 +42910,11 @@
         "11069617210",
         "11069619398"
       ],
-      "labour": 27.88,
+      "parts_cost": 1.0,
+      "labour": 26.24,
+      "rrd_hours": 1.7491666667,
       "shipping": 15,
-      "net": 367.63
+      "net": 368.28
     },
     {
       "order_id": "GB-26064-DDITU",
@@ -42096,10 +43036,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 445,
-      "total_time_secs": 1082745,
+      "total_time_secs": 1092000,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 4.55,
+      "parts_cost": 0,
+      "labour": 2.69,
+      "rrd_hours": 0.1794444444,
       "shipping": 0,
       "net": null
     },
@@ -42162,9 +43104,9 @@
       "total_time_secs": 238059,
       "parts_used": [
         "LCD - A2338 (LG)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220431988",
@@ -42172,9 +43114,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 100.0,
       "labour": 32.36,
+      "rrd_hours": 2.1575,
       "shipping": 15,
-      "net": 277.02
+      "net": 177.02
     },
     {
       "order_id": "GB-26065-ROBQS",
@@ -42232,10 +43176,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 483109,
+      "total_time_secs": 492352,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -42295,10 +43241,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 2323,
       "cleaning_time_secs": 339,
-      "total_time_secs": 1427114,
+      "total_time_secs": 1436353,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 13.08,
+      "parts_cost": 0,
+      "labour": 11.67,
+      "rrd_hours": 0.7777777778,
       "shipping": 0,
       "net": null
     },
@@ -42390,10 +43338,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 314500,
+      "total_time_secs": 323742,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.29,
+      "rrd_hours": 0.4861111111,
       "shipping": 0,
       "net": null
     },
@@ -42488,7 +43438,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -42551,7 +43503,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -42627,10 +43581,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 5224,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1427231,
+      "total_time_secs": 1436468,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 23.79,
+      "rrd_hours": 1.5861111111,
       "shipping": 0,
       "net": null
     },
@@ -42696,8 +43652,8 @@
         "Unknown-9934322876",
         "MacBook Backlight",
         "Unknown-9951309601",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -42709,7 +43665,9 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 17.0,
       "labour": 47.82,
+      "rrd_hours": 3.1877777778,
       "shipping": 0,
       "net": null
     },
@@ -42788,7 +43746,7 @@
       "total_time_secs": 435685,
       "parts_used": [
         "Other (See Notes)",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -42796,9 +43754,11 @@
         "11069491565",
         "11069588689"
       ],
+      "parts_cost": 15.0,
       "labour": 12.64,
+      "rrd_hours": 0.8427777778,
       "shipping": 15,
-      "net": 96.42
+      "net": 81.42
     },
     {
       "order_id": "GB-26067-NSTOP",
@@ -42872,10 +43832,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 387589,
+      "total_time_secs": 396828,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -42935,10 +43897,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 387851,
+      "total_time_secs": 397084,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 8.88,
+      "rrd_hours": 0.5922222222,
       "shipping": 0,
       "net": null
     },
@@ -43062,10 +44026,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 485491,
+      "total_time_secs": 494712,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -43125,10 +44091,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 529,
       "cleaning_time_secs": 551,
-      "total_time_secs": 1507087,
+      "total_time_secs": 1516333,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 5.56,
+      "parts_cost": 0,
+      "labour": 3.26,
+      "rrd_hours": 0.2175,
       "shipping": 0,
       "net": null
     },
@@ -43192,8 +44160,8 @@
       "parts_used": [
         "Unknown-9951310434",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)"
+        "Unknown-11069617210",
+        "Unknown-11069485348"
       ],
       "parts_used_ids": [
         "9951310434",
@@ -43201,7 +44169,9 @@
         "11069617210",
         "11069485348"
       ],
+      "parts_cost": 0,
       "labour": 22.29,
+      "rrd_hours": 1.4861111111,
       "shipping": 15,
       "net": 134.0
     },
@@ -43277,10 +44247,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 214587,
+      "total_time_secs": 223820,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -43359,8 +44331,8 @@
       "total_time_secs": 951366,
       "parts_used": [
         "Unknown-9951309601",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689",
         "LCD - A2337"
       ],
@@ -43371,9 +44343,11 @@
         "11069588689",
         "6220432084"
       ],
-      "labour": 35.11,
+      "parts_cost": 114.0,
+      "labour": 32.42,
+      "rrd_hours": 2.1613888889,
       "shipping": 15,
-      "net": 129.11
+      "net": 17.8
     },
     {
       "order_id": "GB-26071-ULINQ",
@@ -43431,10 +44405,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 386646,
+      "total_time_secs": 395873,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.19,
+      "rrd_hours": 0.4794444444,
       "shipping": 0,
       "net": null
     },
@@ -43499,7 +44475,7 @@
         "LCD - A2337",
         "Unknown-9951309601",
         "MacBook Air A2337 Battery (A2389)",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -43509,9 +44485,11 @@
         "11069491565",
         "11069588689"
       ],
-      "labour": 34.4,
+      "parts_cost": 134.0,
+      "labour": 32.88,
+      "rrd_hours": 2.1922222222,
       "shipping": 15,
-      "net": 147.42
+      "net": 14.94
     },
     {
       "order_id": "GB-26071-FSYSK",
@@ -43622,7 +44600,7 @@
         "LCD - A2681 | A3113 | A3240",
         "Unknown-11069588154",
         "Unknown-11069619398",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432101",
@@ -43630,7 +44608,9 @@
         "11069619398",
         "11069617210"
       ],
-      "labour": 42.0,
+      "parts_cost": 95.0,
+      "labour": 39.75,
+      "rrd_hours": 2.6497222222,
       "shipping": 0,
       "net": null
     },
@@ -43742,8 +44722,8 @@
       "parts_used": [
         "Keyboard - A2337",
         "Keyboard Backlight - A2179 / A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -43753,9 +44733,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 32.0,
       "labour": 42.44,
+      "rrd_hours": 2.8291666667,
       "shipping": 15,
-      "net": 227.15
+      "net": 195.15
     },
     {
       "order_id": "GB-26072-ILQSL",
@@ -43848,7 +44830,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -43972,10 +44956,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 96,
-      "total_time_secs": 1157212,
+      "total_time_secs": 1166451,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 2.08,
+      "parts_cost": 0,
+      "labour": 1.68,
+      "rrd_hours": 0.1119444444,
       "shipping": 0,
       "net": null
     },
@@ -44051,10 +45037,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 387356,
+      "total_time_secs": 396591,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -44114,10 +45102,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 1000101,
+      "total_time_secs": 1009326,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 6.25,
+      "rrd_hours": 0.4166666667,
       "shipping": 0,
       "net": null
     },
@@ -44225,10 +45215,12 @@
       "repair_time_secs": 1709,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 3155,
-      "total_time_secs": 1157320,
+      "total_time_secs": 1166579,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 21.56,
+      "parts_cost": 0,
+      "labour": 8.41,
+      "rrd_hours": 0.5608333333,
       "shipping": 0,
       "net": null
     },
@@ -44339,8 +45331,8 @@
       "total_time_secs": 417701,
       "parts_used": [
         "Other (See Notes)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -44349,9 +45341,11 @@
         "11069617210",
         "11069588689"
       ],
-      "labour": 17.45,
+      "parts_cost": 0.0,
+      "labour": 17.34,
+      "rrd_hours": 1.1558333333,
       "shipping": 15,
-      "net": 238.94
+      "net": 239.05
     },
     {
       "order_id": "GB-26074-EPFLJ",
@@ -44412,7 +45406,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -44488,10 +45484,12 @@
       "repair_time_secs": 740,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 904378,
+      "total_time_secs": 913637,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.96,
+      "rrd_hours": 0.5305555556,
       "shipping": 0,
       "net": null
     },
@@ -44555,8 +45553,8 @@
       "parts_used": [
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
         "MacBook Software Restore",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -44566,9 +45564,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 48.0,
       "labour": 17.08,
+      "rrd_hours": 1.1388888889,
       "shipping": 15,
-      "net": 238.72
+      "net": 190.72
     },
     {
       "order_id": "GB-26074-BZETF",
@@ -44630,9 +45630,9 @@
       "parts_used": [
         "MacBook Software Restore",
         "Other (See Notes)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "1485302997",
@@ -44641,7 +45641,9 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 1.0,
       "labour": 16.48,
+      "rrd_hours": 1.0986111111,
       "shipping": 0,
       "net": null
     },
@@ -44701,14 +45703,16 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 4320,
       "cleaning_time_secs": 0,
-      "total_time_secs": 903931,
+      "total_time_secs": 913165,
       "parts_used": [
         "MacBook Pro A1989/A2251 Battery (A1964)"
       ],
       "parts_used_ids": [
         "2382492726"
       ],
+      "parts_cost": 20.0,
       "labour": 33.42,
+      "rrd_hours": 2.2280555556,
       "shipping": 0,
       "net": null
     },
@@ -44771,8 +45775,8 @@
       "total_time_secs": 430812,
       "parts_used": [
         "Other (See Notes)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -44781,7 +45785,9 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 0.0,
       "labour": 28.27,
+      "rrd_hours": 1.8847222222,
       "shipping": 0,
       "net": null
     },
@@ -44843,9 +45849,9 @@
       "cleaning_time_secs": 0,
       "total_time_secs": 516309,
       "parts_used": [
-        "Unknown-10027590692",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -44854,9 +45860,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 40.0,
       "labour": 34.25,
+      "rrd_hours": 2.2830555556,
       "shipping": 15,
-      "net": 209.31
+      "net": 169.31
     },
     {
       "order_id": "GB-26074-VQDHU",
@@ -44914,10 +45922,12 @@
       "repair_time_secs": 1627,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 903422,
+      "total_time_secs": 912664,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 17.51,
+      "rrd_hours": 1.1675,
       "shipping": 0,
       "net": null
     },
@@ -44980,8 +45990,8 @@
       "total_time_secs": 164887,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -44990,9 +46000,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 114.0,
       "labour": 28.2,
+      "rrd_hours": 1.88,
       "shipping": 15,
-      "net": 147.49
+      "net": 33.49
     },
     {
       "order_id": "GB-26074-QLYYT",
@@ -45069,8 +46081,8 @@
       "total_time_secs": 168986,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -45079,9 +46091,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 114.0,
       "labour": 32.6,
+      "rrd_hours": 2.1733333333,
       "shipping": 15,
-      "net": 165.82
+      "net": 51.82
     },
     {
       "order_id": "GB-26074-KVUNJ",
@@ -45139,10 +46153,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 388026,
+      "total_time_secs": 397258,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 9.7,
+      "rrd_hours": 0.6469444444,
       "shipping": 0,
       "net": null
     },
@@ -45446,8 +46462,8 @@
       "parts_used": [
         "Unknown-18388343879",
         "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -45457,9 +46473,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 47.0,
       "labour": 20.5,
+      "rrd_hours": 1.3663888889,
       "shipping": 15,
-      "net": 178.53
+      "net": 131.53
     },
     {
       "order_id": "GB-26077-WAQNB",
@@ -45549,10 +46567,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 214996,
+      "total_time_secs": 224241,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 4.59,
+      "rrd_hours": 0.3058333333,
       "shipping": 0,
       "net": null
     },
@@ -45728,7 +46748,7 @@
       "parts_used": [
         "LCD - A2941 | A3114 | A3241",
         "Unknown-11069588154",
-        "Adapters head MacBook Air/Pro",
+        "Unknown-11069617210",
         "Unknown-11069619398"
       ],
       "parts_used_ids": [
@@ -45737,7 +46757,9 @@
         "11069617210",
         "11069619398"
       ],
+      "parts_cost": 106.95,
       "labour": 34.23,
+      "rrd_hours": 2.2819444444,
       "shipping": 0,
       "net": null
     },
@@ -45813,10 +46835,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 481313,
+      "total_time_secs": 490571,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 2.66,
+      "rrd_hours": 0.1775,
       "shipping": 0,
       "net": null
     },
@@ -45908,10 +46932,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 384632,
+      "total_time_secs": 393888,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 5.3,
+      "rrd_hours": 0.3536111111,
       "shipping": 0,
       "net": null
     },
@@ -45974,9 +47000,9 @@
       "total_time_secs": 679990,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220432084",
@@ -45984,9 +47010,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 114.0,
       "labour": 31.09,
+      "rrd_hours": 2.0725,
       "shipping": 15,
-      "net": 148.54
+      "net": 34.54
     },
     {
       "order_id": "GB-26081-KYSFA",
@@ -46051,8 +47079,8 @@
         "Keyboard Backlight - A2179 / A2337",
         "Unknown-9934322876",
         "Other (See Notes)",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -46065,9 +47093,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 32.0,
       "labour": 31.07,
+      "rrd_hours": 2.0713888889,
       "shipping": 15,
-      "net": 135.09
+      "net": 103.09
     },
     {
       "order_id": "GB-26081-ZNRNF",
@@ -46125,10 +47155,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 1280,
       "cleaning_time_secs": 0,
-      "total_time_secs": 902753,
+      "total_time_secs": 912008,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 8.74,
+      "rrd_hours": 0.5827777778,
       "shipping": 0,
       "net": null
     },
@@ -46191,7 +47223,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -46251,14 +47285,16 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 6341,
       "cleaning_time_secs": 0,
-      "total_time_secs": 384060,
+      "total_time_secs": 393295,
       "parts_used": [
         "Unknown-18388342790"
       ],
       "parts_used_ids": [
         "18388342790"
       ],
+      "parts_cost": 0,
       "labour": 34.46,
+      "rrd_hours": 2.2975,
       "shipping": 0,
       "net": null
     },
@@ -46465,7 +47501,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -46529,8 +47567,8 @@
       "parts_used": [
         "LCD - A2337",
         "Unknown-9951309601",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -46540,9 +47578,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 114.0,
       "labour": 35.67,
+      "rrd_hours": 2.3780555556,
       "shipping": 15,
-      "net": 127.55
+      "net": 13.55
     },
     {
       "order_id": "GB-26083-DWVII",
@@ -46600,10 +47640,12 @@
       "repair_time_secs": 2859,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 13532,
-      "total_time_secs": 481581,
+      "total_time_secs": 490812,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 68.45,
+      "parts_cost": 0,
+      "labour": 12.06,
+      "rrd_hours": 0.8041666667,
       "shipping": 0,
       "net": null
     },
@@ -46698,9 +47740,9 @@
       "total_time_secs": 161381,
       "parts_used": [
         "LCD - A2338 (LG)",
-        "Charger MacBook Pro 13-inch, 61W (2016 intel - 2020 M1)",
+        "Unknown-11069485348",
         "Unknown-11069588689",
-        "Adapters head MacBook Air/Pro"
+        "Unknown-11069617210"
       ],
       "parts_used_ids": [
         "6220431988",
@@ -46708,9 +47750,11 @@
         "11069588689",
         "11069617210"
       ],
+      "parts_cost": 100.0,
       "labour": 19.04,
+      "rrd_hours": 1.2691666667,
       "shipping": 15,
-      "net": 215.32
+      "net": 115.32
     },
     {
       "order_id": "GB-26084-FMCHE",
@@ -46835,8 +47879,8 @@
       "total_time_secs": 102942,
       "parts_used": [
         "LCD - A2337",
-        "Unknown-11069491565",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
         "Unknown-11069588689"
       ],
       "parts_used_ids": [
@@ -46845,9 +47889,11 @@
         "11069617210",
         "11069588689"
       ],
+      "parts_cost": 114.0,
       "labour": 23.43,
+      "rrd_hours": 1.5622222222,
       "shipping": 15,
-      "net": 138.32
+      "net": 24.32
     },
     {
       "order_id": "GB-26084-MLPDY",
@@ -47033,10 +48079,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 215453,
+      "total_time_secs": 224697,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 7.66,
+      "rrd_hours": 0.5105555556,
       "shipping": 0,
       "net": null
     },
@@ -47115,7 +48163,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47194,7 +48244,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47254,10 +48306,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 314366,
+      "total_time_secs": 323599,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47416,7 +48470,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47543,7 +48599,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47635,10 +48693,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 316563,
+      "total_time_secs": 325808,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47701,7 +48761,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },
@@ -47809,10 +48871,12 @@
       "repair_time_secs": 0,
       "refurb_time_secs": 0,
       "cleaning_time_secs": 0,
-      "total_time_secs": 214466,
+      "total_time_secs": 223708,
       "parts_used": [],
       "parts_used_ids": [],
+      "parts_cost": 0,
       "labour": 8.88,
+      "rrd_hours": 0.5922222222,
       "shipping": 0,
       "net": null
     },
@@ -47907,8 +48971,8 @@
       "total_time_secs": 260756,
       "parts_used": [
         "Unknown-18096827880",
-        "Unknown-11069495691",
-        "Adapters head MacBook Air/Pro",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210",
         "Unknown-11069619398"
       ],
       "parts_used_ids": [
@@ -47917,7 +48981,9 @@
         "11069617210",
         "11069619398"
       ],
+      "parts_cost": 22.0,
       "labour": 25.86,
+      "rrd_hours": 1.7238888889,
       "shipping": 0,
       "net": null
     },
@@ -48124,7 +49190,9 @@
       "total_time_secs": 0,
       "parts_used": [],
       "parts_used_ids": [],
-      "labour": 0.0,
+      "parts_cost": 0,
+      "labour": 0,
+      "rrd_hours": 0,
       "shipping": 0,
       "net": null
     },

@@ -2,16 +2,21 @@
 
 **Date:** 2 March 2026
 **Data source:** 1,256 BM trade-in orders (last 6 months), 534 matched to Monday main board
-**Script output:** `repair-analysis-data-2026-03-02.json`
+**Script:** `api/bm-repair-analysis.py`
+**Data:** `audit/repair-analysis-data-2026-03-02.json`
 **Reference:** `docs/repair-analysis-plan.md`
+
+**Financial methodology:** Net = Sale - Purchase - BM Fee - Tax - Parts Cost - Labour - Shipping. Parts cost from Parts board `supply_price` column. Labour from Main board `formula__1` (RR&D hours) x £15/hr. Shipping flat £15.
 
 ---
 
 ## Executive Summary
 
-343 devices sold at £208 avg net, 1.5% loss rate. NONFUNC.USED confirmed as best grade: £289 avg net, 0% loss rate, fastest ramp. **Saf is the sole logic board repair capability** — every board-level repair goes through him. 50% of NONFUNC.USED devices need board work. Scaling NONFUNC.USED volume means scaling Saf's capacity or accepting that half the intake skips the board queue entirely.
+347 devices sold at £159 avg net, 3.2% loss rate (11 devices). NONFUNC.USED confirmed as best grade: £250 avg net, 0% loss rate. FUNC.CRACK is £116 avg net with 4% losses — parts cost (£71 avg) eats into margins.
 
-24 devices stuck 30+ days with £2,150 capital tied up. 14 devices BER'd. 101 total in the pipeline (stuck + active repair). £17,160 total unrealised capital across all non-sold matched devices.
+**Saf is the sole logic board repair capability** — every board-level repair goes through him. 50% of NONFUNC.USED devices need board work. Saf's bench time is 111min per NONFUNC.USED (diag + board repair only — screen/refurb is handed off to Misha/Andres). His theoretical ceiling is ~83 devices/month; he's at 30/month (36% utilisation). The bottleneck isn't Saf's capacity — it's him being pulled onto FUNC.CRACK and incoming volume.
+
+24 devices stuck 30+ days with £2,150 capital tied up. 14 BER. 101 total in the pipeline (stuck + active repair).
 
 ---
 
@@ -32,16 +37,20 @@
 | **No Monday Data** | 8 | £1,135 | No match found on Monday board |
 | **Total** | **1,256** | **£157,766** | |
 
+Capital = purchase price paid for the device.
+
 **Key insight:** Only 38% of accepted orders (478/1,256) actually arrive at the workshop. 300 cancel, 448 never ship. The 6/day acceptance cap means ~2.2 devices/day actually received.
 
 ### Sold device performance
 
 | Metric | Value |
 |--------|-------|
-| Devices sold | 343 |
-| Avg net profit | £208 |
-| Total net profit | £71,331 |
-| Loss rate | 1.5% (5 devices) |
+| Devices sold | 347 |
+| Avg net profit | £159 |
+| Total net profit | £55,178 |
+| Loss rate | 3.2% (11 devices) |
+| Avg parts cost | £50 |
+| Avg labour cost | £41 |
 
 ### Stuck + In Repair (101 devices, £11,748 capital)
 
@@ -72,57 +81,56 @@
 | FUNC.CRACK | 44 | £7,299 |
 | NONFUNC.CRACK | 24 | £2,032 |
 
-NONFUNC.USED has the most stuck devices but lowest average capital per device (cheaper purchase prices).
-
 ---
 
 ## Layer 2: Grade x Tech Performance
 
 ### Grade summary (sold devices only)
 
-| Grade | Sold | Avg Net | Total Net | Loss Rate | Avg Turnaround |
-|-------|------|---------|-----------|-----------|----------------|
-| **NONFUNC.USED** | 107 | £289 | £29,679 | 0% | 11 days (median 6d) |
-| **NONFUNC.CRACK** | 37 | £195 | £7,214 | 3% | 12 days (median 6d) |
-| **FUNC.CRACK** | 167 | £169 | £28,839 | 1% | 8 days (median 5d) |
+| Grade | Sold | Avg Net | Avg Parts | Avg Labour | Total Net | Loss Rate | Avg Turnaround |
+|-------|------|---------|-----------|------------|-----------|-----------|----------------|
+| **NONFUNC.USED** | 107 | **£250** | £27 | £35 | £26,752 | **0%** | 11d (median 6d) |
+| **NONFUNC.CRACK** | 37 | **£134** | £61 | £54 | £4,970 | **5%** | 12d (median 6d) |
+| **FUNC.CRACK** | 167 | **£116** | £71 | £43 | £19,345 | **4%** | 8d (median 5d) |
 
-NONFUNC.USED: highest margin, zero losses, but slowest turnaround (board work bottleneck).
-FUNC.CRACK: highest volume, decent margin, fastest turnaround.
-NONFUNC.CRACK: lowest volume, moderate margin, worst loss rate — board work + screen replacement.
+NONFUNC.USED: highest margin by far, zero losses, lowest parts cost (£27 avg — many don't need parts).
+FUNC.CRACK: highest volume but parts-heavy (£71 avg — screen replacements are expensive). 4% loss rate.
+NONFUNC.CRACK: worst grade — lowest net, highest loss rate, longest Saf bench time.
 
 ### Tech performance by grade
 
 #### NONFUNC.USED
 
-| Tech | Devices | Sold | Avg Net | Loss | BER | Stuck | Diag | Repair | Refurb |
-|------|---------|------|---------|------|-----|-------|------|--------|--------|
-| **Saf** | 89 | 65 | £289 | 0% | 6 | 11 | 32min | 80min | 99min |
-| Misha | 28 | 19 | £289 | 0% | 0 | 1 | 38min | 56min | 85min |
-| Andres | 19 | 15 | £235 | 0% | 0 | 0 | 33min | 40min | 103min |
-| Roni | 13 | 4 | £203 | 0% | 2 | 3 | 31min | 101min | 93min |
+| Tech | Devices | Sold | Avg Net | Avg Parts | Avg Labour | Loss | BER | Stuck |
+|------|---------|------|---------|-----------|------------|------|-----|-------|
+| **Saf** | 89 | 65 | £262 | £27 | £35 | 0% | 6 | 11 |
+| Misha | 28 | 19 | £258 | £31 | £41 | 0% | 0 | 1 |
+| Andres | 19 | 15 | £201 | £34 | £35 | 0% | 0 | 0 |
+| Roni | 13 | 4 | £193 | £10 | £38 | 0% | 2 | 3 |
 
 Saf handles 51% of all NONFUNC.USED — and every device that needs board-level work passes through him regardless of who is listed as technician. The workflow is: Saf does diag + board repair, then hands off to Misha/Andres for screen replacement + cosmetic refurb. Saf does not do screen work. The Repair column reflects Saf's board work; the Refurb column reflects the handoff stage done by Misha/Andres.
 
 #### NONFUNC.CRACK
 
-| Tech | Devices | Sold | Avg Net | Loss | BER | Stuck | Diag | Repair | Refurb |
-|------|---------|------|---------|------|-----|-------|------|--------|--------|
-| **Saf** | 25 | 14 | £183 | 7% | 0 | 3 | 36min | 197min | 100min |
-| Andres | 17 | 9 | £219 | 0% | 0 | 1 | 53min | 60min | 131min |
-| Misha | 14 | 10 | £196 | 0% | 0 | 1 | 37min | 70min | 101min |
+| Tech | Devices | Sold | Avg Net | Avg Parts | Avg Labour | Loss | BER | Stuck |
+|------|---------|------|---------|-----------|------------|------|-----|-------|
+| **Saf** | 25 | 14 | £140 | £43 | £66 | 14% | 0 | 3 |
+| Andres | 17 | 9 | £117 | £102 | £47 | 0% | 0 | 1 |
+| Misha | 14 | 10 | £140 | £58 | £43 | 0% | 0 | 1 |
+| Roni | 4 | 2 | £206 | £7 | £46 | 0% | 1 | 0 |
 
-Saf's repair time on NONFUNC.CRACK is 197min avg — 2.5x his NONFUNC.USED repair time. These need board work, then a handoff for screen/casing refurb. Only grade with a loss on Saf's bench (1 of 14).
+Saf has a 14% loss rate on NONFUNC.CRACK (2 of 14). These need board work + screen/casing — the most resource-intensive and riskiest repair path. Andres has £102 avg parts cost — screen replacements on cracked + non-functional devices are expensive.
 
 #### FUNC.CRACK
 
-| Tech | Devices | Sold | Avg Net | Loss | BER | Stuck | Diag | Repair | Refurb |
-|------|---------|------|---------|------|-----|-------|------|--------|--------|
-| **Andres** | 84 | 69 | £169 | 1% | 0 | 2 | 37min | 38min | 98min |
-| **Misha** | 74 | 46 | £232 | 0% | 0 | 5 | 32min | 29min | 115min |
-| **Saf** | 35 | 28 | £179 | 0% | 1 | 2 | 38min | 67min | 134min |
-| **Roni** | 28 | 23 | £194 | 0% | 0 | 0 | 26min | 41min | 99min |
+| Tech | Devices | Sold | Avg Net | Avg Parts | Avg Labour | Loss | BER | Stuck |
+|------|---------|------|---------|-----------|------------|------|-----|-------|
+| **Andres** | 84 | 69 | £99 | £74 | £32 | 4% | 0 | 2 |
+| **Misha** | 74 | 46 | £150 | £83 | £38 | 0% | 0 | 5 |
+| **Saf** | 35 | 28 | £129 | £50 | £48 | 7% | 1 | 2 |
+| **Roni** | 28 | 23 | £128 | £65 | £30 | 0% | 0 | 0 |
 
-FUNC.CRACK is the most evenly distributed — all techs handle it. Andres does the most volume, Misha gets the highest net (likely assigned higher-value devices or better cosmetic outcomes). Saf shouldn't be doing FUNC.CRACK — his board skills are wasted on screen swaps.
+FUNC.CRACK is evenly distributed across all techs. Misha gets the highest net (£150) — likely assigned higher-value devices. Saf shouldn't be doing FUNC.CRACK — his board skills are wasted on screen swaps, and he has a 7% loss rate here vs 0% on NONFUNC.USED.
 
 ### Turnaround time
 
@@ -142,29 +150,25 @@ FUNC.CRACK moves fastest through the pipeline. NONFUNC grades take 3-4 extra day
 | NONFUNC.CRACK | 61% | 34% | 53% | 62% |
 | FUNC.CRACK | 30% | 16% | 54% | 20% |
 
-**Battery** mismatches are mostly "Normal" reported but "Unable to Test" actual — because NONFUNC devices can't be powered on at intake to check battery.
+**Function mismatch:** 20% of NONFUNC.USED devices arrive actually functional. 46% of NONFUNC.CRACK arrive functional. BM's grading is conservative — we're getting easier repairs than expected on a meaningful chunk.
 
-**Function** mismatch is interesting: 20% of NONFUNC.USED devices arrive actually functional. 46% of NONFUNC.CRACK arrive functional. BM's grading is conservative — we're getting easier repairs than expected on a meaningful chunk.
-
-**Screen** mismatches on NONFUNC.USED are high (79%) — "Good" reported but "Fair" or "Damaged" actual. The device can't be tested at intake because it doesn't power on, so screen condition is unknown until board repair is done.
-
-**Casing** is consistently overstated across all grades (reported as Good/Excellent, arrives Fair). This is universal BM seller behaviour — not grade-specific.
+**Casing** is consistently overstated across all grades (reported as Good/Excellent, arrives Fair). Universal BM seller behaviour.
 
 ### Parts usage patterns (sold devices)
 
-**NONFUNC.USED:**
+**NONFUNC.USED (avg parts £27):**
 - 50% need a logic board (Saf's work)
 - 50% fixed without board replacement (battery, adapters, keyboard backlight, LCD)
 - 3% needed zero parts
 
-**NONFUNC.CRACK:**
-- 100% needed parts (expected — board + screen)
-- 32% need logic board + 27% need LCD-A2337 (the M1 Air screen)
+**NONFUNC.CRACK (avg parts £61):**
+- 100% needed parts (board + screen)
+- 32% need logic board + 27% need LCD-A2337
 
-**FUNC.CRACK:**
+**FUNC.CRACK (avg parts £71):**
 - 99% needed parts
-- 36% LCD-A2337 (dominant part — M1 Air screen swap is the bread and butter)
-- Only 7% needed logic board (unexpected findings during screen work)
+- 36% LCD-A2337 (M1 Air screen swap is the bread and butter)
+- Only 7% needed logic board
 
 ---
 
@@ -172,26 +176,19 @@ FUNC.CRACK moves fastest through the pipeline. NONFUNC grades take 3-4 extra day
 
 ### Saf is the sole board-level repair capability
 
-97 devices in the dataset used a logic board part. By "technician" field:
-- Saf: 68 devices (58 sold)
-- Misha: 18 devices (11 sold)
-- Andres: 9 devices (7 sold)
+97 devices in the dataset used a logic board part. The "technician" field shows current assignee, not who did the board work. Checking the `repair_person` field: Saf did every logic board repair. Devices then passed to Misha/Andres for screen and refurb.
 
-**But this is misleading.** The "technician" field shows current assignee, not who did the board work. Checking the `repair_person` field on non-Saf devices: most show `Safan Patel` as the person who did the actual repair. The device then passed to Misha/Andres for screen and refurb.
-
-**Saf does every logic board repair.** No exceptions. No one else in the team has board-level skills.
+**Saf does every logic board repair. No one else in the team has board-level skills.**
 
 ### Saf's actual bench time (diag + board repair only)
 
-Saf does diagnosis and board-level repair. He does not do screen replacements or cosmetic refurb — those are handed off to Misha/Andres. The Refurb column below is the handoff stage, not Saf's time.
+Saf does diagnosis and board-level repair. He does not do screen replacements or cosmetic refurb — those are handed off to Misha/Andres.
 
 | Grade | Avg Diag | Avg Repair | **Saf bench (diag+repair)** | Refurb (handoff) |
 |-------|----------|------------|----------------------------|------------------|
 | NONFUNC.USED | 32min | 80min | **111min** | 99min (Misha/Andres) |
 | NONFUNC.CRACK | 36min | 197min | **230min** | 100min (Misha/Andres) |
 | FUNC.CRACK | 38min | 67min | **102min** | 134min (Misha/Andres) |
-
-NONFUNC.USED is Saf's most efficient grade — 111min of his bench time per device. NONFUNC.CRACK takes over double (230min) because it's board work on a more damaged device.
 
 ### Saf's throughput ramp
 
@@ -206,46 +203,54 @@ NONFUNC.USED is Saf's most efficient grade — 111min of his bench time per devi
 
 Saf is scaling — from 4/month to 30/month over 6 months. At 30/month and 111min/device for NONFUNC.USED, that's ~55 hours of board work per month (14h/week).
 
-**Theoretical ceiling:** At 7 effective hours/day and 111min/device, Saf can do ~3.8 NONFUNC.USED devices/day = **83/month**. He's currently at 30/month — running at 36% of theoretical capacity. The bottleneck isn't Saf's hours, it's incoming volume and devices queued on other priorities (FUNC.CRACK, NONFUNC.CRACK).
+**Theoretical ceiling:** At 7 effective hours/day and 111min/device, Saf can do ~3.8 NONFUNC.USED devices/day = **83/month**. He's at 30/month — running at 36% of theoretical capacity. The bottleneck isn't Saf's hours, it's incoming volume and devices queued on other priorities (FUNC.CRACK, NONFUNC.CRACK).
 
 ### Ammeter readings vs outcomes (NONFUNC.USED)
 
 | Reading | Total | Sold | BER | Stuck | Sold Avg Net |
 |---------|-------|------|-----|-------|-------------|
-| 5V | 58 | 38 | 2 | 9 | £307 |
-| 20V + 1.5A or higher | 47 | 33 | 2 | 3 | £275 |
-| 20V + ~1A (low amp) | 16 | 14 | 0 | 1 | £246 |
+| 5V | 58 | 38 | 2 | 9 | £268 |
+| 20V + 1.5A or higher | 47 | 33 | 2 | 3 | £237 |
+| 20V + ~1A (low amp) | 16 | 14 | 0 | 1 | £218 |
 
-**5V devices** (not negotiating USB-C PD — likely board-level power issue) have the highest net but also the most stuck devices (9). These are the harder repairs but more profitable when they work.
+**5V devices** (board-level power issue) have the highest net but most stuck devices (9). Harder repairs, more profitable when they work.
 
-**20V + 1.5A or higher** (charging normally) — these are the "easy" NONFUNC devices. Board might just need a minor fix or the issue is elsewhere (screen, keyboard, etc.). Lower stuck rate.
-
-**20V + ~1A (low amp)** — partial charging, moderate difficulty. Best stuck ratio (1/16), decent net. Most predictable outcome.
+**20V + 1.5A or higher** (charging normally) — "easy" NONFUNC. Board might need a minor fix or issue is elsewhere. Lower stuck rate.
 
 ### The 50/50 split
 
-Half of NONFUNC.USED devices need a logic board, half don't.
-
 | Category | Sold | Avg Net |
 |----------|------|---------|
-| With logic board | 53 | £297 |
-| Without logic board | 54 | £258 |
+| With logic board | 53 | £259 |
+| Without logic board | 54 | £241 |
 
-Devices needing board work are actually more profitable (+£39/device) — they have more wrong so the purchase price is lower, but sale price is similar once repaired.
-
-Non-board NONFUNC.USED repairs use: batteries, adapters, LCD panels, keyboard backlights. These could be handled by any tech — they don't need Saf.
+Devices needing board work are slightly more profitable (+£18). Non-board NONFUNC.USED repairs use batteries, adapters, LCD panels, keyboard backlights — any tech can handle these.
 
 ---
 
-## BER Devices (14 total)
+## Loss-Making Devices (11 total)
 
-| Grade | Count | Capital | Notes |
-|-------|-------|---------|-------|
-| NONFUNC.USED | 10 | £735 | Mix of Intel and M1 devices |
-| NONFUNC.CRACK | 2 | £97 | |
-| FUNC.CRACK | 1 | £109 | |
+| Device | Grade | Net | Parts | Sale | Purchase |
+|--------|-------|-----|-------|------|----------|
+| BM 1086 | FUNC.CRACK | -£989 | £0 | £357 | £0 |
+| BM 1366 | NONFUNC.CRACK | -£69 | £187 | £349 | £72 |
+| BM 1185 | UNKNOWN | -£174 | £0 | £315 | £172 |
+| BM 1286 | NONFUNC.CRACK | -£224 | £8 | £387 | £91 |
+| BM 1289 | UNKNOWN | -£126 | £0 | £550 | £308 |
+| BM 1403 | FUNC.CRACK | -£53 | £115 | £341 | £156 |
+| BM 1330 | FUNC.CRACK | -£28 | £151 | £439 | £139 |
+| BM 1317 | UNKNOWN | -£19 | £48 | £359 | £234 |
+| BM 1318 | FUNC.CRACK | -£12 | £134 | £383 | £137 |
+| BM 1421 | FUNC.CRACK | -£11 | £134 | £349 | £92 |
+| BM 1307 | FUNC.CRACK | -£9 | £114 | £387 | £156 |
 
-BER rate: 2.6% of matched devices. Low. Most BER devices were cheap purchases (avg £53). The Intel MBP16 2019 i9 (£20 purchase) and Intel i3 MBAs are the most common BER candidates — old architecture, expensive to fix.
+**Pattern:** 6 of 11 losses are FUNC.CRACK — parts cost (£114-£151) is the killer. When a screen replacement costs £134+ and the device was purchased at £92-£156, margins evaporate. 0 losses on NONFUNC.USED.
+
+---
+
+## BER Devices (14 total, £735 capital)
+
+BER rate: 2.6% of matched devices. Most BER devices were cheap purchases (avg £53). Intel MBP16 2019 and Intel i3 MBAs are the most common — old architecture, expensive to fix.
 
 ---
 
@@ -257,13 +262,11 @@ BER rate: 2.6% of matched devices. Low. Most BER devices were cheap purchases (a
 | NONFUNC.USED | 8 | £608 |
 | NONFUNC.CRACK | 6 | £326 |
 
-FUNC.CRACK has the most returns (18) — likely cosmetic issues post-repair that customers reject. Needs investigation: are these BM quality complaints or customer buyer's remorse?
+FUNC.CRACK has the most returns (18). Needs investigation — QC gap or cosmetic issues post-refurb?
 
 ---
 
 ## Stuck Devices 30+ Days (24 devices, £2,150)
-
-These need triage decisions — repair, write off, or return to BM.
 
 | Days | Grade | Status | Tech | Capital | Item |
 |------|-------|--------|------|---------|------|
@@ -292,15 +295,15 @@ These need triage decisions — repair, write off, or return to BM.
 | 33 | NONFUNC.USED | Repair Paused | Saf | £91 | BM 1340 |
 | 31 | NONFUNC.USED | Error | Misha | £42 | BM 1349 |
 
-11 of 24 are Saf's — consistent with him being the bottleneck for board-level work. When he has more incoming than he can clear, devices queue up as "Repair Paused."
+11 of 24 are Saf's — consistent with him being the bottleneck for board-level work.
 
 ---
 
 ## Recommendations
 
-### 1. Scale NONFUNC.USED — but manage the Saf bottleneck
+### 1. Scale NONFUNC.USED — the margins justify it
 
-The data confirms NONFUNC.USED is the best grade: £289 avg net, 0% loss rate, ramping volume. But 50% of these devices need Saf for board work.
+NONFUNC.USED is the clear winner: £250 avg net, 0% loss rate, lowest parts cost (£27 avg). Even with proper parts and labour deducted, it's more than double FUNC.CRACK's net.
 
 **Strategy:**
 - Increase bids on NONFUNC.USED SKUs (the 23 bump candidates from Task 15)
@@ -312,35 +315,32 @@ The data confirms NONFUNC.USED is the best grade: £289 avg net, 0% loss rate, r
 
 ### 2. Stop putting Saf on FUNC.CRACK
 
-Saf repaired 28 FUNC.CRACK devices in the dataset. At 102min avg bench time (diag + repair), that's ~48 hours he spent on work that doesn't require board-level skills. Every FUNC.CRACK on Saf's bench is a NONFUNC.USED that's waiting.
+Saf repaired 28 FUNC.CRACK devices in the dataset. At 102min avg bench time (diag + repair), that's ~48 hours he spent on work that doesn't require board-level skills. Every FUNC.CRACK on Saf's bench is a NONFUNC.USED that's waiting. And he has a 7% loss rate on FUNC.CRACK vs 0% on NONFUNC.USED.
 
 **Action:** Update Monday workflow — FUNC.CRACK should never be assigned to Saf unless there's a discovered board issue during screen repair.
 
-### 3. Triage the 24 stuck devices
+### 3. Watch FUNC.CRACK parts cost
 
-24 devices sitting 30+ days. Total capital: £2,150. Not huge money, but they're consuming mental overhead and bench space.
+FUNC.CRACK looks good on volume (167 sold) but parts cost (£71 avg) eats margins. 6 of 11 loss-making devices are FUNC.CRACK where screen replacement cost exceeded the margin. The grade is still net positive overall (£116 avg) but individual device risk is real — 4% loss rate.
 
-**Suggested triage:**
-- **90+ days (6 devices, £501):** Decision needed per device — repair or write off. These have been stuck for 3+ months. If the part isn't coming or the repair isn't viable, write them off and recover the bench space.
-- **30-90 days (18 devices, £1,649):** Review with team — what's blocking each one? "Awaiting Part" devices need parts ordered or written off. "Repair Paused" on Saf's bench = he deprioritised them (ask him why).
+**Action:** Review parts pricing for LCD-A2337 and other high-frequency screen parts. If supplier cost can be reduced, FUNC.CRACK margins improve across the board.
 
-### 4. Investigate FUNC.CRACK returns (18 devices)
+### 4. Deprioritise NONFUNC.CRACK
 
-18 FUNC.CRACK devices returned, £2,383 capital. This is the highest return count of any grade. Are these BM quality rejections? Customer complaints? Cosmetic issues missed at QC?
-
-**Action:** Pull the return reasons from BM API or Monday board for these 18 devices. If it's a QC gap, tighten the refurb QC checklist.
-
-### 5. Deprioritise NONFUNC.CRACK
-
-NONFUNC.CRACK is the worst grade: £195 avg net (vs £289 NONFUNC.USED), 3% loss rate, 230min of Saf's bench time plus a screen/refurb handoff. It needs board work AND screen/casing — the most resource-intensive repair path, consuming time from both Saf and the refurb team.
+NONFUNC.CRACK is the worst grade: £134 avg net, 5% loss rate, 230min of Saf's bench time plus a screen/refurb handoff. It needs board work AND screen/casing — the most resource-intensive repair path, consuming time from both Saf and the refurb team. Saf's loss rate on this grade is 14%.
 
 **Action:** Don't increase NONFUNC.CRACK bids. Accept what comes in but don't chase volume. If Saf's queue gets long, NONFUNC.CRACK should be last priority.
 
-### 6. Exploit the "actually functional" arbitrage
+### 5. Triage the 24 stuck devices
 
-20% of NONFUNC.USED devices arrive actually functional. These are the easiest repairs — the device works, it just needs cosmetic cleanup or a battery swap.
+24 devices sitting 30+ days. Total capital: £2,150.
 
-This isn't actionable as a bid strategy (we can't predict which ones will arrive functional), but it means our effective board-work rate is lower than 50%. Of the 107 NONFUNC.USED sold, roughly 21 arrived functional and didn't need Saf at all. That's another free scaling lever.
+- **90+ days (6 devices, £501):** Decision needed per device — repair or write off.
+- **30-90 days (18 devices, £1,649):** Review with team — what's blocking each one?
+
+### 6. Investigate FUNC.CRACK returns (18 devices)
+
+18 FUNC.CRACK devices returned, £2,383 capital. Highest return count of any grade. If it's a QC gap, tighten the refurb checklist.
 
 ---
 
@@ -350,27 +350,27 @@ This isn't actionable as a bid strategy (we can't predict which ones will arrive
 |--------|-------|
 | Total orders (6 months) | 1,256 |
 | Matched to Monday | 534 (43%) |
-| Sold | 343 |
-| Total net profit | £71,331 |
-| Avg net per sold device | £208 |
-| Overall loss rate | 1.5% |
+| Sold | 347 |
+| Total net profit | £55,178 |
+| Avg net per sold device | £159 |
+| Avg parts cost per device | £50 |
+| Avg labour cost per device | £41 |
+| Overall loss rate | 3.2% (11 devices) |
 | BER rate | 2.6% |
 | Capital in stuck devices (30d+) | £2,150 |
-| Capital in all non-sold matched | £17,160 |
 | Saf monthly throughput (latest) | 30 devices |
 | Saf bench time per NONFUNC.USED | 111min (diag + board repair) |
 | Saf theoretical ceiling | ~83 devices/month (at 36% utilisation) |
-| NONFUNC.USED avg net | £289 |
-| FUNC.CRACK avg net | £169 |
-| NONFUNC.CRACK avg net | £195 |
+| NONFUNC.USED avg net | £250 (0% loss) |
+| FUNC.CRACK avg net | £116 (4% loss) |
+| NONFUNC.CRACK avg net | £134 (5% loss) |
 
 ---
 
 ## COMPROMISES
 
-- **Parts cost per device not calculated** — the `parts_used` field gives part names but not individual costs. The mirrored `parts_cost` column wasn't in the extracted data. Labour cost IS present and used in net calculation, but we can't break out "how much did parts cost for this specific device" separately from the net figure.
-- **"Unknown" parts** — 20+ parts show as `Unknown-{id}` (Monday board item IDs that didn't resolve to names). These are real parts but we can't identify them without querying the Parts board by those IDs.
-- **Layer 3 complexity categorisation not done** — the plan called for categorising Saf's repairs as routine/moderate/complex/failed based on diagnostic notes. This requires pulling Monday item updates (per-item API calls) which we haven't done yet. The ammeter analysis is a partial proxy.
-- **Saf's diagnostic notes not pulled** — Layer 3 spec called for parsing ammeter readings from update text. We have the ammeter status column data but not the written diagnostic notes with fault descriptions.
-- **Total time tracking seems broken** — `total_time_secs` values are wildly high (600,000+ seconds = 7 days) for some devices. Used component times (diag + repair + refurb) instead, which are reasonable.
-- **722 devices with no Monday match** — 57% of orders couldn't be matched. These are mostly TO_SEND (never shipped) and CANCELED, but some RECEIVED/PAID orders may have Monday items under different IDs.
+- **Parts cost coverage:** 268 of 347 sold devices have parts cost > 0. 79 show £0 — either genuinely no parts used, or `supply_price` not populated on the Parts board for those items. The 20+ "Unknown" part IDs couldn't be resolved and have no price data.
+- **Labour methodology:** Uses RR&D formula from Monday main board (hours x £15/hr), not raw time tracking. This is the same method as `bm-profit-by-shipdate.py`. Some devices show £0 labour where RR&D wasn't logged.
+- **Layer 3 complexity categorisation not done** — Saf's diagnostic notes not pulled (requires per-item Monday API calls). Ammeter analysis is a partial proxy.
+- **Total time tracking broken** — `total_time_secs` values are wildly high for some devices. Report uses component times and RR&D instead.
+- **722 devices with no Monday match** — mostly TO_SEND (never shipped) and CANCELED.
