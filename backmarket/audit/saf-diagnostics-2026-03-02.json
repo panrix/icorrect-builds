@@ -1,0 +1,5040 @@
+{
+  "generated": "2026-03-02T07:05:25.831520",
+  "source": "/home/ricky/builds/backmarket/audit/repair-analysis-data-2026-03-02.json",
+  "summary": {
+    "total_devices": 150,
+    "with_notes": 146,
+    "with_fault_keywords": 128,
+    "with_logic_board": 92,
+    "complexity_all": {
+      "no_board_work": 57,
+      "routine": 30,
+      "moderate": 29,
+      "complex": 33,
+      "failed": 1
+    },
+    "complexity_lb_only": {
+      "routine": 30,
+      "moderate": 29,
+      "complex": 33
+    },
+    "top_faults": {
+      "Liquid Damage": 49,
+      "Keyboard": 48,
+      "Battery": 30,
+      "Charging IC": 23,
+      "Short Circuit": 16,
+      "T2 Chip": 9,
+      "Audio IC": 9,
+      "Display IC": 4,
+      "CPU Issue": 4,
+      "NAND Flash": 4,
+      "SSD Controller": 2,
+      "Power IC": 2,
+      "LCD": 1
+    },
+    "func_crack_total": 37,
+    "func_crack_with_lb": 20,
+    "func_crack_without_lb": 17
+  },
+  "devices": [
+    {
+      "main_board_id": "9972558633",
+      "item_name": "BM 929 (Neil Galbraith)",
+      "grade": "NONFUNC.USED",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "LCD - A2337"
+      ],
+      "parts_cost": 99.0,
+      "sale_price": 475.0,
+      "purchase_price": 76.0,
+      "net": 140.21,
+      "diag_time_secs": 1266,
+      "repair_time_secs": 723,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe check no liquid damage on logic boar\n\n@Roni Mykhailiuk please make new screen \n\n"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "9972563729",
+      "item_name": "BM 928 (Saria Abdelgadir)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "LCD - A1989 | A2159",
+        "Unknown-9951310434",
+        "See Notes (All Models)",
+        "Speakers - A2289 / A2338 (Right)"
+      ],
+      "parts_cost": 50.0,
+      "sale_price": 399.0,
+      "purchase_price": 98.0,
+      "net": 49.14,
+      "diag_time_secs": 1695,
+      "repair_time_secs": 2889,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "repair notes;\n\nwe change new keyboard back light and battery\n\n@Roni Mykhailiuk please can you repair screen ",
+        "Repair notes;\n\nwe found touch bar Display flex disconnect we connect and touch bar working fine\n\n@Mykhailo Kepeshchuk look like dead pixels is pull damage can you change pull ",
+        "Post repair all good,we check No liquid damage on track pad just duty we clan working fine"
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Battery",
+        "Display IC",
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10017297220",
+      "item_name": "BM 940 (Ava Jewell)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)"
+      ],
+      "parts_cost": 48.0,
+      "sale_price": 295.0,
+      "purchase_price": 56.0,
+      "net": 76.84,
+      "diag_time_secs": 1101,
+      "repair_time_secs": 6055,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notesl\n\nwe repair new battrey and check still same macbook dose take AMM\n\nafter i found one ic explosion on logic board (u8250) after we replace ic but still same macbook not taking AMM but on and workig",
+        "Post repair all good,we repair logic board and new battery we found exposin on logic board and two CD chis issue"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18064741085",
+      "item_name": "BM 976 (Helen McFadden)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Unknown-10031707818",
+        "Unknown-10049471931",
+        "LCD - A2337",
+        "Unknown-9951309601",
+        "Unknown-10050030304",
+        "MacBook Air A2337 Battery (A2389)"
+      ],
+      "parts_cost": 119.0,
+      "sale_price": 397.0,
+      "purchase_price": 51.0,
+      "net": 78.38,
+      "diag_time_secs": 1518,
+      "repair_time_secs": 7179,
+      "total_saf_updates": 0,
+      "saf_notes": [],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10064136509",
+      "item_name": "BM 950 (Cameron McNair)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)"
+      ],
+      "parts_cost": 87.0,
+      "sale_price": 459.0,
+      "purchase_price": 72.0,
+      "net": 139.79,
+      "diag_time_secs": 0,
+      "repair_time_secs": 4740,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe restored T2 ic and instating new software then macbook working aftere we found touch not working and battery issue\n\nwe repair new touch bard\n\nbattery\n\n@Mykhailo Kepeshchuk please can you check look link polarized damage or screen ",
+        "@Mike McAdam mean look like polarized but could be as screen damage maybe "
+      ],
+      "fault_keywords": [
+        "T2 Chip",
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10054377757",
+      "item_name": "BM 946 (Andrea Ruggieri)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Other (See Notes)",
+        "Keyboard Backlight - A2179 / A2337",
+        "Trackpad - A1932 (Rose Gold)"
+      ],
+      "parts_cost": 28.0,
+      "sale_price": 389.0,
+      "purchase_price": 76.0,
+      "net": 109.31,
+      "diag_time_secs": 648,
+      "repair_time_secs": 3789,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair headphone jack logic board flex and charging port\n\n@Mykhailo Kepeshchuk please can you change screen back light ",
+        "@Michael Ferrari please can you oder new track pad rose gold ",
+        "Post repair all good,we repair new track pad"
+      ],
+      "fault_keywords": [
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10072923085",
+      "item_name": "BM 954 (Megha Sheeja Anilkumar / Hari Praveen Rajan)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Unknown-10062991491",
+        "Unknown-10062992420",
+        "See Notes (All Models)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 630.0,
+      "purchase_price": 154.0,
+      "net": 216.35,
+      "diag_time_secs": 1410,
+      "repair_time_secs": 1053,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good also we change keys keyboard"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10064134453",
+      "item_name": "BM 949 (Zach Byne)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "ammeter : 5V"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 498.0,
+      "purchase_price": 80.0,
+      "net": 272.34,
+      "diag_time_secs": 1053,
+      "repair_time_secs": 1391,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board one Capacitor short ( C5278)"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "18044101938",
+      "item_name": "BM 972 (Lucy Bird)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 485.0,
+      "purchase_price": 63.0,
+      "net": 189.84,
+      "diag_time_secs": 3872,
+      "repair_time_secs": 9763,
+      "total_saf_updates": 5,
+      "saf_notes": [
+        "Post repair all good,we repair T2 swap and macbook working fine 512GB and US keyboard",
+        "Repair notes;\n\nI have another macbook A2141.I updated 26.1 and checked .Both are running at the same speed and same heating ,i dot't see any probled with the macbook\n\nif you place the macbook near a wall,ir will feel more heat because the fen heat if not vented outside",
+        "@Roni Mykhailiuk please can you change new T-com and check ",
+        "Description:\n\n* AMM;5.0v\n* 0.014\nFaults:\n\n* Macbook liuqid damage\n* we found bad place liuqid damage near CPU ic\n* we clan liquid damage and repalce all liuqid damage parts but after that macbook taking 20.v but CPU not on and working\n* look link need T2 swap\nRepairs needed:\n\n* Optional repairs:\n\n*",
+        "@Roni Mykhailiuk it's normal hot not to much also you need to wait few minutes when you on macbook after then should be fine "
+      ],
+      "fault_keywords": [
+        "T2 Chip",
+        "Keyboard",
+        "Liquid Damage",
+        "CPU Issue"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18117342895",
+      "item_name": "BM 998 (Ashley Cameron)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Air A1932/A2179 Battery (A1965)",
+        "Trackpad - A1932 (Space Grey)"
+      ],
+      "parts_cost": 62.0,
+      "sale_price": 370.0,
+      "purchase_price": 76.0,
+      "net": 110.64,
+      "diag_time_secs": 1770,
+      "repair_time_secs": 583,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair new battery and track pad",
+        "Repair notes;\n\nchange rear cover"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18130989960",
+      "item_name": "BM 1002 (Mike Gregory)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "ammeter : 5 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 520.0,
+      "purchase_price": 80.0,
+      "net": 282.7,
+      "diag_time_secs": 0,
+      "repair_time_secs": 3829,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board\n\nwe found one capacitor short (C81DB)"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "18078172884",
+      "item_name": "BM 983 (Marc Sharp)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "LCD (LG) - A2442 | A2779 | A2992 | A2918 | A3112 | A3185 | A3401"
+      ],
+      "parts_cost": 229.0,
+      "sale_price": 720.0,
+      "purchase_price": 206.0,
+      "net": 71.51,
+      "diag_time_secs": 998,
+      "repair_time_secs": 1486,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\ni clan liquid damage and repair liquid damage ic\n\n@Mykhailo Kepeshchuk please can you change new screen "
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18034492649",
+      "item_name": "BM 967 (Ahmet Saglam)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "LCD (LG) - A2442 | A2779 | A2992 | A2918 | A3112 | A3185 | A3401"
+      ],
+      "parts_cost": 228.0,
+      "sale_price": 1048.0,
+      "purchase_price": 165.0,
+      "net": 315.85,
+      "diag_time_secs": 1756,
+      "repair_time_secs": 1199,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe check No liquid damage on logic board macbook is ready put new screen\n\n@Mykhailo Kepeshchuk "
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18117340494",
+      "item_name": "BM 997 (Camilla Wylie)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Other (See Notes)",
+        "Keyboard Backlight - A2289 / A2338",
+        "Keyboard - A2289",
+        "LCD - A1989 | A2159"
+      ],
+      "parts_cost": 62.0,
+      "sale_price": 410.0,
+      "purchase_price": 51.0,
+      "net": 134.06,
+      "diag_time_secs": 1660,
+      "repair_time_secs": 3410,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe found keyboard has liquid damage and sticky\n\n@Michael Ferrari please can you Oder new us keyboard ",
+        "Post repair\n\nwe change new keyboard and macbook ready to change new screen"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18044098865",
+      "item_name": "BM 970 (Beatrice Mackay)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 420.0,
+      "purchase_price": 75.0,
+      "net": 211.39,
+      "diag_time_secs": 1084,
+      "repair_time_secs": 3259,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board we found one NAND 1.8v line is short ( U9000) after replace macbook working fine"
+      ],
+      "fault_keywords": [
+        "NAND Flash",
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "18221824314",
+      "item_name": "BM 1020 (Harley Rogers)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 289.0,
+      "purchase_price": 56.0,
+      "net": 142.2,
+      "diag_time_secs": 0,
+      "repair_time_secs": 1694,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good, we repair clan logic board and touch id other parts working fine"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18188516848",
+      "item_name": "BM 1015 (Bradleigh Lawrence)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Unknown-18096803587",
+        "Unknown-10050030304",
+        "MacBook Air A1932/A2179 Battery (A1965)"
+      ],
+      "parts_cost": 33.0,
+      "sale_price": 405.0,
+      "purchase_price": 51.0,
+      "net": 157.68,
+      "diag_time_secs": 700,
+      "repair_time_secs": 4145,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair\n\nwe repair logic board liquid damage parts and macbook working fine\n\nother all parts working fine\n\nmacbook ready to change screen back light",
+        "Post repair all good, logic board already clan it's just has breast sing and just need keys repair because language"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18078172535",
+      "item_name": "BM 981 (Chris Carrick)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "ammeter : 5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 458.0,
+      "purchase_price": 56.0,
+      "net": 252.95,
+      "diag_time_secs": 712,
+      "repair_time_secs": 4145,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board ( C8315)"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18130985440",
+      "item_name": "BM 1001 (Kaniecia Williams-Bedward)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Liquid Damage Treatment (All Models)",
+        "Trackpad - A2681 (Midnight Blue)",
+        "MacBook Backlight"
+      ],
+      "parts_cost": 55.0,
+      "sale_price": 614.0,
+      "purchase_price": 81.0,
+      "net": 269.95,
+      "diag_time_secs": 1237,
+      "repair_time_secs": 2382,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair new track pad and hall sensor\n\n@Mykhailo Kepeshchuk can you change screen back light because screen has white dots "
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18117337407",
+      "item_name": "BM 996 (Mia Carter)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Air A1932/A2179 Battery (A1965)",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 33.0,
+      "sale_price": 400.0,
+      "purchase_price": 65.0,
+      "net": 157.75,
+      "diag_time_secs": 1878,
+      "repair_time_secs": 2360,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair\n\nwe clan keyboard keys and replace new battery\n\nmacbook ready to change rubber fame @Mykhailo Kepeshchuk "
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18156211901",
+      "item_name": "BM 1005 (Nj Nkosi)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Unknown-9951309601",
+        "MacBook Air A1932/A2179 Battery (A1965)",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 34.0,
+      "sale_price": 285.0,
+      "purchase_price": 48.0,
+      "net": 102.61,
+      "diag_time_secs": 859,
+      "repair_time_secs": 1456,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic bard we found on CD chips short"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "18131141395",
+      "item_name": "BM 1004 (Sophie Mullen)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "MacBook Air A1932/A2179 Battery (A1965)",
+        "MacBook Liquid Damage Treatment"
+      ],
+      "parts_cost": 34.0,
+      "sale_price": 350.0,
+      "purchase_price": 63.0,
+      "net": 131.95,
+      "diag_time_secs": 965,
+      "repair_time_secs": 4605,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board headphone jack and battery"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18064722374",
+      "item_name": "BM 973 (Jeremy Williams)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Unknown-18096803587",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 399.0,
+      "purchase_price": 105.0,
+      "net": 150.12,
+      "diag_time_secs": 1166,
+      "repair_time_secs": 5222,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "repair note\n\nwe change new headphone jack and replace sound ic then sound working fine\n\n@Mykhailo Kepeshchuk please can you make screen ",
+        "Post repair all good,we repair new daughter logic board and sound working fine"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18117316527",
+      "item_name": "BM 994 (Samantha Togwell)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "LCD - A2337"
+      ],
+      "parts_cost": 99.0,
+      "sale_price": 431.0,
+      "purchase_price": 100.0,
+      "net": 84.54,
+      "diag_time_secs": 911,
+      "repair_time_secs": 1931,
+      "total_saf_updates": 0,
+      "saf_notes": [],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18168417339",
+      "item_name": "BM 1008 (mdot / Mustafa Gurmus)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Keyboard - A2681 / A3113 / A2941 / A3114 / A3240 / A3241",
+        "Other (See Notes)",
+        "Trackpad - A2681 (Midnight Blue)"
+      ],
+      "parts_cost": 58.0,
+      "sale_price": 602.0,
+      "purchase_price": 85.0,
+      "net": 243.98,
+      "diag_time_secs": 659,
+      "repair_time_secs": 4988,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair\n\nwe change new keyboard but we don't have track pad in stock\n\n@Michael Ferrari please can you Oder new track pad\n\n@Mykhailo Kepeshchuk please can you change screen lid ",
+        "Post repair all good.we repair track pad and keyboard"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18117271749",
+      "item_name": "BM 992 (Isabella Ribeiro)",
+      "grade": "NONFUNC.USED",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "MacBook Air A1932/A2179 Battery (A1965)",
+        "Other (See Notes)",
+        "Audio Board / Audio Flex - A2179"
+      ],
+      "parts_cost": 34.0,
+      "sale_price": 330.0,
+      "purchase_price": 40.0,
+      "net": 145.03,
+      "diag_time_secs": 810,
+      "repair_time_secs": 2701,
+      "total_saf_updates": 4,
+      "saf_notes": [
+        "Repair note\n\nTo much liquid damage on logic board",
+        "repair notes;\n\nlogic board has lot's off liquid damage\n\nneed T2 swap\n\nscreen back light\n\ntrack pad\n\nmaybe keyboard as well\n\nheadphone jack @Ricky Panesar this macbook t go BER because to many issue ",
+        "Repair notes;\n\nwe repair logic board and other parts working fine\n\nwe need oder new duather logic board",
+        "Post repair all good,we repair logic board new battery and headphone jack"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "T2 Chip",
+        "Keyboard",
+        "Battery"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18102881333",
+      "item_name": "BM 985 (Rob Taylor)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Unknown-18276358203"
+      ],
+      "parts_cost": 0,
+      "sale_price": 530.0,
+      "purchase_price": 70.0,
+      "net": 271.35,
+      "diag_time_secs": 1299,
+      "repair_time_secs": 991,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "repair notes;\n\ni change new keyboard keys and make one keys fine\n\n@Mykhailo Kepeshchuk please can you change screen "
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18117209949",
+      "item_name": "BM 990 (Eileen Curran)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.8,
+        "raw": "20v 1.8 a"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 385.0,
+      "purchase_price": 51.0,
+      "net": 202.72,
+      "diag_time_secs": 939,
+      "repair_time_secs": 4126,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we swap T2 ic"
+      ],
+      "fault_keywords": [
+        "T2 Chip"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18231060109",
+      "item_name": "BM 1030 (Roderick Maccormick)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Other (See Notes)",
+        "LCD - A2338 (Sharp)"
+      ],
+      "parts_cost": 100.0,
+      "sale_price": 485.0,
+      "purchase_price": 133.0,
+      "net": 106.9,
+      "diag_time_secs": 1908,
+      "repair_time_secs": 1967,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new display flex and camera working fine"
+      ],
+      "fault_keywords": [
+        "Display IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18130980247",
+      "item_name": "BM 999 (Eunice Aneno)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Keyboard - A2338",
+        "Unknown-18276358203",
+        "See Notes (All Models)",
+        "Unknown-9951310434"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 503.0,
+      "purchase_price": 76.0,
+      "net": 231.65,
+      "diag_time_secs": 1411,
+      "repair_time_secs": 4068,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair new keyboard and test macbook working fine\n\n@Andres Egas macbook ready to change new screen "
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18256023576",
+      "item_name": "BM 1035 (Mike's friend)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-9934303569",
+        "LCD - A2681 | A3113 | A3240"
+      ],
+      "parts_cost": 96.0,
+      "sale_price": 665.0,
+      "purchase_price": 74.0,
+      "net": 263.48,
+      "diag_time_secs": 1233,
+      "repair_time_secs": 4869,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe found logic board and repair logic board all liquid damage and macbook working fine\n\nafter we repair hall sensor ,keyboard T-com as well\n\nother all parts working fine but we found screen back light has liquid side",
+        "macbook ready to change screen back light"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18231059259",
+      "item_name": "BM 1029 - Nick Fenn",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-9934303575",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 720.0,
+      "purchase_price": 123.0,
+      "net": 318.29,
+      "diag_time_secs": 2034,
+      "repair_time_secs": 6098,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we found one ic not give out put ( UT620) after replace this ic touch id working fine",
+        "Repair notes;\n\nwe found liquid damage on logic board and hall sensor\n\nwe repair logic board liquid damage and change some parts on logic board\n\ni used our test screen and check macbook working fine\n\ni think screen has issse back light not working look line LID issue\n\n@Mykhailo Kepeshchuk please can you cut screen and check LED "
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18168413582",
+      "item_name": "BM 1006 (Jamie Walsh)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Hall Sensor - A2485 / A2780 / A2991"
+      ],
+      "parts_cost": 8.0,
+      "sale_price": 756.0,
+      "purchase_price": 88.0,
+      "net": 434.69,
+      "diag_time_secs": 1060,
+      "repair_time_secs": 4544,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair\n\nwe found has been clan logic board liquid but we found found screen back light ic short we repair new one and macbook working fine\n\nalso we change hall sensor as well"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Short Circuit"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18306818826",
+      "item_name": "BM 1051 (Addison Dymond)",
+      "grade": "NONFUNC.USED",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "LCD - A2338 (Sharp)"
+      ],
+      "parts_cost": 101.0,
+      "sale_price": 470.0,
+      "purchase_price": 74.0,
+      "net": 108.18,
+      "diag_time_secs": 1378,
+      "repair_time_secs": 2001,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe found screen image not coming and has been repair before logic board we found Camera line has one FL 610 and make ne jumper then camera working fine\n\nother all parts working fine\n\nmacbook ready to change new screen but please try change the T-COM first @Mykhailo Kepeshchuk "
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18231058702",
+      "item_name": "BM 1028 (Carlos Santos)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Unknown-18096803587",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 0,
+      "purchase_price": 100.0,
+      "net": null,
+      "diag_time_secs": 1662,
+      "repair_time_secs": 3021,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board LP670 AND UP700 chnage after we found display flex damage as well"
+      ],
+      "fault_keywords": [
+        "Display IC"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18198806354",
+      "item_name": "BM 1016 - Luke Richardson",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "ammeter : 5 v"
+      },
+      "parts_used": [
+        "Unknown-18096807969",
+        "MacBook Logic Board",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2"
+      ],
+      "parts_cost": 41.0,
+      "sale_price": 485.0,
+      "purchase_price": 82.0,
+      "net": 154.48,
+      "diag_time_secs": 1292,
+      "repair_time_secs": 12688,
+      "total_saf_updates": 6,
+      "saf_notes": [
+        "@Everyone at iCorrect \n\nI couldn't found this macbook, if any one see this macbook please inform me",
+        "Description:\n\n* AMM;5.0v\n* 0.223\nFaults:\n\n* Macbook has lot's off liquid damage\n* we clan and repair all liuqid da,age parts touch bar connecter CD chips etc\n* and macbook working fine\n* screen back liquid has liquid damage\nRepairs needed:\n\n* logic board repair done\nOptional repairs:\n\n*\n",
+        "need screen back light and after tag me bacuse need new touch bard and mic phone flex",
+        "Repai notes;\n\nwe repair touch bar and working fine\n\nmacbook need back light change after tag me back",
+        "Post repair all good,after repair we used whole day macbook working fine",
+        "Post repair all good,we found touch bar plat making issue we repair new plat and touch bar working fine"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18333770473",
+      "item_name": "BM 1054 (Steve Meadows)",
+      "grade": "NONFUNC.USED",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Battery Flex - A2442 / A2779 / A2918 / A2992",
+        "See Notes (All Models)"
+      ],
+      "parts_cost": 2.0,
+      "sale_price": 785.0,
+      "purchase_price": 107.0,
+      "net": 403.64,
+      "diag_time_secs": 730,
+      "repair_time_secs": 2047,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe check No liquid damage macboo, battery is inflated and camera flex is bun\n\nwe repair new battery macbook ready to change camera flex",
+        "@Roni Mykhailiuk yesterday I give two screen used one screen for this macbook"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18269179922",
+      "item_name": "BM 1038 (Russell Craven)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-9934303575"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 695.0,
+      "purchase_price": 97.0,
+      "net": 382.34,
+      "diag_time_secs": 0,
+      "repair_time_secs": 4336,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board we replace all liquid damage and macbook working fine also screen back light working fine"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18231058380",
+      "item_name": "BM 1026 (Nigel Gale)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "LCD - A2337",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 99.0,
+      "sale_price": 409.0,
+      "purchase_price": 56.0,
+      "net": 101.21,
+      "diag_time_secs": 2746,
+      "repair_time_secs": 3276,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Post repair\n\nwe repair new charging port and lqiudi clan logic board then macbook working fine but macbook has icloud on @Michael Ferrari ",
+        "Repair notes\n\nlogic board side repair done\n\nneed screen lid and pull macbook ready to change",
+        "Post repair all good,we repair top case"
+      ],
+      "fault_keywords": [
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18231054745",
+      "item_name": "BM 1025 (Rachel Whorton)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Unknown-18096807969"
+      ],
+      "parts_cost": 0,
+      "sale_price": 580.0,
+      "purchase_price": 133.0,
+      "net": 271.68,
+      "diag_time_secs": 1229,
+      "repair_time_secs": 1342,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nNo issue on logic board we found screen flex got issue that why camera not working\n\nmacbook ready to change to change screen"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18231053517",
+      "item_name": "BM 1024 (Jack Bennetts)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20.0v"
+      },
+      "parts_used": [
+        "See Notes (All Models)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 430.0,
+      "purchase_price": 56.0,
+      "net": 203.41,
+      "diag_time_secs": 0,
+      "repair_time_secs": 1622,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Description:\n\n* AMM;20.0v\n* 2.200\nFaults:\n\n* macbook on and working\n* we restored DFU and working fine\n* we found screen id damage some keys are stick\n* other all parts working fine\nRepairs needed:\n\n* need new screen\n* maybe clan keyboard or replace\n* charging port need clan\nOptional repairs:"
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18306817535",
+      "item_name": "BM 1050",
+      "grade": "NONFUNC.CRACK",
+      "status": "Repair Paused",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "LCD - A1989 | A2159",
+        "Battery Flex - A1989 / A2251",
+        "Touch Bar - A2251 / A2289"
+      ],
+      "parts_cost": 62.0,
+      "sale_price": 0,
+      "purchase_price": 44.0,
+      "net": null,
+      "diag_time_secs": 340,
+      "repair_time_secs": 12544,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "issue\n\ni repair top case and i don't know how is possible touch id flex has crack see image",
+        "i used this screen for BM 1032 macbook",
+        "@Ricky Panesar power button not working mean if we click power button macbook not going lock"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18256021031",
+      "item_name": "BM 1033",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 650.0,
+      "purchase_price": 267.0,
+      "net": 235.35,
+      "diag_time_secs": 445,
+      "repair_time_secs": 467,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we change keys"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18256018881",
+      "item_name": "BM 1032 - Justin Santos",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 385.0,
+      "purchase_price": 34.0,
+      "net": 210.26,
+      "diag_time_secs": 2154,
+      "repair_time_secs": 4500,
+      "total_saf_updates": 0,
+      "saf_notes": [],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18295879942",
+      "item_name": "BM 1044 (Nissma Yamout)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
+      ],
+      "parts_cost": 5.0,
+      "sale_price": 799.0,
+      "purchase_price": 89.0,
+      "net": 482.58,
+      "diag_time_secs": 896,
+      "repair_time_secs": 1304,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we found charging port has liquid damage we repair new port and working fine"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18333781370",
+      "item_name": "BM 1058 - Kelsey Thomson",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Air A1932/A2179 Battery (A1965)",
+        "Unknown-18096803587",
+        "Unknown-9951309601"
+      ],
+      "parts_cost": 33.0,
+      "sale_price": 300.0,
+      "purchase_price": 64.0,
+      "net": 103.22,
+      "diag_time_secs": 1169,
+      "repair_time_secs": 1063,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe check no liuqid damage on logic board and we change new battery\n\nmacbook ready to change screen back light"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "18340861511",
+      "item_name": "BM 1062 - Holly Wilson",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Unknown-18096807969",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 569.0,
+      "purchase_price": 77.0,
+      "net": 313.2,
+      "diag_time_secs": 2545,
+      "repair_time_secs": 1355,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "repair notes;\n\nwe check no liquid damage on logic board\n\nmacbook ready to change screen",
+        "Post repair all good,we clan power button as well"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "18306814520",
+      "item_name": "BM 1047 (Marcus Kplomedo)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "LCD - A2338 (Sharp)",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2"
+      ],
+      "parts_cost": 187.0,
+      "sale_price": 481.0,
+      "purchase_price": 85.0,
+      "net": 24.31,
+      "diag_time_secs": 776,
+      "repair_time_secs": 3441,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair battery and touch bar"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10654255790",
+      "item_name": "BM 1061 (Arlene Gallegues)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 380.0,
+      "purchase_price": 0,
+      "net": 244.81,
+      "diag_time_secs": 3251,
+      "repair_time_secs": 1272,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "@Michael Ferrari @Ricky Panesar \n\nI restored macbook on DFU mode Even after that, the original keyboard showing AYQZ,i tried reinstalling our UK keyboard but it still same picks up that AYQZ keyboard,we have to manually select the keyboard ABC\n\ni think the keyboard is run by macbook manufacturing"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10516565295",
+      "item_name": "BM 1067 (Sarika Ma)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.4,
+        "raw": "20v 1.4A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "LCD - A2337",
+        "MacBook Backlight",
+        "Unknown-9951309601"
+      ],
+      "parts_cost": 101.0,
+      "sale_price": 382.0,
+      "purchase_price": 100.0,
+      "net": 8.78,
+      "diag_time_secs": 4548,
+      "repair_time_secs": 1284,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nwe clan logic board liquid damage and repair liquid damage parts macbook working fine\n\nmacbook ready to change screen"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10522093505",
+      "item_name": "BM 1073 - hal henson",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20.V"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "MacBook Pro A1989/A2251 Battery (A1964)"
+      ],
+      "parts_cost": 21.0,
+      "sale_price": 499.0,
+      "purchase_price": 78.0,
+      "net": 251.12,
+      "diag_time_secs": 1519,
+      "repair_time_secs": 1792,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair T2 restored and replace new battery",
+        "@Ricky Panesar 20.V AND 0000AMM"
+      ],
+      "fault_keywords": [
+        "T2 Chip",
+        "Battery"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "18352679106",
+      "item_name": "BM 1064 - Connor Ling",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 739.0,
+      "purchase_price": 123.0,
+      "net": 412.87,
+      "diag_time_secs": 817,
+      "repair_time_secs": 1714,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic boat two capacitor short ( C80K1)(C80K2) after repair macbook working fine"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10594960201",
+      "item_name": "BM 1088 (Robert Epstein)",
+      "grade": "FUNC.CRACK",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Other (See Notes)",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 362.0,
+      "purchase_price": 91.0,
+      "net": 142.6,
+      "diag_time_secs": 1282,
+      "repair_time_secs": 2429,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board we found one FL explosion after repair camera working fine"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10522103153",
+      "item_name": "BM 1072 (Konstantin Pishchik)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2338 (Sharp)",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 100.0,
+      "sale_price": 449.0,
+      "purchase_price": 66.0,
+      "net": -139.49,
+      "diag_time_secs": 65144,
+      "repair_time_secs": 882,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we check no liquid damage"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10556588312",
+      "item_name": "BM 1078 (Adeseeke Eniolorunda)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 1099.0,
+      "purchase_price": 123.0,
+      "net": 646.73,
+      "diag_time_secs": 2731,
+      "repair_time_secs": 7029,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair logic board and check other all parts working fine ,repair one ic liquid damage on logic board (U2230)",
+        "Post repair all good,we repair headphone jack ic and headphone jack after working fine"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10554880356",
+      "item_name": "BM 1076 (Christina Smith)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.5,
+        "raw": "20v 0.5A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 380.0,
+      "purchase_price": 74.0,
+      "net": 180.93,
+      "diag_time_secs": 2136,
+      "repair_time_secs": 2679,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair T2 restored and SSD one line"
+      ],
+      "fault_keywords": [
+        "SSD Controller",
+        "T2 Chip"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10643545977",
+      "item_name": "BM 1114 (Shakib Ahmed)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": 0.2,
+        "raw": "5v 0.2A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "Keyboard Backlight - A2289 / A2338",
+        "Unknown-10049545772"
+      ],
+      "parts_cost": 56.0,
+      "sale_price": 489.0,
+      "purchase_price": 75.0,
+      "net": 136.13,
+      "diag_time_secs": 3182,
+      "repair_time_secs": 14602,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Post repair all good,we swap logic board i done one CPU swap logic board and change new battery\n\nmacbook 256/8 sn FVFDVJQ2Q05D\n\nthis macbook is very badly liquid damage",
+        "Repair notes;\n\ni repair new keyboard back light and space key\n\n@Mykhailo Kepeshchuk please can you change bezel and ploariser ",
+        "Post repair ,we repair left side speaker"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "CPU Issue",
+        "Battery",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10667834500",
+      "item_name": "BM 1126 (Perry Truman)",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)"
+      ],
+      "parts_cost": 48.0,
+      "sale_price": 545.0,
+      "purchase_price": 154.0,
+      "net": 181.29,
+      "diag_time_secs": 770,
+      "repair_time_secs": 5718,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board liuqid damage parts and change new battery also i chnage back cover SN fcfgkbmzq05d\n\n@Roni Mykhailiuk please if you found battery please add om repair bacuse i have to dissemble two time logic board and check issue in logic board or "
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10708717750",
+      "item_name": "BM 1149 (Balikis Oyelude)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.8,
+        "raw": "20v 0.8A"
+      },
+      "parts_used": [
+        "Keyboard - A2337"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 346.0,
+      "purchase_price": 51.0,
+      "net": 163.52,
+      "diag_time_secs": 2059,
+      "repair_time_secs": 3630,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard",
+        "Post repair\n\nwe check with new screen and auto brightness working issue on screen side\n\nalso after new IOS true tone is ther\n\n@Roni Mykhailiuk it's log to cut screen and repair auto brightness "
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10704492254",
+      "item_name": "BM 1095 (Katy Williams)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 625.0,
+      "purchase_price": 88.0,
+      "net": 340.24,
+      "diag_time_secs": 2442,
+      "repair_time_secs": 1001,
+      "total_saf_updates": 0,
+      "saf_notes": [],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10594957634",
+      "item_name": "BM 1096 (Kwesi Aidoo)",
+      "grade": "NONFUNC.USED",
+      "status": "Returned",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.37,
+        "amps": 0.4,
+        "raw": "20.37V 0.4A"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 420.0,
+      "purchase_price": 75.0,
+      "net": 207.03,
+      "diag_time_secs": 1771,
+      "repair_time_secs": 3620,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair board we found SSD line short PP2V5_NANDSSD0 from one capacitor C8851"
+      ],
+      "fault_keywords": [
+        "SSD Controller",
+        "NAND Flash",
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10721184537",
+      "item_name": "BM 1157 (Rosie Hanlon)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-9951309601"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 455.0,
+      "purchase_price": 57.0,
+      "net": 252.43,
+      "diag_time_secs": 1450,
+      "repair_time_secs": 1855,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair logic board we found one capeciter short ( C7705) after replace then macbook working fine",
+        "@Andres Egas please can you change new bezel "
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10614815206",
+      "item_name": "BM 1106 (Duk Kyun Song)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": 0.1,
+        "raw": "5v 0.1A"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 750.0,
+      "purchase_price": 88.0,
+      "net": 432.97,
+      "diag_time_secs": 1707,
+      "repair_time_secs": 4934,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board liquid damage parts NAND POWER IC and all liquid damage parts"
+      ],
+      "fault_keywords": [
+        "Power IC",
+        "NAND Flash",
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10633457176",
+      "item_name": "BM 1111 (Rob Sims)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.5,
+        "raw": "20v 0.5A"
+      },
+      "parts_used": [
+        "Unknown-18388341680",
+        "MacBook Air A2337 Battery (A2389)",
+        "Keyboard - A2337"
+      ],
+      "parts_cost": 29.0,
+      "sale_price": 426.0,
+      "purchase_price": 112.0,
+      "net": 132.89,
+      "diag_time_secs": 3850,
+      "repair_time_secs": 4098,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10605518215",
+      "item_name": "BM 1102 (Ahnaf Mugdho)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.2,
+        "raw": "20v 0.2 A"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 485.0,
+      "purchase_price": 69.0,
+      "net": 264.85,
+      "diag_time_secs": 2271,
+      "repair_time_secs": 1882,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board battery data line conncter and some line after macbook working fine"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10679384318",
+      "item_name": "BM 1138 (Radim Malinic)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Pro A2442 Battery (A2519)",
+        "MacBook Logic Board",
+        "Keyboard - A2442 / A2779 / A2918 / A2992 / A3112 / A3401 / A3185"
+      ],
+      "parts_cost": 60.0,
+      "sale_price": 802.0,
+      "purchase_price": 123.0,
+      "net": 365.93,
+      "diag_time_secs": 5114,
+      "repair_time_secs": 3447,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair logic board right side buttom charging port ram and battery connter and some battery data line and chnage new battery",
+        "Post repair all good,we found sift right side key some time does not we repair fully keyboard"
+      ],
+      "fault_keywords": [
+        "Battery",
+        "Charging IC",
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10614836534",
+      "item_name": "BM 1107 (Leah Warburton)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.4,
+        "raw": "20v 0.4A"
+      },
+      "parts_used": [
+        "MacBook Software Restore",
+        "MacBook Air A1932/A2179 Battery (A1965)"
+      ],
+      "parts_cost": 34.0,
+      "sale_price": 319.0,
+      "purchase_price": 85.0,
+      "net": 88.18,
+      "diag_time_secs": 3007,
+      "repair_time_secs": 3211,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair\n\nwe restored T2 and software update then macbook working fine\n\nother all parts working fine\n\nafter we change battrey and bezel"
+      ],
+      "fault_keywords": [
+        "T2 Chip"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10667837675",
+      "item_name": "BM 1133 (Emmanuel Opoku)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 590.0,
+      "purchase_price": 160.0,
+      "net": 239.76,
+      "diag_time_secs": 2132,
+      "repair_time_secs": 1888,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board one back light line has capeciter short (CP868)"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10700564091",
+      "item_name": "BM 1146 (David Da Graca)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Trackpad - A2251 / A2289 (Space Grey)"
+      ],
+      "parts_cost": 30.0,
+      "sale_price": 390.0,
+      "purchase_price": 68.0,
+      "net": 137.68,
+      "diag_time_secs": 2756,
+      "repair_time_secs": 4642,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we found TWO cd chis damage and RAM as well also we repair NAND POWER IC some ragester because liquid damage and we repair track pad\n\nright side keyboard some keys yellow"
+      ],
+      "fault_keywords": [
+        "Power IC",
+        "NAND Flash",
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10690524662",
+      "item_name": "BM 1144 (sam Stuckey)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Keyboard - A2338",
+        "Liquid Damage Treatment (All Models)",
+        "Unknown-18388343430"
+      ],
+      "parts_cost": 14.0,
+      "sale_price": 449.0,
+      "purchase_price": 60.0,
+      "net": 208.09,
+      "diag_time_secs": 2635,
+      "repair_time_secs": 4439,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard and and full screen also keyboard back light some keys are bright but working fine\n\nbecause it's chaina keyboard that why other all parts working fine"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10751490125",
+      "item_name": "BM 1177 (Sandra Salter)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Unknown-9934322876",
+        "Unknown-9951309601",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 398.0,
+      "purchase_price": 156.0,
+      "net": 129.18,
+      "diag_time_secs": 1529,
+      "repair_time_secs": 2715,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe found charging port damage and liquid damage we clan logic bard and repair new charging port than charging working fine\n\nscreen lid has striker mark ( see image )\n\n@Ricky Panesa This mac book is fair macbook we can try puss case and sell and top case has corner damage as well",
+        "Post repair all good"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10815340884",
+      "item_name": "BM 1207 (Vanessa Mupandira)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2337",
+        "Other (See Notes)",
+        "MacBook Air A2337 Battery (A2389)"
+      ],
+      "parts_cost": 119.0,
+      "sale_price": 430.0,
+      "purchase_price": 109.0,
+      "net": 73.54,
+      "diag_time_secs": 1734,
+      "repair_time_secs": 1227,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair TWO keys and butterfly change new battery"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10716616997",
+      "item_name": "BM 1156 (Justin Heath)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Pro A2442 Battery (A2519)",
+        "MacBook Liquid Damage Treatment"
+      ],
+      "parts_cost": 50.0,
+      "sale_price": 950.0,
+      "purchase_price": 200.0,
+      "net": 450.34,
+      "diag_time_secs": 1127,
+      "repair_time_secs": 2385,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,has been repair battery data line clan logic board and replace new battery"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10796115992",
+      "item_name": "BM 1189 (Jack Longman)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 420.0,
+      "purchase_price": 47.0,
+      "net": 229.9,
+      "diag_time_secs": 2395,
+      "repair_time_secs": 3106,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we found liquid damage macbook audio logic board has liquid damage we repair new bard and restored macbook working fine\n\nscreen back light has dusty but shoud be fine",
+        "Post repair all good,check No sound more "
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Audio IC"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10739694029",
+      "item_name": "BM 1170 (David Littlefair)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5V"
+      },
+      "parts_used": [
+        "Keyboard - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Unknown-9934322876",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 18.0,
+      "sale_price": 347.0,
+      "purchase_price": 64.0,
+      "net": 112.47,
+      "diag_time_secs": 2294,
+      "repair_time_secs": 5706,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board one CD chips and charging port and keyboard change"
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10827802333",
+      "item_name": "BM 1224 (Karl Wilkinson)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Other (See Notes)",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 15.0,
+      "sale_price": 347.0,
+      "purchase_price": 137.0,
+      "net": 65.73,
+      "diag_time_secs": 6564,
+      "repair_time_secs": 4132,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "@Andres Egas please can you make screen and @Michael Ferrari please can you oder audio logic board ",
+        "Post repair all good,we used BM1273 all parts we just transfer logic board\n\n@Michael Ferrari we can give this macbook for BM1097 RTN customer ",
+        "Repair notes;\n\nwe change new thermal pest"
+      ],
+      "fault_keywords": [
+        "Audio IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10731392135",
+      "item_name": "BM 1166 (Zayan Ahmed)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.8,
+        "raw": "20v 0.8A"
+      },
+      "parts_used": [
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 48.0,
+      "sale_price": 410.0,
+      "purchase_price": 89.0,
+      "net": 102.22,
+      "diag_time_secs": 2564,
+      "repair_time_secs": 4174,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair new batrey and check heating macbook\n\n@Andres Egas please can you make new screen ",
+        "Post repair all good,We found one LCD line short ( EDP from CPU ) after T2 swap macbook working fine"
+      ],
+      "fault_keywords": [
+        "CPU Issue",
+        "Short Circuit",
+        "T2 Chip",
+        "LCD"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10739765405",
+      "item_name": "BM 1171 (Alisha Bignall)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5V"
+      },
+      "parts_used": [
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "Unknown-18388343879",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
+      ],
+      "parts_cost": 52.0,
+      "sale_price": 309.0,
+      "purchase_price": 53.0,
+      "net": 86.16,
+      "diag_time_secs": 1634,
+      "repair_time_secs": 5390,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new battery,full screen and charging port also we change touch bar because haft not working touch bar\n\nwe clan same keys buffer fly\n\nscreen has back light issue ( stage ling )"
+      ],
+      "fault_keywords": [
+        "Battery",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10739765503",
+      "item_name": "BM 1173 (James Hewitson)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5V"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Keyboard - A2338",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)"
+      ],
+      "parts_cost": 57.0,
+      "sale_price": 589.0,
+      "purchase_price": 91.0,
+      "net": 234.26,
+      "diag_time_secs": 1614,
+      "repair_time_secs": 10344,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair logic board liquid damage all parts and ic after repair logic board we found fan sound lowly after we found near fan connter has Two ic has issue\n\nafter we repair keyboard and battery",
+        "Post repair all good,we repair logic board keyboard and battery\n\nright side keyboard back light minor yellow"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard",
+        "Battery"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10929317586",
+      "item_name": "BM 1269 (Sara Tannor)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Keyboard - A2337",
+        "Unknown-9951309601"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 408.0,
+      "purchase_price": 88.0,
+      "net": 179.94,
+      "diag_time_secs": 1329,
+      "repair_time_secs": 3932,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard",
+        "Repair notes we change new bezel"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10904720550",
+      "item_name": "BM 1261 (Nnamdi Abuah)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Keyboard - A2338",
+        "Other (See Notes)",
+        "Unknown-9951310434"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 487.0,
+      "purchase_price": 91.0,
+      "net": 206.5,
+      "diag_time_secs": 1960,
+      "repair_time_secs": 7202,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe change new keyboard but keyboard back light not good\n\nwe waiting for keyboard back light",
+        "Post repair all good,we used pull track pad and keyboard back light and bezel"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10891997233",
+      "item_name": "BM 1251 ( Stefan Mcmaster )",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Liquid Damage Treatment (All Models)",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 10.0,
+      "sale_price": 640.0,
+      "purchase_price": 175.0,
+      "net": 265.66,
+      "diag_time_secs": 6197,
+      "repair_time_secs": 1680,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we clan minor liquid damage we replace new charging port and same keys"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10967106552",
+      "item_name": "BM 1288 (Prince NGokumu)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 3.6,
+        "raw": "20v 3.6A"
+      },
+      "parts_used": [
+        "Trackpad - A2681  (Starlight Gold)",
+        "Trackpad Flex - A2681",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 69.0,
+      "sale_price": 679.0,
+      "purchase_price": 109.0,
+      "net": 283.3,
+      "diag_time_secs": 3579,
+      "repair_time_secs": 3503,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "@Michael Ferrari please can you oder track pad gold colour ",
+        "Repair notes\n\nwe found track pad making issue we repair new track pad and track pad flex\n\n@Mykhailo Kepeshchuk please can you change screen pull ",
+        "Post repair all good,we clan speaker and now look like fine before is very minor Buzz after clan confirm other person and they happy"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10815348827",
+      "item_name": "BM 1209 (Alfie Madgwick)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Keyboard - A2338",
+        "Keyboard Backlight - A2289 / A2338",
+        "Unknown-18276358203",
+        "Unknown-10049545772",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
+        "Unknown-10839537537"
+      ],
+      "parts_cost": 58.0,
+      "sale_price": 506.0,
+      "purchase_price": 91.0,
+      "net": 83.89,
+      "diag_time_secs": 3524,
+      "repair_time_secs": 14954,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nWe found touch bar connector has liquid damage ,we repair new connector and some liquid damage parts change on logic board and touch bar working fine\n\n@Andres Egas logic board repair done please make screen and check other all parts ",
+        "Post repair all good,we repair track pad keyboard and logic board"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10837043470",
+      "item_name": "BM 1225 (Precious Mbenga)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5.0v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 496.0,
+      "purchase_price": 85.0,
+      "net": 265.81,
+      "diag_time_secs": 1440,
+      "repair_time_secs": 1218,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Description:\n\n* AMM;5.0v\n* 0.225\nFaults:\n\n* Macbook not o and working\n* we fund logic board level issue\n* we found one Capacitor short (C1134) after replace capacitor short then macbook working fine\n* other all parts working fine\nRepairs needed:\n\n* logic board level issue\nOptional repairs:",
+        "Post repair all good,we repair logic board"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10796140186",
+      "item_name": "BM 1191 (Shalome Clarke)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5V"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 1394.0,
+      "purchase_price": 283.0,
+      "net": 721.39,
+      "diag_time_secs": 453,
+      "repair_time_secs": 11308,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Description:\n\n* AMM;5.0V\n* 0.220\nFaults:\n\n* Macbook is very badly liquid damage\n* we found so many ic is liquid damage ( see image )\n* we reomve all ic and replace new ic and same line is bun we make jumper bun line and macbook working fine\n* we found both fan ic liquid liquid damage\n* we replace new Fan\n* other all parts working fine \nRepairs needed:\n\nliquid damage logic board\n\nOptional repairs:\n\n",
+        "Post repair all good,we repair logic board and right sine keyboard back light minor yellow"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10796126884",
+      "item_name": "BM 1193 ( Eleanor Jones ) for parts logic board has CPU issue",
+      "grade": "NONFUNC.USED",
+      "status": "BER/Parts",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5V"
+      },
+      "parts_used": [
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 0,
+      "purchase_price": 88.0,
+      "net": null,
+      "diag_time_secs": 2273,
+      "repair_time_secs": 8771,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Repair notes;\n\nhas been repair before CD chip and liquid damage macbook\n\nwe found one line short from CPU ( PP0V805_S1_VDD_FLXED)\n\nwe can repair this logic board\n\n@Ricky Panesar "
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "CPU Issue",
+        "Short Circuit"
+      ],
+      "complexity": "failed"
+    },
+    {
+      "main_board_id": "10815347259",
+      "item_name": "BM 1211 (Julian Widdop)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.6,
+        "raw": "20v 0.6A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-10839537537",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 599.0,
+      "purchase_price": 114.0,
+      "net": 290.78,
+      "diag_time_secs": 1211,
+      "repair_time_secs": 7783,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "@Michael Ferrari A2338 ",
+        "@Michael Ferrari macbook is liuqid damage and not on and working very badly liquid damage\n\nneed more time for logic board repair",
+        "Post repair all good,we repair logic board CD chis ROM and some CD chis line make jumper then macbook working fine,we change battery pull also top case and lid has petting \n\nMacbook is 1TB/16GB RAM @Michael Ferrari @Ricky Panesar "
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Battery"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10796121059",
+      "item_name": "BM 1197 (Kelly Murphy)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 345.0,
+      "purchase_price": 36.0,
+      "net": 191.76,
+      "diag_time_secs": 2225,
+      "repair_time_secs": 1430,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board one line short remove short and working fine"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10796123434",
+      "item_name": "BM 1199 (jen herzberg)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
+        "Keyboard - A2338"
+      ],
+      "parts_cost": 15.0,
+      "sale_price": 610.0,
+      "purchase_price": 158.0,
+      "net": 261.53,
+      "diag_time_secs": 1125,
+      "repair_time_secs": 4665,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board all liquid damage parts three ic and 6 ragiester and keyboard and charging port"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard",
+        "Charging IC"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10836969006",
+      "item_name": "BM 1226 (Jim Rogers)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Keyboard - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 32.0,
+      "sale_price": 480.0,
+      "purchase_price": 91.0,
+      "net": 203.36,
+      "diag_time_secs": 2370,
+      "repair_time_secs": 3821,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe waiting for keyboard",
+        "Post repair all good,we repair new keyboard and keyboard back light "
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10822117222",
+      "item_name": "BM 1217 (Lorena Soto)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.6,
+        "raw": "20v 2.6A"
+      },
+      "parts_used": [
+        "Liquid Damage Treatment (All Models)",
+        "Trackpad - A2681  (Space Grey)",
+        "Trackpad Flex - A2681",
+        "Screen Bezel - A2681 / A3113 - Blue"
+      ],
+      "parts_cost": 62.0,
+      "sale_price": 789.0,
+      "purchase_price": 127.0,
+      "net": 360.39,
+      "diag_time_secs": 2489,
+      "repair_time_secs": 5995,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair new track pad keyboard back light and liquid damage repair",
+        "@Roni Mykhailiuk done "
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10987778224",
+      "item_name": "BM 1201 (Susan Galt)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.5,
+        "raw": "20v 1.5A"
+      },
+      "parts_used": [
+        "Unknown-9934303569",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 527.0,
+      "purchase_price": 109.0,
+      "net": 277.52,
+      "diag_time_secs": 744,
+      "repair_time_secs": 0,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair hall sensor and check No liquid damage parts"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10796115993",
+      "item_name": "BM 1202 (amy Osborne)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 1179.0,
+      "purchase_price": 182.0,
+      "net": 679.18,
+      "diag_time_secs": 1098,
+      "repair_time_secs": 3154,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board we found one CD chis and ROM damage ( UG400 ) UG 200)"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10849907270",
+      "item_name": "BM 1234 (CJ Hamilton)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
+      ],
+      "parts_cost": 6.0,
+      "sale_price": 465.0,
+      "purchase_price": 88.0,
+      "net": 205.99,
+      "diag_time_secs": 1279,
+      "repair_time_secs": 8480,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Description:\n\n* AMM;5.0v\n* .0230\nFaults:\n\n* Macbook not on and working\n* has been repair logic board\n* we found logic board has liquid damage\n* we found screen back light has liquid damage\n* we repair logic board and macbook working fine after logic board but No image or no back light\n* we repair all liquid damage parts and CD chis and same screen image ic and register\nRepairs needed:\n\n* logic board\nOptional repairs:",
+        "Post repair all good,we repair logic board and charging port",
+        "Post repair , i change new speaker but look like same on my side also it's no to much low sound but minor low\n\ni have before same issue macbook has and try try to repair audio ic other parts logic board but still same no improve on sound\n\nNo point to spent more time please QC completed like minor sound low"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC",
+        "Audio IC"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10815340978",
+      "item_name": "BM 1212 (Matt Trow)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Unknown-18388343879",
+        "Touch Bar - A2251 / A2289",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 16.0,
+      "sale_price": 389.0,
+      "purchase_price": 89.0,
+      "net": 107.85,
+      "diag_time_secs": 3715,
+      "repair_time_secs": 6321,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "@Andres Egas please can you make screen and check other all parts working fine\n\n@Michael Ferrari i change top case now macbook is server color ",
+        "Post repair all good,we repair logic board and touch bar",
+        "Post repair , i change new mic phone because some time homing coming for mic"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10815342905",
+      "item_name": "BM 1213 (Serena Coney)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 0.6,
+        "raw": "20v 0.6A"
+      },
+      "parts_used": [
+        "Keyboard - A2338",
+        "Unknown-9951310434"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 599.0,
+      "purchase_price": 158.0,
+      "net": 250.85,
+      "diag_time_secs": 1343,
+      "repair_time_secs": 6514,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard and Bezel eric not working"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10985322840",
+      "item_name": "BM 1219 (Lee Sanderson)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.0,
+        "raw": "20v 2A"
+      },
+      "parts_used": [],
+      "parts_cost": 0,
+      "sale_price": 387.0,
+      "purchase_price": 0,
+      "net": 263.3,
+      "diag_time_secs": 1318,
+      "repair_time_secs": 0,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we found CD chis short and RAM issue also we check track pad"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10815342840",
+      "item_name": "BM 1214 (Louisa Hobson)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 4.0,
+        "raw": "20v 4A"
+      },
+      "parts_used": [
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 1006.0,
+      "purchase_price": 336.0,
+      "net": 395.75,
+      "diag_time_secs": 1026,
+      "repair_time_secs": 3042,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe check mac book taking power and on and working but No screen out put we used our test screen and screen image showing fine\n\n@Mykhailo Kepeshchuk please can you cut screen and check any think damage because no display damage \n\n",
+        "Post repair all good Eric not working"
+      ],
+      "fault_keywords": [
+        "Display IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10891999520",
+      "item_name": "BM 1239 (Ana Wall)",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Keyboard Backlight - A2289 / A2338",
+        "Unknown-9951310434",
+        "Other (See Notes)",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
+        "Trackpad Flex - A2338 M2",
+        "Unknown-10062529433"
+      ],
+      "parts_cost": 53.0,
+      "sale_price": 666.0,
+      "purchase_price": 100.0,
+      "net": 285.43,
+      "diag_time_secs": 3365,
+      "repair_time_secs": 4433,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair new keyboard keys and keyboard back light and touch bar\n\n@Mykhailo Kepeshchuk please repair pol ",
+        "Post repair all good,we swap logic board and change new track pad and flex"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10941752324",
+      "item_name": "BM 1276 (Mohammad Uddin)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-18388343629",
+        "Keyboard Backlight - A2289 / A2338"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 487.0,
+      "purchase_price": 91.0,
+      "net": 187.03,
+      "diag_time_secs": 3559,
+      "repair_time_secs": 8602,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair logic board we found near hall sensor ic has liquid damage we repair and make one jumper then macbook working fine but keyboard back light not good\n\n@Andres Egas please can you repair screen lid after i repair keyboard back light \n\n",
+        "Post repair all good,we replace new keyboard back light and clan some keys because minor stick also look like very minor yellow keyboard back light right side ( i can't do nothing because we don't have new keyboard US one ) other wise new keyboard",
+        "@Roni Mykhailiuk i change new butter fly and puss metal down now look like good "
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10845379648",
+      "item_name": "BM 1231 ( Keyvan Jafari )",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Keyboard - A2179",
+        "Unknown-18096803587"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 301.0,
+      "purchase_price": 85.0,
+      "net": 37.01,
+      "diag_time_secs": 3017,
+      "repair_time_secs": 7173,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\n@Andres Egas make screen and after check other all parts working or not\n\nwe change new keyboard",
+        "Post repair all good,we repair new keyboard and working fine"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10824877657",
+      "item_name": "BM 1221 (Lorenzo Daley)",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.0,
+        "raw": "20v 2A"
+      },
+      "parts_used": [
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141"
+      ],
+      "parts_cost": 5.0,
+      "sale_price": 500.0,
+      "purchase_price": 234.0,
+      "net": 132.98,
+      "diag_time_secs": 3296,
+      "repair_time_secs": 1186,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new charging port and clan touch id"
+      ],
+      "fault_keywords": [
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10891996925",
+      "item_name": "BM 1241 (Jericho Hannant)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2338 (LG)",
+        "MacBook Backlight",
+        "Keyboard Backlight - A2289 / A2338",
+        "Keyboard - A2338"
+      ],
+      "parts_cost": 118.0,
+      "sale_price": 539.0,
+      "purchase_price": 139.0,
+      "net": 81.2,
+      "diag_time_secs": 3075,
+      "repair_time_secs": 5777,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard and keyboard back light very minor low keyboard back light right side"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10963992167",
+      "item_name": "BM 1282 *Christina Smith BM Replacement",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.7,
+        "raw": "20v 1.7A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Keyboard Backlight - A2289 / A2338",
+        "Unknown-18388343879",
+        "Unknown-9951310434"
+      ],
+      "parts_cost": 9.0,
+      "sale_price": 0,
+      "purchase_price": 89.0,
+      "net": null,
+      "diag_time_secs": 1448,
+      "repair_time_secs": 4176,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board and keyboard back light minor low keyboard back light right side"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10891999699",
+      "item_name": "BM 1242 (David Thomson)",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)"
+      ],
+      "parts_cost": 47.0,
+      "sale_price": 549.0,
+      "purchase_price": 255.0,
+      "net": 118.55,
+      "diag_time_secs": 818,
+      "repair_time_secs": 1471,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new battery"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10824879469",
+      "item_name": "BM 1223 (Iain Moore)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5V"
+      },
+      "parts_used": [
+        "Keyboard - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Unknown-9934302590",
+        "LCD - A2337",
+        "Unknown-10839429574"
+      ],
+      "parts_cost": 116.0,
+      "sale_price": 444.0,
+      "purchase_price": 77.0,
+      "net": 57.5,
+      "diag_time_secs": 2393,
+      "repair_time_secs": 7802,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair note\n\nwe repair new keyboard and keyboard back light also we repair audio logic board\n\n@Andres Egas please can you chnage screen lid ",
+        "Repair note\n\nneed oder audio logic board",
+        "Post repair all good,we repair logic board sound ic and pull battery"
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Audio IC",
+        "Battery"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10845379536",
+      "item_name": "BM 1232 (Ashanti Bernard)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "LCD (LG) - A2442 | A2779 | A2992 | A2918 | A3112 | A3185 | A3401",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 229.0,
+      "sale_price": 997.0,
+      "purchase_price": 336.0,
+      "net": 151.21,
+      "diag_time_secs": 3239,
+      "repair_time_secs": 2863,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board one audio ic and one capacitor liquid damage"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Audio IC"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10837034255",
+      "item_name": "BM 1230 (William Beckett)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 1029.0,
+      "purchase_price": 182.0,
+      "net": 560.14,
+      "diag_time_secs": 896,
+      "repair_time_secs": 5528,
+      "total_saf_updates": 4,
+      "saf_notes": [
+        "Description:\n\n* AMM;5.0v\n* -.332\nFaults:\n\n* Macbook not on and working\n* we found has been try to open macbook\n* logic board has liquid damage\n* we found touch id flex damage as well\n* we repair logic board replace all liquid damage part on logic board then macbook workig finr\n* other all parts working fine\nRepairs needed:\n\n* need logic bard repair\n* touch id\nOptional repairs:",
+        "@Michael Ferrari please can you oder touch id from apple ",
+        "Post repair all good,we repair logic board and touch id",
+        "@Roni Mykhailiuk done "
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10904740798",
+      "item_name": "BM 1259 (Thomas Ratnett)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Unknown-10839429574"
+      ],
+      "parts_cost": 0,
+      "sale_price": 395.0,
+      "purchase_price": 92.0,
+      "net": 135.49,
+      "diag_time_secs": 2272,
+      "repair_time_secs": 5722,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe repair new battrey @Andres Egas please make screen and\n\nwe need oder audio logic board ",
+        "Repair notes;\n\ni used this logic board other housing and check sound working fine\n\nsound not good this top screen\n\n@Michael Ferrari please can you Oder top case silver ",
+        "Post repair all good,we clan top case all hall one top side and sound working fine,we used pull battrey 93% heath,No true-tone"
+      ],
+      "fault_keywords": [
+        "Audio IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10967143898",
+      "item_name": "BM 1286 (Isabella Lee)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "ammeter : 20 v"
+      },
+      "parts_used": [
+        "Keyboard Backlight - A2179 / A2337",
+        "See Notes (All Models)"
+      ],
+      "parts_cost": 8.0,
+      "sale_price": 387.0,
+      "purchase_price": 91.0,
+      "net": -224.28,
+      "diag_time_secs": 4073,
+      "repair_time_secs": 94143,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard back light and change full screen BM 1258"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "10963988680",
+      "item_name": "BM 1283 (Tristan Wickham)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "See Notes (All Models)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 411.0,
+      "purchase_price": 84.0,
+      "net": 185.17,
+      "diag_time_secs": 1582,
+      "repair_time_secs": 5910,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we change top case"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11055306604",
+      "item_name": "BM 1324 (Rafaela Monteiro)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Trackpad - A2681  (Space Grey)",
+        "Trackpad Flex - A2681",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 54.0,
+      "sale_price": 629.0,
+      "purchase_price": 109.0,
+      "net": 279.85,
+      "diag_time_secs": 2069,
+      "repair_time_secs": 3106,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair track pad flex and track pad also we clan keyboard back light ans some keys"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10982542463",
+      "item_name": "BM 1293 (Lydia Chelovska)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 3.6,
+        "raw": "20v 3.6A"
+      },
+      "parts_used": [
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 1074.0,
+      "purchase_price": 141.0,
+      "net": 626.48,
+      "diag_time_secs": 3744,
+      "repair_time_secs": 2878,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board ,we found one sound ic and near ic capacitor explosion after repair ic and make jumper then macbook working fine"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "11077045336",
+      "item_name": "BM 1329 (Gethin Jones)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 16.0,
+      "sale_price": 411.0,
+      "purchase_price": 88.0,
+      "net": 173.46,
+      "diag_time_secs": 1582,
+      "repair_time_secs": 4080,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "@Michael Ferrari Done SN ",
+        "Repair notes;\n\nwe found macbook is liquid damage ,we repair liquid damage parts and repair audio logic bard then macbook working fine but camera not working\n\nwe found one Camera line explosion screen T-COM side,this screen is copy\n\n@Roni Mykhailiuk please can you try change and let me know camera working or not otherwise we have to replace screen ",
+        "Post repair all good,we repair audio logic board,we chnage audio ic"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Audio IC"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10929321934",
+      "item_name": "BM 1275 (Adam Hidayat Bin Zamree)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "LCD (LG) - A2442 | A2779 | A2992 | A2918 | A3112 | A3185 | A3401",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 229.0,
+      "sale_price": 719.0,
+      "purchase_price": 125.0,
+      "net": 125.73,
+      "diag_time_secs": 1933,
+      "repair_time_secs": 2306,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "@Mykhailo Kepeshchuk please can you make screen after tag me i will check logic bard because mac book working fine ",
+        "Post repair all good,we found liquid damage and found two ragiester damage we repair logic board"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "10941834004",
+      "item_name": "BM 1277 (Freya Szabo)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.8,
+        "raw": "20v 1.8A"
+      },
+      "parts_used": [
+        "Unknown-9934322876",
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 391.0,
+      "purchase_price": 117.0,
+      "net": 144.13,
+      "diag_time_secs": 2686,
+      "repair_time_secs": 4297,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe found macbook has charging port damage and one CD chips issue\n\nwe repair new charging port and logic board\n\n@Roni Mykhailiuk please make one screen full screen and give it me ",
+        "Post repair all good,we repair full screen and other parts see in notes",
+        "Repair notes;\n\njust need clan top case hall and working fine much beret"
+      ],
+      "fault_keywords": [
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10941746674",
+      "item_name": "BM 1278 (Freya Cowden)",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Other (See Notes)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 400.0,
+      "purchase_price": 186.0,
+      "net": 110.21,
+      "diag_time_secs": 2334,
+      "repair_time_secs": 814,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we check no liquid damage and check all four charging port is fine"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "10953533098",
+      "item_name": "BM 1279 (Benjamin Weil)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.2,
+        "raw": "20v 1.2A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 909.0,
+      "purchase_price": 182.0,
+      "net": 461.26,
+      "diag_time_secs": 1012,
+      "repair_time_secs": 8024,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe found has been open macbook,we found logic board has expolson,we repair expolrson and remove short then macbook working fine\n\nbut touch id does not working, i check touch id line and all line logic board side fine\n\n@Michael Ferrari we need to oder touch id from apple and check check",
+        "Post repair all good,we repair logic board and touch id",
+        "@Roni Mykhailiuk done check "
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11043890162",
+      "item_name": "BM 1319 (Tamara Searby)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2681 | A3113 | A3240",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 95.0,
+      "sale_price": 532.0,
+      "purchase_price": 159.0,
+      "net": 110.21,
+      "diag_time_secs": 2637,
+      "repair_time_secs": 406,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keys and make ABC keyboard"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11055297299",
+      "item_name": "BM 1325 (William Hunter)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Keyboard Backlight - A2179 / A2337",
+        "Trackpad - A2337 (Silver)",
+        "Trackpad Flex - A2179 / A2337",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 57.0,
+      "sale_price": 393.0,
+      "purchase_price": 88.0,
+      "net": 123.41,
+      "diag_time_secs": 998,
+      "repair_time_secs": 3670,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair track pad,track pad flex and keyboard back light,keyboard keyboard board and pull battery"
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Battery"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "11055292412",
+      "item_name": "BM 1326 (Esther Laithwaite)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2337",
+        "MacBook Backlight",
+        "Unknown-10050030304",
+        "Keyboard - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Unknown-10839429574",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 132.0,
+      "sale_price": 385.0,
+      "purchase_price": 72.0,
+      "net": 13.31,
+      "diag_time_secs": 1683,
+      "repair_time_secs": 4205,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair keyboard and keyboard back light"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "10953535592",
+      "item_name": "BM 1280 (Mackenzie Burton)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A1932",
+        "MacBook Backlight",
+        "MacBook Logic Board",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 62.0,
+      "sale_price": 383.0,
+      "purchase_price": 92.0,
+      "net": 82.21,
+      "diag_time_secs": 2584,
+      "repair_time_secs": 2359,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we found two (DZF675,) issue we change and charging working fine"
+      ],
+      "fault_keywords": [
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11030992636",
+      "item_name": "BM 1309 (Kay Webster)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2681 | A3113 | A3240",
+        "Other (See Notes)",
+        "MacBook Logic Board",
+        "USB-C Port - A2681",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 116.0,
+      "sale_price": 534.0,
+      "purchase_price": 91.0,
+      "net": 83.5,
+      "diag_time_secs": 1722,
+      "repair_time_secs": 13495,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Post repair we repair logic board charging issue we found charging port liquid damage and logic board liquid damage\n\nwe repair new CD chis and some liquid damage parts ( see image )\n\n",
+        "Repair notes;\n\nwe repair logic board and after found camera not working\n\nwe found screen side camera making issue on logic board if we connect this camera logic board go explosion,i repair logic board side camera issue and check our screen and camera working fine\n\n@Mykhailo Kepeshchuk please check camera and please don't connect this camera this logic board ",
+        "Post repair all god,we repair logic board agine because logic board explosion, i swap full screen From BM 1327 because explosion making many line damage that way i chnage full screen"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "11030926316",
+      "item_name": "BM 1312 (Samuel Muse Tesfagirgesh)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689",
+        "See Notes (All Models)"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 501.0,
+      "purchase_price": 74.0,
+      "net": 267.39,
+      "diag_time_secs": 1561,
+      "repair_time_secs": 4039,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board ,we found logic board has liquid damage and repair near charging ic and other parst as well we repair new charging ic and some register and capacitor then macbook working fine "
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11077047143",
+      "item_name": "BM 1330 (Marvin Masinde)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Unknown-18388343442",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "Touch Bar - A2251 /A2289/A2338 M1 / A2338 M2",
+        "Touch Bar Flex - A2251 / A2289 / A2338 M1 / A2338 M2",
+        "Trackpad - A2338 M1 (Space Grey)"
+      ],
+      "parts_cost": 150.5,
+      "sale_price": 439.0,
+      "purchase_price": 139.0,
+      "net": -28.16,
+      "diag_time_secs": 963,
+      "repair_time_secs": 6234,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes\n\nNo liquid damage,we found touch bar not working and track pad lick not working\n@Andres Egas please repair screen and after click wait parts \n\nwe wait touch bar and track pad",
+        "Repair notes;\n\nwe waiting for touch bar and track pad",
+        "Post repair all good,we repair new battery touch bar,track pad"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11030924176",
+      "item_name": "BM 1313 (Leanne Capuano)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "LCD - A2337",
+        "Unknown-9934302590",
+        "Unknown-10839429574",
+        "Other (See Notes)",
+        "MacBook Logic Board"
+      ],
+      "parts_cost": 100.0,
+      "sale_price": 411.0,
+      "purchase_price": 77.0,
+      "net": 40.87,
+      "diag_time_secs": 1494,
+      "repair_time_secs": 6845,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "@Mykhailo Kepeshchuk please can you make screen line and camera flex after tag me because need more repair ",
+        "Post repair all good,we repair logic board and audio logic board repair and we change top case"
+      ],
+      "fault_keywords": [
+        "Audio IC"
+      ],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "11115896017",
+      "item_name": "BM 1346 (Am Nethercott)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "LCD - A1932",
+        "Trackpad - A2337 (Space Grey)"
+      ],
+      "parts_cost": 74.0,
+      "sale_price": 433.0,
+      "purchase_price": 156.0,
+      "net": 42.18,
+      "diag_time_secs": 1655,
+      "repair_time_secs": 4710,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe waiting for track pad",
+        "Post repair all good,we repair new track pad clan keyboard back light",
+        "Repair notes;\n\njust need clan"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11086927034",
+      "item_name": "BM 1334 ( Gregg Purcell )",
+      "grade": "NONFUNC.USED",
+      "status": "Battery Testing",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Unknown-9934322876",
+        "MacBook Logic Board",
+        "MacBook Air A1932/A2179 Battery (A1965)"
+      ],
+      "parts_cost": 34.0,
+      "sale_price": 0,
+      "purchase_price": 57.0,
+      "net": null,
+      "diag_time_secs": 2192,
+      "repair_time_secs": 3297,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair logic board,we found one CD chis and charging port damage and battery replace new battery"
+      ],
+      "fault_keywords": [
+        "Battery",
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11086945398",
+      "item_name": "BM 1335 (Charnveer Manku)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Keyboard - A2338",
+        "Unknown-10062530728",
+        "Keyboard Backlight - A2289 / A2338",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 17.0,
+      "sale_price": 487.0,
+      "purchase_price": 113.0,
+      "net": 195.24,
+      "diag_time_secs": 1556,
+      "repair_time_secs": 7015,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes;\n\nwe found keyboard has liquid damage and track pad liquid damage\n\nwe repair new keyboard and track pad after we found key board back light not good but we don't have keyboard back light\n\n",
+        "Post repair all good,we repair new keyboard back light as well"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "11115903879",
+      "item_name": "BM 1349 ( William Watson )",
+      "grade": "FUNC.CRACK",
+      "status": "Repaired",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": null,
+      "parts_used": [
+        "MacBook Logic Board",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 0,
+      "purchase_price": 145.0,
+      "net": null,
+      "diag_time_secs": 933,
+      "repair_time_secs": 4526,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Repair notes\n\nmacbook working fine but no track pad and keyboard woking and screen is damage we found logic board liquid damage one Track pad ic,we repair new ic and make two jumper then macbook track pad working fine\n\nother all parts working fine but we can't sell this top case because sticker mark on top case\n\n@Michael Ferrari please you oder top case\n\n@Andres Egas please make screen and after click waiting parts top case ",
+        "Post repair all good,we swap logic board for other housing BM 1453"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "11138161185",
+      "item_name": "BM 1361 (Kieran McAloon)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 16.0,
+      "sale_price": 399.0,
+      "purchase_price": 101.0,
+      "net": 160.86,
+      "diag_time_secs": 1738,
+      "repair_time_secs": 2237,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we found one line short ( PP3V8_AON_VDDMAIN) we found one capacitor short ( C7705) after remove macbook working fine"
+      ],
+      "fault_keywords": [
+        "Short Circuit"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11243983811",
+      "item_name": "BM 1414 (Shivansh Sharma)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.9,
+        "raw": "20v 2.9A"
+      },
+      "parts_used": [
+        "Keyboard Backlight - A2681",
+        "Keyboard - A2681 / A3113 / A2941 / A3114 / A3240 / A3241",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 32.0,
+      "sale_price": 710.0,
+      "purchase_price": 172.0,
+      "net": 285.69,
+      "diag_time_secs": 3107,
+      "repair_time_secs": 7082,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard and keyboard back light",
+        "Repair notes;\n\nwe open and check nothing behind back cover,we found back cover minor bend that angel make to try straight but still 0.99% up if not happy then we need oder new back cover "
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11232081492",
+      "item_name": "BM 1409 (Matthew Leake)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Book Return Courier",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Unknown-18096827880",
+        "Keyboard - A2485 / A2780 / A2991 / A3403 / A3186",
+        "Keyboard Backlight - A2442 / A2779 / A2918 / A2992 / A2485 / A2780 / A2991",
+        "MacBook Pro A2442 Battery (A2519)",
+        "Other (See Notes)",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210",
+        "Unknown-11069619398"
+      ],
+      "parts_cost": 89.0,
+      "sale_price": 1082.0,
+      "purchase_price": 182.0,
+      "net": 501.45,
+      "diag_time_secs": 2278,
+      "repair_time_secs": 6428,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "@Roni Mykhailiuk i check both speaker good nothing issue beause i clan dust and after i check and i did't hear any issue ",
+        "Post repair all good,we found Battery data line flex making issue we used pull battery data flex\n\nwe charging 5% to 85% aging discharging and charging issue 91% all charging port taking good AMM "
+      ],
+      "fault_keywords": [
+        "Battery",
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11155686294",
+      "item_name": "BM 1372 (Bethany Rathbone)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "Unknown-9934302590",
+        "Unknown-9934322876",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 15.0,
+      "sale_price": 493.0,
+      "purchase_price": 77.0,
+      "net": 253.27,
+      "diag_time_secs": 2048,
+      "repair_time_secs": 1332,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair audio logic board and charging port screen back light has dust but shoud be fine "
+      ],
+      "fault_keywords": [
+        "Charging IC",
+        "Audio IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11127247845",
+      "item_name": "BM 1357 ( Zoe Greenwood )",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 5.0,
+      "sale_price": 500.0,
+      "purchase_price": 234.0,
+      "net": 139.42,
+      "diag_time_secs": 1528,
+      "repair_time_secs": 1409,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new charging port"
+      ],
+      "fault_keywords": [
+        "Charging IC"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11115905340",
+      "item_name": "BM 1350 (Laura Galia)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "USB-C Port - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 / A1707 / A1990 / A2141",
+        "Other (See Notes)",
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "Unknown-9951310434",
+        "Unknown-11069485348",
+        "Unknown-11069588689",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 53.0,
+      "sale_price": 465.0,
+      "purchase_price": 91.0,
+      "net": 168.67,
+      "diag_time_secs": 1623,
+      "repair_time_secs": 5214,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "Repair notes;\n\nwe found logic board has liquid damage and repair logic board and replace keys ad change new battery",
+        "Post repair all good, just keyboard back light minor low middle",
+        "Repair notesl\n\ni chnage 3 key and butterfly also i clan all arroows just need clan and chage bezel"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Battery",
+        "Keyboard"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "11148124724",
+      "item_name": "BM 1366 (Charlie Thomson)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "MacBook Backlight",
+        "Unknown-9934322876",
+        "Trackpad - A2337 (Space Grey)",
+        "Trackpad Flex - A2179 / A2337",
+        "MacBook Air A2337 Battery (A2389)",
+        "Unknown-10031707818",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689",
+        "MacBook Logic Board",
+        "LCD - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Keyboard - A2337",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 187.0,
+      "sale_price": 349.0,
+      "purchase_price": 72.0,
+      "net": -69.43,
+      "diag_time_secs": 2109,
+      "repair_time_secs": 6863,
+      "total_saf_updates": 5,
+      "saf_notes": [
+        "@Andres Egas please can you repair screen after tag me i will check logic board liquid damage ",
+        "notes\n\nwe found track pad has liquid damage and charging port",
+        "Post repair all good,we repair new track pad,track pad flex and charging port, battery also keyboard back light right side very minor yellow ",
+        "Post repair we change new speaker and test working fine and confirm other person they happy",
+        "Post repair i change new keyboard and keyboard back light because maybe liquid damage that why key not working"
+      ],
+      "fault_keywords": [
+        "Liquid Damage",
+        "Charging IC",
+        "Keyboard",
+        "Battery"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "main_board_id": "11322635210",
+      "item_name": "BM 1461 (Vladyslav Matiuk)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.9,
+        "raw": "20v 2.9A"
+      },
+      "parts_used": [
+        "Hall Sensor - A2485 / A2780 / A2991",
+        "Liquid Damage Treatment (All Models)",
+        "Unknown-11069584232",
+        "Unknown-11069619398",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 12.0,
+      "sale_price": 999.0,
+      "purchase_price": 148.0,
+      "net": 559.55,
+      "diag_time_secs": 2175,
+      "repair_time_secs": 3270,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair hall sensor and logic board has liquid damage hall sensor connector after check no other place liquid damage,we take out track pad and check no lqiud damage"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11232100617",
+      "item_name": "BM 1410 (Shaoul Bar-Avraham)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Keyboard Backlight - A2442 / A2779 / A2918 / A2992 / A2485 / A2780 / A2991",
+        "MacBook Logic Board",
+        "Charger MacBook Pro 14-inch, 96W(2021 or later) and 16-inch(2019)",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 31.0,
+      "sale_price": 932.0,
+      "purchase_price": 141.0,
+      "net": 473.43,
+      "diag_time_secs": 2381,
+      "repair_time_secs": 8782,
+      "total_saf_updates": 3,
+      "saf_notes": [
+        "",
+        "Post repair all good,we repair new keyboard back light and clan logic board and make soldering some ic also some capacitor look line just silver parts missing but all line working fine ",
+        "Post repair all good,i replace some capacitor because look like badly missing silver and i clan logic board with sanitising and logic board look like =nice"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11215761889",
+      "item_name": "BM 1403 (sam bellerby)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "LCD - A2337",
+        "Unknown-9951309601",
+        "MacBook Backlight",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689",
+        "Other (See Notes)"
+      ],
+      "parts_cost": 115.0,
+      "sale_price": 341.0,
+      "purchase_price": 156.0,
+      "net": -53.14,
+      "diag_time_secs": 2604,
+      "repair_time_secs": 1378,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we swap logic from BM 1451 now 8RAM/256GB"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11232086511",
+      "item_name": "BM 1411 (Poppy Rice)",
+      "grade": "NONFUNC.CRACK",
+      "status": "Book Return Courier",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.5,
+        "raw": "20v 2.5A"
+      },
+      "parts_used": [
+        "MacBook Pro A1989/A2251 Battery (A1964)",
+        "Battery Flex - A1989 / A2251",
+        "Other (See Notes)",
+        "Unknown-11069617210",
+        "Unknown-11069588689",
+        "Unknown-11069485348"
+      ],
+      "parts_cost": 22.0,
+      "sale_price": 407.44,
+      "purchase_price": 40.0,
+      "net": 204.49,
+      "diag_time_secs": 2317,
+      "repair_time_secs": 3432,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we swap logic board BM 1391 housing and we used all parts they BM,we repair new battery"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11266453372",
+      "item_name": "BM 1430 (Katherine Palley)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "5V",
+      "ammeter_parsed": {
+        "voltage": 5.0,
+        "amps": null,
+        "raw": "5v"
+      },
+      "parts_used": [
+        "MacBook Logic Board",
+        "Unknown-11069584232",
+        "Unknown-11069617210",
+        "Unknown-11069619398"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 728.0,
+      "purchase_price": 148.0,
+      "net": 368.28,
+      "diag_time_secs": 1377,
+      "repair_time_secs": 4920,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we found logic board has issue one CD chis and ROM ( UF500) ( UF360)"
+      ],
+      "fault_keywords": [],
+      "complexity": "routine"
+    },
+    {
+      "main_board_id": "11219773029",
+      "item_name": "BM 1407 (Pritesh Vadher)",
+      "grade": "UNKNOWN",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": null,
+        "raw": "20v"
+      },
+      "parts_used": [
+        "Other (See Notes)",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 15.0,
+      "sale_price": 351.0,
+      "purchase_price": 160.0,
+      "net": 81.42,
+      "diag_time_secs": 1329,
+      "repair_time_secs": 899,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we chnage some keys new"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11311705240",
+      "item_name": "BM 1451 (Akif Nalbantoglu)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.0,
+        "raw": "20v 2A"
+      },
+      "parts_used": [
+        "Keyboard - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 32.0,
+      "sale_price": 429.0,
+      "purchase_price": 36.0,
+      "net": 195.15,
+      "diag_time_secs": 3368,
+      "repair_time_secs": 4170,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "@Mykhailo Kepeshchuk please can you chnage pol and after give me back screen ",
+        "Post repair all good,we repair new keyboard,keyboard back light we make track pad alignment ( has been repair keyboard they damage all keyboard housing rebate) i try my best keyboard look like nice"
+      ],
+      "fault_keywords": [
+        "Keyboard"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "main_board_id": "11286900464",
+      "item_name": "BM 1436 (Nathan Bu)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.9,
+        "raw": "20v 1.9A"
+      },
+      "parts_used": [
+        "Other (See Notes)",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 511.0,
+      "purchase_price": 124.0,
+      "net": 239.05,
+      "diag_time_secs": 1574,
+      "repair_time_secs": 2587,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we check no liquid damage and we make DFU restored and macbook working fine"
+      ],
+      "fault_keywords": [
+        "Liquid Damage"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11311719673",
+      "item_name": "BM 1453 (Anthony Deville)",
+      "grade": "NONFUNC.USED",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + ~1A (low amp)",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.0,
+        "raw": "20v 2A"
+      },
+      "parts_used": [
+        "MacBook Pro A2159/A2289/A2338 Battery (A2171)",
+        "MacBook Software Restore",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 48.0,
+      "sale_price": 465.88,
+      "purchase_price": 85.0,
+      "net": 190.72,
+      "diag_time_secs": 1889,
+      "repair_time_secs": 2211,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new battery and software restored and macbook working fine"
+      ],
+      "fault_keywords": [
+        "Battery"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11311703011",
+      "item_name": "BM 1454 ( Ioana Bombea )",
+      "grade": "NONFUNC.USED",
+      "status": "Ready To Collect",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.4,
+        "raw": "20v 1.4A"
+      },
+      "parts_used": [
+        "MacBook Software Restore",
+        "Other (See Notes)",
+        "Unknown-11069485348",
+        "Unknown-11069588689",
+        "Unknown-11069617210"
+      ],
+      "parts_cost": 1.0,
+      "sale_price": 0,
+      "purchase_price": 71.0,
+      "net": null,
+      "diag_time_secs": 2416,
+      "repair_time_secs": 1539,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair T2 ic software and change pull keys"
+      ],
+      "fault_keywords": [
+        "T2 Chip"
+      ],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11311705241",
+      "item_name": "BM 1456 ( Ioana Bombea )",
+      "grade": "NONFUNC.USED",
+      "status": "Ready To Collect",
+      "client": "BM",
+      "has_logic_board": false,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 1.3,
+        "raw": "20V 1.3A"
+      },
+      "parts_used": [
+        "Other (See Notes)",
+        "Unknown-11069485348",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 0.0,
+      "sale_price": 0,
+      "purchase_price": 91.0,
+      "net": null,
+      "diag_time_secs": 4312,
+      "repair_time_secs": 2473,
+      "total_saf_updates": 2,
+      "saf_notes": [
+        "Post repair all good,we repair some keys new and replace thermal past and test two software see image ",
+        "repair notes, clan out side thermal paste"
+      ],
+      "fault_keywords": [],
+      "complexity": "no_board_work"
+    },
+    {
+      "main_board_id": "11299995224",
+      "item_name": "BM 1450 (Anika Yasmin)",
+      "grade": "FUNC.CRACK",
+      "status": "Shipped",
+      "client": "BM",
+      "has_logic_board": true,
+      "ammeter_reading_column": "20V + 1.5A or higher",
+      "ammeter_parsed": {
+        "voltage": 20.0,
+        "amps": 2.0,
+        "raw": "20v 2A"
+      },
+      "parts_used": [
+        "Unknown-10050030304",
+        "Keyboard - A2337",
+        "Keyboard Backlight - A2179 / A2337",
+        "Unknown-9934322876",
+        "Other (See Notes)",
+        "Charger MacBook Air  13-inch, (2018 or later) 30W",
+        "Unknown-11069617210",
+        "Unknown-11069588689"
+      ],
+      "parts_cost": 32.0,
+      "sale_price": 380.0,
+      "purchase_price": 117.0,
+      "net": 103.09,
+      "diag_time_secs": 2498,
+      "repair_time_secs": 4959,
+      "total_saf_updates": 1,
+      "saf_notes": [
+        "Post repair all good,we repair new keyboard,keyboard back light, charging port and Bezel and black screen plastic,clan touch id"
+      ],
+      "fault_keywords": [
+        "Keyboard",
+        "Charging IC"
+      ],
+      "complexity": "moderate"
+    }
+  ]
+}
