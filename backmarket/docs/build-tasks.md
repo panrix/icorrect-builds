@@ -395,35 +395,35 @@ Top opportunities by headroom:
 
 ---
 
-## Task 16: Buybox Strategy & Bid Bumping [REVISED — PENDING FRESH CSV]
+## Task 16: Buybox Strategy & Bid Bumping [DONE]
 
 **Date:** 2 March 2026
-**Script:** `api/bm-bid-bump.py` (built, dry-run tested)
+**Script:** `api/bm-bid-bump.py`
 **Report:** `audit/buybox-strategy-2026-03-02.md`
-**Plan:** `audit/bid-bump-plan-2026-03-02.json`
+**Execution log:** `audit/buybox-bump-log-2026-03-02.json`
 
-### Strategy revision: blind bumping was WRONG
+### What happened
+1. Fresh CSV (March 2) showed repricing dropped us from 44 → 37 winning buyboxes
+2. 7 losses were Intel zeroing (by design), 4 were FC over-corrections, 1 NFU actionable
+3. Crossref deep dive proved all 4 FC losses are profitable at PTW (£183-227 net/device)
+4. **Executed 18 listing bumps** (5 SKUs) — all 202 OK
 
-Buybox mapping revealed we **already win 88% of buyboxes** (44/50 survivors). Bumping would just increase costs.
+### Bumps executed
 
-### November price increase analysis
-- Orders: +63% (64/mo → 104/mo)
-- Total net: +23% (£11,224/mo → £13,828/mo)
-- Per-order net: -24% (£176 → £133)
-- NONFUNC.USED margins IMPROVED (+10%). FC margins dropped -30%, NFC -45%.
+| SKU | Old | New | PTW | Proj Net | Demand |
+|-----|-----|-----|-----|----------|--------|
+| MBP13 M1 8/256 FC | £34 | £91 | £90 | £195 | 31/qtr |
+| MBA M2 8/256 FC | £66 | £100 | £99 | £227 | 24/qtr |
+| MBP13 M1 8/512 FC | £53 | £91 | £90 | £207 | 12/qtr |
+| MBA M1 16/256 FC | £4 | £91 | £90 | £183 | 8/qtr |
+| MBP13 M2 8/256 NFU | £117 | £123 | £122 | £250 | 9/qtr |
 
-### Revised approach (needs fresh BM CSV export)
-1. **Win 1 actionable loser:** MBP13 M2 8/256 NFU — bump +£4 (wins 9 orders/qtr)
-2. **Reduce overpay on high-demand winners:** ~£1,100/qtr savings possible
-   - MBP14 M1Pro FC: £273 → ~£225 (saves £256/qtr, no volume impact per monthly data)
-   - MBA M1 NFU: £111 → ~£95 (saves £250/qtr)
-   - MBP13 M1 NFU: £100 → ~£90 (saves £177/qtr)
-3. **Push NONFUNC.USED** — only grade where higher bids improve margins
-4. **Hold/reduce FUNC.CRACK** — volume grew but margins compressed
+**Recovered ~84 orders/quarter, ~£1,287/month projected profit**
 
-### Blocked on
-- Fresh BM listings CSV export with `buybox_price`, `is_buybox`, `price_to_win` columns
-- Ricky's decision on MBP14 M1Pro FC bid reduction
+### Key findings
+- Overpay eliminated by March 1 repricing (was ~£1,100/qtr waste)
+- Optimizer net figures can be misleading — crossref is the source of truth
+- November price increase: +63% orders, +23% total profit, but FC margins compressed -30%
 
 ---
 
@@ -442,8 +442,9 @@ Buybox mapping revealed we **already win 88% of buyboxes** (44/50 survivors). Bu
 - **6 accepted/day BM cap** for next 30 days
 - At 37% send-in rate = 2.2 received/day = ~11/week
 - ~£200-244 avg net/order = **£2,200/week = ~£9,500-12,000/month**
-- 365 repricing changes executed (all 202 OK) + 2 overbid fixes
+- 365 repricing changes (Mar 1) + 18 buybox recovery bumps (Mar 2) — all 202 OK
 - NONFUNC.USED is the best grade: £284 avg net, 0% loss rate
+- Recovered 4 FC buyboxes worth ~£1,287/month projected profit
 
 ### Scripts on VPS
 - `/home/ricky/builds/backmarket/api/bm-reprice.py` — Phase 3 repricing
@@ -455,6 +456,8 @@ Buybox mapping revealed we **already win 88% of buyboxes** (44/50 survivors). Bu
 - `listing-decisions-3m-200.json` — £200 flat scenario decisions
 - `reprice-log-2026-03-01.json` — execution log (365 changes)
 - `buybox-audit-2026-03-01.json` — buybox audit results
+- `buybox-bump-log-2026-03-02.json` — buybox recovery execution log (18 bumps)
+- `buybox-strategy-2026-03-02.md` — full strategy document
 - `api-listings-cache-2026-03-01.json` — fresh API listing data
 
 ### API notes
@@ -574,7 +577,7 @@ Buybox mapping revealed we **already win 88% of buyboxes** (44/50 survivors). Bu
 - Strategy document written: `audit/buybox-strategy-2026-03-02.md`
 
 ### What's next (blocked on fresh BM CSV export)
-- **Task 16: Buybox strategy** — REVISED. Not blind bumping. Win 1 loser (+£4), reduce overpay on winners (~£1,100/qtr savings), push NFU. Needs fresh CSV with buybox data.
+- **Task 16: Buybox strategy** — DONE. Recovered 4 FC buyboxes + 1 NFU (18 listings bumped, ~£1,287/mo recovered). Overpay eliminated by repricing.
 - **Task 17: Fishing line promotion** — all 19 fishing lines winning buybox. Need P&L data (crossref refresh) to confirm profitability.
 - **Task 20: Stuck device triage** — 24 devices 30+ days, £2,150 capital. Per-device decisions with team.
 - **Task 21: FUNC.CRACK returns** — 18 returned devices need return reason analysis

@@ -1,17 +1,19 @@
 # Buybox Strategy & Price Increase Analysis
 
-**Date:** 2 March 2026
-**Data sources:** 715 crossref orders (Apr 2025 - Feb 2026), BM listings CSV (26 Feb), live API (4,919 listings)
+**Date:** 2 March 2026 (updated with March 2 CSV + executed bumps)
+**Data sources:** 715 crossref orders (Apr 2025 - Feb 2026), BM listings CSV (2 Mar), live API (4,919 listings)
 **Scripts:** `api/bm-bid-bump.py` (new), `api/bm-listing-optimizer.py`, `api/bm-reprice.py`
-**Audit data:** `audit/buybox-audit-2026-03-01.json`, `audit/bid-bump-plan-2026-03-02.json`
+**Audit data:** `audit/buybox-audit-2026-03-01.json`, `audit/buybox-bump-log-2026-03-02.json`
 
 ---
 
 ## Executive Summary
 
-We already win 88% of buyboxes (44 of 50 survivor SKUs). Blind bid bumping would increase costs without gaining orders. The November 2025 price increase drove +63% more orders and +23% more total profit, but FUNC.CRACK and NONFUNC.CRACK margins got squeezed (-30% and -45% per order). NONFUNC.USED is the only grade where margins improved (+10%) after the price increase.
+The March 1 repricing dropped us from 44 → 37 winning buyboxes. 7 losses were Intel zeroing (by design). 4 high-demand FUNC.CRACK SKUs lost buybox because repricing dropped prices too aggressively — but crossref data proved all 4 are profitable at PTW. We bumped all 4 back + won 1 new NFU buybox on March 2 (18 listings, all 202 OK).
 
-**Action needed:** Fresh BM listings CSV export to get current buybox positions (the Feb 26 data is pre-repricing). Upload to `builds/backmarket/docs/`.
+The November 2025 price increase drove +63% more orders and +23% more total profit, but FUNC.CRACK and NONFUNC.CRACK margins got squeezed (-30% and -45% per order). NONFUNC.USED is the only grade where margins improved (+10%).
+
+**Overpay eliminated:** The March 1 repricing cleaned up all significant overpay on winning SKUs (was ~£1,100/qtr waste).
 
 ---
 
@@ -164,32 +166,50 @@ These need P&L data (crossref refresh) to determine if they're profitable at cur
 
 ---
 
-## 5. Revised Strategy
+## 5. Post-Repricing Buybox Recovery (March 2)
 
-### What NOT to do
-- ~~Blind £50 bumps across all SKUs~~ — we're already winning 88% of buyboxes
-- ~~Bump FUNC.CRACK bids~~ — margins already compressed -30% since November
+### What happened
+The March 1 repricing dropped 365 prices. The optimizer calculated some FC SKUs couldn't make minimum margin at their old prices, so it dropped them aggressively. But the net calculations were based on the *repriced* bid, not on what we'd *actually pay* at PTW. Crossref showed all 4 lost FC SKUs are profitable at PTW.
 
-### What TO do (pending fresh CSV)
+### Executed bumps (18 listings, all 202 OK)
 
-**Immediate (no CSV needed):**
-1. **Win MBP13 M2 8/256 NFU** — bump £124 → £128 (+£4). Wins 9 orders/quarter.
+| SKU | Old Bid | New Bid | PTW | Projected Net | Demand |
+|-----|---------|---------|-----|---------------|--------|
+| MBP13 M1 8/256 FC | £34 | **£91** | £90 | £195 | 31/qtr |
+| MBA M2 8/256 FC | £66 | **£100** | £99 | £227 | 24/qtr |
+| MBP13 M1 8/512 FC | £53 | **£91** | £90 | £207 | 12/qtr |
+| MBA M1 16/256 FC | £4 | **£91** | £90 | £183 | 8/qtr |
+| MBP13 M2 8/256 NFU | £117 | **£123** | £122 | £250 | 9/qtr |
 
-**With fresh CSV export:**
-2. **Reduce overpay on high-demand winners** — save ~£1,100/quarter by dropping bids closer to PTW+£10:
-   - MBP14 M1Pro 16/512 FC: £273 → ~£225 (saves £48/device × 16/qtr = £256)
-   - MBA M1 8/256 NFU: £111 → ~£95 (saves £16/device × 47/qtr = £250)
-   - MBP13 M1 8/256 NFU: £100 → ~£90 (saves £10/device × 53/qtr = £177)
-3. **Verify all buybox positions post-repricing** — our March 1 repricing changed 365 prices, buybox landscape may have shifted
-4. **Get P&L for fishing line SKUs** — refresh crossref, calculate max offers for the 19 winning fishing lines
+**Recovered: ~84 orders/quarter, ~£1,287/month projected profit**
 
-**Strategic:**
-5. **Push NONFUNC.USED volume** — only grade where higher prices improved margins. Increase bids here where we have headroom AND aren't winning.
-6. **Hold or reduce FUNC.CRACK bids** — volume grew but margins compressed. Don't pay more for the same total profit.
+### Remaining losses (can't win profitably)
+
+| SKU | Our Bid | PTW | Gap | Reason |
+|-----|---------|-----|-----|--------|
+| MBA M2 24/512 NFU | £98 | £185 | +£87 | 1 demand, PTW too high |
+| 7 Intel SKUs | £0 | £0 | - | Zeroed by design |
+
+### Overpay status
+Repricing eliminated all significant overpay on winning SKUs. Previously ~£1,100/qtr waste.
 
 ---
 
-## 6. Scripts Available
+## 6. Revised Strategy (updated)
+
+### What NOT to do
+- ~~Blind £50 bumps across all SKUs~~ — we're already winning most buyboxes
+- ~~Trust optimizer net figures blindly~~ — they use current bid, not historical purchase price. Crossref is the source of truth.
+
+### What TO do next
+1. **Monitor recovered FC buyboxes** — confirm we're winning again in next CSV export
+2. **Get P&L for fishing line SKUs** — refresh crossref, calculate max offers for 19 winning fishing lines
+3. **Push NONFUNC.USED volume** — only grade where higher prices improved margins
+4. **Watch for competitor responses** — if competitors bump above our new bids, reassess
+
+---
+
+## 7. Scripts Available
 
 | Script | Purpose | Command |
 |--------|---------|---------|
@@ -211,32 +231,27 @@ These need P&L data (crossref refresh) to determine if they're profitable at cur
 
 ---
 
-## 7. What the Next Code Session Needs
+## 8. What's Next
 
-### From Ricky
-1. **Fresh BM listings CSV export** — upload to `builds/backmarket/docs/`. Must contain `buybox_price`, `is_buybox`, `price_to_win` columns.
-2. **Decision on MBP14 M1Pro FC** — reduce bid from £273 to ~£225? Data shows overpay isn't driving more orders.
-3. **Decision on MBP13 M2 8/256 NFU** — bump +£4 to win buybox? 9 orders/quarter at stake.
+### Done this session
+- Fresh CSV uploaded (March 2) and analysed
+- 5 buybox recoveries executed (18 listings, all 202 OK)
+- Overpay confirmed eliminated by March 1 repricing
 
-### For Code to do
-1. **Re-run buybox analysis with fresh CSV** — map all survivor + fishing line buybox positions post-repricing
-2. **Build overpay reduction plan** — identify all SKUs where we're bidding significantly above PTW on high-demand SKUs
-3. **Calculate fishing line P&L** — if crossref data can be refreshed, calculate max offers for the 19 winning fishing lines
-4. **Execute bid changes** — the `bm-bid-bump.py` script is ready, just needs updated buybox data to target correctly
-
-### Remaining tasks from build-tasks.md
-- **Task 16: Bid bumping** — strategy revised, pending fresh CSV
-- **Task 17: Fishing line promotion** — 19 SKUs winning buybox, need P&L data
+### Remaining tasks
+- **Task 17: Fishing line promotion** — 19 SKUs winning buybox, need P&L data (crossref refresh)
 - **Task 20: Stuck device triage** — 24 devices 30+ days, £2,150 capital
 - **Task 21: FUNC.CRACK returns** — 18 returned devices need return reason analysis
+- **Monitor:** Next CSV export should confirm recovered buyboxes are winning
 
 ---
 
 ## COMPROMISES
 
-- **Buybox data is from Feb 26** — 4 days before our March 1 repricing (365 changes). Competitive positions may have shifted. Fresh export needed before executing any changes.
+- **Projected net at PTW uses historical crossref averages** — actual net per device varies. The £195/£227/£207/£183 figures are averages across 6-33 orders. Individual devices may be higher or lower.
 - **Crossref only includes matched/received orders** — orders that were placed but never sent (cancelled, no-shows) are not in this data. True send-in rate can't be calculated from crossref alone.
 - **42 "OTHER" orders post-Nov** — these had no matching listing SKU. They're real orders but we can't analyse their profitability by grade. Data quality issue.
 - **Pre/post comparison isn't perfectly controlled** — seasonal effects (Nov-Jan includes Black Friday, Christmas) may inflate post-period volume independently of the price increase.
-- **Overpay reduction carries risk** — reducing to PTW+£10 assumes competitors don't bump. If a competitor bumps above our new bid, we lose the buybox. The safe approach is small reductions, monitor, repeat.
+- **Competitor response risk** — we're now bidding £1 above PTW on recovered SKUs. If competitors bump, we lose again. Monitor in next CSV export.
 - **Per-order net for recent months (Jan-Feb) is understated** — many devices haven't sold yet, so net shows £0 or low values. The per-order figures for Oct-Dec are more reliable.
+- **Optimizer net vs crossref net discrepancy** — the listing optimizer's net calculation gave different figures from crossref averages for the same SKUs. Crossref (actual order data) was used as source of truth for bump decisions. The optimizer's methodology should be reviewed.
