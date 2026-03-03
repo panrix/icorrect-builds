@@ -556,38 +556,43 @@ More than originally estimated (24 → 43) because the full 6-month dataset capt
 
 ## Task 21: Returns Investigation — All Grades [DONE]
 
-**Date:** 2 March 2026
-**Report:** `audit/returns-investigation-2026-03-02.md`
+**Date:** 2-3 March 2026
+**Summary report:** `audit/returns-investigation-2026-03-02.md`
+**Deep dive (repair chain):** `audit/returns-deep-dive-2026-03-03.md`
+**Data source:** BM returns CSV (`docs/Backmarket_Returns_0303.csv`) + repair analysis data
 
-### Result: 35 returned devices, 80% have condition mismatches
+### Phase 1: BM Returns CSV Analysis
+- 47 unique sale-side return orders (Oct 2025 - Mar 2026)
+- 81% preventable (QC/grading issues we could have caught)
+- Top complaint: Power On Boot Failure (8 orders, 17%)
+- Fair grade = 87% preventable return rate
+- Pre-dispatch QC checklist recommended
 
-Expanded scope from FC-only to all grades — the pattern is systemic, not FC-specific.
+### Phase 2: Deep Dive — Matched to Repair Chain
+- 44 of 47 returns matched to specific Monday devices by ship date + model
+- **£3,869 direct cost** (£2,549 BM fees + £1,320 shipping) — ~£1,500/month burn rate
 
-| Grade | Returns | Return Rate | Mismatch Rate |
-|-------|---------|-------------|---------------|
-| FUNC.CRACK | 18 | 10.8% | 67% |
-| NONFUNC.USED | 8 | 6.3% | 100% |
-| NONFUNC.CRACK | 6 | 12.5% | 100% |
-| UNKNOWN | 3 | 12.0% | 67% |
+### Technician return rates
+| Tech | Shipped | Returns | Rate |
+|------|---------|---------|------|
+| Roni | 39 | 7 | 17.9% |
+| Mykhailo | 50 | 8 | 16.0% |
+| Saf | 131 | 14 | 10.7% |
+| Andres | 78 | 5 | 6.4% |
 
-### Root causes (from BM buyer complaints)
-1. **Power On / Boot Failure** — 8 orders (17%), the #1 technical complaint
-2. **Display Issues** — 5 orders (11%), dead pixels / backlight / cracked under glass
-3. **Wrong Colour / Model / Specs** — 6 orders (13%), listing errors not device errors
-4. **Keyboard Defects** — 3 orders, need full key-by-key test
-5. **Camera / Battery / Accessories** — 8 orders combined, missed in QC
-
-### Key stats
-- 81% of returns were preventable (QC/grading issue)
-- Fair grade = 68% of preventable returns, 87% preventable rate
-- MacBook Pro = 88% preventable rate vs 71% for Air
-- Jan 2026 worst month: 91% of returns were preventable
+### Key patterns
+- Andres has half the return rate of Roni/Mykhailo
+- Mykhailo as refurb (last to touch) on 39% of returns
+- 59% of returns had no repair_person recorded
+- 4 repeat-return devices (BM 1198 returned 3x = £367 wasted)
+- 6/8 Power On Boot Failure devices had 0min repair time — no boot test after LCD/battery swap
+- NONFUNC.USED has highest return rate (16.7%) despite being best margin grade
 
 ### Recommendations
-- Mandatory pre-dispatch QC checklist (functional + listing verification)
-- Full boot test, display test, keyboard test, camera test on every device
-- Serial number → model/spec/colour verification against listing
-- Target <5% overall return rate, <3% preventable (currently 12.8% / 10.3%)
+- Mandatory boot test after every repair (catches #1 complaint)
+- Repeat-return flag in Monday — block re-listing without escalation
+- Serial → listing verification before dispatch
+- Target <5% overall, <3% preventable (currently 12.8% / 10.3%)
 
 ---
 
@@ -638,7 +643,7 @@ Expanded scope from FC-only to all grades — the pattern is systemic, not FC-sp
 - Overpay eliminated by March 1 repricing (was ~£1,100/qtr waste)
 - 19 fishing lines assessed — all winning buybox, all profitable or likely profitable
 - 43 stuck devices triaged with per-device recommended actions (£3,987 capital)
-- 35 returns investigated — 80% have BM condition mismatches, QC recommendations written
+- 47 BM returns analysed — 81% preventable, 44/47 matched to repair chain, £3,869 direct cost
 - Strategy document: `audit/buybox-strategy-2026-03-02.md`
 
 ### What's next
@@ -651,7 +656,8 @@ Expanded scope from FC-only to all grades — the pattern is systemic, not FC-sp
 ### Key files
 - `audit/buybox-strategy-2026-03-02.md` — **START HERE** — full buybox + price increase analysis
 - `audit/stuck-device-triage-2026-03-02.md` — 43 stuck devices with per-device actions
-- `audit/returns-investigation-2026-03-02.md` — 35 returns analysed, QC recommendations
+- `audit/returns-investigation-2026-03-02.md` — 47 returns summary, QC checklist, financial impact
+- `audit/returns-deep-dive-2026-03-03.md` — **Full repair chain analysis** — 44/47 matched, tech patterns, repeat returns
 - `audit/buybox-audit-2026-03-01.json` — 50 survivors + 19 fishing lines with buybox data
 - `audit/buybox-bump-log-2026-03-02.json` — 18 buybox recovery bumps (all 202 OK)
 - `api/bm-bid-bump.py` — bid bump script (supports --grade, --increment, --execute)
