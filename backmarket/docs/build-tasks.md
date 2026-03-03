@@ -570,18 +570,24 @@ Expanded scope from FC-only to all grades — the pattern is systemic, not FC-sp
 | NONFUNC.CRACK | 6 | 12.5% | 100% |
 | UNKNOWN | 3 | 12.0% | 67% |
 
-### Root causes
-1. **BM's condition grading unreliable** — 80% of returns have BM-reported vs actual mismatch
-2. **"Non-functional" devices often functional** — 11 of 14 NFU+NFC returns actually worked
-3. **Screen damage (transit or missed by BM)** — 6 devices had screens worse than reported
-4. **Our QC has uncertainty gaps** — 4 devices show "Functional?" instead of definitive assessment
+### Root causes (from BM buyer complaints)
+1. **Power On / Boot Failure** — 8 orders (17%), the #1 technical complaint
+2. **Display Issues** — 5 orders (11%), dead pixels / backlight / cracked under glass
+3. **Wrong Colour / Model / Specs** — 6 orders (13%), listing errors not device errors
+4. **Keyboard Defects** — 3 orders, need full key-by-key test
+5. **Camera / Battery / Accessories** — 8 orders combined, missed in QC
+
+### Key stats
+- 81% of returns were preventable (QC/grading issue)
+- Fair grade = 68% of preventable returns, 87% preventable rate
+- MacBook Pro = 88% preventable rate vs 71% for Air
+- Jan 2026 worst month: 91% of returns were preventable
 
 ### Recommendations
-- Never trust BM condition report as final — independent full assessment on arrival
-- Photograph every device on arrival before opening
-- Remove "?" options from intake form — force definitive grades
-- Track return reason per device (buyer_return, quality_issue, wrong_grade, transit_damage)
-- Target <5% return rate (currently 9.6%)
+- Mandatory pre-dispatch QC checklist (functional + listing verification)
+- Full boot test, display test, keyboard test, camera test on every device
+- Serial number → model/spec/colour verification against listing
+- Target <5% overall return rate, <3% preventable (currently 12.8% / 10.3%)
 
 ---
 
