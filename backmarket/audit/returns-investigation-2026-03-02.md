@@ -4,7 +4,7 @@
 **Data sources:**
 - BM returns CSV: `docs/Backmarket_Returns_0303.csv` — 47 unique sale-side return orders (Oct 2025 - Mar 2026)
 - Monday repair data: `audit/repair-analysis-data-2026-03-02.json` — 534 matched devices
-**Note:** BM returns use sale-side order IDs (numeric). Our Monday data uses trade-in order IDs (GB-xxxxx). No direct link between the two in current data.
+**Matching:** BM returns use sale-side order IDs (numeric), our Monday data uses trade-in order IDs (GB-xxxxx). Matched 44 of 47 returns to specific devices by ship date + model. 380 total shipped devices in dataset.
 
 ---
 
@@ -167,13 +167,33 @@ Based on the return reasons, every device should pass these checks before shippi
 
 ---
 
-## Financial Impact
+## Financial Impact (Updated with Matched Data)
 
-At 12.8% return rate with ~£450 avg sale price:
-- **47 returns × £450 = ~£21,150** in disrupted revenue over 5 months
-- **38 preventable × £450 = ~£17,100** that better QC would have saved
-- Each return costs: re-shipping (~£5-10), re-QC bench time (~30 min), relisting time, potential re-repair, BM reputation score hit
-- **BM penalises sellers** with high return rates — affects buybox eligibility and listing visibility
+44 of 47 returns matched to specific devices in our repair chain. Full analysis in `returns-deep-dive-2026-03-03.md`.
+
+### Direct Costs Per Return
+- **10% BM commission** lost on original sale (non-refundable)
+- **£15 outbound shipping** (wasted)
+- **£15 return shipping** (we pay)
+- **Re-QC bench time** (~30 min)
+- On relisting: another 10% commission + £15 shipping = effective ~20% of sale price + £45 per return cycle
+
+### Totals (5 months, 44 matched returns)
+- **£25,489** sale revenue disrupted
+- **£2,549** BM fees lost (non-recoverable)
+- **£1,320** shipping costs (£30 × 44)
+- **£3,869** total direct cost — **~£1,500/month burn rate**
+- **4 repeat-return devices** — same device returned 2-3 times, compounding losses
+
+### By Technician (Return Rate)
+| Tech | Devices Shipped | Returns | Rate |
+|------|----------------|---------|------|
+| Roni | 39 | 7 | 17.9% |
+| Mykhailo | 50 | 8 | 16.0% |
+| Saf | 131 | 14 | 10.7% |
+| Andres | 78 | 5 | 6.4% |
+
+Andres has half the return rate of Roni/Mykhailo. Mykhailo as refurb (last to touch before dispatch) appears on 39% of all returns.
 
 ### Target
 - Current: **12.8% overall, 10.3% preventable**
@@ -182,11 +202,20 @@ At 12.8% return rate with ~£450 avg sale price:
 
 ---
 
+## Deep Dive
+
+Full repair chain analysis for all 44 matched returns — including technician patterns, repeat-return devices, and per-device repair details — is in:
+
+**`audit/returns-deep-dive-2026-03-03.md`**
+
+---
+
 ## COMPROMISES
 
-- **No link between BM sale orders and our trade-in data** — can't match specific returned devices to our Monday board items. Would need BM sale order ID tracked in Monday.
+- **3 unmatched returns** — couldn't match by date+model to our repair data (BM orders 75037091, 73769725, 73250366)
 - **"Other > Other Issues" (7 orders)** categorised as preventable by default — actual reason unknown. Could be buyer-side.
 - **Preventable classification is approximate** — some "Wrong Colour" complaints might be buyer misunderstanding, not our error.
 - **Return rate denominator (~366 shipped)** is from our 6-month repair analysis dataset, not from BM's total sales figure. Actual rate may differ.
 - **No data on return outcome** — we don't know how many returned devices were relisted vs written off.
 - **Feb 2026 partial** — only shows 5 returns but month isn't complete in the export.
+- **Matching by date+model** — some matches may be wrong where multiple same-model devices shipped on the same day. Confidence is high (44/47) but not perfect.
