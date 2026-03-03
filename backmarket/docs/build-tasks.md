@@ -524,21 +524,64 @@ Top opportunities by headroom:
 
 ---
 
-## Task 20: Stuck Device Triage [PENDING]
+## Task 20: Stuck Device Triage [DONE]
 
-- Present 24 stuck devices (30+ days) to Ricky/team for per-device decisions
-- 90+ days (6 devices, £501): repair or write off
-- 30-90 days (18 devices, £1,649): identify blockers per device
-- Update Monday statuses based on decisions
-- Track capital recovered
+**Date:** 2 March 2026
+**Report:** `audit/stuck-device-triage-2026-03-02.md`
+
+### Result: 43 stuck devices, £3,987 capital tied up
+
+More than originally estimated (24 → 43) because the full 6-month dataset captured more.
+
+| Bucket | Devices | Capital |
+|--------|---------|---------|
+| 90+ days | 10 | £819 |
+| 60-90 days | 11 | £961 |
+| 30-60 days | 22 | £2,207 |
+
+### Immediate actions identified
+- **Ship today:** 2 devices "Ready To Collect" (£282)
+- **QC and ship:** 2 devices repaired but sitting (£290)
+- **Chase Ferrari:** BM 1311 MBP14 M1Pro £248 — highest single value stuck
+- **Priority rescues for Saf:** 4 high-value M1+ devices (£505)
+- **Assign to tech:** 3 devices unassigned 33-89 days (£399)
+- **Write off/strip:** 9 Intel BER devices (£459)
+- **Chase parts:** 6 devices (£578)
+- **Chase clients:** 2 devices (£310)
+
+### Saf queue problem
+22 of 43 stuck devices (51%) are on Saf's bench. 4 Intel + 5 BER should be cleared off immediately to free 9 slots.
 
 ---
 
-## Task 21: FUNC.CRACK Returns Investigation [PENDING]
+## Task 21: Returns Investigation — All Grades [DONE]
 
-- Pull return reasons from BM API or Monday board for 18 returned FUNC.CRACK devices
-- Identify pattern: QC gap, cosmetic issues, or customer complaints
-- If QC gap: recommend checklist changes
+**Date:** 2 March 2026
+**Report:** `audit/returns-investigation-2026-03-02.md`
+
+### Result: 35 returned devices, 80% have condition mismatches
+
+Expanded scope from FC-only to all grades — the pattern is systemic, not FC-specific.
+
+| Grade | Returns | Return Rate | Mismatch Rate |
+|-------|---------|-------------|---------------|
+| FUNC.CRACK | 18 | 10.8% | 67% |
+| NONFUNC.USED | 8 | 6.3% | 100% |
+| NONFUNC.CRACK | 6 | 12.5% | 100% |
+| UNKNOWN | 3 | 12.0% | 67% |
+
+### Root causes
+1. **BM's condition grading unreliable** — 80% of returns have BM-reported vs actual mismatch
+2. **"Non-functional" devices often functional** — 11 of 14 NFU+NFC returns actually worked
+3. **Screen damage (transit or missed by BM)** — 6 devices had screens worse than reported
+4. **Our QC has uncertainty gaps** — 4 devices show "Functional?" instead of definitive assessment
+
+### Recommendations
+- Never trust BM condition report as final — independent full assessment on arrival
+- Photograph every device on arrival before opening
+- Remove "?" options from intake form — force definitive grades
+- Track return reason per device (buyer_return, quality_issue, wrong_grade, transit_damage)
+- Target <5% return rate (currently 9.6%)
 
 ---
 
@@ -579,28 +622,32 @@ Top opportunities by headroom:
 
 ## Context for Next Session
 
-### What's done
+### What's done (as of 2 March 2026)
 - Layers 1-3 complete with corrected financials (parts + RR&D labour)
 - Saf's diagnostic notes pulled and analysed — complexity categorisation done
 - FUNC.CRACK Saf investigation complete — assignments justified
-- All Intel listings confirmed zeroed
-- 365 repricing changes + 2 overbid fixes + 208 Intel zeroing = 575 total API changes
-- Buybox mapping complete: 88% of survivor SKUs already winning
-- November price increase analysis: +63% orders, +23% total net, NFU margins improved, FC/NFC margins compressed
-- Bid bump script built and dry-run tested (`api/bm-bid-bump.py`)
-- Strategy document written: `audit/buybox-strategy-2026-03-02.md`
+- All Intel listings confirmed zeroed (208 MBA + MBP)
+- 365 repricing changes + 2 overbid fixes + 208 Intel zeroing + 18 buybox bumps = 593 total API changes
+- Buybox recovery: 4 FC + 1 NFU bumped, ~£1,287/mo profit recovered
+- Overpay eliminated by March 1 repricing (was ~£1,100/qtr waste)
+- 19 fishing lines assessed — all winning buybox, all profitable or likely profitable
+- 43 stuck devices triaged with per-device recommended actions (£3,987 capital)
+- 35 returns investigated — 80% have BM condition mismatches, QC recommendations written
+- Strategy document: `audit/buybox-strategy-2026-03-02.md`
 
-### What's next (blocked on fresh BM CSV export)
-- **Task 16: Buybox strategy** — DONE. Recovered 4 FC buyboxes + 1 NFU (18 listings bumped, ~£1,287/mo recovered). Overpay eliminated by repricing.
-- **Task 17: Fishing line promotion** — all 19 fishing lines winning buybox. Need P&L data (crossref refresh) to confirm profitability.
-- **Task 20: Stuck device triage** — 24 devices 30+ days, £2,150 capital. Per-device decisions with team.
-- **Task 21: FUNC.CRACK returns** — 18 returned devices need return reason analysis
+### What's next
+- **Review stuck device triage** — Ricky to decide per-device actions (ship 2 now, write off 9, chase 6 parts)
+- **Implement QC recommendations** — photograph on arrival, remove "?" from intake, track return reasons
+- **Monitor recovered buyboxes** — next CSV export should confirm FC + NFU wins
+- **Crossref refresh** — when new CSV available, refresh P&L data for fishing lines and new orders
 - **Saf full diagnostic audit** — separate project scope. Script supports --all-clients.
 
 ### Key files
 - `audit/buybox-strategy-2026-03-02.md` — **START HERE** — full buybox + price increase analysis
+- `audit/stuck-device-triage-2026-03-02.md` — 43 stuck devices with per-device actions
+- `audit/returns-investigation-2026-03-02.md` — 35 returns analysed, QC recommendations
 - `audit/buybox-audit-2026-03-01.json` — 50 survivors + 19 fishing lines with buybox data
-- `audit/bid-bump-plan-2026-03-02.json` — dry-run bump plan (66 listings, pre-strategy revision)
+- `audit/buybox-bump-log-2026-03-02.json` — 18 buybox recovery bumps (all 202 OK)
 - `api/bm-bid-bump.py` — bid bump script (supports --grade, --increment, --execute)
 - `audit/repair-analysis-report-2026-03-02.md` — Layers 1-3 report (corrected financials)
 - `audit/saf-layer3-report-2026-03-02.md` — Layer 3 deep dive (Saf's repair complexity)
@@ -609,9 +656,3 @@ Top opportunities by headroom:
 - `api/bm-repair-analysis.py` — Data collection script (parts cost + RR&D labour)
 - `api/bm-saf-diagnostics.py` — Saf diagnostics (supports --all-clients)
 - `docs/repair-analysis-plan.md` — North star document
-
-### For next Code session
-1. Ricky uploads fresh BM listings CSV to `builds/backmarket/docs/`
-2. Code re-runs buybox analysis with fresh data
-3. Build overpay reduction plan + targeted bump plan
-4. Execute changes with Ricky's approval
