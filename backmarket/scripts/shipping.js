@@ -261,6 +261,30 @@ async function runLabels() {
       console.log(`  ${label.mondayItemName} → ${label.buyer} (Order ${label.orderId})`);
     }
   }
+
+  // Step A5: Update status4 to "Return Booked" (index 19) for each label
+  if (labelsNeeded.length > 0 && !isDryRun) {
+    console.log('\n[Step A5] Updating status4 → Return Booked for labelled items...');
+    for (const label of labelsNeeded) {
+      const ok = await updateStatus4ReturnBooked(label.mondayItemId);
+      console.log(`  ${label.mondayItemName}: ${ok ? '✅' : '❌'}`);
+      await sleep(500);
+    }
+  } else if (labelsNeeded.length > 0) {
+    console.log('\n[DRY RUN] Would set status4 → Return Booked for all labelled items.');
+  }
+}
+
+// Step A5: Set status4 to "Return Booked" (index 19) after label purchase
+async function updateStatus4ReturnBooked(mainItemId) {
+  const q = `mutation { change_column_value(
+    board_id: ${MAIN_BOARD},
+    item_id: ${mainItemId},
+    column_id: "status4",
+    value: "{\\"index\\": 19}"
+  ) { id } }`;
+  const d = await mondayApi(q);
+  return !!d.data;
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -268,11 +292,12 @@ async function runLabels() {
 // ═══════════════════════════════════════════════════════════════════
 
 // Step B1: Find items with status4 = Shipped (index 160)
+// Only returns items updated in the last 7 days to avoid processing historical backlog
 async function findShippedItems() {
   let query;
   if (singleItemId) {
     query = `{ items(ids: [${singleItemId}]) {
-      id name
+      id name updated_at
       column_values(ids: ["status4", "text53", "board_relation5"]) {
         id text
         ... on StatusValue { index }
@@ -285,7 +310,7 @@ async function findShippedItems() {
         rules: [{ column_id: "status4", compare_value: [${SHIPPED_INDEX}] }]
       }) {
         items {
-          id name
+          id name updated_at
           column_values(ids: ["status4", "text53", "board_relation5"]) {
             id text
             ... on StatusValue { index }
@@ -297,8 +322,27 @@ async function findShippedItems() {
   }
 
   const d = await mondayApi(query);
-  if (singleItemId) return d.data?.items || [];
-  return d.data?.boards?.[0]?.items_page?.items || [];
+  let items;
+  if (singleItemId) {
+    items = d.data?.items || [];
+  } else {
+    items = d.data?.boards?.[0]?.items_page?.items || [];
+  }
+
+  // Filter to items updated in the last 7 days (skip historical backlog)
+  if (!singleItemId) {
+    const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const before = items.length;
+    items = items.filter(item => {
+      if (!item.updated_at) return true; // include if no timestamp
+      return new Date(item.updated_at) >= cutoff;
+    });
+    if (before !== items.length) {
+      console.log(`  Filtered ${before} → ${items.length} (last 7 days only)`);
+    }
+  }
+
+  return items;
 }
 
 // Step B2: Check if BM was already notified (dedup)
