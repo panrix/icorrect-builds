@@ -6,9 +6,12 @@
  * Extracts picker data (grades, RAM, SSD, CPU/GPU, colours) from __NUXT_DATA__ payload.
  * 
  * Usage:
- *   node sell_price_scraper_v6.js                    # Full run
+ *   node sell_price_scraper_v6.js                    # MacBook only
+ *   node sell_price_scraper_v6.js --iphone-ipad      # MacBook + iPhone/iPad
+ *   node sell_price_scraper_v6.js --all              # All devices (same as --iphone-ipad)
  *   node sell_price_scraper_v6.js --dry-run           # Show catalogue, don't scrape
  *   node sell_price_scraper_v6.js --model "Pro 14"    # Filter to matching models
+ *   node sell_price_scraper_v6.js --model "iPhone"    # iPhone models only
  */
 
 const { chromium } = require('playwright-extra');
@@ -22,16 +25,26 @@ chromium.use(StealthPlugin());
 // --- Config ---
 const BASE_DIR = __dirname;
 const CATALOGUE_PATH = path.join(BASE_DIR, 'config', 'scrape-urls.json');
+const IPHONE_IPAD_CATALOGUE_PATH = path.join(BASE_DIR, 'scrape-urls-iphone-ipad.json');
 const DATA_DIR = path.join(BASE_DIR, 'data');
 
 const GRADE_LABELS = ['Fair', 'Good', 'Excellent', 'Premium'];
 const RAM_VALUES = [8, 16, 18, 24, 32, 36, 48, 64, 128];
 const SSD_VALUES = [128, 256, 512, 1000, 2000, 4000, 8000];
-const COLOUR_LABELS = ['Space Gray', 'Silver', 'Gold', 'Starlight', 'Midnight', 'Space Black'];
+const COLOUR_LABELS = [
+  // MacBook colours
+  'Space Gray', 'Silver', 'Gold', 'Starlight', 'Midnight', 'Space Black',
+  // iPhone/iPad colours
+  'Blue', 'Green', 'Purple', 'Red', 'Pink', 'Yellow', 'Black', 'White',
+  'Graphite', 'Sierra Blue', 'Alpine Green', 'Deep Purple', 'Product Red',
+  'Coral', 'Natural Titanium', 'Blue Titanium', 'White Titanium', 'Black Titanium',
+  'Desert Titanium', 'Ultramarine', 'Teal',
+];
 
 // --- CLI args ---
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
+const INCLUDE_IPHONE_IPAD = args.includes('--iphone-ipad') || args.includes('--all');
 const modelFilterIdx = args.indexOf('--model');
 const MODEL_FILTER = modelFilterIdx !== -1 ? args[modelFilterIdx + 1] : null;
 
@@ -96,11 +109,14 @@ function categoriseLabel(label) {
   // CPU/GPU: contains M1/M2/M3/M4 and "core"
   if (/M[1-4]/i.test(trimmed) && /core/i.test(trimmed)) return 'cpu_gpu';
 
-  // Size: ends with " and number is 13/14/15/16
-  if (trimmed.endsWith('"') || trimmed.endsWith('"') || trimmed.endsWith("\"")) {
+  // Size: ends with " and number is a known screen size (MacBook + iPad)
+  if (trimmed.endsWith('"') || trimmed.endsWith('\u201D') || trimmed.endsWith("\"")) {
     const num = parseFloat(trimmed);
-    if ([13, 14, 15, 16].includes(num)) return 'size';
+    if ([10.2, 10.5, 10.9, 11, 12.9, 13, 14, 15, 16].includes(num)) return 'size';
   }
+
+  // iPhone/iPad: A-series or M-series chip labels (e.g. "A15 Bionic", "A17 Pro", "M2")
+  if (/^A\d{2}\b/i.test(trimmed) || /^M\d\b/i.test(trimmed)) return 'cpu_gpu';
 
   // RAM vs SSD: both end with "GB" but have different value ranges
   const gbMatch = trimmed.match(/^(\d+)\s*GB$/i);
@@ -309,7 +325,16 @@ async function main() {
   }
 
   let catalogue = JSON.parse(fs.readFileSync(CATALOGUE_PATH, 'utf8'));
-  console.log(`Loaded ${catalogue.length} models from catalogue`);
+  console.log(`Loaded ${catalogue.length} MacBook models from catalogue`);
+
+  // Optionally include iPhone/iPad catalogue
+  if (INCLUDE_IPHONE_IPAD && fs.existsSync(IPHONE_IPAD_CATALOGUE_PATH)) {
+    const iphoneIpad = JSON.parse(fs.readFileSync(IPHONE_IPAD_CATALOGUE_PATH, 'utf8'));
+    catalogue = catalogue.concat(iphoneIpad);
+    console.log(`Added ${iphoneIpad.length} iPhone/iPad models (total: ${catalogue.length})`);
+  } else if (INCLUDE_IPHONE_IPAD) {
+    console.log(`⚠️ iPhone/iPad catalogue not found: ${IPHONE_IPAD_CATALOGUE_PATH}`);
+  }
 
   // Filter if --model specified
   if (MODEL_FILTER) {
