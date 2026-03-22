@@ -1,0 +1,377 @@
+#!/usr/bin/env node
+/**
+ * reconcile-listings.js — SOP 6.5: Listings Reconciliation
+ *
+ * Runs BEFORE buy-box-check.js. Ensures Monday and BM agree.
+ *
+ * Steps from SOP 6.5:
+ * 1. Gather data from Monday (Listed items) and BM (active listings)
+ * 2. Cross-reference: Check A (Monday→BM), Check B (BM→Monday), Check C (qty), Check D (missing BM Device), Check E (missing costs)
+ * 3. Auto-actions: take offline oversell risks, backfill costs
+ * 4. Report to BM Telegram
+ */
+
+require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
+const fs = require('fs');
+
+// ─── Config ───────────────────────────────────────────────────────
+const BM_BASE = 'https://www.backmarket.co.uk';
+const BM_AUTH = process.env.BACKMARKET_API_AUTH;
+const BM_LANG = process.env.BACKMARKET_API_LANG || 'en-gb';
+const BM_UA = process.env.BACKMARKET_API_UA;
+const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
+
+const MAIN_BOARD = 349212843;
+const BM_DEVICES_BOARD = 3892194968;
+const TO_LIST_GROUP = 'new_group88387__1';
+const LISTED_INDEX = 7;
+const LABOUR_RATE = 24;
+const SHIPPING = 15;
+const BUY_FEE_RATE = 0.10;
+
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const BM_TELEGRAM_CHAT = '-1003888456344';
+
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ─── API helpers ──────────────────────────────────────────────────
+async function bmApi(path, opts = {}) {
+  const r = await fetch(BM_BASE + path, {
+    method: opts.method || 'GET',
+    headers: { Authorization: BM_AUTH, 'Accept-Language': BM_LANG, 'User-Agent': BM_UA, 'Content-Type': 'application/json' },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (!r.ok) { const t = await r.text(); throw new Error(`BM ${r.status}: ${t.slice(0, 200)}`); }
+  return r.json();
+}
+
+async function mondayApi(query) {
+  const r = await fetch('https://api.monday.com/v2', {
+    method: 'POST',
+    headers: { Authorization: MONDAY_TOKEN, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  return r.json();
+}
+
+async function postTelegram(msg) {
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text: msg }),
+    });
+  } catch (e) { console.warn(`Telegram failed: ${e.message}`); }
+}
+
+// ─── Step 1a: Get Monday "Listed" items ───────────────────────────
+async function getMondayListedItems() {
+  const q = `{ boards(ids:[${MAIN_BOARD}]) { groups(ids:["${TO_LIST_GROUP}"]) { items_page(limit:200) { items { id name column_values(ids:["status24"]) { ... on StatusValue { text index } } } } } } }`;
+  const d = await mondayApi(q);
+  const items = d.data?.boards?.[0]?.groups?.[0]?.items_page?.items || [];
+  return items.filter(i => i.column_values?.[0]?.index === LISTED_INDEX);
+}
+
+// ─── Step 1b: Get BM listings ─────────────────────────────────────
+async function getBmListings() {
+  const all = [];
+  let page = 1;
+  while (true) {
+    const d = await bmApi(`/ws/listings?page=${page}&page_size=100`);
+    const items = d.results || [];
+    if (items.length === 0) break;
+    all.push(...items);
+    if (!d.next) break;
+    page++;
+    await sleep(300);
+  }
+  return all;
+}
+
+// ─── Step 1c: Get BM Device data for a Main Board item ───────────
+async function getBmDeviceForMainItem(mainItemId) {
+  // Find BM Devices items linked to this Main Board item
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500) { items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+  // This is expensive. Cache it.
+  return null; // Will use cached version
+}
+
+// ─── Batch load all BM Devices ────────────────────────────────────
+async function loadAllBmDevices() {
+  const allItems = [];
+  let cursor = null;
+  while (true) {
+    const cursorPart = cursor ? `cursor: "${cursor}"` : `limit: 500`;
+    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+    const d = await mondayApi(q);
+    const page = d.data?.boards?.[0]?.items_page;
+    if (!page?.items?.length) break;
+    allItems.push(...page.items);
+    if (!page.cursor) break;
+    cursor = page.cursor;
+  }
+  return allItems;
+}
+
+// ─── Main ─────────────────────────────────────────────────────────
+(async () => {
+  console.log('═'.repeat(60));
+  console.log('  Listings Reconciliation — SOP 6.5');
+  console.log(`  ${new Date().toISOString()}`);
+  console.log('═'.repeat(60));
+
+  // Step 1a: Monday Listed items
+  console.log('\n[Step 1a] Fetching Monday "Listed" items...');
+  const mondayListed = await getMondayListedItems();
+  console.log(`  ${mondayListed.length} items with status "Listed"`);
+
+  // Step 1b: BM listings
+  console.log('\n[Step 1b] Fetching BM listings...');
+  const bmListings = await getBmListings();
+  const bmActive = bmListings.filter(l => l.quantity > 0);
+  console.log(`  ${bmListings.length} total listings, ${bmActive.length} active (qty > 0)`);
+
+  // Step 1c: BM Devices
+  console.log('\n[Step 1c] Loading BM Devices board...');
+  const bmDevices = await loadAllBmDevices();
+  console.log(`  ${bmDevices.length} BM Device items loaded`);
+
+  // Build lookup maps
+  const bmListingsByLid = {};
+  for (const l of bmListings) {
+    bmListingsByLid[String(l.listing_id)] = l;
+  }
+
+  const bmDevicesByMainId = {};
+  const bmDevicesByListingId = {};
+  for (const item of bmDevices) {
+    const listingId = item.column_values.find(cv => cv.id === 'text_mkyd4bx3')?.text || '';
+    const relCol = item.column_values.find(cv => cv.id === 'board_relation');
+    const mainId = relCol?.linked_item_ids?.[0];
+
+    if (mainId) {
+      if (!bmDevicesByMainId[mainId]) bmDevicesByMainId[mainId] = [];
+      bmDevicesByMainId[mainId].push({ ...item, listingId, mainItemId: mainId });
+    }
+    if (listingId) {
+      if (!bmDevicesByListingId[listingId]) bmDevicesByListingId[listingId] = [];
+      bmDevicesByListingId[listingId].push({ ...item, listingId, mainItemId: mainId });
+    }
+  }
+
+  // ─── Step 2: Cross-reference ──────────────────────────────────
+  const results = {
+    matched: [],
+    mondayListedBmOffline: [],
+    mondayListedNoListing: [],
+    oversellRisk: [],
+    orphanListings: [],
+    missingBmDevice: [],
+    missingCost: [],
+    qtyMismatch: [],
+    costBackfilled: [],
+  };
+
+  // Check A: Monday Listed → BM Active
+  console.log('\n[Step 2A] Monday Listed → BM Active...');
+  for (const mondayItem of mondayListed) {
+    const mainId = mondayItem.id;
+    const name = mondayItem.name;
+
+    // Find BM Device entry
+    const bmDevEntries = bmDevicesByMainId[mainId];
+    if (!bmDevEntries || bmDevEntries.length === 0) {
+      console.log(`  ⛔ ${name}: NO BM DEVICE ENTRY`);
+      results.missingBmDevice.push({ name, mainItemId: mainId });
+      continue;
+    }
+
+    // Get listing ID from BM Device (prefer one with cost data)
+    const bmDev = bmDevEntries.find(d => {
+      const cost = d.column_values.find(cv => cv.id === 'numeric_mm1mgcgn')?.text;
+      return cost && parseFloat(cost) > 0;
+    }) || bmDevEntries[0];
+
+    const listingId = bmDev.listingId;
+    if (!listingId) {
+      console.log(`  ⛔ ${name}: BM Device exists but NO LISTING ID stored`);
+      results.mondayListedNoListing.push({ name, mainItemId: mainId, bmDeviceId: bmDev.id });
+      continue;
+    }
+
+    // Find in BM listings
+    const bmListing = bmListingsByLid[listingId];
+    if (!bmListing) {
+      console.log(`  ⛔ ${name}: listing ${listingId} NOT FOUND on BM`);
+      results.mondayListedNoListing.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id });
+      continue;
+    }
+
+    if (bmListing.quantity > 0) {
+      console.log(`  ✅ ${name}: listing ${listingId} active, qty=${bmListing.quantity}`);
+      results.matched.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing });
+    } else {
+      console.log(`  ⚠️ ${name}: listing ${listingId} exists but OFFLINE (qty=0)`);
+      results.mondayListedBmOffline.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing });
+    }
+
+    // Check E: Missing cost data
+    const costVal = bmDev.column_values.find(cv => cv.id === 'numeric_mm1mgcgn')?.text;
+    if (!costVal || parseFloat(costVal) <= 0) {
+      const purchase = parseFloat(bmDev.column_values.find(cv => cv.id === 'numeric')?.text) || 0;
+      console.log(`  ⚠️ ${name}: missing Total Fixed Cost`);
+
+      // Try to auto-calculate
+      if (bmDev.mainItemId) {
+        const q = `{ items(ids:[${bmDev.mainItemId}]) { column_values(ids:["formula_mkx1bjqr","formula__1"]) { id text } } }`;
+        const d = await mondayApi(q);
+        const mainItem = d.data?.items?.[0];
+        if (mainItem) {
+          const parts = parseFloat(mainItem.column_values.find(cv => cv.id === 'formula_mkx1bjqr')?.text) || 0;
+          const labourH = parseFloat(mainItem.column_values.find(cv => cv.id === 'formula__1')?.text) || 0;
+          const labour = labourH * LABOUR_RATE;
+          const buyFee = purchase * BUY_FEE_RATE;
+          const fixed = purchase + parts + labour + SHIPPING + buyFee;
+
+          // Write to Monday
+          await mondayApi(`mutation { change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDev.id}, column_id: "numeric_mm1mgcgn", value: "${Math.round(fixed)}") { id } }`);
+          console.log(`    Auto-backfilled: £${Math.round(fixed)} (purchase=£${purchase}, parts=£${parts}, labour=£${labour.toFixed(0)})`);
+          results.costBackfilled.push({ name, bmDeviceId: bmDev.id, fixed: Math.round(fixed) });
+        } else {
+          results.missingCost.push({ name, bmDeviceId: bmDev.id, reason: 'Main Board item not found' });
+        }
+      } else {
+        results.missingCost.push({ name, bmDeviceId: bmDev.id, reason: 'No Main Board link' });
+      }
+    }
+  }
+
+  // Check B: BM Active → Monday Listed
+  console.log('\n[Step 2B] BM Active → Monday Listed...');
+  const matchedListingIds = new Set(results.matched.map(m => m.listingId));
+  for (const listing of bmActive) {
+    const lid = String(listing.listing_id);
+    if (matchedListingIds.has(lid)) continue; // Already matched in Check A
+
+    // Find BM Device with this listing ID
+    const bmDevEntries = bmDevicesByListingId[lid];
+    if (!bmDevEntries || bmDevEntries.length === 0) {
+      console.log(`  ⛔ ORPHAN: listing ${lid} (${listing.sku}) active on BM, no BM Device entry`);
+      results.orphanListings.push({ listingId: lid, listing });
+      continue;
+    }
+
+    const bmDev = bmDevEntries[0];
+    const mainId = bmDev.mainItemId;
+
+    if (!mainId) {
+      console.log(`  ⛔ ORPHAN: listing ${lid} (${listing.sku}) has BM Device but no Main Board link`);
+      results.orphanListings.push({ listingId: lid, listing, bmDeviceId: bmDev.id });
+      continue;
+    }
+
+    // Check Main Board status
+    const q = `{ items(ids:[${mainId}]) { name column_values(ids:["status24"]) { ... on StatusValue { text index } } } }`;
+    const d = await mondayApi(q);
+    const mainItem = d.data?.items?.[0];
+    const status = mainItem?.column_values?.[0];
+
+    if (!mainItem) {
+      console.log(`  ⛔ ORPHAN: listing ${lid} (${listing.sku}) Main Board item ${mainId} not found`);
+      results.orphanListings.push({ listingId: lid, listing, mainItemId: mainId });
+      continue;
+    }
+
+    if (status?.index === LISTED_INDEX) {
+      // Already matched or in a different group
+      console.log(`  ✅ listing ${lid} (${listing.sku}): Main Board "${mainItem.name}" status=Listed`);
+    } else {
+      console.log(`  ⛔ OVERSELL RISK: listing ${lid} (${listing.sku}) active on BM but Monday status="${status?.text}" for ${mainItem.name}`);
+      results.oversellRisk.push({ listingId: lid, listing, mainItemId: mainId, mainName: mainItem.name, mondayStatus: status?.text });
+    }
+
+    await sleep(300); // Rate limit Monday
+  }
+
+  // ─── Step 3: Auto-actions ─────────────────────────────────────
+  console.log('\n[Step 3] Auto-actions...');
+
+  // Take oversell risks offline
+  for (const risk of results.oversellRisk) {
+    console.log(`  Taking offline: listing ${risk.listingId} (${risk.mainName}, status="${risk.mondayStatus}")`);
+    try {
+      await bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } });
+      console.log(`    ✅ Offline`);
+    } catch (e) {
+      console.error(`    ❌ Failed: ${e.message}`);
+    }
+    await sleep(500);
+  }
+
+  // ─── Step 4: Report ───────────────────────────────────────────
+  console.log('\n' + '═'.repeat(60));
+  console.log('  RECONCILIATION SUMMARY');
+  console.log('═'.repeat(60));
+  console.log(`  Monday Listed:           ${mondayListed.length}`);
+  console.log(`  BM Active:               ${bmActive.length}`);
+  console.log(`  Delta:                   ${mondayListed.length - bmActive.length}`);
+  console.log('');
+  console.log(`  ✅ Matched:              ${results.matched.length}`);
+  console.log(`  ⛔ Oversell (offlined):  ${results.oversellRisk.length}`);
+  console.log(`  ⚠️ Monday Listed/BM off: ${results.mondayListedBmOffline.length}`);
+  console.log(`  ⛔ No listing found:     ${results.mondayListedNoListing.length}`);
+  console.log(`  ⛔ Orphan BM listings:   ${results.orphanListings.length}`);
+  console.log(`  ⛔ Missing BM Device:    ${results.missingBmDevice.length}`);
+  console.log(`  ⚠️ Missing cost data:    ${results.missingCost.length}`);
+  console.log(`  ✅ Cost auto-backfilled: ${results.costBackfilled.length}`);
+
+  // Detail sections
+  if (results.oversellRisk.length > 0) {
+    console.log('\n⛔ OVERSELL RISKS (auto-offlined):');
+    for (const r of results.oversellRisk) {
+      console.log(`  ${r.mainName}: listing ${r.listingId}, Monday status="${r.mondayStatus}"`);
+    }
+  }
+
+  if (results.mondayListedBmOffline.length > 0) {
+    console.log('\n⚠️ MONDAY LISTED BUT BM OFFLINE:');
+    for (const r of results.mondayListedBmOffline) {
+      console.log(`  ${r.name}: listing ${r.listingId} (qty=0)`);
+    }
+  }
+
+  if (results.mondayListedNoListing.length > 0) {
+    console.log('\n⛔ MONDAY LISTED BUT NO BM LISTING:');
+    for (const r of results.mondayListedNoListing) {
+      console.log(`  ${r.name}: listing ID ${r.listingId || 'none'}`);
+    }
+  }
+
+  if (results.orphanListings.length > 0) {
+    console.log('\n⛔ ORPHAN BM LISTINGS (active, no Monday match):');
+    for (const r of results.orphanListings) {
+      console.log(`  listing ${r.listingId}: ${r.listing.sku} @ £${r.listing.price}`);
+    }
+  }
+
+  if (results.missingBmDevice.length > 0) {
+    console.log('\n⛔ MISSING BM DEVICE ENTRY:');
+    for (const r of results.missingBmDevice) {
+      console.log(`  ${r.name}`);
+    }
+  }
+
+  if (results.missingCost.length > 0) {
+    console.log('\n⚠️ MISSING COST DATA (could not auto-backfill):');
+    for (const r of results.missingCost) {
+      console.log(`  ${r.name}: ${r.reason}`);
+    }
+  }
+
+  // Save report
+  const outDir = '/home/ricky/builds/bm-scripts/test-output';
+  fs.mkdirSync(outDir, { recursive: true });
+  const outFile = `${outDir}/reconciliation-${new Date().toISOString().slice(0, 10)}.json`;
+  fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
+  console.log(`\nResults saved to ${outFile}`);
+})();
