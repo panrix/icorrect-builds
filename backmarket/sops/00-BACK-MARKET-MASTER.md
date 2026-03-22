@@ -292,16 +292,16 @@ break_even = ceil((total_fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667))
 
 | SOP | Title | Script | Status |
 |-----|-------|--------|--------|
-| 01 | Trade-in order SENT | — | SOP written, script pending |
+| 01 | Trade-in order SENT | sent-orders.js | SOP written, script built ✅ |
 | 02 | Intake/receiving | — | SOP written, manual process |
 | 03 | Diagnostic | — | SOP written, manual process |
-| 03b | Trade-in payout | — | SOP written, script pending |
+| 03b | Trade-in payout | trade-in-payout.js | SOP written, script built ✅ |
 | 04 | Repair/refurb | — | SOP written, manual process |
 | 05 | QC/Final grade | — | SOP written, manual process |
 | 06 | Listing | list-device.js | SOP written, script built ✅ |
 | 07 | Buy box management | buy-box-check.js | SOP written, script rebuilding |
-| 08 | Sale detection | — | SOP written, script pending |
-| 09 | Shipping | — | SOP written, script pending |
+| 08 | Sale detection | sale-detection.js | SOP written, script built ✅ |
+| 09 | Shipping | shipping.js | SOP written, script built ✅ |
 | 10 | Payment reconciliation | — | SOP written, script pending |
 | 11 | Tuesday cutoff | — | SOP written, manual process |
 | 12 | Returns/aftercare | — | PLACEHOLDER, needs discussion |
