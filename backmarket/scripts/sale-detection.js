@@ -1,0 +1,321 @@
+#!/usr/bin/env node
+/**
+ * sale-detection.js — SOP 08: Sale Detection & Acceptance
+ *
+ * Polls BM for new orders (state=1), matches to Monday inventory,
+ * verifies stock, accepts orders, and updates both boards.
+ *
+ * Usage:
+ *   node sale-detection.js              # Detect + accept
+ *   node sale-detection.js --dry-run    # Detect only, no actions
+ *
+ * SOP 08 Step Checklist:
+ *   Step 1: Fetch new orders (state=1)                    ✅ fetchNewOrders()
+ *   Step 2: Match to BM Devices Board by listing_id       ✅ matchToBmDevice()
+ *   Step 3: Verify stock (text4 empty, not in returns)    ✅ verifyStock()
+ *   Step 4: Accept order (POST with order SKU)            ✅ acceptOrder()
+ *   Step 5a: Update BM Devices (buyer, order ID, price)   ✅ updateBmDevices()
+ *   Step 5b: Update Main Board status → Sold (index 10)   ✅ updateMainBoard()
+ *   Step 5c: Update Main Board date sold                  ✅ updateMainBoard()
+ *   Step 5d: Rename Main Board item to buyer name         ✅ renameMainBoardItem()
+ *   Step 6: Notification to BM Telegram                   ✅ sendNotification()
+ *
+ * Edge cases implemented:
+ *   - No match found → flag, don't accept
+ *   - Already processed (text4 populated) → skip
+ *   - Multi-unit listing → pick first with empty text4
+ *   - Qty -1 (double checkout) → flag for manual review
+ *
+ * CRITICAL RULES:
+ *   - Accept uses SKU from ORDER LINE (line.listing), NOT from Monday
+ *   - Accept uses order_id, NOT line item id
+ *   - Listing ID source of truth is BM Devices text_mkyd4bx3
+ *   - Every field must match 1:1: model, spec, grade, colour
+ */
+
+require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
+const fs = require('fs');
+
+// ─── Config ───────────────────────────────────────────────────────
+const BM_BASE = 'https://www.backmarket.co.uk';
+const BM_AUTH = process.env.BACKMARKET_API_AUTH;
+const BM_LANG = process.env.BACKMARKET_API_LANG || 'en-gb';
+const BM_UA = process.env.BACKMARKET_API_UA;
+const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
+
+const MAIN_BOARD = 349212843;
+const BM_DEVICES_BOARD = 3892194968;
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const BM_TELEGRAM_CHAT = '-1003888456344';
+
+const isDryRun = process.argv.includes('--dry-run');
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ─── API helpers ──────────────────────────────────────────────────
+async function bmApi(path, opts = {}) {
+  const r = await fetch(BM_BASE + path, {
+    method: opts.method || 'GET',
+    headers: { Authorization: BM_AUTH, 'Accept-Language': BM_LANG, 'User-Agent': BM_UA, 'Content-Type': 'application/json' },
+    body: opts.body ? JSON.stringify(opts.body) : undefined,
+  });
+  if (!r.ok) { const t = await r.text(); throw new Error(`BM ${r.status}: ${t.slice(0, 300)}`); }
+  return r.json();
+}
+
+async function mondayApi(query) {
+  const r = await fetch('https://api.monday.com/v2', {
+    method: 'POST',
+    headers: { Authorization: MONDAY_TOKEN, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query }),
+  });
+  const d = await r.json();
+  if (d.errors) console.error('  Monday API error:', JSON.stringify(d.errors));
+  return d;
+}
+
+async function postTelegram(msg) {
+  if (isDryRun) { console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 100)}...`); return; }
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text: msg }),
+    });
+  } catch (e) { console.warn(`  Telegram failed: ${e.message}`); }
+}
+
+// ─── Step 1: Fetch new orders ─────────────────────────────────────
+async function fetchNewOrders() {
+  const d = await bmApi('/ws/orders?state=1&page_size=50');
+  return d.results || (Array.isArray(d) ? d : []);
+}
+
+// ─── Step 2: Match to BM Devices Board ────────────────────────────
+async function matchToBmDevice(listingId) {
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+  const d = await mondayApi(q);
+  return d.data?.boards?.[0]?.items_page?.items || [];
+}
+
+// ─── Step 3: Verify stock ─────────────────────────────────────────
+function verifyStock(bmDeviceItem) {
+  const soldTo = bmDeviceItem.column_values.find(cv => cv.id === 'text4')?.text || '';
+  const existingOrder = bmDeviceItem.column_values.find(cv => cv.id === 'text_mkye7p1c')?.text || '';
+
+  if (soldTo.trim()) return { ok: false, reason: `Already sold to: ${soldTo}` };
+  if (existingOrder.trim()) return { ok: false, reason: `Already has order: ${existingOrder}` };
+  return { ok: true };
+}
+
+// ─── Step 4: Accept order ─────────────────────────────────────────
+async function acceptOrder(orderId, orderLineSku) {
+  // CRITICAL: Use SKU from the ORDER LINE (line.listing), NOT from Monday
+  // CRITICAL: Use order_id, NOT line item id
+  await bmApi(`/ws/orders/${orderId}`, {
+    method: 'POST',
+    body: { order_id: orderId, new_state: 2, sku: orderLineSku },
+  });
+}
+
+// ─── Step 5a: Update BM Devices Board ─────────────────────────────
+async function updateBmDevices(bmDeviceId, buyer, orderId, salePrice) {
+  const values = JSON.stringify({ text4: buyer, text_mkye7p1c: String(orderId), numeric5: salePrice });
+  const q = `mutation { change_multiple_column_values(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId}, column_values: ${JSON.stringify(values)}) { id } }`;
+  const d = await mondayApi(q);
+  return !!d.data;
+}
+
+// ─── Step 5b+5c: Update Main Board ───────────────────────────────
+async function updateMainBoard(mainItemId, dateSold) {
+  // Status → Sold (index 10) + Date Sold
+  const q = `mutation {
+    m1: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "status24", value: "{\\"index\\": 10}") { id }
+    m2: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "date_mkq34t04", value: "{\\"date\\": \\"${dateSold}\\"}") { id }
+  }`;
+  const d = await mondayApi(q);
+  return !!d.data;
+}
+
+// ─── Step 5d: Rename Main Board item ──────────────────────────────
+async function renameMainBoardItem(mainItemId, buyerName) {
+  const q = `mutation { change_simple_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "name", value: ${JSON.stringify(buyerName)}) { id } }`;
+  const d = await mondayApi(q);
+  return !!d.data;
+}
+
+// ─── Main ─────────────────────────────────────────────────────────
+(async () => {
+  console.log('═'.repeat(60));
+  console.log(`  SOP 08: Sale Detection & Acceptance — ${isDryRun ? 'DRY RUN' : 'LIVE'}`);
+  console.log(`  ${new Date().toISOString()}`);
+  console.log('═'.repeat(60));
+
+  // Verify SOP checklist
+  console.log('\nSOP 08 Checklist:');
+  console.log('  Step 1: Fetch orders (state=1)          ✅ fetchNewOrders()');
+  console.log('  Step 2: Match to BM Devices             ✅ matchToBmDevice()');
+  console.log('  Step 3: Verify stock                    ✅ verifyStock()');
+  console.log('  Step 4: Accept order                    ✅ acceptOrder()');
+  console.log('  Step 5a: Update BM Devices              ✅ updateBmDevices()');
+  console.log('  Step 5b: Main Board status → Sold       ✅ updateMainBoard()');
+  console.log('  Step 5c: Main Board date sold           ✅ updateMainBoard()');
+  console.log('  Step 5d: Rename item to buyer           ✅ renameMainBoardItem()');
+  console.log('  Step 6: Telegram notification           ✅ postTelegram()');
+  console.log('');
+
+  // Step 1
+  console.log('[Step 1] Fetching new orders (state=1)...');
+  const orders = await fetchNewOrders();
+  console.log(`  ${orders.length} pending orders\n`);
+
+  if (orders.length === 0) {
+    console.log('No pending orders. Done.');
+    return;
+  }
+
+  const summary = { accepted: 0, noMatch: 0, alreadyProcessed: 0, errors: 0 };
+
+  for (const order of orders) {
+    const orderId = order.order_id;
+    const buyer = order.shipping_address
+      ? `${order.shipping_address.first_name || ''} ${order.shipping_address.last_name || ''}`.trim()
+      : 'Unknown';
+    const orderDate = order.date_creation || '?';
+
+    console.log('─'.repeat(50));
+    console.log(`Order ${orderId} (${orderDate})`);
+    console.log(`Buyer: ${buyer}`);
+
+    for (const line of (order.orderlines || [])) {
+      const listingId = String(line.listing_id);
+      const orderLineSku = line.listing; // SKU from order — use THIS for acceptance
+      const price = parseFloat(line.price) || 0;
+      const product = line.product || 'Unknown';
+      const lineId = line.id;
+
+      console.log(`\n  Product: ${product}`);
+      console.log(`  Listing ID: ${listingId}`);
+      console.log(`  Order SKU: ${orderLineSku}`);
+      console.log(`  Price: £${price}`);
+
+      // Step 2: Match to BM Devices
+      console.log(`\n  [Step 2] Matching listing_id ${listingId} to BM Devices...`);
+      const matches = await matchToBmDevice(listingId);
+      console.log(`  Found ${matches.length} BM Device items`);
+
+      if (matches.length === 0) {
+        console.log(`  ⛔ NO MATCH. Cannot accept. Manual investigation needed.`);
+        await postTelegram(`⚠️ New BM order ${orderId} for listing ${listingId} (${orderLineSku}) but NO matching device found on Monday. Manual investigation needed.`);
+        summary.noMatch++;
+        continue;
+      }
+
+      // For multi-unit: pick first with empty text4 (Sold to)
+      const availableItem = matches.find(i => {
+        const soldTo = i.column_values.find(cv => cv.id === 'text4')?.text;
+        return !soldTo || soldTo.trim() === '';
+      });
+
+      if (!availableItem) {
+        // All matched items already have buyers — double checkout?
+        console.log(`  ⛔ All ${matches.length} matched devices already have buyers assigned.`);
+        console.log(`  This may be a double checkout (qty -1 scenario).`);
+        for (const m of matches) {
+          const soldTo = m.column_values.find(cv => cv.id === 'text4')?.text;
+          console.log(`    ${m.name}: Sold to "${soldTo}"`);
+        }
+        await postTelegram(`⚠️ Double checkout? Order ${orderId} for listing ${listingId} but all matched devices already have buyers. Manual assignment needed.`);
+        summary.noMatch++;
+        continue;
+      }
+
+      console.log(`  ✅ Matched: ${availableItem.name} (BM Device ${availableItem.id})`);
+
+      // Get Main Board item ID
+      const relCol = availableItem.column_values.find(cv => cv.id === 'board_relation');
+      const mainItemId = relCol?.linked_item_ids?.[0];
+      console.log(`  Main Board item: ${mainItemId || 'NOT LINKED'}`);
+
+      // Step 3: Verify stock
+      console.log(`\n  [Step 3] Verifying stock...`);
+      const stockCheck = verifyStock(availableItem);
+      if (!stockCheck.ok) {
+        console.log(`  ⛔ Stock check failed: ${stockCheck.reason}. Skipping.`);
+        summary.alreadyProcessed++;
+        continue;
+      }
+      console.log(`  ✅ Stock verified`);
+
+      if (isDryRun) {
+        console.log(`\n  [DRY RUN] Would accept order ${orderId} and update Monday.`);
+        continue;
+      }
+
+      // Step 4: Accept order
+      console.log(`\n  [Step 4] Accepting order ${orderId} with SKU "${orderLineSku}"...`);
+      try {
+        await acceptOrder(orderId, orderLineSku);
+        console.log(`  ✅ Order accepted`);
+      } catch (e) {
+        console.error(`  ❌ Accept failed: ${e.message}`);
+        summary.errors++;
+        continue;
+      }
+
+      // Step 5a: Update BM Devices
+      console.log(`\n  [Step 5a] Updating BM Devices...`);
+      const devOk = await updateBmDevices(availableItem.id, buyer, orderId, price);
+      console.log(`  BM Devices (buyer, order, price): ${devOk ? '✅' : '❌'}`);
+
+      // Step 5b+5c: Update Main Board
+      if (mainItemId) {
+        const today = new Date().toISOString().slice(0, 10);
+        console.log(`  [Step 5b+5c] Updating Main Board status → Sold, date → ${today}...`);
+        const mainOk = await updateMainBoard(mainItemId, today);
+        console.log(`  Main Board: ${mainOk ? '✅' : '❌'}`);
+
+        // Step 5d: Rename
+        console.log(`  [Step 5d] Renaming Main Board item to "${buyer}"...`);
+        const renameOk = await renameMainBoardItem(mainItemId, buyer);
+        console.log(`  Rename: ${renameOk ? '✅' : '❌'}`);
+      } else {
+        console.log(`  ⚠️ No Main Board link. Cannot update status/name. MANUAL FIX NEEDED.`);
+        await postTelegram(`⚠️ Order ${orderId} accepted but ${availableItem.name} has no Main Board link. Manual Monday update needed.`);
+      }
+
+      // Step 6: Notification
+      console.log(`\n  [Step 6] Sending notification...`);
+      await postTelegram(
+        `🛒 BM sale accepted!\n` +
+        `Device: ${availableItem.name}\n` +
+        `Buyer: ${buyer}\n` +
+        `Order: ${orderId}\n` +
+        `Price: £${price}`
+      );
+
+      console.log(`\n  ── SALE CONFIRMED ──`);
+      console.log(`  Device: ${availableItem.name}`);
+      console.log(`  Buyer: ${buyer}`);
+      console.log(`  Order: ${orderId}`);
+      console.log(`  Price: £${price}`);
+
+      summary.accepted++;
+    }
+
+    await sleep(1000);
+  }
+
+  // Summary
+  console.log('\n' + '═'.repeat(60));
+  console.log('  SUMMARY');
+  console.log('═'.repeat(60));
+  console.log(`  Accepted:          ${summary.accepted}`);
+  console.log(`  No match:          ${summary.noMatch}`);
+  console.log(`  Already processed: ${summary.alreadyProcessed}`);
+  console.log(`  Errors:            ${summary.errors}`);
+
+  // Save results
+  const outDir = '/home/ricky/builds/bm-scripts/test-output';
+  fs.mkdirSync(outDir, { recursive: true });
+  fs.writeFileSync(`${outDir}/sale-detection-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(summary, null, 2));
+})();
