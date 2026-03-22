@@ -102,7 +102,7 @@ async function loadAllBmDevices() {
   let cursor = null;
   while (true) {
     const cursorPart = cursor ? `cursor: "${cursor}"` : `limit: 500`;
-    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2", "text"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
     const d = await mondayApi(q);
     const page = d.data?.boards?.[0]?.items_page;
     if (!page?.items?.length) break;
@@ -208,8 +208,49 @@ async function loadAllBmDevices() {
     }
 
     if (bmListing.quantity > 0) {
-      console.log(`  ✅ ${name}: listing ${listingId} active, qty=${bmListing.quantity}`);
-      results.matched.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing });
+      // Spec verification: check listing title matches device specs
+      const title = (bmListing.title || '').toLowerCase();
+      const devRam = (bmDev.column_values.find(cv => cv.id === 'status__1')?.text || '').replace(/\s/g, '');
+      const devSsd = (bmDev.column_values.find(cv => cv.id === 'color2')?.text || '').replace(/\s/g, '');
+      const devModel = (bmDev.column_values.find(cv => cv.id === 'text')?.text || '').toUpperCase();
+
+      let specOk = true;
+      const specIssues = [];
+
+      // Check RAM in title
+      if (devRam) {
+        const ramGB = devRam.replace(/GB/i, '');
+        if (!title.includes(ramGB + 'gb') && !title.includes(ramGB + ' gb')) {
+          specIssues.push(`RAM: device=${devRam}, title doesn't contain it`);
+          specOk = false;
+        }
+      }
+
+      // Check SSD in title
+      if (devSsd) {
+        let ssdSearch = devSsd.replace(/GB/i, '').replace(/TB/i, '');
+        if (devSsd.toLowerCase().includes('1tb')) ssdSearch = '1000';
+        else if (devSsd.toLowerCase().includes('2tb')) ssdSearch = '2000';
+        if (!title.includes('ssd ' + ssdSearch) && !title.includes(ssdSearch + 'gb') && !title.includes(ssdSearch + ' gb') && !title.includes('ssd ' + ssdSearch)) {
+          specIssues.push(`SSD: device=${devSsd}, title doesn't contain it`);
+          specOk = false;
+        }
+      }
+
+      // Check grade matches
+      const GRADE_MAP = { 'Fair': 'FAIR', 'Good': 'GOOD', 'Excellent': 'VERY_GOOD' };
+      // We'd need the Main Board grade for this — skip for now, covered in listing script
+
+      if (specOk) {
+        console.log(`  ✅ ${name}: listing ${listingId} active, qty=${bmListing.quantity}, spec verified`);
+      } else {
+        console.log(`  ⛔ ${name}: listing ${listingId} active but SPEC MISMATCH:`);
+        for (const issue of specIssues) console.log(`    ${issue}`);
+        console.log(`    Title: ${bmListing.title}`);
+        results.specMismatch = results.specMismatch || [];
+        results.specMismatch.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, issues: specIssues });
+      }
+      results.matched.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, specOk, specIssues });
     } else {
       console.log(`  ⚠️ ${name}: listing ${listingId} exists but OFFLINE (qty=0)`);
       results.mondayListedBmOffline.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing });
@@ -243,6 +284,29 @@ async function loadAllBmDevices() {
       } else {
         results.missingCost.push({ name, bmDeviceId: bmDev.id, reason: 'No Main Board link' });
       }
+    }
+  }
+
+  // Check C: Quantity reconciliation
+  console.log('\n[Step 2C] Quantity reconciliation...');
+  const matchedByListing = {};
+  for (const m of results.matched) {
+    if (!matchedByListing[m.listingId]) matchedByListing[m.listingId] = [];
+    matchedByListing[m.listingId].push(m);
+  }
+  for (const [lid, devices] of Object.entries(matchedByListing)) {
+    const bmListing = bmListingsByLid[lid];
+    if (!bmListing) continue;
+    const mondayCount = devices.length;
+    const bmQty = bmListing.quantity;
+    if (mondayCount > bmQty) {
+      console.log(`  ⚠️ MISSED REVENUE: listing ${lid} (${bmListing.sku}) has ${mondayCount} devices on Monday but qty=${bmQty} on BM`);
+      results.qtyMismatch.push({ listingId: lid, sku: bmListing.sku, mondayCount, bmQty, type: 'missed_revenue', devices: devices.map(d => d.name) });
+    } else if (bmQty > mondayCount) {
+      console.log(`  ⛔ OVERSELL RISK: listing ${lid} (${bmListing.sku}) has qty=${bmQty} on BM but only ${mondayCount} device(s) on Monday`);
+      results.qtyMismatch.push({ listingId: lid, sku: bmListing.sku, mondayCount, bmQty, type: 'oversell', devices: devices.map(d => d.name) });
+    } else {
+      // Qty matches
     }
   }
 
@@ -323,6 +387,8 @@ async function loadAllBmDevices() {
   console.log(`  ⛔ Orphan BM listings:   ${results.orphanListings.length}`);
   console.log(`  ⛔ Missing BM Device:    ${results.missingBmDevice.length}`);
   console.log(`  ⚠️ Missing cost data:    ${results.missingCost.length}`);
+  console.log(`  ⛔ Spec mismatch:        ${(results.specMismatch || []).length}`);
+  console.log(`  ⚠️ Qty mismatch:        ${results.qtyMismatch.length}`);
   console.log(`  ✅ Cost auto-backfilled: ${results.costBackfilled.length}`);
 
   // Detail sections
@@ -358,6 +424,24 @@ async function loadAllBmDevices() {
     console.log('\n⛔ MISSING BM DEVICE ENTRY:');
     for (const r of results.missingBmDevice) {
       console.log(`  ${r.name}`);
+    }
+  }
+
+  if ((results.specMismatch || []).length > 0) {
+    console.log('\n⛔ SPEC MISMATCHES:');
+    for (const r of results.specMismatch) {
+      console.log(`  ${r.name}: listing ${r.listingId}`);
+      for (const issue of r.issues) console.log(`    ${issue}`);
+      console.log(`    BM title: ${r.listing.title}`);
+    }
+  }
+
+  if (results.qtyMismatch.length > 0) {
+    console.log('\n⚠️ QTY MISMATCHES:');
+    for (const r of results.qtyMismatch) {
+      const icon = r.type === 'oversell' ? '⛔' : '⚠️';
+      console.log(`  ${icon} listing ${r.listingId} (${r.sku}): Monday=${r.mondayCount}, BM qty=${r.bmQty} [${r.type}]`);
+      console.log(`    Devices: ${r.devices.join(', ')}`);
     }
   }
 
