@@ -18,3 +18,8 @@
 - All 3 scripts: column IDs and status indices need spot-checking against actual Monday board
 - All default to dry-run (good)
 - All have SOP step checklists in headers (good)
+
+## shipping.js — Additional requirement
+- After label is bought successfully, set `status4` (Main Board) to "Return Booked" (index 19)
+- Column: status4, board: 349212843
+- This is in ADDITION to writing the tracking number
