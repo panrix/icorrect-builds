@@ -142,11 +142,68 @@ async function getExistingTradeInIds() {
   return ids;
 }
 
+// ─── Helpers: Extract nested BM buyback fields ──────────────────
+// BM buyback API nests data differently from sell-side orders.
+// Try multiple paths to find the right field.
+function extractField(order, ...paths) {
+  for (const p of paths) {
+    const parts = p.split('.');
+    let val = order;
+    for (const part of parts) {
+      if (val == null) break;
+      val = val[part];
+    }
+    if (val != null && val !== '') return val;
+  }
+  return '';
+}
+
+function extractProductName(order) {
+  return extractField(order,
+    'listing.product.name',
+    'listing.title',
+    'product.name',
+    'product_description',
+    'product_name',
+    'title',
+    'listing_title'
+  ) || 'Unknown';
+}
+
+function extractPrice(order) {
+  const raw = extractField(order,
+    'originalPrice',
+    'original_price',
+    'price',
+    'listing.price',
+    'offer_price'
+  );
+  return parseFloat(raw) || 0;
+}
+
+function extractCustomerName(order) {
+  // Try nested customer object first
+  const customer = order.customer || order.sender || {};
+  const first = customer.first_name || customer.firstName || order.first_name || '';
+  const last = customer.last_name || customer.lastName || order.last_name || '';
+  if (first || last) return `${first} ${last}`.trim();
+  return order.customer_name || 'Unknown';
+}
+
+function extractTracking(order) {
+  return extractField(order,
+    'tracking_number',
+    'inbound_tracking',
+    'shipping.tracking_number',
+    'trackingNumber'
+  );
+}
+
 // ─── Step 3: Create Main Board item ──────────────────────────────
 async function createMainBoardItem(order) {
   const publicId = order.public_id || order.orderPublicId || '';
-  const orderDate = (order.date || order.created_at || '').slice(0, 10);
-  const tracking = order.tracking_number || order.inbound_tracking || '';
+  const orderDate = (order.date || order.created_at || order.createdAt || '').slice(0, 10);
+  const tracking = extractTracking(order);
 
   const colValues = {
     text_mky01vb4: publicId,                              // BM Trade-in ID
@@ -173,21 +230,21 @@ async function createMainBoardItem(order) {
 async function createBmDevicesItem(order) {
   const publicId = order.public_id || order.orderPublicId || '';
   const orderId = order.id || order.order_id || '';
-  const customerName = [order.first_name, order.last_name].filter(Boolean).join(' ')
-    || order.customer_name || 'Unknown';
-  const reportedDamage = order.customer_comment || order.description || '';
-  const purchasePrice = parseFloat(order.price || order.original_price || 0);
+  const customerName = extractCustomerName(order);
+  const reportedDamage = extractField(order, 'customer_comment', 'comment', 'description', 'listing.description');
+  const purchasePrice = extractPrice(order);
 
   // Trade-in grade from BM (FUNC_CRACK, FUNC_USED, etc.)
-  const bmGrade = order.grade || order.condition || '';
+  const bmGrade = extractField(order, 'grade', 'condition', 'listing.grade', 'offer_grade');
 
-  // Spec fields — these vary by BM API response structure
-  const storage = order.storage || '';
-  const ram = order.ram || '';
-  const cpu = order.processor || order.cpu || '';
-  const gpu = order.gpu || '';
-  const modelNumber = order.model_number || order.a_number || '';
-  const keyboardLayout = order.keyboard_layout || '';
+  // Spec fields — BM nests these under listing or product objects
+  const listing = order.listing || order.product || {};
+  const storage = extractField(order, 'listing.storage', 'storage', 'product.storage');
+  const ram = extractField(order, 'listing.ram', 'ram', 'product.ram');
+  const cpu = extractField(order, 'listing.processor', 'processor', 'cpu', 'product.processor');
+  const gpu = extractField(order, 'listing.gpu', 'gpu', 'product.gpu');
+  const modelNumber = extractField(order, 'listing.model_number', 'model_number', 'a_number');
+  const keyboardLayout = extractField(order, 'listing.keyboard_layout', 'keyboard_layout');
 
   const colValues = {
     text_mkqy3576: String(orderId),         // Order ID
@@ -272,8 +329,8 @@ async function linkItems(bmDeviceItemId, mainItemId) {
 
   for (const order of orders) {
     const publicId = order.public_id || order.orderPublicId || '?';
-    const productName = order.product_name || order.title || 'Unknown';
-    const price = order.price || order.original_price || '?';
+    const productName = extractProductName(order);
+    const price = extractPrice(order) || '?';
 
     console.log('─'.repeat(50));
     console.log(`Order: ${publicId}`);
