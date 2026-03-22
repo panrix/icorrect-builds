@@ -84,6 +84,12 @@
     "category": "iphone"
   },
   {
+    "model": "iPhone 16 128GB Black",
+    "uuid": "ffa54805-4d46-4fa5-9e55-589604fff2ae",
+    "url": "https://www.backmarket.co.uk/en-gb/p/iphone-16-128-gb-black-unlocked/ffa54805-4d46-4fa5-9e55-589604fff2ae?l=10",
+    "category": "iphone"
+  },
+  {
     "model": "iPhone 16 128GB Teal",
     "uuid": "7f5bdd13-8f4b-49ee-a94a-8b578deb328d",
     "url": "https://www.backmarket.co.uk/en-gb/p/iphone-16-128-gb-teal-unlocked/7f5bdd13-8f4b-49ee-a94a-8b578deb328d?l=10",
@@ -102,9 +108,33 @@
     "category": "ipad"
   },
   {
+    "model": "iPad Pro 11\" 2022 M2 128GB WiFi Space Gray",
+    "uuid": "840bd0d3-9fb4-44d2-b8d5-b2d23cd08b87",
+    "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-11-4th-gen-2022-hdd-128-gb-space-gray-wifi/840bd0d3-9fb4-44d2-b8d5-b2d23cd08b87?l=10",
+    "category": "ipad"
+  },
+  {
+    "model": "iPad Pro 12.9\" 2021 M1 128GB WiFi Space Gray",
+    "uuid": "37773c1b-fc7d-442c-84ea-3e22a64cad1a",
+    "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-129-5th-gen-2021-hdd-128-gb-space-gray-wifi/37773c1b-fc7d-442c-84ea-3e22a64cad1a?l=10",
+    "category": "ipad"
+  },
+  {
     "model": "iPad Pro 12.9\" 2021 M1 128GB WiFi+5G Space Gray",
     "uuid": "23506449-4942-4695-8de5-6f145e8ebc4a",
     "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-129-5th-gen-2021-hdd-128-gb-space-gray-wifi-5g/23506449-4942-4695-8de5-6f145e8ebc4a?l=10",
+    "category": "ipad"
+  },
+  {
+    "model": "iPad Air 5 2022 M1 64GB WiFi Space Gray",
+    "uuid": "ba8b6c51-5aa3-4507-a065-4b8d5e477198",
+    "url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-5-2022-hdd-64-gb-space-gray-wi-fi/ba8b6c51-5aa3-4507-a065-4b8d5e477198?l=10",
+    "category": "ipad"
+  },
+  {
+    "model": "iPad Air 11\" 2024 M2 128GB WiFi Space Gray",
+    "uuid": "0cdd00f6-cecb-4a4f-9440-8d1331203c86",
+    "url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-m2-11-2024-6th-gen-128-gb-wifi-space-gray/0cdd00f6-cecb-4a4f-9440-8d1331203c86?l=10",
     "category": "ipad"
   },
   {
