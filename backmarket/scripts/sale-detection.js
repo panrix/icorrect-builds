@@ -86,24 +86,38 @@ async function postTelegram(msg) {
 
 // ─── Step 1: Fetch new orders ─────────────────────────────────────
 async function fetchNewOrders() {
-  const d = await bmApi('/ws/orders?state=1&page_size=50');
-  return d.results || (Array.isArray(d) ? d : []);
+  const all = [];
+  let page = 1;
+  while (true) {
+    const d = await bmApi(`/ws/orders?state=1&page=${page}&page_size=50`);
+    const items = d.results || (Array.isArray(d) ? d : []);
+    if (items.length === 0) break;
+    all.push(...items);
+    if (!d.next) break;
+    page++;
+    await sleep(300);
+  }
+  return all;
 }
 
 // ─── Step 2: Match to BM Devices Board ────────────────────────────
 async function matchToBmDevice(listingId) {
-  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
   return d.data?.boards?.[0]?.items_page?.items || [];
 }
 
 // ─── Step 3: Verify stock ─────────────────────────────────────────
+const EXCLUDED_GROUPS = ['bm returns', 'rejected'];
+
 function verifyStock(bmDeviceItem) {
   const soldTo = bmDeviceItem.column_values.find(cv => cv.id === 'text4')?.text || '';
   const existingOrder = bmDeviceItem.column_values.find(cv => cv.id === 'text_mkye7p1c')?.text || '';
+  const groupTitle = (bmDeviceItem.group?.title || '').toLowerCase();
 
   if (soldTo.trim()) return { ok: false, reason: `Already sold to: ${soldTo}` };
   if (existingOrder.trim()) return { ok: false, reason: `Already has order: ${existingOrder}` };
+  if (EXCLUDED_GROUPS.some(g => groupTitle.includes(g))) return { ok: false, reason: `Device in excluded group: ${bmDeviceItem.group.title}` };
   return { ok: true };
 }
 
@@ -231,6 +245,12 @@ async function renameMainBoardItem(mainItemId, buyerName) {
 
       console.log(`  ✅ Matched: ${availableItem.name} (BM Device ${availableItem.id})`);
 
+      // SKU cross-check: order line vs Monday
+      const mondaySku = availableItem.column_values.find(cv => cv.id === 'text89')?.text || '';
+      if (mondaySku && orderLineSku && mondaySku !== orderLineSku) {
+        console.log(`  ⚠️ SKU mismatch: Order="${orderLineSku}" vs Monday="${mondaySku}". Using order SKU for acceptance.`);
+      }
+
       // Get Main Board item ID
       const relCol = availableItem.column_values.find(cv => cv.id === 'board_relation');
       const mainItemId = relCol?.linked_item_ids?.[0];
@@ -286,7 +306,7 @@ async function renameMainBoardItem(mainItemId, buyerName) {
       // Step 6: Notification
       console.log(`\n  [Step 6] Sending notification...`);
       await postTelegram(
-        `🛒 BM sale accepted!\n` +
+        `🛒 New BM sale accepted!\n` +
         `Device: ${availableItem.name}\n` +
         `Buyer: ${buyer}\n` +
         `Order: ${orderId}\n` +
