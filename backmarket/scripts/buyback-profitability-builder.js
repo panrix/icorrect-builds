@@ -13,7 +13,7 @@
  * Output: data/buyback-profitability-lookup.json
  *   Keyed by normalised model+grade. Each entry has:
  *     - avgSellPrice, minSellPrice, maxSellPrice
- *     - avgPartsCost, avgLabourHours, avgLabourCost
+ *     - avgPartsCost, avgLabourCost
  *     - avgProfit, avgMargin
  *     - sampleSize
  *     - orders (detail array)
@@ -640,7 +640,7 @@ function compareRealVsEstimated(lookup) {
   console.log('═══════════════════════════════════════════════════════');
 
   const sorted = Object.entries(lookup).sort((a, b) => b[1].sampleSize - a[1].sampleSize);
-  console.log(`\n${'Model+Grade'.padEnd(45)} ${'N'.padStart(3)} ${'AvgSell'.padStart(8)} ${'AvgParts'.padStart(9)} ${'AvgLabHr'.padStart(9)} ${'AvgProfit'.padStart(9)} ${'Margin%'.padStart(8)}`);
+  console.log(`\n${'Model+Grade'.padEnd(45)} ${'N'.padStart(3)} ${'AvgSell'.padStart(8)} ${'AvgParts'.padStart(9)} ${'AvgLabour'.padStart(9)} ${'AvgProfit'.padStart(9)} ${'Margin%'.padStart(8)}`);
   console.log('─'.repeat(95));
 
   for (const [, data] of sorted) {
@@ -650,7 +650,7 @@ function compareRealVsEstimated(lookup) {
       `${label} ${String(data.sampleSize).padStart(3)} ` +
       `£${data.avgSellPrice.toFixed(0).padStart(6)} ` +
       `£${data.avgPartsCost.toFixed(0).padStart(7)} ` +
-      `${data.avgLabourHours.toFixed(1).padStart(8)}h ` +
+      `£${data.avgLabourCost.toFixed(0).padStart(7)} ` +
       `${profitSign}£${data.avgNetProfit.toFixed(0).padStart(7)} ` +
       `${data.avgMargin.toFixed(1).padStart(6)}%`
     );
