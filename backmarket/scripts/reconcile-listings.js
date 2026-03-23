@@ -102,7 +102,7 @@ async function loadAllBmDevices() {
   let cursor = null;
   while (true) {
     const cursorPart = cursor ? `cursor: "${cursor}"` : `limit: 500`;
-    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2", "text"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
     const d = await mondayApi(q);
     const page = d.data?.boards?.[0]?.items_page;
     if (!page?.items?.length) break;
@@ -212,7 +212,8 @@ async function loadAllBmDevices() {
       const title = (bmListing.title || '').toLowerCase();
       const devRam = (bmDev.column_values.find(cv => cv.id === 'status__1')?.text || '').replace(/\s/g, '');
       const devSsd = (bmDev.column_values.find(cv => cv.id === 'color2')?.text || '').replace(/\s/g, '');
-      const devModel = (bmDev.column_values.find(cv => cv.id === 'text')?.text || '').toUpperCase();
+      // text column deleted Mar 23 — extract model from item name instead
+      const devModel = ((bmDev.name || '').match(/A\d{4}/) || [''])[0].toUpperCase();
 
       let specOk = true;
       const specIssues = [];
@@ -264,12 +265,13 @@ async function loadAllBmDevices() {
 
       // Try to auto-calculate
       if (bmDev.mainItemId) {
-        const q = `{ items(ids:[${bmDev.mainItemId}]) { column_values(ids:["formula_mkx1bjqr","formula__1"]) { id text } } }`;
+        const q = `{ items(ids:[${bmDev.mainItemId}]) { column_values(ids:["lookup_mkx1xzd7","formula_mkx1bjqr","formula__1"]) { id text ... on MirrorValue { display_value } ... on FormulaValue { display_value } } } }`;
         const d = await mondayApi(q);
         const mainItem = d.data?.items?.[0];
         if (mainItem) {
-          const parts = parseFloat(mainItem.column_values.find(cv => cv.id === 'formula_mkx1bjqr')?.text) || 0;
-          const labourH = parseFloat(mainItem.column_values.find(cv => cv.id === 'formula__1')?.text) || 0;
+          const partsRaw = mainItem.column_values.find(cv => cv.id === 'lookup_mkx1xzd7')?.display_value || '0';
+          const parts = String(partsRaw).split(',').reduce((sum, v) => sum + (parseFloat(v.trim()) || 0), 0);
+          const labourH = parseFloat(mainItem.column_values.find(cv => cv.id === 'formula__1')?.display_value) || 0;
           const labour = labourH * LABOUR_RATE;
           const buyFee = purchase * BUY_FEE_RATE;
           const fixed = purchase + parts + labour + SHIPPING + buyFee;
