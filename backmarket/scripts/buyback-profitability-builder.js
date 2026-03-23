@@ -442,11 +442,16 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
     }
 
     lookup[key].sellPrices.push(sellPrice);
-    lookup[key].partsCosts.push(partsCost);
-    lookup[key].labourCosts.push(labourCost);
-    lookup[key].purchasePrices.push(purchasePrice);
-    lookup[key].netProfits.push(netProfit);
-    lookup[key].margins.push(margin);
+    // Only include cost-based metrics when we have real cost data.
+    // Orders without cost data (old items, no Monday link) have £0 parts/labour
+    // which would inflate margins and deflate cost averages.
+    if (mainData) {
+      lookup[key].partsCosts.push(partsCost);
+      lookup[key].labourCosts.push(labourCost);
+      lookup[key].purchasePrices.push(purchasePrice);
+      lookup[key].netProfits.push(netProfit);
+      lookup[key].margins.push(margin);
+    }
     lookup[key].orders.push({
       orderId: order.orderId,
       orderDate: order.orderDate,
@@ -476,10 +481,13 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
 
   const result = {};
   for (const [key, data] of Object.entries(lookup)) {
+    const costSampleSize = data.partsCosts.length;
     result[key] = {
       model: data.model,
       grade: data.grade,
       sampleSize: data.orders.length,
+      costSampleSize,
+      hasCostData: costSampleSize > 0,
       avgSellPrice: round2(avg(data.sellPrices)),
       minSellPrice: round2(Math.min(...data.sellPrices)),
       maxSellPrice: round2(Math.max(...data.sellPrices)),

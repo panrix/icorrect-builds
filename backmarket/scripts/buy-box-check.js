@@ -384,18 +384,32 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     statuses.push('⚠️ API error');
   } else if (buyBox.isWinning) {
     statuses.push('✅ Winning');
-  } else if (buyBox.priceToWin && costData?.totalFixedCost) {
-    const atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
-    if (atWin.net < 0) {
-      statuses.push(`⛔ Cannot win profitably (loss £${Math.abs(atWin.net).toFixed(0)} at win price)`);
-    } else if (atWin.margin < 15) {
-      statuses.push(`⛔ Cannot win profitably (${atWin.margin}% < 15%)`);
-    } else if (atWin.margin < 30) {
-      statuses.push(`⚠️ Can win at ${atWin.margin}% margin`);
-    } else {
-      statuses.push(`✅ Can win at ${atWin.margin}% margin`);
+  } else if (buyBox.priceToWin) {
+    // Prefer real profitability data for margin assessment
+    let atWin = null;
+    let src = '';
+    if (realProf?.data?.hasCostData && realProf.data.costSampleSize >= 3) {
+      const rp = realProf.data;
+      const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
+      atWin = calcProfit(buyBox.priceToWin, realFixed, rp.avgPurchasePrice);
+      src = ' [real]';
+    } else if (costData?.totalFixedCost) {
+      atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
     }
-  } else if (!costData?.totalFixedCost) {
+    if (atWin) {
+      if (atWin.net < 0) {
+        statuses.push(`⛔ Cannot win profitably (loss £${Math.abs(atWin.net).toFixed(0)} at win price)${src}`);
+      } else if (atWin.margin < 15) {
+        statuses.push(`⛔ Cannot win profitably (${atWin.margin}% < 15%)${src}`);
+      } else if (atWin.margin < 30) {
+        statuses.push(`⚠️ Can win at ${atWin.margin}% margin${src}`);
+      } else {
+        statuses.push(`✅ Can win at ${atWin.margin}% margin${src}`);
+      }
+    } else {
+      statuses.push('⚠️ Missing cost data');
+    }
+  } else if (!costData?.totalFixedCost && !realProf?.data?.hasCostData) {
     statuses.push('⚠️ Missing cost data');
   }
 
@@ -541,11 +555,28 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     console.log('\n' + card.lines + '\n');
 
     // Step 6: Auto-bump if enabled
-    if (autoBump && !buyBox.isWinning && buyBox.priceToWin && costData?.totalFixedCost) {
-      const atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
-      if (atWin.margin >= 15) {
+    if (autoBump && !buyBox.isWinning && buyBox.priceToWin) {
+      // Use real profitability data when available (more accurate than Monday's single-item costs)
+      let marginOk = false;
+      let marginSource = '';
+      let atWin = null;
+
+      if (realProf?.data?.hasCostData && realProf.data.costSampleSize >= 3) {
+        // Real data: compute expected margin at win price using average costs from actual sales
+        const rp = realProf.data;
+        const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
+        atWin = calcProfit(buyBox.priceToWin, realFixed, rp.avgPurchasePrice);
+        marginSource = `real (${rp.costSampleSize} sales)`;
+      } else if (costData?.totalFixedCost) {
+        // Fall back to Monday's per-item cost data
+        atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
+        marginSource = 'monday';
+      }
+
+      if (atWin && atWin.margin >= 15) {
+        marginOk = true;
         const newMin = Math.ceil(buyBox.priceToWin * MIN_PRICE_FACTOR);
-        console.log(`  Bumping ${lid} to £${buyBox.priceToWin} / min £${newMin}...`);
+        console.log(`  Bumping ${lid} to £${buyBox.priceToWin} / min £${newMin} (${atWin.margin}% margin via ${marginSource})...`);
         try {
           await bmApi(`/ws/listings/${lid}`, {
             method: 'POST',
@@ -563,11 +594,14 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
         } catch (e) {
           console.log(`  ❌ Bump failed: ${e.message}`);
         }
-      } else if (atWin.net < 0) {
+      } else if (atWin && atWin.net < 0) {
         summary.unprofitable++;
-        alerts.push(`⛔ ${listing.sku}: loss at win price £${buyBox.priceToWin}`);
+        alerts.push(`⛔ ${listing.sku}: loss at win price £${buyBox.priceToWin} (${marginSource})`);
+      } else if (atWin) {
+        summary.unprofitable++;
       } else {
-        summary.unprofitable++;
+        // No cost data from either source — don't bump
+        console.log(`  ⚠️ ${lid}: no cost data, skipping bump`);
       }
     }
 
