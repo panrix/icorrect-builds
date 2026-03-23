@@ -134,7 +134,7 @@ async function buildBmDeviceMap(mainItemIds) {
       cursor
       items {
         id name
-        column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
+        column_values(ids: ["board_relation", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
           id text type
           ... on BoardRelationValue { linked_item_ids }
           ... on MirrorValue { display_value }
@@ -155,7 +155,6 @@ async function buildBmDeviceMap(mainItemIds) {
         if (mainIdSet.has(String(lid))) {
           const specs = {};
           for (const cv of item.column_values) {
-            if (cv.id === 'text') specs.model = (cv.text || '').trim();
             if (cv.id === 'status__1') specs.ram = cv.text || '';
             if (cv.id === 'color2') specs.ssd = cv.text || '';
             if (cv.id === 'status7__1') specs.cpu = cv.text || '';
@@ -165,11 +164,11 @@ async function buildBmDeviceMap(mainItemIds) {
             if (cv.id === 'text_mkyd4bx3') specs.storedListingId = (cv.text || '').trim();
             if (cv.id === 'text_mm1dt53s') specs.storedUuid = (cv.text || '').trim();
           }
-          // Extract A-number from deviceName if model column is empty
-          if (!specs.model && specs.deviceName) {
-            const aMatch = specs.deviceName.match(/A\d{4}/);
-            if (aMatch) specs.model = aMatch[0];
-          }
+          // Extract A-number from deviceName or item name (text column deleted Mar 23)
+          specs.model = '';
+          const nameStr = (specs.deviceName || '') + ' ' + (item.name || '');
+          const aMatch = nameStr.match(/A\d{4}/);
+          if (aMatch) specs.model = aMatch[0];
           map[String(lid)] = {
             bmDeviceId: item.id,
             bmDeviceName: item.name,
@@ -191,7 +190,7 @@ async function buildBmDeviceMap(mainItemIds) {
         cursor
         items {
           id name
-          column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
+          column_values(ids: ["board_relation", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
             id text type
             ... on BoardRelationValue { linked_item_ids }
             ... on MirrorValue { display_value }
@@ -214,9 +213,10 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
   // 2a: Read Main Board data (colour, parts cost, labour hours)
   const mainQ = `query { items(ids: [${mainItemId}]) {
     name
-    column_values(ids: ["status8", "formula_mkx1bjqr", "formula__1"]) {
+    column_values(ids: ["status8", "lookup_mkx1xzd7", "formula_mkx1bjqr", "formula__1"]) {
       id
       ... on StatusValue { text }
+      ... on MirrorValue { display_value }
       ... on FormulaValue { display_value }
     }
   }}`;
@@ -224,10 +224,11 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
   const mainItem = mainData.items?.[0];
   if (!mainItem) throw new Error(`Main item ${mainItemId} not found`);
 
-  let colour = '', partsCostStr = '0', labourHoursStr = '0';
+  let colour = '', partsCostRaw = '0', labourCostStr = '0', labourHoursStr = '0';
   for (const cv of mainItem.column_values) {
     if (cv.id === 'status8') colour = cv.text || '';
-    if (cv.id === 'formula_mkx1bjqr') partsCostStr = cv.display_value || '0';
+    if (cv.id === 'lookup_mkx1xzd7') partsCostRaw = cv.display_value || '0';
+    if (cv.id === 'formula_mkx1bjqr') labourCostStr = cv.display_value || '0';
     if (cv.id === 'formula__1') labourHoursStr = cv.display_value || '0';
   }
 
@@ -235,10 +236,11 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
   const bmDev = bmDeviceMap?.[String(mainItemId)];
   if (!bmDev) throw new Error(`No BM Device found linked to Main item ${mainItemId} on BM Devices Board`);
 
-  const partsCost = parseFloat(String(partsCostStr).replace(/[£,]/g, '')) || 0;
+  // Parts cost: mirror column returns comma-separated values, sum them
+  const partsCost = String(partsCostRaw).split(',').reduce((sum, v) => sum + (parseFloat(v.trim()) || 0), 0);
   const labourHours = parseFloat(String(labourHoursStr).replace(/[^0-9.]/g, '')) || 0;
 
-  // Model number: from text column, or parse from device name/item name
+  // Model number: extract A-number from device name/item name (text column deleted Mar 23)
   let model = bmDev.model || '';
   if (!model) {
     // Try to extract model number (A####) from device name or item name
@@ -1165,11 +1167,12 @@ function calculateProfitability(proposed, specs) {
 // ─── Step 9: Decision Gate ────────────────────────────────────────
 
 function decisionGate(profitability) {
-  const { margin, net, minPrice } = profitability;
+  const { margin, net, minPrice, breakEven } = profitability;
 
-  if (net < 0) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
-  if (margin < 15) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 15% at min_price` };
-  // AUTO-LIST disabled until data pipeline is trusted (parts, model matching, product_ids verified)
+  // AUTO-LIST disabled (Mar 21). All devices go through PROPOSE → Ricky approval.
+  // Low margin and loss-makers are flagged but still proposed — Ricky may approve to clear stock.
+  if (net < 0) return { decision: 'PROPOSE', reason: `⛔ Loss at min_price (net £${net}, B/E £${breakEven})` };
+  if (margin < 15) return { decision: 'PROPOSE', reason: `⚠️ Low margin ${margin.toFixed(1)}% at min_price (net £${net})` };
   // if (margin >= 30 && net >= 100) return { decision: 'AUTO-LIST', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
   return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
 }
@@ -1352,11 +1355,9 @@ async function updateMonday(mainItemId, bmDeviceId, listingId, productId, totalF
     `m3: change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId},
       column_id: "numeric_mm1mgcgn", value: ${JSON.stringify(JSON.stringify(String(totalFixedCost)))}) { id }`,
     // Main Board: status24 → Listed (index 7)
+    // Date Listed (date_mkq385pa) is auto-populated by Monday automation when status24 changes — do NOT write manually
     `m4: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId},
       column_id: "status24", value: "{\\"index\\": 7}") { id }`,
-    // Main Board: date_mkq385pa → today
-    `m5: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId},
-      column_id: "date_mkq385pa", value: "{\\"date\\": \\"${today()}\\"}") { id }`,
     // Listing ID only on BM Devices Board (text_mkyd4bx3). NOT on Main Board.
   ];
 

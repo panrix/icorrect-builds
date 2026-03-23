@@ -258,7 +258,7 @@ async function createBmDevicesItem(order) {
   if (ram) colValues.status__1 = { label: ram };                  // RAM
   if (cpu) colValues.status7__1 = { label: cpu };                 // CPU
   if (gpu) colValues.status8__1 = { label: gpu };                 // GPU
-  if (modelNumber) colValues.text = modelNumber;                  // Model Number
+  // text column (Model Number) deleted Mar 23 — model extracted from device name downstream
   if (keyboardLayout) colValues.keyboard_layout__1 = { label: keyboardLayout }; // Keyboard Layout
 
   const itemName = order.product_name || order.title || `Trade-in ${publicId}`;
