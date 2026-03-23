@@ -192,7 +192,7 @@
 
 ### 6.1 Cost Components
 - Purchase price (ex VAT, from Monday `numeric`)
-- Parts cost (from Monday `formula_mkx1bjqr`)
+- Parts cost (from Monday `lookup_mkx1xzd7` — mirror column, comma-separated, sum values)
 - Labour (hours × £24/hr, from Monday `formula__1`)
 - Shipping: £15 flat
 - BM buy fee: purchase × 10%
@@ -254,13 +254,19 @@ break_even = ceil((total_fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667))
 
 ## 8. Scripts Reference
 
-| Script | SOP | Path | Purpose | Cron |
-|--------|-----|------|---------|------|
-| list-device.js | 06 | /home/ricky/builds/bm-scripts/ | Listing creation | Manual |
-| buy-box-check.js | 07 | /home/ricky/builds/bm-scripts/ | Sell-side buy box | Daily |
-| buy_box_monitor.py | Buyback | /home/ricky/builds/buyback-monitor/ | Trade-in bidding | Daily 05:00 |
-| sell_price_scraper_v6.js | — | /home/ricky/builds/buyback-monitor/ | V6 sell prices | Daily 05:00 |
-<!-- Content: add remaining scripts as built -->
+| Script | SOP | Purpose | Status |
+|--------|-----|---------|--------|
+| sent-orders.js | 01 | Trade-in SENT orders → Monday | ✅ QA'd |
+| trade-in-payout.js | 03b | Trade-in payout processing | ✅ QA'd |
+| list-device.js | 06 | Listing creation / reactivation | ✅ QA'd |
+| reconcile-listings.js | 06.5 | Monday↔BM listings reconciliation | ✅ QA'd |
+| buy-box-check.js | 07 | Sell-side buy box management | ✅ QA'd |
+| sale-detection.js | 08 | Sale detection from BM orders | ✅ QA'd |
+| shipping.js | 09 | Shipping workflow | ✅ QA'd |
+| listings-audit.js | — | Listings health check / audit | ✅ QA'd |
+| buyback-profitability-builder.js | — | Build profitability lookup from Monday data | ✅ QA'd |
+| buy_box_monitor.py | Buyback | Trade-in bidding (Hugo's) | Daily 05:00 |
+| sell_price_scraper_v6.js | — | V6 sell prices scraper | Daily 05:00 |
 
 ---
 
@@ -292,16 +298,17 @@ break_even = ceil((total_fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667))
 
 | SOP | Title | Script | Status |
 |-----|-------|--------|--------|
-| 01 | Trade-in order SENT | — | SOP written, script pending |
+| 01 | Trade-in order SENT | sent-orders.js | ✅ Script QA'd |
 | 02 | Intake/receiving | — | SOP written, manual process |
 | 03 | Diagnostic | — | SOP written, manual process |
-| 03b | Trade-in payout | — | SOP written, script pending |
+| 03b | Trade-in payout | trade-in-payout.js | ✅ Script QA'd |
 | 04 | Repair/refurb | — | SOP written, manual process |
 | 05 | QC/Final grade | — | SOP written, manual process |
-| 06 | Listing | list-device.js | SOP written, script built ✅ |
-| 07 | Buy box management | buy-box-check.js | SOP written, script rebuilding |
-| 08 | Sale detection | — | SOP written, script pending |
-| 09 | Shipping | — | SOP written, script pending |
+| 06 | Listing | list-device.js | ✅ Script QA'd |
+| 06.5 | Listings reconciliation | reconcile-listings.js | ✅ Script QA'd |
+| 07 | Buy box management | buy-box-check.js | ✅ Script QA'd |
+| 08 | Sale detection | sale-detection.js | ✅ Script QA'd |
+| 09 | Shipping | shipping.js | ✅ Script QA'd |
 | 10 | Payment reconciliation | — | SOP written, script pending |
 | 11 | Tuesday cutoff | — | SOP written, manual process |
 | 12 | Returns/aftercare | — | PLACEHOLDER, needs discussion |
