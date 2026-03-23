@@ -10,8 +10,7 @@ In Step 2 (Monday matching), when querying BM Devices Board (3892194968), add th
 
 | Data | Column ID | Type | Fragment |
 |------|-----------|------|----------|
-| Device name | `lookup` | mirror | `... on MirrorValue { display_value }` |
-| Model number | `text` | text | `... on TextValue { text }` |
+| Device name | `lookup` | mirror | `... on MirrorValue { display_value }` — **THIS IS THE MODEL. Use this.** |
 | RAM | `status__1` | status | `... on StatusValue { text }` |
 | SSD | `color2` | status | `... on StatusValue { text }` |
 | CPU | `status7__1` | status | `... on StatusValue { text }` |
