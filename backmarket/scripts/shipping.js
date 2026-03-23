@@ -262,29 +262,7 @@ async function runLabels() {
     }
   }
 
-  // Step A5: Update status4 to "Return Booked" (index 19) for each label
-  if (labelsNeeded.length > 0 && !isDryRun) {
-    console.log('\n[Step A5] Updating status4 → Return Booked for labelled items...');
-    for (const label of labelsNeeded) {
-      const ok = await updateStatus4ReturnBooked(label.mondayItemId);
-      console.log(`  ${label.mondayItemName}: ${ok ? '✅' : '❌'}`);
-      await sleep(500);
-    }
-  } else if (labelsNeeded.length > 0) {
-    console.log('\n[DRY RUN] Would set status4 → Return Booked for all labelled items.');
-  }
-}
-
-// Step A5: Set status4 to "Return Booked" (index 19) after label purchase
-async function updateStatus4ReturnBooked(mainItemId) {
-  const q = `mutation { change_column_value(
-    board_id: ${MAIN_BOARD},
-    item_id: ${mainItemId},
-    column_id: "status4",
-    value: "{\\"index\\": 19}"
-  ) { id } }`;
-  const d = await mondayApi(q);
-  return !!d.data;
+  // status4 changes are handled by Monday automation, not this script (SOP 09)
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -330,16 +308,15 @@ async function findShippedItems() {
   }
 
   // Filter to items updated in the last 7 days (skip historical backlog)
-  if (!singleItemId) {
-    const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-    const before = items.length;
-    items = items.filter(item => {
-      if (!item.updated_at) return true; // include if no timestamp
-      return new Date(item.updated_at) >= cutoff;
-    });
-    if (before !== items.length) {
-      console.log(`  Filtered ${before} → ${items.length} (last 7 days only)`);
-    }
+  // Applied in all modes including --item to prevent duplicate confirmations on old items
+  const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+  const before = items.length;
+  items = items.filter(item => {
+    if (!item.updated_at) return true; // include if no timestamp
+    return new Date(item.updated_at) >= cutoff;
+  });
+  if (before !== items.length) {
+    console.log(`  Filtered ${before} → ${items.length} (last 7 days only)`);
   }
 
   return items;
