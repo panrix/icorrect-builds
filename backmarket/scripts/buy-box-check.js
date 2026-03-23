@@ -13,12 +13,14 @@
  * 10. Report to BM Telegram
  *
  * Usage:
- *   node buy-box-check.js              # Check only
- *   node buy-box-check.js --auto-bump  # Check + apply profitable bumps
+ *   node buy-box-check.js                          # Check only
+ *   node buy-box-check.js --auto-bump              # Check + apply profitable bumps
+ *   node buy-box-check.js --compare-profitability   # Show real vs estimated side-by-side
  */
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
+const path = require('path');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -35,8 +37,56 @@ const MIN_PRICE_FACTOR = 0.97;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 
+const PROFITABILITY_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'buyback-profitability-lookup.json');
+
 const autoBump = process.argv.includes('--auto-bump');
+const parallelCompare = process.argv.includes('--compare-profitability');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+// ─── Profitability lookup (real data) ────────────────────────────
+let _profLookup = null;
+function loadProfitabilityLookup() {
+  if (_profLookup !== null) return _profLookup;
+  try {
+    const raw = JSON.parse(fs.readFileSync(PROFITABILITY_LOOKUP_PATH, 'utf8'));
+    _profLookup = raw.lookup || {};
+    console.log(`  Loaded profitability lookup: ${Object.keys(_profLookup).length} model+grade combos`);
+  } catch {
+    _profLookup = {};
+    console.log('  No profitability lookup found — using Monday cost data only');
+  }
+  return _profLookup;
+}
+
+/**
+ * Match a listing to a profitability lookup entry.
+ * Returns { data, source: 'real'|'estimate', matchKey } or null.
+ */
+function lookupRealProfitability(listing) {
+  const lookup = loadProfitabilityLookup();
+  if (Object.keys(lookup).length === 0) return null;
+
+  const title = (listing.title || '').toLowerCase();
+  const grade = (listing.grade || '').toUpperCase();
+
+  // Try exact key match first (model normalisation must agree)
+  for (const [key, data] of Object.entries(lookup)) {
+    if (data.grade !== grade) continue;
+
+    // Fuzzy model match against listing title
+    const modelWords = data.model.toLowerCase().split(/\s+/).filter(w => w.length >= 2);
+    let matchCount = 0;
+    for (const w of modelWords) {
+      if (title.includes(w)) matchCount++;
+    }
+    // Require ≥80% of model words to match
+    if (modelWords.length > 0 && matchCount >= Math.ceil(modelWords.length * 0.8)) {
+      return { data, source: 'real', matchKey: key };
+    }
+  }
+
+  return null;
+}
 
 // ─── API helpers ──────────────────────────────────────────────────
 async function bmApi(path, opts = {}) {
@@ -229,7 +279,7 @@ function getGradePricesForListing(listing) {
 }
 
 // ─── Format card ──────────────────────────────────────────────────
-function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource) {
+function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource, realProf) {
   const r = n => typeof n === 'number' ? n.toFixed(2) : n;
   const lines = [];
 
@@ -297,6 +347,27 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     }
   } else {
     lines.push(`Costs    ⚠️ No cost data in Monday`);
+  }
+
+  // Real profitability data comparison
+  if (realProf) {
+    const rp = realProf.data;
+    lines.push('');
+    lines.push(`Real     [${rp.sampleSize} sales] AvgSell £${rp.avgSellPrice.toFixed(0)} | Parts £${rp.avgPartsCost.toFixed(0)} | Labour ${rp.avgLabourHours.toFixed(1)}h (£${rp.avgLabourCost.toFixed(0)}) | Profit £${rp.avgNetProfit.toFixed(0)} (${rp.avgMargin.toFixed(1)}%)`);
+    if (costData?.totalFixedCost) {
+      // Compare real vs Monday stored cost
+      const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
+      const mondayFixed = costData.totalFixedCost;
+      const delta = Math.round(realFixed - mondayFixed);
+      const deltaSign = delta >= 0 ? '+' : '';
+      if (Math.abs(delta) > 20) {
+        lines.push(`Delta    ⚠️ Real avg fixed £${Math.round(realFixed)} vs Monday £${Math.round(mondayFixed)} (${deltaSign}£${delta})`);
+      } else {
+        lines.push(`Delta    Real avg fixed £${Math.round(realFixed)} vs Monday £${Math.round(mondayFixed)} (${deltaSign}£${delta})`);
+      }
+    }
+  } else if (Object.keys(loadProfitabilityLookup()).length > 0) {
+    lines.push(`Real     ⚠️ ESTIMATE — no real data for this model+grade`);
   }
 
   // Age
@@ -457,8 +528,11 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       }
     }
 
+    // Real profitability lookup
+    const realProf = lookupRealProfitability(listing);
+
     // Format card
-    const card = formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource);
+    const card = formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource, realProf);
     if (qtyIssue) {
       card.lines += '\n         ' + qtyIssue;
       card.statuses.push(qtyIssue);
@@ -515,10 +589,34 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   console.log(`  Qty mismatch:${summary.qtyMismatch || 0}`);
   console.log(`  API errors:  ${summary.errors}`);
 
+  // ─── Profitability comparison summary ────────────────────────────
+  if (parallelCompare) {
+    const lookup = loadProfitabilityLookup();
+    if (Object.keys(lookup).length > 0) {
+      console.log('\n' + '═'.repeat(60));
+      console.log('  REAL vs ESTIMATED PROFITABILITY');
+      console.log('═'.repeat(60));
+
+      let usingReal = 0, usingEstimate = 0;
+      const diffs = [];
+
+      for (const card of allCards) {
+        // Card has realProf info encoded in its lines
+        if (card.lines.includes('[') && card.lines.includes('sales]')) usingReal++;
+        else if (card.lines.includes('ESTIMATE')) usingEstimate++;
+      }
+
+      console.log(`  Listings with real data:  ${usingReal}`);
+      console.log(`  Listings using estimates: ${usingEstimate}`);
+      console.log(`  Total checked:            ${allCards.length}`);
+      console.log('\n  Run buyback-profitability-builder.js --compare for detailed model-level analysis');
+    }
+  }
+
   // Save results
-  const outDir = '/home/ricky/builds/bm-scripts/test-output';
+  const outDir = path.join(__dirname, '..', 'data');
   fs.mkdirSync(outDir, { recursive: true });
-  const outFile = `${outDir}/buy-box-check-${new Date().toISOString().slice(0, 10)}.txt`;
+  const outFile = path.join(outDir, `buy-box-check-${new Date().toISOString().slice(0, 10)}.txt`);
   const fullReport = allCards.map(c => c.lines).join('\n\n' + '─'.repeat(40) + '\n\n');
   fs.writeFileSync(outFile, fullReport);
   console.log(`\nFull report saved to ${outFile}`);
