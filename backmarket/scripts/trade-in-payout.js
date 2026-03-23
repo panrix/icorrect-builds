@@ -139,7 +139,7 @@ async function preFlightCheck(item) {
 
   // Check status24 = Pay-Out (index 12)
   const status24 = item.column_values.find(cv => cv.id === 'status24');
-  if (status24?.index !== PAYOUT_INDEX && !singleItemId) {
+  if (status24?.index !== PAYOUT_INDEX) {
     errors.push(`status24 is not Pay-Out (got index ${status24?.index})`);
   }
 
