@@ -188,14 +188,15 @@ async function matchOrdersToMonday(orderLines) {
     if (trimmed !== lid) variants.push(trimmed);
 
     for (const searchId of variants) {
-      const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 10, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${searchId}"] }] }) { items { id name column_values(ids: ["text_mkyd4bx3", "numeric", "board_relation", "color_mm1fj7tb"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+      const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 10, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${searchId}"] }] }) { items { id name column_values(ids: ["lookup", "text_mkyd4bx3", "numeric", "board_relation", "color_mm1fj7tb"]) { id text ... on MirrorValue { display_value } ... on BoardRelationValue { linked_item_ids } } } } } }`;
       try {
         const d = await mondayApi(q);
         const items = d.data?.boards?.[0]?.items_page?.items || [];
         if (items.length > 0) {
           const item = items[0];
-          let purchasePrice = 0, mainItemId = null, tradeInGrade = '';
+          let purchasePrice = 0, mainItemId = null, tradeInGrade = '', deviceName = '';
           for (const cv of item.column_values) {
+            if (cv.id === 'lookup') deviceName = cv.display_value || '';
             if (cv.id === 'numeric') purchasePrice = parseFloat(cv.text) || 0;
             if (cv.id === 'board_relation' && cv.linked_item_ids?.length > 0) {
               mainItemId = cv.linked_item_ids[0];
@@ -203,9 +204,10 @@ async function matchOrdersToMonday(orderLines) {
             if (cv.id === 'color_mm1fj7tb') tradeInGrade = cv.text || '';
           }
           // Store under the original listing ID so order matching works
+          // Use lookup (mirror) column for actual device name; fall back to item.name
           listingToDevice[lid] = {
             bmDeviceId: item.id,
-            bmDeviceName: item.name,  // Device name from Monday (model+spec source of truth)
+            bmDeviceName: deviceName || item.name,  // Actual device model from lookup mirror column
             purchasePrice,
             mainItemId,
             tradeInGrade,
@@ -392,9 +394,8 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
 
     const mainData = device.mainItemId ? mainItemData[device.mainItemId] : null;
 
-    // Issue #1 fix: Use device name from BM Devices Board (Monday) as source of truth
-    // for model, NOT the order line title which may be truncated/different.
-    // Fall back to order title only if Monday item name is empty.
+    // Use actual device name from lookup mirror column (e.g. "MacBook Pro 14 M1 Pro/Max A2442")
+    // Falls back to order title if lookup column was empty/NULL (old items pre ~BM 847)
     const modelSource = device.bmDeviceName || order.title;
     const model = normaliseModel(modelSource);
 
