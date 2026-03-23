@@ -6,7 +6,7 @@
  *
  * Data sources:
  *   1. BM completed orders API (/ws/orders?state=9) — actual sell prices
- *   2. Monday Main Board (formula_mkx13zr7) — actual parts costs per device
+ *   2. Monday Main Board (lookup_mkx1xzd7) — actual parts costs per device (mirror column)
  *   3. Monday Main Board (formula_mkx1bjqr) — actual labour cost per device
  *   4. BM Devices Board (text_mkyd4bx3 listing ID + board_relation) — links orders to Monday items
  *
@@ -250,6 +250,22 @@ function parseFormulaValue(text) {
   return isNaN(val) ? 0 : val;
 }
 
+/**
+ * Parse a mirror column display_value that contains comma-separated part costs.
+ * e.g. "18, 7, 11, 8, 29, 55, 47.0" → 175
+ * Splits by comma, parseFloat each, sums for total.
+ */
+function parseMirrorPartsCost(text) {
+  if (!text || typeof text !== 'string') return 0;
+  const parts = text.split(',');
+  let sum = 0;
+  for (const p of parts) {
+    const val = parseFloat(p.trim());
+    if (!isNaN(val)) sum += val;
+  }
+  return sum;
+}
+
 // ─── Step 3: Fetch parts cost + labour hours from Main Board ─────
 async function fetchCostData(listingToDevice) {
   console.log('\nStep 3: Fetching parts cost + labour hours from Main Board...');
@@ -268,8 +284,8 @@ async function fetchCostData(listingToDevice) {
     const ids = batch.join(',');
     console.log(`  Querying Main Board batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(mainItemIds.length / BATCH_SIZE)}...`);
 
-    // Use FormulaValue fragment to get display_value (formatted string) from formula columns
-    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["formula_mkx13zr7", "formula_mkx1bjqr"]) { id text ... on FormulaValue { display_value } } } }`;
+    // Use MirrorValue for parts cost (mirror column) and FormulaValue for labour cost (formula column)
+    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["lookup_mkx1xzd7", "formula_mkx1bjqr"]) { id text ... on MirrorValue { display_value } ... on FormulaValue { display_value } } } }`;
     try {
       const d = await mondayApi(q);
       const items = d.data?.items || [];
@@ -279,9 +295,9 @@ async function fetchCostData(listingToDevice) {
         for (const cv of item.column_values) {
           // display_value comes from FormulaValue fragment; fall back to text
           const val = cv.display_value || cv.text || '';
-          if (cv.id === 'formula_mkx13zr7') {
+          if (cv.id === 'lookup_mkx1xzd7') {
             partsRaw = val;
-            partsCost = parseFormulaValue(val);
+            partsCost = parseMirrorPartsCost(val);
           }
           if (cv.id === 'formula_mkx1bjqr') {
             labourRaw = val;
@@ -591,7 +607,7 @@ function compareRealVsEstimated(lookup) {
     console.log('  1. All completed BM orders (GET /ws/orders?state=9)');
     console.log('  2. Match listing IDs to BM Devices Board (text_mkyd4bx3)');
     console.log('  3. Follow board_relation to Main Board items');
-    console.log('  4. Read formula_mkx13zr7 (parts cost) + formula_mkx1bjqr (labour cost)');
+    console.log('  4. Read lookup_mkx1xzd7 (parts cost, mirror) + formula_mkx1bjqr (labour cost)');
     console.log('  5. Build lookup JSON by model+grade');
     console.log(`\nOutput: ${OUTPUT_FILE}`);
     process.exit(0);
