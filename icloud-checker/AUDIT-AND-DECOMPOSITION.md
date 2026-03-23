@@ -4,6 +4,20 @@
 **Author:** Code (QA agent)
 **Purpose:** Fresh-eyes brief for Codex. This service needs to be broken apart. Here's exactly what's in it, what's wrong, and how it should be restructured.
 
+## Reading order
+
+1. **"What is this?"** — 30-second context on the problem
+2. **"Network exposure"** — Security findings from the server config audit. Read the routing table carefully — it shows what's proxied through nginx vs exposed raw
+3. **"What's inside: 10 endpoints, 6 services"** — The core decomposition. Each service block lists its endpoints, line ranges, supporting code, and which SOP it belongs to
+4. **"Standalone scripts in backmarket/scripts/"** — QA'd replacements that exist in git but were never deployed. Cross-reference with the "no systemd units" finding in the network section
+5. **"Key risks"** — The architectural problems, not just security
+6. **"Recommended decomposition"** — How to break it apart, what to extract first, and what to keep together
+
+Key files to cross-reference:
+- `icloud-checker/index.js` — the 1914-line monolith (all line references point here)
+- `server-config/` — nginx configs, systemd units, listening ports, crontab, env template
+- `backmarket/scripts/` — standalone replacements (shipping.js, trade-in-payout.js, etc.)
+
 ---
 
 ## What is this?
