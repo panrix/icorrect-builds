@@ -6,14 +6,14 @@
  *
  * Data sources:
  *   1. BM completed orders API (/ws/orders?state=9) — actual sell prices
- *   2. Monday Main Board (formula_mkx1bjqr) — actual parts costs per device
- *   3. Monday Main Board (formula__1) — actual labour hours per device
+ *   2. Monday Main Board (formula_mkx13zr7) — actual parts costs per device
+ *   3. Monday Main Board (formula_mkx1bjqr) — actual labour cost per device
  *   4. BM Devices Board (text_mkyd4bx3 listing ID + board_relation) — links orders to Monday items
  *
  * Output: data/buyback-profitability-lookup.json
  *   Keyed by normalised model+grade. Each entry has:
  *     - avgSellPrice, minSellPrice, maxSellPrice
- *     - avgPartsCost, avgLabourHours, avgLabourCost
+ *     - avgPartsCost, avgLabourCost
  *     - avgProfit, avgMargin
  *     - sampleSize
  *     - orders (detail array)
@@ -268,31 +268,32 @@ async function fetchCostData(listingToDevice) {
     const ids = batch.join(',');
     console.log(`  Querying Main Board batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(mainItemIds.length / BATCH_SIZE)}...`);
 
-    // Use FormulaValue fragment to get the text representation of formula columns
-    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["formula_mkx1bjqr", "formula__1"]) { id text ... on FormulaValue { text } } } }`;
+    // Use FormulaValue fragment to get display_value (formatted string) from formula columns
+    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["formula_mkx13zr7", "formula_mkx1bjqr"]) { id text ... on FormulaValue { display_value } } } }`;
     try {
       const d = await mondayApi(q);
       const items = d.data?.items || [];
       for (const item of items) {
-        let partsCost = 0, labourHours = 0;
+        let partsCost = 0, labourCost = 0;
         let partsRaw = '', labourRaw = '';
         for (const cv of item.column_values) {
-          if (cv.id === 'formula_mkx1bjqr') {
-            partsRaw = cv.text || '';
-            partsCost = parseFormulaValue(cv.text);
+          // display_value comes from FormulaValue fragment; fall back to text
+          const val = cv.display_value || cv.text || '';
+          if (cv.id === 'formula_mkx13zr7') {
+            partsRaw = val;
+            partsCost = parseFormulaValue(val);
           }
-          if (cv.id === 'formula__1') {
-            labourRaw = cv.text || '';
-            labourHours = parseFormulaValue(cv.text);
+          if (cv.id === 'formula_mkx1bjqr') {
+            labourRaw = val;
+            labourCost = parseFormulaValue(val);
           }
         }
         if (partsCost === 0) zeroParts++;
-        if (labourHours === 0) zeroLabour++;
+        if (labourCost === 0) zeroLabour++;
         mainItemData[item.id] = {
           name: item.name,
           partsCost,
-          labourHours,
-          labourCost: Math.round(labourHours * LABOUR_RATE * 100) / 100,
+          labourCost,
           _partsRaw: partsRaw,
           _labourRaw: labourRaw,
         };
@@ -305,13 +306,13 @@ async function fetchCostData(listingToDevice) {
 
   console.log(`  Got cost data for ${Object.keys(mainItemData).length}/${mainItemIds.length} Main Board items`);
   if (zeroParts > 0 || zeroLabour > 0) {
-    console.log(`  ⚠️ Zero values: parts=£0 on ${zeroParts} items, labour=0h on ${zeroLabour} items`);
+    console.log(`  ⚠️ Zero values: parts=£0 on ${zeroParts} items, labour=£0 on ${zeroLabour} items`);
     // Show a few raw values to help debug formula parsing
     const samples = Object.values(mainItemData).filter(d => d.partsCost === 0 && d._partsRaw).slice(0, 3);
     if (samples.length > 0) {
       console.log(`  Sample raw formula values (parts): ${samples.map(s => `"${s._partsRaw}"`).join(', ')}`);
     }
-    const labSamples = Object.values(mainItemData).filter(d => d.labourHours === 0 && d._labourRaw).slice(0, 3);
+    const labSamples = Object.values(mainItemData).filter(d => d.labourCost === 0 && d._labourRaw).slice(0, 3);
     if (labSamples.length > 0) {
       console.log(`  Sample raw formula values (labour): ${labSamples.map(s => `"${s._labourRaw}"`).join(', ')}`);
     }
@@ -388,7 +389,6 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
 
     const purchasePrice = device.purchasePrice || 0;
     const partsCost = mainData?.partsCost || 0;
-    const labourHours = mainData?.labourHours || 0;
     const labourCost = mainData?.labourCost || 0;
     const sellPrice = order.price;
 
@@ -411,7 +411,6 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
         grade,
         sellPrices: [],
         partsCosts: [],
-        labourHours: [],
         labourCosts: [],
         purchasePrices: [],
         netProfits: [],
@@ -422,7 +421,6 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
 
     lookup[key].sellPrices.push(sellPrice);
     lookup[key].partsCosts.push(partsCost);
-    lookup[key].labourHours.push(labourHours);
     lookup[key].labourCosts.push(labourCost);
     lookup[key].purchasePrices.push(purchasePrice);
     lookup[key].netProfits.push(netProfit);
@@ -434,7 +432,6 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
       sellPrice,
       purchasePrice,
       partsCost,
-      labourHours,
       labourCost,
       totalFixed: Math.round(totalFixed * 100) / 100,
       bmSellFee: Math.round(bmSellFee * 100) / 100,
@@ -466,7 +463,6 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
       maxSellPrice: round2(Math.max(...data.sellPrices)),
       avgPurchasePrice: round2(avg(data.purchasePrices)),
       avgPartsCost: round2(avg(data.partsCosts)),
-      avgLabourHours: round2(avg(data.labourHours)),
       avgLabourCost: round2(avg(data.labourCosts)),
       avgNetProfit: round2(avg(data.netProfits)),
       avgMargin: round2(avg(data.margins)),
@@ -481,8 +477,7 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
 // Hugo's current flat estimates (from SOP / master doc context)
 const FLAT_ESTIMATES = {
   partsCost: 25,       // Flat estimated parts
-  labourHours: 1.0,    // Flat estimated labour hours
-  labourCost: 24,      // 1h × £24
+  labourCost: 24,      // Flat estimated labour cost
   shipping: 15,        // Same as real
 };
 
@@ -596,7 +591,7 @@ function compareRealVsEstimated(lookup) {
     console.log('  1. All completed BM orders (GET /ws/orders?state=9)');
     console.log('  2. Match listing IDs to BM Devices Board (text_mkyd4bx3)');
     console.log('  3. Follow board_relation to Main Board items');
-    console.log('  4. Read formula_mkx1bjqr (parts cost) + formula__1 (labour hours)');
+    console.log('  4. Read formula_mkx13zr7 (parts cost) + formula_mkx1bjqr (labour cost)');
     console.log('  5. Build lookup JSON by model+grade');
     console.log(`\nOutput: ${OUTPUT_FILE}`);
     process.exit(0);
@@ -645,7 +640,7 @@ function compareRealVsEstimated(lookup) {
   console.log('═══════════════════════════════════════════════════════');
 
   const sorted = Object.entries(lookup).sort((a, b) => b[1].sampleSize - a[1].sampleSize);
-  console.log(`\n${'Model+Grade'.padEnd(45)} ${'N'.padStart(3)} ${'AvgSell'.padStart(8)} ${'AvgParts'.padStart(9)} ${'AvgLabHr'.padStart(9)} ${'AvgProfit'.padStart(9)} ${'Margin%'.padStart(8)}`);
+  console.log(`\n${'Model+Grade'.padEnd(45)} ${'N'.padStart(3)} ${'AvgSell'.padStart(8)} ${'AvgParts'.padStart(9)} ${'AvgLabour'.padStart(9)} ${'AvgProfit'.padStart(9)} ${'Margin%'.padStart(8)}`);
   console.log('─'.repeat(95));
 
   for (const [, data] of sorted) {
@@ -655,7 +650,7 @@ function compareRealVsEstimated(lookup) {
       `${label} ${String(data.sampleSize).padStart(3)} ` +
       `£${data.avgSellPrice.toFixed(0).padStart(6)} ` +
       `£${data.avgPartsCost.toFixed(0).padStart(7)} ` +
-      `${data.avgLabourHours.toFixed(1).padStart(8)}h ` +
+      `£${data.avgLabourCost.toFixed(0).padStart(7)} ` +
       `${profitSign}£${data.avgNetProfit.toFixed(0).padStart(7)} ` +
       `${data.avgMargin.toFixed(1).padStart(6)}%`
     );
