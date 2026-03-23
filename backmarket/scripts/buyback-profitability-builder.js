@@ -136,7 +136,7 @@ async function fetchCompletedOrders() {
           listingId,
           listingIdStr: String(listingId),
           productId: line.product_id,
-          title: line.title || line.product?.title || order.title || '',
+          title: line.title || (typeof line.product === 'string' ? line.product : line.product?.title) || order.title || '',
           price,
           quantity: parseInt(line.quantity || 1, 10),
           grade: line.grade || '',
@@ -204,10 +204,10 @@ async function matchOrdersToMonday(orderLines) {
             if (cv.id === 'color_mm1fj7tb') tradeInGrade = cv.text || '';
           }
           // Store under the original listing ID so order matching works
-          // Use lookup (mirror) column for actual device name; fall back to item.name
+          // deviceName from lookup mirror column; empty string if not available (old items)
           listingToDevice[lid] = {
             bmDeviceId: item.id,
-            bmDeviceName: deviceName || item.name,  // Actual device model from lookup mirror column
+            bmDeviceName: deviceName,  // Actual device model from lookup mirror column (may be empty)
             purchasePrice,
             mainItemId,
             tradeInGrade,
@@ -286,13 +286,13 @@ async function fetchCostData(listingToDevice) {
     const ids = batch.join(',');
     console.log(`  Querying Main Board batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(mainItemIds.length / BATCH_SIZE)}...`);
 
-    // Use MirrorValue for parts cost (mirror column) and FormulaValue for labour cost (formula column)
-    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["lookup_mkx1xzd7", "formula_mkx1bjqr"]) { id text ... on MirrorValue { display_value } ... on FormulaValue { display_value } } } }`;
+    // Use MirrorValue for parts cost, FormulaValue for labour cost, StatusValue for grade
+    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["lookup_mkx1xzd7", "formula_mkx1bjqr", "status_2_Mjj4GJNQ"]) { id text ... on MirrorValue { display_value } ... on FormulaValue { display_value } ... on StatusValue { text } } } }`;
     try {
       const d = await mondayApi(q);
       const items = d.data?.items || [];
       for (const item of items) {
-        let partsCost = 0, labourCost = 0;
+        let partsCost = 0, labourCost = 0, finalGrade = '';
         let partsRaw = '', labourRaw = '';
         for (const cv of item.column_values) {
           // display_value comes from FormulaValue fragment; fall back to text
@@ -305,6 +305,11 @@ async function fetchCostData(listingToDevice) {
             labourRaw = val;
             labourCost = parseFormulaValue(val);
           }
+          if (cv.id === 'status_2_Mjj4GJNQ') {
+            // Final Grade: Fair/Good/Excellent. Map Excellent → VERY_GOOD for BM consistency.
+            const raw = (cv.text || '').trim();
+            finalGrade = raw.toUpperCase() === 'EXCELLENT' ? 'VERY_GOOD' : raw.toUpperCase();
+          }
         }
         if (partsCost === 0) zeroParts++;
         if (labourCost === 0) zeroLabour++;
@@ -312,6 +317,7 @@ async function fetchCostData(listingToDevice) {
           name: item.name,
           partsCost,
           labourCost,
+          finalGrade,
           _partsRaw: partsRaw,
           _labourRaw: labourRaw,
         };
@@ -399,9 +405,8 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
     const modelSource = device.bmDeviceName || order.title;
     const model = normaliseModel(modelSource);
 
-    // Grade: prefer order line grade (from BM API, reflects what was actually sold),
-    // but also capture Monday's trade-in grade for cross-reference
-    const grade = (order.grade || 'UNKNOWN').toUpperCase();
+    // Grade: use Final Grade from Main Board (status_2_Mjj4GJNQ), mapped for BM consistency
+    const grade = mainData?.finalGrade || 'UNKNOWN';
     const key = `${model}|${grade}`;
 
     const purchasePrice = device.purchasePrice || 0;
