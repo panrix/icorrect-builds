@@ -18,29 +18,61 @@ It now powers **6 unrelated functions** across **5 SOPs**. One crash, one OOM, o
 
 Port 8010 is bound to `0.0.0.0` (all interfaces), meaning the Express server is **directly accessible from the public internet** at `46.225.53.159:8010`. No nginx, no SSL, no rate limiting, no access control.
 
-Nginx only proxies `/webhook/icloud-check*` → port 8010. All `/webhook/bm/*` endpoints bypass nginx entirely. Monday webhooks are hitting the raw IP directly.
+**Nginx config** (`nginx-mission-control.conf` on `mc.icorrect.co.uk`):
+- `/webhook/icloud-check/slack-interact` → proxied to `127.0.0.1:8003` (NOT port 8010 — goes to a Python router)
+- `/webhook/icloud-check` → proxied to `127.0.0.1:8010` (the icloud-checker Express app)
+- No other routes proxy to port 8010
 
-| Route | Reachable via | SSL |
-|---|---|---|
-| `/webhook/icloud-check` | nginx + direct IP | Yes (via nginx) / No (direct) |
-| `/webhook/icloud-check/slack-interact` | nginx (→8003 redirect) | Yes (via nginx) |
-| `/webhook/icloud-check/recheck` | direct IP only | **No** |
-| `/webhook/icloud-check/spec-check` | direct IP only | **No** |
-| `/webhook/icloud-check/health` | direct IP only | **No** |
-| `/webhook/bm/payout` | direct IP only | **No** |
-| `/webhook/bm/shipping-confirmed` | direct IP only | **No** |
-| `/webhook/bm/grade-check` | direct IP only | **No** |
-| `/webhook/bm/counter-offer-action` | direct IP only | **No** |
-| `/webhook/bm/to-list` | direct IP only (DISABLED, returns 410) | **No** |
+All `/webhook/bm/*` endpoints bypass nginx entirely. Monday webhooks are hitting `http://46.225.53.159:8010/webhook/bm/*` directly over plain HTTP.
+
+| Route | Reachable via | SSL | Auth |
+|---|---|---|---|
+| `/webhook/icloud-check` | nginx (`mc.icorrect.co.uk`) + direct IP | Yes (nginx) / No (direct) | None |
+| `/webhook/icloud-check/slack-interact` | nginx → port **8003** (NOT 8010) | Yes (nginx) | None |
+| `/webhook/icloud-check/recheck` | direct IP only | **No** | **None** |
+| `/webhook/icloud-check/spec-check` | direct IP only | **No** | **None** |
+| `/webhook/icloud-check/health` | direct IP only | **No** | **None** |
+| `/webhook/bm/payout` | direct IP only | **No** | **None** |
+| `/webhook/bm/shipping-confirmed` | direct IP only | **No** | **None** |
+| `/webhook/bm/grade-check` | direct IP only | **No** | **None** |
+| `/webhook/bm/counter-offer-action` | direct IP only | **No** | **None** |
+| `/webhook/bm/to-list` | direct IP only (DISABLED, returns 410) | **No** | **None** |
+
+**Critical finding: Slack interact routing mismatch.** Nginx sends `/webhook/icloud-check/slack-interact` to port 8003 (a Python process at `127.0.0.1:8003`), NOT to port 8010 where the Express handler lives (index.js line 743). This means either:
+1. Port 8003 re-proxies to 8010 (a double-hop), or
+2. The Express handler for `/webhook/icloud-check/slack-interact` is **dead code** and a different service handles Slack interactions, or
+3. Slack's interactivity URL is set to the raw IP `http://46.225.53.159:8010/...`, bypassing nginx entirely
+
+This needs to be confirmed. If Slack buttons (iCloud recheck, counter-offer) currently work, one of these three must be true.
 
 **Security implications:**
-- All `/webhook/bm/*` endpoints accept unauthenticated POST requests from any source
-- No webhook signature verification (Monday supports HMAC signing, but it's not checked)
+- All `/webhook/bm/*` endpoints accept unauthenticated POST requests from any source over plain HTTP
+- No webhook signature verification (Monday supports HMAC signing, but it's not checked anywhere in the code)
 - The payout endpoint (`/webhook/bm/payout`) triggers real BM API calls that validate buyback orders — a crafted POST could trigger an actual payout
 - The shipping endpoint sends tracking updates to BackMarket — a crafted POST could mark an order as shipped
-- The Express server has no request body size limit set, making it vulnerable to large payload attacks
+- The Express server has no request body size limit set
+- Port 8010 is bound to `*:8010` (confirmed in `all-listening-ports.txt`, pid 2186958)
 
-**This should be locked down immediately** — either bind to 127.0.0.1 and route through nginx, or add Monday webhook signature verification, or both.
+**Also exposed on all interfaces with no auth (from listening ports audit):**
+- Port 18789 — openclaw-gateway
+- Port 8765 — unknown Python process
+- Port 4175 — unknown
+- Port 4174 — unknown Python process
+- Port 5678 — n8n (has its own auth, but directly accessible bypassing nginx)
+- Port 3001 — Node.js process (icorrect-parts? PM2 shows 345 restarts, "waiting" status)
+
+**This should be locked down immediately** — either bind to 127.0.0.1 and route through nginx, or add Monday webhook HMAC verification, or both. The other exposed ports should also be reviewed.
+
+**Systemd service** (`icloud-checker.service`):
+```
+WorkingDirectory=/home/ricky/builds/icloud-checker
+ExecStart=/usr/bin/node src/index.js
+EnvironmentFile=/home/ricky/config/.env
+Restart=on-failure
+```
+Note: the service file references `src/index.js` but the file in git is at `index.js` (no `src/` directory). Either the VPS has a different directory structure or the service file is wrong. Codex should verify.
+
+**No standalone scripts are deployed as services.** The systemd units show: icloud-checker, openclaw-gateway, agent-trigger, intake-form, llm-summary, marketing-intelligence-api, icorrect-parts, telephone-inbound, voice-note-worker. None of the BM standalone scripts (shipping.js, trade-in-payout.js, list-device.js, etc.) have systemd units or PM2 entries. This strongly suggests the icloud-checker endpoints ARE the live implementations, and the standalone scripts in `backmarket/scripts/` have been QA'd but never deployed.
 
 ---
 
