@@ -1,0 +1,26 @@
+UNIT FILE                                        STATE     PRESET
+agent-trigger.service                            enabled   enabled
+app-snap\x2duserd\x2dautostart@autostart.service generated -
+app-xdg\x2duser\x2ddirs@autostart.service        generated -
+dbus.service                                     static    -
+dconf.service                                    static    -
+dirmngr.service                                  static    -
+gpg-agent.service                                static    -
+icloud-checker.service                           enabled   enabled
+icorrect-parts.service                           enabled   enabled
+intake-form.service                              enabled   enabled
+keyboxd.service                                  static    -
+launchpadlib-cache-clean.service                 static    -
+llm-summary.service                              enabled   enabled
+marketing-intelligence-api.service               disabled  enabled
+openclaw-gateway.service                         enabled   enabled
+pk-debconf-helper.service                        static    -
+snapd.session-agent.service                      static    -
+ssh-agent.service                                static    -
+systemd-exit.service                             static    -
+systemd-tmpfiles-clean.service                   static    -
+systemd-tmpfiles-setup.service                   disabled  enabled
+telephone-inbound.service                        enabled   enabled
+voice-note-worker.service                        enabled   enabled
+
+23 unit files listed.

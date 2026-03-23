@@ -1,0 +1,16 @@
+[Unit]
+Description=Telephone Inbound Slack Server
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/telephone-inbound
+ExecStart=/usr/bin/python3 -u /home/ricky/builds/telephone-inbound/server.py
+Restart=on-failure
+RestartSec=10
+Environment=PYTHONUNBUFFERED=1
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

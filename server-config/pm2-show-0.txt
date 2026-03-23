@@ -1,0 +1,36 @@
+ Describing process with id 0 - name icorrect-parts 
+┌───────────────────┬────────────────────────────────────────────────────────────┐
+│ status            │ waiting restart                                            │
+│ name              │ icorrect-parts                                             │
+│ namespace         │ default                                                    │
+│ version           │ N/A                                                        │
+│ restarts          │ 345276                                                     │
+│ uptime            │ 0                                                          │
+│ script path       │ /home/ricky/projects/icorrect-parts-service/src/index.js   │
+│ script args       │ N/A                                                        │
+│ error log path    │ /home/ricky/projects/icorrect-parts-service/logs/error.log │
+│ out log path      │ /home/ricky/projects/icorrect-parts-service/logs/out.log   │
+│ pid path          │ /home/ricky/.pm2/pids/icorrect-parts-0.pid                 │
+│ interpreter       │ node                                                       │
+│ interpreter args  │ N/A                                                        │
+│ script id         │ 0                                                          │
+│ exec cwd          │ /home/ricky/projects/icorrect-parts-service                │
+│ exec mode         │ cluster_mode                                               │
+│ node.js version   │ 22.22.0                                                    │
+│ node env          │ production                                                 │
+│ watch & reload    │ ✘                                                          │
+│ unstable restarts │ 0                                                          │
+│ created at        │ 2026-02-18T14:52:30.576Z                                   │
+└───────────────────┴────────────────────────────────────────────────────────────┘
+ Divergent env variables from local env 
+┌──────────────────┬────────────────────────────────────────────────┐
+│ PWD              │ /home/ricky/.openclaw/agents/systems/workspace │
+│ SYSTEMD_EXEC_PID │ 2088697                                        │
+│ INVOCATION_ID    │ 2935036dc5a04e5e87982719b13fab85               │
+│ JOURNAL_STREAM   │ 8:10406023                                     │
+└──────────────────┴────────────────────────────────────────────────┘
+
+ Add your own code metrics: http://bit.ly/code-metrics
+ Use `pm2 logs icorrect-parts [--lines 1000]` to display logs
+ Use `pm2 env 0` to display environment variables
+ Use `pm2 monit` to monitor CPU and Memory usage icorrect-parts
