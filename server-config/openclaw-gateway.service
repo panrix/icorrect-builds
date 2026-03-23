@@ -1,0 +1,21 @@
+[Unit]
+Description=OpenClaw Gateway (v2026.2.2-3)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart="/usr/bin/node" "/usr/lib/node_modules/openclaw/dist/index.js" gateway --port 18789
+Restart=always
+RestartSec=5
+KillMode=process
+Environment=HOME=/home/ricky
+Environment="PATH=/home/ricky/.local/bin:/home/ricky/.npm-global/bin:/home/ricky/bin:/home/ricky/.nvm/current/bin:/home/ricky/.fnm/current/bin:/home/ricky/.volta/bin:/home/ricky/.asdf/shims:/home/ricky/.local/share/pnpm:/home/ricky/.bun/bin:/usr/local/bin:/usr/bin:/bin"
+Environment=OPENCLAW_GATEWAY_PORT=18789
+Environment=OPENCLAW_GATEWAY_TOKEN=6e82a386267027a1842502030f212a418c42a1bf04cf5bab
+Environment="OPENCLAW_SYSTEMD_UNIT=openclaw-gateway.service"
+Environment=OPENCLAW_SERVICE_MARKER=openclaw
+Environment=OPENCLAW_SERVICE_KIND=gateway
+Environment=OPENCLAW_SERVICE_VERSION=2026.2.2-3
+
+[Install]
+WantedBy=default.target

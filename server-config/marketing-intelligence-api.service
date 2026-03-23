@@ -1,0 +1,14 @@
+[Unit]
+Description=Marketing Intelligence Platform API
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/.openclaw/agents/marketing/workspace/intelligence
+Environment="PATH=/usr/bin:/usr/local/bin"
+ExecStart=/usr/bin/python3 -m uvicorn api.main:app --host 127.0.0.1 --port 8001 --log-level info
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
