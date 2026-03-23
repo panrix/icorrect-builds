@@ -57,8 +57,9 @@ Read `status_2_Mjj4GJNQ` ("* Final Grade *") from Main Board.
 | Data | Column ID | Type |
 |------|-----------|------|
 | Colour | `status8` | status |
-| Parts cost | `formula_mkx1bjqr` | formula (sum of Parts Used supply prices) |
-| Labour hours | `formula__1` | formula (Total RR&D hours, decimal) |
+| Parts cost | `lookup_mkx1xzd7` | mirror (comma-separated values, sum them. Use `... on MirrorValue { display_value }`) |
+| Labour cost (£) | `formula_mkx1bjqr` | formula (Total Labour in £. Use `... on FormulaValue { display_value }`) |
+| Labour hours | `formula__1` | formula (Total RR&D hours, decimal. Use `... on FormulaValue { display_value }`) |
 
 > Mirror columns return `null` for `text`. Always use `... on MirrorValue { display_value }`.
 
@@ -303,7 +304,7 @@ Report:
 | Cost | Source |
 |------|--------|
 | Purchase | `numeric` column (BM Devices Board) |
-| Parts | `formula_mkx1bjqr` (Main Board: sum of Parts Used supply prices) |
+| Parts | `lookup_mkx1xzd7` (Main Board: mirror of Parts Used supply prices, comma-separated, sum them) |
 | Labour | `formula__1` (Main Board: Total RR&D hours) × £24/hr |
 | Shipping | £15 (flat) |
 | BM buy fee | purchase × 10% |
