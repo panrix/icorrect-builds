@@ -14,6 +14,36 @@ It now powers **6 unrelated functions** across **5 SOPs**. One crash, one OOM, o
 
 ---
 
+## Network exposure (CONFIRMED 2026-03-23)
+
+Port 8010 is bound to `0.0.0.0` (all interfaces), meaning the Express server is **directly accessible from the public internet** at `46.225.53.159:8010`. No nginx, no SSL, no rate limiting, no access control.
+
+Nginx only proxies `/webhook/icloud-check*` → port 8010. All `/webhook/bm/*` endpoints bypass nginx entirely. Monday webhooks are hitting the raw IP directly.
+
+| Route | Reachable via | SSL |
+|---|---|---|
+| `/webhook/icloud-check` | nginx + direct IP | Yes (via nginx) / No (direct) |
+| `/webhook/icloud-check/slack-interact` | nginx (→8003 redirect) | Yes (via nginx) |
+| `/webhook/icloud-check/recheck` | direct IP only | **No** |
+| `/webhook/icloud-check/spec-check` | direct IP only | **No** |
+| `/webhook/icloud-check/health` | direct IP only | **No** |
+| `/webhook/bm/payout` | direct IP only | **No** |
+| `/webhook/bm/shipping-confirmed` | direct IP only | **No** |
+| `/webhook/bm/grade-check` | direct IP only | **No** |
+| `/webhook/bm/counter-offer-action` | direct IP only | **No** |
+| `/webhook/bm/to-list` | direct IP only (DISABLED, returns 410) | **No** |
+
+**Security implications:**
+- All `/webhook/bm/*` endpoints accept unauthenticated POST requests from any source
+- No webhook signature verification (Monday supports HMAC signing, but it's not checked)
+- The payout endpoint (`/webhook/bm/payout`) triggers real BM API calls that validate buyback orders — a crafted POST could trigger an actual payout
+- The shipping endpoint sends tracking updates to BackMarket — a crafted POST could mark an order as shipped
+- The Express server has no request body size limit set, making it vulnerable to large payload attacks
+
+**This should be locked down immediately** — either bind to 127.0.0.1 and route through nginx, or add Monday webhook signature verification, or both.
+
+---
+
 ## What's inside: 10 endpoints, 6 services
 
 ### Service 1: iCloud Lock Checking (SOP 02 — Intake)
@@ -88,6 +118,9 @@ This shared code is the reason everything got crammed together — each new serv
 ---
 
 ## What's actually wrong
+
+### 0. SECURITY: Endpoints exposed to public internet with no auth
+Port 8010 is open to the world. No webhook signature verification. The payout and shipping endpoints can be triggered by anyone who knows the IP. This is the highest priority fix — even above decomposition. See "Network exposure" section above.
 
 ### 1. Single point of failure
 One process = one crash kills 5 SOPs. The Playwright browser automation in `apple-specs.js` is the highest risk — it launches headless Chrome with a proxy for every serial lookup. If the proxy hangs or Chrome leaks memory, everything goes down.
@@ -208,6 +241,7 @@ This is a 1914-line monolith running 6 unrelated services in one Express process
 The standalone scripts (`list-device.js`, `shipping.js`, `trade-in-payout.js`) have been QA'd and are correct. The icloud-checker versions of the same logic have NOT been QA'd and may have bugs the standalones fixed.
 
 **Priority order:**
+0. **IMMEDIATELY: Lock down port 8010** — bind to 127.0.0.1, route all traffic through nginx with SSL, or add Monday webhook HMAC verification. The payout and shipping endpoints are triggerable by anyone on the internet right now.
 1. Confirm which endpoints are actually live (Monday webhook URLs + Slack interactivity URL)
 2. Wire standalone scripts where they exist, disable icloud-checker duplicates
 3. Extract grade-check to standalone (no standalone exists yet)
