@@ -353,7 +353,8 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   if (realProf) {
     const rp = realProf.data;
     lines.push('');
-    lines.push(`Real     [${rp.sampleSize} sales] AvgSell £${rp.avgSellPrice.toFixed(0)} | Parts £${rp.avgPartsCost.toFixed(0)} | Labour ${rp.avgLabourHours.toFixed(1)}h (£${rp.avgLabourCost.toFixed(0)}) | Profit £${rp.avgNetProfit.toFixed(0)} (${rp.avgMargin.toFixed(1)}%)`);
+    const labourStr = rp.avgLabourHours != null ? `${rp.avgLabourHours.toFixed(1)}h (£${rp.avgLabourCost.toFixed(0)})` : `£${rp.avgLabourCost.toFixed(0)}`;
+    lines.push(`Real     [${rp.sampleSize} sales] AvgSell £${rp.avgSellPrice.toFixed(0)} | Parts £${rp.avgPartsCost.toFixed(0)} | Labour ${labourStr} | Profit £${rp.avgNetProfit.toFixed(0)} (${rp.avgMargin.toFixed(1)}%)`);
     if (costData?.totalFixedCost) {
       // Compare real vs Monday stored cost
       const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
@@ -388,7 +389,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     // Prefer real profitability data for margin assessment
     let atWin = null;
     let src = '';
-    if (realProf?.data?.hasCostData && realProf.data.costSampleSize >= 3) {
+    if (realProf?.data && (realProf.data.hasCostData || realProf.data.sampleSize >= 3)) {
       const rp = realProf.data;
       const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
       atWin = calcProfit(buyBox.priceToWin, realFixed, rp.avgPurchasePrice);
@@ -409,7 +410,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     } else {
       statuses.push('⚠️ Missing cost data');
     }
-  } else if (!costData?.totalFixedCost && !realProf?.data?.hasCostData) {
+  } else if (!costData?.totalFixedCost && !realProf?.data) {
     statuses.push('⚠️ Missing cost data');
   }
 
@@ -561,12 +562,12 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       let marginSource = '';
       let atWin = null;
 
-      if (realProf?.data?.hasCostData && realProf.data.costSampleSize >= 3) {
+      if (realProf?.data && (realProf.data.hasCostData || realProf.data.sampleSize >= 3)) {
         // Real data: compute expected margin at win price using average costs from actual sales
         const rp = realProf.data;
         const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
         atWin = calcProfit(buyBox.priceToWin, realFixed, rp.avgPurchasePrice);
-        marginSource = `real (${rp.costSampleSize} sales)`;
+        marginSource = `real (${rp.costSampleSize || rp.sampleSize} sales)`;
       } else if (costData?.totalFixedCost) {
         // Fall back to Monday's per-item cost data
         atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
