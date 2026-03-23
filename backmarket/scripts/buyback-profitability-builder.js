@@ -125,13 +125,19 @@ async function fetchCompletedOrders() {
     for (const order of orders) {
       // Each order has orderlines with listing details
       for (const line of (order.orderlines || [])) {
+        // listing_id can be in multiple places depending on BM API version
+        const listingId = line.listing_id || line.listing || line.id;
+        // Price may be nested or flat
+        const price = parseFloat(line.price || line.unit_price || line.product_price || 0);
+
         allOrders.push({
           orderId: order.order_id,
           orderDate: order.date_creation,
-          listingId: line.listing_id || line.listing,
+          listingId,
+          listingIdStr: String(listingId),
           productId: line.product_id,
-          title: line.title || line.product?.title || '',
-          price: parseFloat(line.price || line.unit_price || 0),
+          title: line.title || line.product?.title || order.title || '',
+          price,
           quantity: parseInt(line.quantity || 1, 10),
           grade: line.grade || '',
           sku: line.sku || '',
@@ -146,6 +152,13 @@ async function fetchCompletedOrders() {
   }
 
   console.log(`  Total completed order lines: ${allOrders.length}`);
+
+  // Debug: log sample listing IDs to help diagnose format mismatches
+  if (allOrders.length > 0) {
+    const sampleIds = allOrders.slice(0, 5).map(o => `${o.listingId} (type: ${typeof o.listingId})`);
+    console.log(`  Sample listing IDs from BM: ${sampleIds.join(', ')}`);
+  }
+
   return allOrders;
 }
 
@@ -153,49 +166,88 @@ async function fetchCompletedOrders() {
 async function matchOrdersToMonday(orderLines) {
   console.log('\nStep 2: Matching orders to Monday items via BM Devices Board...');
 
-  // Get unique listing IDs
-  const listingIds = [...new Set(orderLines.map(o => String(o.listingId)).filter(Boolean))];
+  // Get unique listing IDs — try both raw and string forms
+  const rawIds = orderLines.map(o => o.listingId).filter(Boolean);
+  const listingIds = [...new Set(rawIds.map(id => String(id).trim()))];
   console.log(`  Unique listing IDs to match: ${listingIds.length}`);
 
   // Batch query Monday for listing IDs — BM Devices Board stores listing_id in text_mkyd4bx3
+  // Also read the item name (= device model) so we don't depend on order title
   const listingToDevice = {};
-  const BATCH_SIZE = 50;
+  let matchedCount = 0;
 
-  for (let i = 0; i < listingIds.length; i += BATCH_SIZE) {
-    const batch = listingIds.slice(i, i + BATCH_SIZE);
-    console.log(`  Querying Monday batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(listingIds.length / BATCH_SIZE)}...`);
+  for (let i = 0; i < listingIds.length; i++) {
+    const lid = listingIds[i];
+    if (i > 0 && i % 50 === 0) {
+      console.log(`  Querying Monday... ${i}/${listingIds.length} (matched: ${matchedCount})`);
+    }
 
-    // Query each listing ID individually (Monday's text column query)
-    for (const lid of batch) {
-      const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 10, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${lid}"] }] }) { items { id name column_values(ids: ["text_mkyd4bx3", "numeric", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+    // Try exact match first, then try without leading zeros
+    const variants = [lid];
+    const trimmed = lid.replace(/^0+/, '');
+    if (trimmed !== lid) variants.push(trimmed);
+
+    for (const searchId of variants) {
+      const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 10, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${searchId}"] }] }) { items { id name column_values(ids: ["text_mkyd4bx3", "numeric", "board_relation", "color_mm1fj7tb"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
       try {
         const d = await mondayApi(q);
         const items = d.data?.boards?.[0]?.items_page?.items || [];
         if (items.length > 0) {
           const item = items[0];
-          let purchasePrice = 0, mainItemId = null;
+          let purchasePrice = 0, mainItemId = null, tradeInGrade = '';
           for (const cv of item.column_values) {
             if (cv.id === 'numeric') purchasePrice = parseFloat(cv.text) || 0;
             if (cv.id === 'board_relation' && cv.linked_item_ids?.length > 0) {
               mainItemId = cv.linked_item_ids[0];
             }
+            if (cv.id === 'color_mm1fj7tb') tradeInGrade = cv.text || '';
           }
+          // Store under the original listing ID so order matching works
           listingToDevice[lid] = {
             bmDeviceId: item.id,
-            bmDeviceName: item.name,
+            bmDeviceName: item.name,  // Device name from Monday (model+spec source of truth)
             purchasePrice,
             mainItemId,
+            tradeInGrade,
+            matchedVia: searchId !== lid ? `trimmed:${searchId}` : 'exact',
           };
+          matchedCount++;
+          break; // Don't try other variants
         }
       } catch (e) {
-        console.warn(`    Failed to query listing ${lid}: ${e.message}`);
+        console.warn(`    Failed to query listing ${searchId}: ${e.message}`);
       }
       await sleep(300); // Monday rate limiting
     }
   }
 
-  console.log(`  Matched ${Object.keys(listingToDevice).length}/${listingIds.length} listing IDs to Monday items`);
+  console.log(`  Matched ${matchedCount}/${listingIds.length} listing IDs to Monday items`);
+  if (matchedCount < listingIds.length * 0.5) {
+    // Low match rate — dump some unmatched IDs for debugging
+    const unmatched = listingIds.filter(id => !listingToDevice[id]).slice(0, 10);
+    console.warn(`  ⚠️ Low match rate (${Math.round(matchedCount / listingIds.length * 100)}%). Sample unmatched IDs: ${unmatched.join(', ')}`);
+    console.warn(`  Check: does text_mkyd4bx3 on BM Devices Board use the same ID format?`);
+  }
   return listingToDevice;
+}
+
+/**
+ * Parse a Monday formula column value.
+ * Monday returns formula values as strings that may include:
+ *   - Currency symbols: "£42.50", "$100"
+ *   - Comma thousands: "1,234.56"
+ *   - Whitespace or empty string
+ *   - Plain numbers: "42.5"
+ *   - Display text like "0" or ""
+ * Returns a numeric value or 0.
+ */
+function parseFormulaValue(text) {
+  if (!text || typeof text !== 'string') return 0;
+  // Strip currency symbols, commas, whitespace
+  const cleaned = text.replace(/[£$€,\s]/g, '').trim();
+  if (cleaned === '' || cleaned === '-') return 0;
+  const val = parseFloat(cleaned);
+  return isNaN(val) ? 0 : val;
 }
 
 // ─── Step 3: Fetch parts cost + labour hours from Main Board ─────
@@ -209,27 +261,40 @@ async function fetchCostData(listingToDevice) {
 
   const mainItemData = {};
   const BATCH_SIZE = 25;
+  let zeroParts = 0, zeroLabour = 0;
 
   for (let i = 0; i < mainItemIds.length; i += BATCH_SIZE) {
     const batch = mainItemIds.slice(i, i + BATCH_SIZE);
     const ids = batch.join(',');
     console.log(`  Querying Main Board batch ${Math.floor(i / BATCH_SIZE) + 1}/${Math.ceil(mainItemIds.length / BATCH_SIZE)}...`);
 
-    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["formula_mkx1bjqr", "formula__1"]) { id text } } }`;
+    // Use FormulaValue fragment to get the text representation of formula columns
+    const q = `{ items(ids:[${ids}]) { id name column_values(ids: ["formula_mkx1bjqr", "formula__1"]) { id text ... on FormulaValue { text } } } }`;
     try {
       const d = await mondayApi(q);
       const items = d.data?.items || [];
       for (const item of items) {
         let partsCost = 0, labourHours = 0;
+        let partsRaw = '', labourRaw = '';
         for (const cv of item.column_values) {
-          if (cv.id === 'formula_mkx1bjqr') partsCost = parseFloat(cv.text) || 0;
-          if (cv.id === 'formula__1') labourHours = parseFloat(cv.text) || 0;
+          if (cv.id === 'formula_mkx1bjqr') {
+            partsRaw = cv.text || '';
+            partsCost = parseFormulaValue(cv.text);
+          }
+          if (cv.id === 'formula__1') {
+            labourRaw = cv.text || '';
+            labourHours = parseFormulaValue(cv.text);
+          }
         }
+        if (partsCost === 0) zeroParts++;
+        if (labourHours === 0) zeroLabour++;
         mainItemData[item.id] = {
           name: item.name,
           partsCost,
           labourHours,
           labourCost: Math.round(labourHours * LABOUR_RATE * 100) / 100,
+          _partsRaw: partsRaw,
+          _labourRaw: labourRaw,
         };
       }
     } catch (e) {
@@ -239,6 +304,18 @@ async function fetchCostData(listingToDevice) {
   }
 
   console.log(`  Got cost data for ${Object.keys(mainItemData).length}/${mainItemIds.length} Main Board items`);
+  if (zeroParts > 0 || zeroLabour > 0) {
+    console.log(`  ⚠️ Zero values: parts=£0 on ${zeroParts} items, labour=0h on ${zeroLabour} items`);
+    // Show a few raw values to help debug formula parsing
+    const samples = Object.values(mainItemData).filter(d => d.partsCost === 0 && d._partsRaw).slice(0, 3);
+    if (samples.length > 0) {
+      console.log(`  Sample raw formula values (parts): ${samples.map(s => `"${s._partsRaw}"`).join(', ')}`);
+    }
+    const labSamples = Object.values(mainItemData).filter(d => d.labourHours === 0 && d._labourRaw).slice(0, 3);
+    if (labSamples.length > 0) {
+      console.log(`  Sample raw formula values (labour): ${labSamples.map(s => `"${s._labourRaw}"`).join(', ')}`);
+    }
+  }
   return mainItemData;
 }
 
@@ -297,7 +374,15 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
     }
 
     const mainData = device.mainItemId ? mainItemData[device.mainItemId] : null;
-    const model = normaliseModel(order.title);
+
+    // Issue #1 fix: Use device name from BM Devices Board (Monday) as source of truth
+    // for model, NOT the order line title which may be truncated/different.
+    // Fall back to order title only if Monday item name is empty.
+    const modelSource = device.bmDeviceName || order.title;
+    const model = normaliseModel(modelSource);
+
+    // Grade: prefer order line grade (from BM API, reflects what was actually sold),
+    // but also capture Monday's trade-in grade for cross-reference
     const grade = (order.grade || 'UNKNOWN').toUpperCase();
     const key = `${model}|${grade}`;
 
@@ -357,6 +442,8 @@ function buildLookup(orderLines, listingToDevice, mainItemData) {
       netProfit: Math.round(netProfit * 100) / 100,
       margin: Math.round(margin * 100) / 100,
       hasCostData: !!mainData,
+      modelSource: device.bmDeviceName ? 'monday' : 'order',
+      bmDeviceName: device.bmDeviceName || null,
     });
 
     matched++;
