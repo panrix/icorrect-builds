@@ -1,0 +1,5 @@
+LISTEN 0      511        127.0.0.1:8004       0.0.0.0:*    users:(("node",pid=3245961,fd=21))          
+LISTEN 0      2048       127.0.0.1:8002       0.0.0.0:*    users:(("python3",pid=2842803,fd=14))       
+LISTEN 0      128        127.0.0.1:8003       0.0.0.0:*    users:(("python3",pid=2282748,fd=4))        
+LISTEN 0      2048       127.0.0.1:8001       0.0.0.0:*    users:(("python3",pid=2914011,fd=13))       
+LISTEN 0      511                *:8010             *:*    users:(("node",pid=2186958,fd=21))          

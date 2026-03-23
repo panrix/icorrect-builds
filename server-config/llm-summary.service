@@ -1,0 +1,19 @@
+[Unit]
+Description=LLM Summary Endpoint for Monday.com updates
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/llm-summary-endpoint
+ExecStart=/usr/bin/node server.js
+Environment=NODE_ENV=production
+Environment=OPENAI_API_KEY=
+Environment=LLM_SUMMARY_API_KEY=7ff53ec858bf2c7cdc1b94c051e3478d
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=llm-summary
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,14 @@
+[Unit]
+Description=iCloud Checker Webhook Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/icloud-checker
+ExecStart=/usr/bin/node src/index.js
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/home/ricky/config/.env
+
+[Install]
+WantedBy=default.target

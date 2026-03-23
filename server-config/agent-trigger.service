@@ -1,0 +1,14 @@
+[Unit]
+Description=Mission Control v2 — Webhook Agent Trigger
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/mission-control-v2
+ExecStart=/usr/bin/python3 scripts/webhooks/agent-trigger.py
+Restart=always
+RestartSec=5
+Environment=PATH=/usr/local/bin:/usr/bin:/bin
+
+[Install]
+WantedBy=default.target
