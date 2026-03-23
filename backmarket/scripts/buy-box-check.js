@@ -59,27 +59,119 @@ function loadProfitabilityLookup() {
 }
 
 /**
+ * Extract key identifiers from a MacBook title or model string.
+ * Returns { family, size, chip } or null if unparseable.
+ *
+ * Handles both:
+ *   BM titles:   "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM..."
+ *   Lookup keys:  "MacBook Pro 13 M1 A2338"
+ */
+function extractModelId(text) {
+  if (!text) return null;
+  const t = text.toLowerCase();
+
+  // Family
+  let family = null;
+  if (t.includes('macbook pro')) family = 'pro';
+  else if (t.includes('macbook air')) family = 'air';
+  else return null; // not a MacBook
+
+  // Size: "13-inch", "14-inch", "15-inch", "16-inch" or just "13", "14", etc.
+  const sizeMatch = t.match(/\b(13|14|15|16)(?:-inch|\b)/);
+  const size = sizeMatch ? sizeMatch[1] : null;
+
+  // Chip: "Apple M1 Pro", "Apple M2", "M1 Pro/Max", "M3", or "Intel"/"Core i5"/"Core i7"
+  let chip = null;
+  // BM format: "Apple M1 Pro", "Apple M2 Max" etc.
+  const bmChipMatch = t.match(/apple\s+(m[1-9]\d?)\s*(pro|max)?/);
+  if (bmChipMatch) {
+    chip = bmChipMatch[1] + (bmChipMatch[2] ? ' ' + bmChipMatch[2] : '');
+  }
+  // Lookup format: "M1 Pro/Max", "M1 Pro", "M2" etc.
+  if (!chip) {
+    const lookupChipMatch = t.match(/\b(m[1-9]\d?)\s*(pro|max)?(?:\/max)?/);
+    if (lookupChipMatch) {
+      chip = lookupChipMatch[1] + (lookupChipMatch[2] ? ' ' + lookupChipMatch[2] : '');
+    }
+  }
+  // Intel fallback
+  if (!chip && (t.includes('intel') || t.includes('core i'))) {
+    chip = 'intel';
+  }
+
+  return { family, size, chip };
+}
+
+/**
+ * Normalize BM listing grade to lookup grade format.
+ * BM API returns: "1"/"FAIR", "9"/"GOOD", "10"/"VERY_GOOD"
+ */
+function normaliseGrade(grade) {
+  if (!grade) return '';
+  const g = String(grade).toUpperCase().trim();
+  const map = { '1': 'FAIR', '2': 'FAIR', 'FAIR': 'FAIR', 'STALLONE': 'FAIR',
+    '9': 'GOOD', 'GOOD': 'GOOD',
+    '10': 'VERY_GOOD', '11': 'VERY_GOOD', 'VERY_GOOD': 'VERY_GOOD', 'EXCELLENT': 'VERY_GOOD' };
+  return map[g] || g;
+}
+
+/**
  * Match a listing to a profitability lookup entry.
  * Returns { data, source: 'real'|'estimate', matchKey } or null.
+ *
+ * Matching strategy:
+ *   1. Extract Family + Size + Chip from both BM listing title and lookup model
+ *   2. Match on all three identifiers + grade
+ *   3. Fall back to fuzzy word matching if extraction fails
  */
 function lookupRealProfitability(listing) {
   const lookup = loadProfitabilityLookup();
   if (Object.keys(lookup).length === 0) return null;
 
-  const title = (listing.title || '').toLowerCase();
-  const grade = (listing.grade || '').toUpperCase();
+  const title = (listing.title || '');
+  const grade = normaliseGrade(listing.grade);
+  const listingId = extractModelId(title);
 
-  // Try exact key match first (model normalisation must agree)
+  // Strategy 1: Structured matching on Family + Size + Chip
+  if (listingId && listingId.family && listingId.chip) {
+    for (const [key, data] of Object.entries(lookup)) {
+      if (data.grade !== grade) continue;
+      const lookupId = extractModelId(data.model);
+      if (!lookupId) continue;
+
+      if (listingId.family === lookupId.family &&
+          listingId.size === lookupId.size &&
+          listingId.chip === lookupId.chip) {
+        return { data, source: 'real', matchKey: key };
+      }
+    }
+
+    // Try matching without size (some titles may omit it)
+    if (listingId.size) {
+      for (const [key, data] of Object.entries(lookup)) {
+        if (data.grade !== grade) continue;
+        const lookupId = extractModelId(data.model);
+        if (!lookupId) continue;
+
+        if (listingId.family === lookupId.family &&
+            listingId.chip === lookupId.chip &&
+            !lookupId.size) {
+          return { data, source: 'real', matchKey: key };
+        }
+      }
+    }
+  }
+
+  // Strategy 2: Fall back to fuzzy word matching
+  const titleLower = title.toLowerCase();
   for (const [key, data] of Object.entries(lookup)) {
     if (data.grade !== grade) continue;
 
-    // Fuzzy model match against listing title
     const modelWords = data.model.toLowerCase().split(/\s+/).filter(w => w.length >= 2);
     let matchCount = 0;
     for (const w of modelWords) {
-      if (title.includes(w)) matchCount++;
+      if (titleLower.includes(w)) matchCount++;
     }
-    // Require ≥80% of model words to match
     if (modelWords.length > 0 && matchCount >= Math.ceil(modelWords.length * 0.8)) {
       return { data, source: 'real', matchKey: key };
     }
