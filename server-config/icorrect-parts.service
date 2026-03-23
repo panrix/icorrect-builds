@@ -1,0 +1,17 @@
+[Unit]
+Description=iCorrect Parts Deduction Service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/icorrect-parts-service
+EnvironmentFile=/home/ricky/config/api-keys/.env
+ExecStart=/usr/bin/node src/index.js
+Restart=on-failure
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=icorrect-parts
+
+[Install]
+WantedBy=default.target

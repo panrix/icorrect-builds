@@ -1,0 +1,22 @@
+  UNIT                             LOAD      ACTIVE   SUB     DESCRIPTION
+  agent-trigger.service            loaded    active   running Mission Control v2 — Webhook Agent Trigger
+  dbus.service                     loaded    active   running D-Bus User Message Bus
+  dirmngr.service                  loaded    inactive dead    GnuPG network certificate management daemon
+  gpg-agent.service                loaded    active   running GnuPG cryptographic agent and passphrase cache
+  icloud-checker.service           loaded    active   running iCloud Checker Webhook Service
+  icorrect-parts.service           loaded    active   running iCorrect Parts Deduction Service
+  intake-form.service              loaded    active   running iCorrect Intake Form Preview
+  keyboxd.service                  loaded    inactive dead    GnuPG public key management service
+  launchpadlib-cache-clean.service loaded    inactive dead    Clean up old files in the Launchpadlib cache
+  llm-summary.service              loaded    active   running LLM Summary Endpoint for Monday.com updates
+  openclaw-gateway.service         loaded    active   running OpenClaw Gateway (v2026.2.2-3)
+  pk-debconf-helper.service        loaded    inactive dead    debconf communication service
+  snapd.session-agent.service      loaded    inactive dead    snapd user session agent
+● systemd-remount-fs.service       not-found inactive dead    systemd-remount-fs.service
+  telephone-inbound.service        loaded    active   running Telephone Inbound Slack Server
+  voice-note-worker.service        loaded    active   running Voice Note Pipeline (Slack -> Whisper -> Monday.com)
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+        ACTIVE → The high-level unit activation state, i.e. generalization of SUB.
+        SUB    → The low-level unit activation state, values depend on unit type.
+16 loaded units listed.
+To show all installed unit files use 'systemctl list-unit-files'.
