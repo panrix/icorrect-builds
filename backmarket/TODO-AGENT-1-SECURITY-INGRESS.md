@@ -146,4 +146,4 @@ This was a necessary business logic fix to validate the webhook route. Documente
 - [x] Rollback plan documented
 - [x] Payout webhook confirmed
 - [x] Shipping webhook confirmed
-- [ ] Other agents can reference the ingress map — needs runbook section added
+- [x] Other agents can reference the ingress map — runbook section written with restart commands, health checks, env vars, and step-by-step guide for adding new services
