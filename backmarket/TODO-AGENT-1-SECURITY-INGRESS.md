@@ -98,8 +98,13 @@
 - [x] Monday webhooks confirmed firing:
   - [x] icloud-check — ✅ tested with serial entry, IC OFF returned
   - [x] grade-check — ✅ tested with BM 1488 (A2338) and BM 1539 (A2442), profitability calculated
-  - [ ] payout — NEXT
-  - [ ] shipping-confirmed — AFTER PAYOUT
+  - [x] payout — ✅ tested with BM 1488 (GB-26091-JEXCM), BM API reached (422 = order state, auth fixed)
+  - [x] shipping-confirmed — ✅ tested with BM 1194, full chain, stopped safely on missing BM order ID
+
+### BM_AUTH env fix (discovered during payout testing)
+The monolith reads `process.env.BM_AUTH` but the systemd env file only had `BACKMARKET_API_AUTH`.
+Added `BM_AUTH` to `/home/ricky/config/.env` with double quotes (required for systemd EnvironmentFile
+to handle Base64 `=` characters). This fixes auth for ALL BM API calls in the monolith.
 
 ---
 
@@ -135,10 +140,10 @@ This was a necessary business logic fix to validate the webhook route. Documente
 
 - [x] No BM webhook endpoint is reachable on the public IP
 - [x] All traffic goes through nginx with SSL
-- [x] Monday webhooks confirmed firing through new URLs (icloud-check ✅, grade-check ✅)
+- [x] Monday webhooks confirmed firing through new URLs — all 4 tested live
 - [ ] Slack interactivity confirmed working — not yet tested
 - [x] Port/route/service map documented
 - [x] Rollback plan documented
-- [ ] Payout webhook confirmed — NEXT
-- [ ] Shipping webhook confirmed — AFTER PAYOUT
+- [x] Payout webhook confirmed
+- [x] Shipping webhook confirmed
 - [ ] Other agents can reference the ingress map — needs runbook section added
