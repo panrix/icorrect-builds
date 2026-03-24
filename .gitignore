@@ -12,5 +12,8 @@ icloud-checker/debug.png
 __pycache__/
 *.pyc
 
-# Generated data outputs
-backmarket/data/
+# Generated data outputs (keep product-id-lookup.json)
+backmarket/data/cache/
+backmarket/data/reports/
+backmarket/data/logs/
+backmarket/data/exports/
