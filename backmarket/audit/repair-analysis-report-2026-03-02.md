@@ -130,7 +130,7 @@ Saf has a 14% loss rate on NONFUNC.CRACK (2 of 14). These need board work + scre
 | **Saf** | 35 | 28 | £129 | £50 | £48 | 7% | 1 | 2 |
 | **Roni** | 28 | 23 | £128 | £65 | £30 | 0% | 0 | 0 |
 
-FUNC.CRACK is evenly distributed across all techs. Misha gets the highest net (£150) — likely assigned higher-value devices. Saf shouldn't be doing FUNC.CRACK — his board skills are wasted on screen swaps, and he has a 7% loss rate here vs 0% on NONFUNC.USED.
+FUNC.CRACK is evenly distributed across all techs. Misha gets the highest net (£150) — likely assigned higher-value devices. **Note:** Saf's FUNC.CRACK assignments were initially flagged as wasteful, but Layer 3 analysis (see `saf-layer3-report-2026-03-02.md`) proved they're justified — he's doing board-level diagnosis and component repairs, not screen swaps.
 
 ### Turnaround time
 
@@ -313,11 +313,11 @@ NONFUNC.USED is the clear winner: £250 avg net, 0% loss rate, lowest parts cost
 
 **At current mix:** If we increase NONFUNC.USED intake to 60/month, ~30 need Saf (board) and ~30 can go to Misha/Andres (battery/LCD/adapter). That's still within Saf's capacity if he's not wasting time on FUNC.CRACK.
 
-### 2. Stop putting Saf on FUNC.CRACK
+### 2. ~~Stop putting Saf on FUNC.CRACK~~ — CORRECTED by Layer 3 deep dive
 
-Saf repaired 28 FUNC.CRACK devices in the dataset. At 102min avg bench time (diag + repair), that's ~48 hours he spent on work that doesn't require board-level skills. Every FUNC.CRACK on Saf's bench is a NONFUNC.USED that's waiting. And he has a 7% loss rate on FUNC.CRACK vs 0% on NONFUNC.USED.
+~~Saf repaired 28 FUNC.CRACK devices in the dataset. At 102min avg bench time (diag + repair), that's ~48 hours he spent on work that doesn't require board-level skills.~~
 
-**Action:** Update Monday workflow — FUNC.CRACK should never be assigned to Saf unless there's a discovered board issue during screen repair.
+**CORRECTION (2 March 2026):** Layer 3 analysis (`audit/saf-layer3-report-2026-03-02.md`) pulled Saf's actual diagnostic notes and found his FUNC.CRACK assignments are justified. 54% had board issues discovered during repair; the other 46% needed component-level diagnosis (keyboard backlight, charging port, display flex, touch bar) that other techs can't do. The current escalation workflow is correct — don't change it.
 
 ### 3. Watch FUNC.CRACK parts cost
 

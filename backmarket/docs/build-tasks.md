@@ -308,14 +308,6 @@ Analysed order velocity, pipeline turnaround, resource consumption, and opportun
 
 ---
 
-## Task 12: Execute Full Repricing Run [PENDING]
-
-- 358 remaining changes (363 - 5 test batch)
-- Command: `python3 bm-reprice.py --decisions ../audit/listing-decisions-3m-200.json --skip-dead --execute`
-- Awaiting Ricky's go-ahead
-
----
-
 ## Task 12: Execute Full Repricing Run [DONE]
 
 - 360 changes executed (full run), all 202 OK
@@ -514,7 +506,7 @@ Top opportunities by headroom:
 
 ---
 
-## Task 19: Layer 3 Completion — Saf Diagnostic Notes [PENDING]
+## Task 19: Layer 3 Completion — Saf Diagnostic Notes [DONE — completed as Task 22]
 
 - Pull Monday item updates for all NONFUNC.USED + NONFUNC.CRACK devices where Saf did board work (~97 devices)
 - Parse ammeter readings and fault descriptions from Saf's written notes
@@ -554,45 +546,73 @@ More than originally estimated (24 → 43) because the full 6-month dataset capt
 
 ---
 
-## Task 21: Returns Investigation — All Grades [DONE]
+## Task 21: Returns Investigation — All Grades [DONE → REPLACED BY Task 24]
 
-**Date:** 2-3 March 2026
-**Summary report:** `audit/returns-investigation-2026-03-02.md`
-**Deep dive (repair chain):** `audit/returns-deep-dive-2026-03-03.md`
-**Data source:** BM returns CSV (`docs/Backmarket_Returns_0303.csv`) + repair analysis data
+**Phase 1-2 reports superseded by Task 24 forensic investigation.**
 
-### Phase 1: BM Returns CSV Analysis
-- 47 unique sale-side return orders (Oct 2025 - Mar 2026)
-- 81% preventable (QC/grading issues we could have caught)
-- Top complaint: Power On Boot Failure (8 orders, 17%)
-- Fair grade = 87% preventable return rate
-- Pre-dispatch QC checklist recommended
+Previous summary reports: `audit/returns-investigation-2026-03-02.md`, `audit/returns-deep-dive-2026-03-03.md`
 
-### Phase 2: Deep Dive — Matched to Repair Chain
-- 44 of 47 returns matched to specific Monday devices by ship date + model
-- **£3,869 direct cost** (£2,549 BM fees + £1,320 shipping) — ~£1,500/month burn rate
+---
 
-### Technician return rates
-| Tech | Shipped | Returns | Rate |
-|------|---------|---------|------|
-| Roni | 39 | 7 | 17.9% |
-| Mykhailo | 50 | 8 | 16.0% |
-| Saf | 131 | 14 | 10.7% |
-| Andres | 78 | 5 | 6.4% |
+## Task 24: Forensic Returns Investigation — Per-Device [DONE]
 
-### Key patterns
-- Andres has half the return rate of Roni/Mykhailo
-- Mykhailo as refurb (last to touch) on 39% of returns
-- 59% of returns had no repair_person recorded
-- 4 repeat-return devices (BM 1198 returned 3x = £367 wasted)
-- 6/8 Power On Boot Failure devices had 0min repair time — no boot test after LCD/battery swap
-- NONFUNC.USED has highest return rate (16.7%) despite being best margin grade
+**Date:** 3 March 2026
+**Script:** `api/bm-returns-forensic.py`
+**Data:** `audit/returns-forensic-2026-03-03.json` (45 per-device profiles)
+**Report:** `audit/returns-forensic-2026-03-03.md`
+**Source:** BM returns CSV (47 unique) × repair analysis data (534 devices) × Monday item updates (526 notes)
 
-### Recommendations
-- Mandatory boot test after every repair (catches #1 complaint)
-- Repeat-return flag in Monday — block re-listing without escalation
-- Serial → listing verification before dispatch
-- Target <5% overall, <3% preventable (currently 12.8% / 10.3%)
+### What it does
+- Parses UTF-16 BM returns CSV, groups by order ID (47 unique returns)
+- Matches to repair chain data by date_sold ±3 days + model type
+- Pulls ALL Monday item updates + replies for matched devices (41 unique IDs)
+- Builds per-device forensic profiles with repair chain, timeline, condition, notes
+- Auto-detects red flags from data (12 flag types)
+- Rules-based root cause classification (7 categories)
+- Pattern analysis: by cause, by person, by prevention measure, repeats, time distribution
+
+### Results: 45/47 matched (96%)
+
+| Root Cause | Count | Net at Risk |
+|------------|-------|-------------|
+| qc_failure | 12 (27%) | £1,891 |
+| listing_error | 9 (20%) | £1,102 |
+| unknown | 7 (16%) | £938 |
+| repair_failure | 7 (16%) | £2,114 |
+| transit_damage | 4 (9%) | £660 |
+| buyers_remorse | 4 (9%) | £793 |
+| cosmetic_mismatch | 2 (4%) | £688 |
+
+**Total net at risk: £8,187**
+
+### Key findings
+
+**No feedback loop:** 42/45 returned devices have zero post-return notes. Nobody is logging what they find when devices come back. No post-mortem, no learning, same failures repeat.
+
+**Ghost repairs:** 20 devices have parts installed but no repair person logged. 19 have 0 min repair time despite parts being swapped (LCDs, batteries, logic boards). No accountability trail for the repair itself.
+
+**Condition grading unreliable:** 21/45 screen mismatches (47%), 20/45 casing mismatches (44%). Screens reported "Good" but actually "Damaged" is the most common. Wrong intake grading → wrong BM listing grade → customer gets something they didn't expect.
+
+**Liquid damage = high risk:** 20/45 returns (44%) had liquid damage at intake. BM 1078 is the poster child: liquid damage → Saf repaired logic board → passed QC → sold for £1,099 → came back twice in one day (keyboard defects, then display issues).
+
+**9 devices shipped with no QC evidence:** Technical customer complaints but zero QC notes in Monday. 6 of these 9 also had no repair person and 0 min repair time. A 2-minute boot test would have caught every one.
+
+**84% returned within 3 days:** 17 within 0-1 days, 21 within 2-3 days. Customers opening the box and immediately seeing the problem — dispatch-side failures, not durability.
+
+**4 repeat returners:** BM 1078 (2 returns, £2,198 sale value), BM 1216 (2 returns), BM 1130 (2 returns), BM 1103 (2 returns). Should have been pulled from sale after first return.
+
+**Andres pattern:** Touched 16 returned devices, 9 had 0 min repair time with parts logged. 3 came back for boot failure.
+
+**Financial:** Repair failures cost most per return (£302 avg). QC failures are most frequent and preventable (12 returns, £1,891). Listing errors are pure process (9 returns, nothing wrong with device).
+
+### Per-device profiles include
+- Pre-dispatch notes (repair chain, QC, listing) and post-return notes (split at sale date)
+- Full repair chain (who, how long, their written Monday notes — Systems Manager automated templates filtered out)
+- Condition mismatches (intake vs actual for battery/screen/casing/function)
+- Timeline with days in repair + days with customer
+- Serial numbers for 44/45 devices (pulled from Monday main board)
+- 342 team notes across 45 profiles (526 raw, 184 Systems Manager noise filtered)
+- Auto-detected flags + evidence-based root cause + preventive measure
 
 ---
 
@@ -647,8 +667,11 @@ More than originally estimated (24 → 43) because the full 6-month dataset capt
 - Strategy document: `audit/buybox-strategy-2026-03-02.md`
 
 ### What's next
+- **Mandate post-return logging** — 42/45 devices came back with zero notes. Team must log what they find when a returned device arrives. Without this, there is no feedback loop.
+- **Fix ghost repairs** — 20 devices had parts installed with no person and 0 min repair time. Either the time tracker is broken or the process isn't being followed. Investigate and enforce.
+- **Tighten intake grading** — 47% screen mismatches, 44% casing mismatches between reported and actual. This drives listing errors.
+- **Pull repeat returners from sale** — 4 devices were relisted after first return. Process needed to inspect before relisting.
 - **Review stuck device triage** — Ricky to decide per-device actions (ship 2 now, write off 9, chase 6 parts)
-- **Implement QC recommendations** — photograph on arrival, remove "?" from intake, track return reasons
 - **Monitor recovered buyboxes** — next CSV export should confirm FC + NFU wins
 - **Crossref refresh** — when new CSV available, refresh P&L data for fishing lines and new orders
 - **Saf full diagnostic audit** — separate project scope. Script supports --all-clients.
@@ -656,8 +679,9 @@ More than originally estimated (24 → 43) because the full 6-month dataset capt
 ### Key files
 - `audit/buybox-strategy-2026-03-02.md` — **START HERE** — full buybox + price increase analysis
 - `audit/stuck-device-triage-2026-03-02.md` — 43 stuck devices with per-device actions
-- `audit/returns-investigation-2026-03-02.md` — 47 returns summary, QC checklist, financial impact
-- `audit/returns-deep-dive-2026-03-03.md` — **Full repair chain analysis** — 44/47 matched, tech patterns, repeat returns
+- `audit/returns-forensic-2026-03-03.md` — **Per-device forensic investigation** — 45/47 matched, Monday notes, flags, root cause
+- `audit/returns-forensic-2026-03-03.json` — Full per-device data (45 profiles with repair chain + notes)
+- `api/bm-returns-forensic.py` — Forensic returns script (reusable with new CSV)
 - `audit/buybox-audit-2026-03-01.json` — 50 survivors + 19 fishing lines with buybox data
 - `audit/buybox-bump-log-2026-03-02.json` — 18 buybox recovery bumps (all 202 OK)
 - `api/bm-bid-bump.py` — bid bump script (supports --grade, --increment, --execute)

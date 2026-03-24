@@ -1,36 +1,66 @@
-# Build Registry
+# /home/ricky/builds/ — Index
 
-Source of truth for active iCorrect build planning and spec readiness.
+Last updated: 2026-03-24
 
-## Builds
+## Active Projects
 
-| # | Build | Status | Priority | Spec | Owner Agent | Blockers | Dependencies | Link |
-|---|---|---|---|---|---|---|---|---|
-| 1 | Intake System | ready-to-build | HIGHEST | Full | operations | Monday audit prerequisite | feeds Inventory + Intercom | `intake-system/SPEC.md` |
-| 2 | Intercom Agent | ready-to-build | HIGH | Full | customer-service | routing and n8n hardening | depends on workflow replacement | `intercom-agent/SPEC.md` |
-| 3 | Inventory System | ready-to-build | HIGH | Full | parts + operations | data quality cleanup sequence | depends on Monday parts clarity | `inventory-system/SPEC.md` |
-| 4 | Website Conversion | ready-to-build | HIGH | Full | website | theme rollout QA discipline | independent | `website-conversion/SPEC.md` |
-| 5 | QA System | in-progress | MEDIUM | Stub | operations | active parallel build | independent | `qa-system/README.md` |
-| 6 | BM Pricing Module | blocked | MEDIUM | Stub | backmarket | algorithm not finalized | needs Ricky decision | `bm-pricing-module/README.md` |
-| 7 | Marketing Intelligence | needs-rethink | MEDIUM | Stub | marketing | phase 1 quality gap | strategy reset required | `marketing-intelligence/README.md` |
-| 8 | Data Architecture | idea | LOW | Stub | systems | upstream schemas not stable | depends on core builds | `data-architecture/README.md` |
-| 9 | Voice Notes | idea | LOW | Stub | systems | scope/integration not finalized | depends on automation stack | `voice-notes/README.md` |
+| Directory | What | Status |
+|-----------|------|--------|
+| `agent-rebuild/` | v3 agent architecture research & planning (00-10 docs) | Active research |
+| `backmarket/` | BM operations: SOPs, automation scripts, analysis tools | Active — see `backmarket/README.md` |
+| `icloud-checker/` | Intake webhook service (iCloud check, counter-offers, grade check) | Live (port 8010), needs decomposition |
+| `intake-system/` | Device intake flows, diagnostics, BM trade-in flows | Spec complete |
+| `icorrect-parts-service/` | Parts reservation/deduction service (Node.js, SQLite) | Built, has .env |
+| `icorrect-shopify-theme/` | Shopify theme files | Built |
+| `xero-invoice-automation/` | Xero invoice automation | Built |
 
-## Dependency Map
+## BackMarket (`backmarket/`)
 
-- Intake System depends on Monday audit prerequisite.
-- Intake System feeds Inventory System (stock checks).
-- Intake System feeds Intercom Agent (customer/ticket context).
-- Inventory System depends on parts board structure clarity.
-- Intercom Agent depends on replacement of brittle n8n flows.
-- Website Conversion is independent.
+**Full docs: `backmarket/README.md`**
 
-## Handoff Protocol
+| Subdirectory | Contents |
+|--------------|----------|
+| `sops/` | 12 Standard Operating Procedures (SOP 01-12) |
+| `scripts/` | 9 standalone Node.js automation scripts (one per SOP) |
+| `analysis/` | 20 Python analysis & pricing scripts |
+| `scraper/` | Price scraper tools |
+| `docs/` | Strategy docs, verified column reference |
+| `qa/` | QA issue tracker, task docs |
+| `audit/` | Historical audit reports (markdown) |
+| `pricing/` | Pricing module (parked) |
+| `data/` | Generated outputs — gitignored |
 
-See `HANDOFF-PROTOCOL.md` — defines ops vs build boundary, escalation path, and handoff criteria.
+### Key Files
 
-## Maintenance Rules
+| File | What |
+|------|------|
+| `README.md` | **START HERE** — full script/SOP mapping, run order, known bugs |
+| `docs/buyback-optimisation-strategy.md` | Why we're optimising, bid grade performance, action plan |
+| `docs/VERIFIED-COLUMN-REFERENCE.md` | Ground truth for all Monday column IDs |
+| `analysis/bm_utils.py` | Shared Python utility module |
+| `analysis/bm-reprice.py` | **LIVE** — pushes price changes to BM API |
+| `qa/QA-ISSUES.md` | Known bugs across all scripts |
 
-- Updated only by Ricky or Claude Code.
-- Update at end of every phase session.
-- Update within 24 hours of any major status change.
+## Research & Planning
+
+| Directory | What |
+|-----------|------|
+| `research/` | General research (memory problem, VPS audit) |
+| `templates/` | Spec & README templates |
+| `scripts/` | Utility scripts |
+| `HANDOFF-PROTOCOL.md` | Agent vs Code responsibilities |
+
+## Stale / Needs Audit
+
+| Directory | What | Notes |
+|-----------|------|-------|
+| `agents/` | Agent plans, QA trigger | May be superseded by agent-rebuild/ |
+| `bm-pricing-module/` | Old BM pricing work | Moved to backmarket/pricing/ — can delete |
+| `data-architecture/` | Data architecture snapshot | Unknown status |
+| `documentation/` | Was docs home, BM files moved out | `monday/` and `raw-imports/` remain |
+| `intercom-agent/` | Intercom agent build | Unknown status |
+| `inventory-system/` | Inventory system spec | Spec only |
+| `marketing-intelligence/` | MI build snapshot | Known broken (see CLAUDE.md) |
+| `qa-system/` | QA system snapshot | Unknown status |
+| `voice-notes/` | Voice notes snapshot | Unknown status |
+| `website-conversion/` | Website conversion | Unknown status |

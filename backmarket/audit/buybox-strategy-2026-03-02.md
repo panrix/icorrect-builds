@@ -238,11 +238,14 @@ Repricing eliminated all significant overpay on winning SKUs. Previously ~£1,10
 - 5 buybox recoveries executed (18 listings, all 202 OK)
 - Overpay confirmed eliminated by March 1 repricing
 
-### Remaining tasks
-- **Task 17: Fishing line promotion** — 19 SKUs winning buybox, need P&L data (crossref refresh)
-- **Task 20: Stuck device triage** — 24 devices 30+ days, £2,150 capital
-- **Task 21: FUNC.CRACK returns** — 18 returned devices need return reason analysis
+### Completed since this doc was written
+- **Task 17: Fishing line P&L** — All 19 fishing lines winning buybox, all profitable or likely profitable. HOLD — monitor via next crossref refresh.
+- **Task 20: Stuck device triage** — 43 devices, £3,987 capital. Per-device actions in `stuck-device-triage-2026-03-02.md`.
+- **Task 21: Returns investigation** — 47 returns, 81% preventable, £3,869 direct cost. Full repair chain matched in `returns-deep-dive-2026-03-03.md`.
+
+### Remaining
 - **Monitor:** Next CSV export should confirm recovered buyboxes are winning
+- **Crossref refresh** — when new CSV available, refresh P&L data for fishing lines and new orders
 
 ---
 
