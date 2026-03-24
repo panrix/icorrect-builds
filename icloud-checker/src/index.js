@@ -1904,8 +1904,8 @@ app.get("/webhook/icloud-check/health", (req, res) => {
 });
 
 // Start
-app.listen(PORT, () => {
-  console.log(`iCloud Checker running on port ${PORT}`);
+app.listen(PORT, '127.0.0.1', () => {
+  console.log(`iCloud Checker running on 127.0.0.1:${PORT}`);
   console.log(`Recheck cron: every ${RECHECK_INTERVAL_MS / 60000} minutes`);
   setTimeout(() => {
     recheckCron().catch((err) => console.error("Recheck cron error:", err));
