@@ -336,9 +336,9 @@ def main():
     args = parser.parse_args()
 
     env = load_env()
-    api_key = env.get("MONDAY_API_TOKEN", "")
+    api_key = env.get("MONDAY_APP_TOKEN", "")
     if not api_key:
-        log("ERROR: MONDAY_API_TOKEN not found")
+        log("ERROR: MONDAY_APP_TOKEN not found")
         sys.exit(1)
 
     log("=== SAF DIAGNOSTIC NOTES & REPAIR COMPLEXITY ===")
