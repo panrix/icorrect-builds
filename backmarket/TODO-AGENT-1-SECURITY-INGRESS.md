@@ -94,7 +94,7 @@
 - [x] icloud-checker bound to 127.0.0.1
 - [x] Public IP refuses connections to port 8010 — verified via curl
 - [x] Nginx routes work — verified via curl and live Monday webhooks
-- [ ] Confirm Slack buttons still work (iCloud recheck, counter-offer) — NOT YET TESTED
+- [x] Confirm Slack buttons still work — ✅ tested recheck on BM 1504, SickW ran, "still locked". Fixed telephone-inbound forward URL (was /slack-interact, now /webhook/icloud-check/slack-interact)
 - [x] Monday webhooks confirmed firing:
   - [x] icloud-check — ✅ tested with serial entry, IC OFF returned
   - [x] grade-check — ✅ tested with BM 1488 (A2338) and BM 1539 (A2442), profitability calculated
@@ -141,7 +141,7 @@ This was a necessary business logic fix to validate the webhook route. Documente
 - [x] No BM webhook endpoint is reachable on the public IP
 - [x] All traffic goes through nginx with SSL
 - [x] Monday webhooks confirmed firing through new URLs — all 4 tested live
-- [ ] Slack interactivity confirmed working — not yet tested
+- [x] Slack interactivity confirmed working — recheck button tested live
 - [x] Port/route/service map documented
 - [x] Rollback plan documented
 - [x] Payout webhook confirmed
