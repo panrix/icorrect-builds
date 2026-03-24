@@ -1420,25 +1420,66 @@ function gradeCheckDedup(itemId) {
 }
 
 // Model matching (same logic as profitability module)
-function matchModelGC(itemName, modelKeys) {
-  if (!itemName) return null;
-  const name = itemName.toLowerCase();
-  let bestMatch = null;
-  let bestScore = 0;
-  for (const key of modelKeys) {
-    const keyLower = key.toLowerCase();
-    const keyParts = keyLower.replace(/"/g, "").split(/\s+/);
-    let matched = 0;
-    for (const part of keyParts) {
-      if (name.includes(part)) matched++;
-    }
-    const score = matched / keyParts.length;
-    if (score > bestScore) {
-      bestScore = score;
-      bestMatch = key;
+/**
+ * Match a device to V6 sell price data.
+ *
+ * Strategy (in priority order):
+ * 1. UUID match — if BM Devices has a stored product UUID, match directly
+ * 2. A-number match — extract A-number from device name, map to V6 model key
+ *
+ * UUID is available after listing (SOP 06). A-number is available from intake (SOP 02).
+ * Grade-check fires at Diagnostic Complete (before listing), so A-number is the primary path.
+ */
+
+// Apple model number → V6 sell price key
+// Stable mapping — Apple model numbers don't change. Add new models as inventory grows.
+const A_NUMBER_TO_V6_MODEL = {
+  // MacBook Air
+  "A1932": 'Air 13" 2018/2019 Intel',
+  "A2179": 'Air 13" 2020 Intel i5 Grey',
+  "A2337": 'Air 13" 2020 M1',
+  "A2681": 'Air 13" 2022 M2',
+  "A3113": 'Air 13" 2024 M3',
+  "A3114": 'Air 13" 2025 M4',
+  "A2941": 'Air 15" 2023 M2',
+  // MacBook Pro 13"
+  "A2289": 'Pro 13" 2020 Intel',
+  "A2251": 'Pro 13" 2020 Intel',
+  "A2338": 'Pro 13" 2020 M1',
+  "A2442": 'Pro 14" 2021 M1 Pro',  // also M1 Max — default to Pro (most common)
+  "A2485": 'Pro 16" 2021 M1 Pro',  // also M1 Max — default to Pro
+  "A2779": 'Pro 14" 2023 M2 Pro',
+  "A2780": 'Pro 16" 2023 M2 Pro',
+  "A2918": 'Pro 14" 2023 M3 Pro',  // also base M3
+  "A2991": 'Pro 14" 2023 M3',
+  "A2992": 'Pro 16" 2023 M3 Pro',
+};
+
+function matchModelToV6(deviceUuid, deviceName, sellPriceData) {
+  // 1. UUID match (available after listing)
+  if (deviceUuid) {
+    for (const [key, model] of Object.entries(sellPriceData.models || {})) {
+      if (model.uuid === deviceUuid) return { key, method: "uuid" };
+      if (model.colour) {
+        for (const colourData of Object.values(model.colour)) {
+          if (colourData.productId === deviceUuid) return { key, method: "uuid-colour" };
+        }
+      }
     }
   }
-  return bestScore >= 0.8 ? bestMatch : null;
+
+  // 2. A-number match (available from intake)
+  if (deviceName) {
+    const aMatch = deviceName.match(/A\d{4}/);
+    if (aMatch) {
+      const v6Key = A_NUMBER_TO_V6_MODEL[aMatch[0]];
+      if (v6Key && sellPriceData.models?.[v6Key]) {
+        return { key: v6Key, method: "a-number", aNumber: aMatch[0] };
+      }
+    }
+  }
+
+  return null;
 }
 
 app.post("/webhook/bm/grade-check", async (req, res) => {
@@ -1455,17 +1496,31 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
 
   try {
     const event = body.event;
-    if (!event) return;
+    console.log(`[grade-check] Received webhook: boardId=${event?.boardId}, columnId=${event?.columnId}, pulseId=${event?.pulseId}, pulseName=${event?.pulseName}, value=${JSON.stringify(event?.value)}`);
+    if (!event) { console.log("[grade-check] No event in body, skipping"); return; }
 
-    const { TOP_CASE_GRADE_COLUMN, LID_GRADE_COLUMN } = GRADE_CHECK_CONSTANTS;
+    // Validate: must be status4 on the main board
+    if (String(event.boardId) !== String(BOARD_ID)) { console.log(`[grade-check] Wrong board: ${event.boardId} !== ${BOARD_ID}, skipping`); return; }
+    if (event.columnId !== STATUS4_COLUMN) { console.log(`[grade-check] Wrong column: ${event.columnId} !== ${STATUS4_COLUMN}, skipping`); return; }
 
-    // Validate: must be one of our two grade columns on the right board
-    if (String(event.boardId) !== String(BOARD_ID)) return;
-    if (event.columnId !== TOP_CASE_GRADE_COLUMN && event.columnId !== LID_GRADE_COLUMN) return;
+    // Only fire on "Diagnostic Complete"
+    const statusValue = typeof event.value === 'string' ? JSON.parse(event.value) : (event.value || {});
+    const statusLabel = statusValue?.label?.text || statusValue?.label || "";
+    const statusIndex = statusValue?.index;
+    // Monday status change events send value.label.text or just the index
+    // "Diagnostic Complete" — we need to confirm the exact label/index
+    // For now, accept both text match and log the raw value for debugging
+    const isDiagComplete = statusLabel.toLowerCase().includes("diagnostic complete") ||
+                           (event.textBody && event.textBody.toLowerCase().includes("diagnostic complete"));
+
+    if (!isDiagComplete) {
+      console.log(`[grade-check] status4 changed but not to "Diagnostic Complete" (label="${statusLabel}", index=${statusIndex}), skipping`);
+      return;
+    }
 
     const itemId = event.pulseId;
     const itemName = event.pulseName || "Unknown";
-    console.log(`[grade-check] Grade change on ${itemName} (${itemId}), column: ${event.columnId}`);
+    console.log(`[grade-check] Diagnostic Complete on ${itemName} (${itemId})`);
 
     // Dedup check
     if (gradeCheckDedup(String(itemId))) {
@@ -1473,18 +1528,20 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
       return;
     }
 
-    // Fetch both grade columns + cost data for the item
+    // Fetch grades + cost data from Main Board, and linked BM Devices item for device name
     const {
+      TOP_CASE_GRADE_COLUMN, LID_GRADE_COLUMN,
       PURCHASE_COST_COLUMN, PARTS_COST_COLUMN, LABOUR_HOURS_COLUMN,
     } = GRADE_CHECK_CONSTANTS;
 
     const columnsToFetch = [
       TOP_CASE_GRADE_COLUMN, LID_GRADE_COLUMN,
       PURCHASE_COST_COLUMN, PARTS_COST_COLUMN, LABOUR_HOURS_COLUMN,
+      BM_BOARD_RELATION, // board_relation5 — link to BM Devices board
     ];
 
     const itemData = await mondayQuery(
-      `{ items(ids: [${itemId}]) { name column_values(ids: ${JSON.stringify(columnsToFetch)}) { id text value ... on MirrorValue { display_value } ... on FormulaValue { display_value } ... on StatusValue { text } } } }`
+      `{ items(ids: [${itemId}]) { name column_values(ids: ${JSON.stringify(columnsToFetch)}) { id text value ... on BoardRelationValue { linked_item_ids } ... on MirrorValue { display_value } ... on FormulaValue { display_value } ... on StatusValue { text } } } }`
     );
     const item = itemData?.data?.items?.[0];
     if (!item) {
@@ -1494,9 +1551,30 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
 
     const getColText = (colId) => {
       const col = item.column_values.find((c) => c.id === colId);
-      // Mirrors and formulas use display_value; text/status use text
       return (col?.display_value ?? col?.text ?? "").toString().trim();
     };
+
+    // Get linked BM Devices item for device name + specs
+    const linkCol = item.column_values.find(c => c.id === BM_BOARD_RELATION);
+    const bmDeviceItemId = linkCol?.linked_item_ids?.[0] || null;
+
+    let deviceName = item.name; // fallback to Monday item name
+    let deviceUuid = null;
+    if (bmDeviceItemId) {
+      const bmDevData = await mondayQuery(
+        `{ items(ids: [${bmDeviceItemId}]) { name column_values(ids: ["lookup", "text_mm1dt53s"]) { id text ... on MirrorValue { display_value } } } }`
+      );
+      const bmDev = bmDevData?.data?.items?.[0];
+      if (bmDev) {
+        const lookupCol = bmDev.column_values?.find(c => c.id === "lookup");
+        const uuidCol = bmDev.column_values?.find(c => c.id === "text_mm1dt53s");
+        deviceName = lookupCol?.display_value || bmDev.name || item.name;
+        deviceUuid = (uuidCol?.text || "").trim() || null;
+        console.log(`[grade-check] ${item.name}: BM Device="${bmDev.name}", deviceName="${deviceName}", uuid="${deviceUuid || "none"}"`);
+      }
+    } else {
+      console.log(`[grade-check] ${item.name}: no linked BM Device`);
+    }
 
     const topCaseGrade = getColText(TOP_CASE_GRADE_COLUMN);
     const lidGrade = getColText(LID_GRADE_COLUMN);
@@ -1506,7 +1584,6 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
     // If either is empty, wait for both
     if (!topCaseGrade || !lidGrade) {
       console.log(`[grade-check] ${item.name}: waiting for both grades`);
-      // Remove from dedup so we can process when the other grade arrives
       gradeCheckCache.delete(String(itemId));
       return;
     }
@@ -1530,15 +1607,16 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
       return;
     }
 
-    // Match model
-    const modelKeys = Object.keys(sellPriceData.models || {});
-    const modelKey = matchModelGC(item.name, modelKeys);
+    // Match model to V6 sell price data (UUID first, then A-number)
+    const modelMatch = matchModelToV6(deviceUuid, deviceName, sellPriceData);
 
-    if (!modelKey) {
-      console.log(`[grade-check] ${item.name}: could not match to sell price model`);
-      await sendSlackAlert(`⚠️ Grade check for ${item.name}: could not match to sell price data. Predicted grade: ${predictedGradeKey}.`);
+    if (!modelMatch) {
+      console.log(`[grade-check] ${item.name}: no V6 match. uuid="${deviceUuid}", device="${deviceName}"`);
+      await sendSlackAlert(`⚠️ Grade check for ${item.name}: no sell price data found. UUID: ${deviceUuid || "none"}, Device: ${deviceName}. Predicted grade: ${predictedGradeKey}.`);
       return;
     }
+    const modelKey = modelMatch.key;
+    console.log(`[grade-check] ${item.name}: matched to V6 "${modelKey}" via ${modelMatch.method}${modelMatch.aNumber ? ` (${modelMatch.aNumber})` : ""}`);
 
     // Look up predicted sell price
     const gradeData = sellPriceData.models[modelKey]?.grades?.[predictedGradeKey];
