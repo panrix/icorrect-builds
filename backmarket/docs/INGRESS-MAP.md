@@ -1,212 +1,91 @@
 # BackMarket Ingress Map
 
-**Last updated:** 24 Mar 2026
+**Last updated:** 24 Mar 2026, post Agent 1 completion
 **Author:** Code (Agent 1)
+**Status:** All changes applied and verified live. This is the current production state.
 
 ---
 
-## Current State (Live, 24 Mar 2026)
+## Live State (24 Mar 2026)
 
-### Port Map
+### BM Service Port Map
 
-| Port | Bind | Process | Service | systemd/PM2 | Public? |
-|------|------|---------|---------|-------------|---------|
-| 8010 | `*` (0.0.0.0) | node src/index.js | icloud-checker (monolith) | `icloud-checker.service` | **YES — UNSAFE** |
-| 8003 | `127.0.0.1` | python3 server.py | telephone-inbound (Slack router) | `telephone-inbound.service` | No (localhost) |
-| 8002 | `127.0.0.1` | python3 | agent-trigger (FastAPI) | `agent-trigger.service` | No (localhost) |
-| 8001 | `127.0.0.1` | python3 | marketing-intelligence API | — | No (localhost) |
-| 8004 | `127.0.0.1` | node | llm-summary | `llm-summary.service` | No (localhost) |
-| 8080 | `127.0.0.1` | python3 | Xero OAuth2 callback | — | No (localhost) |
-| 3001 | `*` (0.0.0.0) | node src/index.js | icorrect-parts | PM2 (crash-looping) | **YES — UNSAFE** |
-| 18789 | `0.0.0.0` | openclaw-gateway | OpenClaw Gateway | `openclaw-gateway.service` | **YES — UNSAFE** |
-| 8765 | `0.0.0.0` | python3 xero_oauth2.py | Xero OAuth temp server | — | **YES — UNSAFE** |
-| 4174 | `0.0.0.0` | python3 -m http.server | intake-form static | — | **YES — UNSAFE** |
-| 4175 | `0.0.0.0` | nginx proxy → 4174 | intake-form nginx wrapper | — | **YES — UNSAFE** |
-| 5678 | `0.0.0.0` | n8n | n8n workflow engine | — | **YES** (has own auth) |
+| Port | Bind | Service | systemd Unit | Status |
+|------|------|---------|-------------|--------|
+| 8010 | `127.0.0.1` | icloud-checker (monolith) | `icloud-checker.service` | Running. Handles all BM webhooks currently. |
+| 8003 | `127.0.0.1` | telephone-inbound (Slack router) | `telephone-inbound.service` | Running. Routes Slack interactions. |
+| 8011 | — | bm-grade-check | — | **Not yet deployed.** Nginx route exists, proxies to 8010. |
+| 8012 | — | bm-payout | — | **Not yet deployed.** Nginx route exists, proxies to 8010. |
+| 8013 | — | bm-shipping | — | **Not yet deployed.** Nginx route exists, proxies to 8010. |
 
-### Nginx Routes (mc.icorrect.co.uk, SSL)
+Port 8010 is **not reachable on the public IP**. All traffic goes through nginx (`mc.icorrect.co.uk`) with SSL.
 
-| Route | Proxies to | Auth | Notes |
-|-------|-----------|------|-------|
-| `/webhook/icloud-check/slack-interact` | `127.0.0.1:8003` | None | Telephone-inbound Python server, which forwards to `127.0.0.1:8010/slack-interact` (double-hop) |
-| `/webhook/icloud-check` | `127.0.0.1:8010` | None | icloud-checker monolith |
-| `/parts-webhook` | `127.0.0.1:3001/webhook` | None | icorrect-parts service |
-| `/slack/` | `127.0.0.1:8003` | None | Telephone inbound Slack commands |
-| `/api/summarize-updates` | `127.0.0.1:8004` | None | LLM summary |
-| `/api/` | `127.0.0.1:8002` | None | Agent trigger (FastAPI) |
-| `/` | Static files (dashboard) | Basic auth | Mission Control dashboard |
+### Nginx Routes (mc.icorrect.co.uk)
 
-### What's NOT behind nginx
+All BM and iCloud webhook routes. No auth (Monday and Slack are the callers).
 
-| Endpoint | Port | Reached via | Risk |
-|----------|------|-------------|------|
-| `/webhook/bm/payout` | 8010 | `http://46.225.53.159:8010` direct | **CRITICAL — triggers real BM payouts** |
-| `/webhook/bm/shipping-confirmed` | 8010 | `http://46.225.53.159:8010` direct | **CRITICAL — marks orders as shipped** |
-| `/webhook/bm/grade-check` | 8010 | `http://46.225.53.159:8010` direct | **HIGH — triggers Slack alerts** |
-| `/webhook/bm/counter-offer-action` | 8010 | `http://46.225.53.159:8010` direct | **HIGH — counter-offer actions** |
-| `/webhook/icloud-check/recheck` | 8010 | `http://46.225.53.159:8010` direct | MEDIUM |
-| `/webhook/icloud-check/spec-check` | 8010 | `http://46.225.53.159:8010` direct | LOW (read-only) |
-| `/webhook/icloud-check/health` | 8010 | `http://46.225.53.159:8010` direct | LOW (read-only) |
+| Route | Proxies to | Notes |
+|-------|-----------|-------|
+| `/webhook/bm/grade-check` | `127.0.0.1:8010` | Currently monolith. When Agent 2 deploys bm-grade-check, change to `127.0.0.1:8011`. |
+| `/webhook/bm/payout` | `127.0.0.1:8010` | Currently monolith. When Agent 2 deploys bm-payout, change to `127.0.0.1:8012`. |
+| `/webhook/bm/shipping-confirmed` | `127.0.0.1:8010` | Currently monolith. When Agent 2 deploys bm-shipping, change to `127.0.0.1:8013`. |
+| `/webhook/bm/counter-offer-action` | `127.0.0.1:8010` | Stays in monolith until decomposition. |
+| `/webhook/icloud-check/slack-interact` | `127.0.0.1:8003` | telephone-inbound, forwards non-phone actions to 8010. |
+| `/webhook/icloud-check/spec-check` | `127.0.0.1:8010` | Read-only Apple spec lookup. |
+| `/webhook/icloud-check/health` | `127.0.0.1:8010` | Health check endpoint. |
+| `/webhook/icloud-check` | `127.0.0.1:8010` | Main iCloud check webhook (catch-all). |
 
-### Slack Interactivity Routing (Confirmed)
+**Nginx config file:** `/etc/nginx/sites-enabled/mission-control`
+**Backup:** `/etc/nginx/sites-enabled/mission-control.backup-20260324`
+
+### Monday Webhooks (Live, confirmed)
+
+All webhooks point to `https://mc.icorrect.co.uk/...` — updated and tested 24 Mar.
+
+| Board | Column | Trigger | URL |
+|-------|--------|---------|-----|
+| 349212843 (Main) | text4 (serial) | Value entered | `https://mc.icorrect.co.uk/webhook/icloud-check` |
+| 349212843 (Main) | status4 | "Diagnostic Complete" | `https://mc.icorrect.co.uk/webhook/bm/grade-check` |
+| 349212843 (Main) | status24 | "Pay-Out" | `https://mc.icorrect.co.uk/webhook/bm/payout` |
+| 349212843 (Main) | status4 | "Shipped" | `https://mc.icorrect.co.uk/webhook/bm/shipping-confirmed` |
+
+### Slack Interactivity Routing (Live, confirmed)
+
+Slack interactivity URL: `https://mc.icorrect.co.uk/webhook/icloud-check/slack-interact`
 
 ```
 Slack button click
-  → nginx mc.icorrect.co.uk /webhook/icloud-check/slack-interact
-    → 127.0.0.1:8003 (telephone-inbound/server.py line 576)
-      → 127.0.0.1:8010/slack-interact (forwarded via requests.post, line 658)
-        → icloud-checker Express handler (index.js line 743)
+  → nginx (mc.icorrect.co.uk/webhook/icloud-check/slack-interact)
+    → 127.0.0.1:8003 (telephone-inbound/server.py)
+      → Phone buttons handled locally (open_phone_log_modal, phone_create_monday, phone_create_intercom)
+      → All other buttons forwarded to 127.0.0.1:8010/webhook/icloud-check/slack-interact
+        → icloud-checker Express handler (recheck, counter-offer, customer reply)
 ```
 
-This is a double-hop. The telephone-inbound server acts as a router for Slack interactions — it handles both phone-related Slack commands AND forwards iCloud/BM Slack interactions to the icloud-checker.
-
-### Monday Webhooks (Need manual verification)
-
-These are the webhooks that SHOULD exist on Monday based on the monolith's endpoints. Actual URLs need confirming in the Monday web UI:
-
-| Board | Trigger | Expected URL | Notes |
-|-------|---------|-------------|-------|
-| 349212843 | Serial entered (text4) | Unknown — likely `http://46.225.53.159:8010/webhook/icloud-check` or via nginx | |
-| 349212843 | status24 → "Pay-Out" | Unknown — likely `http://46.225.53.159:8010/webhook/bm/payout` | **Direct to public IP** |
-| 349212843 | status4 → "Shipped" | Unknown — likely `http://46.225.53.159:8010/webhook/bm/shipping-confirmed` | **Direct to public IP** |
-| 349212843 | Grade changed | Unknown — likely `http://46.225.53.159:8010/webhook/bm/grade-check` | **Direct to public IP** |
-
-**BLOCKER:** Cannot confirm Monday webhook URLs without Monday web UI access or API access. Need Ricky to check, or need Monday API token with webhook read permissions.
-
 ---
 
-## Target State (After Agent 1)
+## Cutover Contract for Agents 2+
 
-### Port Map (Changes Only)
+When Agent 2 deploys a new service (e.g. bm-grade-check on port 8011):
 
-| Port | Current Bind | Target Bind | Change |
-|------|-------------|-------------|--------|
-| 8010 | `*` (0.0.0.0) | `127.0.0.1` | **CHANGE** — bind to localhost |
-| 8011 | — | `127.0.0.1` | **FUTURE** — bm-grade-check (Agent 2 builds) |
-| 8012 | — | `127.0.0.1` | **FUTURE** — bm-payout (Agent 2 builds) |
-| 8013 | — | `127.0.0.1` | **FUTURE** — bm-shipping (Agent 2 builds) |
+**All nginx routes already exist and proxy to 8010 (monolith).** Agent 2 does NOT need to create routes — only update the port number.
 
-Ports 8011-8013 don't exist yet. Agent 1 adds the nginx routes as placeholders (return 502 until services are deployed). This way Agents 2+ can deploy services without touching nginx.
+**Steps:**
+1. Deploy the new service on `127.0.0.1:<port>` (see "How to Add a New Service" below)
+2. Verify the new service responds: `curl -s http://127.0.0.1:<port>/webhook/bm/<name> -X POST -d '{}'`
+3. Update nginx: change `proxy_pass http://127.0.0.1:8010` → `proxy_pass http://127.0.0.1:<port>` for the relevant route
+4. `sudo nginx -t && sudo systemctl reload nginx`
+5. Verify end-to-end: trigger the Monday webhook, confirm the new service handles it
+6. Remove the corresponding handler from the monolith (`icloud-checker/src/index.js`)
 
-### Nginx Routes (New/Changed on mc.icorrect.co.uk)
+**Port allocation (reserved):**
 
-```nginx
-# ── BM Webhook Routes (NEW) ──
-
-# Grade check — Monday webhook fires on status4 = "Diagnostic Complete"
-location /webhook/bm/grade-check {
-    auth_basic off;
-    proxy_pass http://127.0.0.1:8011;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-
-# Payout — Monday webhook fires on status24 = "Pay-Out"
-location /webhook/bm/payout {
-    auth_basic off;
-    proxy_pass http://127.0.0.1:8012;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-
-# Shipping confirmation — Monday webhook fires on status4 = "Shipped"
-location /webhook/bm/shipping-confirmed {
-    auth_basic off;
-    proxy_pass http://127.0.0.1:8013;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-
-# Counter-offer action — Slack button handler (temporary, until monolith decomposition)
-location /webhook/bm/counter-offer-action {
-    auth_basic off;
-    proxy_pass http://127.0.0.1:8010;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-
-# Spec check — read-only Apple spec lookup API
-location /webhook/icloud-check/spec-check {
-    auth_basic off;
-    proxy_pass http://127.0.0.1:8010;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-
-# Health check
-location /webhook/icloud-check/health {
-    auth_basic off;
-    proxy_pass http://127.0.0.1:8010;
-    proxy_set_header Host $host;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-}
-```
-
-**Note:** During the transition period (before Agents 2+ deploy separate services), the `/webhook/bm/payout`, `/webhook/bm/shipping-confirmed`, and `/webhook/bm/grade-check` routes proxy to port 8010 (the monolith still handles them). Once the separate services are deployed on 8011-8013, the routes are updated to point to the new ports.
-
-### Monday Webhook URLs (Target)
-
-| Board | Trigger | Target URL |
-|-------|---------|-----------|
-| 349212843 | Serial entered | `https://mc.icorrect.co.uk/webhook/icloud-check` |
-| 349212843 | status4 → "Diagnostic Complete" | `https://mc.icorrect.co.uk/webhook/bm/grade-check` |
-| 349212843 | status24 → "Pay-Out" | `https://mc.icorrect.co.uk/webhook/bm/payout` |
-| 349212843 | status4 → "Shipped" | `https://mc.icorrect.co.uk/webhook/bm/shipping-confirmed` |
-
----
-
-## Rollout Order
-
-1. **Add nginx routes** — all BM endpoints proxy to 8010 initially (monolith still handles them)
-2. `sudo nginx -t` — validate config
-3. `sudo systemctl reload nginx` — apply
-4. **Verify nginx routes work:** `curl -k https://mc.icorrect.co.uk/webhook/icloud-check/health`
-5. **Update Monday webhook URLs** to `https://mc.icorrect.co.uk/...` (manual — web UI)
-6. **Verify Monday webhooks fire** through nginx (trigger a test status change)
-7. **Bind icloud-checker to 127.0.0.1** — edit index.js line 1907
-8. **Restart icloud-checker** — `systemctl --user restart icloud-checker`
-9. **Verify public IP refused:** `curl http://46.225.53.159:8010/webhook/bm/payout` → connection refused
-10. **Verify nginx path works:** trigger a real payout/shipping/grade-check and confirm it works end-to-end
-
-### Rollback Plan
-
-If Monday webhooks break after URL change:
-1. Revert Monday webhook URLs to `http://46.225.53.159:8010/...`
-2. Revert icloud-checker bind to `0.0.0.0`
-3. Restart icloud-checker
-
----
-
-## File Changes Required
-
-| File | Change | Risk |
-|------|--------|------|
-| `/etc/nginx/sites-enabled/default` (mc.icorrect.co.uk block) | Add 6 new location blocks for BM webhooks | Low — additive only |
-| `icloud-checker/src/index.js` line 1907 | `app.listen(PORT)` → `app.listen(PORT, '127.0.0.1')` | Medium — breaks direct IP access |
-| Monday.com board 349212843 webhook settings | Update URLs from `http://IP:8010/...` to `https://mc.icorrect.co.uk/...` | Medium — manual, reversible |
-
----
-
-## Resolved Blockers
-
-| Blocker | Resolution | Date |
-|---------|-----------|------|
-| Monday webhook URLs | Ricky updated all 4 via Monday web UI, tested live | 24 Mar |
-| Slack interactivity URL | Already pointed to `https://mc.icorrect.co.uk/...` — no change needed | 24 Mar |
-| BM_AUTH env var missing | Added to `/home/ricky/config/.env` (was only `BACKMARKET_API_AUTH`) | 24 Mar |
-| telephone-inbound forward URL wrong | Fixed `/slack-interact` → `/webhook/icloud-check/slack-interact` | 24 Mar |
+| Port | Service | Status |
+|------|---------|--------|
+| 8010 | icloud-checker (intake only, after slimming) | Live — shrinks as endpoints are extracted |
+| 8011 | bm-grade-check | Reserved, not deployed |
+| 8012 | bm-payout | Reserved, not deployed |
+| 8013 | bm-shipping | Reserved, not deployed |
 
 ---
 
@@ -221,14 +100,6 @@ If Monday webhooks break after URL change:
 | agent-trigger | `agent-trigger.service` | 8002 | `systemctl --user restart agent-trigger` | `journalctl --user -u agent-trigger -f` |
 | llm-summary | `llm-summary.service` | 8004 | `systemctl --user restart llm-summary` | `journalctl --user -u llm-summary -f` |
 | nginx | system service | 80/443 | `sudo systemctl reload nginx` | `/var/log/nginx/access.log` |
-
-**Future services (not yet deployed):**
-
-| Service | systemd Unit | Port | Owner |
-|---------|-------------|------|-------|
-| bm-grade-check | `bm-grade-check.service` | 8011 | Agent 2 |
-| bm-payout | `bm-payout.service` | 8012 | Agent 2 |
-| bm-shipping | `bm-shipping.service` | 8013 | Agent 2 |
 
 ### Health Checks
 
@@ -258,8 +129,6 @@ curl -s --connect-timeout 3 http://46.225.53.159:8010/webhook/icloud-check/healt
 
 All services load env from `/home/ricky/config/.env` via systemd `EnvironmentFile`.
 
-Key BM variables:
-
 | Variable | Used by | Notes |
 |----------|---------|-------|
 | `BM_AUTH` | icloud-checker (monolith) | `Basic ...` auth header for BM API |
@@ -269,9 +138,7 @@ Key BM variables:
 | `SLACK_AUTOMATIONS_BOT_TOKEN` | icloud-checker | Slack modals and rich messages |
 | `SICKW_API_KEY` | icloud-checker | iCloud lock checking |
 
-### How to Add a New Webhook Service (for Agents 2-5)
-
-When deploying a new service (e.g. bm-grade-check on port 8011):
+### How to Add a New Webhook Service
 
 1. **Create the service** with Express listening on `127.0.0.1:<port>`
 2. **Create systemd unit** at `~/.config/systemd/user/bm-<name>.service`:
@@ -297,7 +164,7 @@ When deploying a new service (e.g. bm-grade-check on port 8011):
    systemctl --user enable bm-<name>
    systemctl --user start bm-<name>
    ```
-4. **Update nginx** — change the proxy_pass in `/etc/nginx/sites-enabled/mission-control` from `127.0.0.1:8010` to `127.0.0.1:<port>` for the relevant route:
+4. **Update nginx** — change the `proxy_pass` in `/etc/nginx/sites-enabled/mission-control` from `127.0.0.1:8010` to `127.0.0.1:<port>` for the relevant route:
    ```bash
    sudo vim /etc/nginx/sites-enabled/mission-control
    sudo nginx -t
@@ -309,8 +176,6 @@ When deploying a new service (e.g. bm-grade-check on port 8011):
    journalctl --user -u bm-<name> -f
    ```
 
-The nginx routes are already in place — they currently proxy to 8010 (monolith). Just update the port number when the new service is ready.
-
 ### Rollback
 
 If a webhook breaks after changes:
@@ -319,24 +184,11 @@ If a webhook breaks after changes:
 2. **Revert icloud-checker binding** if needed: change `'127.0.0.1'` back to removing the second arg in `app.listen(PORT, ...)`, restart
 3. **Revert Monday webhooks** to `http://46.225.53.159:8010/...` via Monday web UI
 
-### Slack Interaction Routing
-
-```
-Slack button click
-  → nginx (mc.icorrect.co.uk/webhook/icloud-check/slack-interact)
-    → 127.0.0.1:8003 (telephone-inbound/server.py)
-      → Routes phone buttons locally (open_phone_log_modal, phone_create_monday, phone_create_intercom)
-      → Forwards all other buttons to 127.0.0.1:8010/webhook/icloud-check/slack-interact
-        → icloud-checker Express handler (recheck, counter-offer, customer reply)
-```
-
-This double-hop exists because the telephone-inbound server was built first and owns the Slack interactivity URL. Both services share the same `/webhook/icloud-check/slack-interact` path — telephone-inbound acts as a router.
-
 ---
 
-## Out of Scope (For Other Agents)
+## Other Ports (Not BM — Out of Scope)
 
-These ports are also publicly exposed but are NOT BackMarket-related:
+These ports are publicly exposed but are NOT BackMarket-related:
 
 | Port | Service | Risk | Owner |
 |------|---------|------|-------|
@@ -352,10 +204,11 @@ These should be locked down separately. Not part of the BM rebuild.
 
 ## Verification Log
 
-| Webhook | Tested | Result | Date |
-|---------|--------|--------|------|
+| Webhook | Test | Result | Date |
+|---------|------|--------|------|
 | icloud-check | Serial entry on Main Board | ✅ IC OFF returned for C02DH0W4P3XY | 24 Mar |
 | grade-check | status4 → "Diagnostic Complete" on BM 1488, BM 1539 | ✅ A-number match, profitability calculated | 24 Mar |
 | payout | status24 → "Pay-Out" on BM 1488 | ✅ BM API reached, 422 (order state — auth confirmed) | 24 Mar |
 | shipping-confirmed | status4 → "Shipped" on BM 1194 | ✅ Full chain, stopped safely on missing BM order ID | 24 Mar |
 | Slack recheck button | Clicked on BM 1504 (iCloud locked) | ✅ SickW check ran, "still locked" | 24 Mar |
+| Public IP refused | `curl http://46.225.53.159:8010/...` | ✅ Connection refused | 24 Mar |

@@ -58,7 +58,7 @@
 - [x] Nginx config — added 6 new location blocks for BM + iCloud webhooks
 - [x] Nginx config — confirmed existing `/webhook/icloud-check` route correct
 - [x] Nginx config — port 8003 Slack interact routing RESOLVED: telephone-inbound forwards to 8010, working correctly
-- [ ] systemd unit for icloud-checker — confirm `EnvironmentFile` and `WorkingDirectory` are correct
+- [x] systemd unit for icloud-checker — confirmed: `EnvironmentFile=/home/ricky/config/.env`, `WorkingDirectory=/home/ricky/builds/icloud-checker`
 - [ ] Other services bound to `0.0.0.0` (18789, 8765, 4174, 4175, 5678, 3001) — documented as out-of-scope for BM rebuild, flagged in ingress map
 - [x] Hardcoded `http://46.225.53.159:8010` references — checked, only in documentation files, not running code
 
@@ -115,9 +115,10 @@ to handle Base64 `=` characters). This fixes auth for ALL BM API calls in the mo
   - [x] Nginx route table
   - [x] Monday webhook URL table
   - [x] Rollout and rollback plan
-  - [ ] systemd service names and restart commands — needs adding
-  - [ ] Health check endpoints — needs adding
-  - [ ] How to add a new webhook service (for Agents 2-5) — needs adding
+  - [x] systemd service names and restart commands
+  - [x] Health check endpoints
+  - [x] How to add a new webhook service (for Agents 2-5)
+  - [x] Cutover contract for Agents 2+ (port allocation, steps, verification)
 - [x] Changes committed (3 commits: security binding, grade-check fix, ingress map)
 - [x] Pushed to remote
 
