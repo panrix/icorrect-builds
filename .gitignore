@@ -1,2 +1,16 @@
 icorrect-parts-service/
 xero-invoice-automation/
+
+# icloud-checker
+icloud-checker/node_modules/
+icloud-checker/recheck-state.json
+icloud-checker/specs-cache.json
+icloud-checker/data/
+icloud-checker/debug.png
+
+# Python
+__pycache__/
+*.pyc
+
+# Generated data outputs
+backmarket/data/
