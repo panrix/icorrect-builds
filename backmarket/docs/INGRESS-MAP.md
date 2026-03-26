@@ -177,9 +177,21 @@ All services load env from `/home/ricky/config/.env` via systemd `EnvironmentFil
 
 If a webhook breaks after changes:
 
-1. **Revert nginx** to backup: `sudo cp /etc/nginx/sites-enabled/mission-control.backup-20260325-bm-cutover /etc/nginx/sites-enabled/mission-control && sudo nginx -t && sudo systemctl reload nginx`
-2. **Revert icloud-checker binding** if needed: change `'127.0.0.1'` back to removing the second arg in `app.listen(PORT, ...)`, restart
-3. **Revert Monday webhooks** to `http://46.225.53.159:8010/...` via Monday web UI
+**If a standalone service breaks (8011/8012/8013):**
+1. Check logs: `journalctl --user -u bm-<name> -f`
+2. Restart the service: `systemctl --user restart bm-<name>`
+3. If the service won't start, restore the monolith handler and point nginx back to 8010:
+   - `cp /home/ricky/builds/icloud-checker/src/index.js.bak-pre-removal /home/ricky/builds/icloud-checker/src/index.js`
+   - `systemctl --user restart icloud-checker`
+   - `sudo cp /etc/nginx/sites-enabled/mission-control.backup-20260325-bm-cutover /etc/nginx/sites-enabled/mission-control`
+   - `sudo nginx -t && sudo systemctl reload nginx`
+   - This restores all three BM routes to the monolith on 8010.
+
+**If nginx breaks:**
+1. `sudo nginx -t` to see the error
+2. Restore backup: `sudo cp /etc/nginx/sites-enabled/mission-control.backup-20260325-bm-cutover /etc/nginx/sites-enabled/mission-control && sudo nginx -t && sudo systemctl reload nginx`
+
+Do NOT point Monday webhooks at the public IP (`46.225.53.159:8010`) — port 8010 is closed to external traffic.
 
 ---
 
