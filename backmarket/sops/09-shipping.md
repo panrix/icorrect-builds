@@ -215,8 +215,8 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 | Event | Channel | Currently |
 |-------|---------|-----------|
 | Label bought (dispatch) | Slack (DISPATCH_SLACK_CHANNEL) | Active |
-| Ship confirmed | Slack (DISPATCH_SLACK_CHANNEL) | Active |
-| Errors | Slack + BM Telegram (`-1003888456344`) | Slack only; migrate to Telegram |
+| Ship confirmed | Slack BM sales (`C0A21J30M1C`) + BM Telegram (`-1003888456344`) | Active |
+| Errors | Slack BM sales (`C0A21J30M1C`) + BM Telegram (`-1003888456344`) | Active |
 
 ---
 

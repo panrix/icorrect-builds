@@ -145,7 +145,7 @@ On success:
 On failure:
 - Slack: error details with reason
 
-**Current notification channel:** Slack (DISPATCH_SLACK_CHANNEL in icloud-checker)
+**Current notification channel:** Slack `#bm-trade-in-checks` (`C09VB5G7CTU`)
 **Target notification channel:** BM Telegram (`-1003888456344`) when migrated from Slack
 
 ---

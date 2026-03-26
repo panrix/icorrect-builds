@@ -149,11 +149,11 @@ Cron-driven poller, not a webhook. No Monday webhook trigger. Runs on schedule.
 ### Blocker: Serial number availability
 The brief states shipping confirmation must include serial. Serial lives in `text4` on the Main Board and is populated at intake (iCloud check SOP). The shipping service must hard-gate on missing serial and must not notify BM without both serial and tracking.
 
-### Risk: Monolith handler removal timing
-After cutover, the monolith still has the old handlers. If nginx is reverted to 8010 (rollback), the old handlers would fire again. Remove monolith handlers once the new services are verified working with real webhooks.
+### Risk: Monolith rollback dependency
+After handler removal, rollback is no longer "nginx only". If a split service must be rolled back to 8010, restore the monolith backup first, restart `icloud-checker`, then point nginx back to 8010.
 
 ### Risk: Slack vs Telegram notification channel
-The monolith uses Slack (`DISPATCH_SLACK_CHANNEL`). The standalone scripts use Telegram (`BM_TELEGRAM_CHAT`). The new services send to both during transition. Target is Telegram-only once confirmed working.
+The dispatch script uses Slack `#general` (`C024H7518J3`). Payout alerts should go to `#bm-trade-in-checks` (`C09VB5G7CTU`). Shipping alerts should go to the BM sales channel (`C0A21J30M1C`). Both still send to BM Telegram (`BM_TELEGRAM_CHAT`) during transition.
 
 ---
 

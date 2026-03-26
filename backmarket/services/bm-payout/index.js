@@ -46,10 +46,12 @@ const BM_API_HEADERS = {
   "User-Agent": "BM-iCorrect-Payout/2.0;ricky@icorrect.co.uk",
 };
 
-const DISPATCH_SLACK_CHANNEL = "C024H7518J3";
+const BM_TRADEIN_SLACK_CHANNEL =
+  process.env.BM_TRADEIN_SLACK_CHANNEL || "C09VB5G7CTU";
 const BM_TELEGRAM_CHAT = "-1003888456344";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const inflightPayouts = new Set();
 
 // ─── Monday API ───────────────────────────────────────────────────
 async function mondayQuery(query) {
@@ -81,7 +83,7 @@ async function slackPost(text) {
         Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ channel: DISPATCH_SLACK_CHANNEL, text }),
+      body: JSON.stringify({ channel: BM_TRADEIN_SLACK_CHANNEL, text }),
     });
   } catch (e) {
     console.warn("[payout] Slack failed:", e.message);
@@ -153,6 +155,26 @@ app.post("/webhook/bm/payout", async (req, res) => {
     const itemId = event.pulseId;
     const itemName = event.pulseName || "Unknown";
     console.log(`[payout] ${itemName} (${itemId}) marked as Pay-Out`);
+
+    if (inflightPayouts.has(itemId)) {
+      console.log(`[payout] ${itemName}: in-flight dedup hit, skipping`);
+      return;
+    }
+    inflightPayouts.add(itemId);
+
+    // ── Dedup: check recent updates for "Payout validated" ──
+    const updatesData = await mondayQuery(
+      `{ items(ids: [${itemId}]) { updates(limit: 5) { text_body } } }`
+    );
+    const recentUpdates = updatesData?.data?.items?.[0]?.updates || [];
+    if (
+      recentUpdates.some(
+        (u) => u.text_body && u.text_body.includes("Payout validated")
+      )
+    ) {
+      console.log(`[payout] ${itemName}: already paid out (dedup hit), skipping`);
+      return;
+    }
 
     // ── Pre-flight: fetch item data ──
     const itemData = await mondayQuery(`{
@@ -301,6 +323,11 @@ app.post("/webhook/bm/payout", async (req, res) => {
     }
   } catch (err) {
     console.error("[payout] Error:", err);
+  } finally {
+    const itemId = body?.event?.pulseId;
+    if (itemId) {
+      inflightPayouts.delete(itemId);
+    }
   }
 });
 

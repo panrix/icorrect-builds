@@ -53,7 +53,8 @@ const BM_API_HEADERS = {
   "User-Agent": "BM-iCorrect-Shipping/2.0;ricky@icorrect.co.uk",
 };
 
-const DISPATCH_SLACK_CHANNEL = "C024H7518J3";
+const BM_SALES_SLACK_CHANNEL =
+  process.env.BM_SALES_SLACK_CHANNEL || "C0A21J30M1C";
 const BM_TELEGRAM_CHAT = "-1003888456344";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
@@ -88,7 +89,7 @@ async function slackPost(text) {
         Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ channel: DISPATCH_SLACK_CHANNEL, text }),
+      body: JSON.stringify({ channel: BM_SALES_SLACK_CHANNEL, text }),
     });
   } catch (e) {
     console.warn("[shipping] Slack failed:", e.message);
