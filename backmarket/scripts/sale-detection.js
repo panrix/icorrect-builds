@@ -335,7 +335,7 @@ async function renameMainBoardItem(mainItemId, buyerName) {
   console.log(`  Errors:            ${summary.errors}`);
 
   // Save results
-  const outDir = '/home/ricky/builds/bm-scripts/test-output';
+  const outDir = '/home/ricky/builds/backmarket/data';
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(`${outDir}/sale-detection-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(summary, null, 2));
 })();

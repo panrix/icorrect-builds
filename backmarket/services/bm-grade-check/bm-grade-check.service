@@ -1,0 +1,14 @@
+[Unit]
+Description=BM Grade Check Webhook Service (SOP 03)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/backmarket/services/bm-grade-check
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/home/ricky/config/.env
+
+[Install]
+WantedBy=default.target

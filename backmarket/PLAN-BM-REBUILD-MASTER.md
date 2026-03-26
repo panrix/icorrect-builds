@@ -122,7 +122,7 @@ That means:
 
 ## Recommended Phase Structure
 
-## Phase 1: Security and Runtime Hardening
+## Phase 1: Security and Runtime Hardening — ✅ COMPLETE (24 Mar 2026)
 
 ### Goal
 
@@ -147,9 +147,11 @@ There is no value in improving the business logic if live webhook endpoints rema
 
 ### Exit Criteria
 
-- Public IP cannot hit BM webhook endpoints directly
-- nginx is the only ingress path
-- live webhook map is confirmed and documented
+- ✅ Public IP cannot hit BM webhook endpoints directly (verified 24 Mar)
+- ✅ nginx is the only ingress path (mc.icorrect.co.uk with SSL)
+- ✅ live webhook map is confirmed and documented (`docs/INGRESS-MAP.md`)
+
+**Completed by:** Agent 1 (Code). See `docs/INGRESS-MAP.md` verification log.
 
 ---
 

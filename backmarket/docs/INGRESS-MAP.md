@@ -1,22 +1,22 @@
 # BackMarket Ingress Map
 
-**Last updated:** 24 Mar 2026, post Agent 1 completion
-**Author:** Code (Agent 1)
-**Status:** All changes applied and verified live. This is the current production state.
+**Last updated:** 25 Mar 2026, post BM webhook cutover
+**Author:** Code / Codex
+**Status:** BM webhook split services are deployed and validated with real Monday webhooks (26 Mar).
 
 ---
 
-## Live State (24 Mar 2026)
+## Live State (25 Mar 2026)
 
 ### BM Service Port Map
 
 | Port | Bind | Service | systemd Unit | Status |
 |------|------|---------|-------------|--------|
-| 8010 | `127.0.0.1` | icloud-checker (monolith) | `icloud-checker.service` | Running. Handles all BM webhooks currently. |
+| 8010 | `127.0.0.1` | icloud-checker (monolith) | `icloud-checker.service` | Running. Still handles iCloud + remaining unsplit BM routes. |
 | 8003 | `127.0.0.1` | telephone-inbound (Slack router) | `telephone-inbound.service` | Running. Routes Slack interactions. |
-| 8011 | — | bm-grade-check | — | **Not yet deployed.** Nginx route exists, proxies to 8010. |
-| 8012 | — | bm-payout | — | **Not yet deployed.** Nginx route exists, proxies to 8010. |
-| 8013 | — | bm-shipping | — | **Not yet deployed.** Nginx route exists, proxies to 8010. |
+| 8011 | `127.0.0.1` | bm-grade-check | `bm-grade-check.service` | Live. nginx proxies `/webhook/bm/grade-check` to 8011. |
+| 8012 | `127.0.0.1` | bm-payout | `bm-payout.service` | Live. nginx proxies `/webhook/bm/payout` to 8012. |
+| 8013 | `127.0.0.1` | bm-shipping | `bm-shipping.service` | Live. nginx proxies `/webhook/bm/shipping-confirmed` to 8013. |
 
 Port 8010 is **not reachable on the public IP**. All traffic goes through nginx (`mc.icorrect.co.uk`) with SSL.
 
@@ -26,9 +26,9 @@ All BM and iCloud webhook routes. No auth (Monday and Slack are the callers).
 
 | Route | Proxies to | Notes |
 |-------|-----------|-------|
-| `/webhook/bm/grade-check` | `127.0.0.1:8010` | Currently monolith. When Agent 2 deploys bm-grade-check, change to `127.0.0.1:8011`. |
-| `/webhook/bm/payout` | `127.0.0.1:8010` | Currently monolith. When Agent 2 deploys bm-payout, change to `127.0.0.1:8012`. |
-| `/webhook/bm/shipping-confirmed` | `127.0.0.1:8010` | Currently monolith. When Agent 2 deploys bm-shipping, change to `127.0.0.1:8013`. |
+| `/webhook/bm/grade-check` | `127.0.0.1:8011` | Live standalone service. |
+| `/webhook/bm/payout` | `127.0.0.1:8012` | Live standalone service. |
+| `/webhook/bm/shipping-confirmed` | `127.0.0.1:8013` | Live standalone service. |
 | `/webhook/bm/counter-offer-action` | `127.0.0.1:8010` | Stays in monolith until decomposition. |
 | `/webhook/icloud-check/slack-interact` | `127.0.0.1:8003` | telephone-inbound, forwards non-phone actions to 8010. |
 | `/webhook/icloud-check/spec-check` | `127.0.0.1:8010` | Read-only Apple spec lookup. |
@@ -36,7 +36,7 @@ All BM and iCloud webhook routes. No auth (Monday and Slack are the callers).
 | `/webhook/icloud-check` | `127.0.0.1:8010` | Main iCloud check webhook (catch-all). |
 
 **Nginx config file:** `/etc/nginx/sites-enabled/mission-control`
-**Backup:** `/etc/nginx/sites-enabled/mission-control.backup-20260324`
+**Backup:** `/etc/nginx/sites-enabled/mission-control.backup-20260325-bm-cutover`
 
 ### Monday Webhooks (Live, confirmed)
 
@@ -64,28 +64,21 @@ Slack button click
 
 ---
 
-## Cutover Contract for Agents 2+
+## Cutover Status
 
-When Agent 2 deploys a new service (e.g. bm-grade-check on port 8011):
+The BM webhook split is complete. All three routes are validated with real Monday webhooks (26 Mar) and the monolith handlers have been removed (26 Mar).
 
-**All nginx routes already exist and proxy to 8010 (monolith).** Agent 2 does NOT need to create routes — only update the port number.
+Nginx backup kept at `/etc/nginx/sites-enabled/mission-control.backup-20260325-bm-cutover`.
+Monolith backup kept at `/home/ricky/builds/icloud-checker/src/index.js.bak-pre-removal`.
 
-**Steps:**
-1. Deploy the new service on `127.0.0.1:<port>` (see "How to Add a New Service" below)
-2. Verify the new service responds: `curl -s http://127.0.0.1:<port>/webhook/bm/<name> -X POST -d '{}'`
-3. Update nginx: change `proxy_pass http://127.0.0.1:8010` → `proxy_pass http://127.0.0.1:<port>` for the relevant route
-4. `sudo nginx -t && sudo systemctl reload nginx`
-5. Verify end-to-end: trigger the Monday webhook, confirm the new service handles it
-6. Remove the corresponding handler from the monolith (`icloud-checker/src/index.js`)
-
-**Port allocation (reserved):**
+**Port allocation:**
 
 | Port | Service | Status |
 |------|---------|--------|
-| 8010 | icloud-checker (intake only, after slimming) | Live — shrinks as endpoints are extracted |
-| 8011 | bm-grade-check | Reserved, not deployed |
-| 8012 | bm-payout | Reserved, not deployed |
-| 8013 | bm-shipping | Reserved, not deployed |
+| 8010 | icloud-checker (intake + counter-offer + to-list) | Live — shipping/payout/grade-check removed 26 Mar |
+| 8011 | bm-grade-check | Live |
+| 8012 | bm-payout | Live |
+| 8013 | bm-shipping | Live |
 
 ---
 
@@ -96,6 +89,9 @@ When Agent 2 deploys a new service (e.g. bm-grade-check on port 8011):
 | Service | systemd Unit | Port | Restart | Logs |
 |---------|-------------|------|---------|------|
 | icloud-checker | `icloud-checker.service` | 8010 | `systemctl --user restart icloud-checker` | `journalctl --user -u icloud-checker -f` |
+| bm-grade-check | `bm-grade-check.service` | 8011 | `systemctl --user restart bm-grade-check` | `journalctl --user -u bm-grade-check -f` |
+| bm-payout | `bm-payout.service` | 8012 | `systemctl --user restart bm-payout` | `journalctl --user -u bm-payout -f` |
+| bm-shipping | `bm-shipping.service` | 8013 | `systemctl --user restart bm-shipping` | `journalctl --user -u bm-shipping -f` |
 | telephone-inbound | `telephone-inbound.service` | 8003 | `systemctl --user restart telephone-inbound` | `tail -f /home/ricky/builds/telephone-inbound/telephone-inbound.log` |
 | agent-trigger | `agent-trigger.service` | 8002 | `systemctl --user restart agent-trigger` | `journalctl --user -u agent-trigger -f` |
 | llm-summary | `llm-summary.service` | 8004 | `systemctl --user restart llm-summary` | `journalctl --user -u llm-summary -f` |
@@ -109,6 +105,7 @@ curl -s https://mc.icorrect.co.uk/webhook/icloud-check/health | jq .
 
 # Check service status
 systemctl --user status icloud-checker
+systemctl --user status bm-grade-check bm-payout bm-shipping
 systemctl --user status telephone-inbound
 
 # Check what's listening
@@ -180,7 +177,7 @@ All services load env from `/home/ricky/config/.env` via systemd `EnvironmentFil
 
 If a webhook breaks after changes:
 
-1. **Revert nginx** to backup: `sudo cp /etc/nginx/sites-enabled/mission-control.backup-20260324 /etc/nginx/sites-enabled/mission-control && sudo nginx -t && sudo systemctl reload nginx`
+1. **Revert nginx** to backup: `sudo cp /etc/nginx/sites-enabled/mission-control.backup-20260325-bm-cutover /etc/nginx/sites-enabled/mission-control && sudo nginx -t && sudo systemctl reload nginx`
 2. **Revert icloud-checker binding** if needed: change `'127.0.0.1'` back to removing the second arg in `app.listen(PORT, ...)`, restart
 3. **Revert Monday webhooks** to `http://46.225.53.159:8010/...` via Monday web UI
 
@@ -210,5 +207,11 @@ These should be locked down separately. Not part of the BM rebuild.
 | grade-check | status4 → "Diagnostic Complete" on BM 1488, BM 1539 | ✅ A-number match, profitability calculated | 24 Mar |
 | payout | status24 → "Pay-Out" on BM 1488 | ✅ BM API reached, 422 (order state — auth confirmed) | 24 Mar |
 | shipping-confirmed | status4 → "Shipped" on BM 1194 | ✅ Full chain, stopped safely on missing BM order ID | 24 Mar |
+| grade-check | `curl -sk -X POST https://mc.icorrect.co.uk/webhook/bm/grade-check -d '{}'` | ✅ nginx routed to 8011, returned OK | 25 Mar |
+| payout | `curl -sk -X POST https://mc.icorrect.co.uk/webhook/bm/payout -d '{}'` | ✅ nginx routed to 8012, returned OK | 25 Mar |
+| shipping-confirmed | `curl -sk -X POST https://mc.icorrect.co.uk/webhook/bm/shipping-confirmed -d '{}'` | ✅ nginx routed to 8013, returned OK | 25 Mar |
+| payout (standalone 8012) | Monday webhook: status24 → Pay-Out on BM 1536 | ✅ Pre-flight passed, BM API 422 (already validated) — correct | 26 Mar |
+| shipping (standalone 8013) | Monday webhook: status4 → Shipped on BM 1402 | ✅ Tracking found, hard-gated on missing BM order ID — correct | 26 Mar |
+| grade-check (standalone 8011) | Monday webhook: status4 → Diagnostic Complete on BM 1508 | ✅ A2485 matched, Fair grade, £698 sell, 97% margin — PROFITABLE | 26 Mar |
 | Slack recheck button | Clicked on BM 1504 (iCloud locked) | ✅ SickW check ran, "still locked" | 24 Mar |
 | Public IP refused | `curl http://46.225.53.159:8010/...` | ✅ Connection refused | 24 Mar |

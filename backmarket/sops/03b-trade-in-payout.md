@@ -78,7 +78,7 @@ Before every payout, the following MUST be true:
 ### Ricky Approval Threshold
 Hugo's SOP required explicit Ricky approval for payouts > £200.
 
-> **❓ Question for Ricky:** Does the £200 approval threshold still apply? The current webhook handler does NOT enforce any approval gate: it auto-validates immediately when status24 hits index 12. If the threshold should apply, the webhook needs modification to hold and notify before executing.
+> **✅ Resolved (24 Mar 2026):** No £200 approval threshold. Auto-run payout at any value, provided pre-flight checks pass (BM trade-in ID exists, no iCloud lock, no counter-offer required). See PLAN-BM-REBUILD-MASTER.md locked business rules.
 
 ---
 
@@ -188,7 +188,7 @@ Agent only sets two statuses in this chain: **Purchased** (this SOP) and **Liste
 
 | Component | Location |
 |-----------|----------|
-| Webhook handler | `/home/ricky/builds/icloud-checker/src/index.js` (line ~1263) |
-| Endpoint | `POST /webhook/bm/payout` (port 8002) |
+| Webhook handler | `/home/ricky/builds/backmarket/services/bm-payout/index.js` |
+| Endpoint | `POST /webhook/bm/payout` → `127.0.0.1:8012` via nginx |
 | Monday webhook | Triggers on `status24` column change on board 349212843 |
 | n8n Flow 4 | DISABLED (was auto-validate, disabled because team triggered payouts incorrectly) |

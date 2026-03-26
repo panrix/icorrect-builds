@@ -184,7 +184,7 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
     |-------|----|-------|
     | Shipped | `new_group269` | BM Devices (3892194968) |
 
-    > **❓ Question for Ricky:** The current webhook handler does NOT move the item to the Shipped group. Is this handled by a Monday automation, or should it be added to the webhook? n8n Flow 7 (`D4a5qbCtQmSCUIeT`) may have done this.
+    > **✅ Resolved (24 Mar 2026):** The new bm-shipping service moves the BM Devices item to Shipped group after successful BM notification. The monolith handler does NOT do this — it is added in the new service.
 
 ---
 
@@ -226,9 +226,9 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 - This SOP does NOT accept orders (that's SOP 08)
 - This SOP does NOT handle returns (that's SOP 12)
 - This SOP does NOT reconcile payments (that's SOP 10)
-- Serial number is NOT sent in the current webhook implementation (Hugo's SOP-S4 says to include it, but the current code sends only tracking, order_id, new_state, tracking_url, shipper)
+- Serial number is now sent by the bm-shipping service (port 8013). The monolith handler on 8010 still does NOT send serial.
 
-> **❓ Question for Ricky:** Hugo's SOP-S4 specifies sending `serial_number` in the ship confirmation payload. The current icloud-checker webhook does NOT send serial. Should it? The BM API may accept but not require it.
+> **✅ Resolved (24 Mar 2026):** Serial number is included in the ship confirmation payload per locked business rules. The new bm-shipping service (`backmarket/services/bm-shipping/`) sends both serial and tracking. If serial is not available on Main Board (`text4`), the service hard-blocks and alerts instead of notifying BM.
 
 ---
 
@@ -236,8 +236,8 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 
 | Board | ID | Columns Used |
 |-------|----|-------------|
-| Main Board | 349212843 | `text53` (Outbound Tracking), `status4` (Status, index 160 = Shipped), `board_relation5` (Device link) |
-| BM Devices Board | 3892194968 | `text_mkye7p1c` (BM Sales Order ID), `text89` (SKU) |
+| Main Board | 349212843 | `text53` (Outbound Tracking), `text4` (Serial Number), `status4` (Status, index 160 = Shipped), `board_relation5` (link to BM Devices Board) |
+| BM Devices Board | 3892194968 | `text_mkye7p1c` (BM Sales Order ID) |
 
 ---
 
@@ -246,7 +246,7 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 | Component | Location | Status |
 |-----------|----------|--------|
 | Label buying | `/home/ricky/builds/royal-mail-automation/dispatch.js` | Active, manual run |
-| Ship confirmation webhook | `/home/ricky/builds/icloud-checker/src/index.js` (line ~1112) | Active |
-| Ship confirmation endpoint | `POST /webhook/bm/shipping-confirmed` (port 8002) | Active |
+| Ship confirmation webhook | `/home/ricky/builds/backmarket/services/bm-shipping/index.js` | Live (port 8013) |
+| Ship confirmation endpoint | `POST /webhook/bm/shipping-confirmed` → `127.0.0.1:8013` via nginx | Live |
 | Monday webhook | Triggers on `status4` column change on board 349212843 | Active |
 | n8n Flow 7 | `D4a5qbCtQmSCUIeT` | Active (manual trigger) |

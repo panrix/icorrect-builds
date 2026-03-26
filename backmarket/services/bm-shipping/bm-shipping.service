@@ -1,0 +1,14 @@
+[Unit]
+Description=BM Shipping Confirmation Webhook Service (SOP 09)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/backmarket/services/bm-shipping
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/home/ricky/config/.env
+
+[Install]
+WantedBy=default.target
