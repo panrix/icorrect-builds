@@ -17,3 +17,10 @@ backmarket/data/cache/
 backmarket/data/reports/
 backmarket/data/logs/
 backmarket/data/exports/
+
+# BackMarket service/runtime artifacts
+backmarket/services/*/node_modules/
+backmarket/audit/listings-reset-snapshot-*.json
+
+# Monolith rollback backup created during BM route extraction
+icloud-checker/src/index.js.bak-pre-removal
