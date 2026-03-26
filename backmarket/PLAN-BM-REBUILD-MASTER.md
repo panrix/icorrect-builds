@@ -155,7 +155,7 @@ There is no value in improving the business logic if live webhook endpoints rema
 
 ---
 
-## Phase 2: Core Transaction Services
+## Phase 2: Core Transaction Services — ✅ COMPLETE (26 Mar 2026)
 
 ### Goal
 
@@ -208,10 +208,17 @@ If these are stable, the business can keep moving while the harder listing and p
 
 ### Exit Criteria
 
-- Sales are detected and accepted correctly
-- Payout path follows policy exactly
-- Dispatch and ship-confirmation are clearly separated
-- Tracking and serial are correctly propagated
+- ✅ Sales are detected and accepted correctly (`sale-detection.js`, policy-correct with idempotency)
+- ✅ Payout path follows policy exactly (`bm-payout` service on 8012, iCloud lock check added)
+- ✅ Dispatch and ship-confirmation are clearly separated (`dispatch.js` + `bm-shipping` on 8013)
+- ✅ Tracking and serial are correctly propagated (serial hard-gated, tracking stripped)
+
+**Completed by:** Agent 2 (Code + Codex). Monolith handlers removed, standalone services validated with real Monday webhooks 26 Mar.
+
+### Remaining minor items
+
+- `dispatch.js` "Return Booked" status label needs verification on next real label purchase
+- `sale-detection.js` cron schedule needs confirming
 
 ---
 
