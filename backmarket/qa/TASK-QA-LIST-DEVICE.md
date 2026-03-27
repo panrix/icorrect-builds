@@ -1,8 +1,9 @@
 # QA Task: list-device.js (SOP 06)
 
 Important:
+- This file sits next to a stale `backmarket/scripts/list-device.js` copy.
 - The active file for SOP 06 trust work is `/home/ricky/builds/bm-scripts/list-device.js`.
-- `/home/ricky/builds/backmarket/scripts/list-device.js` is a stale copy and line references against it may be misleading.
+- Line references in this task may be stale if read against the `backmarket/scripts` copy.
 
 ## Verified Column Reference
 Use `backmarket/scripts/VERIFIED-COLUMN-REFERENCE.md` as single source of truth for all column IDs.

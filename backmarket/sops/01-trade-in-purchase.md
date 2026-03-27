@@ -23,7 +23,6 @@ For each new order, create two linked items:
 |-----------|-------|-------------|
 | `text_mky01vb4` | BM Trade-in ID | BM order public ID |
 | `date_mkqgbbtp` | Date Purchased (BM) | BM order date |
-| `color_mkzmbya2` | Source | "Back Market" |
 | `text796` | Inbound Tracking | Royal Mail tracking from BM order |
 | `status4` | Status | Initial status |
 
@@ -32,17 +31,17 @@ For each new order, create two linked items:
 | Column ID | Title | Value Source |
 |-----------|-------|-------------|
 | `board_relation` | Main Item | Link to Main Board item created above |
-| `text_mkqy3576` | Order ID | BM order ID |
+| `lookup_mm1vzeam` | BM Trade-in ID (mirror) | Mirror of Main Board `text_mky01vb4` via board relation |
 | `text8` | Seller | Customer name from BM order |
 | `text81` | Reported Damage / Fault | Customer's description |
 | `numeric` | Purchase Price (ex VAT) | What we pay the customer |
-| `color_mm1fj7tb` | Trade-in Grade | Customer's self-reported condition (FUNC_CRACK / FUNC_USED / FUNC_GOOD / FUNC_EXCELLENT / NONFUNC_USED / NONFUNC_CRACK) |
+| `color_mm1fj7tb` | Trade-in Grade | BM `listing.grade` mapped: STALLONE→NONFUNC_CRACKED, BRONZE→NONFUNC_USED, SILVER→FUNC_CRACKED, GOLD→FUNC_USED, PLATINUM→FUNC_GOOD, DIAMOND→FUNC_EXCELLENT |
 | `color2` | SSD | Storage spec from BM order |
 | `status__1` | RAM | RAM spec from BM order |
 | `status7__1` | CPU | Processor from BM order |
 | `status8__1` | GPU | GPU from BM order |
 | `text` | Model Number | A-number from BM order |
-| `keyboard_layout__1` | Keyboard Layout | Layout from BM order |
+| `keyboard_layout__1` | Keyboard Layout | Layout from BM listing title (text column) |
 
 ### Step 3: Done
 Items exist on both boards, linked together. Device is in transit. Next step is physical receiving (SOP 2).

@@ -294,18 +294,32 @@ function parseSpecsFromTitle(title, sku) {
 // ─── Step 4: Create BM Devices Board item ────────────────────────
 async function createBmDevicesItem(order) {
   const publicId = order.public_id || order.orderPublicId || '';
-  const orderId = order.id || order.order_id || '';
   const customerName = extractCustomerName(order);
   const reportedDamage = extractField(order, 'customer_comment', 'comment', 'description', 'listing.description');
   const purchasePrice = extractPrice(order);
 
   // Trade-in grade from BM — map cosmetic grades to Monday labels
   const BM_GRADE_MAP = {
-    'FUNC_CRACK': 'FUNC_CRACK', 'FUNC_USED': 'FUNC_USED', 'FUNC_GOOD': 'FUNC_GOOD',
-    'FUNC_EXCELLENT': 'FUNC_EXCELLENT', 'NONFUNC_CRACK': 'NONFUNC_CRACK', 'NONFUNC_USED': 'NONFUNC_USED',
+    // BM cosmetic tiers
+    'STALLONE': 'NONFUNC_CRACKED',
+    'BRONZE': 'NONFUNC_USED',
+    'SILVER': 'FUNC_CRACKED',
+    'GOLD': 'FUNC_USED',
+    'PLATINUM': 'FUNC_GOOD',
+    'DIAMOND': 'FUNC_EXCELLENT',
+    // Legacy / direct values
+    'FUNC_CRACK': 'FUNC_CRACKED',
+    'FUNC_USED': 'FUNC_USED',
+    'FUNC_GOOD': 'FUNC_GOOD',
+    'FUNC_EXCELLENT': 'FUNC_EXCELLENT',
+    'NONFUNC_CRACK': 'NONFUNC_CRACKED',
+    'NONFUNC_USED': 'NONFUNC_USED',
   };
-  const rawGrade = extractField(order, 'grade', 'condition', 'listing.grade', 'offer_grade');
-  const bmGrade = BM_GRADE_MAP[rawGrade] || ''; // Skip if cosmetic grade (PLATINUM/GOLD/SILVER/BRONZE)
+  const rawGrade = extractField(order, 'listing.grade', 'grade', 'condition', 'offer_grade');
+  const bmGrade = BM_GRADE_MAP[rawGrade] || '';
+  if (!bmGrade && rawGrade) {
+    console.warn(`  ⚠️ Unknown BM grade: "${rawGrade}" — not mapped. Grade field will be blank.`);
+  }
 
   // Spec fields — BM buyback API doesn't provide separate fields.
   // Parse from listing.title which follows the pattern:
@@ -315,7 +329,6 @@ async function createBmDevicesItem(order) {
   const { ram, storage, cpu, gpu, keyboardLayout } = specs;
 
   const colValues = {
-    text_mkqy3576: String(orderId),         // Order ID
     text8: customerName,                     // Seller
     text81: reportedDamage,                  // Reported Damage / Fault
   };
@@ -341,6 +354,24 @@ async function createBmDevicesItem(order) {
 
   const d = await mondayApi(q);
   return d.data?.create_item;
+}
+
+async function verifyBmDevicesItem(itemId) {
+  if (!itemId) return;
+
+  await sleep(1000);
+  const verifyQ = `{ items(ids: [${itemId}]) { column_values(ids: ["numeric", "color_mm1fj7tb"]) { id text } } }`;
+  const verifyResult = await mondayApi(verifyQ);
+  const cols = verifyResult.data?.items?.[0]?.column_values || [];
+  const missing = [];
+
+  for (const col of cols) {
+    if (!col.text || col.text === '') missing.push(col.id);
+  }
+
+  if (missing.length > 0) {
+    console.warn(`  ⚠️ Post-create check: empty columns: ${missing.join(', ')}`);
+  }
 }
 
 // ─── Step 5: Link items via board relation ───────────────────────
@@ -455,6 +486,7 @@ async function linkItems(bmDeviceItemId, mainItemId) {
       bmDeviceItem = await createBmDevicesItem(order);
       if (!bmDeviceItem) throw new Error('No item returned');
       console.log(`  ✅ BM Devices: ${bmDeviceItem.name} (ID: ${bmDeviceItem.id})`);
+      await verifyBmDevicesItem(bmDeviceItem.id);
     } catch (e) {
       console.error(`  ❌ BM Devices create failed: ${e.message}`);
       console.error(`  ⚠️ Main Board item ${mainItem.id} created but BM Devices failed. Manual fix needed.`);
