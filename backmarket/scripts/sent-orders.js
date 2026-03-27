@@ -227,6 +227,70 @@ async function createMainBoardItem(order) {
   return d.data?.create_item;
 }
 
+// ─── Spec extraction from BM listing title / SKU ─────────────────
+// Title format: "MacBook Pro 14" (Late 2021) - Apple M1 Pro 10-core - 16 GB Memory - 512 GB - 16-core GPU - QWERTY"
+// SKU format:   "MBP14.2021.M1PRO.APPLECORE.16GB.512GB.FUNC.CRACK"
+function parseSpecsFromTitle(title, sku) {
+  const result = { ram: '', storage: '', cpu: '', gpu: '', keyboardLayout: '' };
+  if (!title) return result;
+
+  // Split on " - " separators
+  const parts = title.split(' - ').map(s => s.trim());
+  // parts[0] = model (e.g. "MacBook Pro 14\" (Late 2021)")
+  // parts[1] = cpu   (e.g. "Apple M1 Pro 10-core")
+  // parts[2] = ram   (e.g. "16 GB Memory")
+  // parts[3] = ssd   (e.g. "512 GB")
+  // parts[4] = gpu   (e.g. "16-core GPU")
+  // parts[5] = keyboard (e.g. "QWERTY")
+
+  if (parts[1]) {
+    // CPU column uses core count labels: "8-Core", "10-Core", "Intel", "i5"
+    // Title: "Apple M1 Pro 10-core" → "10-Core"
+    // Title: "Apple M1" (no core count) → skip (team fills manually)
+    // Title: "Intel Core i5" → "Intel"
+    if (/intel/i.test(parts[1])) {
+      result.cpu = 'Intel';
+    } else {
+      const coreMatch = parts[1].match(/(\d+)-core/i);
+      if (coreMatch) result.cpu = coreMatch[1] + '-Core';
+    }
+  }
+
+  if (parts[2]) {
+    // Extract RAM: "16 GB Memory" → "16GB"
+    const ramMatch = parts[2].match(/(\d+)\s*GB/i);
+    if (ramMatch) result.ram = ramMatch[1] + 'GB';
+  }
+
+  if (parts[3]) {
+    // Extract SSD: "512 GB" → "512GB"
+    const ssdMatch = parts[3].match(/(\d+)\s*(?:GB|TB)/i);
+    if (ssdMatch) result.storage = parts[3].replace(/\s+/g, '').toUpperCase();
+  }
+
+  if (parts[4]) {
+    // Extract GPU: "16-core GPU" → "16-Core"
+    const gpuMatch = parts[4].match(/(\d+-core)/i);
+    if (gpuMatch) result.gpu = gpuMatch[1].replace('core', 'Core');
+  }
+
+  if (parts[5]) {
+    result.keyboardLayout = parts[5];
+  }
+
+  // Fallback to SKU for RAM/SSD if title didn't provide them
+  if (sku && (!result.ram || !result.storage)) {
+    const skuParts = sku.split('.');
+    for (const p of skuParts) {
+      if (!result.ram && /^\d+GB$/i.test(p) && parseInt(p) <= 128) result.ram = p.toUpperCase();
+      if (!result.storage && /^\d+GB$/i.test(p) && parseInt(p) >= 128) result.storage = p.toUpperCase();
+      if (!result.storage && /^\d+TB$/i.test(p)) result.storage = p.toUpperCase();
+    }
+  }
+
+  return result;
+}
+
 // ─── Step 4: Create BM Devices Board item ────────────────────────
 async function createBmDevicesItem(order) {
   const publicId = order.public_id || order.orderPublicId || '';
@@ -243,14 +307,12 @@ async function createBmDevicesItem(order) {
   const rawGrade = extractField(order, 'grade', 'condition', 'listing.grade', 'offer_grade');
   const bmGrade = BM_GRADE_MAP[rawGrade] || ''; // Skip if cosmetic grade (PLATINUM/GOLD/SILVER/BRONZE)
 
-  // Spec fields — BM nests these under listing or product objects
-  const listing = order.listing || order.product || {};
-  const storage = extractField(order, 'listing.storage', 'storage', 'product.storage');
-  const ram = extractField(order, 'listing.ram', 'ram', 'product.ram');
-  const cpu = extractField(order, 'listing.processor', 'processor', 'cpu', 'product.processor');
-  const gpu = extractField(order, 'listing.gpu', 'gpu', 'product.gpu');
-  const modelNumber = extractField(order, 'listing.model_number', 'model_number', 'a_number');
-  const keyboardLayout = extractField(order, 'listing.keyboard_layout', 'keyboard_layout');
+  // Spec fields — BM buyback API doesn't provide separate fields.
+  // Parse from listing.title which follows the pattern:
+  //   "MacBook Pro 14" (Late 2021) - Apple M1 Pro 10-core - 16 GB Memory - 512 GB - 16-core GPU - QWERTY"
+  // Fallback to SKU segments for RAM/SSD if title parsing fails.
+  const specs = parseSpecsFromTitle(order.listing?.title, order.listing?.sku);
+  const { ram, storage, cpu, gpu, keyboardLayout } = specs;
 
   const colValues = {
     text_mkqy3576: String(orderId),         // Order ID
