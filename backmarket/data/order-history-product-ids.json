@@ -1,0 +1,6048 @@
+{
+  "extracted_at": "2026-03-27T12:23:19.238820+00:00",
+  "total_orders_processed": 1456,
+  "total_order_lines": 1457,
+  "unique_backmarket_ids": 234,
+  "states_fetched": [
+    9,
+    5
+  ],
+  "note": "Keyed by backmarket_id (numeric). BM orders API product_id is the numeric backmarket_id, not UUID. Use listing_ids_seen to cross-reference with UUID-based lookup tables.",
+  "products": {
+    "545434": {
+      "backmarket_id": 545434,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-11-18",
+      "last_seen": "2026-03-22",
+      "order_count": 58,
+      "skus_seen": [
+        "MBA.A2337.M1.7C.8GB.256GB.Silver.Fair",
+        "MBA.A2337.8GB.256GB.Silver.Fair",
+        "MBA.A2337.M1.8GB.256GB.Silver.Good",
+        "MBA.A2337.8GB.256GB.Silver.Vgood",
+        "MBA.A2337.8GB.256GB.Silver.Good",
+        "MBA13.M1.A2337.8GB.256GB.Silver.Good"
+      ],
+      "prices_seen": [
+        347.0,
+        351.0,
+        358.0,
+        360.0,
+        362.0,
+        364.0,
+        369.0,
+        372.0,
+        378.0,
+        380.0,
+        381.0,
+        385.0,
+        390.0,
+        393.0,
+        395.0,
+        397.0,
+        399.0,
+        405.0,
+        407.0,
+        409.0,
+        410.0,
+        411.0,
+        413.0,
+        420.0,
+        430.0,
+        440.0,
+        445.0,
+        459.32,
+        467.0,
+        469.4,
+        475.0,
+        483.87,
+        496.65,
+        498.23
+      ],
+      "listing_ids_seen": [
+        6577956,
+        4900793,
+        5561600,
+        5666116,
+        5906050,
+        4785961
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "545379": {
+      "backmarket_id": 545379,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2023-03-28",
+      "last_seen": "2026-03-23",
+      "order_count": 171,
+      "skus_seen": [
+        "MBA.A2337.8GB.256GB.Rose Gold.Fair",
+        "MBA.A2337.M1.8GB.256GB.Grey.Good",
+        "MBA.A2337.8GB.256GB.Grey.Fair",
+        "MBA.A2337.M1.8GB.256GB.Grey.Fair",
+        "MBA.M1A2337.8GB.256GB.Grey.Good",
+        "MBA.M1A2337.8GB.256GB.Grey.Fair",
+        "TEST.DELETE.ME3",
+        "MBA.A2337.8GB.256GB.Grey.VGood",
+        "MBA.M1.A2337.8GB.256GB.Grey.Fair",
+        "MBP13.A2337.256GB.Grey.Vgood",
+        "MBAA2337.8GB.256GB.Grey.Good",
+        "MBA.A2337.M1.8GB.256GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        335.0,
+        341.0,
+        346.0,
+        349.0,
+        351.0,
+        353.0,
+        354.0,
+        355.0,
+        357.0,
+        361.0,
+        362.0,
+        363.0,
+        364.0,
+        365.0,
+        371.0,
+        373.0,
+        374.0,
+        375.0,
+        376.0,
+        378.0,
+        379.0,
+        380.0,
+        381.0,
+        382.0,
+        383.0,
+        384.0,
+        387.0,
+        393.0,
+        394.0,
+        395.0,
+        399.0,
+        400.0,
+        404.0,
+        406.0,
+        407.0,
+        408.0,
+        409.0,
+        410.0,
+        411.0,
+        412.0,
+        413.0,
+        414.0,
+        415.0,
+        416.0,
+        417.0,
+        423.42,
+        424.0,
+        426.0,
+        427.0,
+        428.0,
+        430.0,
+        431.0,
+        433.0,
+        436.0,
+        441.0,
+        442.0,
+        443.0,
+        447.0,
+        448.0,
+        458.0,
+        469.0,
+        470.48,
+        472.62,
+        475.0,
+        485.0,
+        485.38,
+        486.0,
+        490.0,
+        493.03,
+        496.0,
+        496.28,
+        496.65,
+        499.0,
+        500.87,
+        501.02,
+        502.08,
+        502.22,
+        799.51,
+        809.67
+      ],
+      "listing_ids_seen": [
+        6347723,
+        5994056,
+        5606597,
+        5500808,
+        4857993,
+        4857996,
+        6316738,
+        5606645,
+        5561484,
+        3155384,
+        5606693,
+        5538071
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "545393": {
+      "backmarket_id": 545393,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2023-03-29",
+      "last_seen": "2026-03-23",
+      "order_count": 53,
+      "skus_seen": [
+        "MBA.A2337.256.Gold.Vgood",
+        "MBA.A2337.8GB.256GB.Gold.Good",
+        "MBA.A2337.8GB.256GB.Gold.Fair",
+        "MBA.A2337.M1.8GB.256GB.Gold.Good",
+        "MBA.A2337.8GB.256GB.Gold.Vgood"
+      ],
+      "prices_seen": [
+        366.0,
+        367.0,
+        368.0,
+        369.0,
+        370.0,
+        371.0,
+        376.0,
+        378.0,
+        380.0,
+        384.0,
+        389.88,
+        391.0,
+        396.0,
+        401.0,
+        407.0,
+        411.0,
+        414.0,
+        416.0,
+        436.0,
+        440.0,
+        442.0,
+        447.0,
+        449.0,
+        452.27,
+        457.2,
+        459.18,
+        463.75,
+        465.5,
+        466.0,
+        469.0,
+        470.0,
+        479.0,
+        496.65,
+        517.78,
+        801.16,
+        894.0
+      ],
+      "listing_ids_seen": [
+        3155388,
+        4952269,
+        4852405,
+        5538073,
+        5653195
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        12
+      ]
+    },
+    "545418": {
+      "backmarket_id": 545418,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2023-03-15",
+      "last_seen": "2026-03-24",
+      "order_count": 102,
+      "skus_seen": [
+        "MBP.A2338.M1.8GB.256GB.Grey.Fair",
+        "MBP.M1A2338.8GB.256GB.Grey.Fair",
+        "MBP.M1.A2338.8GB.256GB.Grey.Good",
+        "MBP.A2338.M1.8GB.256GB.Grey.Excellent",
+        "MBP.M1.A2338.8GB.256GB.Grey.VGood",
+        "MBP.A2338.M1.8GB.256GB.Grey.Good",
+        "MBP.A2338.M1.8GB.256GB.Grey.VGood",
+        "MBPM1.13.256GB.Grey.Good",
+        "MBP13.A2338.8GB.256GB.Grey.Excellent",
+        "MBP13.A2338M1.8GB.256GB.Gray.Good",
+        "MBPM1.A2338.256GB.Grey.Vgood"
+      ],
+      "prices_seen": [
+        394.0,
+        399.0,
+        407.0,
+        408.0,
+        413.0,
+        419.0,
+        432.0,
+        439.0,
+        443.0,
+        444.0,
+        446.0,
+        449.0,
+        451.0,
+        453.0,
+        454.0,
+        456.0,
+        459.0,
+        460.0,
+        462.0,
+        468.0,
+        469.84,
+        478.0,
+        479.0,
+        479.84,
+        480.0,
+        481.0,
+        484.0,
+        485.0,
+        487.0,
+        489.0,
+        490.0,
+        491.0,
+        493.0,
+        496.0,
+        498.0,
+        499.0,
+        500.0,
+        501.0,
+        506.0,
+        508.0,
+        509.0,
+        511.0,
+        512.0,
+        513.0,
+        517.43,
+        518.0,
+        520.0,
+        521.0,
+        523.0,
+        523.24,
+        523.92,
+        528.0,
+        528.15,
+        529.0,
+        540.16,
+        549.0,
+        550.0,
+        555.0,
+        563.0,
+        566.0,
+        570.0,
+        580.0,
+        586.0,
+        587.0,
+        589.0,
+        632.18,
+        659.36,
+        847.42
+      ],
+      "listing_ids_seen": [
+        5500817,
+        4858001,
+        5556743,
+        6550191,
+        5561581,
+        5465624,
+        5442630,
+        3120479,
+        4858009,
+        4846616,
+        4306738
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "1640330": {
+      "backmarket_id": 1640330,
+      "title": "MacBook Pro 14-inch (2023) - Apple M2 Pro 10-core and 16-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-10-29",
+      "last_seen": "2026-03-23",
+      "order_count": 11,
+      "skus_seen": [
+        "MBP.A2779.16GB.512GB.Silver.Good",
+        "MBP.A2992.M3PRO.12C.18C.18GB.512GB.Silver.Good",
+        "MBP.A2442.M1PRO.10C.16C.16GB.512GB.Silver.Fair",
+        "MBP.A2779.M2PRO.12C.19C.16GB.512GB.Grey.Fair",
+        "MBP.A2779.16GB.512GB.Silver.Fair",
+        "MBP.A2779.10C.16C.16GB.512GB.Grey.Good"
+      ],
+      "prices_seen": [
+        784.0,
+        850.0,
+        902.0,
+        932.0,
+        950.0,
+        1029.0,
+        1048.0,
+        1074.0,
+        1078.0,
+        1082.0,
+        1085.0
+      ],
+      "listing_ids_seen": [
+        6461991,
+        6569531,
+        6569532,
+        6569337,
+        6466102,
+        6190014
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "871170": {
+      "backmarket_id": 871170,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-11-26",
+      "last_seen": "2026-03-23",
+      "order_count": 23,
+      "skus_seen": [
+        "MBP.A2338.M1.8GB.256GB.Silver.VGood",
+        "MBP13.M1A2338.8GB.256GB.silver.Fair",
+        "MBP.M1A2338.8GB.256GB.Silver.Good",
+        "MBP13.M1A2338.8GB.256GB.silver.good"
+      ],
+      "prices_seen": [
+        446.0,
+        455.0,
+        459.0,
+        465.0,
+        470.0,
+        483.0,
+        485.0,
+        487.0,
+        517.8,
+        519.0,
+        520.0,
+        529.0,
+        537.86,
+        539.0,
+        549.0,
+        550.0,
+        552.0,
+        558.0,
+        580.0
+      ],
+      "listing_ids_seen": [
+        6290951,
+        4863955,
+        5476300,
+        4908134
+      ],
+      "conditions_seen": [
+        10,
+        12,
+        11
+      ]
+    },
+    "762080": {
+      "backmarket_id": 762080,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2026-03-24",
+      "last_seen": "2026-03-24",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2681.M2.8GB.1TB.Midnight.Fair"
+      ],
+      "prices_seen": [
+        599.0
+      ],
+      "listing_ids_seen": [
+        6577955
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "543497": {
+      "backmarket_id": 543497,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-11-28",
+      "last_seen": "2026-03-25",
+      "order_count": 12,
+      "skus_seen": [
+        "MBP14.A2442.16GB.512GB.Silver.Fair",
+        "MBP14.A2442.16GB.512GB.Silver.Good",
+        "MBP.A2442.16GB.512GB.Silver.Good",
+        "MBP14.2442.16GB.512GB.Grey.Excellent"
+      ],
+      "prices_seen": [
+        654.0,
+        719.0,
+        725.0,
+        729.0,
+        770.0,
+        792.52,
+        898.19,
+        956.25,
+        1003.86,
+        1025.0,
+        1049.0
+      ],
+      "listing_ids_seen": [
+        4908051,
+        4942090,
+        5606748,
+        4846613
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "761602": {
+      "backmarket_id": 761602,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-08-20",
+      "last_seen": "2026-03-13",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A2681.M2.16GB.256GB.Grey.Excellent",
+        "MBA.A2681.8C.8C.16GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        620.0,
+        699.0
+      ],
+      "listing_ids_seen": [
+        6623989,
+        5934201
+      ],
+      "conditions_seen": [
+        10,
+        12
+      ]
+    },
+    "2866507": {
+      "backmarket_id": 2866507,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2024-06-04",
+      "last_seen": "2026-03-13",
+      "order_count": 16,
+      "skus_seen": [
+        "MBP.A2251.i5.16GB.512GB.Grey.Fair",
+        "MBP.A2289.16GB.512GB.i5.Grey.Good",
+        "MBP.A2251.i5.16GB.512GB.Grey.Good",
+        "MBP13.A2251.512GB.Grey.Vgood",
+        "MBP13.A2251.16gb.512gb.Grey.Good"
+      ],
+      "prices_seen": [
+        339.0,
+        345.0,
+        346.0,
+        349.0,
+        381.0,
+        385.0,
+        387.0,
+        396.72,
+        400.0,
+        407.44,
+        445.0,
+        478.0,
+        499.0,
+        563.0,
+        612.0
+      ],
+      "listing_ids_seen": [
+        6015866,
+        5556732,
+        5570963,
+        4306785,
+        5297472
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "5546364": {
+      "backmarket_id": 5546364,
+      "title": "MacBook Air 13-inch (2025) - Apple M4 10-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2026-02-13",
+      "last_seen": "2026-03-16",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A3240.16GB.256GB.10C.8C.Starlight.VGood"
+      ],
+      "prices_seen": [
+        808.0,
+        883.0
+      ],
+      "listing_ids_seen": [
+        6503049
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "545361": {
+      "backmarket_id": 545361,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-11-25",
+      "last_seen": "2026-03-21",
+      "order_count": 24,
+      "skus_seen": [
+        "MBP13.A2338M1.8GB.512GB.Vgood",
+        "MBP.A2338.M1.8GB.512GB.Grey.Fair",
+        "MBP13.A2338.8GB.512GB.Grey.Good",
+        "MBP13.M1A2338.8GB.512GB.Grey.Good",
+        "MBP13.A2338.8GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        405.0,
+        445.0,
+        453.0,
+        458.0,
+        479.0,
+        483.0,
+        484.0,
+        486.0,
+        488.16,
+        496.0,
+        499.0,
+        500.0,
+        503.0,
+        529.0,
+        549.0,
+        559.0,
+        581.18,
+        585.0,
+        599.0,
+        601.64,
+        677.0
+      ],
+      "listing_ids_seen": [
+        5131347,
+        5550903,
+        5292031,
+        5035142,
+        4852610
+      ],
+      "conditions_seen": [
+        10,
+        12,
+        11
+      ]
+    },
+    "1035903": {
+      "backmarket_id": 1035903,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-02-26",
+      "last_seen": "2026-03-21",
+      "order_count": 20,
+      "skus_seen": [
+        "MBA.A2179.2020.i3.8GB.256GB.Gold.Fair",
+        "MBA.A2179.i3.8GB.256GB.Gold.Fair",
+        "MBA.A2179.i3.8GB.256GB.Gold.VGood",
+        "MBA.A2179.i3.8GB.256GB.Gold.Good",
+        "MBA.A2179.2020.256gb.Gold.Fair",
+        "MBA.13.2020.256gb.Gold.Vgood1"
+      ],
+      "prices_seen": [
+        290.0,
+        296.0,
+        299.0,
+        301.0,
+        304.0,
+        306.0,
+        315.0,
+        330.0,
+        331.0,
+        333.0,
+        349.0,
+        362.0,
+        392.0,
+        726.76
+      ],
+      "listing_ids_seen": [
+        5985636,
+        5914859,
+        5683897,
+        5683900,
+        5507411,
+        3075316
+      ],
+      "conditions_seen": [
+        12,
+        10,
+        11
+      ]
+    },
+    "626770": {
+      "backmarket_id": 626770,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-06-14",
+      "last_seen": "2026-03-22",
+      "order_count": 18,
+      "skus_seen": [
+        "MBP.A2338.M1.16GB.512GB.Grey.Good",
+        "MBP13.M1A2338.16GB.512GB.Grey.Fair",
+        "MBP.A2338.8C.10G.16GB.512GB.Grey.VGood",
+        "MBP13.A2338M1.16GBRam.512GB.Vgood"
+      ],
+      "prices_seen": [
+        304.0,
+        518.0,
+        519.48,
+        528.0,
+        564.0,
+        569.0,
+        572.0,
+        599.0,
+        600.0,
+        610.0,
+        650.0,
+        841.12,
+        880.0,
+        892.81
+      ],
+      "listing_ids_seen": [
+        6024010,
+        6231231,
+        6355474,
+        4340916
+      ],
+      "conditions_seen": [
+        11,
+        12,
+        10
+      ]
+    },
+    "543376": {
+      "backmarket_id": 543376,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 16GB RAM - SSD 2000GB - QWERTY - English",
+      "first_seen": "2026-03-11",
+      "last_seen": "2026-03-11",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2442.M1PRO.10C.16C.16GB.2TB.Silver.Good"
+      ],
+      "prices_seen": [
+        925.0
+      ],
+      "listing_ids_seen": [
+        6595623
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "761558": {
+      "backmarket_id": 761558,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-07-20",
+      "last_seen": "2026-03-12",
+      "order_count": 5,
+      "skus_seen": [
+        "MBA.A2681.8GB.256GB.Silver.Fair",
+        "MBA.A2681.8GB.256GB.Silver.Vgood"
+      ],
+      "prices_seen": [
+        489.0,
+        567.0,
+        579.0,
+        636.0
+      ],
+      "listing_ids_seen": [
+        6039590,
+        5822967
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "761582": {
+      "backmarket_id": 761582,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-10-20",
+      "last_seen": "2026-03-12",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2681.M2.8GB.512GB.Starlight.Fair",
+        "MBA.A2681.8GB.256GB.Gold.Fair"
+      ],
+      "prices_seen": [
+        492.0,
+        498.0,
+        619.0
+      ],
+      "listing_ids_seen": [
+        6624440,
+        6151789
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "545429": {
+      "backmarket_id": 545429,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-05-19",
+      "last_seen": "2026-03-06",
+      "order_count": 18,
+      "skus_seen": [
+        "MBA.A2337.8C.8GB.512GB.Grey.Fair",
+        "MBA.A2337.8GB.512GB.Grey.Good",
+        "MBA.A2337.8CORE.8GB.512GB.Grey.Fair",
+        "MBA.A2337.M1.8GB.512GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        385.0,
+        387.0,
+        389.0,
+        391.0,
+        398.0,
+        399.0,
+        403.0,
+        411.0,
+        423.0,
+        433.0,
+        439.0,
+        448.0,
+        449.0,
+        455.0,
+        498.0
+      ],
+      "listing_ids_seen": [
+        5874627,
+        5625357,
+        5666105,
+        5561595
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "761518": {
+      "backmarket_id": 761518,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-06-05",
+      "last_seen": "2026-03-09",
+      "order_count": 28,
+      "skus_seen": [
+        "MBA.A2681.8GB.256GB.Grey.Good",
+        "MBA.A2681.8GB.256GB.Starlight.Good",
+        "MBA.A2681.8GB.256GB.Midnight.Fair",
+        "MBA.A2681.8GB.256GB.Starlight.Fair",
+        "MBA.A2681.8GB.256GB.Midnight.Good",
+        "MBA.A2681.8GB.256GB.Midnight.VGood",
+        "MBA13.A2681.Blue.256GB.Fair"
+      ],
+      "prices_seen": [
+        503.0,
+        527.0,
+        532.0,
+        534.0,
+        536.0,
+        537.0,
+        549.0,
+        557.0,
+        558.0,
+        565.0,
+        569.0,
+        571.0,
+        581.0,
+        590.0,
+        602.0,
+        613.0,
+        614.0,
+        629.0,
+        639.0,
+        659.0,
+        669.0,
+        767.25,
+        769.0
+      ],
+      "listing_ids_seen": [
+        6354747,
+        6390373,
+        6197426,
+        6317655,
+        5995471,
+        5952734,
+        4306791
+      ],
+      "conditions_seen": [
+        11,
+        12,
+        10
+      ]
+    },
+    "543513": {
+      "backmarket_id": 543513,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-01-14",
+      "last_seen": "2026-03-09",
+      "order_count": 29,
+      "skus_seen": [
+        "MBP.A2442.16GB.512GB.Grey.VGood",
+        "MBP.A2442.16GB.512GB.Grey.Good",
+        "MBP14.A2442.16GB.512GB.Grey.Fair",
+        "MBP14.2442.16GB.512GB.Grey.Vgood"
+      ],
+      "prices_seen": [
+        462.24,
+        637.0,
+        655.0,
+        677.0,
+        694.0,
+        695.0,
+        699.0,
+        703.0,
+        708.0,
+        714.0,
+        714.96,
+        720.0,
+        721.0,
+        729.0,
+        740.0,
+        750.0,
+        755.0,
+        759.68,
+        774.0,
+        776.0,
+        805.0,
+        808.0,
+        863.0,
+        863.35,
+        917.58
+      ],
+      "listing_ids_seen": [
+        5558302,
+        5476309,
+        5008999,
+        5327858
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        12
+      ]
+    },
+    "4541438": {
+      "backmarket_id": 4541438,
+      "title": "MacBook Air 13-inch (2024) - Apple M3 8-core and 10-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2026-03-09",
+      "last_seen": "2026-03-09",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A3113.8C.10C.16GB.512GB.Grey.Good"
+      ],
+      "prices_seen": [
+        724.68
+      ],
+      "listing_ids_seen": [
+        6530058
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "543612": {
+      "backmarket_id": 543612,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2026-03-09",
+      "last_seen": "2026-03-09",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2485.10C.16C.16GB.1TB.Grey.Good"
+      ],
+      "prices_seen": [
+        745.2
+      ],
+      "listing_ids_seen": [
+        6530045
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "2160473": {
+      "backmarket_id": 2160473,
+      "title": "MacBook Air 15-inch (2023) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-14",
+      "last_seen": "2026-03-02",
+      "order_count": 4,
+      "skus_seen": [
+        "MBA.A2941.8GB.256GB.Midnight.Fair",
+        "MBA.A2941.8GB.256GB.Midnight.Good"
+      ],
+      "prices_seen": [
+        700.0,
+        745.0,
+        775.68
+      ],
+      "listing_ids_seen": [
+        5587165,
+        4952300
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "549384": {
+      "backmarket_id": 549384,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-12-19",
+      "last_seen": "2026-03-02",
+      "order_count": 8,
+      "skus_seen": [
+        "MBA.Intel.i3.8GB.256GB.Grey.Fair",
+        "MBA.A2179.i3.8GB.256GB.Silver.Fair",
+        "MBA.A2179.i3.8GB.256GB.Silver.VGood",
+        "MBA.A2179.i3.8GB.256GB.Silver.Good",
+        "MBA.A2179.Silver.256GB.Good"
+      ],
+      "prices_seen": [
+        294.0,
+        316.0,
+        319.0,
+        330.0,
+        336.0,
+        348.0,
+        405.0,
+        605.27
+      ],
+      "listing_ids_seen": [
+        6577952,
+        5709669,
+        6190002,
+        5587296,
+        3845054
+      ],
+      "conditions_seen": [
+        12,
+        10,
+        11
+      ]
+    },
+    "492872": {
+      "backmarket_id": 492872,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2022-11-08",
+      "last_seen": "2026-03-03",
+      "order_count": 8,
+      "skus_seen": [
+        "MBP13.A1989.2018.2.3.8GB.256GB.Grey.Fair",
+        "MBP.A2159.8GB.256GB.Grey.VGood",
+        "MBP13.2019.i5.8.256.Fair",
+        "MBP13.2019.i5.8.256.Good"
+      ],
+      "prices_seen": [
+        306.0,
+        317.01,
+        335.0,
+        338.14,
+        356.0,
+        375.0,
+        630.0,
+        700.0
+      ],
+      "listing_ids_seen": [
+        5293982,
+        5476281,
+        3120516,
+        2807600
+      ],
+      "conditions_seen": [
+        12,
+        10,
+        11
+      ]
+    },
+    "762088": {
+      "backmarket_id": 762088,
+      "title": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-04",
+      "last_seen": "2026-03-04",
+      "order_count": 15,
+      "skus_seen": [
+        "MBP.M2.A2338.8GB.256GB.Grey.Fair",
+        "MBP.M2.A2338.8GB.256GB.Grey.Good",
+        "MBP13.A2338M2.8GB.256GB.Grey.Fair",
+        "MBP13.M2A2338.8GB.256GB.Grey.Vgood",
+        "MBP.A2338.M2.8GB.256GB.Grey.Good"
+      ],
+      "prices_seen": [
+        581.0,
+        600.0,
+        605.0,
+        632.0,
+        640.0,
+        645.0,
+        651.0,
+        656.0,
+        669.0,
+        672.0,
+        680.0,
+        753.55,
+        799.0
+      ],
+      "listing_ids_seen": [
+        6569346,
+        6549116,
+        4901551,
+        4908048,
+        5889087
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "545449": {
+      "backmarket_id": 545449,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-05-30",
+      "last_seen": "2026-02-23",
+      "order_count": 8,
+      "skus_seen": [
+        "MBA.A2337.M1.8C.8GB.512GB.Silver.Excellent",
+        "MBA.A2337.8CORE.8GB.512GB.Silver.Fair",
+        "MBA.A2337.8GB.512GB.Silver.Good",
+        "MBA.A2337.8CORE.8GB.512GB.Silver.Good",
+        "MBA.A2337.8GB.512GB.Silver.Fair"
+      ],
+      "prices_seen": [
+        390.0,
+        401.0,
+        426.0,
+        427.0,
+        437.0,
+        449.0,
+        465.88
+      ],
+      "listing_ids_seen": [
+        6577957,
+        5831192,
+        5587201,
+        5822956,
+        5587245
+      ],
+      "conditions_seen": [
+        10,
+        12,
+        11
+      ]
+    },
+    "543447": {
+      "backmarket_id": 543447,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 32GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2026-02-24",
+      "last_seen": "2026-02-24",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2485.M1PRO.10C.16C.32GB.1TB.Grey.Good"
+      ],
+      "prices_seen": [
+        999.0
+      ],
+      "listing_ids_seen": [
+        6573806
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "762029": {
+      "backmarket_id": 762029,
+      "title": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-03-18",
+      "last_seen": "2026-02-24",
+      "order_count": 5,
+      "skus_seen": [
+        "MBP.A2338.M2.8GB.256GB.Silver.Fair",
+        "MBP.A2338M2.8GB.256GB.Silver.Vgood"
+      ],
+      "prices_seen": [
+        581.0,
+        598.0,
+        651.0,
+        666.0,
+        785.0
+      ],
+      "listing_ids_seen": [
+        5934196,
+        5295808
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "2872244": {
+      "backmarket_id": 2872244,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-20",
+      "last_seen": "2026-02-24",
+      "order_count": 11,
+      "skus_seen": [
+        "MBP.M1A2338.16GB.256GB.Grey.Fair",
+        "MBP13.M1A2338.16GB.256GB.Grey.Good",
+        "MBP13.M1A2338.16GB.256GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        498.96,
+        528.0,
+        530.0,
+        545.0,
+        615.0,
+        620.0,
+        629.0,
+        630.0,
+        663.46
+      ],
+      "listing_ids_seen": [
+        4957009,
+        4985414,
+        6268321
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "387195": {
+      "backmarket_id": 387195,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-03-18",
+      "last_seen": "2026-02-22",
+      "order_count": 35,
+      "skus_seen": [
+        "MBP.A2289.i5.8GB.256GB.Grey.Fair",
+        "MBP13.2020.i5.256.Grey.Vgood",
+        "MBP13.A2251.8gb.256GB.Grey.fair",
+        "MBP.13.A2289.8GB.256GB.Grey.Good",
+        "MBP13.2020.A2289. i5.256.Grey.Good",
+        "MBP.A2289.8GB.256GB.i5.Grey.Good",
+        "MBP.A2289.SpaceGrey.256GB.Fair"
+      ],
+      "prices_seen": [
+        331.0,
+        338.0,
+        357.0,
+        359.0,
+        364.0,
+        365.0,
+        368.0,
+        380.0,
+        386.0,
+        387.0,
+        390.0,
+        394.0,
+        399.0,
+        405.0,
+        419.0,
+        430.0,
+        434.0,
+        436.0,
+        440.0,
+        454.38,
+        459.0,
+        634.0,
+        750.0,
+        834.76
+      ],
+      "listing_ids_seen": [
+        5476304,
+        3132474,
+        5297471,
+        5556753,
+        3391988,
+        5442621,
+        3845037
+      ],
+      "conditions_seen": [
+        12,
+        10,
+        11
+      ]
+    },
+    "543603": {
+      "backmarket_id": 543603,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-06-16",
+      "last_seen": "2026-02-22",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2485.10C.16C.16GB.512GB.Grey.Fair",
+        "MBP.A2485.16GB.512GB.Silver.Fair",
+        "MBP.A2485.16GB.512GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        728.0,
+        810.0,
+        842.0
+      ],
+      "listing_ids_seen": [
+        6569308,
+        5587136,
+        5587266
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "1640424": {
+      "backmarket_id": 1640424,
+      "title": "MacBook Pro 16-inch (2023) - Apple M2 Pro 12-core and 19-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2026-02-19",
+      "last_seen": "2026-02-19",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2918.M2Pro.16GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        1100.0
+      ],
+      "listing_ids_seen": [
+        6550193
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "3540530": {
+      "backmarket_id": 3540530,
+      "title": "MacBook Pro 14-inch (2023) - Apple M3 8-core and 10-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-08-31",
+      "last_seen": "2026-02-19",
+      "order_count": 8,
+      "skus_seen": [
+        "MBP.A2918.8GB.512GB.Grey.Good",
+        "MBP.A2918.8GB.512GB.Grey.VGood",
+        "MBP.A2918.8GB.512GB.Grey.Fair",
+        "MBP.A2918.8GB.512GB.Silver.Good"
+      ],
+      "prices_seen": [
+        878.0,
+        893.0,
+        897.0,
+        899.0,
+        909.0,
+        975.0,
+        997.0,
+        1006.0
+      ],
+      "listing_ids_seen": [
+        6382950,
+        5976224,
+        6430816,
+        6367019
+      ],
+      "conditions_seen": [
+        11,
+        10,
+        12
+      ]
+    },
+    "705200": {
+      "backmarket_id": 705200,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 16GB SSD 1000 QWERTY - English",
+      "first_seen": "2025-08-12",
+      "last_seen": "2026-02-19",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A2251.i5.16GB.1TB.Grey.Fair",
+        "MBP.A2251.16GB.1TB.Silver.Fair"
+      ],
+      "prices_seen": [
+        409.0,
+        413.0
+      ],
+      "listing_ids_seen": [
+        6550192,
+        5892061
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "545394": {
+      "backmarket_id": 545394,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-08-23",
+      "last_seen": "2026-02-21",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2337.M1.16GB.512GB.Grey.Fair",
+        "MBA.A2337.8C.16GB.512GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        480.0,
+        490.52,
+        499.0
+      ],
+      "listing_ids_seen": [
+        6550477,
+        5934191
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "3628227": {
+      "backmarket_id": 3628227,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-08-16",
+      "last_seen": "2026-02-21",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2337.8GB.512GB.Gold.Good",
+        "MBA.A2337.8C.8GB.512GB.Gold.Good"
+      ],
+      "prices_seen": [
+        429.0,
+        440.0,
+        500.0
+      ],
+      "listing_ids_seen": [
+        5970611,
+        5928312
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "762020": {
+      "backmarket_id": 762020,
+      "title": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2026-02-18",
+      "last_seen": "2026-02-18",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.M2.A2338.8GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        616.0
+      ],
+      "listing_ids_seen": [
+        6522085
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "623184": {
+      "backmarket_id": 623184,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-03-21",
+      "last_seen": "2026-02-18",
+      "order_count": 49,
+      "skus_seen": [
+        "MBA.A2179.8GB.256GB.Grey.Fair",
+        "MBA.A2179.8GB.256GB.Grey.Good",
+        "MBA.A2179.2020.256gb.Grey.Vgood",
+        "MBA.A2179.2020.256gb.Grey.Fair",
+        "MBA.13.2020.256gb.Grey.Good"
+      ],
+      "prices_seen": [
+        277.0,
+        278.0,
+        283.0,
+        289.0,
+        296.0,
+        299.0,
+        300.0,
+        301.0,
+        303.0,
+        311.0,
+        320.0,
+        321.0,
+        325.0,
+        330.0,
+        339.0,
+        342.0,
+        343.0,
+        347.0,
+        348.0,
+        350.0,
+        355.0,
+        367.0,
+        369.84,
+        370.0,
+        379.0,
+        385.0,
+        392.0,
+        401.0,
+        401.55,
+        504.0,
+        618.75,
+        642.17,
+        680.0
+      ],
+      "listing_ids_seen": [
+        5905466,
+        5906038,
+        5324972,
+        3848752,
+        3119176
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "543650": {
+      "backmarket_id": 543650,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Max 10-core and 32-core GPU - 64GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2026-02-19",
+      "last_seen": "2026-02-19",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2485.10C.32G.64GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        1157.0
+      ],
+      "listing_ids_seen": [
+        6530024
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "2866005": {
+      "backmarket_id": 2866005,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-13",
+      "last_seen": "2026-02-15",
+      "order_count": 13,
+      "skus_seen": [
+        "MBA.A2337.M1.16GB.256GB.Silver.Fair",
+        "MBA.A2337.M1.16GB.256GB.Gold.Good",
+        "MBA.A2337.16GB.256GB.Grey.Fair",
+        "MBA.A2337.16GB.256GB.Silver.Fair",
+        "MBA.A2337.16GB.256GB.Grey.Good"
+      ],
+      "prices_seen": [
+        399.0,
+        420.0,
+        440.0,
+        444.0,
+        459.0,
+        460.0,
+        493.0,
+        549.48
+      ],
+      "listing_ids_seen": [
+        6550194,
+        6550476,
+        4952251,
+        6329253,
+        5874632
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "2160480": {
+      "backmarket_id": 2160480,
+      "title": "MacBook Air 15-inch (2023) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-05-24",
+      "last_seen": "2026-02-14",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A2941.8C.10G.8GB.256GB.Grey.Good",
+        "MBA.A2941.8GB.256GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        703.0,
+        710.0
+      ],
+      "listing_ids_seen": [
+        6549862,
+        5587259
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "761984": {
+      "backmarket_id": 761984,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-01-03",
+      "last_seen": "2026-02-09",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2681.8C.10C.8GB.256GB.Starlight.VGood",
+        "MBA.13.2022.Starlight.256gb.VGood"
+      ],
+      "prices_seen": [
+        679.0,
+        929.0
+      ],
+      "listing_ids_seen": [
+        6309041,
+        3870963
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "543476": {
+      "backmarket_id": 543476,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Max 10-core and 32-core GPU - 32GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-11-14",
+      "last_seen": "2026-02-07",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A2485.10C.16G.32GB.1TB.Grey.Good",
+        "MBP16.A2485.M1MAX.32GB.1TB.Silver.Good"
+      ],
+      "prices_seen": [
+        494.0,
+        1058.0
+      ],
+      "listing_ids_seen": [
+        6523409,
+        6233842
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "545417": {
+      "backmarket_id": 545417,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-01-14",
+      "last_seen": "2026-02-02",
+      "order_count": 8,
+      "skus_seen": [
+        "MBP.A2338.8GB.512GB.Silver.Good",
+        "MBP13.M1A2338.8GB.512GB.silver.Fair"
+      ],
+      "prices_seen": [
+        464.0,
+        485.0,
+        497.0,
+        570.0,
+        579.0
+      ],
+      "listing_ids_seen": [
+        6434923,
+        5035146
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "5546380": {
+      "backmarket_id": 5546380,
+      "title": "MacBook Air 13-inch (2025) - Apple M4 10-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2026-01-29",
+      "last_seen": "2026-01-29",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A3240.16GB.256GB.10C.8C.Midnight.Good"
+      ],
+      "prices_seen": [
+        819.0
+      ],
+      "listing_ids_seen": [
+        6460049
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "5546347": {
+      "backmarket_id": 5546347,
+      "title": "MacBook Air 13-inch (2025) - Apple M4 10-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2026-01-31",
+      "last_seen": "2026-01-31",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A3240.16GB.256GB.10C.8C.SkyBlue.VGood"
+      ],
+      "prices_seen": [
+        777.0
+      ],
+      "listing_ids_seen": [
+        6505345
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "454501": {
+      "backmarket_id": 454501,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2025-07-02",
+      "last_seen": "2026-01-27",
+      "order_count": 4,
+      "skus_seen": [
+        "MBA.A2179.2020.8GB.512GB.Silver.Good",
+        "MBA.A2179.2020.8GB.512GB.Silver.Fair",
+        "MBA.A2179.i5.8GB.512GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        333.0,
+        348.0,
+        382.0
+      ],
+      "listing_ids_seen": [
+        5712370,
+        5976222,
+        5952719
+      ],
+      "conditions_seen": [
+        11,
+        12,
+        10
+      ]
+    },
+    "545357": {
+      "backmarket_id": 545357,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-08-19",
+      "last_seen": "2026-01-25",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2338.M1.16GB.1TB.Grey.Fair",
+        "MBP.A2338.M1.16GB.1TB.Grey.Good"
+      ],
+      "prices_seen": [
+        599.0,
+        623.0,
+        632.0
+      ],
+      "listing_ids_seen": [
+        5674789,
+        5674786
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "3540529": {
+      "backmarket_id": 3540529,
+      "title": "MacBook Pro 14-inch (2023) - Apple M3 8-core and 10-core GPU - 8GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2026-01-18",
+      "last_seen": "2026-01-18",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2918.8GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        1029.0
+      ],
+      "listing_ids_seen": [
+        6466037
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "761588": {
+      "backmarket_id": 761588,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-09-08",
+      "last_seen": "2026-01-16",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2681.16GB.256GB.Grey.Good",
+        "MBA.A2681.16GB.256GB.Starlight.Good",
+        "MBA.A2681.16GB.256GB.Champagne.Fair"
+      ],
+      "prices_seen": [
+        650.0,
+        670.0
+      ],
+      "listing_ids_seen": [
+        6462691,
+        6366132,
+        6000642
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "543451": {
+      "backmarket_id": 543451,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 32GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-11-20",
+      "last_seen": "2026-01-16",
+      "order_count": 7,
+      "skus_seen": [
+        "MBP16.M1A2485.32GB.512.Grey.Fair",
+        "MBP16.M1A2485.32GB.512GB.Grey.Good",
+        "MBP16.M1A2485.32GB.512GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        923.0,
+        1249.0,
+        1351.52,
+        1359.0,
+        1479.38,
+        1499.0
+      ],
+      "listing_ids_seen": [
+        5031245,
+        4816292,
+        4846570
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "1310700": {
+      "backmarket_id": 1310700,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-05-29",
+      "last_seen": "2026-01-14",
+      "order_count": 12,
+      "skus_seen": [
+        "MBP.A2289.i5.8GB.256GB.Silver.Fair",
+        "MBP.A2289.i5.8GB.256GB.Silver.Good"
+      ],
+      "prices_seen": [
+        355.0,
+        357.0,
+        369.0,
+        380.0,
+        389.0,
+        390.0,
+        394.0,
+        400.0,
+        410.0
+      ],
+      "listing_ids_seen": [
+        5785811,
+        5606591
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "725159": {
+      "backmarket_id": 725159,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i7 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2026-01-10",
+      "last_seen": "2026-01-10",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A1989.i7.8GB.256GB.Grey.Good"
+      ],
+      "prices_seen": [
+        400.0
+      ],
+      "listing_ids_seen": [
+        6428153
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "545412": {
+      "backmarket_id": 545412,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-18",
+      "last_seen": "2026-01-11",
+      "order_count": 7,
+      "skus_seen": [
+        "MBP13.M1A2338.16GB.256GB.silver.Good",
+        "MBP.M1A2338.16GB.256GB.Silver.Fair",
+        "MBP13.M1A2338.16GB.256GB.silver.Fair"
+      ],
+      "prices_seen": [
+        530.0,
+        565.0,
+        619.0,
+        682.85,
+        699.0
+      ],
+      "listing_ids_seen": [
+        4957120,
+        6272172,
+        4957112
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "3540544": {
+      "backmarket_id": 3540544,
+      "title": "MacBook Pro 14-inch (2023) - Apple M3 Pro 11-core and 14-core GPU - 18GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-12-25",
+      "last_seen": "2026-01-03",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A2992.M3.11C.18GB.512GB.Black.Fair"
+      ],
+      "prices_seen": [
+        1179.0
+      ],
+      "listing_ids_seen": [
+        6382804
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "762073": {
+      "backmarket_id": 762073,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 10-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2026-01-02",
+      "last_seen": "2026-01-02",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2681.16GB.512GB.8C.10C.Grey.Good"
+      ],
+      "prices_seen": [
+        789.0
+      ],
+      "listing_ids_seen": [
+        6391708
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "387276": {
+      "backmarket_id": 387276,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2025-10-25",
+      "last_seen": "2026-01-03",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A2289.i5.8GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        399.0
+      ],
+      "listing_ids_seen": [
+        6183913
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "762012": {
+      "backmarket_id": 762012,
+      "title": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-06-12",
+      "last_seen": "2025-12-21",
+      "order_count": 4,
+      "skus_seen": [
+        "MBP13.A2338M2.16Ram.256gbSSD.Good"
+      ],
+      "prices_seen": [
+        680.0,
+        799.0,
+        969.0,
+        1199.0
+      ],
+      "listing_ids_seen": [
+        4331675
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "1628013": {
+      "backmarket_id": 1628013,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-12-20",
+      "last_seen": "2025-12-20",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2179.2020.8GB.128GB.Silver.Good"
+      ],
+      "prices_seen": [
+        345.0
+      ],
+      "listing_ids_seen": [
+        6382797
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "3541864": {
+      "backmarket_id": 3541864,
+      "title": "MacBook Pro 16-inch (2023) - Apple M3 Pro 12-core and 18-core GPU - 18GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-06-30",
+      "last_seen": "2025-12-20",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2991.M3Pr.12C.18GB.512GB.Black.Good",
+        "MBP.A2991.18GB.512GB.Black.Good"
+      ],
+      "prices_seen": [
+        1394.0,
+        1459.0
+      ],
+      "listing_ids_seen": [
+        6382868,
+        5658709
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "543450": {
+      "backmarket_id": 543450,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-11-23",
+      "last_seen": "2025-12-19",
+      "order_count": 6,
+      "skus_seen": [
+        "MBP16.A2485.16GB.512GB.Grey.Good",
+        "MBP.A2485.16GB.512GB.Grey.Good",
+        "MBP16.A2485.16GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        705.0,
+        739.0,
+        756.0,
+        823.0,
+        937.81,
+        989.0
+      ],
+      "listing_ids_seen": [
+        6151750,
+        5587142,
+        4852340
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "3753352": {
+      "backmarket_id": 3753352,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-12-24",
+      "last_seen": "2025-12-14",
+      "order_count": 5,
+      "skus_seen": [
+        "MBP13.M1A2338.16GB.512GB.silver.Vgood"
+      ],
+      "prices_seen": [
+        581.0,
+        630.0,
+        638.0,
+        824.23
+      ],
+      "listing_ids_seen": [
+        4957016
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "352828": {
+      "backmarket_id": 352828,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2023-09-04",
+      "last_seen": "2025-12-15",
+      "order_count": 24,
+      "skus_seen": [
+        "MBP.A2159.8GB.128GB.Grey.Fair",
+        "MBP.A2159.8GB.128GB.Grey.Good",
+        "MBP.A2159.i5.8GB.256GB.Grey.Fair",
+        "MBP.A2159.8GB.128GB.i5.Grey.Fair",
+        "MBP13.A2159.2019.Grey.128GB.fair",
+        "MBP13.A2159.2019.Grey.128GB.Good"
+      ],
+      "prices_seen": [
+        234.0,
+        241.0,
+        255.0,
+        290.0,
+        295.0,
+        300.0,
+        307.0,
+        308.0,
+        309.0,
+        310.0,
+        317.01,
+        321.0,
+        328.0,
+        332.0,
+        334.0,
+        430.0,
+        509.35,
+        620.0
+      ],
+      "listing_ids_seen": [
+        5570921,
+        5395545,
+        5550625,
+        5556729,
+        4161153,
+        3346017
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "761566": {
+      "backmarket_id": 761566,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-11-28",
+      "last_seen": "2025-12-13",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2681.8GB.512GB.Midnight.Fair",
+        "MBA.A2681.8C.8C.8GB.512GB.Midnight.Good"
+      ],
+      "prices_seen": [
+        590.0,
+        625.0,
+        637.0
+      ],
+      "listing_ids_seen": [
+        6317265,
+        6275377
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "566717": {
+      "backmarket_id": 566717,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2025-08-18",
+      "last_seen": "2025-12-10",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A2179.2020.i5.8GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        336.0
+      ],
+      "listing_ids_seen": [
+        5860258
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "543548": {
+      "backmarket_id": 543548,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-10-04",
+      "last_seen": "2025-12-11",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP14.A2442.16GB.1TB.Grey.Good",
+        "MBP14.A2442.16GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        785.0,
+        802.0,
+        838.0
+      ],
+      "listing_ids_seen": [
+        6100093,
+        6232854
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "543408": {
+      "backmarket_id": 543408,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Max 10-core and 24-core GPU - 64GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-12-02",
+      "last_seen": "2025-12-02",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2442.10C.24C.64GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        1099.0
+      ],
+      "listing_ids_seen": [
+        6255699
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "503367": {
+      "backmarket_id": 503367,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2025-04-11",
+      "last_seen": "2025-11-28",
+      "order_count": 8,
+      "skus_seen": [
+        "MBA.A2179.i5.2020.8GB.512GB.Grey.Fair",
+        "MBA.A2179.2020.i5.8gb.512gb.Grey.Good",
+        "MBA.A2179.i5.8GB.512GB.Grey.VGood",
+        "MBA.A2179.i5.2020.8GB.512GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        319.0,
+        338.0,
+        366.0,
+        388.0,
+        399.0,
+        400.0,
+        471.0
+      ],
+      "listing_ids_seen": [
+        6039434,
+        5373239,
+        5934184,
+        5984035
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "725422": {
+      "backmarket_id": 725422,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i7 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-09-04",
+      "last_seen": "2025-11-23",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2289.i7.16GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        420.0,
+        425.0,
+        450.0
+      ],
+      "listing_ids_seen": [
+        5991610
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "543350": {
+      "backmarket_id": 543350,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 32GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-05-17",
+      "last_seen": "2025-11-23",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A2442.32GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        799.0,
+        830.0
+      ],
+      "listing_ids_seen": [
+        5550923
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "387243": {
+      "backmarket_id": 387243,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-07-08",
+      "last_seen": "2025-11-24",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A1932.2019.8GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        258.0,
+        280.0
+      ],
+      "listing_ids_seen": [
+        5704477
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "1005392": {
+      "backmarket_id": 1005392,
+      "title": "MacBook Pro Retina 16-inch (2019) - Core i9 - 32GB SSD 512 QWERTY - English",
+      "first_seen": "2025-11-25",
+      "last_seen": "2025-11-25",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2141.i9.5500M.32GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        485.0
+      ],
+      "listing_ids_seen": [
+        6259636
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "529601": {
+      "backmarket_id": 529601,
+      "title": "MacBook Pro Retina 16-inch (2019) - Core i7 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2023-03-10",
+      "last_seen": "2025-11-25",
+      "order_count": 13,
+      "skus_seen": [
+        "MBP.A2141.i7.16GB.512GB.Grey.Fair",
+        "MBP.A2141.i7.16GB.512GB.Grey.Good",
+        "MBP.A2141.16GB.512GB.Grey.VGood",
+        "MBP16.A2141.16GB.512.Grey.Fair",
+        "MBP16.2019.Grey.512.Good"
+      ],
+      "prices_seen": [
+        354.0,
+        365.0,
+        367.0,
+        394.0,
+        416.0,
+        418.0,
+        445.0,
+        450.0,
+        484.22,
+        513.25,
+        933.0
+      ],
+      "listing_ids_seen": [
+        5934212,
+        5683994,
+        5850815,
+        5124401,
+        3111986
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "387251": {
+      "backmarket_id": 387251,
+      "title": "MacBook Pro Retina 15-inch (2016) - Core i7 - 16GB SSD 256 QWERTY - English",
+      "first_seen": "2025-11-21",
+      "last_seen": "2025-11-21",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP15.A1707.i7.16GB.256GB.Silver.Fair"
+      ],
+      "prices_seen": [
+        300.0
+      ],
+      "listing_ids_seen": [
+        5383539
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "545432": {
+      "backmarket_id": 545432,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-11-10",
+      "last_seen": "2025-11-10",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2337.7C.16GB.512GB.Grey.Good"
+      ],
+      "prices_seen": [
+        573.0
+      ],
+      "listing_ids_seen": [
+        6221056
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "369171": {
+      "backmarket_id": 369171,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-09-09",
+      "last_seen": "2025-11-05",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A1932.2019.8GB.256GB.Silver.Fair",
+        "MBA.A1932.2019.8GB.256GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        290.0,
+        340.0
+      ],
+      "listing_ids_seen": [
+        6202826,
+        5928305
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "545433": {
+      "backmarket_id": 545433,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-02-01",
+      "last_seen": "2025-10-29",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2337.7C.8GB.512GB.Silver.Fair",
+        "MBA.A2337.8gb.512GB.Silver.Vgood"
+      ],
+      "prices_seen": [
+        398.0,
+        529.0,
+        593.0
+      ],
+      "listing_ids_seen": [
+        6170881,
+        5131356
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "558710": {
+      "backmarket_id": 558710,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i7 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-10-29",
+      "last_seen": "2025-10-29",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2179.2020.i7.8gb.256gb.Grey.fair"
+      ],
+      "prices_seen": [
+        369.0
+      ],
+      "listing_ids_seen": [
+        6154007
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "387275": {
+      "backmarket_id": 387275,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2024-11-21",
+      "last_seen": "2025-10-30",
+      "order_count": 6,
+      "skus_seen": [
+        "MBP.13.A2289.8GB.512GB.Grey.Good",
+        "MBP.A2289.i5.8GB.512GB.Silver.VGood",
+        "MBP.A2251.13.512.Silver.VgoodR",
+        "MBP13.A2289.1.4.8GB.512GB.Silver.Good"
+      ],
+      "prices_seen": [
+        405.0,
+        408.0,
+        418.0,
+        443.81,
+        483.84
+      ],
+      "listing_ids_seen": [
+        5906053,
+        5587235,
+        3183826,
+        4765798
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "520714": {
+      "backmarket_id": 520714,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2022-12-20",
+      "last_seen": "2025-10-23",
+      "order_count": 12,
+      "skus_seen": [
+        "MBA.A1932.2019.8GB.128GB.Grey.Fair",
+        "MBA.A1932.2019.8GB.128GB.Grey.Good",
+        "MBA.13.2019.128gb.8gb.Vgood.Silver"
+      ],
+      "prices_seen": [
+        244.0,
+        254.0,
+        259.0,
+        265.0,
+        283.0,
+        285.0,
+        300.0,
+        604.0
+      ],
+      "listing_ids_seen": [
+        5666063,
+        5785810,
+        2948394
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "721525": {
+      "backmarket_id": 721525,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i7 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-04-28",
+      "last_seen": "2025-10-24",
+      "order_count": 4,
+      "skus_seen": [
+        "MBP15.A1990.i7.16GB.512GB.Grey.Good",
+        "MBP.A1990.16GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        246.0,
+        296.0,
+        342.0,
+        383.0
+      ],
+      "listing_ids_seen": [
+        5578720,
+        5402022
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "460725": {
+      "backmarket_id": 460725,
+      "title": "MacBook Pro Retina 16-inch (2019) - Core i7 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-01-25",
+      "last_seen": "2025-10-02",
+      "order_count": 5,
+      "skus_seen": [
+        "MBP.16.A2141.16GB.512GB.Silver.Good",
+        "MBP.A2141.16GB.512GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        420.0,
+        454.0,
+        470.0,
+        486.08,
+        528.35
+      ],
+      "listing_ids_seen": [
+        5068671,
+        5402039
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "725335": {
+      "backmarket_id": 725335,
+      "title": "MacBook Air Retina 13-inch (2020) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-01-26",
+      "last_seen": "2025-09-29",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A2179.8GB.256GB.Gold.Good"
+      ],
+      "prices_seen": [
+        389.0,
+        400.0,
+        438.0
+      ],
+      "listing_ids_seen": [
+        5088588
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "596539": {
+      "backmarket_id": 596539,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i7 - 32GB SSD 2000 QWERTY - English",
+      "first_seen": "2025-09-29",
+      "last_seen": "2025-09-29",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2251.i7.32GB.2TB.Grey.Good"
+      ],
+      "prices_seen": [
+        680.0
+      ],
+      "listing_ids_seen": [
+        6063276
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "545358": {
+      "backmarket_id": 545358,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-09-30",
+      "last_seen": "2025-09-30",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2338.M1.8GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        549.0
+      ],
+      "listing_ids_seen": [
+        6039451
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "368265": {
+      "backmarket_id": 368265,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i7 - 16GB SSD 256 QWERTY - English",
+      "first_seen": "2025-04-05",
+      "last_seen": "2025-09-21",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP15.A1990.i7.16GB.256GB.Grey.Good",
+        "MBP15.A1990.i7.16GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        324.0,
+        350.0
+      ],
+      "listing_ids_seen": [
+        6041177,
+        5383552
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "781354": {
+      "backmarket_id": 781354,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i9 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-09-17",
+      "last_seen": "2025-09-17",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP15.A1990.i9.16GB.512GB.Fair"
+      ],
+      "prices_seen": [
+        350.0
+      ],
+      "listing_ids_seen": [
+        5347150
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "369457": {
+      "backmarket_id": 369457,
+      "title": "MacBook Pro Retina 13-inch (2017) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-04-18",
+      "last_seen": "2025-09-16",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP13.A1708.i5.8GB.128GB.Silver.Good",
+        "MBP.A1708.8GB.128GB.i5.Silver.Fair"
+      ],
+      "prices_seen": [
+        214.0,
+        234.0
+      ],
+      "listing_ids_seen": [
+        5294546,
+        5434295
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "725546": {
+      "backmarket_id": 725546,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-08-27",
+      "last_seen": "2025-09-09",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP13.2020.A2289A2251.i5.16GB.512GB.Silver.Fair"
+      ],
+      "prices_seen": [
+        355.0,
+        378.0
+      ],
+      "listing_ids_seen": [
+        5959589
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "761585": {
+      "backmarket_id": 761585,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-10",
+      "last_seen": "2025-09-10",
+      "order_count": 5,
+      "skus_seen": [
+        "MBA.A2681.8GB.256GB.Champagne.VGood",
+        "MBA.A2681.8GB.256GB.Grey.Fair",
+        "MBA.A2681.8GB.256GB.Grey.Vgood"
+      ],
+      "prices_seen": [
+        645.0,
+        676.0,
+        700.62,
+        701.76,
+        703.55
+      ],
+      "listing_ids_seen": [
+        6007339,
+        5288784,
+        4924360
+      ],
+      "conditions_seen": [
+        10,
+        12
+      ]
+    },
+    "478422": {
+      "backmarket_id": 478422,
+      "title": "MacBook Air Retina 13-inch (2018) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-04-10",
+      "last_seen": "2025-08-31",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A1932.2018.8GB.256GB.Grey.Good",
+        "MBA.A1932.8GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        235.0,
+        259.0
+      ],
+      "listing_ids_seen": [
+        5977557,
+        5395558
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "368159": {
+      "backmarket_id": 368159,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-06-15",
+      "last_seen": "2025-08-31",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A1932.2019.8GB.128GB.Silver.Fair",
+        "MBA.A1932.2019.8GB.128GB.Silver.Good"
+      ],
+      "prices_seen": [
+        251.0,
+        285.0
+      ],
+      "listing_ids_seen": [
+        5977563,
+        5666087
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "762045": {
+      "backmarket_id": 762045,
+      "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-08-23",
+      "last_seen": "2025-08-23",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2681.8GB.512GB.Midnight.Good"
+      ],
+      "prices_seen": [
+        672.0
+      ],
+      "listing_ids_seen": [
+        5942431
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "369170": {
+      "backmarket_id": 369170,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2022-11-30",
+      "last_seen": "2025-08-25",
+      "order_count": 8,
+      "skus_seen": [
+        "MBA.2019.A1932.8GB.128GB.Gold.Fair",
+        "MBA.A1932.8GB.128GB.2019.Gold.Fair",
+        "MBA.A1932.2019.8GB.128GB.Gold.Good",
+        "MBA.A1932.2019.8GB.128GB.Gold.Vgood",
+        "MBA.13.2019.128gb.8gb.Vgood"
+      ],
+      "prices_seen": [
+        246.0,
+        249.0,
+        288.0,
+        348.71,
+        350.0,
+        648.9
+      ],
+      "listing_ids_seen": [
+        5928302,
+        5704342,
+        5288938,
+        5347088,
+        2882683
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "384570": {
+      "backmarket_id": 384570,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i9 - 32GB SSD 1000 QWERTY - English",
+      "first_seen": "2025-08-22",
+      "last_seen": "2025-08-22",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A1990.32GB.1TB.Grey.Good"
+      ],
+      "prices_seen": [
+        430.0
+      ],
+      "listing_ids_seen": [
+        5906057
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "545378": {
+      "backmarket_id": 545378,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-08-18",
+      "last_seen": "2025-08-18",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2337.16GB.1TB.Grey.Vgood"
+      ],
+      "prices_seen": [
+        600.0
+      ],
+      "listing_ids_seen": [
+        5936706
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "715267": {
+      "backmarket_id": 715267,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i7 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-08-18",
+      "last_seen": "2025-08-18",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2289.i7.8GB.256GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        420.0
+      ],
+      "listing_ids_seen": [
+        5923255
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "3584296": {
+      "backmarket_id": 3584296,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-05-31",
+      "last_seen": "2025-08-19",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A2337.8C.16G.512GB.Grey.Fair",
+        "MBA.A2337.16GB.512GB.Grey.Good"
+      ],
+      "prices_seen": [
+        501.0,
+        521.0
+      ],
+      "listing_ids_seen": [
+        5880772,
+        5606635
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "366583": {
+      "backmarket_id": 366583,
+      "title": "MacBook Pro Retina 13-inch (2016) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-05-17",
+      "last_seen": "2025-08-12",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP13.A1706.8GB.256GB.i5.Silver.Good",
+        "MBP13.A1706.i5.8GB.256GB.Silver.Good"
+      ],
+      "prices_seen": [
+        248.0,
+        264.0
+      ],
+      "listing_ids_seen": [
+        5565512,
+        5384187
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "344386": {
+      "backmarket_id": 344386,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-03-17",
+      "last_seen": "2025-08-03",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A1932.2019.8GB.256GB.Gold.Good",
+        "MBA.A1932.2019.8GB.256GB.Gold.Vgood"
+      ],
+      "prices_seen": [
+        310.0,
+        320.0,
+        342.0
+      ],
+      "listing_ids_seen": [
+        5289010,
+        5289014
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "1640420": {
+      "backmarket_id": 1640420,
+      "title": "MacBook Pro 16-inch (2023) - Apple M2 Pro 12-core and 19-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-12-04",
+      "last_seen": "2025-08-05",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2780.19C.16GB.512GB.Grey.Good",
+        "MBP16.A2780.16GB.512GB.Grey.Good"
+      ],
+      "prices_seen": [
+        1204.0,
+        1689.0
+      ],
+      "listing_ids_seen": [
+        5860316,
+        4908492
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "384573": {
+      "backmarket_id": 384573,
+      "title": "MacBook Pro Retina 16-inch (2019) - Core i9 - 16GB SSD 1000 QWERTY - English",
+      "first_seen": "2023-03-14",
+      "last_seen": "2025-08-02",
+      "order_count": 5,
+      "skus_seen": [
+        "MBP16.A2141.16GB.1TB.Grey.VGood",
+        "MBP16.A2141.16GB.1TB.Grey.Good",
+        "MBP.A2141.16GB.1TB.i9.Grey.Fair",
+        "MBP16.2019.Grey.i9.1tb.VGood"
+      ],
+      "prices_seen": [
+        419.0,
+        461.0,
+        496.0,
+        528.35,
+        1195.58
+      ],
+      "listing_ids_seen": [
+        5860299,
+        5347114,
+        5442608,
+        3120179
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        12
+      ]
+    },
+    "495117": {
+      "backmarket_id": 495117,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-07-15",
+      "last_seen": "2025-07-15",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.2020.A2289. i5.256.Grey.Fair"
+      ],
+      "prices_seen": [
+        355.0
+      ],
+      "listing_ids_seen": [
+        5754130
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "384710": {
+      "backmarket_id": 384710,
+      "title": "MacBook Air Retina 13-inch (2019) - Core i5 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-07-17",
+      "last_seen": "2025-07-17",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A1932.2019.16GB.512GB.Gold.Fair"
+      ],
+      "prices_seen": [
+        285.0
+      ],
+      "listing_ids_seen": [
+        5712361
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "352830": {
+      "backmarket_id": 352830,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-05-29",
+      "last_seen": "2025-07-10",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2159.8GB.128GB.i5.Silver.VGood",
+        "MBP.A2159.8GB.128GB.i5.Silver.Good"
+      ],
+      "prices_seen": [
+        305.0,
+        323.0,
+        325.0
+      ],
+      "listing_ids_seen": [
+        5625405,
+        5578692
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "545353": {
+      "backmarket_id": 545353,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-07-12",
+      "last_seen": "2025-07-12",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A2338.M1.8GB.1TB.Silver.VGood"
+      ],
+      "prices_seen": [
+        565.0
+      ],
+      "listing_ids_seen": [
+        5683938
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "340146": {
+      "backmarket_id": 340146,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-07-06",
+      "last_seen": "2025-07-06",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A1989.i5.8GB.256GB.Grey.Good"
+      ],
+      "prices_seen": [
+        300.0
+      ],
+      "listing_ids_seen": [
+        5691082
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "366481": {
+      "backmarket_id": 366481,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-01-29",
+      "last_seen": "2025-07-06",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A2159.i5.8GB.256GB.Silver.VGood",
+        "MBP13.A2159.8GB.256GB.Silver.Good"
+      ],
+      "prices_seen": [
+        321.0,
+        401.55
+      ],
+      "listing_ids_seen": [
+        5727829,
+        5071068
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "366517": {
+      "backmarket_id": 366517,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i7 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2025-06-25",
+      "last_seen": "2025-06-25",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A1990.16GB.512GB.i7.Grey.Fair"
+      ],
+      "prices_seen": [
+        306.0
+      ],
+      "listing_ids_seen": [
+        5395583
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "469414": {
+      "backmarket_id": 469414,
+      "title": "MacBook Pro Retina 13-inch (2019) - Core i5 - 16GB SSD 256 QWERTY - English",
+      "first_seen": "2024-12-03",
+      "last_seen": "2025-06-18",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2159.i5.16GB.256GB.Grey.Fair",
+        "MBP13.A2159.2019.16GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        299.0,
+        320.47,
+        439.0
+      ],
+      "listing_ids_seen": [
+        5666130,
+        4765785
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "369177": {
+      "backmarket_id": 369177,
+      "title": "MacBook Air Retina 13-inch (2018) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-03-18",
+      "last_seen": "2025-06-21",
+      "order_count": 3,
+      "skus_seen": [
+        "MBA.A1932.2018.8GB.128GB.Gold.Fair",
+        "MBA.A1932.2018.8GB.128GB.Gold.Good"
+      ],
+      "prices_seen": [
+        244.0,
+        264.17,
+        274.74
+      ],
+      "listing_ids_seen": [
+        5294538,
+        5294537
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "543536": {
+      "backmarket_id": 543536,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-06-18",
+      "last_seen": "2025-06-18",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP14.A2442.16GB.1TB.Silver.Excellent"
+      ],
+      "prices_seen": [
+        914.0
+      ],
+      "listing_ids_seen": [
+        5587273
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "777102": {
+      "backmarket_id": 777102,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i9 - 16GB SSD 1000 QWERTY - English",
+      "first_seen": "2025-06-10",
+      "last_seen": "2025-06-10",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A1990.i9.16GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        353.0
+      ],
+      "listing_ids_seen": [
+        5627947
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "233539": {
+      "backmarket_id": 233539,
+      "title": "MacBook Pro Retina 13-inch (2016) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-05-02",
+      "last_seen": "2025-06-11",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP.A1706.8GB.256GB.i5.Grey.Fair"
+      ],
+      "prices_seen": [
+        198.0,
+        231.0
+      ],
+      "listing_ids_seen": [
+        5395652
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "337614": {
+      "backmarket_id": 337614,
+      "title": "MacBook Air Retina 13-inch (2018) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-04-09",
+      "last_seen": "2025-06-13",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A1932.8GB.128GB.Silver.VGood",
+        "MBA.A1932.8GB.128GB.Silver.Good"
+      ],
+      "prices_seen": [
+        243.0,
+        283.0
+      ],
+      "listing_ids_seen": [
+        5656869,
+        5395561
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "331318": {
+      "backmarket_id": 331318,
+      "title": "MacBook Pro Retina 13-inch (2017) - Core i5 - 8GB SSD 128 QWERTY - English",
+      "first_seen": "2025-04-09",
+      "last_seen": "2025-06-06",
+      "order_count": 4,
+      "skus_seen": [
+        "MBP13.A1708.i5.8GB.128GB.Grey.Fair",
+        "MBP.A1708.8GB.128GB.i5.Grey.Fair",
+        "MBP.A1708.8GB.128GB.i5.Grey.Good"
+      ],
+      "prices_seen": [
+        192.0,
+        206.0,
+        220.0,
+        245.0
+      ],
+      "listing_ids_seen": [
+        5383567,
+        5395641,
+        5395648
+      ],
+      "conditions_seen": [
+        12,
+        11
+      ]
+    },
+    "545454": {
+      "backmarket_id": 545454,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-11-30",
+      "last_seen": "2025-06-01",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A2337.8GB.512GB.Gold.Fair"
+      ],
+      "prices_seen": [
+        396.0,
+        496.65
+      ],
+      "listing_ids_seen": [
+        4891509
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "2160474": {
+      "backmarket_id": 2160474,
+      "title": "MacBook Air 15-inch (2023) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2025-05-26",
+      "last_seen": "2025-05-26",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2941.8GB.256GB.Grey.VGood"
+      ],
+      "prices_seen": [
+        712.0
+      ],
+      "listing_ids_seen": [
+        5587163
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "781120": {
+      "backmarket_id": 781120,
+      "title": "iPhone 14 Pro 128GB - Space Black - Unlocked",
+      "first_seen": "2025-05-12",
+      "last_seen": "2025-05-12",
+      "order_count": 1,
+      "skus_seen": [
+        "iPhone14P.128GB.Black.Fair"
+      ],
+      "prices_seen": [
+        356.0
+      ],
+      "listing_ids_seen": [
+        5538068
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "2674119": {
+      "backmarket_id": 2674119,
+      "title": "MacBook Pro Retina 13-inch (2017) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-01-27",
+      "last_seen": "2025-04-13",
+      "order_count": 6,
+      "skus_seen": [
+        "MBP.A1708.8GB.256GB.Grey.Fair",
+        "MBP.A1708.8GB.256GB.Grey.Good",
+        "MBP13.A1708.i5.8GB.256GB.Grey.Vgood",
+        "MBP13.A1708.i5.8GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        198.0,
+        216.0,
+        256.0,
+        264.17,
+        275.0,
+        330.0
+      ],
+      "listing_ids_seen": [
+        5402048,
+        5395644,
+        5354759,
+        5088287
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "784061": {
+      "backmarket_id": 784061,
+      "title": "MacBook Pro Retina 15-inch (2018) - Core i7 - 32GB SSD 512 QWERTY - English",
+      "first_seen": "2025-04-24",
+      "last_seen": "2025-04-24",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP.A1990.32GB.512GB.Silver.VGood"
+      ],
+      "prices_seen": [
+        460.0
+      ],
+      "listing_ids_seen": [
+        5402031
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "369186": {
+      "backmarket_id": 369186,
+      "title": "MacBook Air Retina 13-inch (2018) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2025-04-13",
+      "last_seen": "2025-04-13",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A1932.8GB.256GB.Silver.Good"
+      ],
+      "prices_seen": [
+        276.0
+      ],
+      "listing_ids_seen": [
+        5395550
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "545369": {
+      "backmarket_id": 545369,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 1000GB - QWERTY - English",
+      "first_seen": "2025-03-19",
+      "last_seen": "2025-03-19",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2337.16GB.1TB.Grey.Fair"
+      ],
+      "prices_seen": [
+        645.0
+      ],
+      "listing_ids_seen": [
+        5288756
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "368278": {
+      "backmarket_id": 368278,
+      "title": "MacBook Pro Retina 13-inch (2017) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-04-04",
+      "last_seen": "2025-03-20",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP13.A1708.i5.8GB.256GB.Silver.Good",
+        "MBP13.2017.i5.8.256.VGood.Silver"
+      ],
+      "prices_seen": [
+        264.17,
+        503.71
+      ],
+      "listing_ids_seen": [
+        5294547,
+        3132397
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "387492": {
+      "backmarket_id": 387492,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2023-04-17",
+      "last_seen": "2025-03-14",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2251.16GB.512GB.Silver.Fair",
+        "MBP.A2251.13.512.Silver.Vgood"
+      ],
+      "prices_seen": [
+        422.68,
+        475.51,
+        986.25
+      ],
+      "listing_ids_seen": [
+        4961937,
+        3166342
+      ],
+      "conditions_seen": [
+        12,
+        10
+      ]
+    },
+    "5116550": {
+      "backmarket_id": 5116550,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-03-16",
+      "last_seen": "2025-03-16",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA.A2337.8GB.512GB.Gold.Vgood"
+      ],
+      "prices_seen": [
+        540.0
+      ],
+      "listing_ids_seen": [
+        5288644
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "344501": {
+      "backmarket_id": 344501,
+      "title": "MacBook Pro Retina 13-inch (2018) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2025-03-16",
+      "last_seen": "2025-03-16",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.A1989.2018.2.3.8GB.512GB.Silver.Vgood"
+      ],
+      "prices_seen": [
+        380.0
+      ],
+      "listing_ids_seen": [
+        5293979
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "266617": {
+      "backmarket_id": 266617,
+      "title": "iPad Pro 11 (2018) 1st gen 64 GB - Wi-Fi - Silver",
+      "first_seen": "2025-03-04",
+      "last_seen": "2025-03-04",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadPro11.1stGen.64gb.Silver.Vgood"
+      ],
+      "prices_seen": [
+        300.0
+      ],
+      "listing_ids_seen": [
+        5230653
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "475047": {
+      "backmarket_id": 475047,
+      "title": "iPad Pro 11 (2021) 3rd gen 128 GB - Wi-Fi + 5G - Silver",
+      "first_seen": "2025-02-06",
+      "last_seen": "2025-03-10",
+      "order_count": 2,
+      "skus_seen": [
+        "iPadPro11.3rdGen.5G.128gb.Silver.Vgood"
+      ],
+      "prices_seen": [
+        479.0,
+        528.35
+      ],
+      "listing_ids_seen": [
+        5064537
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "221397": {
+      "backmarket_id": 221397,
+      "title": "iPad Pro 11 (2018) 1st gen 64 GB - Wi-Fi - Space Gray",
+      "first_seen": "2025-01-19",
+      "last_seen": "2025-03-13",
+      "order_count": 2,
+      "skus_seen": [
+        "iPadPro11.1stGen.64gb.Grey.Good",
+        "iPadPro11.1stGen.64gb.Grey.Fair"
+      ],
+      "prices_seen": [
+        264.17,
+        464.94
+      ],
+      "listing_ids_seen": [
+        5260171,
+        5054345
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "338265": {
+      "backmarket_id": 338265,
+      "title": "iPad Pro 12.9 (2018) 3rd gen 256 GB - Wi-Fi - Silver",
+      "first_seen": "2025-03-14",
+      "last_seen": "2025-03-14",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadPro12.9.3rd.64gb.Silver.good"
+      ],
+      "prices_seen": [
+        370.0
+      ],
+      "listing_ids_seen": [
+        5278202
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "419599": {
+      "backmarket_id": 419599,
+      "title": "iPad Air (2020) 4th gen 64 GB - Wi-Fi - Sky Blue",
+      "first_seen": "2025-01-06",
+      "last_seen": "2025-02-11",
+      "order_count": 2,
+      "skus_seen": [
+        "iPadAir.4th.Wifi.64GB.Blue.Fair"
+      ],
+      "prices_seen": [
+        292.39,
+        296.0
+      ],
+      "listing_ids_seen": [
+        5011389
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "475457": {
+      "backmarket_id": 475457,
+      "title": "iPad Pro 12.9 (2021) 5th gen 128 GB - Wi-Fi - Space Gray",
+      "first_seen": "2025-02-14",
+      "last_seen": "2025-02-19",
+      "order_count": 2,
+      "skus_seen": [
+        "iPad.129.5th.128gb.Grey.Vgood",
+        "iPad.129.5th.128GB.Grey.Good"
+      ],
+      "prices_seen": [
+        545.0,
+        591.75
+      ],
+      "listing_ids_seen": [
+        5161092,
+        5184695
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "512571": {
+      "backmarket_id": 512571,
+      "title": "iPad mini (2021) 6th gen 256 GB - Wi-Fi - Pink",
+      "first_seen": "2025-03-01",
+      "last_seen": "2025-03-01",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadMini6.256GB.Pink.Vgood"
+      ],
+      "prices_seen": [
+        317.01
+      ],
+      "listing_ids_seen": [
+        5184697
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "545355": {
+      "backmarket_id": 545355,
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 2000GB - QWERTY - English",
+      "first_seen": "2024-07-06",
+      "last_seen": "2025-02-01",
+      "order_count": 8,
+      "skus_seen": [
+        "MBP13.A2338M1.16GBRam.2TB.Fair",
+        "MBP13.A2338M1.16GBRam.2TB.Good",
+        "MBP13.A2338M1.16GBRam.2TB.Vgood"
+      ],
+      "prices_seen": [
+        770.0,
+        890.0,
+        899.0,
+        999.0,
+        1079.0,
+        1104.95
+      ],
+      "listing_ids_seen": [
+        4452103,
+        4702858,
+        4371110
+      ],
+      "conditions_seen": [
+        12,
+        11,
+        10
+      ]
+    },
+    "474635": {
+      "backmarket_id": 474635,
+      "title": "iPad Pro 11 (2021) 3rd gen 128 GB - Wi-Fi - Space Gray",
+      "first_seen": "2025-01-23",
+      "last_seen": "2025-01-23",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadPro11.3rdGen.128gb.Grey.Fair"
+      ],
+      "prices_seen": [
+        415.16
+      ],
+      "listing_ids_seen": [
+        5068642
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "523511": {
+      "backmarket_id": 523511,
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 16GB SSD 256 QWERTY - English",
+      "first_seen": "2025-01-24",
+      "last_seen": "2025-01-24",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.A2289.1.4.16GB.256GB.Grey.Good"
+      ],
+      "prices_seen": [
+        443.81
+      ],
+      "listing_ids_seen": [
+        5029404
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "178152": {
+      "backmarket_id": 178152,
+      "title": "iPad Pro 12.9 (2018) 3rd gen 64 GB - Wi-Fi - Space Gray",
+      "first_seen": "2025-01-14",
+      "last_seen": "2025-01-14",
+      "order_count": 1,
+      "skus_seen": [
+        "iPad.12.9.3rd.64Gb.Fair"
+      ],
+      "prices_seen": [
+        390.98
+      ],
+      "listing_ids_seen": [
+        5011303
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "543554": {
+      "backmarket_id": 543554,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 32GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-01-15",
+      "last_seen": "2025-01-15",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP14.A2442.32GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        1195.0
+      ],
+      "listing_ids_seen": [
+        5005045
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "338084": {
+      "backmarket_id": 338084,
+      "title": "iPad Pro 11 (2020) 2nd gen 128 GB - Wi-Fi - Space Gray",
+      "first_seen": "2025-01-20",
+      "last_seen": "2025-01-20",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadPro11.2ndGen.128gb.Grey.Fair"
+      ],
+      "prices_seen": [
+        381.0
+      ],
+      "listing_ids_seen": [
+        5064789
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "3495090": {
+      "backmarket_id": 3495090,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2025-01-04",
+      "last_seen": "2025-01-13",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.A2337.8GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        459.22,
+        505.81
+      ],
+      "listing_ids_seen": [
+        4958222
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "781116": {
+      "backmarket_id": 781116,
+      "title": "iPhone 14 Pro 512GB - Gold - Unlocked",
+      "first_seen": "2024-12-27",
+      "last_seen": "2024-12-27",
+      "order_count": 1,
+      "skus_seen": [
+        "iP14Pro.512GB.Gold.Vgood"
+      ],
+      "prices_seen": [
+        605.0
+      ],
+      "listing_ids_seen": [
+        4985528
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "543652": {
+      "backmarket_id": 543652,
+      "title": "MacBook Pro 16-inch (2021) - Apple M1 Max 10-core and 32-core GPU - 32GB RAM - SSD 512GB - QWERTY - English",
+      "first_seen": "2024-12-15",
+      "last_seen": "2024-12-19",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP16.A2485M1Max.32GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        1494.0
+      ],
+      "listing_ids_seen": [
+        4939836
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "762096": {
+      "backmarket_id": 762096,
+      "title": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 16GB RAM - SSD 256GB - QWERTY - English",
+      "first_seen": "2024-12-03",
+      "last_seen": "2024-12-03",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.A2338M2.16Ram.256gbSSD.Silver.Fair"
+      ],
+      "prices_seen": [
+        849.0
+      ],
+      "listing_ids_seen": [
+        4900951
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "1462661": {
+      "backmarket_id": 1462661,
+      "title": "MacBook Pro Retina 13-inch (2017) - Core i5 - 16GB SSD 256 QWERTY - English",
+      "first_seen": "2024-11-15",
+      "last_seen": "2024-11-15",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.A1706.2.3.16GB.256GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        340.0
+      ],
+      "listing_ids_seen": [
+        4765805
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "231714": {
+      "backmarket_id": 231714,
+      "title": "iPad Pro 12.9 (2018) 3rd gen 64 GB - WiFi + 4G - Space Gray",
+      "first_seen": "2024-11-18",
+      "last_seen": "2024-11-18",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadPro12.9.3rd.64gb.grey.good"
+      ],
+      "prices_seen": [
+        369.22
+      ],
+      "listing_ids_seen": [
+        4816355
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "543430": {
+      "backmarket_id": 543430,
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Max 10-core and 32-core GPU - 32GB RAM - SSD 2000GB - QWERTY - English",
+      "first_seen": "2024-06-24",
+      "last_seen": "2024-11-18",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP14.2442.32GB.2TB.Grey.Good",
+        "MBP14.2442.32GB.2TB.Fair"
+      ],
+      "prices_seen": [
+        1499.0,
+        1699.0
+      ],
+      "listing_ids_seen": [
+        4452126,
+        4354556
+      ],
+      "conditions_seen": [
+        11,
+        12
+      ]
+    },
+    "543438": {
+      "backmarket_id": 543438,
+      "title": "MacBook Pro 16.2-inch (2021) - Apple M1 Pro 10-core and 16-core GPU - 32GB RAM - SSD 2000GB - QWERTY - English",
+      "first_seen": "2024-08-19",
+      "last_seen": "2024-10-26",
+      "order_count": 5,
+      "skus_seen": [
+        "MBP16.M1A2485.32GB.2TB.Silver.Good",
+        "MBP16.M1A2485.32GB.2TB.Silver.Vgood"
+      ],
+      "prices_seen": [
+        1799.0,
+        2396.0
+      ],
+      "listing_ids_seen": [
+        4452106,
+        4452124
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "340550": {
+      "backmarket_id": 340550,
+      "title": "MacBook Pro Retina 13.3-inch (2018) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2024-10-29",
+      "last_seen": "2024-10-29",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.A1989.2018.2.3.8GB.512GB.Grey.Fair"
+      ],
+      "prices_seen": [
+        359.42
+      ],
+      "listing_ids_seen": [
+        4683109
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "387573": {
+      "backmarket_id": 387573,
+      "title": "MacBook Pro Retina 13-inch (2018) - Core i7 - 16GB SSD 256 QWERTY - English",
+      "first_seen": "2024-11-09",
+      "last_seen": "2024-11-09",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.A1989.2018.2.7.16GB.256GB.Grey.Good"
+      ],
+      "prices_seen": [
+        450.0
+      ],
+      "listing_ids_seen": [
+        4765789
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "545381": {
+      "backmarket_id": 545381,
+      "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 16GB RAM - SSD 2000GB - QWERTY - English",
+      "first_seen": "2024-11-13",
+      "last_seen": "2024-11-13",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA13.M1.A2337.8GB.2TB.Grey.Good"
+      ],
+      "prices_seen": [
+        859.0
+      ],
+      "listing_ids_seen": [
+        4786467
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "475473": {
+      "backmarket_id": 475473,
+      "title": "iPad Pro 12.9 (2021) 5th gen 1000 GB - WiFi - Space Gray",
+      "first_seen": "2024-10-20",
+      "last_seen": "2024-10-20",
+      "order_count": 1,
+      "skus_seen": [
+        "iPad.129.5th.1TB.Grey.Good"
+      ],
+      "prices_seen": [
+        749.0
+      ],
+      "listing_ids_seen": [
+        4703013
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "624190": {
+      "backmarket_id": 624190,
+      "title": "iPhone 13 Pro Max 1000GB - Alpine Green - Unlocked",
+      "first_seen": "2024-04-02",
+      "last_seen": "2024-04-08",
+      "order_count": 2,
+      "skus_seen": [
+        "iP13PM.1TB.Green.Good"
+      ],
+      "prices_seen": [
+        660.0
+      ],
+      "listing_ids_seen": [
+        4082982
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "522954": {
+      "backmarket_id": 522954,
+      "title": "MacBook Air Retina 13.3-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+      "first_seen": "2023-06-18",
+      "last_seen": "2024-01-17",
+      "order_count": 2,
+      "skus_seen": [
+        "MBA.2020.13.A2179.Gold"
+      ],
+      "prices_seen": [
+        657.3,
+        730.0
+      ],
+      "listing_ids_seen": [
+        3324787
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "1545170": {
+      "backmarket_id": 1545170,
+      "title": "MacBook Pro Retina 13.3-inch (2017) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-03-10",
+      "last_seen": "2023-07-07",
+      "order_count": 2,
+      "skus_seen": [
+        "MBP13.2017.i5.8.256.Good",
+        "MBP13.2017.i5.8.256.VGood"
+      ],
+      "prices_seen": [
+        391.46,
+        543.62
+      ],
+      "listing_ids_seen": [
+        3033932,
+        3115592
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "461463": {
+      "backmarket_id": 461463,
+      "title": "MacBook Pro Retina 13.3-inch (2020) - Core i5 - 16GB SSD 512 QWERTY - English",
+      "first_seen": "2023-02-21",
+      "last_seen": "2023-06-15",
+      "order_count": 3,
+      "skus_seen": [
+        "MBP.A2251.13.512.GREY.Vgood",
+        "MBP13.2020.i5.512.Grey.Vgood"
+      ],
+      "prices_seen": [
+        776.47,
+        844.67,
+        845.0
+      ],
+      "listing_ids_seen": [
+        3322533,
+        3063354
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "460065": {
+      "backmarket_id": 460065,
+      "title": "MacBook Air 13.3-inch (2017) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-01-30",
+      "last_seen": "2023-01-30",
+      "order_count": 1,
+      "skus_seen": [
+        "MBA13.A1466.2017.i5.256GB.Good"
+      ],
+      "prices_seen": [
+        379.0
+      ],
+      "listing_ids_seen": [
+        3029348
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "413008": {
+      "backmarket_id": 413008,
+      "title": "MacBook Pro Retina 13.3-inch (2017) - Core i5 - 8GB SSD 256 QWERTY - English",
+      "first_seen": "2023-02-02",
+      "last_seen": "2023-02-02",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.2017.i5.8.256.Good"
+      ],
+      "prices_seen": [
+        567.0
+      ],
+      "listing_ids_seen": [
+        3033932
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "21896": {
+      "backmarket_id": 21896,
+      "title": "iPhone SE 32 GB - Space Gray - Unlocked",
+      "first_seen": "2021-04-24",
+      "last_seen": "2022-08-17",
+      "order_count": 9,
+      "skus_seen": [
+        "IPSE.2016.SG.32GB",
+        "IPSE(2016).SG.32GB",
+        "iPSE.SpaceGrey.32GB.VeryGood",
+        "iPSE.SpaceGrey.32GB.Good",
+        "iPSE.SpaceGrey.32GB.Fair"
+      ],
+      "prices_seen": [
+        54.85,
+        63.0,
+        75.0,
+        77.0,
+        80.0,
+        81.0,
+        83.0
+      ],
+      "listing_ids_seen": [
+        2655821,
+        2647992,
+        1669224,
+        1669227,
+        1669230
+      ],
+      "conditions_seen": [
+        10,
+        12,
+        1,
+        2,
+        3
+      ]
+    },
+    "10743": {
+      "backmarket_id": 10743,
+      "title": "iPhone SE 16 GB - Space Gray - Unlocked",
+      "first_seen": "2021-04-23",
+      "last_seen": "2022-08-18",
+      "order_count": 4,
+      "skus_seen": [
+        "IPSE(2016).SG.16GB",
+        "IPSE.2016.SG.16GB",
+        "iPSE.SpaceGrey.16GB.Stallone"
+      ],
+      "prices_seen": [
+        59.93,
+        75.0,
+        95.0
+      ],
+      "listing_ids_seen": [
+        2647973,
+        2647978,
+        1669243
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        4
+      ]
+    },
+    "14556": {
+      "backmarket_id": 14556,
+      "title": "iPhone 7 128 GB - Silver - Unlocked",
+      "first_seen": "2022-08-19",
+      "last_seen": "2022-08-19",
+      "order_count": 1,
+      "skus_seen": [
+        "IP7.SILV.128GB"
+      ],
+      "prices_seen": [
+        125.0
+      ],
+      "listing_ids_seen": [
+        2655935
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "449267": {
+      "backmarket_id": 449267,
+      "title": "Apple Watch (Series SE) September 2020 40 - Aluminium Gold - Sport loop Pink sand",
+      "first_seen": "2022-08-22",
+      "last_seen": "2022-08-22",
+      "order_count": 1,
+      "skus_seen": [
+        "Watch.se.gold.40mm.Vgood"
+      ],
+      "prices_seen": [
+        214.45
+      ],
+      "listing_ids_seen": [
+        2646255
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "290041": {
+      "backmarket_id": 290041,
+      "title": "iPhone 11 Pro 512 GB - Space Gray - Unlocked",
+      "first_seen": "2022-07-25",
+      "last_seen": "2022-08-26",
+      "order_count": 2,
+      "skus_seen": [
+        "iP11.PRO.SpaceGrey.512GB.Mint"
+      ],
+      "prices_seen": [
+        560.0,
+        575.0
+      ],
+      "listing_ids_seen": [
+        1450997
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "36835": {
+      "backmarket_id": 36835,
+      "title": "iPhone X 64 GB - Silver - Unlocked",
+      "first_seen": "2020-12-04",
+      "last_seen": "2022-09-02",
+      "order_count": 16,
+      "skus_seen": [
+        "iPX.Silver.64GB.VeryGood",
+        "iPX.Silver.64GB.Good",
+        "iPX.Silver.64GB.Stallone",
+        "iPX.Silver.64GB.Fair"
+      ],
+      "prices_seen": [
+        200.0,
+        230.0,
+        250.0,
+        264.0,
+        270.0,
+        398.0,
+        410.0,
+        423.0,
+        440.0
+      ],
+      "listing_ids_seen": [
+        1424123,
+        1401177,
+        1384282,
+        1386077
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        4,
+        3,
+        2
+      ]
+    },
+    "413847": {
+      "backmarket_id": 413847,
+      "title": "iPhone 12 Pro Max 256 GB - Graphite - Unlocked",
+      "first_seen": "2022-11-24",
+      "last_seen": "2022-11-24",
+      "order_count": 1,
+      "skus_seen": [
+        "iP12PM.Grey.256.Good"
+      ],
+      "prices_seen": [
+        579.0
+      ],
+      "listing_ids_seen": [
+        2864690
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "487864": {
+      "backmarket_id": 487864,
+      "title": "Apple Watch (Series 6) GPS 44 - Aluminium Space Gray - Sport band band Black",
+      "first_seen": "2022-08-06",
+      "last_seen": "2022-08-06",
+      "order_count": 1,
+      "skus_seen": [
+        "S644mm.GPS.grey.good"
+      ],
+      "prices_seen": [
+        243.72
+      ],
+      "listing_ids_seen": [
+        2636822
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "565653": {
+      "backmarket_id": 565653,
+      "title": "Apple Watch (Series 4) GPS + Cellular 44 - Aluminium Space Gray - Sport band Black",
+      "first_seen": "2022-08-09",
+      "last_seen": "2022-08-09",
+      "order_count": 1,
+      "skus_seen": [
+        "S444mm.Cellular.spacegrey.vgood"
+      ],
+      "prices_seen": [
+        195.0
+      ],
+      "listing_ids_seen": [
+        2623475
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "608597": {
+      "backmarket_id": 608597,
+      "title": "iPad 9,7\" 5th gen (2017) - HDD 32 GB - Space Gray - (WiFi)",
+      "first_seen": "2022-08-14",
+      "last_seen": "2022-08-17",
+      "order_count": 4,
+      "skus_seen": [
+        "iPad.9.7\"(5thGen).SG",
+        "iPad.9.7(5thGen).SG"
+      ],
+      "prices_seen": [
+        129.93,
+        130.0,
+        130.23
+      ],
+      "listing_ids_seen": [
+        2648011,
+        2654100
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "409055": {
+      "backmarket_id": 409055,
+      "title": "iPad Air 4 (2020) - HDD 64 GB - Sky Blue - (WiFi + 4G)",
+      "first_seen": "2022-08-15",
+      "last_seen": "2022-08-15",
+      "order_count": 1,
+      "skus_seen": [
+        "iPaAir4.64gb.blue.good"
+      ],
+      "prices_seen": [
+        420.0
+      ],
+      "listing_ids_seen": [
+        2616390
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "617470": {
+      "backmarket_id": 617470,
+      "title": "Apple Watch (Series 4) GPS + Cellular 44 - Aluminium Silver - Sport band Black",
+      "first_seen": "2022-08-16",
+      "last_seen": "2022-08-16",
+      "order_count": 1,
+      "skus_seen": [
+        "S444mm.Cellular.Silver.good"
+      ],
+      "prices_seen": [
+        168.42
+      ],
+      "listing_ids_seen": [
+        2623471
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "368218": {
+      "backmarket_id": 368218,
+      "title": "MacBook Pro Retina 13.3-inch (2018) - Core i5 - 8GB - 256 GB HDD + SSD QWERTY - English (UK)",
+      "first_seen": "2022-07-29",
+      "last_seen": "2022-07-29",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.2018.i5.8.256.Good"
+      ],
+      "prices_seen": [
+        715.0
+      ],
+      "listing_ids_seen": [
+        2524260
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "338485": {
+      "backmarket_id": 338485,
+      "title": "iPad Pro 11\" 2nd gen (2020) - HDD 128 GB - Space Gray - (WiFi + 4G)",
+      "first_seen": "2022-07-29",
+      "last_seen": "2022-07-29",
+      "order_count": 1,
+      "skus_seen": [
+        "iPaPro11.2nd.SpaceGrey.128gb.VGood"
+      ],
+      "prices_seen": [
+        512.27
+      ],
+      "listing_ids_seen": [
+        2617455
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "368288": {
+      "backmarket_id": 368288,
+      "title": "MacBook Pro Retina 13.3-inch (2017) - Core i7 - 16GB - 512 GB HDD + SSD QWERTY - English (UK)",
+      "first_seen": "2022-07-31",
+      "last_seen": "2022-07-31",
+      "order_count": 1,
+      "skus_seen": [
+        "MBP13.2017.i7.16.512.Vgood"
+      ],
+      "prices_seen": [
+        760.0
+      ],
+      "listing_ids_seen": [
+        2619686
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "417795": {
+      "backmarket_id": 417795,
+      "title": "Apple Watch (Series 6) September 2020 44 - Aluminium Space Gray - Sport loop Black",
+      "first_seen": "2022-07-31",
+      "last_seen": "2022-07-31",
+      "order_count": 1,
+      "skus_seen": [
+        "S644mm.GPS.Fair"
+      ],
+      "prices_seen": [
+        250.0
+      ],
+      "listing_ids_seen": [
+        2619386
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "3221": {
+      "backmarket_id": 3221,
+      "title": "iPhone 6S 64 GB - Gold - Unlocked",
+      "first_seen": "2022-08-01",
+      "last_seen": "2022-08-01",
+      "order_count": 1,
+      "skus_seen": [
+        "IP6S.GOLD.64GB"
+      ],
+      "prices_seen": [
+        90.0
+      ],
+      "listing_ids_seen": [
+        2591586
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "225411": {
+      "backmarket_id": 225411,
+      "title": "iPad Pro 11\" 1st gen (2018) - HDD 256 GB - Space Gray - (WiFi)",
+      "first_seen": "2022-08-03",
+      "last_seen": "2022-08-03",
+      "order_count": 1,
+      "skus_seen": [
+        "iPadPro11.256gb.wifi.good"
+      ],
+      "prices_seen": [
+        432.79
+      ],
+      "listing_ids_seen": [
+        2624574
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "488851": {
+      "backmarket_id": 488851,
+      "title": "Apple Watch (Series 6) GPS + Cellular 44 - Aluminium Space Gray - Sport Nike band Black",
+      "first_seen": "2022-08-03",
+      "last_seen": "2022-08-03",
+      "order_count": 1,
+      "skus_seen": [
+        "S644mm.nike.Cellular.good"
+      ],
+      "prices_seen": [
+        270.0
+      ],
+      "listing_ids_seen": [
+        2623423
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "290058": {
+      "backmarket_id": 290058,
+      "title": "iPhone 11 64 GB - White - Unlocked",
+      "first_seen": "2022-04-26",
+      "last_seen": "2022-08-04",
+      "order_count": 7,
+      "skus_seen": [
+        "iP11.White.64GB.Good",
+        "iP11.White.64GB.Mint",
+        "iP11.White.64GB.VeryGood"
+      ],
+      "prices_seen": [
+        270.0,
+        285.0,
+        288.41,
+        290.0,
+        301.0,
+        310.0,
+        317.37
+      ],
+      "listing_ids_seen": [
+        1450872,
+        1450874,
+        1450877
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "38769": {
+      "backmarket_id": 38769,
+      "title": "iPhone 8 Plus 64 GB - Space Gray - Unlocked",
+      "first_seen": "2021-04-21",
+      "last_seen": "2022-08-04",
+      "order_count": 3,
+      "skus_seen": [
+        "ip8plus.spacegrey.64gb.good",
+        "iP8Plus.SpaceGrey.64GB.Mint"
+      ],
+      "prices_seen": [
+        165.0,
+        179.37,
+        240.0
+      ],
+      "listing_ids_seen": [
+        2580441,
+        1669048
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "333589": {
+      "backmarket_id": 333589,
+      "title": "Apple Watch (Series 4) September 2018 44 - Aluminium Space Gray - Sport loop Black",
+      "first_seen": "2022-08-04",
+      "last_seen": "2022-08-04",
+      "order_count": 1,
+      "skus_seen": [
+        "S444mm.wifi.grey.fair"
+      ],
+      "prices_seen": [
+        128.23
+      ],
+      "listing_ids_seen": [
+        2636000
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "36828": {
+      "backmarket_id": 36828,
+      "title": "iPhone 8 64 GB - Silver - Unlocked",
+      "first_seen": "2020-12-03",
+      "last_seen": "2022-07-19",
+      "order_count": 2,
+      "skus_seen": [
+        "iP8.silver.64gb.Vgood",
+        "iP8.Silver.64GB.Stal"
+      ],
+      "prices_seen": [
+        150.0,
+        250.0
+      ],
+      "listing_ids_seen": [
+        2580416,
+        1379684
+      ],
+      "conditions_seen": [
+        10,
+        4
+      ]
+    },
+    "175669": {
+      "backmarket_id": 175669,
+      "title": "iPhone XS 64 GB - Gold - Unlocked",
+      "first_seen": "2020-11-27",
+      "last_seen": "2022-07-20",
+      "order_count": 22,
+      "skus_seen": [
+        "iPXS.Gold.64GB.VeryGood",
+        "iPXS.Gold.64GB.Good",
+        "iPXS.Gold.64GB.Fair",
+        "iPXS.Gold.64GB.good",
+        "iPXS.Gold.64GB.Vgood",
+        "iPxsG64"
+      ],
+      "prices_seen": [
+        240.0,
+        243.0,
+        245.0,
+        250.0,
+        265.0,
+        270.0,
+        300.0,
+        438.0,
+        440.0,
+        444.0,
+        453.0,
+        455.0,
+        490.0,
+        495.0
+      ],
+      "listing_ids_seen": [
+        1366681,
+        1372949,
+        1384321
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        12,
+        2,
+        3,
+        1
+      ]
+    },
+    "36829": {
+      "backmarket_id": 36829,
+      "title": "iPhone 8 64 GB - Gold - Unlocked",
+      "first_seen": "2020-11-27",
+      "last_seen": "2022-07-20",
+      "order_count": 4,
+      "skus_seen": [
+        "iP8.gold.64gb.Vgood",
+        "iP8G64S",
+        "iP8G64VG"
+      ],
+      "prices_seen": [
+        143.05,
+        190.0,
+        235.0
+      ],
+      "listing_ids_seen": [
+        2580430,
+        1367825,
+        1367824
+      ],
+      "conditions_seen": [
+        10,
+        4,
+        1
+      ]
+    },
+    "14663": {
+      "backmarket_id": 14663,
+      "title": "iPhone 6S 32 GB - Space Gray - Unlocked",
+      "first_seen": "2021-04-21",
+      "last_seen": "2022-07-22",
+      "order_count": 12,
+      "skus_seen": [
+        "iP6s.SG.32GB.Good",
+        "iP6S.SpaceGrey.32GB.Good",
+        "iP6S.SpaceGrey.32GB.Fair",
+        "iP6S.SpaceGrey.32GB.VeryGood"
+      ],
+      "prices_seen": [
+        72.0,
+        75.0,
+        78.0,
+        80.0,
+        82.0,
+        90.0
+      ],
+      "listing_ids_seen": [
+        2589809,
+        1668987,
+        1668996,
+        1668991
+      ],
+      "conditions_seen": [
+        11,
+        2,
+        3,
+        1
+      ]
+    },
+    "36830": {
+      "backmarket_id": 36830,
+      "title": "iPhone 8 256 GB - Space Gray - Unlocked",
+      "first_seen": "2022-07-23",
+      "last_seen": "2022-07-23",
+      "order_count": 1,
+      "skus_seen": [
+        "iP8.grey.256gb.vgood"
+      ],
+      "prices_seen": [
+        180.0
+      ],
+      "listing_ids_seen": [
+        2582725
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "3223": {
+      "backmarket_id": 3223,
+      "title": "iPhone 6S Plus 64 GB - Gold - Unlocked",
+      "first_seen": "2022-07-25",
+      "last_seen": "2022-07-25",
+      "order_count": 1,
+      "skus_seen": [
+        "iP6s.Plus.Gold.64GB.Fair"
+      ],
+      "prices_seen": [
+        90.0
+      ],
+      "listing_ids_seen": [
+        2608311
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "38773": {
+      "backmarket_id": 38773,
+      "title": "iPhone 8 Plus 256 GB - Space Gray - Unlocked",
+      "first_seen": "2022-07-26",
+      "last_seen": "2022-07-26",
+      "order_count": 1,
+      "skus_seen": [
+        "iP8.Plus.SpaceGrey.256gb.Fair"
+      ],
+      "prices_seen": [
+        215.0
+      ],
+      "listing_ids_seen": [
+        2608769
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "3225": {
+      "backmarket_id": 3225,
+      "title": "iPhone 6S Plus 16 GB - Rose Gold - Unlocked",
+      "first_seen": "2022-07-27",
+      "last_seen": "2022-07-27",
+      "order_count": 1,
+      "skus_seen": [
+        "iP6s.Plus.RoseGold.16GB.Fair"
+      ],
+      "prices_seen": [
+        80.0
+      ],
+      "listing_ids_seen": [
+        2608317
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "304345": {
+      "backmarket_id": 304345,
+      "title": "iPad mini 5 (2019) - HDD 64 GB - Space Gray - (WiFi)",
+      "first_seen": "2022-07-27",
+      "last_seen": "2022-07-27",
+      "order_count": 1,
+      "skus_seen": [
+        "iPaMini5.SpaceGrey.64GB.Fair"
+      ],
+      "prices_seen": [
+        260.0
+      ],
+      "listing_ids_seen": [
+        2609106
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "169106": {
+      "backmarket_id": 169106,
+      "title": "iPhone XS 64 GB - Silver - Unlocked",
+      "first_seen": "2020-12-03",
+      "last_seen": "2022-07-10",
+      "order_count": 9,
+      "skus_seen": [
+        "iPXS.Silver.64GB.VeryGood",
+        "iPXS.Silver.64GB.Good",
+        "iPXS.Silver.64GB.Fair",
+        "iPXS.Silver.64GB.fair",
+        "iPXS.Silver.64GB.good"
+      ],
+      "prices_seen": [
+        235.0,
+        240.0,
+        260.0,
+        437.0,
+        460.0
+      ],
+      "listing_ids_seen": [
+        1453413,
+        1453415,
+        1372948
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        12,
+        3,
+        2
+      ]
+    },
+    "290036": {
+      "backmarket_id": 290036,
+      "title": "iPhone 11 Pro 64 GB - Midnight Green - Unlocked",
+      "first_seen": "2022-06-20",
+      "last_seen": "2022-07-11",
+      "order_count": 2,
+      "skus_seen": [
+        "iP11.PRO.MidnightGreen.64GB.Good"
+      ],
+      "prices_seen": [
+        344.0,
+        360.0
+      ],
+      "listing_ids_seen": [
+        1450954
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "478457": {
+      "backmarket_id": 478457,
+      "title": "Apple Watch (Series 5) GPS 40 - Aluminium Gold - Sport loop band White",
+      "first_seen": "2022-07-11",
+      "last_seen": "2022-07-11",
+      "order_count": 1,
+      "skus_seen": [
+        "APS540mm.Gold.Good"
+      ],
+      "prices_seen": [
+        195.0
+      ],
+      "listing_ids_seen": [
+        2563284
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "655622": {
+      "backmarket_id": 655622,
+      "title": "Apple Watch (Series 5) GPS + Cellular 40 - Aluminium Space Gray - Sport band Black",
+      "first_seen": "2022-07-12",
+      "last_seen": "2022-07-12",
+      "order_count": 1,
+      "skus_seen": [
+        "AW.S540mm.Cellular.Grey.Fair"
+      ],
+      "prices_seen": [
+        190.0
+      ],
+      "listing_ids_seen": [
+        2577371
+      ],
+      "conditions_seen": [
+        12
+      ]
+    },
+    "290033": {
+      "backmarket_id": 290033,
+      "title": "iPhone 11 Pro 64 GB - Space Gray - Unlocked",
+      "first_seen": "2022-04-26",
+      "last_seen": "2022-07-12",
+      "order_count": 3,
+      "skus_seen": [
+        "iP11.PRO.SpaceGrey.64GB.Mint",
+        "iP11.PRO.SpaceGrey.64GB.Good"
+      ],
+      "prices_seen": [
+        350.0,
+        380.0,
+        390.0
+      ],
+      "listing_ids_seen": [
+        1451005,
+        1451003
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "36827": {
+      "backmarket_id": 36827,
+      "title": "iPhone 8 64 GB - Space Gray - Unlocked",
+      "first_seen": "2020-11-27",
+      "last_seen": "2022-07-13",
+      "order_count": 11,
+      "skus_seen": [
+        "iP8.SpaceGrey.64GB.VeryGood",
+        "iP8SG64S",
+        "iP8SG64G"
+      ],
+      "prices_seen": [
+        138.0,
+        212.0,
+        213.0,
+        220.0,
+        320.0
+      ],
+      "listing_ids_seen": [
+        1672037,
+        1367805,
+        1367791
+      ],
+      "conditions_seen": [
+        10,
+        1,
+        4,
+        2
+      ]
+    },
+    "14561": {
+      "backmarket_id": 14561,
+      "title": "iPhone 7 32 GB - Rose Gold - Unlocked",
+      "first_seen": "2022-07-18",
+      "last_seen": "2022-07-18",
+      "order_count": 2,
+      "skus_seen": [
+        "iP7.rosegold.32gb.good",
+        "iP7.rosegold.32gb.Vgood"
+      ],
+      "prices_seen": [
+        82.0,
+        90.0
+      ],
+      "listing_ids_seen": [
+        2587212,
+        2587216
+      ],
+      "conditions_seen": [
+        11,
+        10
+      ]
+    },
+    "290057": {
+      "backmarket_id": 290057,
+      "title": "iPhone 11 64 GB - Black - Unlocked",
+      "first_seen": "2021-12-20",
+      "last_seen": "2022-06-25",
+      "order_count": 5,
+      "skus_seen": [
+        "iP11.Black.64GB.VeryGood",
+        "iP11.Black.64GB.Good",
+        "iP11.Black.64GB.Mint"
+      ],
+      "prices_seen": [
+        264.0,
+        310.0,
+        370.0
+      ],
+      "listing_ids_seen": [
+        1450751,
+        1450750,
+        1450752
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "531342": {
+      "backmarket_id": 531342,
+      "title": "Apple Watch (Series 5) GPS 44 - Aluminium Grey - Sport band band Black",
+      "first_seen": "2022-06-28",
+      "last_seen": "2022-06-28",
+      "order_count": 1,
+      "skus_seen": [
+        "Watch.S5.44mm.good"
+      ],
+      "prices_seen": [
+        165.0
+      ],
+      "listing_ids_seen": [
+        2524807
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "413175": {
+      "backmarket_id": 413175,
+      "title": "iPhone 12 Pro 128 GB - Gold - Unlocked",
+      "first_seen": "2022-06-28",
+      "last_seen": "2022-06-28",
+      "order_count": 1,
+      "skus_seen": [
+        "iP12Pro.128gb.gold.Vgood"
+      ],
+      "prices_seen": [
+        630.0
+      ],
+      "listing_ids_seen": [
+        2544715
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "189925": {
+      "backmarket_id": 189925,
+      "title": "iPhone XR 64 GB - White - Unlocked",
+      "first_seen": "2020-11-28",
+      "last_seen": "2022-07-05",
+      "order_count": 9,
+      "skus_seen": [
+        "iPXR.White.64GB.VeryGood",
+        "iPXR.White.64GB.Good",
+        "iPXR.White.64GB.Mint",
+        "iPXRW64S",
+        "iPXR.White.64GB.Fair"
+      ],
+      "prices_seen": [
+        210.0,
+        240.0,
+        275.0,
+        380.0,
+        423.0,
+        425.0,
+        458.0,
+        460.0
+      ],
+      "listing_ids_seen": [
+        1451312,
+        1451308,
+        1451311,
+        1368020,
+        1386096
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        4,
+        3
+      ]
+    },
+    "240091": {
+      "backmarket_id": 240091,
+      "title": "iPhone XR 256 GB - (Product)Red - Unlocked",
+      "first_seen": "2022-07-05",
+      "last_seen": "2022-07-09",
+      "order_count": 2,
+      "skus_seen": [
+        "iPXR.Red.256GB.VeryGood",
+        "iPXR.Red.256GB.Mint"
+      ],
+      "prices_seen": [
+        350.0
+      ],
+      "listing_ids_seen": [
+        1451267,
+        1451265
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "178592": {
+      "backmarket_id": 178592,
+      "title": "iPhone XS 64 GB - Space Gray - Unlocked",
+      "first_seen": "2020-11-27",
+      "last_seen": "2022-06-17",
+      "order_count": 33,
+      "skus_seen": [
+        "iPXS.SpaceGrey.64GB.Mint",
+        "iPXS.SpaceGrey.64GB.VeryGood",
+        "iPXS.SpaceGrey.64GB.Fair",
+        "iPXS.SpaceGrey.64GB.Good",
+        "iPXS.SpaceGrey.64GB.Stallone",
+        "iPXS.Grey.64GB.Stallone",
+        "iPXS.Grey.64GB.good",
+        "iPXS.SG.64GB.Vgood",
+        "iPxsSG64"
+      ],
+      "prices_seen": [
+        200.0,
+        213.0,
+        220.0,
+        227.0,
+        240.0,
+        245.0,
+        260.0,
+        270.0,
+        275.0,
+        290.0,
+        310.0,
+        330.0,
+        389.0,
+        405.0,
+        420.0,
+        425.0,
+        429.0,
+        435.0,
+        445.0,
+        450.0,
+        452.0,
+        453.0,
+        460.0,
+        480.0
+      ],
+      "listing_ids_seen": [
+        1424311,
+        1366673,
+        1424307,
+        1372954,
+        1372955
+      ],
+      "conditions_seen": [
+        10,
+        12,
+        11,
+        4,
+        2,
+        1
+      ]
+    },
+    "290062": {
+      "backmarket_id": 290062,
+      "title": "iPhone 11 64 GB - Purple - Unlocked",
+      "first_seen": "2022-05-30",
+      "last_seen": "2022-06-09",
+      "order_count": 4,
+      "skus_seen": [
+        "iP11.Purple.64GB.Mint",
+        "iP11.Purple.64GB.Good"
+      ],
+      "prices_seen": [
+        266.0,
+        280.0,
+        286.0
+      ],
+      "listing_ids_seen": [
+        1450815,
+        1450814
+      ],
+      "conditions_seen": [
+        10,
+        11
+      ]
+    },
+    "36836": {
+      "backmarket_id": 36836,
+      "title": "iPhone X 256 GB - Silver - Unlocked",
+      "first_seen": "2020-12-05",
+      "last_seen": "2022-06-18",
+      "order_count": 8,
+      "skus_seen": [
+        "iPX.Silver.256GB.VeryGood",
+        "iPX.Silver.256GB.Good",
+        "ipx.silver.256gb.good",
+        "iPx.silver.256gb.fair"
+      ],
+      "prices_seen": [
+        217.0,
+        280.0,
+        299.0,
+        300.0,
+        479.0,
+        493.0,
+        495.0
+      ],
+      "listing_ids_seen": [
+        1424118,
+        1397823,
+        1384297
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        2,
+        3
+      ]
+    },
+    "290060": {
+      "backmarket_id": 290060,
+      "title": "iPhone 11 64 GB - (Product)Red - Unlocked",
+      "first_seen": "2021-05-11",
+      "last_seen": "2022-04-26",
+      "order_count": 3,
+      "skus_seen": [
+        "iP11.Red.64GB.Mint",
+        "iP11.Red.64GB.Good"
+      ],
+      "prices_seen": [
+        290.0,
+        345.0,
+        430.0
+      ],
+      "listing_ids_seen": [
+        1450845,
+        1450843
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        2
+      ]
+    },
+    "290063": {
+      "backmarket_id": 290063,
+      "title": "iPhone 11 128 GB - Black - Unlocked",
+      "first_seen": "2022-04-26",
+      "last_seen": "2022-04-26",
+      "order_count": 1,
+      "skus_seen": [
+        "iP11.Black.128GB.Mint"
+      ],
+      "prices_seen": [
+        375.0
+      ],
+      "listing_ids_seen": [
+        1450737
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "36833": {
+      "backmarket_id": 36833,
+      "title": "iPhone X 64 GB - Space Gray - Unlocked",
+      "first_seen": "2020-12-02",
+      "last_seen": "2022-05-30",
+      "order_count": 43,
+      "skus_seen": [
+        "iPX.SpaceGrey.64GB.Mint",
+        "iPX.SpaceGrey.64GB.Good",
+        "iPX.SpaceGrey.64GB.Fair",
+        "iPX.SpaceGrey.64GB.VeryGood",
+        "iPX.SpaceGrey.64GB.Stallone"
+      ],
+      "prices_seen": [
+        195.0,
+        230.0,
+        235.0,
+        240.0,
+        245.0,
+        249.0,
+        250.0,
+        262.0,
+        264.0,
+        265.0,
+        270.0,
+        271.0,
+        275.0,
+        280.0,
+        283.0,
+        300.0,
+        359.0,
+        370.0,
+        380.0,
+        381.0,
+        389.0,
+        390.0,
+        400.0,
+        405.0,
+        407.0,
+        410.0,
+        420.0,
+        425.0,
+        432.0,
+        450.0
+      ],
+      "listing_ids_seen": [
+        1423839,
+        1379773,
+        1384310,
+        1423836,
+        1386018
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        12,
+        4,
+        2,
+        1,
+        3
+      ]
+    },
+    "418123": {
+      "backmarket_id": 418123,
+      "title": "iPhone 12 64 GB - Green - Unlocked",
+      "first_seen": "2022-05-31",
+      "last_seen": "2022-05-31",
+      "order_count": 1,
+      "skus_seen": [
+        "iP12.green.64GB"
+      ],
+      "prices_seen": [
+        435.0
+      ],
+      "listing_ids_seen": [
+        2476720
+      ],
+      "conditions_seen": [
+        11
+      ]
+    },
+    "161653": {
+      "backmarket_id": 161653,
+      "title": "iPhone XS 256 GB - Space Gray - Unlocked",
+      "first_seen": "2020-11-29",
+      "last_seen": "2021-12-21",
+      "order_count": 10,
+      "skus_seen": [
+        "iPXS.SpaceGrey.256GB.Good",
+        "iPXS.SpaceGrey.256GB.Stallone",
+        "iPXS.SpaceGrey.256GB.VeryGood",
+        "iPXS.Grey.256GB.Good",
+        "iPXS.Grey.256.Vgood"
+      ],
+      "prices_seen": [
+        281.0,
+        299.0,
+        300.0,
+        301.0,
+        343.0,
+        470.0,
+        490.0,
+        505.0,
+        560.0
+      ],
+      "listing_ids_seen": [
+        1372953,
+        1424640,
+        1384354
+      ],
+      "conditions_seen": [
+        11,
+        4,
+        1,
+        2
+      ]
+    },
+    "181534": {
+      "backmarket_id": 181534,
+      "title": " iPhone XS Max 64 GB   - Gold - Unlocked",
+      "first_seen": "2020-11-28",
+      "last_seen": "2022-01-17",
+      "order_count": 10,
+      "skus_seen": [
+        "iPXS.MAX.Gold.64GB.VeryGood",
+        "iPXS.MAX.Gold.64GB.Good",
+        "iPXS.MAX.Gold.64GB.Stallone",
+        "iPXSMax.Gold.64GB.Good",
+        "iPXSMaxG64"
+      ],
+      "prices_seen": [
+        280.0,
+        287.0,
+        310.0,
+        320.0,
+        330.0,
+        380.0,
+        460.0,
+        510.0
+      ],
+      "listing_ids_seen": [
+        1424933,
+        1372951,
+        1424929,
+        1371819
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        4,
+        2,
+        3
+      ]
+    },
+    "290037": {
+      "backmarket_id": 290037,
+      "title": "iPhone 11 Pro 256 GB - Space Gray - Unlocked",
+      "first_seen": "2021-12-18",
+      "last_seen": "2022-01-10",
+      "order_count": 2,
+      "skus_seen": [
+        "iP11.PRO.SpaceGrey.256GB.VeryGood"
+      ],
+      "prices_seen": [
+        493.0,
+        520.0
+      ],
+      "listing_ids_seen": [
+        1450991
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "170952": {
+      "backmarket_id": 170952,
+      "title": " iPhone XS Max 512 GB   - Silver - Unlocked",
+      "first_seen": "2022-02-14",
+      "last_seen": "2022-02-14",
+      "order_count": 1,
+      "skus_seen": [
+        "iPXS.MAX.Silver.512GB.VeryGood"
+      ],
+      "prices_seen": [
+        420.0
+      ],
+      "listing_ids_seen": [
+        1453401
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "166063": {
+      "backmarket_id": 166063,
+      "title": "iPhone XS Max 64 GB - Space Gray - Unlocked",
+      "first_seen": "2021-07-02",
+      "last_seen": "2021-12-17",
+      "order_count": 6,
+      "skus_seen": [
+        "iPXS.MAX.SpaceGrey.64GB.Good",
+        "iPXS.MAX.SpaceGrey.64GB.Fair",
+        "iPXS.MAX.SpaceGrey.64GB.Mint"
+      ],
+      "prices_seen": [
+        265.0,
+        275.0,
+        276.0,
+        300.0,
+        310.0,
+        340.0
+      ],
+      "listing_ids_seen": [
+        1450708,
+        1450707,
+        1450713
+      ],
+      "conditions_seen": [
+        11,
+        12,
+        10
+      ]
+    },
+    "161655": {
+      "backmarket_id": 161655,
+      "title": "iPhone XS 256 GB - Gold - Unlocked",
+      "first_seen": "2020-11-30",
+      "last_seen": "2021-12-20",
+      "order_count": 9,
+      "skus_seen": [
+        "iPXS.Gold.256GB.VeryGood",
+        "iPXS.Gold.256GB.Good",
+        "iPXS.Gold.256GB.Stallone.",
+        "iPXS.Gold.256GB.Fair",
+        "iPXS.Gold.256GB.Vgood"
+      ],
+      "prices_seen": [
+        305.0,
+        310.0,
+        320.0,
+        329.0,
+        350.0,
+        499.0,
+        505.0,
+        550.0,
+        614.0
+      ],
+      "listing_ids_seen": [
+        1372947,
+        1453390,
+        1384315,
+        1384347
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        4,
+        3,
+        1
+      ]
+    },
+    "178228": {
+      "backmarket_id": 178228,
+      "title": " iPhone XS Max 64 GB   - Silver - Unlocked",
+      "first_seen": "2021-12-20",
+      "last_seen": "2021-12-20",
+      "order_count": 1,
+      "skus_seen": [
+        "iPXS.MAX.Silver.64GB.VeryGood"
+      ],
+      "prices_seen": [
+        320.0
+      ],
+      "listing_ids_seen": [
+        1450674
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "161659": {
+      "backmarket_id": 161659,
+      "title": " iPhone XR 64 GB   - Black - Unlocked",
+      "first_seen": "2020-12-02",
+      "last_seen": "2021-12-21",
+      "order_count": 21,
+      "skus_seen": [
+        "iPXR.Black.64GB.VeryGood",
+        "iPXR.Black.64GB.Good",
+        "iPXR.Black.64GB.Stallone",
+        "iPXR.Black.64GB.good",
+        "iPXR.Black.64GB.Fair"
+      ],
+      "prices_seen": [
+        250.0,
+        275.0,
+        279.0,
+        280.0,
+        295.0,
+        350.0,
+        390.0,
+        395.0,
+        410.0,
+        411.0,
+        459.0
+      ],
+      "listing_ids_seen": [
+        1451147,
+        1398224,
+        1397419,
+        1379742
+      ],
+      "conditions_seen": [
+        10,
+        11,
+        2,
+        4,
+        3
+      ]
+    },
+    "205401": {
+      "backmarket_id": 205401,
+      "title": "iPhone XR 64 GB - (Product)Red - Unlocked",
+      "first_seen": "2020-12-05",
+      "last_seen": "2021-12-21",
+      "order_count": 6,
+      "skus_seen": [
+        "iPXR.Red.64GB.VeryGood",
+        "iPXR.Red.64GB.Stall"
+      ],
+      "prices_seen": [
+        250.0,
+        265.0,
+        385.0,
+        411.0
+      ],
+      "listing_ids_seen": [
+        1451278,
+        1384430
+      ],
+      "conditions_seen": [
+        10,
+        4
+      ]
+    },
+    "36834": {
+      "backmarket_id": 36834,
+      "title": "iPhone X 256 GB - Space Gray - Unlocked",
+      "first_seen": "2020-11-29",
+      "last_seen": "2021-12-13",
+      "order_count": 7,
+      "skus_seen": [
+        "iPX.SpaceGrey.256GB.VeryGood",
+        "iPX.SpaceGrey.256GB.Good",
+        "iPX.Grey.256gb.stallone",
+        "iPX.Grey.256gb.Fair",
+        "iPX.Grey.256gb.Stallone"
+      ],
+      "prices_seen": [
+        295.0,
+        320.0,
+        387.0,
+        397.0,
+        425.0,
+        440.0
+      ],
+      "listing_ids_seen": [
+        1424138,
+        1424132,
+        1372956,
+        1422238
+      ],
+      "conditions_seen": [
+        10,
+        2,
+        4,
+        3
+      ]
+    },
+    "161654": {
+      "backmarket_id": 161654,
+      "title": "iPhone XS 256 GB - Silver - Unlocked",
+      "first_seen": "2020-12-06",
+      "last_seen": "2021-12-17",
+      "order_count": 3,
+      "skus_seen": [
+        "iPXS.Silver.256GB.VeryGood",
+        "IPXS.Sliver.256GB.Good",
+        "IPXS.Sliver.256GB.fair"
+      ],
+      "prices_seen": [
+        320.0,
+        496.0,
+        530.0
+      ],
+      "listing_ids_seen": [
+        1453410,
+        1386063,
+        1386055
+      ],
+      "conditions_seen": [
+        10,
+        2,
+        3
+      ]
+    },
+    "213077": {
+      "backmarket_id": 213077,
+      "title": " iPhone XR 64 GB   - Blue - Unlocked",
+      "first_seen": "2020-11-28",
+      "last_seen": "2021-12-09",
+      "order_count": 10,
+      "skus_seen": [
+        "iPXR.Blue.64GB.VeryGood",
+        "iPXR.Blue.64GB.Good",
+        "iPXRB64S",
+        "iPXRB64G"
+      ],
+      "prices_seen": [
+        260.0,
+        280.0,
+        290.0,
+        355.0,
+        370.0,
+        372.0
+      ],
+      "listing_ids_seen": [
+        1451174,
+        1368128,
+        1368129
+      ],
+      "conditions_seen": [
+        10,
+        2,
+        4
+      ]
+    },
+    "161661": {
+      "backmarket_id": 161661,
+      "title": "iPhone XR 64 GB - Coral - Unlocked",
+      "first_seen": "2021-12-09",
+      "last_seen": "2021-12-09",
+      "order_count": 2,
+      "skus_seen": [
+        "iPXR.Coral.64GB.VeryGood"
+      ],
+      "prices_seen": [
+        275.0
+      ],
+      "listing_ids_seen": [
+        1451201
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "199289": {
+      "backmarket_id": 199289,
+      "title": "iPhone XR 128 GB - Black - Unlocked",
+      "first_seen": "2020-12-05",
+      "last_seen": "2021-11-08",
+      "order_count": 2,
+      "skus_seen": [
+        "iPXR.Black.128GB.VeryGood",
+        "iPXR.Black.128GB.Good"
+      ],
+      "prices_seen": [
+        305.0,
+        474.0
+      ],
+      "listing_ids_seen": [
+        1451131,
+        1384433
+      ],
+      "conditions_seen": [
+        10,
+        2
+      ]
+    },
+    "167435": {
+      "backmarket_id": 167435,
+      "title": "iPhone XS Max 256 GB - Space Gray - Unlocked",
+      "first_seen": "2020-11-30",
+      "last_seen": "2021-10-31",
+      "order_count": 4,
+      "skus_seen": [
+        "iPXS.MAX.SpaceGrey.256GB.VeryGood",
+        "iPXS.MAX.SpaceGrey.256GB.Mint",
+        "iPXSMax.Grey.256GB.vgood",
+        "iPXSMax.Grey.256GB.Fair"
+      ],
+      "prices_seen": [
+        380.0,
+        400.0,
+        490.0,
+        580.0
+      ],
+      "listing_ids_seen": [
+        1379833,
+        1424914,
+        1372952
+      ],
+      "conditions_seen": [
+        10,
+        1,
+        3
+      ]
+    },
+    "240744": {
+      "backmarket_id": 240744,
+      "title": "iPhone XR 64 GB - Yellow - Unlocked",
+      "first_seen": "2020-11-28",
+      "last_seen": "2021-11-07",
+      "order_count": 2,
+      "skus_seen": [
+        "iPXR.Yellow.64GB.VeryGood",
+        "iPXRY64Mint"
+      ],
+      "prices_seen": [
+        275.0,
+        400.0
+      ],
+      "listing_ids_seen": [
+        1453383,
+        1371820
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "199320": {
+      "backmarket_id": 199320,
+      "title": " iPhone XR 128 GB   - Coral - Unlocked",
+      "first_seen": "2021-10-26",
+      "last_seen": "2021-10-26",
+      "order_count": 1,
+      "skus_seen": [
+        "iPXR.Coral.128GB.VeryGood"
+      ],
+      "prices_seen": [
+        290.0
+      ],
+      "listing_ids_seen": [
+        1451186
+      ],
+      "conditions_seen": [
+        10
+      ]
+    },
+    "175710": {
+      "backmarket_id": 175710,
+      "title": "iPhone XS Max 256 GB - Gold - Unlocked",
+      "first_seen": "2020-12-21",
+      "last_seen": "2021-07-19",
+      "order_count": 2,
+      "skus_seen": [
+        "iPXS.MAX.Gold.256GB.Excellent",
+        "ipxsmax.gold.256gb.good"
+      ],
+      "prices_seen": [
+        375.0,
+        550.0
+      ],
+      "listing_ids_seen": [
+        1424979,
+        1417741
+      ],
+      "conditions_seen": [
+        10,
+        2
+      ]
+    },
+    "14659": {
+      "backmarket_id": 14659,
+      "title": "iPhone 6S Plus 32 GB - Space Gray - Unlocked",
+      "first_seen": "2021-05-08",
+      "last_seen": "2021-05-08",
+      "order_count": 1,
+      "skus_seen": [
+        "iP6SPlus.SpaceGrey.32GB.VeryGood"
+      ],
+      "prices_seen": [
+        133.0
+      ],
+      "listing_ids_seen": [
+        1669042
+      ],
+      "conditions_seen": [
+        1
+      ]
+    },
+    "3213": {
+      "backmarket_id": 3213,
+      "title": " iPhone 6S Plus 128 GB   - Silver - Unlocked",
+      "first_seen": "2021-05-19",
+      "last_seen": "2021-05-19",
+      "order_count": 1,
+      "skus_seen": [
+        "iP6SPlus.Sliver.128GB.VeryGood"
+      ],
+      "prices_seen": [
+        150.0
+      ],
+      "listing_ids_seen": [
+        1669036
+      ],
+      "conditions_seen": [
+        1
+      ]
+    },
+    "3218": {
+      "backmarket_id": 3218,
+      "title": " iPhone 6S 64 GB   - Silver - Unlocked",
+      "first_seen": "2021-04-25",
+      "last_seen": "2021-04-25",
+      "order_count": 1,
+      "skus_seen": [
+        "iP6S.Sliver.64GB.VeryGood"
+      ],
+      "prices_seen": [
+        89.0
+      ],
+      "listing_ids_seen": [
+        1669000
+      ],
+      "conditions_seen": [
+        1
+      ]
+    },
+    "15028": {
+      "backmarket_id": 15028,
+      "title": "iPhone 7 Plus 32 GB - Black - Unlocked",
+      "first_seen": "2021-04-22",
+      "last_seen": "2021-04-22",
+      "order_count": 1,
+      "skus_seen": [
+        "iP7Plus.Black.32GB.Stallone"
+      ],
+      "prices_seen": [
+        140.0
+      ],
+      "listing_ids_seen": [
+        1669067
+      ],
+      "conditions_seen": [
+        4
+      ]
+    },
+    "127776": {
+      "backmarket_id": 127776,
+      "title": "iPhone 8 64 Gb - (Product)Red - Ohne Vertrag",
+      "first_seen": "2020-11-29",
+      "last_seen": "2020-12-02",
+      "order_count": 2,
+      "skus_seen": [
+        "iP8.Red.64GB.Vgood",
+        "iP8R64S"
+      ],
+      "prices_seen": [
+        195.0,
+        265.0
+      ],
+      "listing_ids_seen": [
+        1379672,
+        1367843
+      ],
+      "conditions_seen": [
+        1,
+        4
+      ]
+    },
+    "38770": {
+      "backmarket_id": 38770,
+      "title": "iPhone 8 Plus 64 Go   - Argent - D\u00e9bloqu\u00e9",
+      "first_seen": "2020-11-27",
+      "last_seen": "2020-12-02",
+      "order_count": 3,
+      "skus_seen": [
+        "iP8Plus.Silver.64GB.Vgood",
+        "iP8S64S"
+      ],
+      "prices_seen": [
+        250.0,
+        358.0
+      ],
+      "listing_ids_seen": [
+        1379712,
+        1367817
+      ],
+      "conditions_seen": [
+        1,
+        4
+      ]
+    },
+    "178660": {
+      "backmarket_id": 178660,
+      "title": "iPhone XS Max 512 Gb   - Space Grau - Ohne Vertrag",
+      "first_seen": "2020-11-30",
+      "last_seen": "2020-11-30",
+      "order_count": 1,
+      "skus_seen": [
+        "iPXSMaxSG512"
+      ],
+      "prices_seen": [
+        595.0
+      ],
+      "listing_ids_seen": [
+        1371818
+      ],
+      "conditions_seen": [
+        3
+      ]
+    }
+  }
+}
