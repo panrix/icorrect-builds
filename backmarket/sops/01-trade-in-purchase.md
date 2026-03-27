@@ -40,7 +40,6 @@ For each new order, create two linked items:
 | `status__1` | RAM | RAM spec from BM order |
 | `status7__1` | CPU | Processor from BM order |
 | `status8__1` | GPU | GPU from BM order |
-| `text` | Model Number | A-number from BM order |
 | `keyboard_layout__1` | Keyboard Layout | Layout from BM listing title (text column) |
 
 ### Step 3: Done
