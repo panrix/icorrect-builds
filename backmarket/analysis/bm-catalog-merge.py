@@ -37,6 +37,7 @@ from datetime import datetime, timezone
 LISTING_HISTORY_PATH = "/home/ricky/builds/backmarket/data/product-id-lookup.json"
 ORDER_HISTORY_PATH = "/home/ricky/builds/backmarket/data/order-history-product-ids.json"
 SCRAPER_PATH = "/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json"
+COLOUR_MAP_PATH = "/home/ricky/builds/backmarket/data/listings-colour-map.json"
 OUTPUT_PATH = "/home/ricky/builds/backmarket/data/bm-catalog.json"
 
 
@@ -264,8 +265,9 @@ def derive_spec_from_picker(picker_options):
 # ── Merge logic ─────────────────────────────────────────────────────
 
 def merge_catalog(listing_history, order_history, scraper_products, scraper_base_uuids,
-                  bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid, verbose=False):
+                  bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid, colour_map=None, verbose=False):
     """Merge all sources into a unified catalog, keyed by UUID product_id."""
+    colour_map = colour_map or {}
     variants = {}
     model_index = {}
 
@@ -382,6 +384,10 @@ def merge_catalog(listing_history, order_history, scraper_products, scraper_base
         cpu_gpu = parsed.get("cpu_gpu", "")
         colour = ""
 
+        # Supplement colour from listings colour map (extracted from SKUs)
+        if not colour and uuid in colour_map:
+            colour = colour_map[uuid]
+
         # Supplement from scraper picker data
         if in_scraper:
             sp = scraper_products[uuid]
@@ -495,6 +501,15 @@ def main():
     scraped_ok = sum(1 for m in scraper_data.get("models", {}).values() if m.get("scraped"))
     print(f"  Scraper: {models_count} models ({scraped_ok} scraped) from {SCRAPER_PATH}")
 
+    colour_map = {}
+    if os.path.exists(COLOUR_MAP_PATH):
+        with open(COLOUR_MAP_PATH) as f:
+            cm_data = json.load(f)
+        colour_map = cm_data.get("colour_map", {})
+        print(f"  Colour map: {len(colour_map)} product_ids from {COLOUR_MAP_PATH}")
+    else:
+        print(f"  WARNING: Colour map not found at {COLOUR_MAP_PATH}")
+
     # ── Build cross-reference maps ──────────────────────────────────
 
     print("\n--- Building cross-reference maps ---")
@@ -516,7 +531,7 @@ def main():
     variants, model_index, unmatched_orders = merge_catalog(
         listing_history, order_history, scraper_products, scraper_base_uuids,
         bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid,
-        verbose=verbose
+        colour_map=colour_map, verbose=verbose
     )
 
     # ── Compute summary ─────────────────────────────────────────────

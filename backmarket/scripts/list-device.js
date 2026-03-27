@@ -48,6 +48,27 @@ const isDryRun = !isLive;
 const forceLive = args.includes('--force-live');
 const itemIdx = args.indexOf('--item');
 const singleItemId = itemIdx !== -1 ? args[itemIdx + 1] : null;
+const minMarginIdx = args.indexOf('--min-margin');
+const MIN_MARGIN_OVERRIDE = minMarginIdx !== -1 ? parseFloat(args[minMarginIdx + 1]) : null;
+
+// ─── Disk Cache ──────────────────────────────────────────────────
+const CACHE_DIR = path.join(__dirname, 'data', 'cache');
+const CACHE_TTL_MS = 60 * 60 * 1000; // 1 hour
+
+function readDiskCache(name) {
+  const cachePath = path.join(CACHE_DIR, `${name}.json`);
+  if (!fs.existsSync(cachePath)) return null;
+  const stat = fs.statSync(cachePath);
+  if (Date.now() - stat.mtimeMs > CACHE_TTL_MS) return null;
+  try {
+    return JSON.parse(fs.readFileSync(cachePath, 'utf8'));
+  } catch { return null; }
+}
+
+function writeDiskCache(name, data) {
+  if (!fs.existsSync(CACHE_DIR)) fs.mkdirSync(CACHE_DIR, { recursive: true });
+  fs.writeFileSync(path.join(CACHE_DIR, `${name}.json`), JSON.stringify(data));
+}
 
 // ─── Helpers ──────────────────────────────────────────────────────
 
@@ -1211,6 +1232,12 @@ async function getAllListings() {
     console.log(`  Using cached listings (${_listingsCache.length} total)`);
     return _listingsCache;
   }
+  const diskCache = readDiskCache('listings');
+  if (diskCache) {
+    console.log(`  Using disk-cached listings (${diskCache.length} total, <1hr old)`);
+    _listingsCache = diskCache;
+    return _listingsCache;
+  }
   console.log(`  Fetching all listings (first time, will cache)...`);
   const allListings = [];
   let page = 1;
@@ -1225,6 +1252,7 @@ async function getAllListings() {
   }
   console.log(`  Fetched ${allListings.length} total listings across ${page} pages`);
   _listingsCache = allListings;
+  writeDiskCache('listings', allListings);
   return allListings;
 }
 
@@ -1362,6 +1390,12 @@ async function getAllCompletedOrders() {
     console.log(`  Using cached orders (${_ordersCache.length} total)`);
     return _ordersCache;
   }
+  const diskCache = readDiskCache('orders');
+  if (diskCache) {
+    console.log(`  Using disk-cached orders (${diskCache.length} total, <1hr old)`);
+    _ordersCache = diskCache;
+    return _ordersCache;
+  }
   console.log(`  Fetching all completed orders (first time, will cache)...`);
   const allOrders = [];
   let page = 1;
@@ -1381,6 +1415,7 @@ async function getAllCompletedOrders() {
   }
   console.log(`  Fetched ${allOrders.length} completed orders across ${page} pages`);
   _ordersCache = allOrders;
+  writeDiskCache('orders', allOrders);
   return allOrders;
 }
 
@@ -1460,11 +1495,11 @@ function calculateProfitability(proposed, specs) {
 
 function decisionGate(profitability) {
   const { margin, net, minPrice } = profitability;
+  const minMargin = MIN_MARGIN_OVERRIDE !== null ? MIN_MARGIN_OVERRIDE : 15;
 
-  if (net < 0) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
-  if (margin < 15) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 15% at min_price` };
-  // AUTO-LIST disabled until data pipeline is trusted (parts, model matching, product_ids verified)
-  // if (margin >= 30 && net >= 100) return { decision: 'AUTO-LIST', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
+  if (net < 0 && MIN_MARGIN_OVERRIDE === null) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
+  if (net < 0 && MIN_MARGIN_OVERRIDE !== null) return { decision: 'PROPOSE', reason: `⚠️ Loss maker (net £${net}) — approved via --min-margin override` };
+  if (margin < minMargin) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < ${minMargin}% at min_price` };
   return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
 }
 
