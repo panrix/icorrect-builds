@@ -327,7 +327,7 @@ async function createBmDevicesItem(order) {
   if (cpu) colValues.status7__1 = { label: cpu };                 // CPU
   if (gpu) colValues.status8__1 = { label: gpu };                 // GPU
   // text column (Model Number) deleted Mar 23 — model extracted from device name downstream
-  if (keyboardLayout) colValues.keyboard_layout__1 = { label: keyboardLayout }; // Keyboard Layout
+  if (keyboardLayout) colValues.keyboard_layout__1 = keyboardLayout; // Keyboard Layout (text column, not status)
 
   const itemName = order.product_name || order.title || `Trade-in ${publicId}`;
   const escapedVals = JSON.stringify(JSON.stringify(colValues));
