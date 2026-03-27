@@ -44,6 +44,7 @@ const BM_TELEGRAM_CHAT = '-1003888456344';
 const args = process.argv.slice(2);
 const isLive = args.includes('--live');
 const isDryRun = !isLive;
+const specificOrders = args.filter(a => a.startsWith('--order=')).map(a => a.split('=')[1]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ─── API helpers ──────────────────────────────────────────────────
@@ -172,6 +173,7 @@ function extractProductName(order) {
 
 function extractPrice(order) {
   const raw = extractField(order,
+    'originalPrice.value',
     'originalPrice',
     'original_price',
     'price',
@@ -207,7 +209,6 @@ async function createMainBoardItem(order) {
 
   const colValues = {
     text_mky01vb4: publicId,                              // BM Trade-in ID
-    color_mkzmbya2: { label: 'Back Market' },             // Source
   };
   if (orderDate) colValues.date_mkqgbbtp = { date: orderDate }; // Date Purchased (BM)
   if (tracking) colValues.text796 = tracking;              // Inbound Tracking
@@ -234,8 +235,13 @@ async function createBmDevicesItem(order) {
   const reportedDamage = extractField(order, 'customer_comment', 'comment', 'description', 'listing.description');
   const purchasePrice = extractPrice(order);
 
-  // Trade-in grade from BM (FUNC_CRACK, FUNC_USED, etc.)
-  const bmGrade = extractField(order, 'grade', 'condition', 'listing.grade', 'offer_grade');
+  // Trade-in grade from BM — map cosmetic grades to Monday labels
+  const BM_GRADE_MAP = {
+    'FUNC_CRACK': 'FUNC_CRACK', 'FUNC_USED': 'FUNC_USED', 'FUNC_GOOD': 'FUNC_GOOD',
+    'FUNC_EXCELLENT': 'FUNC_EXCELLENT', 'NONFUNC_CRACK': 'NONFUNC_CRACK', 'NONFUNC_USED': 'NONFUNC_USED',
+  };
+  const rawGrade = extractField(order, 'grade', 'condition', 'listing.grade', 'offer_grade');
+  const bmGrade = BM_GRADE_MAP[rawGrade] || ''; // Skip if cosmetic grade (PLATINUM/GOLD/SILVER/BRONZE)
 
   // Spec fields — BM nests these under listing or product objects
   const listing = order.listing || order.product || {};
@@ -304,16 +310,31 @@ async function linkItems(bmDeviceItemId, mainItemId) {
   console.log('');
 
   // Step 1
-  console.log('[Step 1] Fetching SENT orders from BM buyback API...');
   let orders;
-  try {
-    orders = await fetchSentOrders();
-  } catch (e) {
-    console.error(`  ❌ Failed to fetch orders: ${e.message}`);
-    await postTelegram(`❌ SOP 01: Failed to fetch SENT orders from BM API: ${e.message}`);
-    process.exit(1);
+  if (specificOrders.length > 0) {
+    console.log(`[Step 1] Fetching ${specificOrders.length} specific order(s) from BM buyback API...`);
+    orders = [];
+    for (const id of specificOrders) {
+      try {
+        const order = await bmApi(`/ws/buyback/v1/orders/${id}`);
+        orders.push(order);
+        console.log(`  ✅ ${id} (${order.status})`);
+      } catch (e) {
+        console.error(`  ❌ ${id}: ${e.message}`);
+      }
+      await sleep(500);
+    }
+  } else {
+    console.log('[Step 1] Fetching SENT orders from BM buyback API...');
+    try {
+      orders = await fetchSentOrders();
+    } catch (e) {
+      console.error(`  ❌ Failed to fetch orders: ${e.message}`);
+      await postTelegram(`❌ SOP 01: Failed to fetch SENT orders from BM API: ${e.message}`);
+      process.exit(1);
+    }
   }
-  console.log(`  ${orders.length} SENT orders found\n`);
+  console.log(`  ${orders.length} orders found\n`);
 
   if (orders.length === 0) {
     console.log('No SENT orders. Done.');
