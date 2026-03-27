@@ -2,11 +2,12 @@
 /**
  * listings-audit.js — Listings Rebuild Phase 1: Audit
  *
- * Read-only. Fetches ALL listings from BM API, constructs what each SKU
- * SHOULD be from the title, compares to current SKU, flags mismatches.
+ * Read-only. Fetches ALL listings from BM API and performs a conservative
+ * classification pass. It only calls something a match/mismatch when a
+ * verified lookup title exists and can be parsed safely.
  *
- * Outputs: JSON report of all listings with current SKU, correct SKU,
- * and mismatch details.
+ * Outputs: JSON report of high-confidence matches/mismatches plus a large
+ * manual-review bucket for anything not supported by verified lookup data.
  *
  * Usage:
  *   node listings-audit.js                       # Full audit
@@ -30,7 +31,7 @@ const BM_BASE = 'https://www.backmarket.co.uk';
 const BM_AUTH = process.env.BACKMARKET_API_AUTH;
 const BM_LANG = process.env.BACKMARKET_API_LANG || 'en-gb';
 const BM_UA = process.env.BACKMARKET_API_UA;
-const PRODUCT_ID_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'product-id-lookup.json');
+const PRODUCT_ID_LOOKUP_PATH = path.join(__dirname, 'data', 'product-id-lookup.json');
 
 const args = process.argv.slice(2);
 const limitIdx = args.indexOf('--limit');
@@ -199,15 +200,35 @@ function parseTitle(title) {
   return null;
 }
 
-// Build the correct SKU from listing data
-function buildCorrectSku(listing) {
-  const parsed = parseTitle(listing.title || '');
+// Build the correct SKU from verified lookup title only.
+function buildCorrectSku(listing, verifiedTitle = null) {
+  const parsed = parseTitle(verifiedTitle || '');
   if (!parsed) return null;
 
   const grade = gradeToSku(listing.grade);
   // We can't reliably extract colour from titles, so omit it for now
   // The full SKU without colour is still useful for mismatch detection
   return `${parsed.skuBase}.${grade}`;
+}
+
+function classifyListing({ verifiedTitle, correctSku, currentSku }) {
+  if (!verifiedTitle) {
+    return { classification: 'manual_review', reason: 'No verified lookup title' };
+  }
+  if (!correctSku) {
+    return { classification: 'manual_review', reason: 'Verified lookup title not parseable' };
+  }
+  if (!currentSku) {
+    return { classification: 'blocked', reason: 'No current SKU set' };
+  }
+
+  const currentNorm = currentSku.toUpperCase().replace(/[^A-Z0-9.]/g, '');
+  const correctNorm = correctSku.toUpperCase().replace(/[^A-Z0-9.]/g, '');
+  if (currentNorm === correctNorm) {
+    return { classification: 'safe_manual', reason: 'Current SKU matches verified lookup title' };
+  }
+
+  return { classification: 'blocked', reason: 'SKU mismatch against verified lookup title' };
 }
 
 // ─── Main ─────────────────────────────────────────────────────────
@@ -251,10 +272,12 @@ function buildCorrectSku(listing) {
   const report = {
     generated: new Date().toISOString(),
     total: allListings.length,
-    summary: { match: 0, mismatch: 0, unparseable: 0, noSku: 0 },
+    summary: { safe_manual: 0, blocked: 0, manual_review: 0, match: 0, mismatch: 0, noSku: 0 },
     mismatches: [],
-    unparseable: [],
+    manual_review: [],
     matches: [],
+    safe_manual: [],
+    blocked: [],
   };
 
   for (const listing of allListings) {
@@ -263,15 +286,19 @@ function buildCorrectSku(listing) {
     const title = listing.title || '';
     const grade = listing.grade;
     const productId = listing.product_id || listing.product?.id || '';
+    const lookupEntry = productLookup[productId] || null;
+    const verifiedTitle = lookupEntry?.title || null;
     const qty = listing.quantity || 0;
     const price = listing.price || 0;
     const pubState = listing.publication_state;
-
-    const correctSku = buildCorrectSku(listing);
+    const hasCurrentSku = !!currentSku;
+    const correctSku = buildCorrectSku(listing, verifiedTitle);
+    const classification = classifyListing({ verifiedTitle, correctSku, currentSku });
 
     const entry = {
       listing_id: listingId,
       title,
+      verified_title: verifiedTitle,
       current_sku: currentSku,
       correct_sku: correctSku,
       grade: gradeToSku(grade),
@@ -279,33 +306,30 @@ function buildCorrectSku(listing) {
       quantity: qty,
       price,
       publication_state: pubState,
+      title_source: verifiedTitle ? 'lookup' : 'listing',
+      classification: classification.classification,
+      reason: classification.reason,
     };
 
-    if (!correctSku) {
-      // Title couldn't be parsed
-      report.unparseable.push({ ...entry, reason: 'Title did not match any known model pattern' });
-      report.summary.unparseable++;
+    if (classification.classification === 'manual_review') {
+      report.manual_review.push(entry);
+      report.summary.manual_review++;
       continue;
     }
 
-    if (!currentSku) {
-      report.mismatches.push({ ...entry, reason: 'No current SKU set' });
-      report.summary.noSku++;
+    if (classification.classification === 'blocked') {
+      report.blocked.push(entry);
+      report.mismatches.push(entry);
+      report.summary.blocked++;
+      if (!hasCurrentSku) report.summary.noSku++;
       report.summary.mismatch++;
       continue;
     }
 
-    // Compare: normalize both to check for match
-    const currentNorm = currentSku.toUpperCase().replace(/[^A-Z0-9.]/g, '');
-    const correctNorm = correctSku.toUpperCase().replace(/[^A-Z0-9.]/g, '');
-
-    if (currentNorm === correctNorm) {
-      report.matches.push(entry);
-      report.summary.match++;
-    } else {
-      report.mismatches.push({ ...entry, reason: 'SKU mismatch' });
-      report.summary.mismatch++;
-    }
+    report.safe_manual.push(entry);
+    report.matches.push(entry);
+    report.summary.safe_manual++;
+    report.summary.match++;
   }
 
   // Lookup table coverage
@@ -331,9 +355,11 @@ function buildCorrectSku(listing) {
   console.log('  AUDIT SUMMARY');
   console.log('═'.repeat(60));
   console.log(`  Total listings:    ${report.total}`);
+  console.log(`  Safe manual:       ${report.summary.safe_manual}`);
+  console.log(`  Blocked:           ${report.summary.blocked}`);
+  console.log(`  Manual review:     ${report.summary.manual_review}`);
   console.log(`  SKU matches:       ${report.summary.match}`);
   console.log(`  SKU mismatches:    ${report.summary.mismatch} (${report.summary.noSku} have no SKU)`);
-  console.log(`  Unparseable:       ${report.summary.unparseable} (title didn't match known patterns)`);
   console.log('');
   console.log('  Lookup table coverage:');
   console.log(`    Product IDs in lookup: ${report.lookup_coverage.in_lookup}`);
@@ -351,10 +377,10 @@ function buildCorrectSku(listing) {
     }
   }
 
-  if (report.unparseable.length > 0) {
-    console.log(`\n  Top 5 unparseable titles:`);
-    for (const u of report.unparseable.slice(0, 5)) {
-      console.log(`    ${u.listing_id}: "${u.title}"`);
+  if (report.manual_review.length > 0) {
+    console.log(`\n  Top 5 manual-review listings:`);
+    for (const u of report.manual_review.slice(0, 5)) {
+      console.log(`    ${u.listing_id}: "${u.title}" (${u.reason})`);
     }
   }
 })();

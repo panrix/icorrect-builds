@@ -27,7 +27,7 @@ const LISTED_INDEX = 7;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 const V6_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
-const PRODUCT_ID_LOOKUP_PATH = '/home/ricky/builds/bm-scripts/data/product-id-lookup.json';
+const PRODUCT_ID_LOOKUP_PATH = '/home/ricky/builds/backmarket/data/product-id-lookup.json';
 const SHIPPING_COST = 15;
 const LABOUR_RATE = 24; // £/hr
 const BM_BUY_FEE_RATE = 0.10;
@@ -45,6 +45,7 @@ const BM_GRADE_TO_SCRAPER = { FAIR: 'Fair', GOOD: 'Good', VERY_GOOD: 'Excellent'
 const args = process.argv.slice(2);
 const isLive = args.includes('--live');
 const isDryRun = !isLive;
+const forceLive = args.includes('--force-live');
 const itemIdx = args.indexOf('--item');
 const singleItemId = itemIdx !== -1 ? args[itemIdx + 1] : null;
 
@@ -85,6 +86,49 @@ async function bmApiFetch(urlPath, opts = {}) {
 }
 
 function today() { return new Date().toISOString().slice(0, 10); }
+
+function normalizeColour(colour) {
+  return (colour || '')
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace('space gray', 'space grey');
+}
+
+function lookupTitleHasExpectedColour(title, colour) {
+  const titleNorm = normalizeColour(title);
+  const colourNorm = normalizeColour(colour);
+  if (!titleNorm || !colourNorm) return false;
+
+  const acceptable = {
+    grey: ['grey', 'space grey'],
+    'space grey': ['space grey', 'grey'],
+    silver: ['silver'],
+    gold: ['gold'],
+    midnight: ['midnight'],
+    starlight: ['starlight'],
+    black: ['black', 'space black'],
+    'space black': ['space black', 'black'],
+  };
+
+  return (acceptable[colourNorm] || [colourNorm]).some(option => titleNorm.includes(option));
+}
+
+function classifyTrust({ hasProductResolution, liveEligible, decision, missingGrade }) {
+  if (missingGrade || !hasProductResolution) {
+    return {
+      classification: 'blocked',
+      reason: missingGrade ? 'Missing or unmapped final grade' : 'No trusted product_id resolution',
+    };
+  }
+  if (decision?.decision === 'BLOCK') {
+    return { classification: 'blocked', reason: decision.reason };
+  }
+  if (!liveEligible) {
+    return { classification: 'manual_review', reason: 'Product/spec/colour resolution is not exact enough for live listing' };
+  }
+  return { classification: 'safe_manual', reason: 'Exact product resolution and non-blocked profitability; eligible only for single-item manual live run' };
+}
 
 // ─── Step 1: Read Final Grade ─────────────────────────────────────
 
@@ -134,7 +178,7 @@ async function buildBmDeviceMap(mainItemIds) {
       cursor
       items {
         id name
-        column_values(ids: ["board_relation", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
+        column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
           id text type
           ... on BoardRelationValue { linked_item_ids }
           ... on MirrorValue { display_value }
@@ -155,6 +199,7 @@ async function buildBmDeviceMap(mainItemIds) {
         if (mainIdSet.has(String(lid))) {
           const specs = {};
           for (const cv of item.column_values) {
+            if (cv.id === 'text') specs.model = (cv.text || '').trim();
             if (cv.id === 'status__1') specs.ram = cv.text || '';
             if (cv.id === 'color2') specs.ssd = cv.text || '';
             if (cv.id === 'status7__1') specs.cpu = cv.text || '';
@@ -164,11 +209,11 @@ async function buildBmDeviceMap(mainItemIds) {
             if (cv.id === 'text_mkyd4bx3') specs.storedListingId = (cv.text || '').trim();
             if (cv.id === 'text_mm1dt53s') specs.storedUuid = (cv.text || '').trim();
           }
-          // Extract A-number from deviceName or item name (text column deleted Mar 23)
-          specs.model = '';
-          const nameStr = (specs.deviceName || '') + ' ' + (item.name || '');
-          const aMatch = nameStr.match(/A\d{4}/);
-          if (aMatch) specs.model = aMatch[0];
+          // Extract A-number from deviceName if model column is empty
+          if (!specs.model && specs.deviceName) {
+            const aMatch = specs.deviceName.match(/A\d{4}/);
+            if (aMatch) specs.model = aMatch[0];
+          }
           map[String(lid)] = {
             bmDeviceId: item.id,
             bmDeviceName: item.name,
@@ -190,7 +235,7 @@ async function buildBmDeviceMap(mainItemIds) {
         cursor
         items {
           id name
-          column_values(ids: ["board_relation", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
+          column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
             id text type
             ... on BoardRelationValue { linked_item_ids }
             ... on MirrorValue { display_value }
@@ -213,10 +258,9 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
   // 2a: Read Main Board data (colour, parts cost, labour hours)
   const mainQ = `query { items(ids: [${mainItemId}]) {
     name
-    column_values(ids: ["status8", "lookup_mkx1xzd7", "formula_mkx1bjqr", "formula__1"]) {
+    column_values(ids: ["status8", "formula_mkx1bjqr", "formula__1"]) {
       id
       ... on StatusValue { text }
-      ... on MirrorValue { display_value }
       ... on FormulaValue { display_value }
     }
   }}`;
@@ -224,11 +268,10 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
   const mainItem = mainData.items?.[0];
   if (!mainItem) throw new Error(`Main item ${mainItemId} not found`);
 
-  let colour = '', partsCostRaw = '0', labourCostStr = '0', labourHoursStr = '0';
+  let colour = '', partsCostStr = '0', labourHoursStr = '0';
   for (const cv of mainItem.column_values) {
     if (cv.id === 'status8') colour = cv.text || '';
-    if (cv.id === 'lookup_mkx1xzd7') partsCostRaw = cv.display_value || '0';
-    if (cv.id === 'formula_mkx1bjqr') labourCostStr = cv.display_value || '0';
+    if (cv.id === 'formula_mkx1bjqr') partsCostStr = cv.display_value || '0';
     if (cv.id === 'formula__1') labourHoursStr = cv.display_value || '0';
   }
 
@@ -236,11 +279,10 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
   const bmDev = bmDeviceMap?.[String(mainItemId)];
   if (!bmDev) throw new Error(`No BM Device found linked to Main item ${mainItemId} on BM Devices Board`);
 
-  // Parts cost: mirror column returns comma-separated values, sum them
-  const partsCost = String(partsCostRaw).split(',').reduce((sum, v) => sum + (parseFloat(v.trim()) || 0), 0);
+  const partsCost = parseFloat(String(partsCostStr).replace(/[£,]/g, '')) || 0;
   const labourHours = parseFloat(String(labourHoursStr).replace(/[^0-9.]/g, '')) || 0;
 
-  // Model number: extract A-number from device name/item name (text column deleted Mar 23)
+  // Model number: from text column, or parse from device name/item name
   let model = bmDev.model || '';
   if (!model) {
     // Try to extract model number (A####) from device name or item name
@@ -576,12 +618,22 @@ function findProductIdFromLookup(specs, bmGrade) {
   }
 
   if (candidates.length === 0) return null;
-  if (candidates.length === 1) return candidates[0];
+  if (candidates.length === 1) {
+    const colourVerified = lookupTitleHasExpectedColour(candidates[0].info.title, colour);
+    return { ...candidates[0], matchType: 'exact-single', colourVerified };
+  }
 
   // Multiple matches — prefer exact colour match if possible
-  const colourNorm = (colour || '').toLowerCase().replace('space grey', 'space gray');
-  const colourMatch = candidates.find(c => c.title.includes(colourNorm));
-  return colourMatch || candidates[0];
+  const colourMatch = candidates.find(c => lookupTitleHasExpectedColour(c.info.title || c.title, colour));
+  if (colourMatch) {
+    return { ...colourMatch, matchType: 'exact-colour', colourVerified: true };
+  }
+
+  console.warn(
+    `  ⛔ Ambiguous lookup matches for ${model} ${ram}/${ssd} ${colour}. ` +
+    `Candidates: ${candidates.length}. Manual review required.`
+  );
+  return null;
 }
 
 function findProductId(v6, specs, bmGrade) {
@@ -623,6 +675,9 @@ function findProductId(v6, specs, bmGrade) {
       baseUuid: null,
       fromLookup: true,
       lookupTitle: lookupResult.info.title,
+      resolutionSource: `lookup-${lookupResult.matchType || 'unknown'}`,
+      colourVerified: !!lookupResult.colourVerified,
+      liveEligible: lookupResult.matchType === 'exact-colour' || !!lookupResult.colourVerified,
     };
   }
 
@@ -700,6 +755,9 @@ function findProductId(v6, specs, bmGrade) {
       colourPicker: {},
       cpuGpuPicker: {},
       baseUuid: null,
+      resolutionSource: 'intel-table',
+      colourVerified: true,
+      liveEligible: true,
     };
   }
 
@@ -713,9 +771,11 @@ function findProductId(v6, specs, bmGrade) {
 
   // Primary: use hardcoded model number lookup
   let matchKey = null;
+  let matchMethod = null;
   const resolvedKey = resolveV6Key(model, deviceName, specs);
   if (resolvedKey && v6.models[resolvedKey]) {
     matchKey = { key: resolvedKey, score: 100 };
+    matchMethod = 'model-number';
     console.log(`  V6 match via model number ${model} → "${resolvedKey}"`);
   }
 
@@ -753,6 +813,7 @@ function findProductId(v6, specs, bmGrade) {
 
       if (matches > (matchKey ? matchKey.score : 0)) {
         matchKey = { key, score: matches };
+        matchMethod = 'fuzzy-device-name';
       }
     }
   }
@@ -836,12 +897,20 @@ function findProductId(v6, specs, bmGrade) {
 
   // The colour picker productId is the final one (per SOP)
   let productId = colourEntry?.productId || modelData.uuid;
+  let productIdSource = colourEntry ? 'colour-picker' : 'base-uuid';
 
   // If no colour picker, use SSD picker productId, then RAM, then base UUID
   if (!colourEntry) {
-    if (ssdKey && modelData.ssd[ssdKey]?.productId) productId = modelData.ssd[ssdKey].productId;
-    else if (ramKey && modelData.ram[ramKey]?.productId) productId = modelData.ram[ramKey].productId;
-    else productId = modelData.uuid;
+    if (ssdKey && modelData.ssd[ssdKey]?.productId) {
+      productId = modelData.ssd[ssdKey].productId;
+      productIdSource = 'ssd-picker';
+    } else if (ramKey && modelData.ram[ramKey]?.productId) {
+      productId = modelData.ram[ramKey].productId;
+      productIdSource = 'ram-picker';
+    } else {
+      productId = modelData.uuid;
+      productIdSource = 'base-uuid';
+    }
   }
 
   // Gather grade prices and adjacent spec data for later steps
@@ -886,6 +955,9 @@ function findProductId(v6, specs, bmGrade) {
     colourPicker: modelData.colour || {},
     cpuGpuPicker: modelData.cpu_gpu || {},
     baseUuid: modelData.uuid,
+    resolutionSource: `v6-${matchMethod || 'unknown'}-${productIdSource}`,
+    colourVerified: productIdSource === 'colour-picker',
+    liveEligible: matchMethod === 'model-number' && productIdSource === 'colour-picker' && !!ramKey && !!ssdKey && !!colourKey,
   };
 }
 
@@ -1167,12 +1239,11 @@ function calculateProfitability(proposed, specs) {
 // ─── Step 9: Decision Gate ────────────────────────────────────────
 
 function decisionGate(profitability) {
-  const { margin, net, minPrice, breakEven } = profitability;
+  const { margin, net, minPrice } = profitability;
 
-  // AUTO-LIST disabled (Mar 21). All devices go through PROPOSE → Ricky approval.
-  // Low margin and loss-makers are flagged but still proposed — Ricky may approve to clear stock.
-  if (net < 0) return { decision: 'PROPOSE', reason: `⛔ Loss at min_price (net £${net}, B/E £${breakEven})` };
-  if (margin < 15) return { decision: 'PROPOSE', reason: `⚠️ Low margin ${margin.toFixed(1)}% at min_price (net £${net})` };
+  if (net < 0) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
+  if (margin < 15) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 15% at min_price` };
+  // AUTO-LIST disabled until data pipeline is trusted (parts, model matching, product_ids verified)
   // if (margin >= 30 && net >= 100) return { decision: 'AUTO-LIST', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
   return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
 }
@@ -1294,6 +1365,9 @@ async function verifyListing(listingId, expected) {
   const pubState = listing.publication_state ?? listing.pub_state;
   if (pubState !== 2 && pubState !== '2') issues.push(`pub_state=${pubState} (expected 2)`);
   if (expected.quantity && listing.quantity !== expected.quantity) issues.push(`qty=${listing.quantity} (expected ${expected.quantity})`);
+  if (expected.productId && listing.product_id !== expected.productId) {
+    issues.push(`⛔ PRODUCT_ID MISMATCH: listing product_id=${listing.product_id}, expected=${expected.productId}`);
+  }
 
   // ── GRADE CHECK (CRITICAL) ──
   if (expected.grade && listing.grade !== expected.grade) {
@@ -1342,9 +1416,12 @@ async function verifyListing(listingId, expected) {
 
 // ─── Step 12: Update Monday ───────────────────────────────────────
 
-async function updateMonday(mainItemId, bmDeviceId, listingId, productId, totalFixedCost) {
+async function updateMonday(mainItemId, bmDeviceId, listingId, productId, totalFixedCost, sku) {
   // BM Devices Board updates
   const mutations = [
+    // SKU -> text89, but only after successful live verification
+    `m0: change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId},
+      column_id: "text89", value: ${JSON.stringify(JSON.stringify(String(sku)))}) { id }`,
     // Listing ID → text_mkyd4bx3
     `m1: change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId},
       column_id: "text_mkyd4bx3", value: ${JSON.stringify(JSON.stringify(String(listingId)))}) { id }`,
@@ -1355,9 +1432,11 @@ async function updateMonday(mainItemId, bmDeviceId, listingId, productId, totalF
     `m3: change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId},
       column_id: "numeric_mm1mgcgn", value: ${JSON.stringify(JSON.stringify(String(totalFixedCost)))}) { id }`,
     // Main Board: status24 → Listed (index 7)
-    // Date Listed (date_mkq385pa) is auto-populated by Monday automation when status24 changes — do NOT write manually
     `m4: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId},
       column_id: "status24", value: "{\\"index\\": 7}") { id }`,
+    // Main Board: date_mkq385pa → today
+    `m5: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId},
+      column_id: "date_mkq385pa", value: "{\\"date\\": \\"${today()}\\"}") { id }`,
     // Listing ID only on BM Devices Board (text_mkyd4bx3). NOT on Main Board.
   ];
 
@@ -1370,7 +1449,7 @@ async function updateMonday(mainItemId, bmDeviceId, listingId, productId, totalF
 function formatSummary(device) {
   const {
     mainItemId, itemName, grade, bmGrade, sku, specs, v6Result, slotResult,
-    pricing, historicalSales, profitability, decision, priceFlags,
+    pricing, historicalSales, profitability, decision, priceFlags, trust,
   } = device;
 
   const p = profitability;
@@ -1457,12 +1536,16 @@ function formatSummary(device) {
   } else if (v6Result?.modelKey) {
     lines.push(`Source   V6 scraper: ${v6Result.modelKey}`);
   }
+  if (v6Result?.resolutionSource) {
+    lines.push(`Resolve  ${v6Result.resolutionSource}${v6Result.colourVerified ? ' | colour verified' : ' | colour not independently verified'}`);
+  }
 
   // Status
   const statusEmoji = decision.decision === 'AUTO-LIST' ? '✅' : decision.decision === 'PROPOSE' ? '⚠️' : '⛔';
   const statusLabel = decision.decision === 'AUTO-LIST' ? 'AUTO-LIST' : decision.decision === 'PROPOSE' ? `PROPOSE (${p.margin}% margin)` : 'BLOCK';
   lines.push(`Status   ${statusEmoji} ${statusLabel}`);
   if (decision.decision !== 'AUTO-LIST') lines.push(`         ${decision.reason}`);
+  lines.push(`Trust    ${trust.classification} — ${trust.reason}`);
 
   return lines.join('\n');
 }
@@ -1493,6 +1576,10 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   console.log(`Processing Main Board item: ${mainItemId}`);
   console.log('='.repeat(60));
 
+  if (forceLive) {
+    console.warn('  ⚠️ --force-live is disabled. Exact verification and single-item manual live rules apply.');
+  }
+
   // Step 1: Read Final Grade
   console.log('[Step 1] Reading Final Grade...');
   const grade = await readFinalGrade(mainItemId);
@@ -1516,11 +1603,6 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   const sku = constructSku(specs, grade.gradeText);
   console.log(`  SKU: ${sku}`);
 
-  if (isLive) {
-    await writeSkuToMonday(specs.bmDeviceId, sku);
-    console.log(`  Written SKU to Monday`);
-  }
-
   // Step 4: Get product_id from V6 scraper
   console.log('[Step 4] Looking up product_id from V6 scraper...');
   const v6Result = findProductId(v6Data, specs, grade.bmGrade);
@@ -1528,6 +1610,12 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   if (hasV6) {
     console.log(`  product_id: ${v6Result.productId} (matched: "${v6Result.modelKey}")`);
     console.log(`  Grade prices: ${JSON.stringify(v6Result.gradePrices)}`);
+    if (v6Result.resolutionSource) {
+      console.log(`  Resolution: ${v6Result.resolutionSource}`);
+    }
+    if (!v6Result.liveEligible) {
+      console.log(`  ⚠️ Resolution is not exact enough for safe live listing. Proposal/manual review only.`);
+    }
   } else if (specs.storedListingId) {
     console.log(`  V6 lookup failed, but stored listing ${specs.storedListingId} exists. Continuing with stored listing.`);
   } else {
@@ -1685,6 +1773,13 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   console.log('[Step 9] Decision gate...');
   const decision = decisionGate(profitability);
   console.log(`  Decision: ${decision.decision} — ${decision.reason}`);
+  const trust = classifyTrust({
+    hasProductResolution: !!hasV6,
+    liveEligible: !!v6Result?.liveEligible,
+    decision,
+    missingGrade: !grade?.bmGrade,
+  });
+  console.log(`  Trust: ${trust.classification} — ${trust.reason}`);
 
   // Build result object
   const result = {
@@ -1701,13 +1796,21 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     profitability,
     decision,
     priceFlags,
+    trust,
   };
 
   // Print formatted summary
   console.log('\n' + formatSummary(result));
 
   // Step 10-12: Live mode actions
-  if (isLive && decision.decision === 'AUTO-LIST') {
+  const exactResolutionForLive = !!v6Result?.liveEligible;
+  const liveModeAllowed = isLive && !!singleItemId;
+  const shouldExecuteLive =
+    liveModeAllowed &&
+    exactResolutionForLive &&
+    decision.decision !== 'BLOCK';
+
+  if (shouldExecuteLive) {
     console.log('\n[Step 10] Creating/reactivating listing...');
     try {
       const listResult = await createOrReactivateListing(slotResult, profitability, grade.bmGrade, sku);
@@ -1716,7 +1819,13 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       // Step 11: Verify
       console.log('[Step 11] Verifying listing...');
       const expectedQty = slotResult.path === 'A2' ? (slotResult.listing.quantity || 0) + 1 : 1;
-      const verification = await verifyListing(listResult.listingId, { quantity: expectedQty });
+      const verification = await verifyListing(listResult.listingId, {
+        quantity: expectedQty,
+        grade: grade.bmGrade,
+        productId: v6Result.productId,
+        ram: specs.ram,
+        ssd: specs.ssd,
+      });
       if (verification.verified) {
         console.log('  ✅ Listing verified');
       } else {
@@ -1724,15 +1833,23 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
         // Retry once
         console.log('  Retrying POST...');
         await createOrReactivateListing(slotResult, profitability, grade.bmGrade, sku);
-        const retry = await verifyListing(listResult.listingId, { quantity: expectedQty });
+        const retry = await verifyListing(listResult.listingId, {
+          quantity: expectedQty,
+          grade: grade.bmGrade,
+          productId: v6Result.productId,
+          ram: specs.ram,
+          ssd: specs.ssd,
+        });
         if (!retry.verified) {
           await postTelegram(`⚠️ Listing ${listResult.listingId} verification failed after retry: ${retry.issues.join(', ')}`);
+          console.error('  ⛔ Verification failed after retry. Monday will NOT be updated.');
+          return result;
         }
       }
 
       // Step 12: Update Monday
       console.log('[Step 12] Updating Monday...');
-      await updateMonday(mainItemId, specs.bmDeviceId, listResult.listingId, v6Result.productId, profitability.totalFixedCost);
+      await updateMonday(mainItemId, specs.bmDeviceId, listResult.listingId, v6Result.productId, profitability.totalFixedCost, sku);
       console.log('  Monday updated');
 
       // Step 13: Telegram confirmation
@@ -1748,9 +1865,18 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       console.error(`  ❌ Listing failed: ${e.message}`);
       await postTelegram(`❌ Listing failed for ${grade.name} (${sku}): ${e.message}`);
     }
+  } else if (isLive && !singleItemId) {
+    const tgMsg = `⛔ BLOCKED\n${formatSummary(result)}\n\nLive execution requires --item <MainBoardId>. Mass live listing remains disabled.`;
+    await postTelegram(tgMsg);
   } else if (isLive && decision.decision === 'PROPOSE') {
     // Post proposal to Telegram
-    const tgMsg = `⚠️ AWAITING APPROVAL\n${formatSummary(result)}`;
+    const resolutionMsg = exactResolutionForLive
+      ? ''
+      : '\n\n⛔ Live execution blocked: product_id resolution is not exact enough.';
+    const tgMsg = `⚠️ AWAITING APPROVAL\n${formatSummary(result)}${resolutionMsg}`;
+    await postTelegram(tgMsg);
+  } else if (isLive && !exactResolutionForLive) {
+    const tgMsg = `⛔ BLOCKED\n${formatSummary(result)}\n\nLive execution blocked: product_id resolution is not exact enough.`;
     await postTelegram(tgMsg);
   } else if (isLive && decision.decision === 'BLOCK') {
     const tgMsg = `⛔ BLOCKED\n${formatSummary(result)}`;
@@ -1765,6 +1891,11 @@ async function main() {
   console.log(`  Back Market Listing Script — ${isDryRun ? 'DRY RUN' : '🔴 LIVE MODE'}`);
   console.log(`  ${today()} | Node ${process.version}`);
   console.log('═'.repeat(60));
+
+  if (isLive && !singleItemId) {
+    console.error('⛔ Live mode without --item is disabled. Mass live listing remains blocked.');
+    process.exit(1);
+  }
 
   // Load V6 data once
   console.log('\nLoading V6 scraper data...');
