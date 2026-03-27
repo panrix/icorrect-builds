@@ -26,21 +26,31 @@ backmarket/
 
 ### Node.js Automation Scripts (`scripts/`)
 
+Important:
+- The authoritative SOP 06 listing flow currently lives in `/home/ricky/builds/bm-scripts/`, not `backmarket/scripts/`.
+- `/home/ricky/builds/backmarket/scripts/list-device.js` is a stale copy and should not be used for trust-hardening or live execution.
+- The canonical listing lookup data for the active flow is `/home/ricky/builds/bm-scripts/data/product-id-lookup.json`.
+
 | Script | SOP | What It Does | Trigger | Status |
 |--------|-----|-------------|---------|--------|
 | `sent-orders.js` | 01 | Creates Monday items for new BM trade-in orders | Manual/cron | QA: product name extraction broken |
 | — | 02 | Intake/iCloud check | Webhook | Lives in `icloud-checker/` monolith |
 | — | 03 | Diagnostic/grade check | Webhook | Lives in `icloud-checker/` monolith |
 | `trade-in-payout.js` | 03b | Validates and pays out trade-ins via BM API | Manual/cron | QA: working |
-| `list-device.js` | 06 | Lists devices on BM (qty bump or reactivation) | Manual/cron | QA: 7 bugs (see qa/TASK-QA-LIST-DEVICE.md) |
-| `reconcile-listings.js` | 06.5 | Cross-checks BM listings vs Monday board | Manual/cron | QA: needs review |
+| `list-device.js` | 06 | Stale copy only; not the active trust-hardened implementation | Do not run | Superseded by `bm-scripts/list-device.js` |
+| `reconcile-listings.js` | 06.5 | Separate `backmarket/scripts` implementation; not the authoritative `bm-scripts` flow | Manual/cron | Needs explicit ownership decision |
 | `buy-box-check.js` | 07 | Monitors buy box position, auto-bumps price | Manual/cron | QA: working |
 | `sale-detection.js` | 08 | Detects new BM sales, updates Monday | Manual/cron | QA: working |
 | `shipping.js` | 09 | Confirms shipping with tracking to BM | Manual/cron | QA: processes full backlog (needs date filter) |
 | `buyback-profitability-builder.js` | — | Builds profitability data from Monday + BM | Manual | Supporting tool |
 | `listings-audit.js` | — | Read-only audit of BM listings | Manual | Analysis only |
 
-**Note:** Scripts import `./lib/monday`, `./lib/bm-api`, `./lib/logger` which **do not exist yet**. API calls are inlined — scripts work standalone but have duplicated code. Building the shared lib is a separate project.
+**Note:** The active `bm-scripts/` flow already has shared modules at:
+- `/home/ricky/builds/bm-scripts/lib/monday.js`
+- `/home/ricky/builds/bm-scripts/lib/bm-api.js`
+- `/home/ricky/builds/bm-scripts/lib/logger.js`
+
+The older `backmarket/scripts/` copies do not share that structure consistently and should not be treated as the active SOP 06 implementation.
 
 ### Python Analysis Scripts (`analysis/`)
 
@@ -118,7 +128,8 @@ Column reference: `docs/VERIFIED-COLUMN-REFERENCE.md`
 See `qa/QA-ISSUES.md` for current list. Key issues:
 - `sent-orders.js`: product name/price showing "Unknown" / "£?"
 - `shipping.js`: processes entire historical backlog (needs date filter)
-- `list-device.js`: 7 open bugs (wrong parts cost column, safety gate bypass, etc.)
+- `bm-scripts/list-device.js`: trust hardening is in progress; remaining blocker is trusted product/spec/colour resolution
+- `backmarket/scripts/list-device.js`: stale and misleading if treated as active
 
 ## What's Next
 

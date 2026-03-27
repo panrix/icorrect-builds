@@ -1,5 +1,9 @@
 # QA Task: list-device.js (SOP 06)
 
+Important:
+- The active file for SOP 06 trust work is `/home/ricky/builds/bm-scripts/list-device.js`.
+- `/home/ricky/builds/backmarket/scripts/list-device.js` is a stale copy and line references against it may be misleading.
+
 ## Verified Column Reference
 Use `backmarket/scripts/VERIFIED-COLUMN-REFERENCE.md` as single source of truth for all column IDs.
 
@@ -24,7 +28,8 @@ Where:
 - `formula__1` = Labour Hours (formula, `FormulaValue { display_value }`)
 
 ### 2. CRITICAL: Safety gate bypass check
-Verify NO `&& !singleItemId` bypass exists on any safety gate. Same pattern as the payout bug. Every check must apply regardless of --item mode.
+Historical concern. Re-verify against the active `bm-scripts/list-device.js`, not the stale copy.
+Every safety check must apply in single-item mode too.
 
 ### 3. Colour column
 Line 217: reads `status8` (Colour) from Main Board. Verified correct.
@@ -42,6 +47,9 @@ The script should follow all steps, especially:
 - Step 9: Auto-list DISABLED — all devices go through PROPOSE
 - Step 11: Post-listing verification (grade + title + publication_state + quantity)
 - Step 12: Monday updates (both boards)
+
+Known current gap:
+- colour is still a documented requirement, but the active post-list verification does not yet fully enforce it
 
 ### 6. Profitability calculation
 Should use real data from profitability lookup (`/home/ricky/builds/data/buyback-profitability-lookup.json`) when available, fall back to per-device costs from Monday.
