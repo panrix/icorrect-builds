@@ -27,7 +27,7 @@ const LISTED_INDEX = 7;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 const V6_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
-const PRODUCT_ID_LOOKUP_PATH = '/home/ricky/builds/backmarket/data/product-id-lookup.json';
+const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
 const SHIPPING_COST = 15;
 const LABOUR_RATE = 24; // £/hr
 const BM_BUY_FEE_RATE = 0.10;
@@ -88,30 +88,85 @@ async function bmApiFetch(urlPath, opts = {}) {
 function today() { return new Date().toISOString().slice(0, 10); }
 
 function normalizeColour(colour) {
-  return (colour || '')
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, ' ')
-    .replace('space gray', 'space grey');
+  const value = (colour || '').trim().toLowerCase().replace(/\s+/g, ' ');
+  if (!value) return '';
+  if (['space gray', 'space grey', 'grey', 'gray'].includes(value)) return 'Space Gray';
+  if (value === 'silver') return 'Silver';
+  if (value === 'gold') return 'Gold';
+  if (value === 'midnight') return 'Midnight';
+  if (value === 'starlight') return 'Starlight';
+  if (value === 'black') return 'Black';
+  if (value === 'space black') return 'Space Black';
+  return colour.trim();
 }
 
 function lookupTitleHasExpectedColour(title, colour) {
-  const titleNorm = normalizeColour(title);
+  const titleNorm = (title || '').trim().toLowerCase().replace(/\s+/g, ' ');
   const colourNorm = normalizeColour(colour);
   if (!titleNorm || !colourNorm) return false;
 
   const acceptable = {
-    grey: ['grey', 'space grey'],
-    'space grey': ['space grey', 'grey'],
-    silver: ['silver'],
-    gold: ['gold'],
-    midnight: ['midnight'],
-    starlight: ['starlight'],
-    black: ['black', 'space black'],
-    'space black': ['space black', 'black'],
+    'Space Gray': ['space gray', 'space grey', 'grey', 'gray'],
+    Silver: ['silver'],
+    Gold: ['gold'],
+    Midnight: ['midnight'],
+    Starlight: ['starlight'],
+    Black: ['black'],
+    'Space Black': ['space black'],
   };
 
-  return (acceptable[colourNorm] || [colourNorm]).some(option => titleNorm.includes(option));
+  return (acceptable[colourNorm] || [colourNorm.toLowerCase()]).some(option => titleNorm.includes(option));
+}
+
+function normalizeStorageForCatalog(ssd) {
+  const value = (ssd || '').trim().toUpperCase().replace(/\s+/g, '');
+  if (!value) return '';
+  if (value === '1TB') return '1000GB';
+  if (value === '2TB') return '2000GB';
+  if (value === '4TB') return '4000GB';
+  return value;
+}
+
+function normalizeRamForCatalog(ram) {
+  return (ram || '').trim().toUpperCase().replace(/\s+/g, '');
+}
+
+const MODEL_NUMBER_TO_CATALOG_FAMILY = {
+  A1466: 'MacBook Air 13-inch (2017)',
+  A1932: 'MacBook Air Retina 13-inch (2018)',
+  A2179: 'MacBook Air Retina 13-inch (2020)',
+  A2337: 'MacBook Air 13-inch (2020)',
+  A2681: 'MacBook Air 13-inch (2022)',
+  A2941: 'MacBook Air 15-inch (2023)',
+  A3113: 'MacBook Air 13-inch (2024)',
+  A3114: 'MacBook Air 13-inch (2024)',
+  A3240: 'MacBook Air 13-inch (2025)',
+  A2251: 'MacBook Pro Retina 13-inch (2020)',
+  A2289: 'MacBook Pro Retina 13-inch (2020)',
+  A2338: 'MacBook Pro 13-inch (2020)',
+  A2442: 'MacBook Pro 14-inch (2021)',
+  A2485: 'MacBook Pro 16-inch (2021)',
+  A2779: 'MacBook Pro 14-inch (2023)',
+  A2780: 'MacBook Pro 16-inch (2023)',
+  A2918: 'MacBook Pro 14-inch (2023)',
+  A2991: 'MacBook Pro 16-inch (2023)',
+  A2992: 'MacBook Pro 14-inch (2023)',
+};
+
+function deriveCatalogModelFamily(specs) {
+  const fromModel = MODEL_NUMBER_TO_CATALOG_FAMILY[specs.model];
+  if (fromModel) return fromModel;
+
+  const deviceName = specs.deviceName || '';
+  const retinaMatch = deviceName.match(/MacBook\s+(Air|Pro)\s+(Retina\s+)?(\d+).*(20\d{2})/i);
+  if (retinaMatch) {
+    const type = retinaMatch[1];
+    const retina = retinaMatch[2] ? ' Retina' : '';
+    const size = retinaMatch[3];
+    const year = retinaMatch[4];
+    return `MacBook ${type}${retina} ${size}-inch (${year})`;
+  }
+  return '';
 }
 
 function classifyTrust({ hasProductResolution, liveEligible, decision, missingGrade }) {
@@ -438,6 +493,171 @@ async function writeSkuToMonday(bmDeviceId, sku) {
       column_id: "text89", value: ${JSON.stringify(JSON.stringify(sku))}) { id }
   }`;
   await mondayQuery(q);
+}
+
+let _bmCatalog = null;
+let _bmCatalogIndex = null;
+
+function loadBmCatalog() {
+  if (_bmCatalog) return _bmCatalog;
+  const raw = fs.readFileSync(BM_CATALOG_PATH, 'utf8');
+  _bmCatalog = JSON.parse(raw);
+  console.log(`  Loaded BM catalog: ${Object.keys(_bmCatalog.variants || {}).length} variants`);
+  return _bmCatalog;
+}
+
+function buildCatalogKey(modelFamily, ram, ssd, colour) {
+  return [
+    modelFamily || '',
+    normalizeRamForCatalog(ram),
+    normalizeStorageForCatalog(ssd),
+    normalizeColour(colour),
+  ].join('|');
+}
+
+function buildCatalogIndexes() {
+  if (_bmCatalogIndex) return _bmCatalogIndex;
+
+  const catalog = loadBmCatalog();
+  const exact = new Map();
+  const bySpec = new Map();
+
+  for (const variant of Object.values(catalog.variants || {})) {
+    const modelFamily = variant.model_family || '';
+    const ram = normalizeRamForCatalog(variant.ram);
+    const ssd = normalizeStorageForCatalog(variant.ssd);
+    const colour = normalizeColour(variant.colour);
+    if (!modelFamily || !ram || !ssd) continue;
+
+    const exactKey = buildCatalogKey(modelFamily, ram, ssd, colour);
+    if (!exact.has(exactKey)) exact.set(exactKey, []);
+    exact.get(exactKey).push(variant);
+
+    const specKey = [modelFamily, ram, ssd].join('|');
+    if (!bySpec.has(specKey)) bySpec.set(specKey, []);
+    bySpec.get(specKey).push(variant);
+  }
+
+  _bmCatalogIndex = { exact, bySpec };
+  return _bmCatalogIndex;
+}
+
+function findV6GradePricesForCatalogVariant(v6Data, variant) {
+  if (variant?.grade_prices && Object.keys(variant.grade_prices).length > 0) {
+    return variant.grade_prices;
+  }
+  return {};
+}
+
+function resolveProductFromCatalog(specs, v6Data) {
+  const indexes = buildCatalogIndexes();
+  const modelFamily = deriveCatalogModelFamily(specs);
+  const ram = normalizeRamForCatalog(specs.ram);
+  const ssd = normalizeStorageForCatalog(specs.ssd);
+  const colour = normalizeColour(specs.colour);
+
+  const base = {
+    source: 'bm-catalog',
+    modelKey: modelFamily || '(unmapped family)',
+    modelFamily,
+    normalizedRam: ram,
+    normalizedSsd: ssd,
+    normalizedColour: colour,
+    gradePrices: {},
+    ssdPicker: {},
+    colourPrices: {},
+    adjacentSsd: [],
+    ramPicker: {},
+    colourPicker: {},
+    cpuGpuPicker: {},
+    colourVerified: false,
+    liveEligible: false,
+  };
+
+  if (!modelFamily || !ram || !ssd) {
+    return {
+      ...base,
+      blocked: true,
+      resolutionSource: 'catalog-missing-core-fields',
+      blockReason: 'Missing model_family, RAM, or SSD for catalog lookup',
+    };
+  }
+
+  const exactKey = buildCatalogKey(modelFamily, ram, ssd, colour);
+  const exactCandidates = indexes.exact.get(exactKey) || [];
+  if (exactCandidates.length === 1) {
+    const variant = exactCandidates[0];
+    return {
+      ...base,
+      productId: variant.product_id,
+      title: variant.title,
+      lookupTitle: variant.title,
+      backmarketId: variant.backmarket_id,
+      resolutionConfidence: variant.resolution_confidence,
+      verificationStatus: variant.verification_status,
+      gradePrices: findV6GradePricesForCatalogVariant(v6Data, variant),
+      available: variant.available,
+      liveEligible: variant.verification_status === 'verified' && variant.resolution_confidence !== 'market_only',
+      resolutionSource: 'catalog-exact',
+      colourVerified: !!normalizeColour(variant.colour),
+      variant,
+    };
+  }
+  if (exactCandidates.length > 1) {
+    return {
+      ...base,
+      blocked: true,
+      resolutionSource: 'catalog-ambiguous-exact',
+      blockReason: `Ambiguous exact catalog match (${exactCandidates.length} variants)`,
+      candidates: exactCandidates.map(v => ({ product_id: v.product_id, title: v.title })),
+    };
+  }
+
+  const specKey = [modelFamily, ram, ssd].join('|');
+  const specCandidates = indexes.bySpec.get(specKey) || [];
+  const noColourCandidates = specCandidates.filter(v => !normalizeColour(v.colour));
+  if (noColourCandidates.length === 1) {
+    const variant = noColourCandidates[0];
+    return {
+      ...base,
+      productId: variant.product_id,
+      title: variant.title,
+      lookupTitle: variant.title,
+      backmarketId: variant.backmarket_id,
+      resolutionConfidence: variant.resolution_confidence,
+      verificationStatus: variant.verification_status,
+      gradePrices: findV6GradePricesForCatalogVariant(v6Data, variant),
+      available: variant.available,
+      liveEligible: variant.verification_status === 'verified' && variant.resolution_confidence !== 'market_only',
+      resolutionSource: 'catalog-spec-no-colour',
+      colourVerified: false,
+      variant,
+    };
+  }
+
+  if (specCandidates.length > 0) {
+    return {
+      ...base,
+      blocked: true,
+      resolutionSource: 'catalog-needs-review',
+      blockReason: colour
+        ? `No exact colour match in catalog for ${colour}; ${specCandidates.length} spec candidate(s) require review`
+        : `${specCandidates.length} catalog candidate(s) found but none are safely exact`,
+      candidates: specCandidates.map(v => ({
+        product_id: v.product_id,
+        colour: v.colour,
+        verification_status: v.verification_status,
+        resolution_confidence: v.resolution_confidence,
+      })),
+    };
+  }
+
+  return {
+    ...base,
+    blocked: true,
+    resolutionSource: 'catalog-no-match',
+    blockReason: 'No catalog match for model/spec/colour',
+  };
 }
 
 // ─── Step 4: Get product_id from V6 Scraper ──────────────────────
@@ -1393,6 +1613,9 @@ async function verifyListing(listingId, expected) {
       issues.push(`⛔ TITLE SSD MISMATCH: title="${listing.title}", expected SSD=${expected.ssd}`);
     }
   }
+  if (expected.colour && !lookupTitleHasExpectedColour(listing.title || '', expected.colour)) {
+    issues.push(`⛔ TITLE COLOUR MISMATCH: title="${listing.title}", expected colour=${expected.colour}`);
+  }
 
   // Any critical mismatch (grade or title) → take offline immediately
   const hasCritical = issues.some(i => i.startsWith('⛔'));
@@ -1452,7 +1675,11 @@ function formatSummary(device) {
     pricing, historicalSales, profitability, decision, priceFlags, trust,
   } = device;
 
-  const p = profitability;
+  const p = profitability || {
+    proposed: 0, minPrice: 0, purchasePrice: specs.purchasePrice || 0, partsCost: specs.partsCost || 0,
+    labourCost: 0, labourHours: specs.labourHours || 0, shipping: SHIPPING_COST, bmBuyFee: 0, bmSellFee: 0, vat: 0,
+    totalFixedCost: 0, breakEven: 0, net: 0, margin: 0,
+  };
   const r = (n) => typeof n === 'number' ? n.toFixed(2) : n;
 
   // Device header
@@ -1522,19 +1749,19 @@ function formatSummary(device) {
   lines.push('');
 
   // Path and listing
-  const pathInfo = slotResult.path === 'B' ? 'B (new listing)'
+  const pathInfo = !slotResult ? 'not reached'
+    : slotResult.path === 'B' ? 'B (new listing)'
     : `${slotResult.path} (listing ${slotResult.listing?.listing_id || slotResult.listing?.id}, qty=${slotResult.listing?.quantity || 0})`;
   lines.push(`Path     ${pathInfo}`);
   lines.push(`SKU      ${sku}`);
 
   // Product source and title verification
-  if (v6Result?.fromLookup) {
-    lines.push(`Source   ✅ Lookup table (verified title)`);
-    lines.push(`BM title ${v6Result.lookupTitle}`);
-  } else if (v6Result?.modelKey?.startsWith('Intel')) {
-    lines.push(`Source   Intel product_id table`);
-  } else if (v6Result?.modelKey) {
-    lines.push(`Source   V6 scraper: ${v6Result.modelKey}`);
+  if (v6Result?.source === 'bm-catalog') {
+    lines.push(`Source   BM catalog: ${v6Result.modelKey}`);
+    if (v6Result.lookupTitle) lines.push(`BM title ${v6Result.lookupTitle}`);
+    if (v6Result.resolutionConfidence) lines.push(`Conf     ${v6Result.resolutionConfidence}`);
+    if (v6Result.verificationStatus) lines.push(`Verify   ${v6Result.verificationStatus}`);
+    if (v6Result.blockReason) lines.push(`Block    ${v6Result.blockReason}`);
   }
   if (v6Result?.resolutionSource) {
     lines.push(`Resolve  ${v6Result.resolutionSource}${v6Result.colourVerified ? ' | colour verified' : ' | colour not independently verified'}`);
@@ -1603,26 +1830,68 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   const sku = constructSku(specs, grade.gradeText);
   console.log(`  SKU: ${sku}`);
 
-  // Step 4: Get product_id from V6 scraper
-  console.log('[Step 4] Looking up product_id from V6 scraper...');
-  const v6Result = findProductId(v6Data, specs, grade.bmGrade);
+  // Step 4: Resolve product from canonical BM catalog
+  console.log('[Step 4] Resolving product from BM catalog...');
+  const v6Result = resolveProductFromCatalog(specs, v6Data);
   const hasV6 = v6Result && v6Result.productId;
+  console.log(`  Family: ${v6Result.modelFamily || '(unmapped)'}`);
+  console.log(`  Lookup: ${v6Result.normalizedRam}/${v6Result.normalizedSsd}/${v6Result.normalizedColour || '(no colour)'}`);
   if (hasV6) {
-    console.log(`  product_id: ${v6Result.productId} (matched: "${v6Result.modelKey}")`);
+    console.log(`  product_id: ${v6Result.productId} (catalog: "${v6Result.modelKey}")`);
+    console.log(`  resolution_confidence: ${v6Result.resolutionConfidence}`);
+    console.log(`  verification_status: ${v6Result.verificationStatus}`);
     console.log(`  Grade prices: ${JSON.stringify(v6Result.gradePrices)}`);
-    if (v6Result.resolutionSource) {
-      console.log(`  Resolution: ${v6Result.resolutionSource}`);
+    console.log(`  Resolution: ${v6Result.resolutionSource}`);
+    if (v6Result.resolutionConfidence === 'market_only') {
+      console.log('  ⛔ market_only cannot authorize live listing.');
+      v6Result.liveEligible = false;
     }
-    if (!v6Result.liveEligible) {
-      console.log(`  ⚠️ Resolution is not exact enough for safe live listing. Proposal/manual review only.`);
+    if (v6Result.verificationStatus !== 'verified') {
+      console.log(`  ⛔ Catalog match requires manual review (${v6Result.verificationStatus}).`);
+      v6Result.liveEligible = false;
     }
-  } else if (specs.storedListingId) {
-    console.log(`  V6 lookup failed, but stored listing ${specs.storedListingId} exists. Continuing with stored listing.`);
   } else {
-    const msg = `⛔ Cannot list ${grade.name} (${sku}): model/spec not found in V6 scraper data and no stored listing ID. Manual product_id lookup required.`;
-    console.error(`  ${msg}`);
-    await postTelegram(msg);
-    return null;
+    console.log(`  ⛔ Catalog resolution blocked: ${v6Result?.blockReason || 'unknown reason'}`);
+    if (v6Result?.candidates?.length) {
+      console.log(`  Candidates: ${v6Result.candidates.length}`);
+    }
+  }
+
+  if (!hasV6 || v6Result.verificationStatus !== 'verified' || v6Result.resolutionConfidence === 'market_only') {
+    const blockReason = !hasV6
+      ? (v6Result?.blockReason || 'No catalog product match')
+      : v6Result.resolutionConfidence === 'market_only'
+        ? 'Catalog match is market_only and cannot authorize listing'
+        : `Catalog match status is ${v6Result.verificationStatus}`;
+    const blockedDecision = { decision: 'BLOCK', reason: blockReason };
+    const blockedTrust = classifyTrust({
+      hasProductResolution: !!hasV6,
+      liveEligible: false,
+      decision: blockedDecision,
+      missingGrade: !grade?.bmGrade,
+    });
+    const blockedResult = {
+      mainItemId,
+      itemName: grade.name,
+      grade,
+      bmGrade: grade.bmGrade,
+      sku,
+      specs,
+      v6Result,
+      slotResult: null,
+      pricing: { proposed: 0, source: 'blocked before pricing' },
+      historicalSales: { count: 0, avg: 0, low: 0, high: 0, sales: [] },
+      profitability: {
+        proposed: 0, minPrice: 0, purchasePrice: specs.purchasePrice || 0, partsCost: specs.partsCost || 0,
+        labourCost: 0, labourHours: specs.labourHours || 0, shipping: SHIPPING_COST, bmBuyFee: 0, bmSellFee: 0,
+        vat: 0, totalCosts: 0, net: 0, margin: 0, totalFixedCost: 0, breakEven: 0,
+      },
+      decision: blockedDecision,
+      priceFlags: [],
+      trust: blockedTrust,
+    };
+    console.log('\n' + formatSummary(blockedResult));
+    return blockedResult;
   }
 
   // Step 5: Search for existing listing slot
@@ -1651,14 +1920,14 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
         // Product IDs can differ if the listing was created via Path B with a related product_id
         // that BM auto-resolved. Check if the stored UUID matches instead.
         if (specs.storedUuid && specs.storedUuid === v6Result.productId) {
-          console.log(`  Stored UUID matches V6 product_id (listing product_id differs due to Path B auto-resolve)`);
+          console.log(`  Stored UUID matches catalog product_id (listing product_id differs due to Path B auto-resolve)`);
         } else {
-          console.warn(`  ⛔ STORED LISTING PRODUCT_ID MISMATCH: listing=${listingProductId}, V6=${v6Result.productId}`);
+          console.warn(`  ⛔ STORED LISTING PRODUCT_ID MISMATCH: listing=${listingProductId}, catalog=${v6Result.productId}`);
           specMismatch = true;
         }
       }
 
-      // If no V6 data, verify using listing SKU text as sanity check
+      // If no catalog product_id, verify using listing SKU text as sanity check
       if (!hasV6 && storedListing.sku) {
         const listingSku = (storedListing.sku || '').toUpperCase();
         const deviceSsd = (specs.ssd || '').replace(/\s/g, '').toUpperCase();
@@ -1683,7 +1952,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
           console.log(`  Falling back to product_id search...`);
           slotResult = await searchListingSlot(v6Result.productId, grade.bmGrade);
         } else {
-          console.error(`  No V6 data for fallback. Cannot list.`);
+          console.error(`  No catalog product_id for fallback. Cannot list.`);
           return null;
         }
       } else {
@@ -1700,7 +1969,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       if (hasV6) {
         slotResult = await searchListingSlot(v6Result.productId, grade.bmGrade);
       } else {
-        const msg = `⛔ Cannot list ${grade.name} (${sku}): stored listing ${specs.storedListingId} not found and no V6 data for fallback.`;
+        const msg = `⛔ Cannot list ${grade.name} (${sku}): stored listing ${specs.storedListingId} not found and no catalog product_id for fallback.`;
         console.error(`  ${msg}`);
         await postTelegram(msg);
         return null;
@@ -1710,8 +1979,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     console.log(`[Step 5] Searching listings for product_id=${v6Result.productId}, grade=${grade.bmGrade}...`);
     slotResult = await searchListingSlot(v6Result.productId, grade.bmGrade);
   } else {
-    // Should not reach here (caught above), but safety net
-    const msg = `⛔ Cannot list ${grade.name} (${sku}): no V6 data and no stored listing.`;
+    const msg = `⛔ Cannot list ${grade.name} (${sku}): no verified catalog product_id available.`;
     console.error(`  ${msg}`);
     return null;
   }
@@ -1902,6 +2170,10 @@ async function main() {
   const v6Data = loadV6Data();
   const modelCount = Object.keys(v6Data.models).length;
   console.log(`  ${modelCount} models loaded (scraped ${v6Data.scraped_at})`);
+
+  console.log('\nLoading BM catalog...');
+  const bmCatalog = loadBmCatalog();
+  console.log(`  ${Object.keys(bmCatalog.variants || {}).length} variants loaded (catalog ${bmCatalog.catalog_version || 'unknown'})`);
 
   // Get items to process
   let itemIds = [];
