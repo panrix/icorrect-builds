@@ -413,7 +413,7 @@ function constructSku(specs, gradeText) {
   // Device name can say "M3" when it's actually M3 Pro (e.g. "MacBook Pro 14 M3 A2918")
   const modelChipMap = {
     'A2337': 'M1',                  // Air 13 2020 M1
-    // A2179 is Intel Air — NOT in V6 scraper. Uses hardcoded product_id lookup instead.
+    // A2179 is Intel Air — resolved via catalog or --product-id override.
     'A2681': 'M2',                  // Air 13 2022
     'A3113': 'M3', 'A3114': 'M3',  // Air 13 2024
     'A2338': 'M1',                  // Pro 13 2020
