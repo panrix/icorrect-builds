@@ -5,7 +5,7 @@ BM Catalog Merge — Phase 2 of BM Catalog Ground Truth
 Merges three data sources into a single canonical catalog file:
   1. product-id-lookup.json (listing history — 279 entries, keyed by UUID)
   2. order-history-product-ids.json (from Phase 1, keyed by backmarket_id)
-  3. sell-prices-latest.json (V6 scraper output)
+  3. sell-prices-latest.json (V7 scraper output)
 
 Cross-referencing strategy:
   - Listing history: keyed by UUID, contains backmarket_id
@@ -101,6 +101,175 @@ def derive_model_family_from_scraper_name(name):
     return None
 
 
+def extract_chip_key(text):
+    """Normalize chip family from a scraper model name or title CPU segment."""
+    if not text:
+        return None
+    t = text.lower()
+
+    if "intel" in t or "core i" in t:
+        return "Intel"
+
+    m = re.search(r"\bm(\d+)\s*(pro|max)?\b", t)
+    if m:
+        chip = f"M{m.group(1)}"
+        suffix = m.group(2)
+        if suffix:
+            chip += f" {suffix.capitalize()}"
+        return chip
+
+    return None
+
+
+def normalize_picker_ram(label):
+    """Convert picker labels like '16 GB' to catalog RAM format '16GB'."""
+    if not label:
+        return ""
+    m = re.search(r"(\d+)\s*GB", str(label), re.I)
+    if not m:
+        return ""
+    return f"{int(m.group(1))}GB"
+
+
+def normalize_picker_ssd(label):
+    """Convert picker labels like '512 GB' / '1 TB' to catalog SSD format."""
+    if not label:
+        return ""
+    m = re.search(r"(\d+)\s*(GB|TB)", str(label), re.I)
+    if not m:
+        return ""
+    value = int(m.group(1))
+    unit = m.group(2).upper()
+    if unit == "TB":
+        value *= 1000
+    return f"{value}GB"
+
+
+def build_scraper_pricing_index(scraper_data):
+    """Build chip-aware pricing records from raw scraper models.
+
+    Each record captures:
+      - model family
+      - chip key (M1, M1 Pro, Intel, ...)
+      - base grade prices for the page/default variant
+      - RAM/SSD deltas from the page/default picker values
+    """
+    pricing_index = {}
+    models_data = scraper_data.get("models", {})
+
+    for model_name, model in models_data.items():
+        if not model.get("scraped"):
+            continue
+
+        model_family = derive_model_family_from_scraper_name(model_name)
+        if not model_family:
+            continue
+
+        base_uuid = str(model.get("uuid") or "")
+        chip_key = extract_chip_key(model_name)
+
+        base_grade_prices = {}
+        for grade_name, grade_info in model.get("grades", {}).items():
+            price = grade_info.get("price")
+            if grade_info.get("available") and price is not None:
+                base_grade_prices[grade_name] = int(round(price))
+
+        if not base_grade_prices:
+            continue
+
+        ram_picker = model.get("ram", {}) or {}
+        ssd_picker = model.get("ssd", {}) or {}
+
+        default_ram = None
+        default_ram_price = None
+        for label, info in ram_picker.items():
+            if str(info.get("productId") or "") == base_uuid and info.get("price") is not None:
+                default_ram = normalize_picker_ram(label)
+                default_ram_price = float(info["price"])
+                break
+
+        default_ssd = None
+        default_ssd_price = None
+        for label, info in ssd_picker.items():
+            if str(info.get("productId") or "") == base_uuid and info.get("price") is not None:
+                default_ssd = normalize_picker_ssd(label)
+                default_ssd_price = float(info["price"])
+                break
+
+        ram_deltas = {}
+        if default_ram and default_ram_price is not None:
+            ram_deltas[default_ram] = 0
+            for label, info in ram_picker.items():
+                target_ram = normalize_picker_ram(label)
+                price = info.get("price")
+                if target_ram and price is not None:
+                    ram_deltas[target_ram] = int(round(float(price) - default_ram_price))
+
+        ssd_deltas = {}
+        if default_ssd and default_ssd_price is not None:
+            ssd_deltas[default_ssd] = 0
+            for label, info in ssd_picker.items():
+                target_ssd = normalize_picker_ssd(label)
+                price = info.get("price")
+                if target_ssd and price is not None:
+                    ssd_deltas[target_ssd] = int(round(float(price) - default_ssd_price))
+
+        record = {
+            "model_name": model_name,
+            "model_family": model_family,
+            "chip_key": chip_key,
+            "base_uuid": base_uuid,
+            "base_grade_prices": base_grade_prices,
+            "default_ram": default_ram,
+            "default_ssd": default_ssd,
+            "ram_deltas": ram_deltas,
+            "ssd_deltas": ssd_deltas,
+        }
+
+        pricing_index.setdefault(model_family, []).append(record)
+
+    return pricing_index
+
+
+def derive_grade_prices(entry, scraper_pricing_index):
+    """Derive per-variant grade prices from base grades + RAM/SSD deltas."""
+    model_family = entry.get("model_family") or ""
+    ram = entry.get("ram") or ""
+    ssd = entry.get("ssd") or ""
+    cpu_gpu = entry.get("cpu_gpu") or ""
+
+    if not model_family or not ram or not ssd:
+        return None
+
+    family_records = scraper_pricing_index.get(model_family, [])
+    if not family_records:
+        return None
+
+    chip_key = extract_chip_key(cpu_gpu)
+    if chip_key:
+        exact_chip = [r for r in family_records if r.get("chip_key") == chip_key]
+        if len(exact_chip) == 1:
+            family_records = exact_chip
+        elif len(exact_chip) > 1:
+            return None
+    elif len(family_records) != 1:
+        return None
+
+    record = family_records[0]
+    ram_deltas = record.get("ram_deltas", {})
+    ssd_deltas = record.get("ssd_deltas", {})
+
+    if ram not in ram_deltas or ssd not in ssd_deltas:
+        return None
+
+    total_delta = ram_deltas[ram] + ssd_deltas[ssd]
+    derived = {}
+    for grade_name, base_price in record.get("base_grade_prices", {}).items():
+        derived[grade_name] = int(round(base_price + total_delta))
+
+    return derived or None
+
+
 # ── Load data sources ───────────────────────────────────────────────
 
 def load_listing_history():
@@ -123,7 +292,7 @@ def load_order_history():
 
 
 def load_scraper():
-    """Load sell-prices-latest.json (V6 scraper output)."""
+    """Load sell-prices-latest.json (V7 scraper output)."""
     if not os.path.exists(SCRAPER_PATH):
         print(f"  WARNING: Scraper data not found at {SCRAPER_PATH}")
         return {}
@@ -265,7 +434,8 @@ def derive_spec_from_picker(picker_options):
 # ── Merge logic ─────────────────────────────────────────────────────
 
 def merge_catalog(listing_history, order_history, scraper_products, scraper_base_uuids,
-                  bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid, colour_map=None, verbose=False):
+                  bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid, scraper_pricing_index,
+                  colour_map=None, verbose=False):
     """Merge all sources into a unified catalog, keyed by UUID product_id."""
     colour_map = colour_map or {}
     variants = {}
@@ -419,10 +589,27 @@ def merge_catalog(listing_history, order_history, scraper_products, scraper_base
         else:
             verification = "unverifiable_sold_out"
 
-        # Grade prices from scraper
+        # Grade prices
         grade_prices = {}
-        if in_scraper:
+        grade_price_source = "none"
+
+        # Direct prices are only trustworthy for the scraped base UUID itself.
+        if in_scraper and uuid in scraper_base_uuids:
             grade_prices = scraper_products[uuid].get("grade_prices", {})
+            if grade_prices:
+                grade_price_source = "direct"
+
+        # Otherwise derive from the model's RAM/SSD picker deltas when possible.
+        if not grade_prices:
+            derived_prices = derive_grade_prices({
+                "model_family": model_family,
+                "ram": ram,
+                "ssd": ssd,
+                "cpu_gpu": cpu_gpu,
+            }, scraper_pricing_index)
+            if derived_prices:
+                grade_prices = derived_prices
+                grade_price_source = "derived_from_picker_delta"
 
         # Available from scraper
         available = False
@@ -455,6 +642,7 @@ def merge_catalog(listing_history, order_history, scraper_products, scraper_base
             "verification_status": verification,
             "last_seen_at": last_seen,
             "grade_prices": grade_prices,
+            "grade_price_source": grade_price_source,
             "available": available,
         }
 
@@ -524,13 +712,15 @@ def main():
     scraper_products, scraper_base_uuids = extract_scraper_products(scraper_data)
     print(f"  Unique product_ids from scraper: {len(scraper_products)}")
     print(f"  Base UUIDs (parent models): {len(scraper_base_uuids)}")
+    scraper_pricing_index = build_scraper_pricing_index(scraper_data)
+    print(f"  Scraper pricing families: {len(scraper_pricing_index)}")
 
     # ── Merge ───────────────────────────────────────────────────────
 
     print("\n--- Merging ---")
     variants, model_index, unmatched_orders = merge_catalog(
         listing_history, order_history, scraper_products, scraper_base_uuids,
-        bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid,
+        bmid_to_uuids, uuid_to_bmid, listing_id_to_uuid, scraper_pricing_index,
         colour_map=colour_map, verbose=verbose
     )
 
@@ -558,6 +748,9 @@ def main():
         "verification_unverifiable": verification_counts.get("unverifiable_sold_out", 0),
         "spec_incomplete_downgraded": spec_incomplete_count,
         "order_history_unmatched": unmatched_orders,
+        "grade_prices_direct": sum(1 for v in variants.values() if v.get("grade_price_source") == "direct"),
+        "grade_prices_derived": sum(1 for v in variants.values() if v.get("grade_price_source") == "derived_from_picker_delta"),
+        "grade_prices_none": sum(1 for v in variants.values() if v.get("grade_price_source") == "none"),
     }
 
     # Calculate catalog week
@@ -576,6 +769,9 @@ def main():
     print(f"  verification=needs_review: {summary['verification_needs_review']}")
     print(f"  verification=unverifiable: {summary['verification_unverifiable']}")
     print(f"  spec_incomplete_downgraded: {summary['spec_incomplete_downgraded']}")
+    print(f"  grade_prices direct: {summary['grade_prices_direct']}")
+    print(f"  grade_prices derived: {summary['grade_prices_derived']}")
+    print(f"  grade_prices none: {summary['grade_prices_none']}")
     print(f"  ---")
     print(f"  Order history entries with no UUID match: {unmatched_orders}")
     print(f"  Model families: {len(model_index)}")

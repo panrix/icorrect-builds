@@ -71,7 +71,7 @@ Use for:
 ### Product_id sources
 Lookup order remains:
 1. `backmarket/data/product-id-lookup.json`
-2. V6 scraper data
+2. V7 scraper data
 3. Intel hardcoded lookup in `scripts/list-device.js`
 
 ### Existing guarded flow
@@ -367,7 +367,7 @@ Only after Phase 6 passes:
 - confirm model identity is readable
 - confirm CPU/GPU data is present where required for shared model families
 - construct the canonical SKU
-- resolve product_id using lookup table, V6 data, then Intel fallback if needed
+- resolve product_id using lookup table, V7 data, then Intel fallback if needed
 - mark device as either:
 - `ready to relist`
 - `blocked for manual review`

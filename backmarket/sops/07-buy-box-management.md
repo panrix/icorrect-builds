@@ -4,7 +4,7 @@
 Monitor live listings' buy box position and adjust prices to win while maintaining profitability. Uses stored Total Fixed Cost from listing time to avoid recalculating from Monday every check.
 
 ## Trigger
-- Daily cron (05:00 UTC via `run-daily.sh`: V6 scraper → buy box check → sheet sync)
+- Weekly cron (Monday 05:00 UTC via `run-weekly.sh`: V7 scraper → buy box check → sheet sync)
 - On-demand when requested
 
 ## Flow
@@ -148,7 +148,7 @@ No blocking mismatches remain between the SOP body and the active script.
 
 Current non-blocking notes:
 
-1. **LOW — Grade ladder/status assessment can still rely on approximate V6 data**
+1. **LOW — Grade ladder/status assessment can still rely on approximate V7 data**
 
 For some listings, grade-price comparison comes from approximate model-level V6 matching rather than a fully spec-specific source.
 

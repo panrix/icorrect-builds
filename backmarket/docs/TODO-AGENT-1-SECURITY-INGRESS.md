@@ -130,7 +130,7 @@ to handle Base64 `=` characters). This fixes auth for ALL BM API calls in the mo
 During webhook testing, discovered the grade-check handler was filtering for grade column changes, not status4. Fixed to:
 1. Trigger on status4 = "Diagnostic Complete" only
 2. Read device name + UUID from linked BM Devices board item
-3. Match to V6 sell prices via A-number lookup (UUID match as fallback)
+3. Match to V7 sell prices via A-number lookup (UUID match as fallback)
 4. Tested successfully on 2 live items (A2338, A2442)
 
 This was a necessary business logic fix to validate the webhook route. Documented here for Agent 2 awareness — they may refine the matching further.

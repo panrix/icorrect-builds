@@ -91,7 +91,7 @@ This confirms the parser/audit logic is not yet good enough to drive a safe esta
 
 ### 1. V6 should not be treated as source-of-truth for rebuild classification
 
-The user explicitly clarified that V6 data is not 100% correct.
+The user explicitly clarified that V7 data is not 100% correct.
 
 For rebuild purposes:
 - BM `product_id`

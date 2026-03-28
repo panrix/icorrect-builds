@@ -4,7 +4,7 @@
  *
  * Extracted from the icloud-checker monolith. Handles Monday webhook
  * when status4 changes to "Diagnostic Complete", predicts final grade,
- * matches the device to V6 sell-price data, and warns on low-profit repairs.
+ * matches the device to scraper sell-price data, and warns on low-profit repairs.
  *
  * Port: 8011 (127.0.0.1)
  * Nginx route: /webhook/bm/grade-check → 127.0.0.1:8011
@@ -69,7 +69,7 @@ const GRADE_RANK = {
   "Grade A": 3,
 };
 
-const A_NUMBER_TO_V6_MODEL = {
+const A_NUMBER_TO_SCRAPER_MODEL = {
   A1932: 'Air 13" 2018/2019 Intel',
   A2179: 'Air 13" 2020 Intel i5 Grey',
   A2337: 'Air 13" 2020 M1',
@@ -193,7 +193,7 @@ function sumMirrorValues(displayValue) {
     .reduce((total, value) => total + value, 0);
 }
 
-function matchModelToV6(deviceUuid, deviceName, sellPriceData) {
+function matchModelToScraper(deviceUuid, deviceName, sellPriceData) {
   if (deviceUuid) {
     for (const [key, model] of Object.entries(sellPriceData.models || {})) {
       if (model.uuid === deviceUuid) {
@@ -212,9 +212,9 @@ function matchModelToV6(deviceUuid, deviceName, sellPriceData) {
   if (deviceName) {
     const aMatch = deviceName.match(/A\d{4}/);
     if (aMatch) {
-      const v6Key = A_NUMBER_TO_V6_MODEL[aMatch[0]];
-      if (v6Key && sellPriceData.models?.[v6Key]) {
-        return { key: v6Key, method: "a-number", aNumber: aMatch[0] };
+      const scraperKey = A_NUMBER_TO_SCRAPER_MODEL[aMatch[0]];
+      if (scraperKey && sellPriceData.models?.[scraperKey]) {
+        return { key: scraperKey, method: "a-number", aNumber: aMatch[0] };
       }
     }
   }
@@ -389,10 +389,10 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
       return;
     }
 
-    const modelMatch = matchModelToV6(deviceUuid, deviceName, sellPriceData);
+    const modelMatch = matchModelToScraper(deviceUuid, deviceName, sellPriceData);
     if (!modelMatch) {
       console.log(
-        `[grade-check] ${item.name}: no V6 match for device="${deviceName}"`
+        `[grade-check] ${item.name}: no scraper match for device="${deviceName}"`
       );
       await slackPost(
         `⚠️ Grade check for ${item.name}: no sell price data found for device "${deviceName}". Predicted grade: ${predictedGradeKey}.`
@@ -402,7 +402,7 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
 
     const modelKey = modelMatch.key;
     console.log(
-      `[grade-check] ${item.name}: matched to V6 "${modelKey}" via ${modelMatch.method}${modelMatch.aNumber ? ` (${modelMatch.aNumber})` : ""}`
+      `[grade-check] ${item.name}: matched to scraper "${modelKey}" via ${modelMatch.method}${modelMatch.aNumber ? ` (${modelMatch.aNumber})` : ""}`
     );
 
     const gradeData = sellPriceData.models?.[modelKey]?.grades?.[predictedGradeKey];

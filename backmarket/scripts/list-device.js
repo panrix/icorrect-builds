@@ -30,7 +30,7 @@ const TO_LIST_INDEX = 8;
 const LISTED_INDEX = 7;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
-const V6_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
+const SCRAPER_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
 const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
 const SHIPPING_COST = 15;
 const LABOUR_RATE = 24; // £/hr
@@ -568,14 +568,14 @@ function buildCatalogIndexes() {
   return _bmCatalogIndex;
 }
 
-function findV6GradePricesForCatalogVariant(v6Data, variant) {
+function findGradePricesForCatalogVariant(scraperData, variant) {
   if (variant?.grade_prices && Object.keys(variant.grade_prices).length > 0) {
     return variant.grade_prices;
   }
   return {};
 }
 
-function resolveProductFromCatalog(specs, v6Data) {
+function resolveProductFromCatalog(specs, scraperData) {
   const indexes = buildCatalogIndexes();
   const modelFamily = deriveCatalogModelFamily(specs);
   const ram = normalizeRamForCatalog(specs.ram);
@@ -621,7 +621,7 @@ function resolveProductFromCatalog(specs, v6Data) {
       backmarketId: variant.backmarket_id,
       resolutionConfidence: variant.resolution_confidence,
       verificationStatus: variant.verification_status,
-      gradePrices: findV6GradePricesForCatalogVariant(v6Data, variant),
+      gradePrices: findGradePricesForCatalogVariant(scraperData, variant),
       available: variant.available,
       liveEligible: variant.verification_status === 'verified' && variant.resolution_confidence !== 'market_only',
       resolutionSource: 'catalog-exact',
@@ -652,7 +652,7 @@ function resolveProductFromCatalog(specs, v6Data) {
       backmarketId: variant.backmarket_id,
       resolutionConfidence: variant.resolution_confidence,
       verificationStatus: variant.verification_status,
-      gradePrices: findV6GradePricesForCatalogVariant(v6Data, variant),
+      gradePrices: findGradePricesForCatalogVariant(scraperData, variant),
       available: variant.available,
       liveEligible: variant.verification_status === 'verified' && variant.resolution_confidence !== 'market_only',
       resolutionSource: 'catalog-spec-no-colour',
@@ -686,10 +686,10 @@ function resolveProductFromCatalog(specs, v6Data) {
   };
 }
 
-// ─── Step 4: Get product_id from V6 Scraper ──────────────────────
+// ─── Step 4: Get product_id from BM Catalog ──────────────────────
 
-function loadV6Data() {
-  const raw = fs.readFileSync(V6_DATA_PATH, 'utf8');
+function loadScraperData() {
+  const raw = fs.readFileSync(SCRAPER_DATA_PATH, 'utf8');
   return JSON.parse(raw);
 }
 
@@ -796,8 +796,8 @@ async function publishListing(listingId, finalPrice, minPrice) {
 
 // ─── Step 6: Get Catalog Grade Price (market reference) ──────────
 
-function getCatalogGradePrice(v6Result, bmGrade) {
-  const gradePrices = v6Result?.gradePrices || {};
+function getCatalogGradePrice(catalogResult, bmGrade) {
+  const gradePrices = catalogResult?.gradePrices || {};
   const scraperGrade = BM_GRADE_TO_SCRAPER[bmGrade] || bmGrade;
 
   // Direct match
@@ -830,13 +830,13 @@ function getCatalogGradePrice(v6Result, bmGrade) {
   return { price, source };
 }
 
-function getPriceFlags(v6Result) {
+function getPriceFlags(catalogResult) {
   const flags = [];
 
   // Adjacent SSD check
-  if (v6Result?.ssdPicker) {
-    const ssdKeys = Object.keys(v6Result.ssdPicker).filter(k => v6Result.ssdPicker[k].available);
-    const ssdPrices = ssdKeys.map(k => ({ key: k, price: v6Result.ssdPicker[k].price })).filter(p => p.price);
+  if (catalogResult?.ssdPicker) {
+    const ssdKeys = Object.keys(catalogResult.ssdPicker).filter(k => catalogResult.ssdPicker[k].available);
+    const ssdPrices = ssdKeys.map(k => ({ key: k, price: catalogResult.ssdPicker[k].price })).filter(p => p.price);
     ssdPrices.sort((a, b) => parseInt(a.key) - parseInt(b.key));
     for (let i = 1; i < ssdPrices.length; i++) {
       const gap = ssdPrices[i].price - ssdPrices[i - 1].price;
@@ -846,8 +846,8 @@ function getPriceFlags(v6Result) {
   }
 
   // Grade ladder check
-  if (v6Result?.gradePrices) {
-    const gp = v6Result.gradePrices;
+  if (catalogResult?.gradePrices) {
+    const gp = catalogResult.gradePrices;
     if (gp.Fair && gp.Good && gp.Fair >= gp.Good) flags.push(`🔴 Grade inversion: Fair(£${gp.Fair}) ≥ Good(£${gp.Good})`);
     if (gp.Good && gp.Excellent && gp.Good >= gp.Excellent) flags.push(`🔴 Grade inversion: Good(£${gp.Good}) ≥ Excellent(£${gp.Excellent})`);
     if (gp.Fair && gp.Good && Math.abs(gp.Good - gp.Fair) < 10) flags.push(`⚠️ Fair/Good within £${Math.abs(gp.Good - gp.Fair)} — buyers will upgrade`);
@@ -1059,7 +1059,7 @@ async function updateMonday(mainItemId, bmDeviceId, listingId, productId, totalF
 
 function formatSummary(device) {
   const {
-    mainItemId, itemName, grade, bmGrade, sku, specs, v6Result, slotResult,
+    mainItemId, itemName, grade, bmGrade, sku, specs, catalogResult, slotResult,
     pricing, historicalSales, profitability, decision, priceFlags, trust,
   } = device;
 
@@ -1079,22 +1079,22 @@ function formatSummary(device) {
   const lines = ['', header, ''];
 
   // Market prices (today)
-  const gradePrices = v6Result?.gradePrices || {};
+  const gradePrices = catalogResult?.gradePrices || {};
   if (Object.keys(gradePrices).length > 0) {
     lines.push(`Market   ${Object.entries(gradePrices).map(([g, pr]) => `${g[0]}:£${pr}`).join('  ')} (today)`);
   }
 
   // Colour premium (if V6 has colour data)
-  if (v6Result?.colourPrices && Object.keys(v6Result.colourPrices).length > 1) {
-    const colourParts = Object.entries(v6Result.colourPrices)
+  if (catalogResult?.colourPrices && Object.keys(catalogResult.colourPrices).length > 1) {
+    const colourParts = Object.entries(catalogResult.colourPrices)
       .map(([c, pr]) => c === specs.colour ? `${c}:£${pr}` : `${c}:£${pr}`)
       .join('  ');
     lines.push(`Colour   ${colourParts}`);
   }
 
   // Adjacent SSD prices
-  if (v6Result?.adjacentSsd && v6Result.adjacentSsd.length > 0) {
-    const adjParts = v6Result.adjacentSsd.map(a => `${a.ssd}:£${a.price}`).join('  ');
+  if (catalogResult?.adjacentSsd && catalogResult.adjacentSsd.length > 0) {
+    const adjParts = catalogResult.adjacentSsd.map(a => `${a.ssd}:£${a.price}`).join('  ');
     lines.push(`Adj SSD  ${adjParts}`);
   }
 
@@ -1141,15 +1141,15 @@ function formatSummary(device) {
   lines.push(`SKU      ${sku}`);
 
   // Product source and title verification
-  if (v6Result?.source === 'bm-catalog') {
-    lines.push(`Source   BM catalog: ${v6Result.modelKey}`);
-    if (v6Result.lookupTitle) lines.push(`BM title ${v6Result.lookupTitle}`);
-    if (v6Result.resolutionConfidence) lines.push(`Conf     ${v6Result.resolutionConfidence}`);
-    if (v6Result.verificationStatus) lines.push(`Verify   ${v6Result.verificationStatus}`);
-    if (v6Result.blockReason) lines.push(`Block    ${v6Result.blockReason}`);
+  if (catalogResult?.source === 'bm-catalog') {
+    lines.push(`Source   BM catalog: ${catalogResult.modelKey}`);
+    if (catalogResult.lookupTitle) lines.push(`BM title ${catalogResult.lookupTitle}`);
+    if (catalogResult.resolutionConfidence) lines.push(`Conf     ${catalogResult.resolutionConfidence}`);
+    if (catalogResult.verificationStatus) lines.push(`Verify   ${catalogResult.verificationStatus}`);
+    if (catalogResult.blockReason) lines.push(`Block    ${catalogResult.blockReason}`);
   }
-  if (v6Result?.resolutionSource) {
-    lines.push(`Resolve  ${v6Result.resolutionSource}${v6Result.colourVerified ? ' | colour verified' : ' | colour not independently verified'}`);
+  if (catalogResult?.resolutionSource) {
+    lines.push(`Resolve  ${catalogResult.resolutionSource}${catalogResult.colourVerified ? ' | colour verified' : ' | colour not independently verified'}`);
   }
 
   // Status
@@ -1183,7 +1183,7 @@ async function getToListItems() {
   return data.boards?.[0]?.groups?.[0]?.items_page?.items || [];
 }
 
-async function processItem(mainItemId, v6Data, bmDeviceMap) {
+async function processItem(mainItemId, scraperData, bmDeviceMap) {
   console.log(`\n${'='.repeat(60)}`);
   console.log(`Processing Main Board item: ${mainItemId}`);
   console.log('='.repeat(60));
@@ -1213,14 +1213,14 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
 
   // Step 4: Resolve product from canonical BM catalog
   console.log('[Step 4] Resolving product from BM catalog...');
-  let v6Result;
+  let catalogResult;
   if (PRODUCT_ID_OVERRIDE) {
     // Manual product_id override — for family-member resolution when catalog can't exact-match
     console.log(`  ⚠️ --product-id override: ${PRODUCT_ID_OVERRIDE}`);
     console.log(`  BM will auto-resolve the correct catalog entry from this product_id.`);
     console.log(`  Post-create verification MUST confirm the title matches the device specs.`);
-    const catalogResult = resolveProductFromCatalog(specs, v6Data);
-    v6Result = {
+    const catalogResult = resolveProductFromCatalog(specs, scraperData);
+    catalogResult = {
       ...catalogResult,
       productId: PRODUCT_ID_OVERRIDE,
       resolutionConfidence: 'manual_override',
@@ -1230,41 +1230,41 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       colourVerified: false, // Must verify after creation
     };
   } else {
-    v6Result = resolveProductFromCatalog(specs, v6Data);
+    catalogResult = resolveProductFromCatalog(specs, scraperData);
   }
-  const hasV6 = v6Result && v6Result.productId;
-  console.log(`  Family: ${v6Result.modelFamily || '(unmapped)'}`);
-  console.log(`  Lookup: ${v6Result.normalizedRam}/${v6Result.normalizedSsd}/${v6Result.normalizedColour || '(no colour)'}`);
-  if (hasV6) {
-    console.log(`  product_id: ${v6Result.productId} (${v6Result.resolutionSource === 'product-id-override' ? 'MANUAL OVERRIDE' : `catalog: "${v6Result.modelKey}"`})`);
-    console.log(`  resolution_confidence: ${v6Result.resolutionConfidence}`);
-    console.log(`  verification_status: ${v6Result.verificationStatus}`);
-    console.log(`  Grade prices: ${JSON.stringify(v6Result.gradePrices)}`);
-    console.log(`  Resolution: ${v6Result.resolutionSource}`);
-    if (v6Result.resolutionConfidence === 'market_only') {
+  const hasCatalogMatch = catalogResult && catalogResult.productId;
+  console.log(`  Family: ${catalogResult.modelFamily || '(unmapped)'}`);
+  console.log(`  Lookup: ${catalogResult.normalizedRam}/${catalogResult.normalizedSsd}/${catalogResult.normalizedColour || '(no colour)'}`);
+  if (hasCatalogMatch) {
+    console.log(`  product_id: ${catalogResult.productId} (${catalogResult.resolutionSource === 'product-id-override' ? 'MANUAL OVERRIDE' : `catalog: "${catalogResult.modelKey}"`})`);
+    console.log(`  resolution_confidence: ${catalogResult.resolutionConfidence}`);
+    console.log(`  verification_status: ${catalogResult.verificationStatus}`);
+    console.log(`  Grade prices: ${JSON.stringify(catalogResult.gradePrices)}`);
+    console.log(`  Resolution: ${catalogResult.resolutionSource}`);
+    if (catalogResult.resolutionConfidence === 'market_only') {
       console.log('  ⛔ market_only cannot authorize live listing.');
-      v6Result.liveEligible = false;
+      catalogResult.liveEligible = false;
     }
-    if (v6Result.verificationStatus !== 'verified') {
-      console.log(`  ⛔ Catalog match requires manual review (${v6Result.verificationStatus}).`);
-      v6Result.liveEligible = false;
+    if (catalogResult.verificationStatus !== 'verified') {
+      console.log(`  ⛔ Catalog match requires manual review (${catalogResult.verificationStatus}).`);
+      catalogResult.liveEligible = false;
     }
   } else {
-    console.log(`  ⛔ Catalog resolution blocked: ${v6Result?.blockReason || 'unknown reason'}`);
-    if (v6Result?.candidates?.length) {
-      console.log(`  Candidates: ${v6Result.candidates.length}`);
+    console.log(`  ⛔ Catalog resolution blocked: ${catalogResult?.blockReason || 'unknown reason'}`);
+    if (catalogResult?.candidates?.length) {
+      console.log(`  Candidates: ${catalogResult.candidates.length}`);
     }
   }
 
-  if (!hasV6 || v6Result.verificationStatus !== 'verified' || v6Result.resolutionConfidence === 'market_only') {
-    const blockReason = !hasV6
-      ? (v6Result?.blockReason || 'No catalog product match')
-      : v6Result.resolutionConfidence === 'market_only'
+  if (!hasCatalogMatch || catalogResult.verificationStatus !== 'verified' || catalogResult.resolutionConfidence === 'market_only') {
+    const blockReason = !hasCatalogMatch
+      ? (catalogResult?.blockReason || 'No catalog product match')
+      : catalogResult.resolutionConfidence === 'market_only'
         ? 'Catalog match is market_only and cannot authorize listing'
-        : `Catalog match status is ${v6Result.verificationStatus}`;
+        : `Catalog match status is ${catalogResult.verificationStatus}`;
     const blockedDecision = { decision: 'BLOCK', reason: blockReason };
     const blockedTrust = classifyTrust({
-      hasProductResolution: !!hasV6,
+      hasProductResolution: !!hasCatalogMatch,
       liveEligible: false,
       decision: blockedDecision,
       missingGrade: !grade?.bmGrade,
@@ -1276,7 +1276,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       bmGrade: grade.bmGrade,
       sku,
       specs,
-      v6Result,
+      catalogResult,
       slotResult: null,
       pricing: { proposed: 0, source: 'blocked before pricing' },
       historicalSales: { count: 0, avg: 0, low: 0, high: 0, sales: [] },
@@ -1295,13 +1295,13 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
 
   // Step 5: Reference product_id (already resolved in Step 4)
   console.log('[Step 5] Reference product_id from catalog...');
-  console.log(`  product_id: ${v6Result.productId}`);
-  console.log(`  model_family: ${v6Result.modelFamily || v6Result.modelKey}`);
+  console.log(`  product_id: ${catalogResult.productId}`);
+  console.log(`  model_family: ${catalogResult.modelFamily || catalogResult.modelKey}`);
 
   // Step 6: Calculate P&L using catalog grade prices as market reference
   console.log('[Step 6] Getting catalog grade price for P&L...');
-  const catalogGrade = getCatalogGradePrice(v6Result, grade.bmGrade);
-  const priceFlags = getPriceFlags(v6Result);
+  const catalogGrade = getCatalogGradePrice(catalogResult, grade.bmGrade);
+  const priceFlags = getPriceFlags(catalogResult);
   if (priceFlags.length > 0) {
     for (const f of priceFlags) console.log(`  ${f}`);
   }
@@ -1340,8 +1340,8 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   const decision = decisionGate(profitability);
   console.log(`  Decision: ${decision.decision} — ${decision.reason}`);
   const trust = classifyTrust({
-    hasProductResolution: !!hasV6,
-    liveEligible: !!v6Result?.liveEligible,
+    hasProductResolution: !!hasCatalogMatch,
+    liveEligible: !!catalogResult?.liveEligible,
     decision,
     missingGrade: !grade?.bmGrade,
   });
@@ -1359,7 +1359,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     bmGrade: grade.bmGrade,
     sku,
     specs,
-    v6Result,
+    catalogResult,
     slotResult: null,
     pricing: { proposed: proposedPrice, source: priceSource },
     historicalSales,
@@ -1378,11 +1378,11 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     console.log('\n' + formatSummary(result));
     // Additional dry-run Path B specific output
     console.log(`Draft    £${placeholderPrice} (safe placeholder)`);
-    const gp = v6Result?.gradePrices || {};
+    const gp = catalogResult?.gradePrices || {};
     if (Object.keys(gp).length > 0) {
       console.log(`Market   ${Object.entries(gp).map(([g, p]) => `${g[0]}:£${p}`).join('  ')} (catalog)`);
     }
-    console.log(`Product  ${v6Result.productId} (${v6Result.modelFamily || v6Result.modelKey})`);
+    console.log(`Product  ${catalogResult.productId} (${catalogResult.modelFamily || catalogResult.modelKey})`);
     console.log('');
     return result;
   }
@@ -1391,7 +1391,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   console.log('\n' + formatSummary(result));
 
   // ─── Live mode: Path B clean-create flow ───────────────────────
-  const exactResolutionForLive = !!v6Result?.liveEligible;
+  const exactResolutionForLive = !!catalogResult?.liveEligible;
   const liveModeAllowed = isLive && !!singleItemId;
   const shouldExecuteLive =
     liveModeAllowed &&
@@ -1402,7 +1402,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     try {
       // Step 8: Create draft listing via Path B
       console.log('\n[Step 8] Creating draft listing via Path B...');
-      const taskId = await createFreshListing(v6Result.productId, sku, grade.bmGrade, placeholderPrice);
+      const taskId = await createFreshListing(catalogResult.productId, sku, grade.bmGrade, placeholderPrice);
       console.log(`  Task ID: ${taskId}`);
 
       // Step 9: Poll task for result
@@ -1423,11 +1423,11 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
 
       // Step 10: Verify draft listing
       console.log('[Step 10] Verifying draft listing...');
-      const colourVerifiedByCatalog = !PRODUCT_ID_OVERRIDE && v6Result?.colourVerified && v6Result?.resolutionSource === 'catalog-exact';
+      const colourVerifiedByCatalog = !PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
       const draftVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
-        productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId,
+        productId: PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
         ram: specs.ram,
         ssd: specs.ssd,
         colour: specs.colour,
@@ -1495,7 +1495,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       const pubVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
-        productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId,
+        productId: PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
         ram: specs.ram,
         ssd: specs.ssd,
         colour: specs.colour,
@@ -1520,7 +1520,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
         const retry = await verifyListing(newListingId, {
           quantity: 1,
           grade: grade.bmGrade,
-          productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId,
+          productId: PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
           ram: specs.ram,
           ssd: specs.ssd,
           colour: specs.colour,
@@ -1556,7 +1556,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
 
       // Step 13: Update Monday
       console.log('[Step 13] Updating Monday...');
-      await updateMonday(mainItemId, specs.bmDeviceId, newListingId, v6Result.productId, finalProfitability.totalFixedCost, sku);
+      await updateMonday(mainItemId, specs.bmDeviceId, newListingId, catalogResult.productId, finalProfitability.totalFixedCost, sku);
       console.log('  Monday updated');
 
       // Step 14: Telegram confirmation
@@ -1603,11 +1603,11 @@ async function main() {
     process.exit(1);
   }
 
-  // Load V6 data once
-  console.log('\nLoading V6 scraper data...');
-  const v6Data = loadV6Data();
-  const modelCount = Object.keys(v6Data.models).length;
-  console.log(`  ${modelCount} models loaded (scraped ${v6Data.scraped_at})`);
+  // Load scraper data once
+  console.log('\nLoading V7 scraper data...');
+  const scraperData = loadScraperData();
+  const modelCount = Object.keys(scraperData.models).length;
+  console.log(`  ${modelCount} models loaded (scraped ${scraperData.scraped_at})`);
 
   console.log('\nLoading BM catalog...');
   const bmCatalog = loadBmCatalog();
@@ -1646,7 +1646,7 @@ async function main() {
   const results = [];
   for (const id of itemIds) {
     try {
-      const result = await processItem(id, v6Data, bmDeviceMap);
+      const result = await processItem(id, scraperData, bmDeviceMap);
       if (result) results.push(result);
     } catch (e) {
       console.error(`\n❌ Error processing item ${id}: ${e.message}`);

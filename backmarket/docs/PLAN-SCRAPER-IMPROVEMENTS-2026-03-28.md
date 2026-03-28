@@ -9,7 +9,7 @@
 
 ## Context
 
-The V6 scraper (`buyback-monitor/sell_price_scraper_v6.js`) is a Playwright browser scraper that extracts pricing and product data from BM product pages. It's the only way to get this data — BM has no catalog API. ScrapingBee was tried before and always failed.
+The V7 scraper (`buyback-monitor/sell_price_scraper_v7.js`) is a Playwright browser scraper that extracts pricing and product data from BM product pages. It's the only way to get this data — BM has no catalog API. ScrapingBee was tried before and always failed.
 
 The scraper was hardened on 27 Mar (jitter, context rotation, backfill retry, Telegram alerting). Success rate recovered from 58% to 84%.
 
@@ -51,11 +51,11 @@ Monday 05:00 UTC. Runs once a week. The buy-box-check and reconciliation scripts
 
 In the pipeline script, change the scraper invocation from:
 ```bash
-node sell_price_scraper_v6.js
+node sell_price_scraper_v7.js
 ```
 to:
 ```bash
-node sell_price_scraper_v6.js --all
+node sell_price_scraper_v7.js --all
 ```
 
 The `--all` flag already exists in the scraper and loads both the MacBook and iPhone/iPad catalogs. Total: ~70 models (19 MacBook + 51 iPhone/iPad).
@@ -172,7 +172,7 @@ Possible values for `grade_price_source`:
 | File | Change |
 |------|--------|
 | `buyback-monitor/run-daily.sh` | Rename to `run-weekly.sh`, add `--all` flag |
-| `buyback-monitor/sell_price_scraper_v6.js` | Fix iPhone/iPad catalog path if wrong |
+| `buyback-monitor/sell_price_scraper_v7.js` | Fix iPhone/iPad catalog path if wrong |
 | `backmarket/analysis/bm-catalog-merge.py` | Add spec-level price derivation in post-processing |
 | Crontab | Change `0 5 * * *` to `0 5 * * 1` |
 
@@ -182,7 +182,7 @@ Possible values for `grade_price_source`:
 
 After changes:
 
-1. `node sell_price_scraper_v6.js --all --dry-run` — confirm MacBook + iPhone/iPad catalogs both load
+1. `node sell_price_scraper_v7.js --all --dry-run` — confirm MacBook + iPhone/iPad catalogs both load
 2. Run the catalog merge with `--dry-run` and `--verbose` — confirm derived prices appear for variants that previously had none
 3. Show 3 examples of derived pricing (one where it's clearly different from the base model price)
 4. Confirm the iPhone/iPad catalog path loads correctly

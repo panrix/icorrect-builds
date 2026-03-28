@@ -11,7 +11,7 @@
 
 iCorrect has **zero reliable ground truth** for Back Market's catalog. Every critical BM operation depends on knowing which `product_id` maps to which exact spec, what the current sell prices are, and which variants are available. Right now we're working from:
 
-1. A browser scraper (`sell_price_scraper_v6.js`) that fails ~30-40% of the time due to Cloudflare blocks
+1. A browser scraper (`sell_price_scraper_v7.js`) that fails ~30-40% of the time due to Cloudflare blocks
 2. A static lookup table (`product-id-lookup.json`) built from our own 832 historical listings — which only covers specs we've listed before
 3. Manual knowledge in people's heads
 
@@ -27,7 +27,7 @@ This means:
 
 ## What Exists Today
 
-### V6 Scraper (`buyback-monitor/sell_price_scraper_v6.js`)
+### V6 Scraper (`buyback-monitor/sell_price_scraper_v7.js`)
 
 **What it does:**
 - Launches headless Chromium with puppeteer-extra stealth plugin
@@ -38,9 +38,9 @@ This means:
 - Outputs daily JSON to `buyback-monitor/data/sell-prices-YYYY-MM-DD.json`
 
 **Catalogue coverage:**
-- Default daily run: 19 MacBook models (16 original + 3 Intel variants added later)
-- iPhone/iPad catalogue exists (`scrape-urls-iphone-ipad.json`, 51 models) but is NOT in the daily run
-- Expanded catalogue exists (`scrape-urls-expanded.json`, 100 models) but is NOT in the daily run
+- Default scheduled run is weekly and should include MacBook + iPhone/iPad via `--all`
+- iPhone/iPad catalogue exists (`config/scrape-urls-iphone-ipad.json`, 51 models) and is part of the weekly run
+- Expanded catalogue exists (`config/scrape-urls-expanded.json`, 100 models) but is NOT in the weekly run
 
 **Success rate (last 10 days):**
 
@@ -282,7 +282,7 @@ This is a structural limitation of the current scraping approach.
 
 ### Decision: What The Scraper Is And Is Not Allowed To Do
 
-The V6 scraper should be treated as a **market signal collector**, not as a standalone source of truth for exact listing identity.
+The V7 scraper should be treated as a **market signal collector**, not as a standalone source of truth for exact listing identity.
 
 That means:
 - It **is** allowed to tell us which parent models are live, what picker values exist, and what the current grade prices look like.
@@ -300,7 +300,7 @@ Before rebuilding from scratch, harden what exists:
 2. **Rotate browser context** — fresh context (new fingerprint + cookies) every 5-6 models
 3. **Add retry with backfill** — if a model fails, queue it for a second pass at end of run with fresh context
 4. **Add success rate alerting** — if <90% success, send Telegram alert
-5. **Run iPhone/iPad catalog** — add `--all` flag to the daily cron so we capture the full device range
+5. **Run iPhone/iPad catalog** — use `--all` in the weekly cron so we capture the full device range
 6. **Move to weekly** — daily scraping increases detection risk; weekly is sufficient for pricing decisions
 
 **Implementation note:** the active scraper already supports `--iphone-ipad`, `--all`, `--dry-run`, and `--model`. The immediate reliability work is therefore operational and code-hardening, not a greenfield rebuild.
@@ -360,18 +360,18 @@ Downstream rule:
 
 | File | Path | Status |
 |------|------|--------|
-| V6 scraper (primary) | `/home/ricky/builds/buyback-monitor/sell_price_scraper_v6.js` | Active, daily cron |
-| V6 scraper (mirror) | `/home/ricky/builds/backmarket/scraper/sell_price_scraper_v6.js` | Stale copy — do not use |
+| V7 scraper (primary) | `/home/ricky/builds/buyback-monitor/sell_price_scraper_v7.js` | Active, weekly cron |
+| V7 scraper (mirror) | `/home/ricky/builds/backmarket/scraper/sell_price_scraper_v7.js` | Stale copy — do not use |
 | MacBook catalog | `/home/ricky/builds/buyback-monitor/config/scrape-urls.json` | 19 models |
-| iPhone/iPad catalog | `/home/ricky/builds/buyback-monitor/scrape-urls-iphone-ipad.json` | 51 models, not in daily run |
-| Expanded catalog | `/home/ricky/builds/buyback-monitor/config/scrape-urls-expanded.json` | 100 models, not in daily run |
+| iPhone/iPad catalog | `/home/ricky/builds/buyback-monitor/config/scrape-urls-iphone-ipad.json` | 51 models, included via `--all` |
+| Expanded catalog | `/home/ricky/builds/buyback-monitor/config/scrape-urls-expanded.json` | 100 models, not in weekly run |
 | Daily output | `/home/ricky/builds/buyback-monitor/data/sell-prices-YYYY-MM-DD.json` | 10 days of history |
 | Latest output symlink | `/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json` | Points to today |
 | Product ID lookup (copy 1) | `/home/ricky/builds/backmarket/data/product-id-lookup.json` | 279 entries |
 | Product ID lookup (copy 2) | `/home/ricky/builds/bm-scripts/data/product-id-lookup.json` | 279 entries (identical) |
 | BM product IDs knowledge doc | `/home/ricky/builds/backmarket/knowledge/bm-product-ids.md` | Good reference |
-| Daily pipeline script | `/home/ricky/builds/buyback-monitor/run-daily.sh` | Runs V6 → buy box monitor → sheet sync |
-| Cron entry | `0 5 * * *` | `/home/ricky/builds/buyback-monitor/run-daily.sh` |
+| Weekly pipeline script | `/home/ricky/builds/buyback-monitor/run-weekly.sh` | Runs V6 (`--all`) → buy box monitor → sheet sync |
+| Cron entry | `0 5 * * 1` | `/home/ricky/builds/buyback-monitor/run-weekly.sh` |
 | Logs | `/home/ricky/logs/buyback/buy-box-YYYY-MM-DD.log` | Per-run log |
 
 ---
@@ -449,7 +449,103 @@ This order matters because a more reliable scraper alone still leaves the core t
 
 ## Immediate Conclusions
 
-- The current V6 scraper should remain in service short-term, but only as an input, not the truth.
+- The current V7 scraper should remain in service short-term, but only as an input, not the truth.
 - The real fix is a canonical merged catalog with explicit confidence levels.
 - Sold-out and never-listed specs remain a hard blocker; they must be parked, not guessed.
 - The listings rebuild should stay blocked on exact product resolution, but pricing work can proceed from market data once the canonical file exists.
+
+---
+
+## QA Notes (2026-03-28)
+
+This section records QA of the implemented scraper-improvement work across:
+- `buyback-monitor/sell_price_scraper_v7.js`
+- `buyback-monitor/run-weekly.sh`
+- `backmarket/analysis/bm-catalog-merge.py`
+- `backmarket/data/bm-catalog.json`
+
+### Resolved
+
+1. **Weekly schedule**
+   Implemented. The pipeline script has been renamed to `run-weekly.sh` and the live crontab now runs it on Monday at `05:00 UTC` (`0 5 * * 1`).
+
+2. **iPhone/iPad inclusion in the scheduled run**
+   Implemented. The weekly runner now calls:
+   ```bash
+   node sell_price_scraper_v7.js --all
+   ```
+   and the iPhone/iPad catalogue path was corrected to:
+   `buyback-monitor/config/scrape-urls-iphone-ipad.json`
+
+3. **Spec-level pricing derivation**
+   Implemented for MacBook variants in `bm-catalog-merge.py`.
+   The catalog now includes:
+   - `grade_prices`
+   - `grade_price_source`
+
+   Supported `grade_price_source` values:
+   - `direct`
+   - `derived_from_picker_delta`
+   - `none`
+
+   Current output after regeneration:
+   - `grade_prices_direct: 16`
+   - `grade_prices_derived: 42`
+   - `grade_prices_none: 251`
+
+### Findings
+
+1. **HIGH — iPhone/iPad scraper data is captured but not yet merged into catalog-derived pricing**
+
+The weekly pipeline now scrapes iPhone/iPad models, but the merge-side family parsing and pricing derivation remain MacBook-centric.
+
+Current effect:
+- iPhone/iPad scraper output exists
+- iPhone/iPad rows can appear in scraper data
+- but the `bm-catalog.json` merge does not currently derive `grade_prices` for iPhone/iPad catalog entries the way it does for MacBooks
+
+Reason:
+- `derive_model_family_from_scraper_name()` only maps MacBook-style scraper names
+- `build_scraper_pricing_index()` therefore only builds derived-pricing records for MacBook families
+- many iPhone/iPad catalog entries from order/listing history still lack the family/spec structure needed for merge-side price derivation
+
+**Resolution required:**
+- extend merge-side family parsing/indexing for iPhone/iPad model names and BM title formats, or
+- explicitly treat iPhone/iPad pricing as scraper-output-only until that parser exists
+
+Until that is done, the weekly `--all` run improves market visibility but does **not** fully extend catalog-derived pricing to iPhone/iPad variants.
+
+2. **MEDIUM — One direct-priced market-only entry still has incomplete specs**
+
+There are still edge cases where a scraper base UUID can carry direct grade prices while core spec fields remain incomplete.
+
+This is not currently dangerous because:
+- `verification_status` downgrades incomplete entries
+- downstream listing resolution still blocks non-verified entries
+
+But it is slightly misleading from a catalog hygiene perspective.
+
+Suggested cleanup:
+- only assign direct grade pricing when at least `model_family` is present
+- optionally require full core specs before treating direct prices as normal catalog pricing
+
+3. **LOW — iPhone/iPad catalogue size differs from the planning assumption**
+
+The plan text assumed `51` iPhone/iPad entries.
+The currently loaded file used by the weekly dry-run produced `27` iPhone/iPad models, giving `46` total scheduled models (`19` MacBook + `27` iPhone/iPad).
+
+This is a documentation/planning mismatch, not a code bug.
+
+4. **LOW — Derived prices are colour-agnostic**
+
+Derived pricing currently uses RAM and SSD picker deltas.
+It does not apply colour-specific pricing differentials.
+
+That is acceptable for now and materially better than base-price reuse, but downstream consumers should treat derived prices as market estimates rather than exact colour-level truth.
+
+### Current Verdict
+
+- **MacBook improvements:** implemented and working
+- **Weekly pipeline:** implemented and live
+- **Catalog pricing coverage:** materially improved for MacBooks
+- **iPhone/iPad merge-side pricing:** still incomplete and remains the next follow-up task if full cross-category pricing coverage is required

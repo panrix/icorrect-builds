@@ -35,7 +35,7 @@ When you create a listing with a product_id, BM determines:
 ### Source 1: Our existing listings (BEST)
 We have 832+ listings across 279 unique backmarket_ids. Search by title keywords to find the product_id for a specific spec. This is the most reliable source because we've already verified these work.
 
-### Source 2: V6 scraper picker data
+### Source 2: V7 scraper picker data
 The scraper captures product_ids from BM's product page pickers (RAM, SSD, colour, CPU/GPU). Limitations:
 - Only captures product_ids for **available** picker options (has at least one seller)
 - **Sold-out options show `productId: null`** — no product_id available
@@ -65,11 +65,11 @@ Structure:
 }
 ```
 
-Script should search this table FIRST, before V6 scraper, when looking for a product_id.
+Script should search this table FIRST, before V7 scraper, when looking for a product_id.
 
 ## Lessons (Mar 21 incident)
 
-1. **Never assume a product_id is correct without verifying the listing title matches the device spec.** The V6 scraper's base product_id matched the wrong spec.
+1. **Never assume a product_id is correct without verifying the listing title matches the device spec.** The V7 scraper's base product_id matched the wrong spec.
 2. **Always verify grade after listing creation.** BM defaults to GOOD if grade isn't in the CSV.
 3. **Grade cannot be changed via POST update.** Must recreate the listing.
 4. **Stored listing IDs from Monday must be spec+grade verified** before reuse. A previous device's listing may have different specs.

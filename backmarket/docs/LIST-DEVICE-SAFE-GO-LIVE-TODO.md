@@ -25,7 +25,7 @@ Turn `backmarket/scripts/list-device.js` into a safe live listing flow that bloc
 - [ ] Identify every source currently used for identity data:
 - [ ] Monday Main Board
 - [ ] BM Devices Board
-- [ ] V6 data
+- [ ] V7 data
 - [ ] product-id lookup table
 - [ ] existing BM listing payload
 - [ ] Identify every place where colour/spec matching is currently fuzzy or partial.
@@ -322,13 +322,13 @@ This file also exists at `/home/ricky/builds/backmarket/data/product-id-lookup.j
 
 ---
 
-### Issue 3: V6 data path points to `buyback-monitor/` (HIGH)
+### Issue 3: V7 data path points to `buyback-monitor/` (HIGH)
 
 Line 29: `const V6_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json'`
 
 This is Hugo's buyback-monitor data directory — a separate repo. If the scraper is redeployed under `backmarket/services/bm-price-scraper/` (per master plan), this path breaks.
 
-**Resolution needed:** The TODO doesn't mention data path migration. Phase 3 (Product Identity Resolution) depends on V6 data but doesn't specify where V6 data will live after the rebuild.
+**Resolution needed:** The TODO doesn't mention data path migration. Phase 3 (Product Identity Resolution) depends on V7 data but doesn't specify where V7 data will live after the rebuild.
 
 ---
 
@@ -423,7 +423,7 @@ The code already supports `--item` for single-item runs. The guardrail is a 2-li
 |---|-------|----------|----------------|
 | 1 | Script can't run (missing lib/) | BLOCKER | Phase 0 |
 | 2 | product-id-lookup.json wrong path | HIGH | Phase 3 |
-| 3 | V6 data path points to buyback-monitor/ | HIGH | Phase 3 |
+| 3 | V7 data path points to buyback-monitor/ | HIGH | Phase 3 |
 | 4 | Colour handling already partially exists | MEDIUM | Phase 2 |
 | 5 | Stored listing validation already partially exists | MEDIUM | Phase 4 |
 | 6 | Post-list verification already exists | MEDIUM | Phase 7 |
@@ -435,7 +435,7 @@ The code already supports `--item` for single-item runs. The guardrail is a 2-li
 
 1. **Block `--live` without `--item`** — 2-line fix, prevents bulk damage
 2. **Resolve lib/ imports** — either copy `bm-scripts/lib/` or symlink, so the script can actually run
-3. **Fix data paths** — point product-id-lookup and V6 data to correct locations
+3. **Fix data paths** — point product-id-lookup and V7 data to correct locations
 
 ### Verified Against Codebase
 

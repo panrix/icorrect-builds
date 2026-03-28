@@ -16,7 +16,7 @@ Make the V6 BM sell price scraper reliable enough to sustain >90% success rate o
 ## File to Modify
 
 ```
-/home/ricky/builds/buyback-monitor/sell_price_scraper_v6.js
+/home/ricky/builds/buyback-monitor/sell_price_scraper_v7.js
 ```
 
 This is the primary scraper. 19 MacBook models in the default catalogue. ~450 lines of Node.js using Playwright + puppeteer-extra-plugin-stealth.
@@ -157,8 +157,8 @@ Use a simple line-by-line parser or `dotenv` (already in `node_modules/` — che
 
 After changes:
 
-1. `node sell_price_scraper_v6.js --dry-run` — confirm catalogue display still works
-2. `node sell_price_scraper_v6.js --model "Air 13" --dry-run` — confirm model filter works
+1. `node sell_price_scraper_v7.js --dry-run` — confirm catalogue display still works
+2. `node sell_price_scraper_v7.js --model "Air 13" --dry-run` — confirm model filter works
 3. Show the full diff of changes
 4. Do NOT run a full live scrape during QA — we don't want to trigger more Cloudflare blocks. The live test should be the next scheduled cron run.
 

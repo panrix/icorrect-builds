@@ -317,24 +317,24 @@ function calcProfit(price, totalFixedCost, purchasePrice) {
   };
 }
 
-// ─── Step 8: Grade prices from V6 scraper ────────────────────────
-let _v6Data = null;
-function loadV6() {
-  if (_v6Data) return _v6Data;
+// ─── Step 8: Grade prices from V7 scraper ────────────────────────
+let _scraperData = null;
+function loadScraperData() {
+  if (_scraperData) return _scraperData;
   try {
-    _v6Data = JSON.parse(fs.readFileSync('/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json', 'utf8'));
-  } catch { _v6Data = { models: {} }; }
-  return _v6Data;
+    _scraperData = JSON.parse(fs.readFileSync('/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json', 'utf8'));
+  } catch { _scraperData = { models: {} }; }
+  return _scraperData;
 }
 
 function getGradePricesForListing(listing) {
-  const v6 = loadV6();
+  const scraper = loadScraperData();
   const title = (listing.title || '').toLowerCase();
   const productId = listing.product_id;
 
   // Source 1: Try spec-specific match by product_id
-  // If the V6 scraper has been run with expanded URLs, we'll find an exact match
-  for (const [modelKey, modelData] of Object.entries(v6.models)) {
+  // If the V7 scraper has been run with expanded URLs, we'll find an exact match
+  for (const [modelKey, modelData] of Object.entries(scraper.models)) {
     // Check if this model's UUID or any picker product_id matches our listing
     if (modelData.uuid === productId) {
       const grades = {};
@@ -369,7 +369,7 @@ function getGradePricesForListing(listing) {
   }
 
   // Source 2: Fuzzy model-level match by title (approximate)
-  for (const [modelKey, modelData] of Object.entries(v6.models)) {
+  for (const [modelKey, modelData] of Object.entries(scraper.models)) {
     const mkLower = modelKey.toLowerCase();
     const parts = mkLower.replace(/"/g, '').split(/\s+/);
     let matchCount = 0;

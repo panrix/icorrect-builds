@@ -154,7 +154,7 @@
 ### 5.1 Listing Creation
 - Path A: reactivate existing listing (qty=0 → qty=1)
 - Path B: create new listing via JSON body with CSV
-- Product_id lookup order: our listings → V6 scraper → Intel table
+- Product_id lookup order: our listings → V7 scraper → Intel table
 - Grade must be in CSV column
 <!-- Content: full flow, decision tree, examples -->
 
@@ -266,7 +266,7 @@ break_even = ceil((total_fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667))
 | listings-audit.js | — | Listings health check / audit | ✅ QA'd |
 | buyback-profitability-builder.js | — | Build profitability lookup from Monday data | ✅ QA'd |
 | buy_box_monitor.py | Buyback | Trade-in bidding (Hugo's) | Daily 05:00 |
-| sell_price_scraper_v6.js | — | V6 sell prices scraper | Daily 05:00 |
+| sell_price_scraper_v7.js | — | V7 sell prices scraper | Daily 05:00 |
 
 ---
 
@@ -281,7 +281,7 @@ break_even = ceil((total_fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667))
 ### 9.2 Product_id = Exact Spec
 - One product_id per RAM/SSD/colour/CPU combo
 - Using wrong product_id = wrong product shown to buyer
-- V6 scraper gives base model product_id only
+- V7 scraper gives base model product_id only
 - Lookup table from our listings is the reliable source
 <!-- Content: full explanation, examples -->
 

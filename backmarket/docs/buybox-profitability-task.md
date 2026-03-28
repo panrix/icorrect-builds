@@ -15,7 +15,7 @@ The calculation is mostly guesswork:
 
 ### What's estimated (should be real data):
 
-1. **Sell price**: Uses V6 scraper grade prices, but these are BASE MODEL prices (e.g. 8GB/256GB) applied to ALL specs. A 16GB/1TB device gets the same sell price as a 8GB/256GB device. This is wrong by £100-300+.
+1. **Sell price**: Uses V7 scraper grade prices, but these are BASE MODEL prices (e.g. 8GB/256GB) applied to ALL specs. A 16GB/1TB device gets the same sell price as a 8GB/256GB device. This is wrong by £100-300+.
 
 2. **Parts cost**: Uses flat estimates by grade:
    - FUNC_CRACK: £120 (needs screen)
@@ -160,7 +160,7 @@ Board 349212843 (Main Board): formula_mkx1bjqr (parts cost), formula__1 (labour 
 Use `... on BoardRelationValue { linked_item_ids }` for board_relation.
 
 ### Current files
-- V6 sell prices: `/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json`
+- V7 sell prices: `/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json`
 - Parts cost lookup (sparse): `/home/ricky/builds/buyback-monitor/data/buyback/parts-cost-lookup.json`
 - Hugo's script: `/home/ricky/builds/buyback-monitor/buy_box_monitor.py`
 

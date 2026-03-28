@@ -295,13 +295,13 @@ After all extractions, icloud-checker = intake only:
 - Create via Supabase SQL editor or migration script
 
 **11b: Build daily price scraper service**
-- Extend `sell_price_scraper_v6.js` to write to Supabase in addition to JSON
+- Extend `sell_price_scraper_v7.js` to write to Supabase in addition to JSON
 - Uses **Playwright stealth plugin** (NOT ClawPod/Massive — that's been dropped)
 - Warms up via homepage visit, handles Cloudflare retries
 - Parses `__NUXT_DATA__` for grade-specific prices (Fair/Good/Excellent/Premium) + spec pickers
 - Upserts to `bm_market_prices` daily
 - Catalogue already defined in `scraper/scrape-urls.json` + `scrape-urls-iphone-ipad.json`
-- Existing script at `backmarket/scraper/sell_price_scraper_v6.js` (555 lines, working)
+- Existing script at `backmarket/scraper/sell_price_scraper_v7.js` (555 lines, working)
 
 ```
 backmarket/services/bm-price-scraper/

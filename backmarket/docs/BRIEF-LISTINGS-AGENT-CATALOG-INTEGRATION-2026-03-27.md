@@ -18,7 +18,7 @@ A canonical BM catalog now exists at:
 This file merges three data sources into a single product resolver:
 - Listing history (279 entries — our own verified listings)
 - Order history (234 entries — 1,456 orders from BM API)
-- V6 scraper picker data (52 unique product_ids)
+- V7 scraper picker data (52 unique product_ids)
 
 **Result:** 297 variants across 23 MacBook model families.
 
@@ -79,7 +79,7 @@ The active tracked file is:
 
 This script currently resolves `product_id` from multiple fragmented sources:
 1. `product-id-lookup.json`
-2. V6 scraper data (`sell-prices-latest.json`)
+2. V7 scraper data (`sell-prices-latest.json`)
 3. Intel hardcoded lookup table
 4. BM search/listing fallback after resolution
 
@@ -164,7 +164,7 @@ The integration should follow these hard rules:
 
 ### Implementation Notes
 
-- The current Step 4 code block in `list-device.js` should be renamed conceptually from “Get product_id from V6 scraper” to “Resolve product from canonical BM catalog”.
+- The current Step 4 code block in `list-device.js` should be renamed conceptually from “Get product_id from V7 scraper” to “Resolve product from canonical BM catalog”.
 - Keep the Step 5 listing search by `product_id` + grade once Step 4 returns a verified resolver result.
 - Keep the stored-listing reuse path, but compare the stored listing against the catalog-resolved `product_id`, not the old V6 result object.
 - The old V6 loader can remain temporarily for grade-price enrichment if needed, but it should no longer be the resolver of record.

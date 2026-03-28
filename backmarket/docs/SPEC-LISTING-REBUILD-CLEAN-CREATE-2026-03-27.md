@@ -82,7 +82,7 @@ Same as current: `{Type}.{Model}.{Chip}.{GPU?}.{RAM}.{Storage}.{Colour}.{Grade}`
 
 ### Step 5: Calculate P&L
 Same as current, but price source changes:
-- Use V6 scraper grade prices from the catalog as market reference
+- Use V7 scraper grade prices from the catalog as market reference
 - Calculate floor price from costs
 - **Do NOT use old listing prices as a pricing input**
 
@@ -228,7 +228,7 @@ Listing ID: {listing_id} (NEW — clean create)
 ## Pricing Rules
 
 1. **Never use old listing prices.** They are stale and untrustworthy.
-2. **Never use V6 scraper prices as final prices.** They are market signals, not buy box prices.
+2. **Never use V7 scraper prices as final prices.** They are market signals, not buy box prices.
 3. **Create as draft first.** Price adjustment happens after creation when backbox is available.
 4. **Backbox is the pricing authority** for live listings. V6/catalog prices are reference only.
 5. **Floor price is the safety net.** Never go below it regardless of buy box.

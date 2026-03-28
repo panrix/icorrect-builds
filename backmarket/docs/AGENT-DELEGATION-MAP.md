@@ -273,7 +273,7 @@ The delegation map only mentions "scraper runtime" and "retry logic" — the Sup
 
 **Resolution:** Agent 4's scope should explicitly include:
 - Create `bm_market_prices` Supabase table (schema in `pricing/bm-market-prices-supabase.md`)
-- Extend `sell_price_scraper_v6.js` to upsert to Supabase
+- Extend `sell_price_scraper_v7.js` to upsert to Supabase
 - Note: scraper uses Playwright stealth, NOT ClawPod/Massive (the Supabase spec is outdated on this)
 
 ---
