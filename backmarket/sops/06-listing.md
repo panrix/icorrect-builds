@@ -123,7 +123,47 @@ Use the `--product-id <uuid>` override flag. The script creates the listing with
 
 ---
 
-## Step 5: Calculate P&L
+## Step 5: Live Market Check (Single Product Page Scrape)
+
+Before calculating P&L, scrape the BM product page for this device to get **live** market data. This is a single page visit (~5 seconds), not the full weekly scrape.
+
+### What to scrape:
+
+Use the product UUID from the catalog/registry to visit the BM product page:
+```
+https://www.backmarket.co.uk/en-gb/p/placeholder/{product_uuid}?l=10
+```
+
+Extract from `__NUXT_DATA__` payload (same logic as V7 scraper):
+- **Live grade prices** — Fair, Good, Excellent, Premium (current cheapest per grade)
+- **Live picker prices** — RAM, SSD, colour variants with prices
+- **Availability** — which grades/specs are in stock
+
+### Grade ladder check (LIVE data):
+
+Verify Fair < Good < Excellent from the **live scrape**, not cached catalog data.
+- If inverted: flag to Telegram but do NOT block
+- If two grades within £10: flag (buyers will upgrade)
+
+### Adjacent spec check (LIVE data):
+
+From the picker prices, check:
+- Is the device's RAM tier priced correctly relative to other RAM options?
+- Is the device's SSD tier priced correctly relative to other SSD options?
+- Flag if a smaller spec is priced higher than a larger one (anomaly)
+
+### Market price for P&L:
+
+Use the live scrape grade price for this device's grade as the market reference.
+- If live scrape has the grade price → use it
+- If grade is sold out on the scrape → derive: 5% under next available grade
+- If scrape fails entirely → fall back to catalog grade_prices, then floor × 1.5
+
+**This market price is NOT the final listing price.** It's used for the P&L calculation only. The actual listing price comes from backbox after the listing is active.
+
+---
+
+## Step 5b: Calculate P&L
 
 ### Costs:
 
@@ -136,14 +176,6 @@ Use the `--product-id <uuid>` override flag. The script creates the listing with
 | BM buy fee | purchase × 10% |
 | BM sell fee | sell price × 10% |
 | VAT (margin scheme) | (sell - purchase) × 16.67%, only if positive |
-
-### Market price (for P&L reference):
-
-From catalog `grade_prices` for the matched variant:
-- If catalog has grade price → use it
-- If not → derive: 5% under next available grade, or floor × 1.5
-
-**This market price is NOT the final listing price.** It's used for the P&L calculation only. The actual listing price comes from backbox after creation.
 
 ### Floor price (break-even):
 
@@ -163,10 +195,6 @@ net = min_price - total_costs
 margin = (net / min_price) × 100
 ```
 
-### Grade ladder check:
-
-Verify Fair < Good < Excellent from catalog grade prices. Flag inversions but do NOT block.
-
 ---
 
 ## Step 6: Decision Gate
@@ -181,67 +209,73 @@ Verify Fair < Good < Excellent from catalog grade prices. Flag inversions but do
 `--min-margin 0` requires explicit Ricky approval. It overrides BOTH the margin gate AND the £50 net minimum for devices Ricky has approved to clear stock. Any other value (e.g. `--min-margin 5`) sets both the minimum margin % and minimum net £ to that value.
 
 **In dry-run:** shows the decision and stops here.
-**In live mode with `--item`:** proceeds to listing creation.
+**In live mode with `--item`:** proceeds to listing.
 
 ---
 
-## Step 7: Create Draft Listing (Path B)
+## Step 7: Get Listing Slot
 
-**Always creates a new listing. Never reactivates old listings.**
+### 7a: Registry lookup (preferred)
+
+Look up the constructed SKU in `data/listings-registry.json`:
+- If found and `verified: true` → use the `listing_id`. Skip to Step 9.
+- If found but `verified: false` → treat as no match, fall back to 7b.
+- If not found → fall back to 7b.
+
+### 7b: Path B fallback (for specs not in registry)
+
+Create a new listing via Path B CSV:
 
 ```
 POST /ws/listings
 Content-Type: application/json
 
 {
-  "catalog": "sku,product_id,quantity,warranty_delay,price,state,currency,grade\r\n{SKU},{PRODUCT_ID},1,12,{PLACEHOLDER_PRICE},3,GBP,{BM_GRADE}",
+  "catalog": "sku,product_id,quantity,warranty_delay,price,state,currency,grade\r\n{SKU},{PRODUCT_ID},0,12,{PLACEHOLDER_PRICE},3,GBP,{BM_GRADE}",
   "quotechar": "\"",
   "delimiter": ",",
   "encoding": "utf-8"
 }
 ```
 
-- **state=3** (draft — NOT live)
-- **grade MUST be in CSV header and data** — without it BM defaults to GOOD
-- **placeholder price** = max(floor × 2, catalog grade price × 1.2)
-- The placeholder never goes live. It's a safe number in case anything goes wrong.
+- **qty=0, state=3** (draft, not live)
+- **grade MUST be in CSV header and data**
+- **placeholder price** = max(floor × 2, live scrape grade price × 1.2)
 
-### Poll task for result:
+Poll `GET /ws/tasks/{task_id}` until complete. Extract `listing_id`.
 
-```
-GET /ws/tasks/{task_id}
-```
-
-Poll every 3 seconds until `action_status` = 9. Extract `listing_id`, `backmarket_id`, `publication_state` from `result.product_success`.
-
-**Safety:** BM may return `publication_state: 2` (live) instead of 3 (draft) if a previous listing slot with the same product_id exists. If this happens, immediately set `quantity: 0` before running verification. This ensures no listing is live without passing verification.
+**Safety:** If BM returns `publication_state: 2` instead of 3, immediately set `quantity: 0`.
 
 ---
 
-## Step 8: Verify Draft Listing
+## Step 8: Verify Listing (Path B fallback only)
+
+Only needed when Step 7b created a new listing. Registry slots are pre-verified.
 
 ```
 GET /ws/listings/{listing_id}
 ```
 
 Verify:
-- `publication_state` = 3 (still draft)
 - `grade` = expected BM grade
 - Title contains correct RAM
 - Title contains correct SSD
-- Colour: if catalog resolution was `catalog-exact` with `colourVerified`, colour is proven by product_id — title colour check is skipped (BM titles do not always include colour). If `--product-id` override was used or catalog status is uncertain, title MUST contain correct colour.
+- Colour: if catalog resolution was `catalog-exact` with `colourVerified`, skip title colour check. Otherwise title MUST contain correct colour.
 - `product_id` matches expected
 
-**If critical mismatch (grade or title wrong):** Leave as draft. Alert Telegram. Do NOT publish. The product_id was wrong or BM resolved to the wrong catalog entry.
+Check and correct SKU if BM kept an old one.
+
+**If critical mismatch:** Leave as draft. Alert Telegram. Do NOT publish.
 
 ---
 
 ## Step 9: Get Real Price from Backbox
 
-Now the listing exists, get the actual buy box price:
+Bump qty to 1 on the listing slot, then get the buy box price:
 
 ```
-GET /ws/listings/{listing_id}  → get UUID
+POST /ws/listings/{listing_id}  → { "quantity": 1, "price": {live_scrape_price}, "min_price": {min_price}, "pub_state": 2, "currency": "GBP" }
+GET /ws/listings/{listing_id}   → get UUID
 GET /ws/backbox/v1/competitors/{uuid}
 ```
 
@@ -251,16 +285,21 @@ GET /ws/backbox/v1/competitors/{uuid}
 |----------|--------|-----------|
 | 1 | Backbox `price_to_win` | Available and ≥ floor price |
 | 2 | Floor price | Backbox available but below floor |
-| 3 | Catalog grade price | No backbox data |
-| 4 | Floor × 1.5 | No backbox and no catalog price |
+| 3 | Live scrape grade price | No backbox data |
+| 4 | Floor × 1.5 | No live scrape and no backbox |
 
-**Never use old listing prices.** They are stale.
+### Sanity check:
+
+Compare backbox price against live scrape grade price:
+- If backbox is within ±20% of live scrape → reasonable
+- If backbox is >20% below live scrape → flag for review (may be a race to bottom)
+- If backbox is >20% above live scrape → flag (may be stale backbox data)
 
 Calculate `min_price = ceil(final_price × 0.97)`.
 
 ### Final profitability check:
 
-Recalculate P&L with the final price. If net < £0 and no `--min-margin` override → leave as draft, alert Telegram.
+Recalculate P&L with the final price. If net < £0 and no `--min-margin` override → set qty=0, alert Telegram.
 
 ---
 
