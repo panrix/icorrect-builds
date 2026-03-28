@@ -632,6 +632,15 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       if (statusIdx !== 7 && statusIdx !== undefined) {
         qtyIssue = `⛔ QTY MISMATCH: BM listing active (qty=${listing.quantity}) but Monday status="${statusText}" (not Listed). Oversell risk!`;
         summary.qtyMismatch = (summary.qtyMismatch || 0) + 1;
+        // Auto-offline: set qty=0 to prevent oversell
+        try {
+          await bmApi(`/ws/listings/${lid}`, { method: 'POST', body: { quantity: 0 } });
+          console.log(`  ⛔ AUTO-OFFLINE: listing ${lid} taken offline (Monday status="${statusText}")`);
+          qtyIssue += ' → AUTO-OFFLINED';
+          alerts.push(`⛔ AUTO-OFFLINED ${listing.sku}: listing ${lid} active but Monday="${statusText}"`);
+        } catch (e) {
+          console.error(`  ❌ Failed to offline listing ${lid}: ${e.message}`);
+        }
       }
     }
 
@@ -666,10 +675,11 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
         marginSource = 'monday';
       }
 
-      if (atWin && atWin.margin >= 15) {
+      if (atWin && atWin.margin >= 15 && atWin.net >= 50) {
         marginOk = true;
         const newMin = Math.ceil(buyBox.priceToWin * MIN_PRICE_FACTOR);
-        console.log(`  Bumping ${lid} to £${buyBox.priceToWin} / min £${newMin} (${atWin.margin}% margin via ${marginSource})...`);
+        const isFlagged = atWin.margin < 30;
+        console.log(`  Bumping ${lid} to £${buyBox.priceToWin} / min £${newMin} (${atWin.margin}% margin, net £${atWin.net} via ${marginSource})...`);
         try {
           await bmApi(`/ws/listings/${lid}`, {
             method: 'POST',
@@ -681,6 +691,9 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
           if (parseFloat(v.price) === buyBox.priceToWin) {
             console.log(`  ✅ Bumped to £${buyBox.priceToWin}`);
             summary.bumped++;
+            if (isFlagged) {
+              alerts.push(`⚠️ ${listing.sku}: bumped to £${buyBox.priceToWin} (${atWin.margin}% margin, net £${atWin.net}) — low margin flag`);
+            }
           } else {
             console.log(`  ⚠️ Bump verification failed`);
           }
@@ -690,8 +703,12 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       } else if (atWin && atWin.net < 0) {
         summary.unprofitable++;
         alerts.push(`⛔ ${listing.sku}: loss at win price £${buyBox.priceToWin} (${marginSource})`);
+      } else if (atWin && atWin.net < 50) {
+        summary.unprofitable++;
+        alerts.push(`⛔ ${listing.sku}: net £${atWin.net} < £50 at win price £${buyBox.priceToWin} (${marginSource})`);
       } else if (atWin) {
         summary.unprofitable++;
+        alerts.push(`⛔ ${listing.sku}: ${atWin.margin}% margin < 15% at win price £${buyBox.priceToWin} (${marginSource})`);
       } else {
         // No cost data from either source — don't bump
         console.log(`  ⚠️ ${lid}: no cost data, skipping bump`);
@@ -739,6 +756,28 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       console.log('\n  Run buyback-profitability-builder.js --compare for detailed model-level analysis');
     }
   }
+
+  // ─── Telegram report ──────────────────────────────────────────
+  const tgLines = [
+    `📊 Buy Box Check — ${new Date().toISOString().slice(0, 10)}`,
+    `${autoBump ? '🔄 AUTO-BUMP' : '👁 CHECK ONLY'}`,
+    ``,
+    `Active: ${summary.total} | Win: ${summary.winning} | Lose: ${summary.losing}`,
+  ];
+  if (summary.bumped > 0) tgLines.push(`✅ Bumped: ${summary.bumped}`);
+  if (summary.unprofitable > 0) tgLines.push(`⛔ Unprofitable: ${summary.unprofitable}`);
+  if (summary.inversions > 0) tgLines.push(`⛔ Grade inversions: ${summary.inversions}`);
+  if (summary.missingCost > 0) tgLines.push(`⚠️ Missing cost data: ${summary.missingCost}`);
+  if ((summary.qtyMismatch || 0) > 0) tgLines.push(`⛔ Qty mismatch (offlined): ${summary.qtyMismatch}`);
+  if (summary.stale > 0) tgLines.push(`🔴 Stale 21d+: ${summary.stale}`);
+  if (summary.errors > 0) tgLines.push(`⚠️ API errors: ${summary.errors}`);
+  if (alerts.length > 0) {
+    tgLines.push(``);
+    tgLines.push(`Alerts:`);
+    for (const a of alerts.slice(0, 10)) tgLines.push(a); // Cap at 10 to avoid message length limit
+    if (alerts.length > 10) tgLines.push(`... +${alerts.length - 10} more`);
+  }
+  await postTelegram(tgLines.join('\n'));
 
   // Save results
   const outDir = path.join(__dirname, '..', 'data');

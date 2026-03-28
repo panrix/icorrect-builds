@@ -14,7 +14,7 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 - Filter for `quantity > 0`
 
 ### Step 2: For each active listing, check buy box
-- `GET /ws/backbox/v1/competitors/{listing_id}`
+- `GET /ws/backbox/v1/competitors/{listing_uuid}` (UUID from `listing.id`, NOT the numeric listing_id)
 - Returns: `is_winning`, `price_to_win`, competitor prices
 
 ### Step 3: If winning
@@ -38,12 +38,13 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
   ```
 - Note: purchase price is needed for VAT calc. Read from `numeric` on BM Devices Board (already cached from listing time).
 
-**Profitability gates:**
+**Profitability gates (with `--auto-bump`):**
 | Net Margin (at min) | Net Profit (at min) | Action |
 |---------------------|---------------------|--------|
-| ≥ 30% | ≥ £100 | Auto-bump |
-| 15-30% | any | Bump but flag to BM Telegram |
+| ≥ 30% | ≥ £50 | Auto-bump (silent) |
+| 15-30% | ≥ £50 | Auto-bump + flag to BM Telegram |
 | < 15% | any | DO NOT bump. Flag "cannot win profitably" |
+| any | < £50 | DO NOT bump. Flag "net too low at win price" |
 | any | < £0 | Flag "loss at buy box price", show break-even |
 
 ### Step 6: Apply price change (if profitable)
@@ -102,7 +103,7 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 |----------|--------|---------|
 | `/ws/listings` | GET | List all our listings |
 | `/ws/listings/{listing_id}` | POST | Update price |
-| `/ws/backbox/v1/competitors/{listing_id}` | GET | Buy box status + price to win |
+| `/ws/backbox/v1/competitors/{listing_uuid}` | GET | Buy box status + price to win (uses UUID, not numeric listing_id) |
 
 ## Error handling
 - Backbox API returns 404: listing may have been removed by BM. Flag and skip.
@@ -120,8 +121,14 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 - All alerts go to BM Telegram group (`-1003888456344`)
 - NOT Slack #general
 
-## Current implementation status
-- `buy_box_monitor.py` exists but needs rebuilding against this SOP
-- Does not currently use backbox API (uses V6 front-end prices instead)
-- Profitability formula needs updating to match agreed calculation
-- Must be rebuilt before production use
+## Implementation
+
+**Script:** `backmarket/scripts/buy-box-check.js`
+
+```bash
+node scripts/buy-box-check.js                        # Check only (no price changes)
+node scripts/buy-box-check.js --auto-bump             # Check + apply profitable bumps
+node scripts/buy-box-check.js --compare-profitability  # Show real vs estimated costs
+```
+
+Note: `buy_box_monitor.py` in `buyback-monitor/` is the old Python version. The JS script above is the current implementation.
