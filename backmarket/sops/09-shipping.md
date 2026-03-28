@@ -3,7 +3,7 @@
 **Version:** 1.0
 **Date:** 2026-03-20
 **Scope:** From sale accepted (SOP 08) through to BM shipment confirmed. Two distinct steps: label buying and ship confirmation.
-**Owner:** dispatch.js (label buying) + icloud-checker webhook (ship confirmation)
+**Owner:** `dispatch.js` (label buying) + `bm-shipping` service (ship confirmation, port 8013)
 
 ---
 
@@ -14,7 +14,7 @@ These are TWO SEPARATE steps. A label purchased does NOT mean the device has shi
 | Step | Action | System |
 |------|--------|--------|
 | 1. Label buying | Purchase Royal Mail label, get tracking number | `dispatch.js` |
-| 2. Ship confirmation | Notify BM that device has shipped with tracking | icloud-checker webhook |
+| 2. Ship confirmation | Notify BM that device has shipped with tracking | `bm-shipping` webhook service |
 
 ---
 
@@ -23,6 +23,8 @@ These are TWO SEPARATE steps. A label purchased does NOT mean the device has shi
 ### Schedule
 - **08:00 GMT:** First batch run
 - **13:00 GMT:** Second batch run (follow-up labels posted in thread from 08:00 parent message)
+
+**Current live scheduler status:** no active crontab entry found for `dispatch.js` as of 2026-03-28. These times describe the intended/operational run pattern, not a currently installed cron.
 
 ### Execution
 `node dispatch.js` (or `node dispatch.js --dry-run` for preview)
@@ -71,9 +73,13 @@ These are TWO SEPARATE steps. A label purchased does NOT mean the device has shi
 
 ### What dispatch.js Does NOT Do
 - ❌ Does NOT notify BM of shipment (line 755: "BM NOT notified")
-- ❌ Does NOT change `status4` on Monday
 - ❌ Does NOT move items between groups
-- The `updateBmTracking()` function exists in code (line 524) but is **never called**: it's dead code from an earlier version
+
+### What dispatch.js DOES update on Monday
+- ✅ Writes `text53` (Outbound Tracking) after successful label purchase
+- ✅ Sets `status4` to `Return Booked` after tracking is written
+
+The `updateBmTracking()` function still exists in code but is **never called**: it is dead code from an earlier version where dispatch.js was also intended to notify BM of shipment.
 
 ### ⚠️ Known Issue: Dead Code
 `dispatch.js` contains a function `updateBmTracking()` (line 524) that would send `new_state: 3` to BM. This function is defined but **never invoked** anywhere in the current code. It's a remnant from when dispatch.js was intended to also confirm shipment. The current flow correctly separates label buying from ship confirmation.
@@ -91,7 +97,7 @@ node /home/ricky/builds/royal-mail-automation/dispatch.js --order ORDER_ID
 
 ---
 
-## Part B: Ship Confirmation (icloud-checker webhook)
+## Part B: Ship Confirmation (`bm-shipping` webhook service)
 
 ### Trigger
 
@@ -100,8 +106,8 @@ Monday webhook on Main Board (`349212843`):
 
 Team physically ships the device, then changes `status4` to "Shipped" on Monday. This triggers the webhook.
 
-**Source file:** `/home/ricky/builds/icloud-checker/src/index.js` (line ~1112)
-**Endpoint:** `POST /webhook/bm/shipping-confirmed` (port 8002)
+**Source file:** `/home/ricky/builds/backmarket/services/bm-shipping/index.js`
+**Endpoint:** `POST /webhook/bm/shipping-confirmed` → `127.0.0.1:8013` via nginx
 
 ### Flow
 
@@ -131,11 +137,15 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
    - Slack alert: "⚠️ {itemName} marked Shipped but no tracking number found. Manual BM update needed."
    - Return without notifying BM
 
-5. **HARD GATE: No linked BM Devices item?**
+5. **HARD GATE: No serial number?**
+   - Slack + Telegram alert with tracking number
+   - Return without notifying BM
+
+6. **HARD GATE: No linked BM Devices item?**
    - Slack alert with tracking number, but flag for manual BM update
    - Return
 
-6. **Fetch BM Sales Order ID from BM Devices Board:**
+7. **Fetch BM Sales Order ID from BM Devices Board:**
    ```graphql
    { items(ids: [BM_DEVICE_ITEM_ID]) {
      column_values(ids: ["text_mkye7p1c"]) { id text }
@@ -146,33 +156,36 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
    |-----------|-------|-------|
    | `text_mkye7p1c` | BM Sales Order ID | BM Devices (3892194968) |
 
-7. **HARD GATE: No BM order ID?**
+8. **HARD GATE: No BM order ID?**
    - Slack alert: "⚠️ {itemName} has tracking but no BM order ID. Manual BM update needed."
    - Return
 
-8. **Notify BM of shipment:**
+9. **Notify BM of shipment:**
    ```
    POST https://www.backmarket.co.uk/ws/orders/{bmOrderId}
    Headers:
      Authorization: $BACKMARKET_API_AUTH
      Content-Type: application/json
-   Body: {
-     "order_id": "{bmOrderId}",
-     "new_state": 3,
-     "tracking_number": "{tracking_number}",
-     "tracking_url": "https://www.royalmail.com/track-your-item#/tracking-results/{tracking_number}",
-     "shipper": "Royal Mail Express"
-   }
-   ```
+Body: {
+  "order_id": "{bmOrderId}",
+  "new_state": 3,
+  "tracking_number": "{tracking_number}",
+  "tracking_url": "https://www.royalmail.com/track-your-item#/tracking-results/{tracking_number}",
+  "shipper": "Royal Mail Express",
+  "serial_number": "{text4 serial}"
+}
+```
 
-   **Note:** Tracking number must have spaces stripped before sending.
+   **Notes:**
+   - Tracking number must have spaces stripped before sending.
+   - Serial number is included by the standalone `bm-shipping` service and is a hard gate.
 
-9. **After success:**
-   - Slack: "✅ BM notified of shipment: {itemName} - Order {bmOrderId} - Tracking {tracking}"
+10. **After success:**
+   - Slack + Telegram: "✅ BM notified of shipment: {itemName} - Order {bmOrderId} - Tracking {tracking}"
    - Monday comment: "✅ BM notified of shipment [{timestamp}]\nTracking: {tracking}\nOrder: {bmOrderId}"
    - BM order state transitions: state 3 (our submission) → state 9 (shipped/complete, BM sets this)
 
-10. **Move BM Devices item to Shipped group:**
+11. **Move BM Devices item to Shipped group:**
     ```graphql
     mutation { move_item_to_group(
       item_id: BM_DEVICE_ITEM_ID,
@@ -184,7 +197,7 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
     |-------|----|-------|
     | Shipped | `new_group269` | BM Devices (3892194968) |
 
-    > **✅ Resolved (24 Mar 2026):** The new bm-shipping service moves the BM Devices item to Shipped group after successful BM notification. The monolith handler does NOT do this — it is added in the new service.
+    > **✅ Resolved (24 Mar 2026):** The standalone `bm-shipping` service moves the BM Devices item to Shipped group after successful BM notification.
 
 ---
 
@@ -203,6 +216,7 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 | Failure | Detection | Action |
 |---------|-----------|--------|
 | No tracking on Monday | `text53` empty | Webhook alerts Slack, does not notify BM |
+| No serial on Monday | `text4` empty | Webhook alerts Slack + Telegram, does not notify BM |
 | No BM Devices link | `board_relation5` empty | Webhook alerts Slack with tracking for manual use |
 | No BM order ID | `text_mkye7p1c` empty on BM Devices | Webhook alerts, manual BM update needed |
 | BM already notified | "BM notified" in recent Monday updates | Skip (dedup) |
@@ -226,9 +240,8 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 - This SOP does NOT accept orders (that's SOP 08)
 - This SOP does NOT handle returns (that's SOP 12)
 - This SOP does NOT reconcile payments (that's SOP 10)
-- Serial number is now sent by the bm-shipping service (port 8013). The monolith handler on 8010 still does NOT send serial.
-
-> **✅ Resolved (24 Mar 2026):** Serial number is included in the ship confirmation payload per locked business rules. The new bm-shipping service (`backmarket/services/bm-shipping/`) sends both serial and tracking. If serial is not available on Main Board (`text4`), the service hard-blocks and alerts instead of notifying BM.
+- Serial number is sent by the standalone `bm-shipping` service (port 8013), not the old monolith path.
+- If serial is not available on Main Board (`text4`), the service hard-blocks and alerts instead of notifying BM.
 
 ---
 
@@ -249,4 +262,49 @@ Team physically ships the device, then changes `status4` to "Shipped" on Monday.
 | Ship confirmation webhook | `/home/ricky/builds/backmarket/services/bm-shipping/index.js` | Live (port 8013) |
 | Ship confirmation endpoint | `POST /webhook/bm/shipping-confirmed` → `127.0.0.1:8013` via nginx | Live |
 | Monday webhook | Triggers on `status4` column change on board 349212843 | Active |
-| n8n Flow 7 | `D4a5qbCtQmSCUIeT` | Active (manual trigger) |
+| n8n Flow 7 | `D4a5qbCtQmSCUIeT` | Legacy/manual reference; current shipping split is handled by `dispatch.js` + `bm-shipping` |
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Stale monolith wording corrected.
+   Part B now points to the standalone `bm-shipping` service on port `8013`, not `icloud-checker` / port `8002`.
+
+2. `PASS` Owner line corrected.
+   The SOP now reflects the real split: `dispatch.js` for label buying and `bm-shipping` for ship confirmation.
+
+3. `PASS` Part B matches `bm-shipping/index.js`.
+   Verified:
+   - serial number (`text4`) is sent to BM
+   - missing serial is a hard gate
+   - BM Devices item is moved to `new_group269` after success
+   - dedup is by recent Monday updates containing `"BM notified"`
+   - notifications are dual-channel: Slack + Telegram
+
+4. `PASS` Part A corrected against `dispatch.js`.
+   Verified:
+   - `dispatch.js` writes `text53` tracking to Monday
+   - `dispatch.js` does set `status4` to `Return Booked`
+   - `updateBmTracking()` still exists as dead code and is never called
+   - no live crontab entry was found for `dispatch.js`
+
+5. `PASS` n8n Flow 7 wording softened.
+   The current implementation of the split process is the code path in `dispatch.js` plus `bm-shipping`. n8n Flow 7 should be treated as legacy/manual reference, not the active source of truth.
+
+6. `PASS` No V6 references found.
+
+### Per-check Summary
+1. Part B service/port/source alignment: `PASS`
+2. Owner/source wording: `PASS`
+3. Serial / hard gates / shipped-group move / dedup / notifications: `PASS`
+4. Part A `Return Booked`, dead code, and schedule: `PASS`
+5. n8n Flow 7 status wording: `PASS`
+6. V6 references: `PASS`
+
+### Known Operational Limits
+- `dispatch.js` is active code but no live crontab entry was found, so the stated 08:00 / 13:00 schedule is an operational pattern rather than an installed scheduler.
+- `dispatch.js` still contains dead `updateBmTracking()` code that could confuse future readers.
+- Ship confirmation dedup depends on recent Monday updates containing `"BM notified"` and is therefore comment-history-based rather than a durable ledger.
+
+### Verdict
+SOP 09 now matches the split shipping implementation closely enough for operational use. The main remaining cleanup is code hygiene in `dispatch.js` rather than SOP accuracy.
