@@ -281,7 +281,7 @@ async function loadAllBmDevices() {
     }
   }
 
-  // Check C: Quantity reconciliation
+  // Check C: Quantity reconciliation by listing_id
   console.log('\n[Step 2C] Quantity reconciliation...');
   const matchedByListing = {};
   for (const m of results.matched) {
@@ -378,7 +378,7 @@ async function loadAllBmDevices() {
     await sleep(500);
   }
 
-  // ─── Step 4: Report ───────────────────────────────────────────
+  // ─── Step 4: Report (count summary + saved JSON report) ───────
   console.log('\n' + '═'.repeat(60));
   console.log('  RECONCILIATION SUMMARY');
   console.log('═'.repeat(60));
