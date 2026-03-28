@@ -23,7 +23,7 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 
 ### Step 4: If not winning
 - Read `price_to_win` from backbox API
-- Calculate proposed new price = `price_to_win` (or `price_to_win - £1` to undercut)
+- Calculate proposed new price = `price_to_win`
 - Calculate `min_price = ceil(proposed × 0.97)` (3% floor)
 
 ### Step 5: Profitability check at new price
@@ -34,7 +34,7 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
   bm_sell_fee = min_price × 0.10
   vat = (min_price - purchase) × 0.1667  (if positive)
   net_profit = min_price - bm_sell_fee - fixed_cost - vat
-  net_margin = net_profit / (min_price × 0.90) × 100
+  net_margin = net_profit / min_price × 100
   ```
 - Note: purchase price is needed for VAT calc. Read from `numeric` on BM Devices Board (already cached from listing time).
 
@@ -58,10 +58,10 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 
 | Days Listed | Condition | Action |
 |-------------|-----------|--------|
-| 0-7 | Above market | Monitor only (unless grade inversion) |
-| 8-14 | Above market by >£15 | Flag to BM Telegram |
-| 15-21 | Above market | Drop to market if profitable, flag if not |
-| 21+ | Cannot price competitively | Consider delisting, flag to Ricky |
+| 0-7 | Not winning | Monitor only |
+| 8-14 | Not winning | Flag to BM Telegram |
+| 15-21 | Not winning | Flag "drop to market if profitable" |
+| 21+ | Not winning | Flag "consider delisting" |
 
 ### Step 8: Grade ladder integrity check
 - For each model+spec: verify Fair < Good < Excellent across our listings
@@ -75,13 +75,15 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 
 ### Step 10: Report
 - Post summary to BM Telegram (`-1003888456344`):
-  - Total listings checked
-  - Winning / losing count
-  - Bumps applied (count + total spend)
-  - Listings that can't win profitably
+  - Total active / winning / losing count
+  - Bumps applied count
+  - Unprofitable listings count
   - Grade inversions found
-  - Qty mismatches
+  - Qty mismatches (auto-offlined)
+  - Missing cost data count
   - Stale listings (21+ days)
+  - API errors
+  - Per-alert detail (capped at 10)
 
 ## Columns used
 
@@ -91,7 +93,6 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 | `numeric_mm1mgcgn` | Total Fixed Cost | Written at listing time; purchase + parts + labour + shipping + BM buy fee |
 | `numeric` | Purchase Price (ex VAT) | Needed for VAT margin scheme calc |
 | `text_mkyd4bx3` | BM Listing ID | Links listing to Monday item |
-| `text_mm1dt53s` | UUID | Listing UUID |
 
 ### Main Board (349212843)
 | Column ID | Title | Purpose |
@@ -132,3 +133,103 @@ node scripts/buy-box-check.js --compare-profitability  # Show real vs estimated 
 ```
 
 Note: `buy_box_monitor.py` in `buyback-monitor/` is the old Python version. The JS script above is the current implementation.
+
+---
+
+## QA Notes (2026-03-28)
+
+This section records QA of SOP 7 against the active script at `backmarket/scripts/buy-box-check.js`.
+
+### Findings
+
+1. **HIGH — SOP profitability formula does not match the script**
+
+The SOP says:
+
+```text
+net_margin = net_profit / (min_price × 0.90) × 100
+```
+
+The script actually calculates:
+
+```text
+margin = net_profit / min_price × 100
+```
+
+This is a real formula mismatch and changes the reported margin percentage.
+
+2. **MEDIUM — Step 4 undercut wording is broader than implementation**
+
+The SOP says proposed price is `price_to_win` or `price_to_win - £1`.
+
+The script does not undercut by `£1`. It uses `price_to_win` directly.
+
+3. **MEDIUM — Age escalation wording is more specific than the script**
+
+The SOP describes:
+- `8-14`: above market by `>£15`
+- `15-21`: drop to market if profitable
+- `21+`: consider delisting
+
+The script only checks:
+- not winning
+- days listed at `8`, `15`, and `21`
+
+It does not compute an explicit `>£15 above market` threshold in the age logic itself.
+
+4. **MEDIUM — Report contents do not fully match the SOP wording**
+
+The SOP says the Telegram summary includes:
+- bumps applied count + total spend
+
+The script sends:
+- count of bumps
+- alerts
+- no "total spend" field
+
+This is a documentation mismatch, not a runtime bug.
+
+5. **LOW — Columns section includes a UUID column the script does not use**
+
+The SOP lists BM Devices `text_mm1dt53s` (UUID), but the script does not read that column. It uses BM listing UUID from `listing.id` returned by BM.
+
+6. **LOW — One stale comment remains in the script header**
+
+The script header still says:
+- `Step 9. Quantity verification (TODO: needs Monday cross-check)`
+
+But quantity verification is implemented now.
+
+### Check Summary
+
+| Check | Status | Notes |
+|------|--------|-------|
+| Does every SOP step match the script? | MOSTLY PASS | Main flow matches, but some formulas/wording are more specific than implementation |
+| Are profitability gates correct? | PASS | Tiered gate matches script: `>=30% + £50` silent bump, `15-30% + £50` bump+flag, `<15%` block, `<£50` block |
+| Does backbox use UUID not numeric listing_id? | PASS | Uses `listing.id` |
+| Does `--auto-bump` respect all three margin tiers? | PASS | Implemented in bump logic and alert behavior |
+| Does qty mismatch auto-offline work? | PASS | Active listing with non-Listed Monday status is auto-offlined |
+| Does Telegram report fire and include alerts? | PASS | Summary always sends, alerts append when present |
+| Is age escalation logic correct? | MOSTLY PASS | Thresholds are 8/15/21 days, but not the exact market-delta wording from SOP |
+| Are column IDs correct? | MOSTLY PASS | Core IDs used are correct; UUID column is listed but unused |
+| Any dead code or stale references? | PASS WITH NOTES | No blocking dead path found, but one stale header comment remains |
+
+### Confirmed Behaviors
+
+- **Step 1:** Active listings are fetched from `GET /ws/listings` and filtered to `quantity > 0`.
+- **Step 2:** Backbox call uses `listing.id` UUID, not numeric `listing_id`.
+- **Step 5:** Cost data comes from BM Devices `numeric_mm1mgcgn` + `numeric`, with VAT margin-scheme treatment.
+- **Step 6:** `--auto-bump` only bumps when profitability passes.
+- **Step 7:** Age escalation thresholds in code are `8`, `15`, and `21` days.
+- **Step 9:** Qty mismatch can auto-offline the listing by setting BM quantity to `0`.
+- **Step 10:** Telegram summary is sent after every run, with appended alerts when present.
+
+### Known Remaining Gaps (documented, non-blocking)
+
+- Grade check in status assessment uses V6 approximate prices for some listings.
+- Real profitability lookup is an extra implementation feature, not a core SOP requirement.
+- No explicit `--dry-run` flag, but running without `--auto-bump` is effectively check-only.
+
+### Syntax Check
+
+`node --check backmarket/scripts/buy-box-check.js` passed during QA.

@@ -9,7 +9,7 @@
  * 6. Apply bump if --auto-bump and margin gate passes
  * 7. Age-based escalation
  * 8. Grade ladder integrity check
- * 9. Quantity verification (TODO: needs Monday cross-check)
+ * 9. Quantity verification + auto-offline if Monday status != Listed
  * 10. Report to BM Telegram
  *
  * Usage:
