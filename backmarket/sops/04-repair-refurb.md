@@ -49,7 +49,8 @@ Common repairs:
 When using parts:
 1. Link consumed parts in **Parts Used** (`connect_boards__1`) — board_relation to Parts Board (985177480)
 2. Each linked part has a `supply_price` on the Parts Board
-3. **Parts Cost** (`formula_mkx13zr7`) auto-calculates from linked parts' supply prices
+3. **Parts Cost (display)** (`formula_mkx13zr7`) auto-calculates from linked parts' supply prices for board display
+4. **Parts Cost (downstream automation source)** (`lookup_mkx1xzd7`) is the mirror-style cost field consumed by profitability/listing scripts
 4. After repair, mark **Parts Deducted** (`color_mkzkats9`) to confirm stock was decremented
 
 **Parts Used vs Parts Required:**
@@ -78,7 +79,8 @@ Cosmetic work after functional repair is done.
 These formula columns auto-calculate:
 - **Total Labour** (`formula_mkx1bjqr`): combines repair + refurb + diagnostic time at £24/hr
 - **Total RR&D Time** (`formula__1`): total of Repair + Refurb + Diagnostic timers
-- **Parts Cost** (`formula_mkx13zr7`): sum of supply prices from Parts Used
+- **Parts Cost (display)** (`formula_mkx13zr7`): board display formula for parts cost
+- **Parts Cost (automation source)** (`lookup_mkx1xzd7`): mirror-style field used by downstream profitability/listing scripts
 
 These feed into profitability calculations when the device is listed.
 
@@ -119,7 +121,8 @@ Once repair and refurb are complete:
 ### Auto-Calculated Formulas
 | Column ID | Title | Calculation |
 |-----------|-------|-------------|
-| `formula_mkx13zr7` | Parts Cost | Sum of supply_price from Parts Used |
+| `formula_mkx13zr7` | Parts Cost (display) | Formula/display version of parts cost from Parts Used |
+| `lookup_mkx1xzd7` | Parts Cost (automation source) | Mirror-style supply-price values from Parts Used; downstream scripts sum comma-separated values |
 | `formula_mkx1bjqr` | Total Labour | (Repair + Refurb + Diag time) × £24/hr |
 | `formula__1` | Total RR&D Time | Repair Time + Refurb Time + Diagnostic Time |
 
@@ -131,7 +134,7 @@ The profitability calculation from SOP 3's grade-check webhook will have already
 ## Edge Cases
 1. **Parts not in stock:** Do not start repair. Note in Part to Order, update Parts Status, move to next device.
 2. **Additional issues found during repair:** If repair reveals problems not caught in diagnostic (e.g., hidden liquid damage, failing component), update Intake Notes and Parts Required. May need to re-evaluate profitability.
-3. **Board-level repair needed:** Typically higher cost and risk. Flag for review if repair cost may exceed the NFU cap (£150 per grade-check constants).
+3. **Board-level repair needed:** Typically higher cost and risk. Flag for review if repair cost may make the device uneconomic. The old `£150 NFU cap` note is not enforced by the current standalone `bm-grade-check` service and should not be treated as an active automation rule.
 4. **Parts Used differs from Parts Required:** Normal; document why. Extra part needed, or required part not actually consumed.
 5. **Device unrepairable:** If repair is not viable (e.g., board failure beyond repair), flag for Ricky. May need to be written off or sold for parts.
 
@@ -139,3 +142,46 @@ The profitability calculation from SOP 3's grade-check webhook will have already
 - Device proceeds to SOP 5: QC & Final Grade
 - QC tech reviews the repair, assigns Final Grade (`status_2_Mjj4GJNQ`)
 - After QC sign-off: device moves to SOP 6: Listing
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `MEDIUM` Parts cost source needed clarification.
+   SOP 04 originally treated `formula_mkx13zr7` as the sole parts-cost field. Cross-checking the downstream rebuild estate shows:
+   - `formula_mkx13zr7` is still documented here as a board-level/display formula
+   - `lookup_mkx1xzd7` is what the active downstream profitability/listing scripts now read
+   - active consumers using `lookup_mkx1xzd7` include SOP 06, SOP 06.5, `list-device.js`, `reconcile-listings.js`, and standalone `bm-grade-check`
+   Operationally, `lookup_mkx1xzd7` is now the correct source for downstream profitability calculations.
+
+2. `PASS` Labour fields align with downstream consumers.
+   - `formula_mkx1bjqr` = labour cost £
+   - `formula__1` = labour hours / total RR&D time
+   These match SOP 06, SOP 06.5, and the current scripts.
+
+3. `MEDIUM` SOP 5 reference remains a documentation gap.
+   SOP 04 still hands off to `SOP 5: QC & Final Grade`, but there is no tracked SOP 05 file in the rebuild docs yet.
+
+4. `PASS` Column IDs are plausible against the rest of the rebuild.
+   The parts, labour, timers, people columns, and repair-phase fields are consistent with other SOPs and downstream scripts.
+
+5. `PASS` No V6/V7 scraper references found.
+   This SOP remains focused on manual repair/refurb work and does not describe scraper behavior.
+
+6. `MEDIUM` NFU cap note was stale.
+   The old edge-case note referenced a `£150 NFU cap from grade-check constants`, but the current standalone `bm-grade-check` service does not enforce that rule.
+
+### Per-check Summary
+1. Parts cost field accuracy vs downstream consumers: `PASS` after clarification
+2. Labour fields vs SOP 06 / SOP 07 consumers: `PASS`
+3. SOP 05 reference status: `OPEN DOC GAP`
+4. Column ID plausibility: `PASS`
+5. V6/V7 references: `PASS`
+6. NFU cap reference vs current grade-check service: `PASS` after correction
+
+### Known Operational Limits
+- This SOP is manual-process documentation; there is no dedicated repair/refurb webhook or script to enforce it.
+- The Monday board may still expose both a display formula (`formula_mkx13zr7`) and a downstream mirror (`lookup_mkx1xzd7`) for parts cost, which is why the documentation must distinguish them.
+- Because SOP 05 is still missing, the repair-to-QC handoff remains only partially documented in the rebuild set.
+
+### Verdict
+SOP 04 is broadly accurate as a manual process SOP, but it needed the parts-cost source clarified and the stale NFU-cap note removed so it no longer conflicts with the downstream automation layer.
