@@ -9,11 +9,13 @@
 
 ## Background
 
-This was n8n Flow 6 (`HsDqOaIDwT5DEjCn`), which ran hourly (8-18 weekdays, 9/13/17 weekends). Flow 6 is still technically active but needs VPS replacement for reliability.
+This was n8n Flow 6 (`HsDqOaIDwT5DEjCn`), which ran hourly (8-18 weekdays, 9/13/17 weekends).
 
-Flow 6 did NOT auto-accept orders. It detected sales and updated Monday. Ricky manually accepted each order.
+The VPS replacement now exists at `/home/ricky/builds/backmarket/scripts/sale-detection.js`.
 
-> **❓ Question for Ricky:** Should the new VPS implementation auto-accept when match is confirmed and stock verified? Or keep manual acceptance? Hugo's SOP-S2 says manual. The task description says "auto-accept if match confirmed."
+Policy has changed from the old n8n flow:
+- old n8n flow: detect/update only, no auto-accept
+- current VPS script: auto-accept when match is confirmed and stock is verified
 
 ---
 
@@ -29,6 +31,8 @@ Headers:
 ```
 
 **Schedule:** Every hour during business hours (8-18 UK weekdays, 9/13/17 weekends). Should be more frequent for time-sensitive order acceptance.
+
+**Current live scheduler status:** no active cron entry found for `sale-detection.js` in live crontab as of 2026-03-28.
 
 ---
 
@@ -70,7 +74,7 @@ For each `orderlines[].listing_id` (numeric), query BM Devices Board:
 | `text_mkyd4bx3` | BM Listing ID | BM Devices (3892194968) | Numeric listing_id for matching |
 | `text4` | Sold to | BM Devices | Buyer name (MUST be empty for assignment) |
 | `text_mkye7p1c` | BM Sales Order ID | BM Devices | Real BM order ID |
-| `text89` | BackMarket SKU | BM Devices | SKU needed for acceptance |
+| `text89` | BackMarket SKU | BM Devices | Cross-check only; not the source used for BM acceptance |
 | `numeric5` | Sale Price (ex VAT) | BM Devices | Sale price |
 
 ### Match Logic
@@ -107,11 +111,14 @@ Headers:
 Body: {
   "order_id": {order_id},
   "new_state": 2,
-  "sku": "{SKU from text89}"
+  "sku": "{SKU from orderlines[].listing}"
 }
 ```
 
 `new_state: 2` = accepted. BM then transitions order to state 3 (accepted/awaiting shipment).
+
+**Source of truth for SKU in the live script:** `orderlines[].listing` from the BM order payload, not Monday `text89`.
+Monday `text89` is only used as a cross-check warning.
 
 ---
 
@@ -251,6 +258,61 @@ If `text4` on the matched BM Devices item is already populated:
 
 | Component | Location | Status |
 |-----------|----------|--------|
-| n8n Flow 6 | `HsDqOaIDwT5DEjCn` | ACTIVE but needs VPS replacement |
-| VPS replacement | Not yet built | NEEDED |
-| Notifications | BM Telegram `-1003888456344` | Target channel |
+| n8n Flow 6 | `HsDqOaIDwT5DEjCn` | Legacy reference |
+| VPS script | `/home/ricky/builds/backmarket/scripts/sale-detection.js` | Built |
+| Scheduler | Live crontab | No active cron entry found |
+| Notifications | BM Telegram `-1003888456344` | Active in script |
+
+## Usage
+- `node scripts/sale-detection.js`
+  Live mode. Detects, accepts, updates Monday, and sends Telegram notifications.
+- `node scripts/sale-detection.js --dry-run`
+  Preview mode. Detects and matches orders but does not accept or update Monday. Telegram messages are logged as “would send”.
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Implementation status corrected.
+   The VPS implementation exists at `/home/ricky/builds/backmarket/scripts/sale-detection.js`. The old “not yet built” wording was stale.
+
+2. `PASS` Auto-accept policy clarified.
+   The script already auto-accepts after match and stock verification, so the old unresolved policy question was removed.
+
+3. `PASS` SKU source corrected.
+   The live script accepts orders using `orderlines[].listing` from the BM order payload, not Monday `text89`. Monday SKU is only a mismatch warning/cross-check.
+
+4. `PASS` Column IDs match the script.
+   Verified reads/writes:
+   - BM Devices: `text_mkyd4bx3`, `text4`, `text_mkye7p1c`, `numeric5`, `text89`, `board_relation`
+   - Main Board: `status24`, `date_mkq34t04`, `name`
+
+5. `PASS` Live scheduler status clarified.
+   The SOP previously described a schedule, but there is currently no active live crontab entry for `sale-detection.js`.
+
+6. `PASS` CLI `--dry-run` documented.
+
+7. `PASS` Notification channel matches the script.
+   The live script sends Telegram notifications to `-1003888456344`.
+
+8. `PASS` No V6 references found.
+
+9. `MEDIUM` Schedule remains an operational decision.
+   The SOP still contains the desired/legacy schedule description, but the script is not currently scheduled live. This is a deployment gap, not a code mismatch.
+
+### Per-check Summary
+1. Implementation status vs script reality: `PASS`
+2. Auto-accept policy vs script behavior: `PASS`
+3. SKU source vs script behavior: `PASS`
+4. Column IDs vs script reads/writes: `PASS`
+5. Cron schedule vs live crontab: `PASS` after clarification
+6. CLI flags documented: `PASS`
+7. Notification channel: `PASS`
+8. V6 references: `PASS`
+
+### Known Operational Limits
+- There is no active live cron entry for `sale-detection.js`, so the process is built but not currently scheduled.
+- The script has Telegram notifications only; it does not send Slack alerts.
+- Multi-line orders are processed line-by-line, but the script’s summary is aggregate rather than per-line persistent audit state.
+
+### Verdict
+SOP 08 now matches the live `sale-detection.js` script. The remaining gap is operational deployment: the script exists, but no active cron schedule is currently installed.
