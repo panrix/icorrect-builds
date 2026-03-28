@@ -1534,6 +1534,26 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
         }
       }
 
+      // Step 12b: Verify and fix SKU on BM listing
+      // When BM reuses an existing slot, it may keep the old SKU instead of our new one
+      console.log('[Step 12b] Checking SKU on BM listing...');
+      const skuCheck = await bmApiFetch(`/ws/listings/${newListingId}`);
+      const bmSku = skuCheck.sku || '';
+      if (bmSku !== sku) {
+        console.log(`  ⚠️ SKU mismatch: BM has "${bmSku}", expected "${sku}". Updating...`);
+        try {
+          await bmApiFetch(`/ws/listings/${newListingId}`, {
+            method: 'POST',
+            body: JSON.stringify({ sku }),
+          });
+          console.log(`  ✅ SKU updated to "${sku}"`);
+        } catch (e) {
+          console.warn(`  ⚠️ SKU update failed: ${e.message}. Monday will still have correct SKU.`);
+        }
+      } else {
+        console.log(`  ✅ SKU matches: "${sku}"`);
+      }
+
       // Step 13: Update Monday
       console.log('[Step 13] Updating Monday...');
       await updateMonday(mainItemId, specs.bmDeviceId, newListingId, v6Result.productId, finalProfitability.totalFixedCost, sku);
