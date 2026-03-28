@@ -169,3 +169,39 @@ All alerts to BM Telegram: `-1003888456344`
 | Notifications | BM Telegram `-1003888456344` | Target channel |
 
 > **❓ Question for Ricky:** Hugo's SOP-S6 says "submit all outstanding tracking to BM by Monday EOD UK time" but the task description says Tuesday EOD. The payout cycle is Wed-Tue. Which is the actual internal deadline: Monday EOD (buffer day) or Tuesday EOD (actual cutoff)?
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Column IDs are consistent with the rest of the rebuild docs.
+   Cross-checked against SOP 08 and SOP 09:
+   - `text53` = Outbound Tracking
+   - `status4` = shipping workflow status
+   - `status24` = Sold / lifecycle status
+   - `text_mkye7p1c` = BM Sales Order ID
+
+2. `PASS` Deadline question remains correctly open.
+   The unresolved question about internal deadline (`Monday EOD` buffer vs `Tuesday EOD` actual BM cutoff) should remain open until Ricky decides it.
+
+3. `PASS` No stale references found.
+   No `bm-scripts/`, no V6 references, and no stale `icloud-checker` shipping references appear in this SOP.
+
+4. `PASS` Weekly flow is logically sound.
+   Monday check, Tuesday follow-up, and escalation before the Wednesday payout cycle are coherent as an operational monitoring process.
+
+5. `PASS` BM payout-cycle wording matches SOP 10.
+   Both SOP 10 and SOP 11 describe the payout cycle as Wednesday to Tuesday with Tuesday EOD UK as the actual external cutoff.
+
+### Per-check Summary
+1. Column IDs vs other SOPs: `PASS`
+2. Open internal-deadline question: `PASS`
+3. Stale references: `PASS`
+4. Weekly process logic: `PASS`
+5. Cross-SOP payout-cycle consistency: `PASS`
+
+### Known Operational Limits
+- There is still no dedicated implementation script for this SOP; it remains a monitoring/alerting process description.
+- The internal operational deadline is not yet locked: Monday EOD may still be used as a buffer target even if Tuesday EOD is the real BM cutoff.
+
+### Verdict
+SOP 11 is internally consistent and aligned with the rest of the current rebuild docs. The only meaningful open point is the business decision on the internal deadline buffer.
