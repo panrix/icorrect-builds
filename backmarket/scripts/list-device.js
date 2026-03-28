@@ -1976,8 +1976,10 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       const draftVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
+        productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId, // skip product_id check on manual override (BM auto-resolves)
         ram: specs.ram,
         ssd: specs.ssd,
+        colour: specs.colour,
         pubState: 3, // draft
       });
       if (!draftVerification.verified) {
@@ -2041,8 +2043,10 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       const pubVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
+        productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId,
         ram: specs.ram,
         ssd: specs.ssd,
+        colour: specs.colour,
         pubState: 2, // published
       });
       if (pubVerification.verified) {
@@ -2063,8 +2067,10 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
         const retry = await verifyListing(newListingId, {
           quantity: 1,
           grade: grade.bmGrade,
+          productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId,
           ram: specs.ram,
           ssd: specs.ssd,
+          colour: specs.colour,
           pubState: 2,
         });
         if (!retry.verified) {
