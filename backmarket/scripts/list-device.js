@@ -338,31 +338,39 @@ async function buildBmDeviceMap(mainItemIds) {
 }
 
 async function readDeviceSpecs(mainItemId, bmDeviceMap) {
-  // 2a: Read Main Board data (colour, parts cost, labour hours)
+  // 2a: Read Main Board data (colour, parts cost, labour cost, labour hours)
+  // lookup_mkx1xzd7 = Parts Cost (mirror, comma-separated values, SUM them)
+  // formula_mkx1bjqr = Labour Cost £ (formula)
+  // formula__1 = Labour Hours (formula, decimal)
   const mainQ = `query { items(ids: [${mainItemId}]) {
     name
-    column_values(ids: ["status8", "formula_mkx1bjqr", "formula__1"]) {
+    column_values(ids: ["status8", "lookup_mkx1xzd7", "formula_mkx1bjqr", "formula__1"]) {
       id
       ... on StatusValue { text }
       ... on FormulaValue { display_value }
+      ... on MirrorValue { display_value }
     }
   }}`;
   const mainData = await mondayQuery(mainQ);
   const mainItem = mainData.items?.[0];
   if (!mainItem) throw new Error(`Main item ${mainItemId} not found`);
 
-  let colour = '', partsCostStr = '0', labourHoursStr = '0';
+  let colour = '', partsCostStr = '0', labourCostStr = '0', labourHoursStr = '0';
   for (const cv of mainItem.column_values) {
     if (cv.id === 'status8') colour = cv.text || '';
-    if (cv.id === 'formula_mkx1bjqr') partsCostStr = cv.display_value || '0';
-    if (cv.id === 'formula__1') labourHoursStr = cv.display_value || '0';
+    if (cv.id === 'lookup_mkx1xzd7') partsCostStr = cv.display_value || '0'; // Parts Cost (mirror, comma-separated)
+    if (cv.id === 'formula_mkx1bjqr') labourCostStr = cv.display_value || '0'; // Labour Cost £
+    if (cv.id === 'formula__1') labourHoursStr = cv.display_value || '0'; // Labour Hours
   }
 
   // 2b: Get BM Device specs from pre-built map
   const bmDev = bmDeviceMap?.[String(mainItemId)];
   if (!bmDev) throw new Error(`No BM Device found linked to Main item ${mainItemId} on BM Devices Board`);
 
-  const partsCost = parseFloat(String(partsCostStr).replace(/[£,]/g, '')) || 0;
+  // Parts cost: mirror column returns comma-separated values like "18, 7, 11, 8" — sum them
+  const partsCost = String(partsCostStr).split(',')
+    .map(v => parseFloat(v.replace(/[£,\s]/g, '')) || 0)
+    .reduce((a, b) => a + b, 0);
   const labourHours = parseFloat(String(labourHoursStr).replace(/[^0-9.]/g, '')) || 0;
 
   // Model number: from text column, or parse from device name/item name
@@ -1508,9 +1516,11 @@ function calculateProfitability(proposed, specs) {
 function decisionGate(profitability) {
   const { margin, net, minPrice } = profitability;
   const minMargin = MIN_MARGIN_OVERRIDE !== null ? MIN_MARGIN_OVERRIDE : 15;
+  const minNet = MIN_MARGIN_OVERRIDE !== null ? MIN_MARGIN_OVERRIDE : 50; // £50 minimum net profit
 
   if (net < 0 && MIN_MARGIN_OVERRIDE === null) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
   if (net < 0 && MIN_MARGIN_OVERRIDE !== null) return { decision: 'PROPOSE', reason: `⚠️ Loss maker (net £${net}) — approved via --min-margin override` };
+  if (net < minNet && net >= 0) return { decision: 'BLOCK', reason: `Net £${net} < £${minNet} minimum at min_price` };
   if (margin < minMargin) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < ${minMargin}% at min_price` };
   return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
 }

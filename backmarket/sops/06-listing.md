@@ -386,3 +386,99 @@ Content-Type: application/json
 | SKU | BM Devices | `text89` |
 | Total fixed cost | BM Devices | `numeric_mm1mgcgn` |
 | Board relation (→ Main) | BM Devices | `board_relation` |
+
+---
+
+## QA Notes (2026-03-28)
+
+This section records the current QA status of SOP 06 v2.0 against the active script at `backmarket/scripts/list-device.js`.
+
+### Findings
+
+1. **CRITICAL — Decision gate mismatch**
+
+The SOP says devices with net profit below `£50` must be blocked unless explicitly overridden.
+
+The script does **not** implement that rule. In `decisionGate()`, it only blocks when:
+- `net < 0`, or
+- `margin < minMargin`
+
+That means a device with net profit between `£0` and `£49.99` can still proceed if margin is above threshold.
+
+**Script reference:** `list-device.js` `decisionGate()`
+
+### 2. **CRITICAL — Cost column mismatch**
+
+The SOP says:
+- parts cost comes from Main Board `lookup_mkx1xzd7`
+- labour cost is derived from `formula__1 × £24/hr`
+
+The script currently reads:
+- `formula_mkx1bjqr` into `partsCost`
+- `formula__1` into `labourHours`
+
+It does **not** read `lookup_mkx1xzd7` in the active flow.
+
+If the SOP reflects the real Monday schema, then the script is pricing from the wrong cost inputs and may ignore parts cost while re-using a labour-cost-derived figure as parts.
+
+**Script reference:** `list-device.js` `readDeviceSpecs()`
+
+### 3. **MEDIUM — Dead legacy resolver code still present**
+
+The active listing flow now uses the BM catalog as the resolver of record and does not reactivate old listings.
+
+However, the file still contains dead legacy resolver code and constants for:
+- old lookup-table resolution
+- old V6-based product resolution
+- old Intel/hardcoded resolver paths
+
+These are not in the active execution path, but they can confuse future agents and reviewers.
+
+### 4. **LOW — `--force-live` is still parsed**
+
+The script logs that `--force-live` is disabled, and the active live gate does not rely on it.
+
+However, the flag is still parsed from CLI args, which is unnecessary and confusing.
+
+### Check Summary
+
+| Check | Status | Notes |
+|------|--------|-------|
+| SOP steps match script | FAIL | Cost inputs and decision gate do not match |
+| Column IDs match script | FAIL | Active script does not read `lookup_mkx1xzd7` |
+| API endpoints/payloads match | PASS | Listing create/update/task/backbox flow matches |
+| Verification checks all required fields | PASS | Script checks `product_id`, grade, RAM, SSD, colour, `pub_state`, quantity |
+| Any live path without verification | NO | Draft-first, verify-before-live is enforced |
+| Any old-listing reactivation path | NO | Active flow is clean-create only |
+| Pricing cascade implemented | MOSTLY PASS | Cascade matches, but cost inputs may be wrong |
+| `--product-id` override works | PASS WITH CAUTION | Uses override and relies on post-create verification |
+| `--min-margin` override works as documented | FAIL | Script allows broader bypass than the SOP describes |
+| Deleted functions still in active flow | NO | No active calls found |
+| Dead code paths remain | YES | Old resolver code still present in-file |
+
+### Catalog Contract Check
+
+`backmarket/data/bm-catalog.json` matches what `resolveProductFromCatalog()` expects:
+- top-level `variants` object keyed by `product_id`
+- per-variant fields include:
+  - `product_id`
+  - `title`
+  - `backmarket_id`
+  - `ram`
+  - `ssd`
+  - `colour`
+  - `model_family`
+  - `resolution_confidence`
+  - `verification_status`
+  - `grade_prices`
+  - `available`
+
+### Live Execution Verdict
+
+**Current verdict: NOT SAFE for autonomous live execution by an OpenClaw agent yet.**
+
+Reason:
+- profitability gating in the script does not match the SOP's `£50` minimum net-profit rule
+- cost-column usage in the script does not match the SOP's documented source-of-truth inputs
+
+Before handing this SOP to an autonomous live-listing agent, those two mismatches must be resolved and re-QA'd.
