@@ -40,6 +40,7 @@ const BM_TELEGRAM_CHAT = '-1003888456344';
 const PROFITABILITY_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'buyback-profitability-lookup.json');
 
 const autoBump = process.argv.includes('--auto-bump');
+const recalcCosts = process.argv.includes('--recalc');
 const parallelCompare = process.argv.includes('--compare-profitability');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -265,6 +266,26 @@ async function getCostData(listingId) {
       mainItemId = cv.linked_item_ids[0];
     }
   }
+
+  // --recalc: pull fresh costs from Monday instead of trusting stored value
+  if (recalcCosts && mainItemId) {
+    const costQ = `{ items(ids:[${mainItemId}]) { column_values(ids:["lookup_mkx1xzd7","formula__1"]) { id ... on MirrorValue { display_value } ... on FormulaValue { display_value } } } }`;
+    const costR = await mondayApi(costQ);
+    const mainCols = costR.data?.items?.[0]?.column_values || [];
+    const partsRaw = mainCols.find(c => c.id === 'lookup_mkx1xzd7')?.display_value || '0';
+    const parts = String(partsRaw).split(',').reduce((sum, v) => sum + (parseFloat(v.trim()) || 0), 0);
+    const labourH = parseFloat(mainCols.find(c => c.id === 'formula__1')?.display_value) || 0;
+    const labour = labourH * 24; // LABOUR_RATE
+    const buyFee = purchasePrice * 0.10;
+    const freshFixed = purchasePrice + parts + labour + 15 + buyFee;
+    if (Math.abs(freshFixed - totalFixedCost) > 1) {
+      console.log(`  --recalc: £${totalFixedCost.toFixed(0)} → £${freshFixed.toFixed(0)} (delta £${(freshFixed - totalFixedCost).toFixed(0)})`);
+      // Write corrected value back to Monday
+      await mondayApi(`mutation { change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${item.id}, column_id: "numeric_mm1mgcgn", value: "${Math.round(freshFixed * 100) / 100}") { id } }`);
+      totalFixedCost = freshFixed;
+    }
+  }
+
   return { totalFixedCost, purchasePrice, bmDeviceName: item.name, bmDeviceId: item.id, mainItemId };
 }
 

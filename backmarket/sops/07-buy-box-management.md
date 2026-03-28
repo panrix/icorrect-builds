@@ -29,6 +29,7 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 ### Step 5: Profitability check at new price
 - Read `numeric_mm1mgcgn` (Total Fixed Cost) from BM Devices Board
   - This was written at listing time (SOP 6) and includes: purchase + parts + labour + shipping + BM buy fee
+  - With `--recalc`: pulls fresh parts + labour from Main Board and recalculates. Writes corrected value back to Monday if different. Use when parts/labour may have changed after listing (e.g. extra repair work).
 - Calculate at min_price:
   ```
   bm_sell_fee = min_price × 0.10
@@ -129,6 +130,7 @@ Monitor live listings' buy box position and adjust prices to win while maintaini
 ```bash
 node scripts/buy-box-check.js                        # Check only (no price changes)
 node scripts/buy-box-check.js --auto-bump             # Check + apply profitable bumps
+node scripts/buy-box-check.js --auto-bump --recalc    # Bump + recalculate costs from Monday live data
 node scripts/buy-box-check.js --compare-profitability  # Show real vs estimated costs
 ```
 
@@ -142,77 +144,37 @@ This section records QA of SOP 7 against the active script at `backmarket/script
 
 ### Findings
 
-1. **HIGH — SOP profitability formula does not match the script**
+No blocking mismatches remain between the SOP body and the active script.
 
-The SOP says:
+Current non-blocking notes:
 
-```text
-net_margin = net_profit / (min_price × 0.90) × 100
-```
+1. **LOW — Grade ladder/status assessment can still rely on approximate V6 data**
 
-The script actually calculates:
+For some listings, grade-price comparison comes from approximate model-level V6 matching rather than a fully spec-specific source.
 
-```text
-margin = net_profit / min_price × 100
-```
+This is a known limitation of the pricing signal, not a mismatch between SOP and script.
 
-This is a real formula mismatch and changes the reported margin percentage.
+2. **LOW — Real profitability lookup is an implementation bonus**
 
-2. **MEDIUM — Step 4 undercut wording is broader than implementation**
+The script can optionally use `buyback-profitability-lookup.json` to compare real historical costs/profitability, but this is an enhancement beyond the core SOP flow.
 
-The SOP says proposed price is `price_to_win` or `price_to_win - £1`.
+3. **LOW — No explicit `--dry-run` flag**
 
-The script does not undercut by `£1`. It uses `price_to_win` directly.
-
-3. **MEDIUM — Age escalation wording is more specific than the script**
-
-The SOP describes:
-- `8-14`: above market by `>£15`
-- `15-21`: drop to market if profitable
-- `21+`: consider delisting
-
-The script only checks:
-- not winning
-- days listed at `8`, `15`, and `21`
-
-It does not compute an explicit `>£15 above market` threshold in the age logic itself.
-
-4. **MEDIUM — Report contents do not fully match the SOP wording**
-
-The SOP says the Telegram summary includes:
-- bumps applied count + total spend
-
-The script sends:
-- count of bumps
-- alerts
-- no "total spend" field
-
-This is a documentation mismatch, not a runtime bug.
-
-5. **LOW — Columns section includes a UUID column the script does not use**
-
-The SOP lists BM Devices `text_mm1dt53s` (UUID), but the script does not read that column. It uses BM listing UUID from `listing.id` returned by BM.
-
-6. **LOW — One stale comment remains in the script header**
-
-The script header still says:
-- `Step 9. Quantity verification (TODO: needs Monday cross-check)`
-
-But quantity verification is implemented now.
+Running without `--auto-bump` is effectively check-only, but there is no named `--dry-run` flag.
 
 ### Check Summary
 
 | Check | Status | Notes |
 |------|--------|-------|
-| Does every SOP step match the script? | MOSTLY PASS | Main flow matches, but some formulas/wording are more specific than implementation |
+| Does every SOP step match the script? | PASS | SOP body now matches the current implementation |
 | Are profitability gates correct? | PASS | Tiered gate matches script: `>=30% + £50` silent bump, `15-30% + £50` bump+flag, `<15%` block, `<£50` block |
 | Does backbox use UUID not numeric listing_id? | PASS | Uses `listing.id` |
 | Does `--auto-bump` respect all three margin tiers? | PASS | Implemented in bump logic and alert behavior |
 | Does qty mismatch auto-offline work? | PASS | Active listing with non-Listed Monday status is auto-offlined |
 | Does Telegram report fire and include alerts? | PASS | Summary always sends, alerts append when present |
-| Is age escalation logic correct? | MOSTLY PASS | Thresholds are 8/15/21 days, but not the exact market-delta wording from SOP |
-| Are column IDs correct? | MOSTLY PASS | Core IDs used are correct; UUID column is listed but unused |
-| Any dead code or stale references? | PASS WITH NOTES | No blocking dead path found, but one stale header comment remains |
+| Is age escalation logic correct? | PASS | Thresholds are 8/15/21 days and align with the SOP |
+| Are column IDs correct? | PASS | SOP column list now matches the fields used in the script |
+| Any dead code or stale references? | PASS | No blocking dead path or stale operational reference found |
 
 ### Confirmed Behaviors
 
