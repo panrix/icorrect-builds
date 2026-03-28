@@ -129,7 +129,7 @@ Before calculating P&L, scrape the BM product page for this device to get **live
 
 ### What to scrape:
 
-Use the product UUID from the catalog/registry to visit the BM product page:
+Launch a stealth browser, visit the BM homepage first to set cookies (Cloudflare warmup), then visit the product page using the UUID from the catalog/registry:
 ```
 https://www.backmarket.co.uk/en-gb/p/placeholder/{product_uuid}?l=10
 ```
