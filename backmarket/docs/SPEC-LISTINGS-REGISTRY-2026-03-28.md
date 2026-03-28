@@ -74,17 +74,59 @@ Key settings:
 
 Poll `GET /ws/tasks/{task_id}` for result. Extract `listing_id`, `backmarket_id`.
 
-### Verification
+### Verification (This IS the Product_ID Proof)
+
+The registry build is not just slot creation — it's the first time we systematically prove that every product_id in our catalog actually resolves to the spec we think it does.
+
+When BM creates a listing from a product_id, the title it returns IS the verified spec. BM generates the title from the product_id — we can't change it. So:
+
+**Create with product_id → re-fetch → read BM's title → that's what this product_id means.**
 
 After creation, fetch `GET /ws/listings/{listing_id}` and verify:
-- `grade` matches what we sent
-- Title contains correct RAM
-- Title contains correct SSD
-- `product_id` matches (unless BM resolved to a different one — record what BM gave us)
+
+1. **Grade** matches what we sent (FAIR/GOOD/VERY_GOOD)
+2. **Parse the BM title** to extract: model family, RAM, SSD, CPU/GPU
+3. **Compare parsed spec against catalog entry:**
+   - Does the RAM in the title match what the catalog says for this product_id?
+   - Does the SSD in the title match?
+   - Does the model family match?
+4. **Record what BM actually returned** — the title, the backmarket_id, the product_id BM used
+
+**If the title matches our catalog:** This product_id is **proven**. Store it in the registry as verified.
+
+**If the title does NOT match our catalog:**
+- This product_id is **wrong** in our catalog
+- Flag it: `{ verified: false, reason: "spec_mismatch", expected: {...}, actual_title: "..." }`
+- Do NOT use this product_id for future listings
+- Feed the correction back: update bm-catalog.json with the real spec for this product_id
+
+**If BM resolves to a different product_id than we sent:**
+- This happens when BM auto-resolves a family-member product_id to the correct slot
+- Record BOTH: what we sent AND what BM gave us
+- The BM-assigned product_id is the real one — use it going forward
 
 If BM returns pub_state=2 instead of 3, immediately set qty=0.
 
 SKU check: if BM kept an old SKU, POST update with our clean SKU.
+
+### Catalog Feedback Loop
+
+After the registry build completes, produce a `catalog-corrections.json` file listing any product_ids where the BM title didn't match the catalog:
+
+```json
+{
+  "corrections": [
+    {
+      "product_id": "abc123...",
+      "catalog_says": { "ram": "16GB", "ssd": "512GB", "model_family": "MacBook Pro 14-inch (2023)" },
+      "bm_title_says": { "ram": "8GB", "ssd": "256GB", "model_family": "MacBook Pro 14-inch (2023)" },
+      "action": "catalog entry is wrong — update to match BM title"
+    }
+  ]
+}
+```
+
+These corrections should be fed back into `bm-catalog-merge.py` so the catalog improves over time. The registry build is a data quality pass, not just infrastructure.
 
 ### Output: listings-registry.json
 
