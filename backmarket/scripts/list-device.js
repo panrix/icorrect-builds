@@ -2,10 +2,14 @@
 /**
  * list-device.js — Back Market Listing Script (SOP 06)
  *
+ * Clean-create only (Path B). Never reactivates old listings.
+ * Creates as draft (state=3), gets backbox price, then publishes.
+ *
  * Modes:
  *   --dry-run   (default) Calculate everything, print results, no actions
- *   --live      Create/reactivate listings and update Monday
+ *   --live      Create fresh listings and update Monday
  *   --item <id> Process a single Main Board item
+ *   --min-margin <n> Override minimum margin % (default: 15)
  *   (no --item) Process ALL items where status24 = "To List" (index 8)
  */
 
@@ -28,6 +32,7 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 const V6_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
 const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
+const PRODUCT_ID_LOOKUP_PATH = path.join(__dirname, 'data', 'product-id-lookup.json');
 const SHIPPING_COST = 15;
 const LABOUR_RATE = 24; // £/hr
 const BM_BUY_FEE_RATE = 0.10;
@@ -1223,145 +1228,150 @@ function buildModelNumberMap(v6) {
   };
 }
 
-// ─── Step 5: Search for Existing Listing Slot ─────────────────────
+// ─── Step 5: Get Reference product_id ────────────────────────────
+// (product_id already resolved in Step 4 via catalog — no listing search needed)
 
-// Listing cache: fetch once, reuse across all items
-let _listingsCache = null;
-async function getAllListings() {
-  if (_listingsCache) {
-    console.log(`  Using cached listings (${_listingsCache.length} total)`);
-    return _listingsCache;
-  }
-  const diskCache = readDiskCache('listings');
-  if (diskCache) {
-    console.log(`  Using disk-cached listings (${diskCache.length} total, <1hr old)`);
-    _listingsCache = diskCache;
-    return _listingsCache;
-  }
-  console.log(`  Fetching all listings (first time, will cache)...`);
-  const allListings = [];
-  let page = 1;
-  while (true) {
-    const data = await bmApiFetch(`/ws/listings?page=${page}`);
-    const results = data.results || (Array.isArray(data) ? data : []);
-    if (results.length === 0) break;
-    allListings.push(...results);
-    if (!data.next) break;
-    page++;
-    await sleep(500);
-  }
-  console.log(`  Fetched ${allListings.length} total listings across ${page} pages`);
-  _listingsCache = allListings;
-  writeDiskCache('listings', allListings);
-  return allListings;
+// ─── Path B: Create Fresh Listing ────────────────────────────────
+
+async function createFreshListing(productId, sku, bmGrade, placeholderPrice) {
+  // CSV format with grade column included — CRITICAL: without grade, BM defaults to GOOD
+  const csvHeader = 'sku,product_id,quantity,warranty_delay,price,state,currency,grade';
+  const csvRow = `${sku},${productId},1,12,${placeholderPrice},3,GBP,${bmGrade}`;
+  const catalog = csvHeader + '\r\n' + csvRow;
+
+  const body = {
+    catalog,
+    quotechar: '"',
+    delimiter: ',',
+    encoding: 'utf-8',
+  };
+
+  console.log(`  [Path B] POST /ws/listings (draft, grade=${bmGrade})`);
+  console.log(`  CSV: ${catalog}`);
+  const result = await bmApiFetch(`/ws/listings`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+
+  const taskId = result.bodymessage || result.task_id || result.id;
+  if (!taskId) throw new Error(`Path B create returned no task_id: ${JSON.stringify(result)}`);
+  return taskId;
 }
 
-async function searchListingSlot(targetProductId, targetBmGrade) {
-  console.log(`[Step 5] Searching listings for product_id=${targetProductId}, grade=${targetBmGrade}...`);
-  const allListings = await getAllListings();
-
-  // Filter by product_id + grade
-  const matches = allListings.filter(l =>
-    l.product_id === targetProductId && l.grade === targetBmGrade
-  );
-
-  console.log(`  Found ${matches.length} matching listings`);
-
-  if (matches.length === 0) {
-    // Path B: no match. Try to find backmarket_id from same model listings
-    let backmarketId = null;
-    for (const l of allListings) {
-      if (l.product_id === targetProductId) {
-        backmarketId = l.backmarket_id || l.catalog;
-        break;
-      }
-    }
-    return { path: 'B', listing: null, allListingIds: [], backmarketId, allListings };
-  }
-
-  // Check for qty > 0
-  const active = matches.filter(l => (l.quantity || 0) > 0);
-  if (active.length > 0) {
-    // Path A2: bump qty
-    const listing = active[0];
-    return { path: 'A2', listing, allListingIds: matches.map(l => l.listing_id || l.id), allListings };
-  }
-
-  // Path A: qty=0, pick highest listing_id
-  const sorted = matches.sort((a, b) => (b.listing_id || b.id || 0) - (a.listing_id || a.id || 0));
-  const listing = sorted[0];
-  return { path: 'A', listing, allListingIds: matches.map(l => l.listing_id || l.id), allListings };
-}
-
-// ─── Step 6: Get Buy Box Price ────────────────────────────────────
-
-async function getBuyBoxPrice(slotResult, v6Result, gradeText) {
-  let proposed = null;
-  let source = '';
-
-  // 6a: Path A/A2 — use backbox API (needs UUID, not numeric listing_id)
-  if (slotResult.path !== 'B' && slotResult.listing) {
-    const listingUuid = slotResult.listing.id; // UUID format (e.g. d77fb96c-7c68-4b9c-...)
-    const listingId = slotResult.listing.listing_id; // numeric (for logging)
+async function pollTask(taskId, maxAttempts = 15) {
+  console.log(`  Polling task ${taskId}...`);
+  for (let i = 0; i < maxAttempts; i++) {
+    await sleep(3000);
     try {
-      const bbData = await bmApiFetch(`/ws/backbox/v1/competitors/${listingUuid}`);
-      if (bbData.price_to_win) {
-        proposed = parseFloat(bbData.price_to_win);
-        source = `backbox price_to_win (listing ${listingId}, uuid ${listingUuid})`;
+      const task = await bmApiFetch(`/ws/tasks/${taskId}`);
+      if (task.action_status === 9) {
+        // Task complete
+        const ps = task.result?.product_success || {};
+        const pe = task.result?.product_errors || {};
+        if (Object.keys(pe).length > 0) {
+          throw new Error(`Path B task errors: ${JSON.stringify(pe)}`);
+        }
+        const firstKey = Object.keys(ps)[0];
+        if (!firstKey) throw new Error(`Path B task complete but no product_success entries`);
+        const entry = ps[firstKey];
+        console.log(`  ✅ Task complete: listing_id=${entry.listing_id}, backmarket_id=${entry.backmarket_id}, pub_state=${entry.publication_state}`);
+        return entry;
       }
+      if (task.action_status > 9 || task.state === 'FAILURE' || task.status === 'FAILURE') {
+        throw new Error(`Path B task failed: status=${task.action_status}, ${JSON.stringify(task)}`);
+      }
+      console.log(`  ... poll ${i + 1}/${maxAttempts}, action_status=${task.action_status}`);
     } catch (e) {
-      console.warn(`  Backbox API failed for listing ${listingId}: ${e.message}`);
+      if (i === maxAttempts - 1) throw e;
+      // Transient error — retry
     }
   }
+  throw new Error(`Task ${taskId} polling timeout after ${maxAttempts} attempts`);
+}
 
-  // 6b: Fallback / Path B — use V6 scraper grade price
-  if (!proposed && v6Result?.gradePrices) {
-    const scraperGrade = BM_GRADE_TO_SCRAPER[gradeText] || gradeText;
-    // Use the BM grade text mapped back to scraper grade name
-    proposed = v6Result.gradePrices[scraperGrade] || v6Result.gradePrices[gradeText];
-    source = 'V6 scraper grade price';
+async function getBackboxPrice(listingId) {
+  // First get the listing to find the UUID (backbox needs UUID, not numeric ID)
+  const listing = await bmApiFetch(`/ws/listings/${listingId}`);
+  const listingUuid = listing.id; // UUID format
+  if (!listingUuid) {
+    console.warn(`  No UUID found for listing ${listingId}`);
+    return { price: 0, source: 'no-uuid' };
   }
+  try {
+    const bbData = await bmApiFetch(`/ws/backbox/v1/competitors/${listingUuid}`);
+    if (bbData.price_to_win) {
+      const price = parseFloat(bbData.price_to_win);
+      console.log(`  Backbox price_to_win: £${price} (uuid=${listingUuid})`);
+      return { price, source: 'backbox', data: bbData };
+    }
+    console.log(`  Backbox returned no price_to_win for uuid=${listingUuid}`);
+    return { price: 0, source: 'backbox-no-price' };
+  } catch (e) {
+    console.warn(`  Backbox API failed for listing ${listingId} (uuid=${listingUuid}): ${e.message}`);
+    return { price: 0, source: 'backbox-error' };
+  }
+}
 
-  // 6b2: If our grade has no price but other grades do, derive from them
-  // e.g. Fair has no price but Good=£1593, Excellent=£1464 → Fair should be under the lowest
-  if (!proposed && v6Result?.gradePrices) {
-    const gp = v6Result.gradePrices;
-    const availPrices = Object.values(gp).filter(p => p > 0);
+async function publishListing(listingId, finalPrice, minPrice) {
+  const body = {
+    quantity: 1,
+    price: finalPrice,
+    min_price: minPrice,
+    pub_state: 2,
+    currency: 'GBP',
+  };
+  console.log(`  Publishing listing ${listingId}: price=£${finalPrice}, min=£${minPrice}`);
+  await bmApiFetch(`/ws/listings/${listingId}`, {
+    method: 'POST',
+    body: JSON.stringify(body),
+  });
+}
+
+// ─── Step 6: Get Catalog Grade Price (market reference) ──────────
+
+function getCatalogGradePrice(v6Result, bmGrade) {
+  const gradePrices = v6Result?.gradePrices || {};
+  const scraperGrade = BM_GRADE_TO_SCRAPER[bmGrade] || bmGrade;
+
+  // Direct match
+  let price = gradePrices[scraperGrade] || gradePrices[bmGrade] || 0;
+  let source = price > 0 ? 'catalog grade price' : '';
+
+  // Derive from other grades if our grade has no price
+  if (!price) {
+    const availPrices = Object.values(gradePrices).filter(p => p > 0);
     if (availPrices.length > 0) {
       const lowestAvail = Math.min(...availPrices);
-      // Grade hierarchy: Fair < Good < Excellent
       const gradeOrder = { 'FAIR': 0, 'GOOD': 1, 'VERY_GOOD': 2 };
-      const ourLevel = gradeOrder[gradeText] ?? 1;
-      // Find lowest grade level that has a price
+      const ourLevel = gradeOrder[bmGrade] ?? 1;
       let lowestPricedLevel = 3;
-      for (const [g, p] of Object.entries(gp)) {
-        const bmGrade = g === 'Fair' ? 'FAIR' : g === 'Good' ? 'GOOD' : g === 'Excellent' ? 'VERY_GOOD' : g;
-        const level = gradeOrder[bmGrade] ?? gradeOrder[g] ?? 1;
+      for (const [g, p] of Object.entries(gradePrices)) {
+        const bg = g === 'Fair' ? 'FAIR' : g === 'Good' ? 'GOOD' : g === 'Excellent' ? 'VERY_GOOD' : g;
+        const level = gradeOrder[bg] ?? gradeOrder[g] ?? 1;
         if (p > 0 && level < lowestPricedLevel) lowestPricedLevel = level;
       }
       if (ourLevel < lowestPricedLevel) {
-        // Our grade is below all available grades — price under the lowest
-        proposed = Math.floor(lowestAvail * 0.95); // 5% under lowest available
+        price = Math.floor(lowestAvail * 0.95);
         source = `derived: 5% under lowest available grade (£${lowestAvail})`;
       } else if (ourLevel > lowestPricedLevel) {
-        // Our grade is above available — use highest available as floor
-        const highestAvail = Math.max(...availPrices);
-        proposed = highestAvail;
-        source = `derived: matched to highest available grade (£${highestAvail})`;
+        price = Math.max(...availPrices);
+        source = `derived: matched to highest available grade (£${price})`;
       }
     }
   }
 
-  // 6c: Adjacent spec check
+  return { price, source };
+}
+
+function getPriceFlags(v6Result) {
   const flags = [];
+
+  // Adjacent SSD check
   if (v6Result?.ssdPicker) {
     const ssdKeys = Object.keys(v6Result.ssdPicker).filter(k => v6Result.ssdPicker[k].available);
     const ssdPrices = ssdKeys.map(k => ({ key: k, price: v6Result.ssdPicker[k].price })).filter(p => p.price);
-    ssdPrices.sort((a, b) => {
-      const aNum = parseInt(a.key);
-      const bNum = parseInt(b.key);
-      return aNum - bNum;
-    });
+    ssdPrices.sort((a, b) => parseInt(a.key) - parseInt(b.key));
     for (let i = 1; i < ssdPrices.length; i++) {
       const gap = ssdPrices[i].price - ssdPrices[i - 1].price;
       if (gap < 20) flags.push(`⚠️ SSD gap ${ssdPrices[i - 1].key}→${ssdPrices[i].key}: only £${gap}`);
@@ -1378,7 +1388,7 @@ async function getBuyBoxPrice(slotResult, v6Result, gradeText) {
     if (gp.Good && gp.Excellent && Math.abs(gp.Excellent - gp.Good) < 10) flags.push(`⚠️ Good/Excellent within £${Math.abs(gp.Excellent - gp.Good)} — buyers will upgrade`);
   }
 
-  return { proposed, source, flags };
+  return flags;
 }
 
 // ─── Step 7: Historical Sales ─────────────────────────────────────
@@ -1503,111 +1513,7 @@ function decisionGate(profitability) {
   return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
 }
 
-// ─── Step 10: Create/Reactivate Listing ───────────────────────────
-
-async function createOrReactivateListing(slotResult, profitability, bmGrade, sku) {
-  const { proposed, minPrice } = profitability;
-  const listingId = slotResult.listing?.listing_id || slotResult.listing?.id;
-
-  if (slotResult.path === 'A') {
-    // Reactivate: use existing SKU from BM listing, do NOT overwrite
-    const existingSku = slotResult.listing.sku || slotResult.listing.merchant_sku || sku;
-    const body = {
-      quantity: 1,
-      price: proposed,
-      min_price: minPrice,
-      sku: existingSku,
-      pub_state: 2,
-      currency: 'GBP',
-      grade: bmGrade,
-    };
-    console.log(`  [Path A] POST /ws/listings/${listingId}`, JSON.stringify(body));
-    const result = await bmApiFetch(`/ws/listings/${listingId}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-    });
-    return { listingId, result, path: 'A' };
-  }
-
-  if (slotResult.path === 'A2') {
-    // Bump qty + update price
-    const currentQty = slotResult.listing.quantity || 0;
-    const body = {
-      quantity: currentQty + 1,
-      price: proposed,
-      min_price: minPrice,
-      pub_state: 2,
-      currency: 'GBP',
-    };
-    console.log(`  [Path A2] POST /ws/listings/${listingId} (qty ${currentQty} → ${currentQty + 1})`, JSON.stringify(body));
-    const result = await bmApiFetch(`/ws/listings/${listingId}`, {
-      method: 'POST',
-      body: JSON.stringify(body),
-    });
-    return { listingId, result, path: 'A2' };
-  }
-
-  if (slotResult.path === 'B') {
-    // Create new listing via JSON body with CSV in catalog field
-    // Grade MUST be included as a column in the CSV (BM defaults to GOOD otherwise)
-    const productId = slotResult.productId || (hasV6 ? v6Result.productId : null);
-    if (!productId) throw new Error('Cannot create Path B listing: no product_id available');
-
-    const csvHeader = 'sku,product_id,quantity,warranty_delay,price,state,currency,grade';
-    const csvLine = `${sku},${productId},1,12,${proposed},2,GBP,${bmGrade}`;
-    const csvContent = csvHeader + '\r\n' + csvLine;
-
-    const body = {
-      catalog: csvContent,
-      quotechar: '"',
-      delimiter: ',',
-      encoding: 'utf-8',
-    };
-
-    console.log(`  [Path B] POST /ws/listings (JSON body, grade=${bmGrade})`);
-    console.log(`  CSV: ${csvContent}`);
-    const result = await bmApiFetch(`/ws/listings`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    });
-
-    // Poll task for completion
-    const taskId = result.bodymessage || result.task_id;
-    let newListingId = null;
-    if (taskId) {
-      console.log(`  Task ID: ${taskId}`);
-      for (let i = 0; i < 15; i++) {
-        await sleep(2000);
-        try {
-          const task = await bmApiFetch(`/ws/tasks/${taskId}`);
-          if (task.action_status === 9) {
-            const ps = task.result?.product_success || {};
-            const firstKey = Object.keys(ps)[0];
-            if (firstKey) {
-              newListingId = ps[firstKey].listing_id;
-              console.log(`  ✅ Path B listing created: ID ${newListingId}, backmarket_id ${ps[firstKey].backmarket_id}`);
-            }
-            const pe = task.result?.product_errors || {};
-            if (Object.keys(pe).length > 0) {
-              throw new Error(`Path B errors: ${JSON.stringify(pe)}`);
-            }
-            break;
-          }
-          if (task.state === 'FAILURE' || task.status === 'FAILURE') {
-            throw new Error(`Path B task failed: ${JSON.stringify(task)}`);
-          }
-        } catch (e) {
-          if (i === 9) throw e;
-        }
-      }
-    } else {
-      newListingId = result.listing_id || result.id;
-    }
-
-    return { listingId: newListingId, result, path: 'B' };
-  }
-}
+// (Old createOrReactivateListing removed — Path B functions defined above)
 
 // ─── Step 11: Verify Listing ──────────────────────────────────────
 
@@ -1618,7 +1524,8 @@ async function verifyListing(listingId, expected) {
   const issues = [];
 
   const pubState = listing.publication_state ?? listing.pub_state;
-  if (pubState !== 2 && pubState !== '2') issues.push(`pub_state=${pubState} (expected 2)`);
+  const expectedPubState = expected.pubState || 2;
+  if (pubState !== expectedPubState && pubState !== String(expectedPubState)) issues.push(`pub_state=${pubState} (expected ${expectedPubState})`);
   if (expected.quantity && listing.quantity !== expected.quantity) issues.push(`qty=${listing.quantity} (expected ${expected.quantity})`);
   if (expected.productId && listing.product_id !== expected.productId) {
     issues.push(`⛔ PRODUCT_ID MISMATCH: listing product_id=${listing.product_id}, expected=${expected.productId}`);
@@ -1784,10 +1691,7 @@ function formatSummary(device) {
   lines.push('');
 
   // Path and listing
-  const pathInfo = !slotResult ? 'not reached'
-    : slotResult.path === 'B' ? 'B (new listing)'
-    : `${slotResult.path} (listing ${slotResult.listing?.listing_id || slotResult.listing?.id}, qty=${slotResult.listing?.quantity || 0})`;
-  lines.push(`Path     ${pathInfo}`);
+  lines.push(`Path     B (clean create — draft then publish)`);
   lines.push(`SKU      ${sku}`);
 
   // Product source and title verification
@@ -1929,151 +1833,50 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     return blockedResult;
   }
 
-  // Step 5: Search for existing listing slot
-  // First check if Monday already has a stored listing ID (from previous listing or Path B creation)
-  let slotResult;
-  if (specs.storedListingId) {
-    console.log(`[Step 5] Using stored listing ID from Monday: ${specs.storedListingId}`);
-    try {
-      const storedListing = await bmApiFetch(`/ws/listings/${specs.storedListingId}`);
+  // Step 5: Reference product_id (already resolved in Step 4)
+  console.log('[Step 5] Reference product_id from catalog...');
+  console.log(`  product_id: ${v6Result.productId}`);
+  console.log(`  model_family: ${v6Result.modelFamily || v6Result.modelKey}`);
 
-      // ── SPEC & GRADE VERIFICATION (HARD GATE) ──
-      // The stored listing may be from a previous device with different specs.
-      // Verify product_id and grade match before using it.
-      let specMismatch = false;
-      const listingGrade = storedListing.grade; // FAIR, GOOD, VERY_GOOD
-      const listingProductId = storedListing.product_id;
-
-      // Check grade match
-      if (listingGrade && listingGrade !== grade.bmGrade) {
-        console.warn(`  ⛔ STORED LISTING GRADE MISMATCH: listing grade=${listingGrade}, device grade=${grade.bmGrade}`);
-        specMismatch = true;
-      }
-
-      // Check product_id match (if we have V6 data to compare)
-      if (hasV6 && listingProductId && listingProductId !== v6Result.productId) {
-        // Product IDs can differ if the listing was created via Path B with a related product_id
-        // that BM auto-resolved. Check if the stored UUID matches instead.
-        if (specs.storedUuid && specs.storedUuid === v6Result.productId) {
-          console.log(`  Stored UUID matches catalog product_id (listing product_id differs due to Path B auto-resolve)`);
-        } else {
-          console.warn(`  ⛔ STORED LISTING PRODUCT_ID MISMATCH: listing=${listingProductId}, catalog=${v6Result.productId}`);
-          specMismatch = true;
-        }
-      }
-
-      // If no catalog product_id, verify using listing SKU text as sanity check
-      if (!hasV6 && storedListing.sku) {
-        const listingSku = (storedListing.sku || '').toUpperCase();
-        const deviceSsd = (specs.ssd || '').replace(/\s/g, '').toUpperCase();
-        const deviceRam = (specs.ram || '').replace(/\s/g, '').toUpperCase();
-        // Check SSD and RAM appear in the listing SKU
-        if (deviceSsd && !listingSku.includes(deviceSsd.replace('GB','')) && !listingSku.includes(deviceSsd)) {
-          console.warn(`  ⛔ STORED LISTING SKU MISMATCH: listing SKU "${storedListing.sku}" doesn't contain device SSD "${specs.ssd}"`);
-          specMismatch = true;
-        }
-        if (deviceRam && !listingSku.includes(deviceRam.replace('GB','')) && !listingSku.includes(deviceRam)) {
-          console.warn(`  ⛔ STORED LISTING SKU MISMATCH: listing SKU "${storedListing.sku}" doesn't contain device RAM "${specs.ram}"`);
-          specMismatch = true;
-        }
-      }
-
-      if (specMismatch) {
-        const msg = `⛔ Stored listing ${specs.storedListingId} does NOT match device specs/grade for ${grade.name} (${sku}). Listing SKU: "${storedListing.sku}", grade: ${listingGrade}. Falling back to product_id search.`;
-        console.error(`  ${msg}`);
-        await postTelegram(msg);
-        // Fall through to product_id search instead of using mismatched listing
-        if (hasV6) {
-          console.log(`  Falling back to product_id search...`);
-          slotResult = await searchListingSlot(v6Result.productId, grade.bmGrade);
-        } else {
-          console.error(`  No catalog product_id for fallback. Cannot list.`);
-          return null;
-        }
-      } else {
-        console.log(`  ✅ Stored listing verified: grade=${listingGrade}, product_id matches`);
-        slotResult = {
-          path: storedListing.quantity > 0 ? 'A2' : 'A',
-          listing: storedListing,
-          allListingIds: [storedListing.listing_id || storedListing.id],
-          allListings: [],
-        };
-      }
-    } catch (e) {
-      console.warn(`  Stored listing ${specs.storedListingId} not found via API: ${e.message}. Falling back to search.`);
-      if (hasV6) {
-        slotResult = await searchListingSlot(v6Result.productId, grade.bmGrade);
-      } else {
-        const msg = `⛔ Cannot list ${grade.name} (${sku}): stored listing ${specs.storedListingId} not found and no catalog product_id for fallback.`;
-        console.error(`  ${msg}`);
-        await postTelegram(msg);
-        return null;
-      }
-    }
-  } else if (hasV6) {
-    console.log(`[Step 5] Searching listings for product_id=${v6Result.productId}, grade=${grade.bmGrade}...`);
-    slotResult = await searchListingSlot(v6Result.productId, grade.bmGrade);
-  } else {
-    const msg = `⛔ Cannot list ${grade.name} (${sku}): no verified catalog product_id available.`;
-    console.error(`  ${msg}`);
-    return null;
-  }
-  console.log(`  Path: ${slotResult.path}`);
-  if (slotResult.listing) {
-    console.log(`  Listing ID: ${slotResult.listing.listing_id || slotResult.listing.id}, qty: ${slotResult.listing.quantity}`);
-  }
-
-  // Step 6: Get buy box price
-  console.log('[Step 6] Getting buy box price...');
-  const { proposed, source, flags: priceFlags } = await getBuyBoxPrice(slotResult, v6Result, grade.bmGrade);
-  if (!proposed) {
-    // If we have a stored listing with a price, use that as fallback
-    const listingPrice = slotResult?.listing?.price;
-    if (listingPrice && listingPrice > 0) {
-      console.log(`  No V6 grade price. Using existing listing price: £${listingPrice}`);
-      // Continue with listing price as proposed — will be overridden below
-      var proposedOverride = listingPrice;
-      var sourceOverride = 'existing listing price';
-    } else {
-      const scraperGradeName = BM_GRADE_TO_SCRAPER[grade.bmGrade] || grade.gradeText;
-      const availGrades = v6Result?.gradePrices ? Object.entries(v6Result.gradePrices).map(([g, p]) => `${g}:£${p}`).join(', ') : 'none';
-      const msg = `⛔ Cannot list ${grade.name} (${sku}): grade "${scraperGradeName}" has no price on BM. Available grades: ${availGrades}`;
-      console.error(`  ${msg}`);
-      await postTelegram(msg);
-      return null;
-    }
-  }
-  const finalProposed = proposed || proposedOverride;
-  const finalSource = source || sourceOverride || 'unknown';
-  console.log(`  Proposed: £${finalProposed} (${finalSource})`);
+  // Step 6: Calculate P&L using catalog grade prices as market reference
+  console.log('[Step 6] Getting catalog grade price for P&L...');
+  const catalogGrade = getCatalogGradePrice(v6Result, grade.bmGrade);
+  const priceFlags = getPriceFlags(v6Result);
   if (priceFlags.length > 0) {
     for (const f of priceFlags) console.log(`  ${f}`);
   }
 
-  // Check for grade inversion — flag but don't block
-  // Inversions between OTHER grades (e.g. Good ≥ Excellent) shouldn't block THIS grade
-  const hasInversion = priceFlags.some(f => f.includes('Grade inversion'));
-  if (hasInversion) {
-    console.log(`  ⚠️ Grade inversion detected in market prices. Flagged for review but not blocking.`);
-  }
+  // Calculate floor price from costs
+  const labourCost = specs.labourHours * LABOUR_RATE;
+  const bmBuyFee = specs.purchasePrice * BM_BUY_FEE_RATE;
+  const totalFixedCost = specs.purchasePrice + specs.partsCost + labourCost + SHIPPING_COST + bmBuyFee;
+  // Floor = break-even price (where net = 0)
+  const floorPrice = totalFixedCost > 0
+    ? Math.ceil((totalFixedCost - specs.purchasePrice * VAT_RATE) / (1 - BM_SELL_FEE_RATE - VAT_RATE))
+    : 100;
+  console.log(`  Catalog grade price: £${catalogGrade.price || 'N/A'} (${catalogGrade.source || 'none'})`);
+  console.log(`  Floor price (break-even): £${floorPrice}`);
 
-  // Step 7: Historical sales
-  console.log('[Step 7] Looking up historical sales...');
-  const historicalSales = await getHistoricalSales(slotResult.allListingIds);
-  console.log(`  Sales: ${historicalSales.count > 0 ? `n=${historicalSales.count}, avg £${historicalSales.avg}` : 'no matching sales'}`);
+  // Use catalog grade price as market reference for P&L
+  const marketPrice = catalogGrade.price || 0;
+  const proposedPrice = marketPrice > 0 ? marketPrice : Math.round(floorPrice * 1.5);
+  const priceSource = marketPrice > 0 ? catalogGrade.source : `floor × 1.5 (no catalog grade price)`;
+  console.log(`  Proposed (for P&L): £${proposedPrice} (${priceSource})`);
 
-  if (historicalSales.count > 0 && historicalSales.avg > finalProposed * 1.2) {
-    console.log(`  🔴 Historical avg £${historicalSales.avg} significantly above proposed £${finalProposed} — market has moved down`);
-  }
+  // Historical sales (use orders cache — no listings search needed)
+  console.log('[Step 6b] Looking up historical sales...');
+  const historicalSales = { count: 0, avg: 0, low: 0, high: 0, sales: [] };
+  // Historical sales are less relevant for clean-create flow (no existing listing IDs to match)
+  // Kept as placeholder for future enhancement if needed
 
-  // Step 8: Calculate profitability
-  console.log('[Step 8] Calculating profitability at min_price...');
-  const profitability = calculateProfitability(finalProposed, specs);
+  // Calculate profitability at proposed price
+  console.log('[Step 6c] Calculating profitability at min_price...');
+  const profitability = calculateProfitability(proposedPrice, specs);
   console.log(`  Min price: £${profitability.minPrice}`);
   console.log(`  Net@min: £${profitability.net} | Margin: ${profitability.margin}%`);
 
-  // Step 9: Decision gate
-  console.log('[Step 9] Decision gate...');
+  // Step 7: Decision gate
+  console.log('[Step 7] Decision gate...');
   const decision = decisionGate(profitability);
   console.log(`  Decision: ${decision.decision} — ${decision.reason}`);
   const trust = classifyTrust({
@@ -2084,6 +1887,10 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
   });
   console.log(`  Trust: ${trust.classification} — ${trust.reason}`);
 
+  // Placeholder price for draft listing: safe high number
+  const catalogGradePrice = catalogGrade.price || 0;
+  const placeholderPrice = Math.max(floorPrice * 2, catalogGradePrice > 0 ? Math.round(catalogGradePrice * 1.2) : 0) || floorPrice * 2;
+
   // Build result object
   const result = {
     mainItemId,
@@ -2093,19 +1900,37 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     sku,
     specs,
     v6Result,
-    slotResult,
-    pricing: { proposed: finalProposed, source: finalSource },
+    slotResult: null,
+    pricing: { proposed: proposedPrice, source: priceSource },
     historicalSales,
     profitability,
     decision,
     priceFlags,
     trust,
+    // Clean-create specific
+    floorPrice,
+    placeholderPrice,
+    catalogGradePrice,
   };
 
-  // Print formatted summary
+  // Print formatted summary (dry-run output)
+  if (isDryRun) {
+    console.log('\n' + formatSummary(result));
+    // Additional dry-run Path B specific output
+    console.log(`Draft    £${placeholderPrice} (safe placeholder)`);
+    const gp = v6Result?.gradePrices || {};
+    if (Object.keys(gp).length > 0) {
+      console.log(`Market   ${Object.entries(gp).map(([g, p]) => `${g[0]}:£${p}`).join('  ')} (catalog)`);
+    }
+    console.log(`Product  ${v6Result.productId} (${v6Result.modelFamily || v6Result.modelKey})`);
+    console.log('');
+    return result;
+  }
+
+  // Print summary for live mode too
   console.log('\n' + formatSummary(result));
 
-  // Step 10-12: Live mode actions
+  // ─── Live mode: Path B clean-create flow ───────────────────────
   const exactResolutionForLive = !!v6Result?.liveEligible;
   const liveModeAllowed = isLive && !!singleItemId;
   const shouldExecuteLive =
@@ -2114,53 +1939,132 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     decision.decision !== 'BLOCK';
 
   if (shouldExecuteLive) {
-    console.log('\n[Step 10] Creating/reactivating listing...');
     try {
-      const listResult = await createOrReactivateListing(slotResult, profitability, grade.bmGrade, sku);
-      console.log(`  Listing action complete. Listing ID: ${listResult.listingId}`);
+      // Step 8: Create draft listing via Path B
+      console.log('\n[Step 8] Creating draft listing via Path B...');
+      const taskId = await createFreshListing(v6Result.productId, sku, grade.bmGrade, placeholderPrice);
+      console.log(`  Task ID: ${taskId}`);
 
-      // Step 11: Verify
-      console.log('[Step 11] Verifying listing...');
-      const expectedQty = slotResult.path === 'A2' ? (slotResult.listing.quantity || 0) + 1 : 1;
-      const verification = await verifyListing(listResult.listingId, {
-        quantity: expectedQty,
+      // Step 9: Poll task for result
+      console.log('[Step 9] Polling task...');
+      const taskResult = await pollTask(taskId);
+      const newListingId = taskResult.listing_id;
+      if (!newListingId) throw new Error('Task complete but no listing_id in result');
+
+      // Step 10: Verify draft listing
+      console.log('[Step 10] Verifying draft listing...');
+      const draftVerification = await verifyListing(newListingId, {
+        quantity: 1,
         grade: grade.bmGrade,
-        productId: v6Result.productId,
         ram: specs.ram,
         ssd: specs.ssd,
+        pubState: 3, // draft
       });
-      if (verification.verified) {
-        console.log('  ✅ Listing verified');
+      if (!draftVerification.verified) {
+        const criticalIssues = draftVerification.issues.filter(i => i.startsWith('⛔'));
+        if (criticalIssues.length > 0) {
+          // Critical mismatch (grade/title) — leave as draft, alert
+          const msg = `⛔ Draft listing ${newListingId} verification FAILED: ${criticalIssues.join(', ')}. Left as draft. NOT publishing.`;
+          console.error(`  ${msg}`);
+          await postTelegram(msg);
+          return result;
+        }
+        // Non-critical issues (pub_state) — may be OK, continue with caution
+        console.warn(`  ⚠️ Draft verification issues (non-critical): ${draftVerification.issues.join(', ')}`);
       } else {
-        console.warn(`  ⚠️ Verification issues: ${verification.issues.join(', ')}`);
-        // Retry once
-        console.log('  Retrying POST...');
-        await createOrReactivateListing(slotResult, profitability, grade.bmGrade, sku);
-        const retry = await verifyListing(listResult.listingId, {
-          quantity: expectedQty,
+        console.log('  ✅ Draft listing verified');
+      }
+
+      // Step 11: Get backbox price and determine final price
+      console.log('[Step 11] Getting backbox price...');
+      const backbox = await getBackboxPrice(newListingId);
+      let finalPrice;
+      let finalPriceSource;
+      if (backbox.price > 0 && backbox.price >= floorPrice) {
+        finalPrice = backbox.price;
+        finalPriceSource = 'backbox price_to_win';
+      } else if (backbox.price > 0 && backbox.price < floorPrice) {
+        finalPrice = floorPrice;
+        finalPriceSource = `floor (backbox £${backbox.price} below floor £${floorPrice})`;
+        console.log(`  ⚠️ Backbox price £${backbox.price} below floor £${floorPrice}. Using floor.`);
+      } else if (catalogGradePrice > 0) {
+        finalPrice = catalogGradePrice;
+        finalPriceSource = 'catalog grade price (no backbox data)';
+        console.log(`  No backbox data. Using catalog grade price: £${catalogGradePrice}`);
+      } else {
+        finalPrice = Math.round(floorPrice * 1.5);
+        finalPriceSource = 'floor × 1.5 (no backbox or catalog data)';
+        console.log(`  ⚠️ No pricing data. Using conservative placeholder: £${finalPrice}`);
+      }
+      const finalMinPrice = Math.ceil(finalPrice * MIN_PRICE_FACTOR);
+      console.log(`  Final price: £${finalPrice} (${finalPriceSource}), min: £${finalMinPrice}`);
+
+      // Recalculate profitability with final price
+      const finalProfitability = calculateProfitability(finalPrice, specs);
+      console.log(`  Final net@min: £${finalProfitability.net} | Margin: ${finalProfitability.margin}%`);
+
+      // Check profitability with final price — block if loss
+      if (finalProfitability.net < 0 && MIN_MARGIN_OVERRIDE === null) {
+        const msg = `⛔ Final price £${finalPrice} results in loss (net £${finalProfitability.net}). Listing ${newListingId} left as draft. NOT publishing.`;
+        console.error(`  ${msg}`);
+        await postTelegram(msg);
+        return result;
+      }
+
+      // Publish with real price
+      console.log('[Step 11b] Publishing listing...');
+      await publishListing(newListingId, finalPrice, finalMinPrice);
+
+      // Step 12: Verify published listing
+      console.log('[Step 12] Verifying published listing...');
+      await sleep(2000); // Brief wait for BM to update state
+      const pubVerification = await verifyListing(newListingId, {
+        quantity: 1,
+        grade: grade.bmGrade,
+        ram: specs.ram,
+        ssd: specs.ssd,
+        pubState: 2, // published
+      });
+      if (pubVerification.verified) {
+        console.log('  ✅ Published listing verified');
+      } else {
+        console.warn(`  ⚠️ Publish verification issues: ${pubVerification.issues.join(', ')}`);
+        // Critical issues already handled in verifyListing (auto-sets qty=0)
+        const criticalPub = pubVerification.issues.filter(i => i.startsWith('⛔'));
+        if (criticalPub.length > 0) {
+          await postTelegram(`⛔ Published listing ${newListingId} verification failed: ${criticalPub.join(', ')}. Taken offline.`);
+          console.error('  ⛔ Verification failed. Monday will NOT be updated.');
+          return result;
+        }
+        // Non-critical — retry publish
+        console.log('  Retrying publish...');
+        await publishListing(newListingId, finalPrice, finalMinPrice);
+        await sleep(2000);
+        const retry = await verifyListing(newListingId, {
+          quantity: 1,
           grade: grade.bmGrade,
-          productId: v6Result.productId,
           ram: specs.ram,
           ssd: specs.ssd,
+          pubState: 2,
         });
         if (!retry.verified) {
-          await postTelegram(`⚠️ Listing ${listResult.listingId} verification failed after retry: ${retry.issues.join(', ')}`);
+          await postTelegram(`⚠️ Listing ${newListingId} publish verification failed after retry: ${retry.issues.join(', ')}`);
           console.error('  ⛔ Verification failed after retry. Monday will NOT be updated.');
           return result;
         }
       }
 
-      // Step 12: Update Monday
-      console.log('[Step 12] Updating Monday...');
-      await updateMonday(mainItemId, specs.bmDeviceId, listResult.listingId, v6Result.productId, profitability.totalFixedCost, sku);
+      // Step 13: Update Monday
+      console.log('[Step 13] Updating Monday...');
+      await updateMonday(mainItemId, specs.bmDeviceId, newListingId, v6Result.productId, finalProfitability.totalFixedCost, sku);
       console.log('  Monday updated');
 
-      // Step 13: Telegram confirmation
+      // Step 14: Telegram confirmation
       const tgMsg = [
         `✅ Listed: ${grade.name} ${specs.ssd} ${specs.ram} ${grade.gradeText} ${specs.colour}`,
-        `Price: £${profitability.proposed} | Min: £${profitability.minPrice} | Net@min: £${profitability.net} (${profitability.margin}%)`,
-        `Listing ID: ${listResult.listingId}`,
-        `Path: ${slotResult.path}`,
+        `Price: £${finalPrice} | Min: £${finalMinPrice} | Net@min: £${finalProfitability.net} (${finalProfitability.margin}%)`,
+        `Listing ID: ${newListingId} (NEW — clean create)`,
+        `Path: B (${finalPriceSource})`,
       ].join('\n');
       await postTelegram(tgMsg);
 
@@ -2172,7 +2076,6 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
     const tgMsg = `⛔ BLOCKED\n${formatSummary(result)}\n\nLive execution requires --item <MainBoardId>. Mass live listing remains disabled.`;
     await postTelegram(tgMsg);
   } else if (isLive && decision.decision === 'PROPOSE') {
-    // Post proposal to Telegram
     const resolutionMsg = exactResolutionForLive
       ? ''
       : '\n\n⛔ Live execution blocked: product_id resolution is not exact enough.';
