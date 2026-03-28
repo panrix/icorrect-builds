@@ -178,7 +178,7 @@ Verify Fair < Good < Excellent from catalog grade prices. Flag inversions but do
 | Net < £50 | BLOCK (unless `--min-margin 0` override) |
 | Net < £0 | BLOCK (unless `--min-margin 0` override) |
 
-`--min-margin 0` requires explicit Ricky approval. It overrides the margin gate for devices he's approved to clear stock.
+`--min-margin 0` requires explicit Ricky approval. It overrides BOTH the margin gate AND the £50 net minimum for devices Ricky has approved to clear stock. Any other value (e.g. `--min-margin 5`) sets both the minimum margin % and minimum net £ to that value.
 
 **In dry-run:** shows the decision and stops here.
 **In live mode with `--item`:** proceeds to listing creation.
@@ -395,31 +395,30 @@ This section records the current QA status of SOP 06 v2.0 against the active scr
 
 ### Findings
 
-1. **CRITICAL — Decision gate mismatch**
+1. **FIXED — Decision gate mismatch**
 
 The SOP says devices with net profit below `£50` must be blocked unless explicitly overridden.
 
-The script does **not** implement that rule. In `decisionGate()`, it only blocks when:
-- `net < 0`, or
+The script now implements that rule. In `decisionGate()`, it blocks when:
+- `net < 0` with no override
+- `0 <= net < £50` with no override
 - `margin < minMargin`
 
-That means a device with net profit between `£0` and `£49.99` can still proceed if margin is above threshold.
+This closes the previous gap where a device with net profit between `£0` and `£49.99` could still proceed if margin was above threshold.
 
-**Script reference:** `list-device.js` `decisionGate()`
+**Script reference:** `list-device.js` `decisionGate()` and `minNet`
 
-### 2. **CRITICAL — Cost column mismatch**
+### 2. **FIXED — Cost column mismatch**
 
 The SOP says:
 - parts cost comes from Main Board `lookup_mkx1xzd7`
 - labour cost is derived from `formula__1 × £24/hr`
 
-The script currently reads:
-- `formula_mkx1bjqr` into `partsCost`
+The script now reads:
+- `lookup_mkx1xzd7` into `partsCost`
 - `formula__1` into `labourHours`
 
-It does **not** read `lookup_mkx1xzd7` in the active flow.
-
-If the SOP reflects the real Monday schema, then the script is pricing from the wrong cost inputs and may ignore parts cost while re-using a labour-cost-derived figure as parts.
+It also correctly treats `lookup_mkx1xzd7` as a mirror value containing comma-separated parts costs and sums them before pricing.
 
 **Script reference:** `list-device.js` `readDeviceSpecs()`
 
@@ -440,19 +439,29 @@ The script logs that `--force-live` is disabled, and the active live gate does n
 
 However, the flag is still parsed from CLI args, which is unnecessary and confusing.
 
+### 5. **MEDIUM — `--min-margin` override semantics still broader than the SOP wording**
+
+The script now uses the override value for both:
+- minimum margin threshold
+- minimum net-profit threshold
+
+So `--min-margin 0` behaves as intended for Ricky-approved low-margin devices, but any other override value also changes the net-profit floor.
+
+That behavior is coherent in code, but the SOP wording should be treated as shorthand rather than an exact description until it is tightened.
+
 ### Check Summary
 
 | Check | Status | Notes |
 |------|--------|-------|
-| SOP steps match script | FAIL | Cost inputs and decision gate do not match |
-| Column IDs match script | FAIL | Active script does not read `lookup_mkx1xzd7` |
+| SOP steps match script | MOSTLY PASS | Critical cost/deadline mismatches fixed; override wording still needs tightening |
+| Column IDs match script | PASS | Active script now reads `lookup_mkx1xzd7` |
 | API endpoints/payloads match | PASS | Listing create/update/task/backbox flow matches |
 | Verification checks all required fields | PASS | Script checks `product_id`, grade, RAM, SSD, colour, `pub_state`, quantity |
 | Any live path without verification | NO | Draft-first, verify-before-live is enforced |
 | Any old-listing reactivation path | NO | Active flow is clean-create only |
 | Pricing cascade implemented | MOSTLY PASS | Cascade matches, but cost inputs may be wrong |
 | `--product-id` override works | PASS WITH CAUTION | Uses override and relies on post-create verification |
-| `--min-margin` override works as documented | FAIL | Script allows broader bypass than the SOP describes |
+| `--min-margin` override works as documented | MOSTLY PASS | Operationally works, but wording does not fully describe net-floor override semantics |
 | Deleted functions still in active flow | NO | No active calls found |
 | Dead code paths remain | YES | Old resolver code still present in-file |
 
@@ -475,10 +484,18 @@ However, the flag is still parsed from CLI args, which is unnecessary and confus
 
 ### Live Execution Verdict
 
-**Current verdict: NOT SAFE for autonomous live execution by an OpenClaw agent yet.**
+**Current verdict: CONDITIONALLY SAFE after final wording cleanup.**
 
-Reason:
-- profitability gating in the script does not match the SOP's `£50` minimum net-profit rule
-- cost-column usage in the script does not match the SOP's documented source-of-truth inputs
+The two prior critical blockers are fixed:
+- profitability gating now includes the `£50` minimum net-profit rule
+- parts cost now reads from the correct Main Board mirror column
 
-Before handing this SOP to an autonomous live-listing agent, those two mismatches must be resolved and re-QA'd.
+Remaining caution:
+- the `--min-margin` override behavior is broader than the current SOP wording
+- dead legacy resolver code is still present in-file and may confuse future readers
+
+Recommended before autonomous live execution:
+1. tighten the `--min-margin` wording in the SOP so it exactly matches script behavior
+2. remove dead legacy resolver code from `list-device.js`
+
+After those cleanups, this SOP/script pair can be treated as ready for controlled single-item live execution.
