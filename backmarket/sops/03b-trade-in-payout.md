@@ -12,7 +12,7 @@
 Monday webhook on Main Board (`349212843`):
 - `status24` (Repair Type) changes to **"Pay-Out" (index 12)**
 
-The webhook fires on the VPS at `/webhook/bm/payout` (icloud-checker service, port 8002).
+The webhook fires on the VPS at `POST /webhook/bm/payout` via the standalone `bm-payout` service on port `8012`.
 
 ### Pre-conditions (set by team/QC, NOT by this SOP)
 - `status4` (Status) = "Diagnostic Complete" (index 2) on the Main Board
@@ -24,14 +24,14 @@ The webhook fires on the VPS at `/webhook/bm/payout` (icloud-checker service, po
 
 ## Step 1: Webhook Receives Event
 
-The icloud-checker webhook handler at `/webhook/bm/payout` validates:
+The `bm-payout` webhook handler validates:
 1. `event.columnId === "status24"` (STATUS_COLUMN)
 2. `event.boardId === "349212843"` (BOARD_ID)
 3. Parsed value index === 12
 
 If any check fails, the event is silently dropped.
 
-**Source file:** `/home/ricky/builds/icloud-checker/src/index.js` (line ~1263)
+**Source file:** `/home/ricky/builds/backmarket/services/bm-payout/index.js`
 
 ---
 
@@ -65,9 +65,19 @@ Before every payout, the following MUST be true:
 |-------|----------------|-------------|
 | Monday status | `status24` (Main Board) | = index 12 ("Pay-Out") |
 | BM order match | `text_mky01vb4` (Main Board) | Matches BM order public ID |
-| Purchase price | `numeric` (BM Devices Board 3892194968) | Matches BM API `originalPrice` |
 | iCloud status | `color_mkyp4jjh` (Main Board) | NOT locked |
-| Spec validated | BM Devices Board | Validated (Y-Apple / Y-Bookyard / Y-Manual) |
+
+### What the live service actually enforces
+- Status is still `Pay-Out` when the webhook re-reads Monday (stale webhook protection)
+- Main Board BM trade-in ID exists (`text_mky01vb4`)
+- iCloud status is not locked (`color_mkyp4jjh`)
+- In-flight dedup blocks concurrent duplicate execution in the same process
+- Recent Monday updates are scanned for `"Payout validated"` to suppress repeat delivery
+
+### What the live service does NOT currently enforce
+- It does **not** compare purchase price against the BM API before payout
+- It does **not** explicitly check a BM Devices "spec validated" flag before payout
+- It does **not** separately check a counter-offer status beyond requiring `status24` to still be `Pay-Out`
 
 ### What is NOT sufficient for payout:
 - ❌ BM API status = RECEIVED (device arrived but NOT diagnosed)
@@ -87,7 +97,7 @@ Hugo's SOP required explicit Ricky approval for payouts > £200.
 ```
 PUT https://www.backmarket.co.uk/ws/buyback/v1/orders/{orderPublicId}/validate
 Headers:
-  Authorization: $BACKMARKET_API_AUTH (Basic auth)
+  Authorization: $BM_AUTH (Basic auth)
   Accept-Language: en-gb
   Content-Type: application/json
 Body: {}
@@ -97,7 +107,7 @@ Body: {}
 |--------|-------|
 | API Base | `https://www.backmarket.co.uk/ws/buyback/v1/orders` |
 | Method | PUT |
-| Auth | Basic auth from `BACKMARKET_API_AUTH` env var |
+| Auth | Basic auth from `BM_AUTH` env var |
 | Body | Empty JSON object `{}` |
 
 **⚠️ This action is IMMEDIATE and IRREVERSIBLE. Once validated, BM pays the customer. No undo.**
@@ -141,12 +151,15 @@ If the Monday update fails but BM payout succeeded:
 
 On success:
 - Slack: "✅ Payout sent for {itemName} - {bmTradeInId}"
+- Telegram: same success message to BM ops chat
 
 On failure:
 - Slack: error details with reason
+- Telegram: same failure message to BM ops chat
 
-**Current notification channel:** Slack `#bm-trade-in-checks` (`C09VB5G7CTU`)
-**Target notification channel:** BM Telegram (`-1003888456344`) when migrated from Slack
+**Current notification channels:**
+- Slack `#bm-trade-in-checks` (`C09VB5G7CTU`)
+- BM Telegram (`-1003888456344`)
 
 ---
 
@@ -180,7 +193,6 @@ Agent only sets two statuses in this chain: **Purchased** (this SOP) and **Liste
 | Board | ID | Columns Used |
 |-------|----|-------------|
 | Main Board | 349212843 | `status24` (Repair Type), `text_mky01vb4` (BM Trade-in ID), `color_mkyp4jjh` (iCloud) |
-| BM Devices Board | 3892194968 | `numeric` (Purchase Price), `text_mkqy3576` (Order ID) |
 
 ---
 
@@ -192,3 +204,57 @@ Agent only sets two statuses in this chain: **Purchased** (this SOP) and **Liste
 | Endpoint | `POST /webhook/bm/payout` → `127.0.0.1:8012` via nginx |
 | Monday webhook | Triggers on `status24` column change on board 349212843 |
 | n8n Flow 4 | DISABLED (was auto-validate, disabled because team triggered payouts incorrectly) |
+
+---
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Stale monolith/port wording corrected.
+   The body text now matches the live standalone service:
+   - service: `bm-payout`
+   - port: `8012`
+   - route: `POST /webhook/bm/payout`
+   - ingress: nginx → `127.0.0.1:8012`
+
+2. `PASS` Redundant BM Devices `text_mkqy3576` reference removed.
+   The payout service does not read that column.
+
+3. `PASS` Pre-flight checks aligned to the actual service.
+   The live service enforces:
+   - status still `Pay-Out`
+   - BM trade-in ID exists
+   - iCloud not locked
+   - dedup protections
+   It does **not** enforce purchase-price equality, BM Devices spec-validation flags, or a separate counter-offer gate beyond `status24` still being `Pay-Out`.
+
+4. `PASS` BM auth env var corrected.
+   The service uses `BM_AUTH`, not `BACKMARKET_API_AUTH`.
+
+5. `PASS` Notification channels corrected.
+   The live service sends both Slack and Telegram notifications via a shared `notify()` helper.
+
+6. `PASS` Dedup hardening verified.
+   The service now has:
+   - in-flight dedup via `inflightPayouts`
+   - recent-update dedup via `"Payout validated"` Monday comment scan
+   - stale-webhook protection by re-reading `status24`
+
+7. `PASS` No V6 references found.
+
+### Per-check Summary
+1. Service/port/route wording: `PASS`
+2. Column references vs service reads: `PASS`
+3. Pre-flight gate accuracy: `PASS`
+4. BM auth env var accuracy: `PASS`
+5. Notification behavior: `PASS`
+6. Dedup hardening: `PASS`
+7. Stale references / V6 mentions: `PASS`
+
+### Known Operational Limits
+- The service does not independently validate purchase price against the BM API before payout.
+- The service relies on Monday `status24 = Pay-Out` as the operational source of truth, rather than a broader QC checklist at execution time.
+- The `"Payout validated"` dedup scan depends on recent Monday update history and is a best-effort duplicate suppression layer, not a persistent ledger.
+
+### Verdict
+SOP 03b now matches the standalone `bm-payout` service closely enough for operational use and accurately reflects the post-incident dedup hardening.
