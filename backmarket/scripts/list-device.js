@@ -20,6 +20,10 @@ const path = require('path');
 const { mondayQuery, BOARDS, COLUMNS } = require('./lib/monday');
 const { BM_API_HEADERS } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
+const { chromium } = require('/home/ricky/builds/buyback-monitor/node_modules/playwright-extra');
+const StealthPlugin = require('/home/ricky/builds/buyback-monitor/node_modules/puppeteer-extra-plugin-stealth');
+
+chromium.use(StealthPlugin());
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -32,12 +36,14 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 const SCRAPER_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
 const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
+const REGISTRY_PATH = '/home/ricky/builds/backmarket/data/listings-registry.json';
 const SHIPPING_COST = 15;
 const LABOUR_RATE = 24; // £/hr
 const BM_BUY_FEE_RATE = 0.10;
 const BM_SELL_FEE_RATE = 0.10;
 const VAT_RATE = 0.1667;
 const MIN_PRICE_FACTOR = 0.97; // 3% floor
+const LIVE_SCRAPE_TIMEOUT_MS = 15000;
 
 const log = createLogger('list-device.log');
 
@@ -523,6 +529,7 @@ function constructSku(specs, gradeText) {
 
 let _bmCatalog = null;
 let _bmCatalogIndex = null;
+let _registry = null;
 
 function loadBmCatalog() {
   if (_bmCatalog) return _bmCatalog;
@@ -530,6 +537,28 @@ function loadBmCatalog() {
   _bmCatalog = JSON.parse(raw);
   console.log(`  Loaded BM catalog: ${Object.keys(_bmCatalog.variants || {}).length} variants`);
   return _bmCatalog;
+}
+
+function loadListingsRegistry() {
+  if (_registry) return _registry;
+  if (!fs.existsSync(REGISTRY_PATH)) {
+    _registry = { slots: {} };
+    return _registry;
+  }
+  _registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  console.log(`  Loaded listings registry: ${Object.keys(_registry.slots || {}).length} slots`);
+  return _registry;
+}
+
+function lookupRegistrySlot(sku) {
+  const registry = loadListingsRegistry();
+  const normalizedSku = sku.replace(/\.(Fair|Good|Excellent)$/i, (_, gradeText) => {
+    const map = { Fair: 'FAIR', Good: 'GOOD', Excellent: 'VERY_GOOD' };
+    return `.${map[gradeText] || gradeText.toUpperCase()}`;
+  });
+  const slot = registry.slots?.[normalizedSku] || registry.slots?.[sku];
+  if (slot?.verified) return slot;
+  return null;
 }
 
 function buildCatalogKey(modelFamily, ram, ssd, colour) {
@@ -693,6 +722,196 @@ function loadScraperData() {
   return JSON.parse(raw);
 }
 
+function resolveNuxt(arr, idx) {
+  if (typeof idx === 'number' && idx >= 0 && idx < arr.length) {
+    const val = arr[idx];
+    if (val === 17) return null;
+    return val;
+  }
+  return idx;
+}
+
+function extractNuxtPrice(arr, picker) {
+  const priceRef = picker.price;
+  if (priceRef === undefined || priceRef === null) return null;
+  const priceObj = resolveNuxt(arr, priceRef);
+  if (!priceObj || typeof priceObj !== 'object') return null;
+  const amount = resolveNuxt(arr, priceObj.amount);
+  if (amount === null || amount === undefined) return null;
+  return typeof amount === 'number' ? amount : parseFloat(amount) || null;
+}
+
+function categorisePickerLabel(label) {
+  if (!label || typeof label !== 'string') return null;
+  const trimmed = label.trim();
+  if (/QWERTY|AZERTY/i.test(trimmed)) return 'keyboard';
+  if (['Fair', 'Good', 'Excellent', 'Premium'].includes(trimmed)) return 'grade';
+  if (['Space Gray', 'Space Grey', 'Grey', 'Gray', 'Silver', 'Gold', 'Midnight', 'Starlight', 'Black', 'Space Black', 'Blue', 'Green', 'Purple', 'Red', 'Pink', 'Yellow', 'White'].includes(trimmed)) return 'colour';
+  if (/M[1-4]/i.test(trimmed) && /core/i.test(trimmed)) return 'cpu_gpu';
+  const gbMatch = trimmed.match(/^(\d+)\s*GB$/i);
+  if (gbMatch) {
+    const val = parseInt(gbMatch[1], 10);
+    if (val >= 128) return 'ssd';
+    return 'ram';
+  }
+  if (/^\d+\s*TB$/i.test(trimmed)) return 'ssd';
+  return 'unknown';
+}
+
+function findNuxtPickers(arr) {
+  const pickers = [];
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (!item || typeof item !== 'object' || Array.isArray(item)) continue;
+    if ('label' in item && 'price' in item && 'available' in item) {
+      pickers.push(item);
+    }
+  }
+  return pickers;
+}
+
+function extractNuxtDataCategories(arr) {
+  const categorised = {
+    gradePrices: {},
+    ramPicker: {},
+    ssdPicker: {},
+    colourPicker: {},
+    cpuGpuPicker: {},
+  };
+
+  for (const raw of findNuxtPickers(arr)) {
+    const label = resolveNuxt(arr, raw.label);
+    const available = resolveNuxt(arr, raw.available);
+    const productId = resolveNuxt(arr, raw.productId || raw.product_id);
+    const price = extractNuxtPrice(arr, raw);
+    if (!label || typeof label !== 'string') continue;
+
+    const entry = {
+      price,
+      available: available === true || available === 'true',
+    };
+    if (productId) entry.productId = productId;
+
+    const category = categorisePickerLabel(label);
+    if (category === 'grade') {
+      categorised.gradePrices[label] = entry.price;
+    } else if (category === 'ram') {
+      categorised.ramPicker[label] = entry;
+    } else if (category === 'ssd') {
+      categorised.ssdPicker[label] = entry;
+    } else if (category === 'colour') {
+      categorised.colourPicker[label] = entry;
+    } else if (category === 'cpu_gpu') {
+      categorised.cpuGpuPicker[label] = entry;
+    }
+  }
+
+  return categorised;
+}
+
+async function createStealthContext(browser) {
+  const context = await browser.newContext({
+    locale: 'en-GB',
+    timezoneId: 'Europe/London',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+    viewport: { width: 1440, height: 900 },
+  });
+  const warmPage = await context.newPage();
+  try {
+    await warmPage.goto('https://www.backmarket.co.uk/en-gb', { waitUntil: 'domcontentloaded', timeout: 10000 });
+    await warmPage.waitForTimeout(3500);
+  } catch (_) {
+    // best-effort cookie warmup only
+  }
+  await warmPage.close();
+  return context;
+}
+
+async function extractNuxtDataFromPage(page) {
+  return await page.evaluate(() => {
+    const scripts = document.querySelectorAll('script#__NUXT_DATA__');
+    for (const script of scripts) {
+      try {
+        const data = JSON.parse(script.textContent);
+        if (Array.isArray(data)) return data;
+      } catch (_) {}
+    }
+    return null;
+  });
+}
+
+async function isCloudflareBlocked(page) {
+  return await page.evaluate(() => {
+    const body = document.body ? document.body.innerText : '';
+    return body.includes('Checking your browser') ||
+      body.includes('Just a moment') ||
+      body.includes('cf-browser-verification') ||
+      document.title.includes('Just a moment');
+  });
+}
+
+async function scrapeLiveMarketData(productId) {
+  const url = `${BM_BASE}/en-gb/p/placeholder/${productId}?l=10`;
+  let browser;
+  let context;
+  try {
+    browser = await chromium.launch({
+      headless: true,
+      args: [
+        '--no-sandbox',
+        '--disable-setuid-sandbox',
+        '--disable-dev-shm-usage',
+        '--disable-blink-features=AutomationControlled',
+      ],
+    });
+    context = await createStealthContext(browser);
+    const page = await context.newPage();
+    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
+    await page.waitForTimeout(2500);
+
+    if (await isCloudflareBlocked(page)) {
+      throw new Error('cloudflare_blocked');
+    }
+
+    const nuxtData = await extractNuxtDataFromPage(page);
+    if (!nuxtData) {
+      throw new Error('no_nuxt_data');
+    }
+    const extracted = extractNuxtDataCategories(nuxtData);
+    await page.close();
+    return {
+      ok: true,
+      source: 'live single-page scrape',
+      url,
+      ...extracted,
+    };
+  } finally {
+    try { if (context) await context.close(); } catch (_) {}
+    try { if (browser) await browser.close(); } catch (_) {}
+  }
+}
+
+async function getLiveMarketData(productId, catalogResult) {
+  try {
+    const scrape = await Promise.race([
+      scrapeLiveMarketData(productId),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('live_scrape_timeout')), LIVE_SCRAPE_TIMEOUT_MS)),
+    ]);
+    return scrape;
+  } catch (e) {
+    return {
+      ok: false,
+      source: 'catalog fallback',
+      error: e.message,
+      gradePrices: catalogResult?.gradePrices || {},
+      ramPicker: catalogResult?.ramPicker || {},
+      ssdPicker: catalogResult?.ssdPicker || {},
+      colourPicker: catalogResult?.colourPicker || {},
+      cpuGpuPicker: catalogResult?.cpuGpuPicker || {},
+    };
+  }
+}
+
 // ─── Path B: Create Fresh Listing ────────────────────────────────
 // ─── Step 5: Get Reference product_id ────────────────────────────
 // (product_id already resolved in Step 4 via catalog — no listing search needed)
@@ -702,7 +921,7 @@ function loadScraperData() {
 async function createFreshListing(productId, sku, bmGrade, placeholderPrice) {
   // CSV format with grade column included — CRITICAL: without grade, BM defaults to GOOD
   const csvHeader = 'sku,product_id,quantity,warranty_delay,price,state,currency,grade';
-  const csvRow = `${sku},${productId},1,12,${placeholderPrice},3,GBP,${bmGrade}`;
+  const csvRow = `${sku},${productId},0,12,${placeholderPrice},3,GBP,${bmGrade}`;
   const catalog = csvHeader + '\r\n' + csvRow;
 
   const body = {
@@ -794,6 +1013,18 @@ async function publishListing(listingId, finalPrice, minPrice) {
   });
 }
 
+async function updateListingPrice(listingId, finalPrice, minPrice) {
+  console.log(`  Updating listing ${listingId}: price=£${finalPrice}, min=£${minPrice}`);
+  await bmApiFetch(`/ws/listings/${listingId}`, {
+    method: 'POST',
+    body: JSON.stringify({
+      price: finalPrice,
+      min_price: minPrice,
+      currency: 'GBP',
+    }),
+  });
+}
+
 // ─── Step 6: Get Catalog Grade Price (market reference) ──────────
 
 function getCatalogGradePrice(catalogResult, bmGrade) {
@@ -832,6 +1063,16 @@ function getCatalogGradePrice(catalogResult, bmGrade) {
 
 function getPriceFlags(catalogResult) {
   const flags = [];
+
+  if (catalogResult?.ramPicker) {
+    const ramKeys = Object.keys(catalogResult.ramPicker).filter(k => catalogResult.ramPicker[k].available);
+    const ramPrices = ramKeys.map(k => ({ key: k, price: catalogResult.ramPicker[k].price })).filter(p => p.price);
+    ramPrices.sort((a, b) => parseInt(a.key) - parseInt(b.key));
+    for (let i = 1; i < ramPrices.length; i++) {
+      const gap = ramPrices[i].price - ramPrices[i - 1].price;
+      if (gap < 0) flags.push(`🔴 RAM anomaly: ${ramPrices[i - 1].key}(£${ramPrices[i - 1].price}) > ${ramPrices[i].key}(£${ramPrices[i].price})`);
+    }
+  }
 
   // Adjacent SSD check
   if (catalogResult?.ssdPicker) {
@@ -1137,8 +1378,13 @@ function formatSummary(device) {
   lines.push('');
 
   // Path and listing
-  lines.push(`Path     B (clean create — draft then publish)`);
+  lines.push(`Path     ${device.pathLabel || 'B (clean create — draft then publish)'}`);
   lines.push(`SKU      ${sku}`);
+  if (device.registrySlot) {
+    lines.push(`Registry  hit -> listing_id ${device.registrySlot.listing_id}`);
+  } else {
+    lines.push(`Registry  miss`);
+  }
 
   // Product source and title verification
   if (catalogResult?.source === 'bm-catalog') {
@@ -1150,6 +1396,9 @@ function formatSummary(device) {
   }
   if (catalogResult?.resolutionSource) {
     lines.push(`Resolve  ${catalogResult.resolutionSource}${catalogResult.colourVerified ? ' | colour verified' : ' | colour not independently verified'}`);
+  }
+  if (device.liveMarketSource) {
+    lines.push(`Live     ${device.liveMarketSource}`);
   }
 
   // Status
@@ -1219,9 +1468,9 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     console.log(`  ⚠️ --product-id override: ${PRODUCT_ID_OVERRIDE}`);
     console.log(`  BM will auto-resolve the correct catalog entry from this product_id.`);
     console.log(`  Post-create verification MUST confirm the title matches the device specs.`);
-    const catalogResult = resolveProductFromCatalog(specs, scraperData);
+    const overrideBase = resolveProductFromCatalog(specs, scraperData);
     catalogResult = {
-      ...catalogResult,
+      ...overrideBase,
       productId: PRODUCT_ID_OVERRIDE,
       resolutionConfidence: 'manual_override',
       verificationStatus: 'verified',
@@ -1293,15 +1542,28 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     return blockedResult;
   }
 
-  // Step 5: Reference product_id (already resolved in Step 4)
-  console.log('[Step 5] Reference product_id from catalog...');
+  // Step 5: Live market check (single product page scrape)
+  console.log('[Step 5] Live market check...');
   console.log(`  product_id: ${catalogResult.productId}`);
   console.log(`  model_family: ${catalogResult.modelFamily || catalogResult.modelKey}`);
+  const liveMarket = await getLiveMarketData(catalogResult.productId, catalogResult);
+  const marketResult = {
+    ...catalogResult,
+    gradePrices: Object.keys(liveMarket.gradePrices || {}).length > 0 ? liveMarket.gradePrices : catalogResult.gradePrices,
+    ramPicker: Object.keys(liveMarket.ramPicker || {}).length > 0 ? liveMarket.ramPicker : catalogResult.ramPicker,
+    ssdPicker: Object.keys(liveMarket.ssdPicker || {}).length > 0 ? liveMarket.ssdPicker : catalogResult.ssdPicker,
+    colourPicker: Object.keys(liveMarket.colourPicker || {}).length > 0 ? liveMarket.colourPicker : catalogResult.colourPicker,
+    cpuGpuPicker: Object.keys(liveMarket.cpuGpuPicker || {}).length > 0 ? liveMarket.cpuGpuPicker : catalogResult.cpuGpuPicker,
+  };
+  console.log(`  Live scrape: ${liveMarket.ok ? 'ok' : `fallback (${liveMarket.error})`}`);
+  if (Object.keys(marketResult.gradePrices || {}).length > 0) {
+    console.log(`  Live/catalog grade prices: ${JSON.stringify(marketResult.gradePrices)}`);
+  }
 
-  // Step 6: Calculate P&L using catalog grade prices as market reference
-  console.log('[Step 6] Getting catalog grade price for P&L...');
-  const catalogGrade = getCatalogGradePrice(catalogResult, grade.bmGrade);
-  const priceFlags = getPriceFlags(catalogResult);
+  // Step 5b: Calculate P&L using live market prices where available
+  console.log('[Step 5b] Calculating P&L...');
+  const marketGrade = getCatalogGradePrice(marketResult, grade.bmGrade);
+  const priceFlags = getPriceFlags(marketResult);
   if (priceFlags.length > 0) {
     for (const f of priceFlags) console.log(`  ${f}`);
   }
@@ -1314,13 +1576,13 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   const floorPrice = totalFixedCost > 0
     ? Math.ceil((totalFixedCost - specs.purchasePrice * VAT_RATE) / (1 - BM_SELL_FEE_RATE - VAT_RATE))
     : 100;
-  console.log(`  Catalog grade price: £${catalogGrade.price || 'N/A'} (${catalogGrade.source || 'none'})`);
+  console.log(`  Market grade price: £${marketGrade.price || 'N/A'} (${liveMarket.ok ? marketGrade.source || liveMarket.source : liveMarket.source})`);
   console.log(`  Floor price (break-even): £${floorPrice}`);
 
-  // Use catalog grade price as market reference for P&L
-  const marketPrice = catalogGrade.price || 0;
+  // Use live scrape grade price as market reference for P&L, fallback to catalog, then floor × 1.5
+  const marketPrice = marketGrade.price || 0;
   const proposedPrice = marketPrice > 0 ? marketPrice : Math.round(floorPrice * 1.5);
-  const priceSource = marketPrice > 0 ? catalogGrade.source : `floor × 1.5 (no catalog grade price)`;
+  const priceSource = marketPrice > 0 ? (liveMarket.ok ? marketGrade.source || liveMarket.source : marketGrade.source || liveMarket.source) : `floor × 1.5 (no live or catalog grade price)`;
   console.log(`  Proposed (for P&L): £${proposedPrice} (${priceSource})`);
 
   // Historical sales (use orders cache — no listings search needed)
@@ -1335,8 +1597,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   console.log(`  Min price: £${profitability.minPrice}`);
   console.log(`  Net@min: £${profitability.net} | Margin: ${profitability.margin}%`);
 
-  // Step 7: Decision gate
-  console.log('[Step 7] Decision gate...');
+  // Step 6: Decision gate
+  console.log('[Step 6] Decision gate...');
   const decision = decisionGate(profitability);
   console.log(`  Decision: ${decision.decision} — ${decision.reason}`);
   const trust = classifyTrust({
@@ -1347,9 +1609,18 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   });
   console.log(`  Trust: ${trust.classification} — ${trust.reason}`);
 
-  // Placeholder price for draft listing: safe high number
-  const catalogGradePrice = catalogGrade.price || 0;
-  const placeholderPrice = Math.max(floorPrice * 2, catalogGradePrice > 0 ? Math.round(catalogGradePrice * 1.2) : 0) || floorPrice * 2;
+  // Step 7: Registry lookup (preferred)
+  console.log('[Step 7] Registry lookup...');
+  const registrySlot = lookupRegistrySlot(sku);
+  if (registrySlot) {
+    console.log(`  Registry hit: listing_id=${registrySlot.listing_id}`);
+  } else {
+    console.log('  Registry miss');
+  }
+
+  // Placeholder/initial price
+  const marketGradePrice = marketGrade.price || 0;
+  const placeholderPrice = Math.max(floorPrice * 2, marketGradePrice > 0 ? Math.round(marketGradePrice * 1.2) : 0) || floorPrice * 2;
 
   // Build result object
   const result = {
@@ -1359,7 +1630,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     bmGrade: grade.bmGrade,
     sku,
     specs,
-    catalogResult,
+    catalogResult: marketResult,
+    registrySlot,
     slotResult: null,
     pricing: { proposed: proposedPrice, source: priceSource },
     historicalSales,
@@ -1367,20 +1639,24 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     decision,
     priceFlags,
     trust,
+    liveMarketSource: liveMarket.ok ? 'single-page scrape' : `catalog fallback (${liveMarket.error})`,
     // Clean-create specific
     floorPrice,
     placeholderPrice,
-    catalogGradePrice,
+    catalogGradePrice: marketGradePrice,
+    pathLabel: registrySlot ? 'Registry (pre-built slot)' : 'B (clean create — draft then publish)',
   };
 
   // Print formatted summary (dry-run output)
   if (isDryRun) {
     console.log('\n' + formatSummary(result));
-    // Additional dry-run Path B specific output
     console.log(`Draft    £${placeholderPrice} (safe placeholder)`);
-    const gp = catalogResult?.gradePrices || {};
+    const gp = marketResult?.gradePrices || {};
     if (Object.keys(gp).length > 0) {
-      console.log(`Market   ${Object.entries(gp).map(([g, p]) => `${g[0]}:£${p}`).join('  ')} (catalog)`);
+      console.log(`Market   ${Object.entries(gp).map(([g, p]) => `${g[0]}:£${p}`).join('  ')} (${liveMarket.ok ? 'live scrape' : 'catalog fallback'})`);
+    }
+    if (registrySlot) {
+      console.log(`Registry listing_id ${registrySlot.listing_id}`);
     }
     console.log(`Product  ${catalogResult.productId} (${catalogResult.modelFamily || catalogResult.modelKey})`);
     console.log('');
@@ -1390,7 +1666,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   // Print summary for live mode too
   console.log('\n' + formatSummary(result));
 
-  // ─── Live mode: Path B clean-create flow ───────────────────────
+  // ─── Live mode: registry-first flow ────────────────────────────
   const exactResolutionForLive = !!catalogResult?.liveEligible;
   const liveModeAllowed = isLive && !!singleItemId;
   const shouldExecuteLive =
@@ -1400,60 +1676,77 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   if (shouldExecuteLive) {
     try {
-      // Step 8: Create draft listing via Path B
-      console.log('\n[Step 8] Creating draft listing via Path B...');
-      const taskId = await createFreshListing(catalogResult.productId, sku, grade.bmGrade, placeholderPrice);
-      console.log(`  Task ID: ${taskId}`);
+      const listingProductId = registrySlot?.product_id || catalogResult.productId;
+      let newListingId;
+      let createdViaPathB = false;
 
-      // Step 9: Poll task for result
-      console.log('[Step 9] Polling task...');
-      const taskResult = await pollTask(taskId);
-      const newListingId = taskResult.listing_id;
-      if (!newListingId) throw new Error('Task complete but no listing_id in result');
-
-      // Safety: if BM returned pub_state=2 instead of draft (reactivated old slot), set qty=0 immediately
-      if (taskResult.publication_state === 2 || taskResult.publication_state === '2') {
-        console.warn(`  ⚠️ BM returned pub_state=2 instead of draft. Setting qty=0 for safe verification.`);
-        try {
-          await bmApiFetch(`/ws/listings/${newListingId}`, { method: 'POST', body: JSON.stringify({ quantity: 0 }) });
-        } catch (e) {
-          console.error(`  ❌ Failed to set qty=0: ${e.message}`);
-        }
-      }
-
-      // Step 10: Verify draft listing
-      console.log('[Step 10] Verifying draft listing...');
-      const colourVerifiedByCatalog = !PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
-      const draftVerification = await verifyListing(newListingId, {
-        quantity: 1,
-        grade: grade.bmGrade,
-        productId: PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
-        ram: specs.ram,
-        ssd: specs.ssd,
-        colour: specs.colour,
-        colourVerifiedByCatalog,
-        pubState: undefined, // Don't check pub_state — BM may return 2 or 3 unpredictably
-      });
-      if (!draftVerification.verified) {
-        const criticalIssues = draftVerification.issues.filter(i => i.startsWith('⛔'));
-        if (criticalIssues.length > 0) {
-          // Critical mismatch (grade/title) — leave as draft, alert
-          const msg = `⛔ Draft listing ${newListingId} verification FAILED: ${criticalIssues.join(', ')}. Left as draft. NOT publishing.`;
-          console.error(`  ${msg}`);
-          await postTelegram(msg);
-          return result;
-        }
-        // Non-critical issues (pub_state) — may be OK, continue with caution
-        console.warn(`  ⚠️ Draft verification issues (non-critical): ${draftVerification.issues.join(', ')}`);
+      if (registrySlot) {
+        newListingId = registrySlot.listing_id;
+        console.log(`\n[Step 8] Using registry slot ${newListingId}...`);
       } else {
-        console.log('  ✅ Draft listing verified');
+        console.log('\n[Step 8] Creating draft listing via Path B...');
+        const taskId = await createFreshListing(catalogResult.productId, sku, grade.bmGrade, placeholderPrice);
+        console.log(`  Task ID: ${taskId}`);
+
+        console.log('[Step 8b] Polling task...');
+        const taskResult = await pollTask(taskId);
+        newListingId = taskResult.listing_id;
+        createdViaPathB = true;
+        if (!newListingId) throw new Error('Task complete but no listing_id in result');
+
+        if (taskResult.publication_state === 2 || taskResult.publication_state === '2') {
+          console.warn(`  ⚠️ BM returned pub_state=2 instead of draft. Setting qty=0 for safe verification.`);
+          try {
+            await bmApiFetch(`/ws/listings/${newListingId}`, { method: 'POST', body: JSON.stringify({ quantity: 0 }) });
+          } catch (e) {
+            console.error(`  ❌ Failed to set qty=0: ${e.message}`);
+          }
+        }
       }
 
-      // Step 11: Get backbox price and determine final price
-      console.log('[Step 11] Getting backbox price...');
+      const colourVerifiedByCatalog = !PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
+      if (createdViaPathB) {
+        console.log('[Step 8c] Verifying draft listing...');
+        const draftVerification = await verifyListing(newListingId, {
+          quantity: 0,
+          grade: grade.bmGrade,
+          productId: PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
+          ram: specs.ram,
+          ssd: specs.ssd,
+          colour: specs.colour,
+          colourVerifiedByCatalog,
+          pubState: undefined,
+        });
+        if (!draftVerification.verified) {
+          const criticalIssues = draftVerification.issues.filter(i => i.startsWith('⛔'));
+          if (criticalIssues.length > 0) {
+            const msg = `⛔ Draft listing ${newListingId} verification FAILED: ${criticalIssues.join(', ')}. Left as draft. NOT publishing.`;
+            console.error(`  ${msg}`);
+            await postTelegram(msg);
+            return result;
+          }
+          console.warn(`  ⚠️ Draft verification issues (non-critical): ${draftVerification.issues.join(', ')}`);
+        } else {
+          console.log('  ✅ Draft listing verified');
+        }
+      }
+
+      // Step 9: Activate listing with initial live-scrape price, then backbox
+      const initialPrice = proposedPrice;
+      const initialMinPrice = Math.ceil(initialPrice * MIN_PRICE_FACTOR);
+      console.log(`[Step 9] Activating listing ${newListingId} at £${initialPrice}...`);
+      await publishListing(newListingId, initialPrice, initialMinPrice);
+
+      console.log('[Step 9b] Getting backbox price...');
       const backbox = await getBackboxPrice(newListingId);
       let finalPrice;
       let finalPriceSource;
+      if (backbox.price > 0 && initialPrice > 0) {
+        const diffRatio = Math.abs(backbox.price - initialPrice) / initialPrice;
+        if (diffRatio > 0.20) {
+          console.warn(`  ⚠️ Backbox differs from live scrape by ${(diffRatio * 100).toFixed(1)}%`);
+        }
+      }
       if (backbox.price > 0 && backbox.price >= floorPrice) {
         finalPrice = backbox.price;
         finalPriceSource = 'backbox price_to_win';
@@ -1461,10 +1754,10 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         finalPrice = floorPrice;
         finalPriceSource = `floor (backbox £${backbox.price} below floor £${floorPrice})`;
         console.log(`  ⚠️ Backbox price £${backbox.price} below floor £${floorPrice}. Using floor.`);
-      } else if (catalogGradePrice > 0) {
-        finalPrice = catalogGradePrice;
-        finalPriceSource = 'catalog grade price (no backbox data)';
-        console.log(`  No backbox data. Using catalog grade price: £${catalogGradePrice}`);
+      } else if (marketGradePrice > 0) {
+        finalPrice = marketGradePrice;
+        finalPriceSource = liveMarket.ok ? 'live scrape price (no backbox data)' : 'catalog grade price (no backbox data)';
+        console.log(`  No backbox data. Using fallback market price: £${marketGradePrice}`);
       } else {
         finalPrice = Math.round(floorPrice * 1.5);
         finalPriceSource = 'floor × 1.5 (no backbox or catalog data)';
@@ -1485,9 +1778,10 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         return result;
       }
 
-      // Publish with real price
-      console.log('[Step 11b] Publishing listing...');
-      await publishListing(newListingId, finalPrice, finalMinPrice);
+      if (finalPrice !== initialPrice || finalMinPrice !== initialMinPrice) {
+        console.log('[Step 9c] Updating activated listing price after backbox...');
+        await updateListingPrice(newListingId, finalPrice, finalMinPrice);
+      }
 
       // Step 12: Verify published listing
       console.log('[Step 12] Verifying published listing...');
@@ -1495,7 +1789,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       const pubVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
-        productId: PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
+        productId: PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
         ram: specs.ram,
         ssd: specs.ssd,
         colour: specs.colour,
@@ -1513,14 +1807,13 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           console.error('  ⛔ Verification failed. Monday will NOT be updated.');
           return result;
         }
-        // Non-critical — retry publish
-        console.log('  Retrying publish...');
+        console.log('  Retrying publish/update...');
         await publishListing(newListingId, finalPrice, finalMinPrice);
         await sleep(2000);
         const retry = await verifyListing(newListingId, {
           quantity: 1,
           grade: grade.bmGrade,
-          productId: PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
+          productId: PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
           ram: specs.ram,
           ssd: specs.ssd,
           colour: specs.colour,
@@ -1556,15 +1849,15 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
       // Step 13: Update Monday
       console.log('[Step 13] Updating Monday...');
-      await updateMonday(mainItemId, specs.bmDeviceId, newListingId, catalogResult.productId, finalProfitability.totalFixedCost, sku);
+      await updateMonday(mainItemId, specs.bmDeviceId, newListingId, listingProductId, finalProfitability.totalFixedCost, sku);
       console.log('  Monday updated');
 
       // Step 14: Telegram confirmation
       const tgMsg = [
         `✅ Listed: ${grade.name} ${specs.ssd} ${specs.ram} ${grade.gradeText} ${specs.colour}`,
         `Price: £${finalPrice} | Min: £${finalMinPrice} | Net@min: £${finalProfitability.net} (${finalProfitability.margin}%)`,
-        `Listing ID: ${newListingId} (NEW — clean create)`,
-        `Path: B (${finalPriceSource})`,
+        `Listing ID: ${newListingId} (${registrySlot ? 'REGISTRY' : 'PATH B'})`,
+        `Path: ${registrySlot ? 'Registry' : 'Path B'} (${finalPriceSource})`,
       ].join('\n');
       await postTelegram(tgMsg);
 
@@ -1612,6 +1905,10 @@ async function main() {
   console.log('\nLoading BM catalog...');
   const bmCatalog = loadBmCatalog();
   console.log(`  ${Object.keys(bmCatalog.variants || {}).length} variants loaded (catalog ${bmCatalog.catalog_version || 'unknown'})`);
+
+  console.log('\nLoading listings registry...');
+  const registry = loadListingsRegistry();
+  console.log(`  ${Object.keys(registry.slots || {}).length} verified slots loaded`);
 
   // Get items to process
   let itemIds = [];
