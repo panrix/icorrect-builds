@@ -3,6 +3,14 @@
 ## Overview
 Device arrives at the workshop. Team matches it to the Monday item, enters the serial number, and automated checks run (iCloud lock, spec validation).
 
+## Service
+- Runtime file: `/home/ricky/builds/icloud-checker/src/index.js`
+- Systemd unit: `icloud-checker.service`
+- Live unit file: `/home/ricky/.config/systemd/user/icloud-checker.service`
+- Bind: `127.0.0.1:8010`
+- Public ingress: nginx proxies `https://mc.icorrect.co.uk/webhook/icloud-check*` to `127.0.0.1:8010`
+- Slack interactivity ingress: `https://mc.icorrect.co.uk/webhook/icloud-check/slack-interact` goes to `127.0.0.1:8003` (`telephone-inbound`), which forwards non-phone actions to `127.0.0.1:8010/webhook/icloud-check/slack-interact`
+
 ## Trigger
 - Physical: device arrives via Royal Mail
 - Team member matches customer name on package to Monday board item in "Incoming Future" group
@@ -43,6 +51,7 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 - Gets: model, colour, chip, CPU, GPU, RAM, storage
 - Pre-M1 devices: skipped ("Apple specs unavailable")
 - Updates `status8` (Colour) on Main Board from Apple data
+- Colour comparison later uses normalization logic in `src/lib/colour-map.js` (e.g. Space Gray / Space Grey normalization)
 
 **4.5 Spec comparison**
 - Reads BM claimed specs from BM Devices Board via `board_relation5` link
@@ -61,7 +70,7 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 - Messages customer via BM messages API (`POST /ws/buyback/v1/orders/{orderPublicId}/messages`):
   > "Thank you for your message. Unfortunately, your iCloud account is still linked to the MacBook – could you please double-check that the device is no longer showing in the Find My menu on your iCloud.com account?..."
 - Posts to Monday comment + Slack alert
-- 30-min recheck cron runs:
+- 30-min recheck scheduler runs inside the `icloud-checker` service (not crontab):
   - Checks BM messages for new customer replies
   - Keyword detection (e.g. "removed", "done", "unlocked")
   - If keyword match: auto-rechecks SickW
@@ -112,6 +121,8 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 |---------|------|-------|---------|
 | icloud-checker | 8010 | `POST /webhook/icloud-check` | iCloud lock + spec check |
 | icloud-checker | 8010 | `POST /webhook/icloud-check/slack-interact` | Slack button handler (recheck, counter-offer actions) |
+| icloud-checker | 8010 | `POST /webhook/icloud-check/recheck` | Manual recheck trigger |
+| icloud-checker | 8010 | `GET /webhook/icloud-check/spec-check` | Read-only Apple spec lookup endpoint |
 | icloud-checker | 8010 | `GET /webhook/icloud-check/health` | Health check |
 
 ## Groups
@@ -119,13 +130,15 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 |-------|----------|-------|---------|
 | Incoming Future | `new_group34198` | Main (349212843) | Where items arrive |
 | iCloud Locked | `group_mktsw34v` | Main (349212843) | Items with active iCloud lock |
-| Today's Repairs | (needs ID lookup) | Main (349212843) | Items cleared and ready for work |
+| Today's Repairs | `new_group70029` | Main (349212843) | Items cleared and ready for work |
 
 ## Error handling
 - SickW API fails: error comment posted to Monday, item not moved, no status change
 - Apple spec lookup fails: non-blocking, logs warning, iCloud check still proceeds
 - BM Devices link missing: warning logged, spec comparison skipped
 - Duplicate webhook fires: 6-hour cooldown on iCloud alerts prevents spam
+- Recheck loop is service-managed: first run starts ~60s after service boot, then repeats every 30 minutes
+- Slack customer-reply alerts route via `telephone-inbound` on port `8003`, then forward to `icloud-checker`
 
 ## BM API endpoints used
 | Endpoint | Method | Purpose |
@@ -134,3 +147,53 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 | `/ws/buyback/v1/orders/{orderPublicId}/suspend` | PUT | Suspend order (iCloud locked) |
 | `/ws/buyback/v1/orders/{orderPublicId}/messages` | POST | Message customer |
 | `/ws/buyback/v1/orders/{orderPublicId}/messages` | GET | Read customer replies (recheck cron) |
+
+## Helper Mappings
+- Colour normalization in `src/lib/colour-map.js`
+  Used when comparing Apple colour vs BM/Monday colour so equivalent labels do not false-mismatch.
+- Grade mapping in `src/lib/grade-map.js`
+  Used elsewhere in the same service for BM listing/status flows; not part of the core intake webhook itself, but it is part of the shared `icloud-checker` service logic.
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Column IDs in the SOP match the live service constants.
+   Verified against `BOARD_ID`, `SERIAL_COLUMN`, `STATUS_COLUMN`, `ICLOUD_LOCKED_GROUP`, `TODAYS_REPAIRS_GROUP`, `BM_BOARD_RELATION`, `COLOUR_COLUMN`, and the BM Devices spec columns in `src/index.js`.
+
+2. `PASS` Today's Repairs group ID filled in.
+   The live constant is `new_group70029`, so the placeholder text was removed.
+
+3. `PASS` Recheck schedule clarified.
+   The 30-minute recheck is not a VPS crontab entry. It is an in-process scheduler inside `icloud-checker`:
+   first run starts about 60 seconds after boot, then repeats every 30 minutes via `setInterval`.
+
+4. `PASS` `board_relation5` confirmed.
+   The SOP correctly references the BM Devices link column used by the service.
+
+5. `PASS` Service / ingress / extra endpoints documented.
+   Added the runtime file, systemd unit, nginx ingress shape, Slack-forwarding path, `spec-check`, `recheck`, and `health` endpoints.
+
+6. `PASS` Helper mapping logic documented.
+   Added notes for colour normalization and grade mapping helper files so the SOP no longer implies all logic lives inline in `index.js`.
+
+7. `PASS` No CLI section needed.
+   This is a webhook service, not a CLI script.
+
+8. `PASS` No stale V6 references found in the active SOP.
+
+### Per-check Summary
+1. Column IDs vs service constants: `PASS`
+2. Group IDs vs service constants: `PASS`
+3. Recheck scheduler vs live VPS state: `PASS`
+4. BM Devices relation column: `PASS`
+5. Service / unit / ingress documentation: `PASS`
+6. Mapping/helper logic documented: `PASS`
+7. Stale references / V6 mentions: `PASS`
+
+### Known Operational Limits
+- Apple spec lookup is only available for supported serials; pre-M1 or unsupported serials can skip the detailed spec comparison path.
+- Colour mapping and grade mapping live in shared helper files, so changes there can affect behavior without the SOP body changing.
+- The service still contains other non-intake routes because `icloud-checker` remains a shared monolith for the unsplit handlers.
+
+### Verdict
+SOP 02 now matches the active `icloud-checker` intake flow closely enough to hand to an agent without the earlier documentation gaps.
