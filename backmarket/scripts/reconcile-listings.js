@@ -88,14 +88,6 @@ async function getBmListings() {
   return all;
 }
 
-// ─── Step 1c: Get BM Device data for a Main Board item ───────────
-async function getBmDeviceForMainItem(mainItemId) {
-  // Find BM Devices items linked to this Main Board item
-  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500) { items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
-  // This is expensive. Cache it.
-  return null; // Will use cached version
-}
-
 // ─── Batch load all BM Devices ────────────────────────────────────
 async function loadAllBmDevices() {
   const allItems = [];
@@ -170,6 +162,7 @@ async function loadAllBmDevices() {
     missingCost: [],
     qtyMismatch: [],
     costBackfilled: [],
+    specMismatch: [],
   };
 
   // Check A: Monday Listed → BM Active
@@ -248,7 +241,6 @@ async function loadAllBmDevices() {
         console.log(`  ⛔ ${name}: listing ${listingId} active but SPEC MISMATCH:`);
         for (const issue of specIssues) console.log(`    ${issue}`);
         console.log(`    Title: ${bmListing.title}`);
-        results.specMismatch = results.specMismatch || [];
         results.specMismatch.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, issues: specIssues });
       }
       results.matched.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, specOk, specIssues });
@@ -362,9 +354,21 @@ async function loadAllBmDevices() {
   // ─── Step 3: Auto-actions ─────────────────────────────────────
   console.log('\n[Step 3] Auto-actions...');
 
-  // Take oversell risks offline
+  // Take oversell risks offline (Check B: wrong Monday status)
   for (const risk of results.oversellRisk) {
     console.log(`  Taking offline: listing ${risk.listingId} (${risk.mainName}, status="${risk.mondayStatus}")`);
+    try {
+      await bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } });
+      console.log(`    ✅ Offline`);
+    } catch (e) {
+      console.error(`    ❌ Failed: ${e.message}`);
+    }
+    await sleep(500);
+  }
+
+  // Take qty oversell risks offline (Check C: BM qty > Monday device count)
+  for (const risk of results.qtyMismatch.filter(r => r.type === 'oversell')) {
+    console.log(`  Taking offline (qty oversell): listing ${risk.listingId} (${risk.sku}) BM qty=${risk.bmQty} > Monday=${risk.mondayCount}`);
     try {
       await bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } });
       console.log(`    ✅ Offline`);
@@ -454,8 +458,29 @@ async function loadAllBmDevices() {
     }
   }
 
+  // ─── Send Telegram report ──────────────────────────────────────
+  const tgLines = [
+    `📋 Listings Reconciliation — ${new Date().toISOString().slice(0, 10)}`,
+    ``,
+    `Monday Listed: ${mondayListed.length} | BM Active: ${bmActive.length} | Delta: ${mondayListed.length - bmActive.length}`,
+    ``,
+    `✅ Matched: ${results.matched.length}`,
+  ];
+  if (results.oversellRisk.length > 0) tgLines.push(`⛔ Oversell risk (offlined): ${results.oversellRisk.length}`);
+  if (results.qtyMismatch.filter(r => r.type === 'oversell').length > 0) tgLines.push(`⛔ Qty oversell (offlined): ${results.qtyMismatch.filter(r => r.type === 'oversell').length}`);
+  if (results.mondayListedBmOffline.length > 0) tgLines.push(`⚠️ Monday Listed/BM offline: ${results.mondayListedBmOffline.length}`);
+  if (results.mondayListedNoListing.length > 0) tgLines.push(`⛔ No listing found: ${results.mondayListedNoListing.length}`);
+  if (results.orphanListings.length > 0) tgLines.push(`⛔ Orphan BM listings: ${results.orphanListings.length}`);
+  if (results.missingBmDevice.length > 0) tgLines.push(`⛔ Missing BM Device: ${results.missingBmDevice.length}`);
+  if ((results.specMismatch || []).length > 0) tgLines.push(`⛔ Spec mismatch: ${results.specMismatch.length}`);
+  if (results.missingCost.length > 0) tgLines.push(`⚠️ Missing cost data: ${results.missingCost.length}`);
+  if (results.qtyMismatch.filter(r => r.type === 'missed_revenue').length > 0) tgLines.push(`⚠️ Missed revenue (more devices than listed): ${results.qtyMismatch.filter(r => r.type === 'missed_revenue').length}`);
+  if (results.costBackfilled.length > 0) tgLines.push(`✅ Cost auto-backfilled: ${results.costBackfilled.length}`);
+
+  await postTelegram(tgLines.join('\n'));
+
   // Save report
-  const outDir = '/home/ricky/builds/bm-scripts/test-output';
+  const outDir = '/home/ricky/builds/backmarket/data/reports';
   fs.mkdirSync(outDir, { recursive: true });
   const outFile = `${outDir}/reconciliation-${new Date().toISOString().slice(0, 10)}.json`;
   fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
