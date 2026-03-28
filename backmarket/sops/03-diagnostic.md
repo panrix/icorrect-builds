@@ -98,20 +98,27 @@ Battery health thresholds:
 **This step is critical.** Parts Required must be populated before handoff because the profitability webhook needs it.
 
 ### Step 7: Profitability Prediction (automated)
-**Trigger:** When BOTH Top Case Pre-Grade AND Lid Pre-Grade are set.
+**Trigger:** Main Board `status4` changes to `Diagnostic Complete`.
 
-The `grade-check` webhook fires automatically:
+The webhook does **not** trigger directly from the pre-grade columns. It fires on the `status4` change, then checks whether both Top Case Pre-Grade and Lid Pre-Grade are present. If either grade is missing, it exits and clears its dedup entry so a later valid trigger can run.
+
+The `bm-grade-check` webhook then:
 1. Predicts grade as worst-of-two pre-grades (e.g., Top Case Good + Lid Fair = Fair)
-2. Matches device model to sell price data
-3. Calculates: revenue (sell price minus 10% BM commission) vs costs (purchase + parts + labour at £24/hr + £15 shipping)
+2. Matches device model to sell price data from the scraper dataset
+3. Calculates:
+   - net revenue = sell price minus 10% BM commission
+   - total cost = purchase + parts + labour + £15 shipping
+   - labour uses `formula_mkx1bjqr` when available, otherwise falls back to `formula__1 × £24/hr`
 4. Thresholds: ≥30% margin AND ≥£100 net profit
 5. If profitable: silent pass
 6. If unprofitable: alerts `#bm-trade-in-checks` Slack + Monday comment
 
-**Service:** icloud-checker, port 8010, route `POST /webhook/bm/grade-check`
+**Service:** `bm-grade-check`, port `8011`, route `POST /webhook/bm/grade-check`
+**systemd:** `bm-grade-check.service`
+**nginx:** `/webhook/bm/grade-check` → `127.0.0.1:8011`
 **Dedup:** 10-minute cooldown per item
 
-**Known limitation:** Profitability calculation only works properly if Parts Required is populated first. If parts aren't linked yet, the cost estimate will be wrong. Architecture issue: grade-check lives in the icloud-checker service rather than its own service.
+**Known limitation:** Profitability calculation only works properly if Parts Required is populated first. If parts aren't linked yet, the cost estimate will be wrong.
 
 ### Step 8: Intake Notes & Documentation
 - Record all findings in **Intake Notes** (`long_text_mkqhfapq`)
@@ -170,10 +177,10 @@ The repair tech picks up from here. If the profitability alert flagged the devic
 ### Grade-Check Webhook
 | Property | Value |
 |----------|-------|
-| Trigger | Top Case or Lid pre-grade column changes on Main Board |
-| Service | icloud-checker, port 8010 |
+| Trigger | `status4` changes to `Diagnostic Complete` on Main Board |
+| Service | `bm-grade-check`, port `8011` |
 | Route | `POST /webhook/bm/grade-check` |
-| Logic | Waits for both pre-grades; predicts final grade (worst of two); runs profitability check |
+| Logic | Trigger on `Diagnostic Complete`, then require both pre-grades; predict final grade (worst of two); run profitability check |
 | Output | Slack alert + Monday comment if unprofitable |
 | Dedup | 10-minute cooldown per item |
 
@@ -193,3 +200,58 @@ The repair tech picks up from here. If the profitability alert flagged the devic
 - Device proceeds to SOP 4: Repair & Refurb
 - After repair: device goes to SOP 5: QC & Final Grade
 - After QC: device moves to SOP 6: Listing
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Critical service/port split corrected.
+   Grade-check is no longer part of `icloud-checker` on `8010`. The active service is standalone:
+   - service: `bm-grade-check`
+   - port: `8011`
+   - route: `POST /webhook/bm/grade-check`
+   - nginx: `/webhook/bm/grade-check` → `127.0.0.1:8011`
+
+2. `PASS` Trigger wording corrected.
+   The webhook is triggered by `status4` changing to `Diagnostic Complete`, not by the pre-grade columns directly. It only proceeds once both pre-grades exist.
+
+3. `PASS` Column IDs match the service constants.
+   Verified against:
+   - `status_2_mkmcj0tz` Top Case Pre-Grade
+   - `status_2_mkmc4tew` Lid Pre-Grade
+   - `lookup_mkx1xzd7` Parts Cost mirror
+   - `formula__1` Labour Hours
+   - `formula_mkx1bjqr` Labour Cost
+   - `board_relation5` BM Devices link
+
+4. `PASS` Profitability formula corrected.
+   The service calculates:
+   - net revenue = sell price × 0.9
+   - total cost = purchase + parts + labour + shipping
+   - labour = `formula_mkx1bjqr` if present, else `formula__1 × £24/hr`
+   - profitable only if margin ≥30% and net profit ≥£100
+
+5. `PASS` No V6/V7 mismatch in the active SOP path.
+   The service reads the sell-price data file directly; the SOP does not need a V6/V7 label here.
+
+6. `MEDIUM` SOP 5 reference remains unresolved.
+   The flow still references `SOP 5: QC & Final Grade`, but there is no tracked SOP 05 file in the rebuild docs. This is a documentation gap outside this service.
+
+7. `PASS` Dedup timing verified.
+   Dedup is 10 minutes per item via in-memory cache.
+
+### Per-check Summary
+1. Service/port/route/systemd/nginx alignment: `PASS`
+2. Trigger logic vs service behavior: `PASS`
+3. Column IDs vs `GRADE_CHECK_CONSTANTS`: `PASS`
+4. Profitability formula vs service logic: `PASS`
+5. V6/V7 references: `PASS`
+6. Dedup timing: `PASS`
+7. Stale architecture wording: `PASS`
+
+### Known Operational Limits
+- If either pre-grade is missing when `Diagnostic Complete` fires, the service exits quietly and waits for a later valid trigger.
+- If sell-price data is missing or the model cannot be matched, the service can only warn; it cannot produce a profitability decision.
+- Dedup is in-memory only, so a service restart clears the 10-minute cache.
+
+### Verdict
+SOP 03 now matches the standalone `bm-grade-check` service closely enough for operational use. The remaining documentation gap is the missing SOP 05 reference, not the grade-check implementation itself.
