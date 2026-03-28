@@ -3,3 +3,4 @@ data/cache/
 data/logs/
 data/exports/
 .claude/
+backmarket/data/n8n-listing-flow-export.json
