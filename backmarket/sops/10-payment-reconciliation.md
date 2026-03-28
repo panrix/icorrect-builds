@@ -89,6 +89,8 @@ For each order:
 > 3. Use the existing `dup__of_quote_total` (Paid) column on Main Board (currently used for customer payments)
 > 4. Track in external spreadsheet only
 
+> **Status:** Still open as of 2026-03-28. No referenced script currently writes an actual payout amount back to Monday.
+
 ---
 
 ## Step 5: Payout Cycle Tracking
@@ -175,7 +177,55 @@ These are formula columns calculated from existing data. They require `numeric5`
 
 | Component | Location | Status |
 |-----------|----------|--------|
-| Profitability check script | `/home/ricky/builds/bm-scripts/profitability-check.js` | Active (uses BM API grade) |
-| Reconcile script | `/home/ricky/builds/bm-scripts/reconcile.js` | Active |
+| Profitability check script | `/home/ricky/builds/backmarket/scripts/profitability-check.js` | Active support tool |
+| Reconcile script | `/home/ricky/builds/backmarket/scripts/reconcile.js` | Active support tool |
 | Automated reconciliation | Not yet built | NEEDED |
 | Notifications | BM Telegram `-1003888456344` | Target channel |
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Dead `bm-scripts/` paths corrected.
+   The referenced scripts now live under `/home/ricky/builds/backmarket/scripts/`.
+
+2. `PASS` Actual payout-column question preserved and clarified.
+   The unresolved question about where to store actual BM payment amounts remains valid, and none of the referenced scripts resolves it today.
+
+3. `PASS` Column IDs referenced in the SOP are broadly compatible with the scripts.
+   Cross-checked:
+   - `status24`
+   - `date_mkq34t04`
+   - `text53`
+   - `text_mkye7p1c`
+   - `numeric5`
+   - `text4`
+   - `numeric`
+   The supporting scripts also use additional profitability/listing columns outside the core SOP flow.
+
+4. `MEDIUM` The referenced scripts do not implement the full SOP end-to-end.
+   - `profitability-check.js` is a daily support tool for live-listing profitability and buy-box monitoring
+   - `reconcile.js` is a listing reconciliation tool (ghost listings, qty mismatches, orphans)
+   - neither script is a dedicated BM payment-reconciliation engine that compares actual bank receipts to expected payouts
+   So the SOP should be treated as a manual/agent process with supporting tools, not as an automated workflow already implemented in code.
+
+5. `PASS` Manual/agent ownership clarified.
+   This SOP is primarily a manual/agent process. The scripts provide supporting visibility, not the core reconciliation loop.
+
+6. `PASS` No V6 references found.
+
+### Per-check Summary
+1. Script path accuracy: `PASS`
+2. Open payout-column question status: `PASS`
+3. Column IDs vs supporting scripts: `PASS`
+4. Script capability vs SOP scope: `PARTIAL — support tools only`
+5. Manual/agent-process framing: `PASS`
+6. V6 references: `PASS`
+
+### Known Operational Limits
+- There is still no dedicated automated payment-reconciliation system comparing BM receipts or bank statement values against expected revenue.
+- `profitability-check.js` posts to Slack and focuses on listing profitability, not revenue receipt reconciliation.
+- `reconcile.js` focuses on listing/inventory integrity, not payments.
+- Actual payout amount writeback to Monday remains unresolved.
+
+### Verdict
+SOP 10 is still primarily a manual/agent process SOP. The referenced scripts are useful supporting tools, but they do not yet constitute the automated payment-reconciliation implementation the SOP describes.
