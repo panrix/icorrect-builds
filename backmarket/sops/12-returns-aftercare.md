@@ -137,7 +137,7 @@ Counter-offers happen when the device received doesn't match what the customer d
 | Completely different model | Counter-offer. Escalate to Ricky. |
 | Fraud (misrepresentation) | Counter-offer or reject. Escalate. |
 
-4. **Counter-offer rate MUST stay below 18%.** Exceeding this triggers BM account review.
+4. **Counter-offer rate MUST stay below 15%.** Exceeding this triggers BM account review.
 
 5. **Monday status:** Set `status24` to "Counteroffer" (index 3) on Main Board
 
@@ -153,10 +153,10 @@ Counter-offers happen when the device received doesn't match what the customer d
 
 7. **Ricky Approval (Slack button flow):**
 
-> **❓ Question for Ricky:** The task mentions a "Slack button approval process" for counter-offers. Is this currently implemented? If so, where is the code? If not, what's the desired flow? Current understanding:
-> - Agent presents counter-offer details in Slack
-> - Ricky approves/rejects via Slack button or message
-> - On approval, agent submits to BM API
+This is implemented in the shared `icloud-checker` service and counter-offer helper logic:
+- Slack approval buttons are posted during the counter-offer flow
+- Actions include approve, pay original, and adjust price
+- Supporting logic lives in `icloud-checker/src/index.js` and `icloud-checker/src/lib/counter-offer.js`
 
 8. **Submit counter-offer:**
    ```
@@ -260,7 +260,7 @@ All notifications to BM Telegram: `-1003888456344`
 | Board | ID | Key Columns |
 |-------|----|-------------|
 | Main Board | 349212843 | `status24` (Repair Type), `status_2_Mjj4GJNQ` (Final Grade), `color_mkyp4jjh` (iCloud) |
-| BM Devices Board | 3892194968 | `text4` (Sold to), `text_mkye7p1c` (Sales Order ID), `numeric5` (Sale Price), `text_mkqy3576` (Trade-in Order ID) |
+| BM Devices Board | 3892194968 | `text4` (Sold to), `text_mkye7p1c` (Sales Order ID), `numeric5` (Sale Price), `lookup_mm1vzeam` (BM Trade-in ID mirror) |
 
 ---
 
@@ -271,5 +271,37 @@ All notifications to BM Telegram: `-1003888456344`
 | Counter-offer submission | Manual / agent process | No webhook |
 | Return handling | Manual process | No automation |
 | Sales aftercare API | `/ws/sav` | Under construction (BM side) |
-| Slack button approval | Unknown | ❓ Need confirmation from Ricky |
+| Slack button approval | `icloud-checker/src/index.js` + `icloud-checker/src/lib/counter-offer.js` | Exists |
 | Notifications | BM Telegram `-1003888456344` | Target channel |
+
+## QA Notes (2026-03-28)
+
+### Findings
+1. `PASS` Redundant BM Devices trade-in ID column corrected.
+   `text_mkqy3576` is no longer the right reference here. `lookup_mm1vzeam` is the current BM trade-in ID mirror on the BM Devices board.
+
+2. `PASS` Counter-offer rate cap corrected.
+   The live `icloud-checker` counter-offer logic uses a 15% rolling cap, not 18%.
+
+3. `PASS` Column IDs are consistent with the rest of the rebuild docs.
+   `status24`, `status_2_Mjj4GJNQ`, `color_mkyp4jjh`, `text4`, `text_mkye7p1c`, `numeric5`, and the BM Returns / Shipped group IDs all align with the current SOP set.
+
+4. `PASS` Slack button approval flow documented.
+   The counter-offer Slack button flow exists in the `icloud-checker` service and supporting `counter-offer` library; it is no longer an unknown.
+
+5. `PASS` No stale `bm-scripts/` or V6 references found.
+
+### Per-check Summary
+1. BM Devices trade-in ID column reference: `PASS`
+2. Counter-offer rate cap vs live code: `PASS`
+3. Column IDs / status indexes / group IDs: `PASS`
+4. Slack button approval-flow documentation: `PASS`
+5. Stale references: `PASS`
+
+### Known Operational Limits
+- This SOP remains largely manual/agent-driven; there is no dedicated return/aftercare automation service.
+- `/ws/sav` is still described as non-functional / under construction on the BM side.
+- The counter-offer button flow exists, but returns and aftercare workflows are not yet similarly automated.
+
+### Verdict
+SOP 12 is now consistent with the current counter-offer and returns-related documentation. The main remaining gap is implementation breadth, not SOP accuracy.
