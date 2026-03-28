@@ -23,6 +23,9 @@ node scripts/list-device.js --live --item <mainBoardItemId>
 
 # Override minimum margin (Ricky approval required)
 node scripts/list-device.js --live --item <mainBoardItemId> --min-margin 0
+
+# Override product_id (for family-member resolution when catalog can't exact-match)
+node scripts/list-device.js --live --item <mainBoardItemId> --product-id <uuid>
 ```
 
 Live mode requires `--item`. Batch live is disabled.
@@ -116,7 +119,7 @@ The catalog is the **single product resolver**. No other source is used for prod
 
 When the catalog has the right model family but can't exact-match (e.g. colour missing), BM's Path B CSV create can use **any product_id from the same model family**. BM auto-resolves to the correct backmarket_id. The post-create verification then confirms the title matches the device.
 
-This requires a `--product-id <uuid>` override (not yet implemented) or manual API call.
+Use the `--product-id <uuid>` override flag. The script creates the listing with that product_id, then post-create verification confirms BM assigned the correct title. If the title doesn't match the device specs, the listing stays as draft.
 
 ---
 

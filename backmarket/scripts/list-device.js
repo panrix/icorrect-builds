@@ -55,6 +55,8 @@ const itemIdx = args.indexOf('--item');
 const singleItemId = itemIdx !== -1 ? args[itemIdx + 1] : null;
 const minMarginIdx = args.indexOf('--min-margin');
 const MIN_MARGIN_OVERRIDE = minMarginIdx !== -1 ? parseFloat(args[minMarginIdx + 1]) : null;
+const productIdIdx = args.indexOf('--product-id');
+const PRODUCT_ID_OVERRIDE = productIdIdx !== -1 ? args[productIdIdx + 1] : null;
 
 // ─── Disk Cache ──────────────────────────────────────────────────
 const CACHE_DIR = path.join(__dirname, 'data', 'cache');
@@ -1771,12 +1773,30 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
 
   // Step 4: Resolve product from canonical BM catalog
   console.log('[Step 4] Resolving product from BM catalog...');
-  const v6Result = resolveProductFromCatalog(specs, v6Data);
+  let v6Result;
+  if (PRODUCT_ID_OVERRIDE) {
+    // Manual product_id override — for family-member resolution when catalog can't exact-match
+    console.log(`  ⚠️ --product-id override: ${PRODUCT_ID_OVERRIDE}`);
+    console.log(`  BM will auto-resolve the correct catalog entry from this product_id.`);
+    console.log(`  Post-create verification MUST confirm the title matches the device specs.`);
+    const catalogResult = resolveProductFromCatalog(specs, v6Data);
+    v6Result = {
+      ...catalogResult,
+      productId: PRODUCT_ID_OVERRIDE,
+      resolutionConfidence: 'manual_override',
+      verificationStatus: 'verified',
+      resolutionSource: 'product-id-override',
+      liveEligible: true,
+      colourVerified: false, // Must verify after creation
+    };
+  } else {
+    v6Result = resolveProductFromCatalog(specs, v6Data);
+  }
   const hasV6 = v6Result && v6Result.productId;
   console.log(`  Family: ${v6Result.modelFamily || '(unmapped)'}`);
   console.log(`  Lookup: ${v6Result.normalizedRam}/${v6Result.normalizedSsd}/${v6Result.normalizedColour || '(no colour)'}`);
   if (hasV6) {
-    console.log(`  product_id: ${v6Result.productId} (catalog: "${v6Result.modelKey}")`);
+    console.log(`  product_id: ${v6Result.productId} (${v6Result.resolutionSource === 'product-id-override' ? 'MANUAL OVERRIDE' : `catalog: "${v6Result.modelKey}"`})`);
     console.log(`  resolution_confidence: ${v6Result.resolutionConfidence}`);
     console.log(`  verification_status: ${v6Result.verificationStatus}`);
     console.log(`  Grade prices: ${JSON.stringify(v6Result.gradePrices)}`);
