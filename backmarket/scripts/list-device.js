@@ -994,8 +994,15 @@ async function verifyListing(listingId, expected) {
       issues.push(`⛔ TITLE SSD MISMATCH: title="${listing.title}", expected SSD=${expected.ssd}`);
     }
   }
-  if (expected.colour && !lookupTitleHasExpectedColour(listing.title || '', expected.colour)) {
-    issues.push(`⛔ TITLE COLOUR MISMATCH: title="${listing.title}", expected colour=${expected.colour}`);
+  // Colour verification: two-tier approach
+  // If catalog already verified colour at Step 4 (catalog-exact + colourVerified), skip title check
+  // BM titles don't always include colour — the product_id IS the colour verification
+  if (expected.colourVerifiedByCatalog) {
+    console.log(`  Colour: ✅ verified by catalog (skipping title check)`);
+  } else if (expected.colour) {
+    if (!lookupTitleHasExpectedColour(listing.title || '', expected.colour)) {
+      issues.push(`⛔ TITLE COLOUR MISMATCH: title="${listing.title}", expected colour=${expected.colour}`);
+    }
   }
 
   // Any critical mismatch (grade or title) → take offline immediately
@@ -1404,16 +1411,28 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
       const newListingId = taskResult.listing_id;
       if (!newListingId) throw new Error('Task complete but no listing_id in result');
 
+      // Safety: if BM returned pub_state=2 instead of draft (reactivated old slot), set qty=0 immediately
+      if (taskResult.publication_state === 2 || taskResult.publication_state === '2') {
+        console.warn(`  ⚠️ BM returned pub_state=2 instead of draft. Setting qty=0 for safe verification.`);
+        try {
+          await bmApiFetch(`/ws/listings/${newListingId}`, { method: 'POST', body: JSON.stringify({ quantity: 0 }) });
+        } catch (e) {
+          console.error(`  ❌ Failed to set qty=0: ${e.message}`);
+        }
+      }
+
       // Step 10: Verify draft listing
       console.log('[Step 10] Verifying draft listing...');
+      const colourVerifiedByCatalog = !PRODUCT_ID_OVERRIDE && v6Result?.colourVerified && v6Result?.resolutionSource === 'catalog-exact';
       const draftVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
-        productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId, // skip product_id check on manual override (BM auto-resolves)
+        productId: PRODUCT_ID_OVERRIDE ? undefined : v6Result.productId,
         ram: specs.ram,
         ssd: specs.ssd,
         colour: specs.colour,
-        pubState: 3, // draft
+        colourVerifiedByCatalog,
+        pubState: undefined, // Don't check pub_state — BM may return 2 or 3 unpredictably
       });
       if (!draftVerification.verified) {
         const criticalIssues = draftVerification.issues.filter(i => i.startsWith('⛔'));
@@ -1480,6 +1499,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
         ram: specs.ram,
         ssd: specs.ssd,
         colour: specs.colour,
+        colourVerifiedByCatalog,
         pubState: 2, // published
       });
       if (pubVerification.verified) {
@@ -1504,6 +1524,7 @@ async function processItem(mainItemId, v6Data, bmDeviceMap) {
           ram: specs.ram,
           ssd: specs.ssd,
           colour: specs.colour,
+          colourVerifiedByCatalog,
           pubState: 2,
         });
         if (!retry.verified) {

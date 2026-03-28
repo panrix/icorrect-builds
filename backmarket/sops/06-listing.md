@@ -214,6 +214,8 @@ GET /ws/tasks/{task_id}
 
 Poll every 3 seconds until `action_status` = 9. Extract `listing_id`, `backmarket_id`, `publication_state` from `result.product_success`.
 
+**Safety:** BM may return `publication_state: 2` (live) instead of 3 (draft) if a previous listing slot with the same product_id exists. If this happens, immediately set `quantity: 0` before running verification. This ensures no listing is live without passing verification.
+
 ---
 
 ## Step 8: Verify Draft Listing
@@ -227,7 +229,7 @@ Verify:
 - `grade` = expected BM grade
 - Title contains correct RAM
 - Title contains correct SSD
-- Title contains correct colour (when known from catalog)
+- Colour: if catalog resolution was `catalog-exact` with `colourVerified`, colour is proven by product_id — title colour check is skipped (BM titles do not always include colour). If `--product-id` override was used or catalog status is uncertain, title MUST contain correct colour.
 - `product_id` matches expected
 
 **If critical mismatch (grade or title wrong):** Leave as draft. Alert Telegram. Do NOT publish. The product_id was wrong or BM resolved to the wrong catalog entry.
