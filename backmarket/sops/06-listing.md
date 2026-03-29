@@ -355,13 +355,47 @@ Monday is updated ONLY after published listing passes verification.
 
 ---
 
+## Step 6b: Historical Sales Lookup
+
+Before the decision gate, query BM completed orders for this product_id + grade over the last 90 days.
+
+**API:** `GET /ws/orders?state=9` (completed) and `GET /ws/orders?state=4` (delivered), paginated.
+
+**Match criteria:** `orderline.product_id` matches catalog product_id AND `orderline.grade` matches device grade.
+
+**Output:**
+- Units sold (count)
+- Average sale price
+- Median sale price
+- Price range (low–high)
+- Average days to sell (if Monday date-listed available via cross-reference)
+
+**If no history:** Output `N/A` — do not block.
+
+Results are cached in-memory per `product_id+grade` to avoid re-querying for duplicate specs in the same run.
+
+---
+
 ## Step 13: Confirm to Telegram
 
+**Proposal card format:**
 ```
-✅ Listed: [Device] [Config] [Grade] [Colour]
-Price: £X | Min: £X | Net@min: £X (X%)
-Listing ID: {listing_id} (NEW)
+✅ Listing proposal: MacBook Air M2 8/256 Midnight Good
+BM#: 1234567 | Path: B
+Proposed price: £499 | Min: £484
+Net@min: £167 (34.5%) | Cost basis: £316
+  └ Purchase £280 + Parts £20 + Labour £0 + Ship £16
+
+Market now:  Fair £389 | Good £479 | Excellent £549
+Our history: 4 sold @ avg £492 | avg 8 days to sell
+
+Monday: #BM-1491 updated ✓
 ```
+
+**Card rules:**
+- All fields are mandatory. If data is unavailable, output `N/A` — do not silently drop the field.
+- "Market now" shows live grade prices from Step 5 scrape.
+- "Our history" shows data from Step 6b. If no sales history: `N/A`.
 
 ---
 
@@ -389,6 +423,8 @@ Listing ID: {listing_id} (NEW)
 | `/ws/listings/{id}` | GET | Read listing details |
 | `/ws/tasks/{id}` | GET | Poll creation task status |
 | `/ws/backbox/v1/competitors/{uuid}` | GET | Get buy box price |
+| `/ws/orders?state=9` | GET | Completed orders (historical sales lookup) |
+| `/ws/orders?state=4` | GET | Delivered orders (historical sales lookup) |
 
 **Headers required on ALL calls:**
 ```

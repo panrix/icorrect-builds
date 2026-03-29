@@ -14,6 +14,8 @@
  *
  * Usage:
  *   node buy-box-check.js                          # Check only
+ *   node buy-box-check.js --dry-run                # Check one/all listings with no live mutations or Telegram
+ *   node buy-box-check.js --listing-id 1234567     # Restrict to one BM listing_id
  *   node buy-box-check.js --auto-bump              # Check + apply profitable bumps
  *   node buy-box-check.js --compare-profitability   # Show real vs estimated side-by-side
  */
@@ -21,6 +23,9 @@
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const path = require('path');
+const {
+  launchBatchBrowser, closeBatchBrowser, scrapeWithContext,
+} = require('./lib/v7-scraper');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -38,14 +43,22 @@ const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 
 const PROFITABILITY_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'buyback-profitability-lookup.json');
+const BM_CATALOG_PATH = path.join(__dirname, '..', 'data', 'bm-catalog.json');
 
 const autoBump = process.argv.includes('--auto-bump');
+const dryRun = process.argv.includes('--dry-run');
 const recalcCosts = process.argv.includes('--recalc');
 const parallelCompare = process.argv.includes('--compare-profitability');
+const noScrape = process.argv.includes('--no-scrape');
+const listingIdFilter = (() => {
+  const idx = process.argv.indexOf('--listing-id');
+  return idx >= 0 ? process.argv[idx + 1] : null;
+})();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ─── Profitability lookup (real data) ────────────────────────────
 let _profLookup = null;
+let _bmCatalog = null;
 function loadProfitabilityLookup() {
   if (_profLookup !== null) return _profLookup;
   try {
@@ -57,6 +70,42 @@ function loadProfitabilityLookup() {
     console.log('  No profitability lookup found — using Monday cost data only');
   }
   return _profLookup;
+}
+
+function loadBmCatalog() {
+  if (_bmCatalog !== null) return _bmCatalog;
+  try {
+    const raw = JSON.parse(fs.readFileSync(BM_CATALOG_PATH, 'utf8'));
+    _bmCatalog = raw.variants || {};
+    console.log(`  Loaded BM catalog: ${Object.keys(_bmCatalog).length} variants`);
+  } catch {
+    _bmCatalog = {};
+    console.log('  No BM catalog found — live variant verification disabled');
+  }
+  return _bmCatalog;
+}
+
+function normalizeColour(colour) {
+  if (!colour) return '';
+  const c = String(colour).trim().toLowerCase();
+  if (['space gray', 'space grey', 'grey', 'gray'].includes(c)) return 'space gray';
+  if (c === 'space black') return 'space black';
+  if (c === 'black') return 'black';
+  if (c === 'silver') return 'silver';
+  if (c === 'gold') return 'gold';
+  if (c === 'midnight') return 'midnight';
+  if (c === 'starlight') return 'starlight';
+  if (c === 'rose gold') return 'rose gold';
+  return c.replace(/\s+/g, ' ');
+}
+
+function mapFinalGradeToBmGrade(grade) {
+  if (!grade) return '';
+  const g = String(grade).trim().toLowerCase();
+  if (g === 'grade a' || g === 'very good' || g === 'excellent' || g === 'a') return 'VERY_GOOD';
+  if (g === 'grade b' || g === 'good' || g === 'b') return 'GOOD';
+  if (g === 'grade c' || g === 'fair' || g === 'c') return 'FAIR';
+  return '';
 }
 
 /**
@@ -202,6 +251,10 @@ async function mondayApi(query) {
 }
 
 async function postTelegram(msg) {
+  if (dryRun) {
+    console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 150)}...`);
+    return;
+  }
   try {
     await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: 'POST',
@@ -299,6 +352,111 @@ async function getDateListed(mainItemId) {
   return new Date(text);
 }
 
+async function getMainItemContext(mainItemId) {
+  if (!mainItemId) return null;
+  const q = `{ items(ids:[${mainItemId}]) { column_values(ids:["status24","date_mkq385pa","status8","status_2_Mjj4GJNQ"]) { id text ... on StatusValue { index } } } }`;
+  const d = await mondayApi(q);
+  const cols = d.data?.items?.[0]?.column_values || [];
+  const dateText = cols.find(c => c.id === 'date_mkq385pa')?.text || '';
+  return {
+    statusIdx: cols.find(c => c.id === 'status24')?.index,
+    statusText: cols.find(c => c.id === 'status24')?.text || '',
+    dateListed: dateText ? new Date(dateText) : null,
+    colour: cols.find(c => c.id === 'status8')?.text || '',
+    finalGrade: cols.find(c => c.id === 'status_2_Mjj4GJNQ')?.text || '',
+  };
+}
+
+function assessVariantIntegrity(listing, mainContext) {
+  const productId = String(listing.product_id || listing.product || listing.uuid || '').trim();
+  const catalog = loadBmCatalog();
+  const variant = catalog[productId];
+  if (!productId) {
+    return { ok: false, reason: 'live listing missing product_id', severity: 'critical' };
+  }
+  if (!variant) {
+    return { ok: false, reason: `product_id ${productId} not found in bm-catalog.json`, severity: 'critical', productId };
+  }
+  if (variant.verification_status !== 'verified') {
+    return {
+      ok: false,
+      reason: `catalog variant not verified (${variant.verification_status || 'unknown'})`,
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+
+  const expectedColour = normalizeColour(mainContext?.colour);
+  const catalogColour = normalizeColour(variant.colour);
+  if (!expectedColour) {
+    return {
+      ok: false,
+      reason: `main-board colour missing; catalog says ${variant.colour || 'blank'}`,
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+  if (!catalogColour) {
+    return {
+      ok: false,
+      reason: 'catalog colour missing',
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+  if (expectedColour !== catalogColour) {
+    return {
+      ok: false,
+      reason: `colour mismatch: Monday="${mainContext.colour}" vs catalog="${variant.colour}"`,
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+
+  const expectedGrade = mapFinalGradeToBmGrade(mainContext?.finalGrade);
+  const liveGrade = normaliseGrade(listing.grade);
+  if (!expectedGrade) {
+    return {
+      ok: false,
+      reason: `main-board final grade missing/unmapped (${mainContext?.finalGrade || 'blank'})`,
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+  if (!liveGrade) {
+    return {
+      ok: false,
+      reason: 'live listing grade missing/unmapped',
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+  if (expectedGrade !== liveGrade) {
+    return {
+      ok: false,
+      reason: `grade mismatch: Monday="${mainContext.finalGrade}" -> ${expectedGrade} vs live="${liveGrade}"`,
+      severity: 'critical',
+      productId,
+      variant,
+    };
+  }
+
+  return {
+    ok: true,
+    productId,
+    variant,
+    expectedColour: mainContext.colour,
+    expectedGrade: expectedGrade,
+    liveGrade,
+  };
+}
+
 // ─── Profitability calculation ────────────────────────────────────
 function calcProfit(price, totalFixedCost, purchasePrice) {
   const minPrice = Math.ceil(price * MIN_PRICE_FACTOR);
@@ -392,138 +550,113 @@ function getGradePricesForListing(listing) {
 }
 
 // ─── Format card ──────────────────────────────────────────────────
-function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource, realProf) {
+function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource, realProf, variantCheck) {
   const r = n => typeof n === 'number' ? n.toFixed(2) : n;
   const lines = [];
+  const currentPrice = parseFloat(listing.price);
+  const daysListed = dateListed ? Math.floor((Date.now() - dateListed.getTime()) / (1000 * 60 * 60 * 24)) : null;
 
-  // Header: title + SKU
-  lines.push(`${listing.listing_id} ${listing.title}`);
-  lines.push(`SKU      ${listing.sku}`);
-  lines.push('');
+  // Market line (used in all card types)
+  const marketLine = gradePrices
+    ? `Market:  Fair £${gradePrices.Fair || 'N/A'} | Good £${gradePrices.Good || 'N/A'} | Excellent £${gradePrices.Excellent || 'N/A'}`
+    : 'Market:  N/A';
 
-  // Buy box status
-  if (buyBox.error) {
-    lines.push(`Buy Box  ⚠️ Error: ${buyBox.error}`);
-  } else if (buyBox.isWinning) {
-    lines.push(`Buy Box  ✅ WINNING @ £${parseFloat(listing.price).toFixed(0)}`);
-  } else {
-    const ptw = buyBox.priceToWin ? `£${buyBox.priceToWin.toFixed(0)}` : '?';
-    lines.push(`Buy Box  ❌ LOSING`);
-    lines.push(`Current  £${parseFloat(listing.price).toFixed(0)} | Win@ ${ptw}`);
-  }
-
-  // Grade prices + ladder check
-  if (gradePrices) {
-    const gradeMap = { 'FAIR': 'F', 'GOOD': 'G', 'VERY_GOOD': 'E' };
-    const bmGrade = listing.grade;
-    const parts = [];
-    for (const [g, p] of Object.entries(gradePrices)) {
-      const label = g[0]; // F, G, E
-      const marker = (g === 'Fair' && bmGrade === 'FAIR') || (g === 'Good' && bmGrade === 'GOOD') || (g === 'Excellent' && bmGrade === 'VERY_GOOD') ? ' ←' : '';
-      parts.push(`${label}:£${p}${marker}`);
-    }
-    const sourceTag = gradeSource === 'approximate (model-level)' ? '  ⚠️ approx' : '';
-    lines.push(`Grades   ${parts.join('  ')}${sourceTag}`);
-
-    // Ladder check
-    const gp = gradePrices;
-    if (gp.Fair && gp.Good && gp.Excellent) {
-      if (gp.Fair < gp.Good && gp.Good < gp.Excellent) {
-        lines.push(`Ladder   ✅ F < G < E (gaps: £${gp.Good - gp.Fair}, £${gp.Excellent - gp.Good})`);
-      } else {
-        const issues = [];
-        if (gp.Fair >= gp.Good) issues.push(`F:£${gp.Fair} ≥ G:£${gp.Good}`);
-        if (gp.Good >= gp.Excellent) issues.push(`G:£${gp.Good} ≥ E:£${gp.Excellent}`);
-        lines.push(`Ladder   ⛔ INVERTED (${issues.join(', ')})`);
-      }
-    }
-  }
-
-  lines.push('');
-
-  // Costs + profitability
-  if (costData && costData.totalFixedCost) {
-    const currentPrice = parseFloat(listing.price);
-    const atCurrent = calcProfit(currentPrice, costData.totalFixedCost, costData.purchasePrice);
-
-    lines.push(`Costs    Fixed £${Math.round(costData.totalFixedCost)} | Purchase £${Math.round(costData.purchasePrice)}`);
-    lines.push(`Fees     Sell £${r(atCurrent.sellFee)} | VAT £${r(atCurrent.vat)}`);
-    lines.push(`B/E      £${atCurrent.breakEven}`);
-
-    if (buyBox.isWinning || !buyBox.priceToWin) {
-      lines.push(`Net      £${r(atCurrent.net)} | Margin ${atCurrent.margin}%`);
-    } else {
-      // Show both current and win price
-      const atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
-      lines.push(`@ Current £${currentPrice.toFixed(0)}:  Net £${r(atCurrent.net)}  Margin ${atCurrent.margin}%`);
-      lines.push(`@ Win     £${buyBox.priceToWin.toFixed(0)}:    Net £${r(atWin.net)}  Margin ${atWin.margin}%`);
-    }
-  } else {
-    lines.push(`Costs    ⚠️ No cost data in Monday`);
-  }
-
-  // Real profitability data comparison
-  if (realProf) {
-    const rp = realProf.data;
-    lines.push('');
-    const labourStr = rp.avgLabourHours != null ? `${rp.avgLabourHours.toFixed(1)}h (£${rp.avgLabourCost.toFixed(0)})` : `£${rp.avgLabourCost.toFixed(0)}`;
-    lines.push(`Real     [${rp.sampleSize} sales] AvgSell £${rp.avgSellPrice.toFixed(0)} | Parts £${rp.avgPartsCost.toFixed(0)} | Labour ${labourStr} | Profit £${rp.avgNetProfit.toFixed(0)} (${rp.avgMargin.toFixed(1)}%)`);
+  // ─── Card type: Winning ───
+  if (buyBox.isWinning) {
+    let netStr = 'N/A';
+    let marginStr = 'N/A';
     if (costData?.totalFixedCost) {
-      // Compare real vs Monday stored cost
-      const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
-      const mondayFixed = costData.totalFixedCost;
-      const delta = Math.round(realFixed - mondayFixed);
-      const deltaSign = delta >= 0 ? '+' : '';
-      if (Math.abs(delta) > 20) {
-        lines.push(`Delta    ⚠️ Real avg fixed £${Math.round(realFixed)} vs Monday £${Math.round(mondayFixed)} (${deltaSign}£${delta})`);
-      } else {
-        lines.push(`Delta    Real avg fixed £${Math.round(realFixed)} vs Monday £${Math.round(mondayFixed)} (${deltaSign}£${delta})`);
-      }
+      const atCurrent = calcProfit(currentPrice, costData.totalFixedCost, costData.purchasePrice);
+      netStr = `£${r(atCurrent.net)}`;
+      marginStr = `${atCurrent.margin}%`;
     }
-  } else if (Object.keys(loadProfitabilityLookup()).length > 0) {
-    lines.push(`Real     ⚠️ ESTIMATE — no real data for this model+grade`);
+    lines.push(`✅ Winning: ${listing.title}`);
+    lines.push(`BM#: ${listing.listing_id} | Price: £${currentPrice.toFixed(0)} | Net: ${netStr} (${marginStr})`);
+    lines.push(marketLine);
+
+  // ─── Card type: Not winning ───
+  } else if (buyBox.priceToWin) {
+    let atWin = null;
+    let atCurrent = null;
+    let canWin = false;
+    let action = 'No change. Monitor.';
+
+    if (costData?.totalFixedCost) {
+      atCurrent = calcProfit(currentPrice, costData.totalFixedCost, costData.purchasePrice);
+      atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
+      canWin = atWin.net > 0 && parseFloat(atWin.margin) >= 15;
+    }
+
+    if (canWin) {
+      // Bump eligible
+      const tier = parseFloat(atWin.margin) >= 30 ? '30%+' : '15-30%';
+      action = `Bump eligible (${tier} tier) — flagged for review`;
+      lines.push(`⚠️ Not winning: ${listing.title}`);
+    } else {
+      // Cannot win profitably
+      lines.push(`🚫 Cannot win profitably: ${listing.title}`);
+    }
+
+    lines.push(`BM#: ${listing.listing_id} | Listed: ${daysListed != null ? `${daysListed} days` : 'N/A'}`);
+    lines.push(`Our price: £${currentPrice.toFixed(0)} | Buy box: £${buyBox.priceToWin.toFixed(0)}`);
+    lines.push('');
+    lines.push(marketLine);
+
+    if (canWin) {
+      lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%) | Net@current: £${r(atCurrent.net)} (${atCurrent.margin}%)`);
+    } else if (atWin) {
+      if (parseFloat(atWin.margin) < 15 && atWin.net > 0) {
+        lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%) — below 15% floor`);
+      } else {
+        lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%)`);
+      }
+      if (costData?.totalFixedCost) {
+        const be = calcProfit(0, costData.totalFixedCost, costData.purchasePrice);
+        lines.push(`Break-even price: £${be.breakEven}`);
+      } else {
+        lines.push(`Break-even price: N/A`);
+      }
+    } else {
+      lines.push(`Net@win: N/A (no cost data)`);
+      lines.push(`Break-even price: N/A`);
+    }
+
+    lines.push('');
+    lines.push(`Action: ${action}`);
+
+  // ─── Card type: Error / no price-to-win ───
+  } else {
+    lines.push(`⚠️ ${listing.title}`);
+    lines.push(`BM#: ${listing.listing_id} | Price: £${currentPrice.toFixed(0)}`);
+    if (buyBox.error) {
+      lines.push(`Buy box: Error — ${buyBox.error}`);
+    } else {
+      lines.push(`Buy box: No price-to-win data`);
+    }
+    lines.push(marketLine);
   }
 
-  // Age
-  if (dateListed) {
-    const daysListed = Math.floor((Date.now() - dateListed.getTime()) / (1000 * 60 * 60 * 24));
-    lines.push(`Listed   ${daysListed} day${daysListed !== 1 ? 's' : ''}`);
-  }
-
-  // Status
+  // ─── Statuses (for summary processing) ───
   const statuses = [];
 
-  // Buy box status
+  if (variantCheck && !variantCheck.ok) {
+    statuses.push(`⛔ Variant mismatch: ${variantCheck.reason}`);
+  }
+
   if (buyBox.error) {
     statuses.push('⚠️ API error');
   } else if (buyBox.isWinning) {
     statuses.push('✅ Winning');
-  } else if (buyBox.priceToWin) {
-    // Prefer real profitability data for margin assessment
-    let atWin = null;
-    let src = '';
-    if (realProf?.data && (realProf.data.hasCostData || realProf.data.sampleSize >= 3)) {
-      const rp = realProf.data;
-      const realFixed = rp.avgPurchasePrice + rp.avgPartsCost + rp.avgLabourCost + 15 + (rp.avgPurchasePrice * 0.10);
-      atWin = calcProfit(buyBox.priceToWin, realFixed, rp.avgPurchasePrice);
-      src = ' [real]';
-    } else if (costData?.totalFixedCost) {
-      atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
-    }
-    if (atWin) {
-      if (atWin.net < 0) {
-        statuses.push(`⛔ Cannot win profitably (loss £${Math.abs(atWin.net).toFixed(0)} at win price)${src}`);
-      } else if (atWin.margin < 15) {
-        statuses.push(`⛔ Cannot win profitably (${atWin.margin}% < 15%)${src}`);
-      } else if (atWin.margin < 30) {
-        statuses.push(`⚠️ Can win at ${atWin.margin}% margin${src}`);
-      } else {
-        statuses.push(`✅ Can win at ${atWin.margin}% margin${src}`);
-      }
+  } else if (buyBox.priceToWin && costData?.totalFixedCost) {
+    const atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
+    if (atWin.net < 0 || parseFloat(atWin.margin) < 15) {
+      statuses.push(`⛔ Cannot win profitably`);
+    } else if (parseFloat(atWin.margin) < 30) {
+      statuses.push(`⚠️ Can win at ${atWin.margin}% margin`);
     } else {
-      statuses.push('⚠️ Missing cost data');
+      statuses.push(`✅ Can win at ${atWin.margin}% margin`);
     }
-  } else if (!costData?.totalFixedCost && !realProf?.data) {
+  } else if (!costData?.totalFixedCost) {
     statuses.push('⚠️ Missing cost data');
   }
 
@@ -534,11 +667,9 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       if (gp.Good >= gp.Excellent) statuses.push('⛔ Grade inversion: Good ≥ Excellent');
       if (gp.Fair >= gp.Good) statuses.push('⛔ Grade inversion: Fair ≥ Good');
     }
-    // Check if our grade is above a better grade
-    // Only flag when using spec-specific prices, not approximate model-level
     if (gradeSource !== 'approximate (model-level)') {
       const bmGrade = listing.grade;
-      const ourPrice = parseFloat(listing.price);
+      const ourPrice = currentPrice;
       if (bmGrade === 'GOOD' && gp.Excellent && ourPrice > gp.Excellent) {
         statuses.push(`⛔ Won't sell: Good (£${ourPrice.toFixed(0)}) > Excellent (£${gp.Excellent})`);
       }
@@ -549,8 +680,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   }
 
   // Age escalation
-  if (dateListed) {
-    const daysListed = Math.floor((Date.now() - dateListed.getTime()) / (1000 * 60 * 60 * 24));
+  if (daysListed != null) {
     if (daysListed >= 21 && !buyBox.isWinning) {
       statuses.push(`🔴 ${daysListed} days listed, consider delisting`);
     } else if (daysListed >= 15 && !buyBox.isWinning) {
@@ -560,21 +690,23 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     }
   }
 
-  lines.push(`Status   ${statuses.join('\n         ')}`);
-
   return { lines: lines.join('\n'), statuses, buyBox, costData };
 }
 
 // ─── Main ─────────────────────────────────────────────────────────
 (async () => {
   console.log('═'.repeat(60));
-  console.log(`  Buy Box Check — ${autoBump ? 'AUTO-BUMP' : 'CHECK ONLY'}`);
+  console.log(`  Buy Box Check — ${dryRun ? 'DRY RUN' : (autoBump ? 'AUTO-BUMP' : 'CHECK ONLY')}`);
   console.log(`  ${new Date().toISOString()}`);
   console.log('═'.repeat(60));
 
   // Step 1
   console.log('\nFetching active listings...');
-  const listings = await getActiveListings();
+  let listings = await getActiveListings();
+  if (listingIdFilter) {
+    listings = listings.filter(l => String(l.listing_id) === String(listingIdFilter));
+    console.log(`  Filtered to listing_id ${listingIdFilter}`);
+  }
   console.log(`  ${listings.length} active listings found\n`);
 
   if (listings.length === 0) {
@@ -589,6 +721,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     bumped: 0,
     unprofitable: 0,
     inversions: 0,
+    variantMismatch: 0,
     missingCost: 0,
     stale: 0,
     errors: 0,
@@ -596,6 +729,40 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
 
   const allCards = [];
   const alerts = [];
+
+  // ─── Live grade ladder scrape (per unique product_id) ──────────
+  const liveScrapeCache = {};
+  if (!noScrape) {
+    const uniqueProductIds = [...new Set(listings.map(l => l.product_id).filter(Boolean))];
+    if (uniqueProductIds.length > 0) {
+      console.log(`\nScraping grade ladders for ${uniqueProductIds.length} unique product(s)...`);
+      let batchSession = null;
+      try {
+        batchSession = await launchBatchBrowser();
+        for (const pid of uniqueProductIds) {
+          try {
+            const result = await Promise.race([
+              scrapeWithContext(batchSession.context, pid),
+              new Promise((_, reject) => setTimeout(() => reject(new Error('scrape_timeout')), 15000)),
+            ]);
+            liveScrapeCache[pid] = result;
+            console.log(`  ${pid}: ${result.ok ? `F:£${result.gradePrices?.Fair || '?'} G:£${result.gradePrices?.Good || '?'} E:£${result.gradePrices?.Excellent || '?'}` : `failed (${result.error})`}`);
+          } catch (e) {
+            liveScrapeCache[pid] = { ok: false, error: e.message, gradePrices: {} };
+            console.log(`  ${pid}: scrape failed (${e.message})`);
+          }
+          await sleep(250); // 200-300ms delay between scrapes
+        }
+      } catch (e) {
+        console.log(`  Browser launch failed: ${e.message}. Falling back to cached data.`);
+      } finally {
+        if (batchSession) await closeBatchBrowser(batchSession);
+      }
+      console.log(`  Scraped ${Object.keys(liveScrapeCache).length} product(s)\n`);
+    }
+  } else {
+    console.log('\n--no-scrape: skipping product page scrapes\n');
+  }
 
   for (const listing of listings) {
     const lid = listing.listing_id;
@@ -617,16 +784,24 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     const costData = await getCostData(String(lid));
     if (!costData?.totalFixedCost) summary.missingCost++;
 
-    // Step 7: Date listed
-    let dateListed = null;
-    if (costData?.mainItemId) {
-      dateListed = await getDateListed(costData.mainItemId);
-    }
+    // Main item context
+    const mainContext = costData?.mainItemId
+      ? await getMainItemContext(costData.mainItemId)
+      : null;
+    const dateListed = mainContext?.dateListed || null;
 
-    // Step 8: Grade prices
-    const gradeResult = getGradePricesForListing(listing);
-    const gradePrices = gradeResult?.grades || null;
-    const gradeSource = gradeResult?.source || null;
+    // Step 8: Grade prices — prefer live scrape, fall back to stale file
+    let gradePrices = null;
+    let gradeSource = null;
+    const liveScrape = liveScrapeCache[listing.product_id];
+    if (liveScrape?.ok && Object.keys(liveScrape.gradePrices || {}).length > 0) {
+      gradePrices = liveScrape.gradePrices;
+      gradeSource = 'live product page scrape';
+    } else {
+      const gradeResult = getGradePricesForListing(listing);
+      gradePrices = gradeResult?.grades || null;
+      gradeSource = gradeResult?.source || null;
+    }
     if (gradePrices) {
       const gp = gradePrices;
       if ((gp.Fair && gp.Good && gp.Fair >= gp.Good) || (gp.Good && gp.Excellent && gp.Good >= gp.Excellent)) {
@@ -640,27 +815,56 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       if (days >= 21) summary.stale++;
     }
 
+    // Live variant integrity verification
+    const variantCheck = assessVariantIntegrity(listing, mainContext);
+    let variantIssue = null;
+    let offlinedForVariant = false;
+    if (!variantCheck.ok) {
+      variantIssue = `⛔ VARIANT MISMATCH: ${variantCheck.reason}`;
+      summary.variantMismatch++;
+      if (dryRun) {
+        variantIssue += ' → WOULD AUTO-OFFLINE';
+        alerts.push(`⛔ WOULD AUTO-OFFLINE ${listing.sku}: ${variantCheck.reason}`);
+      } else {
+        try {
+          await bmApi(`/ws/listings/${lid}`, { method: 'POST', body: { quantity: 0 } });
+          offlinedForVariant = true;
+          variantIssue += ' → AUTO-OFFLINED';
+          alerts.push(`⛔ AUTO-OFFLINED ${listing.sku}: ${variantCheck.reason}`);
+        } catch (e) {
+          console.error(`  ❌ Failed to offline variant-mismatch listing ${lid}: ${e.message}`);
+          alerts.push(`⛔ VARIANT MISMATCH ${listing.sku}: ${variantCheck.reason} (offline failed)`);
+        }
+      }
+    }
+
     // Step 9: Qty verification
     let qtyIssue = null;
-    if (costData?.mainItemId) {
-      const qtyQ = `{ items(ids:[${costData.mainItemId}]) { column_values(ids:["status24"]) { ... on StatusValue { text index } } } }`;
-      const qtyR = await mondayApi(qtyQ);
-      const statusVal = qtyR.data?.items?.[0]?.column_values?.[0];
-      const statusText = statusVal?.text || '';
-      const statusIdx = statusVal?.index;
+    if (mainContext) {
+      const statusText = mainContext.statusText || '';
+      const statusIdx = mainContext.statusIdx;
       
       // Listed = 7, Sold = 10, Shipped = ?, Unlisted = 104
       if (statusIdx !== 7 && statusIdx !== undefined) {
         qtyIssue = `⛔ QTY MISMATCH: BM listing active (qty=${listing.quantity}) but Monday status="${statusText}" (not Listed). Oversell risk!`;
         summary.qtyMismatch = (summary.qtyMismatch || 0) + 1;
         // Auto-offline: set qty=0 to prevent oversell
-        try {
-          await bmApi(`/ws/listings/${lid}`, { method: 'POST', body: { quantity: 0 } });
-          console.log(`  ⛔ AUTO-OFFLINE: listing ${lid} taken offline (Monday status="${statusText}")`);
-          qtyIssue += ' → AUTO-OFFLINED';
-          alerts.push(`⛔ AUTO-OFFLINED ${listing.sku}: listing ${lid} active but Monday="${statusText}"`);
-        } catch (e) {
-          console.error(`  ❌ Failed to offline listing ${lid}: ${e.message}`);
+        if (!offlinedForVariant) {
+          if (dryRun) {
+            qtyIssue += ' → WOULD AUTO-OFFLINE';
+            alerts.push(`⛔ WOULD AUTO-OFFLINE ${listing.sku}: listing ${lid} active but Monday="${statusText}"`);
+          } else {
+            try {
+              await bmApi(`/ws/listings/${lid}`, { method: 'POST', body: { quantity: 0 } });
+              console.log(`  ⛔ AUTO-OFFLINE: listing ${lid} taken offline (Monday status="${statusText}")`);
+              qtyIssue += ' → AUTO-OFFLINED';
+              alerts.push(`⛔ AUTO-OFFLINED ${listing.sku}: listing ${lid} active but Monday="${statusText}"`);
+            } catch (e) {
+              console.error(`  ❌ Failed to offline listing ${lid}: ${e.message}`);
+            }
+          }
+        } else {
+          qtyIssue += ' → ALREADY OFFLINED';
         }
       }
     }
@@ -669,7 +873,11 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     const realProf = lookupRealProfitability(listing);
 
     // Format card
-    const card = formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource, realProf);
+    const card = formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSource, realProf, variantCheck);
+    if (variantIssue) {
+      card.lines += '\n         ' + variantIssue;
+      card.statuses.push(variantIssue);
+    }
     if (qtyIssue) {
       card.lines += '\n         ' + qtyIssue;
       card.statuses.push(qtyIssue);
@@ -678,7 +886,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     console.log('\n' + card.lines + '\n');
 
     // Step 6: Auto-bump if enabled
-    if (autoBump && !buyBox.isWinning && buyBox.priceToWin) {
+    if (!dryRun && autoBump && variantCheck.ok && !buyBox.isWinning && buyBox.priceToWin) {
       // Use real profitability data when available (more accurate than Monday's single-item costs)
       let marginOk = false;
       let marginSource = '';
@@ -749,6 +957,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   console.log(`  Bumped:      ${summary.bumped}`);
   console.log(`  Unprofitable:${summary.unprofitable}`);
   console.log(`  Inversions:  ${summary.inversions}`);
+  console.log(`  Variant mm:  ${summary.variantMismatch}`);
   console.log(`  Missing cost:${summary.missingCost}`);
   console.log(`  Stale (21d+):${summary.stale}`);
   console.log(`  Qty mismatch:${summary.qtyMismatch || 0}`);
@@ -788,6 +997,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   if (summary.bumped > 0) tgLines.push(`✅ Bumped: ${summary.bumped}`);
   if (summary.unprofitable > 0) tgLines.push(`⛔ Unprofitable: ${summary.unprofitable}`);
   if (summary.inversions > 0) tgLines.push(`⛔ Grade inversions: ${summary.inversions}`);
+  if (summary.variantMismatch > 0) tgLines.push(`⛔ Variant mismatches: ${summary.variantMismatch}`);
   if (summary.missingCost > 0) tgLines.push(`⚠️ Missing cost data: ${summary.missingCost}`);
   if ((summary.qtyMismatch || 0) > 0) tgLines.push(`⛔ Qty mismatch (offlined): ${summary.qtyMismatch}`);
   if (summary.stale > 0) tgLines.push(`🔴 Stale 21d+: ${summary.stale}`);

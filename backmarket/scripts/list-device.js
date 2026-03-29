@@ -18,12 +18,14 @@ require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const path = require('path');
 const { mondayQuery, BOARDS, COLUMNS } = require('./lib/monday');
-const { BM_API_HEADERS } = require('./lib/bm-api');
+const { BM_API_HEADERS, fetchSalesHistory } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
-const { chromium } = require('/home/ricky/builds/buyback-monitor/node_modules/playwright-extra');
-const StealthPlugin = require('/home/ricky/builds/buyback-monitor/node_modules/puppeteer-extra-plugin-stealth');
-
-chromium.use(StealthPlugin());
+const {
+  resolveNuxt, extractNuxtPrice, categorisePickerLabel,
+  findNuxtPickers, extractNuxtDataCategories,
+  createStealthContext, extractNuxtDataFromPage, isCloudflareBlocked,
+  scrapeSingleProduct, scrapeWithFallback,
+} = require('./lib/v7-scraper');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -722,194 +724,8 @@ function loadScraperData() {
   return JSON.parse(raw);
 }
 
-function resolveNuxt(arr, idx) {
-  if (typeof idx === 'number' && idx >= 0 && idx < arr.length) {
-    const val = arr[idx];
-    if (val === 17) return null;
-    return val;
-  }
-  return idx;
-}
-
-function extractNuxtPrice(arr, picker) {
-  const priceRef = picker.price;
-  if (priceRef === undefined || priceRef === null) return null;
-  const priceObj = resolveNuxt(arr, priceRef);
-  if (!priceObj || typeof priceObj !== 'object') return null;
-  const amount = resolveNuxt(arr, priceObj.amount);
-  if (amount === null || amount === undefined) return null;
-  return typeof amount === 'number' ? amount : parseFloat(amount) || null;
-}
-
-function categorisePickerLabel(label) {
-  if (!label || typeof label !== 'string') return null;
-  const trimmed = label.trim();
-  if (/QWERTY|AZERTY/i.test(trimmed)) return 'keyboard';
-  if (['Fair', 'Good', 'Excellent', 'Premium'].includes(trimmed)) return 'grade';
-  if (['Space Gray', 'Space Grey', 'Grey', 'Gray', 'Silver', 'Gold', 'Midnight', 'Starlight', 'Black', 'Space Black', 'Blue', 'Green', 'Purple', 'Red', 'Pink', 'Yellow', 'White'].includes(trimmed)) return 'colour';
-  if (/M[1-4]/i.test(trimmed) && /core/i.test(trimmed)) return 'cpu_gpu';
-  const gbMatch = trimmed.match(/^(\d+)\s*GB$/i);
-  if (gbMatch) {
-    const val = parseInt(gbMatch[1], 10);
-    if (val >= 128) return 'ssd';
-    return 'ram';
-  }
-  if (/^\d+\s*TB$/i.test(trimmed)) return 'ssd';
-  return 'unknown';
-}
-
-function findNuxtPickers(arr) {
-  const pickers = [];
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    if (!item || typeof item !== 'object' || Array.isArray(item)) continue;
-    if ('label' in item && 'price' in item && 'available' in item) {
-      pickers.push(item);
-    }
-  }
-  return pickers;
-}
-
-function extractNuxtDataCategories(arr) {
-  const categorised = {
-    gradePrices: {},
-    ramPicker: {},
-    ssdPicker: {},
-    colourPicker: {},
-    cpuGpuPicker: {},
-  };
-
-  for (const raw of findNuxtPickers(arr)) {
-    const label = resolveNuxt(arr, raw.label);
-    const available = resolveNuxt(arr, raw.available);
-    const productId = resolveNuxt(arr, raw.productId || raw.product_id);
-    const price = extractNuxtPrice(arr, raw);
-    if (!label || typeof label !== 'string') continue;
-
-    const entry = {
-      price,
-      available: available === true || available === 'true',
-    };
-    if (productId) entry.productId = productId;
-
-    const category = categorisePickerLabel(label);
-    if (category === 'grade') {
-      categorised.gradePrices[label] = entry.price;
-    } else if (category === 'ram') {
-      categorised.ramPicker[label] = entry;
-    } else if (category === 'ssd') {
-      categorised.ssdPicker[label] = entry;
-    } else if (category === 'colour') {
-      categorised.colourPicker[label] = entry;
-    } else if (category === 'cpu_gpu') {
-      categorised.cpuGpuPicker[label] = entry;
-    }
-  }
-
-  return categorised;
-}
-
-async function createStealthContext(browser) {
-  const context = await browser.newContext({
-    locale: 'en-GB',
-    timezoneId: 'Europe/London',
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
-    viewport: { width: 1440, height: 900 },
-  });
-  const warmPage = await context.newPage();
-  try {
-    await warmPage.goto('https://www.backmarket.co.uk/en-gb', { waitUntil: 'domcontentloaded', timeout: 10000 });
-    await warmPage.waitForTimeout(3500);
-  } catch (_) {
-    // best-effort cookie warmup only
-  }
-  await warmPage.close();
-  return context;
-}
-
-async function extractNuxtDataFromPage(page) {
-  return await page.evaluate(() => {
-    const scripts = document.querySelectorAll('script#__NUXT_DATA__');
-    for (const script of scripts) {
-      try {
-        const data = JSON.parse(script.textContent);
-        if (Array.isArray(data)) return data;
-      } catch (_) {}
-    }
-    return null;
-  });
-}
-
-async function isCloudflareBlocked(page) {
-  return await page.evaluate(() => {
-    const body = document.body ? document.body.innerText : '';
-    return body.includes('Checking your browser') ||
-      body.includes('Just a moment') ||
-      body.includes('cf-browser-verification') ||
-      document.title.includes('Just a moment');
-  });
-}
-
-async function scrapeLiveMarketData(productId) {
-  const url = `${BM_BASE}/en-gb/p/placeholder/${productId}?l=10`;
-  let browser;
-  let context;
-  try {
-    browser = await chromium.launch({
-      headless: true,
-      args: [
-        '--no-sandbox',
-        '--disable-setuid-sandbox',
-        '--disable-dev-shm-usage',
-        '--disable-blink-features=AutomationControlled',
-      ],
-    });
-    context = await createStealthContext(browser);
-    const page = await context.newPage();
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
-    await page.waitForTimeout(2500);
-
-    if (await isCloudflareBlocked(page)) {
-      throw new Error('cloudflare_blocked');
-    }
-
-    const nuxtData = await extractNuxtDataFromPage(page);
-    if (!nuxtData) {
-      throw new Error('no_nuxt_data');
-    }
-    const extracted = extractNuxtDataCategories(nuxtData);
-    await page.close();
-    return {
-      ok: true,
-      source: 'live single-page scrape',
-      url,
-      ...extracted,
-    };
-  } finally {
-    try { if (context) await context.close(); } catch (_) {}
-    try { if (browser) await browser.close(); } catch (_) {}
-  }
-}
-
 async function getLiveMarketData(productId, catalogResult) {
-  try {
-    const scrape = await Promise.race([
-      scrapeLiveMarketData(productId),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('live_scrape_timeout')), LIVE_SCRAPE_TIMEOUT_MS)),
-    ]);
-    return scrape;
-  } catch (e) {
-    return {
-      ok: false,
-      source: 'catalog fallback',
-      error: e.message,
-      gradePrices: catalogResult?.gradePrices || {},
-      ramPicker: catalogResult?.ramPicker || {},
-      ssdPicker: catalogResult?.ssdPicker || {},
-      colourPicker: catalogResult?.colourPicker || {},
-      cpuGpuPicker: catalogResult?.cpuGpuPicker || {},
-    };
-  }
+  return scrapeWithFallback(productId, catalogResult, LIVE_SCRAPE_TIMEOUT_MS);
 }
 
 // ─── Path B: Create Fresh Listing ────────────────────────────────
@@ -1322,7 +1138,10 @@ function formatSummary(device) {
   // Market prices (today)
   const gradePrices = catalogResult?.gradePrices || {};
   if (Object.keys(gradePrices).length > 0) {
-    lines.push(`Market   ${Object.entries(gradePrices).map(([g, pr]) => `${g[0]}:£${pr}`).join('  ')} (today)`);
+    const marketParts = Object.entries(gradePrices).map(([g, pr]) => `${g} £${pr}`).join(' | ');
+    lines.push(`Market now:  ${marketParts}`);
+  } else {
+    lines.push(`Market now:  N/A`);
   }
 
   // Colour premium (if V6 has colour data)
@@ -1356,14 +1175,17 @@ function formatSummary(device) {
   }
 
   // Historical sales
-  if (historicalSales.count > 0) {
-    let salesLine = `Sales    avg £${r(historicalSales.avg)} (£${r(historicalSales.low)}-£${r(historicalSales.high)}) n=${historicalSales.count}`;
+  if (historicalSales && historicalSales.count > 0) {
+    const histParts = [`${historicalSales.count} sold @ avg £${historicalSales.avg}`];
+    if (historicalSales.median) histParts.push(`median £${historicalSales.median}`);
+    if (historicalSales.avgDaysToSell) histParts.push(`avg ${historicalSales.avgDaysToSell} days to sell`);
+    let salesLine = `Our history: ${histParts.join(' | ')}`;
     if (historicalSales.avg > p.proposed * 1.3) {
       salesLine += `\n         🔴 Historical avg significantly above market: prices have dropped`;
     }
     lines.push(salesLine);
   } else {
-    lines.push(`Sales    no data`);
+    lines.push(`Our history: N/A`);
   }
 
   lines.push('');
@@ -1585,11 +1407,19 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   const priceSource = marketPrice > 0 ? (liveMarket.ok ? marketGrade.source || liveMarket.source : marketGrade.source || liveMarket.source) : `floor × 1.5 (no live or catalog grade price)`;
   console.log(`  Proposed (for P&L): £${proposedPrice} (${priceSource})`);
 
-  // Historical sales (use orders cache — no listings search needed)
+  // Historical sales — query BM completed orders for same product_id + grade (last 90 days)
   console.log('[Step 6b] Looking up historical sales...');
-  const historicalSales = { count: 0, avg: 0, low: 0, high: 0, sales: [] };
-  // Historical sales are less relevant for clean-create flow (no existing listing IDs to match)
-  // Kept as placeholder for future enhancement if needed
+  let historicalSales = { count: 0, avg: 0, median: 0, low: 0, high: 0, sales: [] };
+  try {
+    historicalSales = await fetchSalesHistory(catalogResult.productId, grade.bmGrade, 90);
+    if (historicalSales.count > 0) {
+      console.log(`  Found ${historicalSales.count} sales: avg £${historicalSales.avg}, median £${historicalSales.median} (£${historicalSales.low}-£${historicalSales.high})`);
+    } else {
+      console.log('  No sales history (new model or no completed orders in 90 days)');
+    }
+  } catch (e) {
+    console.log(`  Sales history lookup failed: ${e.message}`);
+  }
 
   // Calculate profitability at proposed price
   console.log('[Step 6c] Calculating profitability at min_price...');
@@ -1852,12 +1682,27 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       await updateMonday(mainItemId, specs.bmDeviceId, newListingId, listingProductId, finalProfitability.totalFixedCost, sku);
       console.log('  Monday updated');
 
-      // Step 14: Telegram confirmation
+      // Step 14: Telegram confirmation (SOP 6 proposal card format)
+      const marketGradePrices = result.catalogResult?.gradePrices || {};
+      const marketLine = Object.keys(marketGradePrices).length > 0
+        ? Object.entries(marketGradePrices).map(([g, pr]) => `${g} £${pr}`).join(' | ')
+        : 'N/A';
+      const histSales = result.historicalSales || { count: 0 };
+      const histLine = histSales.count > 0
+        ? `${histSales.count} sold @ avg £${histSales.avg}${histSales.avgDaysToSell ? ` | avg ${histSales.avgDaysToSell} days to sell` : ''}`
+        : 'N/A';
+      const costBasis = Math.round(finalProfitability.totalFixedCost || 0);
       const tgMsg = [
-        `✅ Listed: ${grade.name} ${specs.ssd} ${specs.ram} ${grade.gradeText} ${specs.colour}`,
-        `Price: £${finalPrice} | Min: £${finalMinPrice} | Net@min: £${finalProfitability.net} (${finalProfitability.margin}%)`,
-        `Listing ID: ${newListingId} (${registrySlot ? 'REGISTRY' : 'PATH B'})`,
-        `Path: ${registrySlot ? 'Registry' : 'Path B'} (${finalPriceSource})`,
+        `✅ Listing proposal: ${grade.name} ${specs.ram}/${specs.ssd} ${specs.colour} ${grade.gradeText}`,
+        `BM#: ${newListingId} | Path: ${registrySlot ? 'Registry' : 'B'}`,
+        `Proposed price: £${finalPrice} | Min: £${finalMinPrice}`,
+        `Net@min: £${finalProfitability.net} (${finalProfitability.margin}%) | Cost basis: £${costBasis}`,
+        `  └ Purchase £${Math.round(specs.purchasePrice || 0)} + Parts £${Math.round(specs.partsCost || 0)} + Labour £${Math.round(finalProfitability.labourCost || 0)} + Ship £${SHIPPING_COST}`,
+        '',
+        `Market now:  ${marketLine}`,
+        `Our history: ${histLine}`,
+        '',
+        `Monday: #${grade.name} updated ✓`,
       ].join('\n');
       await postTelegram(tgMsg);
 
