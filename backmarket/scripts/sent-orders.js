@@ -26,6 +26,10 @@
  */
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
+const { execFileSync } = require('child_process');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -36,8 +40,10 @@ const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 
 const MAIN_BOARD = 349212843;
 const BM_DEVICES_BOARD = 3892194968;
+const DEVICE_LOOKUP_BOARD = 3923707691;
 const MAIN_BOARD_GROUP = 'new_group34198';       // "Incoming Future"
 const BM_DEVICES_GROUP = 'group_mkq3wkeq';      // "BM Trade-Ins"
+const DEVICE_LOOKUP_GROUP = 'new_group';
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 
@@ -46,6 +52,51 @@ const isLive = args.includes('--live');
 const isDryRun = !isLive;
 const specificOrders = args.filter(a => a.startsWith('--order=')).map(a => a.split('=')[1]);
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const STORAGE_NORMALIZATION = { '1000GB': '1TB', '2000GB': '2TB', '4000GB': '4TB' };
+const BATTERY_MAP = { Normal: 'Normal', 'Service recommended': 'Service', Service: 'Service' };
+const SCREEN_MAP = { Flawless: 'Excellent', 'Flawless appearance': 'Excellent', Good: 'Good', Used: 'Fair', Cracked: 'Damaged' };
+const CASING_MAP = { Flawless: 'Excellent', 'Flawless appearance': 'Excellent', Good: 'Good', Used: 'Fair', 'Broken sides and/or back': 'Damaged' };
+const FUNCTIONAL_MAP = { 'Product is functional': 'Functional', "Product isn't functional": 'Not Functional' };
+const BM_TO_DEVICE_MAP = {
+  'MacBook Air 13 (Late 2020)': 'MacBook Air 13 M1 A2337',
+  'MacBook Air 13 (Mid 2022)': 'MacBook Air 13 M2 A2681',
+  'MacBook Air 13 (Mid 2024)': 'MacBook Air 13 M3 A3113',
+  'MacBook Air 13 (Mid 2020)': 'MacBook Air 13 A2179',
+  'MacBook Air 13 (Mid 2018)': 'MacBook Air 13 A1932',
+  'MacBook Air 15 (Mid 2023)': 'MacBook Air 15 M2 A2941',
+  'MacBook Air 15 (Mid 2024)': 'MacBook Air 15 M3 A3114',
+  'MacBook Pro 13 (Late 2020)': 'MacBook Pro 13 M1 A2338',
+  'MacBook Pro 13 (Mid 2022)': 'MacBook Pro 13 M2 A2338',
+  'MacBook Pro 13 (Mid 2020)': 'MacBook Pro 13 2TB 3 A2289',
+  'MacBook Pro 13 (Mid 2019)': 'MacBook Pro 13 2TB 3 A2159',
+  'MacBook Pro 13 Touch Bar (Mid 2019)': 'MacBook Pro 13 Touch Bar A1989',
+  'MacBook Pro 13 Touch Bar (Mid 2018)': 'MacBook Pro 13 Touch Bar A1706',
+  'MacBook Pro 13 4TB (Mid 2020)': 'MacBook Pro 13 4TB 3 A2251',
+  'MacBook Pro 14 (Late 2021)': 'MacBook Pro 14 M1 Pro/Max A2442',
+  'MacBook Pro 14 (Early 2023)': 'MacBook Pro 14 M2 Pro/Max A2779',
+  'MacBook Pro 14 (Late 2023)': 'MacBook Pro 14 M3 A2918',
+  'MacBook Pro 14 (Mid 2024)': 'MacBook Pro 14 M3 A2992',
+  'MacBook Pro 14 (Late 2024)': 'MacBook Pro 14 M4 A3401',
+  'MacBook Pro 14 (Nov 2024)': 'MacBook Pro 14 M4 A3112',
+  'MacBook Pro 15 (Mid 2019)': 'MacBook Pro 15 A1990',
+  'MacBook Pro 15 (Mid 2018)': 'MacBook Pro 15 A1707',
+  'MacBook Pro 16 (Late 2019)': 'MacBook Pro 16 A2141',
+  'MacBook Pro 16 (Late 2021)': 'MacBook Pro 16 M1 Pro/Max A2485',
+  'MacBook Pro 16 (Early 2023)': 'MacBook Pro 16 M2 Pro/Max A2780',
+  'MacBook Pro 16 (Late 2023)': 'MacBook Pro 16 M3 Pro/Max A2991',
+  'MacBook 12 (Mid 2019)': 'MacBook 12 A1534',
+};
+const GPU_TO_CPU_MAP = {
+  'M1 Pro': { '14': '8-Core', '16': '10-Core' },
+  'M1 Max': { '24': '10-Core', '32': '10-Core' },
+  'M2 Pro': { '16': '10-Core', '19': '12-Core' },
+  'M2 Max': { '30': '12-Core', '38': '12-Core' },
+  'M3 Pro': { '14': '12-Core', '18': '12-Core' },
+  'M3 Max': { '30': '12-Core', '40': '12-Core' },
+  'M4 Pro': { '16': '12-Core', '20': '12-Core' },
+  'M4 Max': { '32': '12-Core', '40': '12-Core' },
+};
 
 // ─── API helpers ──────────────────────────────────────────────────
 async function bmApi(path) {
@@ -74,6 +125,111 @@ async function mondayApi(query) {
   const d = await r.json();
   if (d.errors) console.error('  Monday API error:', JSON.stringify(d.errors));
   return d;
+}
+
+function normalizeStorage(value) {
+  const raw = String(value || '').replace(/\s+/g, '').toUpperCase();
+  return STORAGE_NORMALIZATION[raw] || raw;
+}
+
+function escapeGraphQLString(value) {
+  return String(value || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"');
+}
+
+function parsePdfAssessments(pdfText, apiData) {
+  const cleanAssessment = value => String(value || '').replace(/\s{2,}.*$/, '').trim();
+  const nameMatch = pdfText.match(/I,\s+([^,]+),\s+agree to sell/i);
+  const customerName = nameMatch ? nameMatch[1].trim() : `${apiData.customer?.firstName || ''} ${apiData.customer?.lastName || ''}`.trim();
+  const deviceTitle = apiData.listing?.title || '';
+  const battery = cleanAssessment(pdfText.match(/^\s*Battery\s*-\s*(.+)$/im)?.[1] || '');
+  const screen = cleanAssessment(pdfText.match(/^\s*Screen\s*-\s*(.+)$/im)?.[1] || '');
+  const casing = cleanAssessment(pdfText.match(/^\s*Casing\s*-\s*(.+)$/im)?.[1] || '');
+  const functional = cleanAssessment(pdfText.match(/^\s*Functional\s*-\s*(.+)$/im)?.[1] || '');
+  return { customerName, deviceTitle, battery, screen, casing, functional };
+}
+
+async function extractPdfTextFromUrl(pdfUrl) {
+  if (!pdfUrl) return '';
+  const r = await fetch(pdfUrl, { headers: { 'User-Agent': BM_UA || 'Mozilla/5.0' } });
+  if (!r.ok) throw new Error(`PDF ${r.status}`);
+  const buffer = Buffer.from(await r.arrayBuffer());
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'bm-pdf-'));
+  const pdfPath = path.join(dir, 'packing-slip.pdf');
+  fs.writeFileSync(pdfPath, buffer);
+  try {
+    return execFileSync('pdftotext', ['-layout', pdfPath, '-'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'pipe'] });
+  } finally {
+    try { fs.rmSync(dir, { recursive: true, force: true }); } catch (_) {}
+  }
+}
+
+async function getBmDevicesGroupItems() {
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { groups(ids:["${BM_DEVICES_GROUP}"]) { items_page(limit: 500) { items { id name column_values(ids:["text_mkqy3576"]) { id text } } } } } }`;
+  const result = await mondayApi(q);
+  return result.data?.boards?.[0]?.groups?.[0]?.items_page?.items || [];
+}
+
+async function getNextBmNumber(items = null) {
+  const rows = items || await getBmDevicesGroupItems();
+  let highest = 0;
+  for (const item of rows) {
+    const match = item.name?.match(/BM\s+(\d+)/i);
+    if (match) highest = Math.max(highest, parseInt(match[1], 10));
+  }
+  return highest + 1;
+}
+
+async function findDeviceItemByName(deviceName) {
+  if (!deviceName) return null;
+  const q = `{ boards(ids:[${DEVICE_LOOKUP_BOARD}]) { groups(ids:["${DEVICE_LOOKUP_GROUP}"]) { items_page(limit: 500) { items { id name } } } } }`;
+  const d = await mondayApi(q);
+  const items = d.data?.boards?.[0]?.groups?.[0]?.items_page?.items || [];
+  return items.find(item => item.name === deviceName) || null;
+}
+
+function extractBMModel(deviceTitle) {
+  if (!deviceTitle) return null;
+  const match = deviceTitle.match(/(MacBook (?:Air|Pro)) (\d+)"?\s*\(([^)]+)\)/i);
+  if (match) return `${match[1]} ${match[2]} (${match[3]})`;
+  return null;
+}
+
+function detectCPU(deviceName, cpuFromTitle, deviceTitle) {
+  if (cpuFromTitle && cpuFromTitle.startsWith('i')) return cpuFromTitle;
+  if (cpuFromTitle && !/M\d+\s+(Pro|Max)/i.test(deviceTitle || '')) return cpuFromTitle;
+  if (!deviceName) return '8-Core';
+  if (!/M\d+/i.test(deviceName) && deviceName !== 'Pro/Max') {
+    const intelMatch = (deviceTitle || '').match(/Core i(\d+)/i);
+    return intelMatch ? `i${intelMatch[1]}` : 'i5';
+  }
+  if (!/Pro\/Max/i.test(deviceName)) return '8-Core';
+  const chipMatch = (deviceTitle || '').match(/Apple\s+(M\d+)\s+(Pro|Max)/i);
+  if (chipMatch) {
+    const chipKey = `${chipMatch[1]} ${chipMatch[2]}`;
+    const gpuMatch = (deviceTitle || '').match(/(\d+)-core\s+GPU/i);
+    if (gpuMatch) {
+      const mapped = GPU_TO_CPU_MAP[chipKey]?.[gpuMatch[1]];
+      if (mapped) return mapped;
+    }
+    return chipKey.includes('M1') ? '10-Core' : '12-Core';
+  }
+  return '10-Core';
+}
+
+function deriveAssessmentLabels({ battery, screen, casing, functional }) {
+  const isFullyFunctional =
+    battery === 'Normal' &&
+    (screen === 'Flawless' || screen === 'Flawless appearance') &&
+    (casing === 'Flawless' || casing === 'Flawless appearance') &&
+    functional === 'Product is functional';
+  return {
+    batteryLabel: BATTERY_MAP[battery] || 'Battery Reported',
+    screenLabel: SCREEN_MAP[screen] || 'Screen Reported',
+    casingLabel: CASING_MAP[casing] || 'Casing Reported',
+    functionalLabel: functional === 'Product is functional'
+      ? (isFullyFunctional ? 'Fully Functional' : 'Functional')
+      : (FUNCTIONAL_MAP[functional] || 'Function Reported'),
+  };
 }
 
 async function postTelegram(msg) {
@@ -201,28 +357,138 @@ function extractTracking(order) {
   );
 }
 
-// ─── Step 3: Create Main Board item ──────────────────────────────
-async function createMainBoardItem(order) {
-  const publicId = order.public_id || order.orderPublicId || '';
-  const orderDate = (order.date || order.created_at || order.createdAt || '').slice(0, 10);
-  const tracking = extractTracking(order);
+async function buildPreparedOrderData(order, bmNumber) {
+  const orderDetail = order.transferCertificateLink ? order : await bmApi(`/ws/buyback/v1/orders/${order.public_id || order.orderPublicId}`);
+  const publicId = orderDetail.public_id || orderDetail.orderPublicId || '';
+  const orderDate = (orderDetail.date || orderDetail.created_at || orderDetail.createdAt || '').slice(0, 10);
+  const trackingNumber = extractTracking(orderDetail);
+  const pdfLink = orderDetail.transferCertificateLink || '';
 
-  const colValues = {
-    text_mky01vb4: publicId,                              // BM Trade-in ID
+  let pdfText = '';
+  try {
+    pdfText = await extractPdfTextFromUrl(pdfLink);
+  } catch (e) {
+    console.warn(`  ⚠️ Packing slip parse failed for ${publicId}: ${e.message}`);
+  }
+
+  const pdfData = parsePdfAssessments(pdfText, orderDetail);
+  const customerName = pdfData.customerName || extractCustomerName(orderDetail) || 'Unknown';
+  const deviceTitle = pdfData.deviceTitle || extractProductName(orderDetail);
+  const specs = parseSpecsFromTitle(deviceTitle, orderDetail.listing?.sku);
+  const bmModel = extractBMModel(deviceTitle);
+  const mappedDeviceName = bmModel ? BM_TO_DEVICE_MAP[bmModel] : null;
+  const matchedDevice = mappedDeviceName ? await findDeviceItemByName(mappedDeviceName) : null;
+  const cpuValue = detectCPU(matchedDevice?.name || mappedDeviceName || (/M\d+\s+(Pro|Max)/i.test(deviceTitle) ? 'Pro/Max' : null), specs.cpu, deviceTitle);
+  const assessments = deriveAssessmentLabels(pdfData);
+  const exVatPrice = getExVatPrice(orderDetail);
+
+  // Trade-in grade from BM — map cosmetic grades to Monday labels
+  const BM_GRADE_MAP = {
+    'STALLONE': 'NONFUNC_CRACKED', 'BRONZE': 'NONFUNC_USED', 'SILVER': 'FUNC_CRACKED',
+    'GOLD': 'FUNC_USED', 'PLATINUM': 'FUNC_GOOD', 'DIAMOND': 'FUNC_EXCELLENT',
+    'FUNC_CRACK': 'FUNC_CRACKED', 'FUNC_USED': 'FUNC_USED', 'FUNC_GOOD': 'FUNC_GOOD',
+    'FUNC_EXCELLENT': 'FUNC_EXCELLENT', 'NONFUNC_CRACK': 'NONFUNC_CRACKED', 'NONFUNC_USED': 'NONFUNC_USED',
   };
-  if (orderDate) colValues.date_mkqgbbtp = { date: orderDate }; // Date Purchased (BM)
-  if (tracking) colValues.text796 = tracking;              // Inbound Tracking
+  const rawGrade = extractField(orderDetail, 'listing.grade', 'grade', 'condition', 'offer_grade');
+  const bmGrade = BM_GRADE_MAP[rawGrade] || '';
+  if (!bmGrade && rawGrade) {
+    console.warn(`  ⚠️ Unknown BM grade: "${rawGrade}" — not mapped. Grade field will be blank.`);
+  }
 
-  const itemName = `BM Trade-in ${publicId}`;
-  const escapedVals = JSON.stringify(JSON.stringify(colValues));
+  const bmName = `BM ${bmNumber}`;
+  const mainBoardName = `${bmName} ( ${customerName} )`;
 
+  const mainBoardColumns = {
+    text_mky01vb4: publicId,
+    text5: customerName,
+    numbers: exVatPrice,
+    text796: trackingNumber || '',
+    link1: pdfLink ? { url: pdfLink, text: 'Packing Slip' } : undefined,
+    status: { label: 'BM' },
+    service: { label: 'Mail-In' },
+    status4: { label: 'Expecting Device' },
+    status24: { label: 'Diagnostic' },
+    color_mkypbg6z: { label: 'Trade-in' },
+    color_mkyp4jjh: { label: 'Unknown' },
+    color_mkqg66bx: { label: assessments.batteryLabel },
+    color_mkqg7pea: { label: assessments.screenLabel },
+    color_mkqg1c3h: { label: assessments.casingLabel },
+    color_mkqg578m: { label: assessments.functionalLabel },
+    color_mkxga4sk: { label: specs.keyboardLayout || 'QWERTY' },
+    status9: { label: specs.keyboardLayout || 'QWERTY' },
+    status_1: { label: specs.ram || '8GB' },
+    status_15: { label: normalizeStorage(specs.storage || '256GB') },
+    status7: { label: specs.gpu || '8-Core' },
+  };
+  if (orderDate) mainBoardColumns.date_mkqgbbtp = { date: orderDate };
+  if (matchedDevice?.id) mainBoardColumns.board_relation5 = { item_ids: [parseInt(matchedDevice.id, 10)] };
+  if (cpuValue) mainBoardColumns.dropdown = { labels: [cpuValue] };
+  if (!pdfLink) delete mainBoardColumns.link1;
+
+  const bmDevicesColumns = {
+    text_mkqy3576: publicId,
+    text8: customerName,
+    numeric: exVatPrice,
+    text0: trackingNumber || '',
+    link: pdfLink ? { url: pdfLink, text: 'Packing Slip' } : undefined,
+    text81: extractField(orderDetail, 'customer_comment', 'comment', 'description', 'listing.description'),
+    ...(bmGrade ? { color_mm1fj7tb: { label: bmGrade } } : {}),
+    status__1: { label: specs.ram || '8GB' },
+    color2: { label: normalizeStorage(specs.storage || '256GB') },
+    status8__1: { label: /Core i\d+/i.test(deviceTitle) ? 'Intel' : (specs.gpu || '8-Core') },
+  };
+  if (cpuValue) bmDevicesColumns.status7__1 = { label: cpuValue };
+  if (!pdfLink) delete bmDevicesColumns.link;
+
+  // Remove undefined fields before JSON serialization
+  for (const [key, val] of Object.entries(mainBoardColumns)) if (val === undefined || val === '') delete mainBoardColumns[key];
+  for (const [key, val] of Object.entries(bmDevicesColumns)) if (val === undefined || val === '') delete bmDevicesColumns[key];
+
+  return {
+    orderDetail,
+    publicId,
+    bmNumber,
+    bmName,
+    mainBoardName,
+    customerName,
+    deviceTitle,
+    orderDate,
+    trackingNumber,
+    pdfLink,
+    exVatPrice,
+    specs: {
+      ram: specs.ram || '8GB',
+      ssd: normalizeStorage(specs.storage || '256GB'),
+      gpu: /Core i\d+/i.test(deviceTitle) ? 'Intel' : (specs.gpu || '8-Core'),
+      keyboard: specs.keyboardLayout || 'QWERTY',
+      cpuValue,
+    },
+    assessments: {
+      battery: pdfData.battery,
+      screen: pdfData.screen,
+      casing: pdfData.casing,
+      functional: pdfData.functional,
+      ...assessments,
+    },
+    deviceLookup: {
+      bmModel,
+      mappedDeviceName: matchedDevice?.name || mappedDeviceName || 'NOT_FOUND',
+      deviceItemId: matchedDevice?.id || null,
+    },
+    mainBoardColumns,
+    bmDevicesColumns,
+  };
+}
+
+// ─── Step 3: Create Main Board item ──────────────────────────────
+async function createMainBoardItem(prepared) {
+  const escapedVals = JSON.stringify(JSON.stringify(prepared.mainBoardColumns));
   const q = `mutation { create_item(
     board_id: ${MAIN_BOARD},
     group_id: "${MAIN_BOARD_GROUP}",
-    item_name: ${JSON.stringify(itemName)},
+    item_name: "${escapeGraphQLString(prepared.mainBoardName)}",
     column_values: ${escapedVals}
   ) { id name } }`;
-
   const d = await mondayApi(q);
   return d.data?.create_item;
 }
@@ -265,7 +531,7 @@ function parseSpecsFromTitle(title, sku) {
   if (parts[3]) {
     // Extract SSD: "512 GB" → "512GB"
     const ssdMatch = parts[3].match(/(\d+)\s*(?:GB|TB)/i);
-    if (ssdMatch) result.storage = parts[3].replace(/\s+/g, '').toUpperCase();
+    if (ssdMatch) result.storage = normalizeStorage(parts[3].replace(/\s+/g, '').toUpperCase());
   }
 
   if (parts[4]) {
@@ -283,75 +549,28 @@ function parseSpecsFromTitle(title, sku) {
     const skuParts = sku.split('.');
     for (const p of skuParts) {
       if (!result.ram && /^\d+GB$/i.test(p) && parseInt(p) <= 128) result.ram = p.toUpperCase();
-      if (!result.storage && /^\d+GB$/i.test(p) && parseInt(p) >= 128) result.storage = p.toUpperCase();
-      if (!result.storage && /^\d+TB$/i.test(p)) result.storage = p.toUpperCase();
+      if (!result.storage && /^\d+GB$/i.test(p) && parseInt(p) >= 128) result.storage = normalizeStorage(p.toUpperCase());
+      if (!result.storage && /^\d+TB$/i.test(p)) result.storage = normalizeStorage(p.toUpperCase());
     }
   }
 
   return result;
 }
 
+function getExVatPrice(order) {
+  const raw = extractPrice(order);
+  return raw > 0 ? Math.round(raw / 1.1) : 0;
+}
+
 // ─── Step 4: Create BM Devices Board item ────────────────────────
-async function createBmDevicesItem(order) {
-  const publicId = order.public_id || order.orderPublicId || '';
-  const customerName = extractCustomerName(order);
-  const reportedDamage = extractField(order, 'customer_comment', 'comment', 'description', 'listing.description');
-  const purchasePrice = extractPrice(order);
-
-  // Trade-in grade from BM — map cosmetic grades to Monday labels
-  const BM_GRADE_MAP = {
-    // BM cosmetic tiers
-    'STALLONE': 'NONFUNC_CRACKED',
-    'BRONZE': 'NONFUNC_USED',
-    'SILVER': 'FUNC_CRACKED',
-    'GOLD': 'FUNC_USED',
-    'PLATINUM': 'FUNC_GOOD',
-    'DIAMOND': 'FUNC_EXCELLENT',
-    // Legacy / direct values
-    'FUNC_CRACK': 'FUNC_CRACKED',
-    'FUNC_USED': 'FUNC_USED',
-    'FUNC_GOOD': 'FUNC_GOOD',
-    'FUNC_EXCELLENT': 'FUNC_EXCELLENT',
-    'NONFUNC_CRACK': 'NONFUNC_CRACKED',
-    'NONFUNC_USED': 'NONFUNC_USED',
-  };
-  const rawGrade = extractField(order, 'listing.grade', 'grade', 'condition', 'offer_grade');
-  const bmGrade = BM_GRADE_MAP[rawGrade] || '';
-  if (!bmGrade && rawGrade) {
-    console.warn(`  ⚠️ Unknown BM grade: "${rawGrade}" — not mapped. Grade field will be blank.`);
-  }
-
-  // Spec fields — BM buyback API doesn't provide separate fields.
-  // Parse from listing.title which follows the pattern:
-  //   "MacBook Pro 14" (Late 2021) - Apple M1 Pro 10-core - 16 GB Memory - 512 GB - 16-core GPU - QWERTY"
-  // Fallback to SKU segments for RAM/SSD if title parsing fails.
-  const specs = parseSpecsFromTitle(order.listing?.title, order.listing?.sku);
-  const { ram, storage, cpu, gpu, keyboardLayout } = specs;
-
-  const colValues = {
-    text8: customerName,                     // Seller
-    text81: reportedDamage,                  // Reported Damage / Fault
-  };
-
-  if (purchasePrice > 0) colValues.numeric = purchasePrice;       // Purchase Price (ex VAT)
-  if (bmGrade) colValues.color_mm1fj7tb = { label: bmGrade };     // Trade-in Grade
-  if (storage) colValues.color2 = { label: storage };             // SSD
-  if (ram) colValues.status__1 = { label: ram };                  // RAM
-  if (cpu) colValues.status7__1 = { label: cpu };                 // CPU
-  if (gpu) colValues.status8__1 = { label: gpu };                 // GPU
-  // text column (Model Number) deleted Mar 23 — model extracted from device name downstream
-  if (keyboardLayout) colValues.keyboard_layout__1 = keyboardLayout; // Keyboard Layout (text column, not status)
-
-  const itemName = order.product_name || order.title || `Trade-in ${publicId}`;
-  const escapedVals = JSON.stringify(JSON.stringify(colValues));
-
+async function createBmDevicesItem(prepared) {
+  const escapedVals = JSON.stringify(JSON.stringify(prepared.bmDevicesColumns));
   const q = `mutation { create_item(
     board_id: ${BM_DEVICES_BOARD},
     group_id: "${BM_DEVICES_GROUP}",
-    item_name: ${JSON.stringify(itemName)},
+    item_name: "${escapeGraphQLString(prepared.bmName)}",
     column_values: ${escapedVals}
   ) { id name } }`;
-
   const d = await mondayApi(q);
   return d.data?.create_item;
 }
@@ -360,7 +579,7 @@ async function verifyBmDevicesItem(itemId) {
   if (!itemId) return;
 
   await sleep(1000);
-  const verifyQ = `{ items(ids: [${itemId}]) { column_values(ids: ["numeric", "color_mm1fj7tb"]) { id text } } }`;
+  const verifyQ = `{ items(ids: [${itemId}]) { column_values(ids: ["numeric", "text0", "link"]) { id text } } }`;
   const verifyResult = await mondayApi(verifyQ);
   const cols = verifyResult.data?.items?.[0]?.column_values || [];
   const missing = [];
@@ -384,6 +603,18 @@ async function linkItems(bmDeviceItemId, mainItemId) {
   ) { id } }`;
   const d = await mondayApi(q);
   return !!d.data;
+}
+
+function logPreparedOrder(prepared) {
+  console.log(`  BM Number: ${prepared.bmNumber}`);
+  console.log(`  Main Board name: ${prepared.mainBoardName}`);
+  console.log(`  BM Devices name: ${prepared.bmName}`);
+  console.log(`  Device title: ${prepared.deviceTitle}`);
+  console.log(`  Device match: ${prepared.deviceLookup.mappedDeviceName} (${prepared.deviceLookup.deviceItemId || 'no item id'})`);
+  console.log('  Main Board columns:');
+  console.log(JSON.stringify(prepared.mainBoardColumns, null, 2));
+  console.log('  BM Devices columns:');
+  console.log(JSON.stringify(prepared.bmDevicesColumns, null, 2));
 }
 
 // ─── Main ─────────────────────────────────────────────────────────
@@ -438,6 +669,9 @@ async function linkItems(bmDeviceItemId, mainItemId) {
   console.log('[Step 2] Fetching existing BM trade-in IDs from Monday...');
   const existingIds = await getExistingTradeInIds();
   console.log(`  ${existingIds.size} existing trade-in IDs on Monday\n`);
+  const bmGroupItems = await getBmDevicesGroupItems();
+  let nextBmNumber = await getNextBmNumber(bmGroupItems);
+  console.log(`  Next BM number: ${nextBmNumber}\n`);
 
   const summary = { created: 0, skipped: 0, errors: 0 };
 
@@ -458,8 +692,19 @@ async function linkItems(bmDeviceItemId, mainItemId) {
       continue;
     }
 
+    let prepared;
+    try {
+      prepared = await buildPreparedOrderData(order, nextBmNumber);
+      nextBmNumber++;
+    } catch (e) {
+      console.error(`  ❌ Failed to prepare order payload: ${e.message}`);
+      summary.errors++;
+      continue;
+    }
+
     if (isDryRun) {
       console.log(`  [DRY RUN] Would create items on both boards and link them.`);
+      logPreparedOrder(prepared);
       summary.created++;
       continue;
     }
@@ -468,7 +713,7 @@ async function linkItems(bmDeviceItemId, mainItemId) {
     console.log(`\n  [Step 3] Creating Main Board item...`);
     let mainItem;
     try {
-      mainItem = await createMainBoardItem(order);
+      mainItem = await createMainBoardItem(prepared);
       if (!mainItem) throw new Error('No item returned');
       console.log(`  ✅ Main Board: ${mainItem.name} (ID: ${mainItem.id})`);
     } catch (e) {
@@ -483,7 +728,7 @@ async function linkItems(bmDeviceItemId, mainItemId) {
     console.log(`  [Step 4] Creating BM Devices Board item...`);
     let bmDeviceItem;
     try {
-      bmDeviceItem = await createBmDevicesItem(order);
+      bmDeviceItem = await createBmDevicesItem(prepared);
       if (!bmDeviceItem) throw new Error('No item returned');
       console.log(`  ✅ BM Devices: ${bmDeviceItem.name} (ID: ${bmDeviceItem.id})`);
       await verifyBmDevicesItem(bmDeviceItem.id);
@@ -512,8 +757,9 @@ async function linkItems(bmDeviceItemId, mainItemId) {
     await postTelegram(
       `📦 New BM trade-in SENT\n` +
       `Order: ${publicId}\n` +
-      `Product: ${productName}\n` +
-      `Price: £${price}`
+      `BM: ${prepared.bmName}\n` +
+      `Product: ${prepared.deviceTitle}\n` +
+      `Price: £${prepared.exVatPrice}`
     );
 
     console.log(`\n  ── TRADE-IN CREATED ──`);
