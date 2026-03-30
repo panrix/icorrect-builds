@@ -114,7 +114,7 @@ Post per-listing alert cards and run summary to BM Telegram (`-1003888456344`).
 
 Not winning — bump eligible:
 ```
-⚠️ Not winning: MacBook Air M1 8/256 Space Grey Good
+⚠️ Not winning: MBA.A2337.M1.8GB.256GB.Grey.GOOD
 BM#: 1234567 | Listed: 12 days
 Our price: £449 | Buy box: £419
 
@@ -126,7 +126,7 @@ Action: Bump eligible (15-30% tier) — flagged for review
 
 Not winning — cannot win profitably:
 ```
-🚫 Cannot win profitably: MacBook Pro 14 M3 Pro 18/512 Space Black Good
+🚫 Cannot win profitably: MBP.A2442.M3Pro.18GB.512GB.Black.GOOD
 BM#: 7654321 | Listed: 9 days
 Our price: £1,299 | Buy box: £1,149
 
@@ -139,7 +139,7 @@ Action: No change. Monitor.
 
 Winning:
 ```
-✅ Winning: MacBook Air M2 8/256 Midnight Good
+✅ Winning: MBA.A2681.M2.8GB.256GB.Midnight.GOOD
 BM#: 1234567 | Price: £499 | Net: £167 (34.5%)
 Market:  Fair £389 | Good £479 | Excellent £549
 ```
