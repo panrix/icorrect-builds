@@ -51,7 +51,9 @@ If we've sold a specific spec before, the order contains the product_id. Search 
 
 ## Product_id lookup table
 
-Built from our existing listings. File: `/home/ricky/builds/bm-scripts/data/product-id-lookup.json`
+Built from our existing listings. File: `/home/ricky/builds/backmarket/data/product-id-lookup.json`
+
+The canonical product resolver is now `bm-catalog.json`, not this lookup table directly. The lookup table is one of the inputs to the catalog merge.
 
 Structure:
 ```json

@@ -505,7 +505,7 @@ The active listing flow now uses the BM catalog as the resolver of record and do
 
 However, the file still contains dead legacy resolver code and constants for:
 - old lookup-table resolution
-- old V6-based product resolution
+- old scraper-based product resolution
 - old Intel/hardcoded resolver paths
 
 These are not in the active execution path, but they can confuse future agents and reviewers.

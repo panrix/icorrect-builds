@@ -6,11 +6,14 @@
  * Creates as draft (state=3), gets backbox price, then publishes.
  *
  * Modes:
- *   --dry-run   (default) Calculate everything, print results, no actions
- *   --live      Create fresh listings and update Monday
- *   --item <id> Process a single Main Board item
- *   --min-margin <n> Override minimum margin % (default: 15)
- *   (no --item) Process ALL items where status24 = "To List" (index 8)
+ *   --dry-run                  (default) Calculate everything, print results, no actions
+ *   --live                     Create fresh listings and update Monday
+ *   --probe-product-id <uuid>  Create draft only, verify returned data, never publish
+ *   --item <id>                Process a single Main Board item
+ *   --product-id <uuid>        Override catalog product_id for live mode
+ *   --min-margin <n>           Override minimum margin % (default: 15)
+ *   --json                     Emit structured JSON for probe mode
+ *   (no --item)                Process ALL items where status24 = "To List" (index 8)
  */
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
@@ -56,13 +59,21 @@ const BM_GRADE_TO_SCRAPER = { FAIR: 'Fair', GOOD: 'Good', VERY_GOOD: 'Excellent'
 // ─── CLI Args ─────────────────────────────────────────────────────
 const args = process.argv.slice(2);
 const isLive = args.includes('--live');
-const isDryRun = !isLive;
+const probeProductIdIdx = args.indexOf('--probe-product-id');
+const PROBE_PRODUCT_ID = probeProductIdIdx !== -1 ? args[probeProductIdIdx + 1] : null;
+const isProbe = !!PROBE_PRODUCT_ID;
+const isDryRun = !isLive && !isProbe;
 const itemIdx = args.indexOf('--item');
 const singleItemId = itemIdx !== -1 ? args[itemIdx + 1] : null;
 const minMarginIdx = args.indexOf('--min-margin');
 const MIN_MARGIN_OVERRIDE = minMarginIdx !== -1 ? parseFloat(args[minMarginIdx + 1]) : null;
 const productIdIdx = args.indexOf('--product-id');
 const PRODUCT_ID_OVERRIDE = productIdIdx !== -1 ? args[productIdIdx + 1] : null;
+const EFFECTIVE_PRODUCT_ID_OVERRIDE = PROBE_PRODUCT_ID || PRODUCT_ID_OVERRIDE;
+
+const priceIdx = args.indexOf('--price');
+const PRICE_OVERRIDE = priceIdx !== -1 ? parseFloat(args[priceIdx + 1]) : null;
+const JSON_OUTPUT = args.includes('--json');
 
 // ─── Disk Cache ──────────────────────────────────────────────────
 const CACHE_DIR = path.join(__dirname, 'data', 'cache');
@@ -1056,6 +1067,10 @@ async function verifyListing(listingId, expected) {
   // BM titles don't always include colour — the product_id IS the colour verification
   if (expected.colourVerifiedByCatalog) {
     console.log(`  Colour: ✅ verified by catalog (skipping title check)`);
+  } else if (EFFECTIVE_PRODUCT_ID_OVERRIDE) {
+    // When --product-id is manually supplied, BM titles often omit colour (e.g. M2 Airs).
+    // The product_id itself is the colour signal — skip title colour check for manual overrides.
+    console.log(`  Colour: ⚠️ skipping title check (--product-id override — colour in product_id)`);
   } else if (expected.colour) {
     if (!lookupTitleHasExpectedColour(listing.title || '', expected.colour)) {
       issues.push(`⛔ TITLE COLOUR MISMATCH: title="${listing.title}", expected colour=${expected.colour}`);
@@ -1078,6 +1093,51 @@ async function verifyListing(listingId, expected) {
   return {
     verified: issues.length === 0,
     listing,
+    issues,
+  };
+}
+
+function buildProbeReport(result, candidateProductId, draftVerification, taskResult, options = {}) {
+  const listing = draftVerification?.listing || {};
+  const issues = draftVerification?.issues || [];
+  const issueHas = (prefix) => issues.some(i => i.startsWith(prefix));
+  const colourCheckSkipped = !!options.colourCheckSkipped;
+
+  return {
+    mode: 'probe',
+    main_item_id: result.mainItemId,
+    sku: result.sku,
+    candidate_product_id: candidateProductId,
+    expected: {
+      ram: result.specs?.ram || '',
+      ssd: result.specs?.ssd || '',
+      colour: result.specs?.colour || '',
+      grade: result.bmGrade || '',
+    },
+    task_result: {
+      listing_id: taskResult?.listing_id || listing.listing_id || null,
+      backmarket_id: taskResult?.backmarket_id || listing.backmarket_id || null,
+      publication_state: taskResult?.publication_state ?? listing.publication_state ?? listing.pub_state ?? null,
+    },
+    actual: {
+      listing_id: listing.id || null,
+      numeric_listing_id: listing.listing_id || null,
+      product_id: listing.product_id || '',
+      title: listing.title || '',
+      grade: listing.grade || '',
+      quantity: listing.quantity ?? null,
+      publication_state: listing.publication_state ?? listing.pub_state ?? null,
+      sku: listing.sku || '',
+    },
+    checks: {
+      candidate_product_id_preserved: listing.product_id ? listing.product_id === candidateProductId : false,
+      grade_match: !issueHas('⛔ GRADE MISMATCH'),
+      ram_match: !issueHas('⛔ TITLE RAM MISMATCH'),
+      ssd_match: !issueHas('⛔ TITLE SSD MISMATCH'),
+      colour_check_skipped: colourCheckSkipped,
+      colour_match: colourCheckSkipped ? null : !issueHas('⛔ TITLE COLOUR MISMATCH'),
+      overall_verified: !!draftVerification?.verified,
+    },
     issues,
   };
 }
@@ -1144,7 +1204,7 @@ function formatSummary(device) {
     lines.push(`Market now:  N/A`);
   }
 
-  // Colour premium (if V6 has colour data)
+  // Colour premium (if scraper has colour data)
   if (catalogResult?.colourPrices && Object.keys(catalogResult.colourPrices).length > 1) {
     const colourParts = Object.entries(catalogResult.colourPrices)
       .map(([c, pr]) => c === specs.colour ? `${c}:£${pr}` : `${c}:£${pr}`)
@@ -1285,18 +1345,18 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   // Step 4: Resolve product from canonical BM catalog
   console.log('[Step 4] Resolving product from BM catalog...');
   let catalogResult;
-  if (PRODUCT_ID_OVERRIDE) {
+  if (EFFECTIVE_PRODUCT_ID_OVERRIDE) {
     // Manual product_id override — for family-member resolution when catalog can't exact-match
-    console.log(`  ⚠️ --product-id override: ${PRODUCT_ID_OVERRIDE}`);
+    console.log(`  ⚠️ product_id override: ${EFFECTIVE_PRODUCT_ID_OVERRIDE}`);
     console.log(`  BM will auto-resolve the correct catalog entry from this product_id.`);
     console.log(`  Post-create verification MUST confirm the title matches the device specs.`);
     const overrideBase = resolveProductFromCatalog(specs, scraperData);
     catalogResult = {
       ...overrideBase,
-      productId: PRODUCT_ID_OVERRIDE,
+      productId: EFFECTIVE_PRODUCT_ID_OVERRIDE,
       resolutionConfidence: 'manual_override',
       verificationStatus: 'verified',
-      resolutionSource: 'product-id-override',
+      resolutionSource: isProbe ? 'probe-product-id' : 'product-id-override',
       liveEligible: true,
       colourVerified: false, // Must verify after creation
     };
@@ -1403,8 +1463,9 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   // Use live scrape grade price as market reference for P&L, fallback to catalog, then floor × 1.5
   const marketPrice = marketGrade.price || 0;
-  const proposedPrice = marketPrice > 0 ? marketPrice : Math.round(floorPrice * 1.5);
-  const priceSource = marketPrice > 0 ? (liveMarket.ok ? marketGrade.source || liveMarket.source : marketGrade.source || liveMarket.source) : `floor × 1.5 (no live or catalog grade price)`;
+  const rawProposedPrice = marketPrice > 0 ? marketPrice : Math.round(floorPrice * 1.5);
+  const proposedPrice = PRICE_OVERRIDE !== null ? PRICE_OVERRIDE : rawProposedPrice;
+  const priceSource = PRICE_OVERRIDE !== null ? `--price override (£${PRICE_OVERRIDE})` : (marketPrice > 0 ? (liveMarket.ok ? marketGrade.source || liveMarket.source : marketGrade.source || liveMarket.source) : `floor × 1.5 (no live or catalog grade price)`);
   console.log(`  Proposed (for P&L): £${proposedPrice} (${priceSource})`);
 
   // Historical sales — query BM completed orders for same product_id + grade (last 90 days)
@@ -1493,6 +1554,56 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     return result;
   }
 
+  if (isProbe) {
+    if (!catalogResult?.productId) {
+      throw new Error(`Probe blocked: ${catalogResult?.blockReason || 'no product_id available for probe'}`);
+    }
+
+    console.log('\n[Probe] Creating draft listing via Path B...');
+    const taskId = await createFreshListing(catalogResult.productId, sku, grade.bmGrade, placeholderPrice);
+    console.log(`  Task ID: ${taskId}`);
+
+    console.log('[Probe] Polling task...');
+    const taskResult = await pollTask(taskId);
+    const listingId = taskResult.listing_id;
+    if (!listingId) throw new Error('Probe task complete but no listing_id in result');
+
+    if (taskResult.publication_state === 2 || taskResult.publication_state === '2') {
+      console.warn(`  ⚠️ BM returned pub_state=2 during probe. Setting qty=0 immediately.`);
+      await bmApiFetch(`/ws/listings/${listingId}`, { method: 'POST', body: JSON.stringify({ quantity: 0 }) });
+    }
+
+    const colourCheckSkipped = !!EFFECTIVE_PRODUCT_ID_OVERRIDE || !!catalogResult?.colourVerified;
+    console.log('[Probe] Verifying returned draft listing...');
+    const draftVerification = await verifyListing(listingId, {
+      quantity: 0,
+      grade: grade.bmGrade,
+      productId: EFFECTIVE_PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
+      ram: specs.ram,
+      ssd: specs.ssd,
+      colour: specs.colour,
+      colourVerifiedByCatalog: colourCheckSkipped,
+      pubState: undefined,
+    });
+
+    const probeReport = buildProbeReport(result, catalogResult.productId, draftVerification, taskResult, {
+      colourCheckSkipped,
+    });
+
+    if (JSON_OUTPUT) {
+      console.log(JSON.stringify(probeReport, null, 2));
+    } else {
+      console.log('\n' + '─'.repeat(60));
+      console.log('  PROBE RESULT');
+      console.log('─'.repeat(60));
+      console.log(JSON.stringify(probeReport, null, 2));
+      console.log('');
+    }
+
+    result.probe = probeReport;
+    return result;
+  }
+
   // Print summary for live mode too
   console.log('\n' + formatSummary(result));
 
@@ -1534,13 +1645,13 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         }
       }
 
-      const colourVerifiedByCatalog = !PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
+      const colourVerifiedByCatalog = !EFFECTIVE_PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
       if (createdViaPathB) {
         console.log('[Step 8c] Verifying draft listing...');
         const draftVerification = await verifyListing(newListingId, {
           quantity: 0,
           grade: grade.bmGrade,
-          productId: PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
+          productId: EFFECTIVE_PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
           ram: specs.ram,
           ssd: specs.ssd,
           colour: specs.colour,
@@ -1619,7 +1730,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       const pubVerification = await verifyListing(newListingId, {
         quantity: 1,
         grade: grade.bmGrade,
-        productId: PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
+        productId: EFFECTIVE_PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
         ram: specs.ram,
         ssd: specs.ssd,
         colour: specs.colour,
@@ -1643,7 +1754,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         const retry = await verifyListing(newListingId, {
           quantity: 1,
           grade: grade.bmGrade,
-          productId: PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
+          productId: EFFECTIVE_PRODUCT_ID_OVERRIDE ? undefined : listingProductId,
           ram: specs.ram,
           ssd: specs.ssd,
           colour: specs.colour,
@@ -1731,8 +1842,17 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 }
 
 async function main() {
+  if (isLive && isProbe) {
+    throw new Error('Choose one action mode: --live or --probe-product-id, not both');
+  }
+  if (isProbe && !singleItemId) {
+    throw new Error('Probe mode requires --item <MainBoardId>');
+  }
+
+  const modeLabel = isProbe ? `🧪 PROBE MODE (${PROBE_PRODUCT_ID})` : (isDryRun ? 'DRY RUN' : '🔴 LIVE MODE');
+
   console.log(`\n${'═'.repeat(60)}`);
-  console.log(`  Back Market Listing Script — ${isDryRun ? 'DRY RUN' : '🔴 LIVE MODE'}`);
+  console.log(`  Back Market Listing Script — ${modeLabel}`);
   console.log(`  ${today()} | Node ${process.version}`);
   console.log('═'.repeat(60));
 
@@ -1807,7 +1927,7 @@ async function main() {
   console.log(`  ✅ Auto-list: ${autoList}`);
   console.log(`  ⚠️ Propose: ${propose}`);
   console.log(`  ⛔ Blocked: ${block}`);
-  console.log(`  Mode: ${isDryRun ? 'DRY RUN (no actions taken)' : '🔴 LIVE'}`);
+  console.log(`  Mode: ${isProbe ? '🧪 PROBE (draft create + verify only)' : (isDryRun ? 'DRY RUN (no actions taken)' : '🔴 LIVE')}`);
   console.log('');
 }
 
