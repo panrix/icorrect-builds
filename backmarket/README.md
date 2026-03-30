@@ -6,134 +6,93 @@ BackMarket is iCorrect's largest revenue channel (~60% of total, ~£31k/mo). Thi
 
 ```
 backmarket/
-├── sops/           # Standard Operating Procedures (12 SOPs)
-├── scripts/        # Standalone Node.js automation scripts
+├── sops/           # Standard Operating Procedures (SOPs 01-12) — SOURCE OF TRUTH
+├── scripts/        # Node.js automation scripts + lib/
+│   └── lib/        # Shared modules (monday.js, bm-api.js, logger.js, profitability.js, slack.js, dates.js)
+├── services/       # Deployed webhook services (bm-grade-check, bm-payout, bm-shipping)
 ├── analysis/       # Python analysis & pricing scripts
-├── scraper/        # Price scraper tools
-├── docs/           # Strategy docs, column reference
+├── data/           # Generated data (catalog, registry, lookups, reports)
+├── docs/           # Strategy docs, plans, specs, briefs (mostly historical)
 ├── qa/             # QA issues, task trackers
-├── knowledge/      # Product ID mappings
-├── pricing/        # Pricing module (parked)
-├── audit/          # Historical audit reports (markdown)
-└── data/           # Generated outputs — gitignored
-    ├── cache/      # JSON data caches
-    ├── reports/    # Generated markdown reports
-    ├── logs/       # Execution logs
-    └── exports/    # CSV exports from BM/Monday
+├── knowledge/      # Product ID mappings, BM knowledge docs
+├── audit/          # Historical audit reports
+└── pricing/        # Pricing module (parked)
 ```
 
-## Script → SOP Mapping
+## SOPs — Start Here
 
-### Node.js Automation Scripts (`scripts/`)
+The SOPs are the single source of truth. Each SOP has been QA'd against its script/service.
 
-Important:
-- The authoritative SOP 06 listing flow currently lives in `/home/ricky/builds/bm-scripts/`, not `backmarket/scripts/`.
-- `/home/ricky/builds/backmarket/scripts/list-device.js` is a stale copy and should not be used for trust-hardening or live execution.
-- The canonical listing lookup data for the active flow is `/home/ricky/builds/bm-scripts/data/product-id-lookup.json`.
+| SOP | File | Script/Service | Status |
+|-----|------|---------------|--------|
+| 01 | `sops/01-trade-in-purchase.md` | `scripts/sent-orders.js` | QA'd |
+| 02 | `sops/02-intake-receiving.md` | `icloud-checker` service (8010) | QA'd |
+| 03 | `sops/03-diagnostic.md` | `bm-grade-check` service (8011) | QA'd |
+| 03b | `sops/03b-trade-in-payout.md` | `bm-payout` service (8012) | QA'd |
+| 04 | `sops/04-repair-refurb.md` | Manual process | QA'd |
+| 06 | `sops/06-listing.md` | `scripts/list-device.js` | QA'd v2.1 |
+| 06.5 | `sops/06.5-listings-reconciliation.md` | `scripts/reconcile-listings.js` | QA'd |
+| 07 | `sops/07-buy-box-management.md` | `scripts/buy-box-check.js` | QA'd |
+| 08 | `sops/08-sale-detection.md` | `scripts/sale-detection.js` | QA'd (no cron) |
+| 09 | `sops/09-shipping.md` | `dispatch.js` + `bm-shipping` (8013) | QA'd |
+| 10 | `sops/10-payment-reconciliation.md` | Manual process | QA'd |
+| 11 | `sops/11-tuesday-cutoff.md` | Not built | QA'd |
+| 12 | `sops/12-returns-aftercare.md` | Manual + counter-offer buttons | QA'd |
 
-| Script | SOP | What It Does | Trigger | Status |
-|--------|-----|-------------|---------|--------|
-| `sent-orders.js` | 01 | Creates Monday items for new BM trade-in orders | Manual/cron | QA: product name extraction broken |
-| — | 02 | Intake/iCloud check | Webhook | Lives in `icloud-checker/` monolith |
-| — | 03 | Diagnostic/grade check | Webhook | Lives in `icloud-checker/` monolith |
-| `trade-in-payout.js` | 03b | Validates and pays out trade-ins via BM API | Manual/cron | QA: working |
-| `list-device.js` | 06 | Stale copy only; not the active trust-hardened implementation | Do not run | Superseded by `bm-scripts/list-device.js` |
-| `reconcile-listings.js` | 06.5 | Separate `backmarket/scripts` implementation; not the authoritative `bm-scripts` flow | Manual/cron | Needs explicit ownership decision |
-| `buy-box-check.js` | 07 | Monitors buy box position, auto-bumps price | Manual/cron | QA: working |
-| `sale-detection.js` | 08 | Detects new BM sales, updates Monday | Manual/cron | QA: working |
-| `shipping.js` | 09 | Confirms shipping with tracking to BM | Manual/cron | QA: processes full backlog (needs date filter) |
-| `buyback-profitability-builder.js` | — | Builds profitability data from Monday + BM | Manual | Supporting tool |
-| `listings-audit.js` | — | Read-only audit of BM listings | Manual | Analysis only |
+## Key Data Files
 
-**Note:** The active `bm-scripts/` flow already has shared modules at:
-- `/home/ricky/builds/bm-scripts/lib/monday.js`
-- `/home/ricky/builds/bm-scripts/lib/bm-api.js`
-- `/home/ricky/builds/bm-scripts/lib/logger.js`
+| File | Purpose |
+|------|---------|
+| `data/bm-catalog.json` | Canonical product catalog (309 variants, single product resolver) |
+| `data/listings-registry.json` | 261 verified listing slots (SKU → listing_id) |
+| `data/product-id-lookup.json` | Historical product_id lookup (279 entries) |
+| `data/order-history-product-ids.json` | BM order history (234 entries) |
+| `data/listings-colour-map.json` | Colour extracted from listing SKUs (157 entries) |
 
-The older `backmarket/scripts/` copies do not share that structure consistently and should not be treated as the active SOP 06 implementation.
+## Scripts
 
-### Python Analysis Scripts (`analysis/`)
+All scripts are at `backmarket/scripts/`. Shared library at `scripts/lib/`.
 
-| Script | Category | What It Does | Touches Live API? |
-|--------|----------|-------------|-------------------|
-| `bm_utils.py` | Shared | Utility module (Monday API, BM API, env loading) | Read only |
-| `bm-repair-analysis.py` | Data collection | Master data aggregation (BM API + Monday) | Read only |
-| `bm-crossref.py` | Analysis | Financial cross-reference (715 orders) | Read only |
-| `bm-listing-optimizer.py` | Decision engine | Classifies listings as KEEP/REPRICE/DELIST | Read only |
-| `bm-reprice.py` | **LIVE** | **Pushes price changes to BM API** | **YES — writes** |
-| `bm-bid-bump.py` | **LIVE** | **Adjusts prices to win buy box** | **YES — writes** |
-| `bm-buybox-audit.py` | Analysis | Buy box performance per SKU | Read only |
-| `bm-sku-audit.py` | Analysis | SKU performance breakdown | Read only |
-| `bm-reconcile.py` | Analysis | Gap analysis (orders missing from Monday) | Read only |
-| `bm-returns-forensic.py` | Forensic | Return order analysis | Read only |
-| `bm-saf-diagnostics.py` | Forensic | Spec mismatch diagnostics | Read only |
-| `bm-pricing-report.py` | Reporting | Markdown summary from decisions | Read only |
-| `bm-profit-by-shipdate.py` | Reporting | Net profit by ship date | Read only |
-| `bm-profit-by-solddate.py` | Reporting | Net profit by sold date | Read only |
-| `bm-full-chain.py` | Analysis | Trade-in → Repair → Sale → Profit chain | Read only |
-| `bm-nfu-analysis.py` | Analysis | Devices we shouldn't bid on | Read only |
-| `bm-post-reprice-audit.py` | Verification | Validates reprice results | Read only |
-| `bm-reconcile-check.py` | Debugging | Deep-dive into specific missing BM IDs | Read only |
-| `bm-reconcile-detail.py` | Debugging | Status of stuck orders | Read only |
+| Script | SOP | Usage |
+|--------|-----|-------|
+| `list-device.js` | 06 | `node scripts/list-device.js --dry-run --item <id>` |
+| `buy-box-check.js` | 07 | `node scripts/buy-box-check.js --auto-bump` |
+| `reconcile-listings.js` | 06.5 | `node scripts/reconcile-listings.js` |
+| `sent-orders.js` | 01 | `node scripts/sent-orders.js --live` |
+| `sale-detection.js` | 08 | `node scripts/sale-detection.js --dry-run` |
+| `build-listings-registry.js` | — | `node scripts/build-listings-registry.js --dry-run` |
 
-### Analysis Run Order
+## Services (Live on VPS)
 
-When running a full pricing review cycle:
+| Service | Port | Route | SOP |
+|---------|------|-------|-----|
+| icloud-checker | 8010 | `/webhook/icloud-check` | 02 |
+| bm-grade-check | 8011 | `/webhook/bm/grade-check` | 03 |
+| bm-payout | 8012 | `/webhook/bm/payout` | 03b |
+| bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09 |
 
-1. `bm-repair-analysis.py` — collect latest data from BM API + Monday
-2. `bm-crossref.py` — cross-reference financials
-3. `bm-listing-optimizer.py` — make KEEP/REPRICE/DELIST decisions
-4. `bm-pricing-report.py` — generate human-readable report
-5. `bm-reprice.py --dry-run` — preview price changes
-6. `bm-reprice.py --execute` — apply to BM API (after review)
-7. `bm-bid-bump.py` — recover lost buy boxes
+All services behind nginx at `mc.icorrect.co.uk`. Port 8010 not exposed publicly.
 
-## The Monolith (`icloud-checker/`)
+## Environment
 
-The Express server at `icloud-checker/src/index.js` (1914 lines) handles:
-
-- **SOP 02**: iCloud lock checking (intake webhook)
-- **SOP 02**: Counter-offer flow (Slack interactions)
-- **SOP 03**: Grade check / profitability alert
-- **SOP 03b**: Payout processing (duplicate of `trade-in-payout.js`)
-- **SOP 09**: Shipping confirmation (duplicate of `shipping.js`)
-- **SOP 06**: Listing automation (DISABLED — returns 410)
-
-Runs as systemd service on port 8010. See `icloud-checker/AUDIT-AND-DECOMPOSITION.md` for full breakdown and decomposition plan.
-
-## Environment Variables
-
-All scripts read from `/home/ricky/config/.env`:
+All scripts/services load env from `/home/ricky/config/.env` or `/home/ricky/config/api-keys/.env`.
 
 | Variable | Used By |
 |----------|---------|
-| `BM_AUTH` / `BACKMARKET_API_AUTH` | BM API calls |
+| `BACKMARKET_API_AUTH` / `BM_AUTH` | BM API calls |
 | `MONDAY_APP_TOKEN` | Monday.com GraphQL |
-| `SLACK_BOT_TOKEN` | Slack messaging |
-| `SLACK_AUTOMATIONS_BOT_TOKEN` | Slack automations |
-| `SICKW_API_KEY` | iCloud checking |
 | `TELEGRAM_BOT_TOKEN` | Telegram alerts |
+| `BM_TELEGRAM_CHAT` | BM Telegram group ID |
 
-## Monday Boards
+## V7 Scraper
 
-| Board | ID | Used By |
-|-------|-----|---------|
-| Main Board | 349212843 | All scripts |
-| BM Devices Board | 3892194968 | All scripts |
+Weekly price scraper at `buyback-monitor/sell_price_scraper_v7.js`. Runs Monday 05:00 UTC via `run-weekly.sh`. Extracts grade prices, picker data, and product_ids from BM product pages.
+
+## Boards
+
+| Board | ID |
+|-------|----|
+| Main Board | 349212843 |
+| BM Devices Board | 3892194968 |
 
 Column reference: `docs/VERIFIED-COLUMN-REFERENCE.md`
-
-## Known Bugs
-
-See `qa/QA-ISSUES.md` for current list. Key issues:
-- `sent-orders.js`: product name/price showing "Unknown" / "£?"
-- `shipping.js`: processes entire historical backlog (needs date filter)
-- `bm-scripts/list-device.js`: trust hardening is in progress; remaining blocker is trusted product/spec/colour resolution
-- `backmarket/scripts/list-device.js`: stale and misleading if treated as active
-
-## What's Next
-
-1. **Monolith decomposition** — extract payout, shipping, grade-check into standalone services
-2. **Shared lib modules** — build `lib/monday.js`, `lib/bm-api.js`, `lib/logger.js`
-3. **Deploy standalone scripts** — systemd units for scripts replacing monolith endpoints
-4. **Security** — bind port 8010 to localhost, add webhook auth

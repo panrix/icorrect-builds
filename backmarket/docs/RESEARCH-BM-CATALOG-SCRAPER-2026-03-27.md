@@ -368,7 +368,7 @@ Downstream rule:
 | Daily output | `/home/ricky/builds/buyback-monitor/data/sell-prices-YYYY-MM-DD.json` | 10 days of history |
 | Latest output symlink | `/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json` | Points to today |
 | Product ID lookup (copy 1) | `/home/ricky/builds/backmarket/data/product-id-lookup.json` | 279 entries |
-| Product ID lookup (copy 2) | `/home/ricky/builds/bm-scripts/data/product-id-lookup.json` | 279 entries (identical) |
+| Product ID lookup (copy 2) | `/home/ricky/builds/backmarket/data/product-id-lookup.json (canonical)` | 279 entries (identical) |
 | BM product IDs knowledge doc | `/home/ricky/builds/backmarket/knowledge/bm-product-ids.md` | Good reference |
 | Weekly pipeline script | `/home/ricky/builds/buyback-monitor/run-weekly.sh` | Runs V6 (`--all`) → buy box monitor → sheet sync |
 | Cron entry | `0 5 * * 1` | `/home/ricky/builds/buyback-monitor/run-weekly.sh` |
