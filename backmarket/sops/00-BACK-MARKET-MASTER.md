@@ -1,314 +1,499 @@
 # Back Market Master Reference — iCorrect
 
-**Status:** SKELETON — section headings and structure only. Content to be written after all SOPs and scripts are complete.
+**Version:** 2.0
+**Date:** 30 Mar 2026
+**Status:** Complete reference document
 
 ---
 
 ## 1. How Back Market Works (Our Context)
 
 ### 1.1 Two Sides of BM
-- Buyback (trade-in): we BID to buy devices from customers
-- Selling (resale): we LIST refurbished devices for sale
-<!-- Content: explain the full cycle, how money flows, what we control -->
+
+**Buyback (trade-in):** Customers sell MacBooks to iCorrect via BM's buyback platform. Customer describes condition → BM matches to our bid → customer ships device → we receive, inspect, payout → we repair/refurb → we resell.
+
+**Selling (resale):** We list refurbished devices on BM. Buyers purchase → we ship → BM pays us (minus 10% commission). Revenue split: ~60% of iCorrect total (~£31k/mo).
+
+**Money flow:**
+```
+Customer → BM → iCorrect (purchase price minus 10% BM buy fee)
+                   ↓
+              Repair/refurb
+                   ↓
+           iCorrect → BM → Buyer (sale price minus 10% BM sell fee)
+```
+
+BM takes 10% on both sides (buy + sell).
 
 ### 1.2 Account & API Access
-- Account details
-- API base URL: `https://www.backmarket.co.uk`
-- Auth headers (Authorization, Accept-Language, User-Agent)
-- Environment variables
-<!-- Content: full auth setup, env var names, where stored -->
+
+| Detail | Value |
+|--------|-------|
+| API base URL | `https://www.backmarket.co.uk` |
+| Auth env var | `BACKMARKET_API_AUTH` / `BM_AUTH` (Basic auth) |
+| Language env var | `BACKMARKET_API_LANG` (`en-gb`) |
+| User agent env var | `BACKMARKET_API_UA` |
+| Monday token | `MONDAY_APP_TOKEN` |
+| Telegram | `TELEGRAM_BOT_TOKEN` + `BM_TELEGRAM_CHAT` |
+| Env file | `/home/ricky/config/.env` (or `/home/ricky/config/api-keys/.env`) |
+
+**All 3 BM headers required on EVERY call:**
+```
+Authorization: {BACKMARKET_API_AUTH}
+Accept-Language: en-gb
+User-Agent: {BACKMARKET_API_UA}
+```
+
+Missing `Accept-Language: en-gb` → EUR prices and wrong `pub_state`.
 
 ### 1.3 SLAs & Timelines
-- Shipping deadlines after sale
-- Trade-in payout timelines
-- Counter-offer windows
-- Tuesday cutoff protocol
-<!-- Content: exact SLA hours, penalties, consequences -->
+
+| SLA | Timeline | Consequence |
+|-----|----------|-------------|
+| Order acceptance | ASAP after state=1 (auto-accept via SOP 08) | Delayed acceptance = lost sale |
+| Shipping after acceptance | 2-3 business days | Overdue flag on BM, potential penalty |
+| Trade-in payout | 48h from `receivalDate` | Customer complaint, BM intervention |
+| Counter-offer response | 7 days (customer has 7 days to accept/reject) | Auto-accepted if no response |
+| Payout cycle | Wednesday to Tuesday | Tuesday EOD UK = cutoff for weekly payout |
 
 ### 1.4 Grade Mapping
-- BM sell grades: FAIR, GOOD, VERY_GOOD (Excellent)
-- BM buyback grades: STALLONE (NFC), BRONZE (NFU), SILVER (FC), GOLD (FU), PLATINUM (FG), DIAMOND (FE)
-- Our Final Grade: Fair, Good, Excellent
-- How grades map between systems
-<!-- Content: full mapping table, edge cases -->
+
+**Sell-side grades (what we list as):**
+
+| Our Grade | BM API Value | Usage |
+|-----------|-------------|-------|
+| Fair | FAIR | Cosmetic wear, fully functional |
+| Good | GOOD | Minor wear |
+| Excellent | VERY_GOOD | Near-perfect condition |
+
+**Buy-side grades (what customers declare):**
+
+| BM Grade | Monday Label | Condition |
+|----------|-------------|-----------|
+| STALLONE | NONFUNC_CRACKED | Non-functional + cracked |
+| BRONZE | NONFUNC_USED | Non-functional + used |
+| SILVER | FUNC_CRACKED | Functional + cracked |
+| GOLD | FUNC_USED | Functional + used |
+| PLATINUM | FUNC_GOOD | Functional + good |
+| DIAMOND | FUNC_EXCELLENT | Functional + excellent |
 
 ---
 
 ## 2. Product Catalogue
 
 ### 2.1 Product IDs — How They Work
-- Every unique spec combination has its own product_id (UUID)
-- product_id determines: title, backmarket_id, product page
-- product_id does NOT determine: grade, price, SKU
-<!-- Content: full explanation with examples, reference knowledge/bm-product-ids.md -->
+
+Every unique spec combination on BM has its own `product_id` (UUID). This is NOT one per model. It's one per exact combination of: model + CPU/GPU + RAM + SSD + colour.
+
+Example for MacBook Pro 13" M1 (A2338):
+- 8GB/256GB/Grey → `8948b82c`
+- 8GB/256GB/Silver → `0dfd2e16`
+- 16GB/512GB/Grey → `2e0861d0`
 
 ### 2.2 backmarket_id vs product_id vs listing_id
-- product_id: UUID for a spec combination (what we submit)
-- backmarket_id: BM's internal catalogue entry (assigned by BM)
-- listing_id: our specific listing on that catalogue entry (numeric)
-- UUID (id): listing UUID used for backbox API
-<!-- Content: how they relate, which to use where -->
+
+| ID | Type | What | Who sets |
+|----|------|------|----------|
+| `product_id` | UUID | One spec combination in BM's catalog | BM (we submit it) |
+| `backmarket_id` | Numeric | BM's internal catalog entry for that spec | BM (assigned on creation) |
+| `listing_id` | Numeric | Our specific listing on that catalog entry | BM (returned after creation) |
+| `id` (UUID) | UUID | Listing UUID used for backbox API | BM |
 
 ### 2.3 How Titles Are Determined
-- Title is set by product_id, not by seller
-- Seller cannot override title
-- Title always shows one spec combo per product page
-<!-- Content: examples of title resolution, common gotchas -->
 
-### 2.4 Product ID Lookup Table
-- Built from our existing 832+ listings
-- Location: `/home/ricky/builds/bm-scripts/data/product-id-lookup.json`
-- How to search it, how to maintain it
-- Rebuild process
-<!-- Content: lookup table structure, search logic, update frequency -->
+Title is set by `product_id`, not by seller. BM auto-generates the title from the catalog entry. We cannot override it. Using the wrong `product_id` = buyer sees the wrong spec.
+
+### 2.4 Canonical Data Files
+
+| File | What | Entries |
+|------|------|--------|
+| `data/bm-catalog.json` | Single product resolver (merged from 3 sources) | 309 variants |
+| `data/listings-registry.json` | Pre-built verified listing slots | 261 slots |
+| `data/product-id-lookup.json` | Historical product_id lookup from our listings | 279 entries |
+| `data/order-history-product-ids.json` | Product_ids from completed orders | 234 entries |
+| `data/listings-colour-map.json` | Colour extracted from listing SKUs | 157 entries |
+
+The catalog (`bm-catalog.json`) is the single product resolver. Every other file is an input to the catalog merge.
 
 ### 2.5 Sold-Out Specs
-- Sold-out = no sellers, not no product
-- product_id unavailable for sold-out picker options
-- Cannot create listings for specs we've never listed and no one else has
-- Options when stuck
-<!-- Content: what we've tried, what works, what doesn't -->
+
+Sold-out = no sellers, not no product. BM doesn't expose `product_id` for picker options with zero sellers. We can only get product_ids for:
+- Specs currently for sale (scraper)
+- Specs we've listed before (lookup table)
+- Specs we've sold before (order history)
+
+For genuinely new specs nobody has listed, we cannot get the `product_id` via automated means. Park the device for manual review.
 
 ### 2.6 SKU Format Standard
-- Format: `{Type}.{Model}.{Chip}.{GPU?}.{RAM}.{Storage}.{Colour}.{Grade}`
-- Current state: 832 listings with inconsistent legacy SKUs
-- Migration plan: create new listings with correct SKUs, archive old
-<!-- Content: full format spec, examples, migration approach -->
+
+Format: `{Type}.{Model}.{Chip}.{GPU?}.{RAM}.{Storage}.{Colour}.{Grade}`
+
+| Part | Values |
+|------|--------|
+| Type | `MBA` (Air), `MBP` (Pro) |
+| Model | A-number (e.g. A2337, A2338) |
+| Chip | M1, M2, M3, M1PRO, M2PRO, M3PRO, M1MAX, I3, I5, I7 |
+| GPU | Core count only when variants exist (e.g. 7C, 8C for Air M1) |
+| RAM | 8GB, 16GB, etc. |
+| Storage | 256GB, 512GB, 1TB, 2TB |
+| Colour | Grey, Silver, Gold, Midnight, Starlight, Space Black |
+| Grade | Fair, Good, Excellent (or FAIR, GOOD, VERY_GOOD in registry) |
+
+Example: `MBA.A2337.M1.7C.8GB.256GB.Grey.Fair`
 
 ---
 
 ## 3. API Reference
 
-### 3.1 Endpoints We Use
-- Listings: GET/POST `/ws/listings`, `/ws/listings/{id}`
-- Orders: GET `/ws/orders`
-- Backbox: GET `/ws/backbox/v1/competitors/{uuid}`
-- Tasks: GET `/ws/tasks/{task_id}`
-- Buyback orders: GET `/ws/buyback/v1/orders`
-- Buyback messages: GET/POST `/ws/buyback/v1/orders/{id}/messages`
-<!-- Content: full endpoint reference with request/response examples -->
+### 3.1 Endpoints
 
-### 3.2 Auth Headers (All 3 Required)
-- Authorization: `$BACKMARKET_API_AUTH`
-- Accept-Language: `en-gb` (mandatory, affects currency + pub_state)
-- User-Agent: `$BACKMARKET_API_UA`
-<!-- Content: what happens when each is missing -->
+| Endpoint | Method | Purpose | SOP |
+|----------|--------|---------|-----|
+| `/ws/listings` | POST | Create new listing (CSV body) | 06 |
+| `/ws/listings/{id}` | GET | Read listing details | 06, 07 |
+| `/ws/listings/{id}` | POST | Update listing (qty, price, pub_state) | 06, 07 |
+| `/ws/tasks/{id}` | GET | Poll creation task status | 06 |
+| `/ws/backbox/v1/competitors/{uuid}` | GET | Buy box price (uses UUID, NOT listing_id) | 06, 07 |
+| `/ws/orders?state=1` | GET | New sales orders | 08 |
+| `/ws/orders/{id}` | POST | Accept order | 08 |
+| `/ws/orders?state=9` | GET | Completed orders | 10 |
+| `/ws/buyback/v1/orders?status=SENT` | GET | Shipped trade-in orders | 01 |
+| `/ws/buyback/v1/orders/{id}` | GET | Trade-in order detail | 01 |
+| `/ws/buyback/v1/orders/{id}/validate` | PUT | Payout (IRREVERSIBLE) | 03b |
+| `/ws/buyback/v1/orders/{id}/suspend` | PUT | Suspend order (iCloud lock) | 02 |
+| `/ws/buyback/v1/orders/{id}/messages` | GET/POST | Customer messaging | 02 |
 
-### 3.3 Gotchas
-- POST not PATCH (PATCH returns 405)
-- Grade must be in CSV column for Path B (defaults to GOOD otherwise)
-- `publication_state` not `pub_state` in responses
-- Backbox API needs UUID, not numeric listing_id
-- Backbox returns array, not object
-- Multipart form-data silently fails; use JSON body with CSV in catalog field
-- `Accept-Language: en-gb` missing → EUR prices, wrong pub_state
-<!-- Content: each gotcha with example of what goes wrong -->
+### 3.2 Critical API Rules
 
-### 3.4 Rate Limits & Error Handling
-- HTML response = rate limited (wait 30s, retry)
-- 502 = Cloudflare block (retry once)
-- Pagination: 10 items per page for listings
-- Backbox API: ~2s between calls recommended
-<!-- Content: retry logic, backoff strategy -->
+- **POST not PATCH** for listing updates (PATCH returns 405)
+- **Grade must be in CSV** for Path B creation (BM defaults to GOOD without it)
+- **`pub_state: 2`** must be explicit on every activation
+- **`currency: "GBP"`** required in every listing POST
+- **Backbox uses UUID** (`listing.id`), NOT numeric `listing_id`
+- **Backbox returns array**, not object — handle `[0]`
+- **Multipart form-data silently fails** for listing creation — use JSON body with CSV in `catalog` field
+- **Pagination:** 10 items per page for listings (regardless of `limit` param)
+
+### 3.3 Rate Limits & Error Handling
+
+| Response | Meaning | Action |
+|----------|---------|--------|
+| HTML response | Rate limited | Wait 30s, retry up to 3 times |
+| 502 | Cloudflare block | Retry once after delay |
+| 4xx | Client error | Do NOT retry (check payload) |
+| 5xx | Server error | Retry once after 30s |
 
 ---
 
 ## 4. Buyback (Trade-in Side)
 
-### 4.1 How Bidding Works
-- We set buy prices per model/grade on BM
-- Customers choose us based on price
-- Device ships to us, we inspect, we payout or counter-offer
-<!-- Content: full flow from customer perspective -->
+### 4.1 Pipeline
 
-### 4.2 Grade Tiers
-- STALLONE = NFC (Non-Functional Cracked)
-- BRONZE = NFU (Non-Functional Used)
-- SILVER = FC (Functional Cracked)
-- GOLD = FU (Functional Used)
-- PLATINUM = FG (Functional Good)
-- DIAMOND = FE (Functional Excellent)
-<!-- Content: what each grade means physically, our repair approach per grade -->
+```
+Customer lists on BM → BM sends SENT order → SOP 01 creates Monday items
+→ Device arrives → SOP 02 intake (iCloud + spec check)
+→ SOP 03 diagnostic (grades, parts, profitability)
+→ SOP 03b payout (IRREVERSIBLE)
+→ SOP 04 repair/refurb
+→ QC → Final Grade assigned
+→ SOP 06 listing
+```
 
-### 4.3 Profitability Formula for Bids
-- Hugo's buy box monitor calculates bid profitability
-- Inputs: buy price, estimated sell price, estimated parts, estimated labour
-- Audit status and findings
-<!-- Content: formula breakdown, audit results, reference to buybox-audit.md -->
+### 4.2 Grade Tiers & Repair Approach
 
-### 4.4 Hugo's Buybox Monitor
-- Script: `/home/ricky/builds/buyback-monitor/buy_box_monitor.py`
-- What it does, how it runs, audit findings
-<!-- Content: script reference, cron schedule, known issues -->
+| BM Grade | Monday Label | Physical Condition | Typical Approach |
+|----------|-------------|-------------------|-----------------|
+| STALLONE | NONFUNC_CRACKED | Non-functional + cracked screen | Major repair + screen replacement |
+| BRONZE | NONFUNC_USED | Non-functional + cosmetic wear | Board/component repair |
+| SILVER | FUNC_CRACKED | Working + cracked screen | Screen replacement |
+| GOLD | FUNC_USED | Working + wear | Cosmetic refurb |
+| PLATINUM | FUNC_GOOD | Working + minor wear | Light refurb |
+| DIAMOND | FUNC_EXCELLENT | Working + near-perfect | Clean and list |
 
-### 4.5 Related SOPs
-- SOP 01: Trade-in order SENT → Monday
-- SOP 02: Intake/receiving
-- SOP 03: Diagnostic
-- SOP 03b: Trade-in payout
+### 4.3 Acquisition Policy (confirmed 12 Mar 2026)
+
+- STOP bidding on GOLD/PLATINUM/DIAMOND: 76% arrive damaged
+- SILVER only with screen cost factored in
+- BRONZE, STALLONE acceptable if priced right
+
+### 4.4 Related SOPs
+
+| SOP | What |
+|-----|------|
+| 01 | SENT orders → Monday (BM numbering, assessments, device matching) |
+| 02 | Intake: iCloud check + Apple spec lookup + spec comparison |
+| 03 | Diagnostic: pre-grades, ammeter, profitability prediction |
+| 03b | Payout: validate via BM API (irreversible) |
+| 04 | Repair & refurb: parts consumption, labour tracking |
 
 ---
 
 ## 5. Selling (Resale Side)
 
-### 5.1 Listing Creation
-- Path A: reactivate existing listing (qty=0 → qty=1)
-- Path B: create new listing via JSON body with CSV
-- Product_id lookup order: our listings → V7 scraper → Intel table
-- Grade must be in CSV column
-<!-- Content: full flow, decision tree, examples -->
+### 5.1 Listing Creation (SOP 06)
+
+**Registry first.** 261 pre-built verified listing slots in `listings-registry.json`. Look up SKU → get `listing_id` → bump qty + set price. No creation needed.
+
+**Path B fallback.** For specs not in the registry, create fresh via CSV body to `POST /ws/listings`. Always create at qty=0 state=3 (draft). Never reactivate old listings.
+
+**Live scrape before P&L.** Single-page scrape of the device's BM product page for live grade prices and adjacent spec pricing. Backbox for competitive price after activation.
 
 ### 5.2 Post-Listing Verification (MANDATORY)
-- Verify grade matches expected
-- Verify title contains correct RAM and SSD
-- Auto-take offline on any mismatch
-- Never skip this step
-<!-- Content: verification checklist, what happens on failure -->
 
-### 5.3 Buy Box Management
-- Daily check via backbox API
-- Full profitability analysis per listing
-- Age-based escalation
-- Grade ladder integrity
-<!-- Content: reference SOP 07, script path -->
+Every listing, every time. Verify:
+- `product_id` matches expected
+- `grade` matches (FAIR/GOOD/VERY_GOOD)
+- Title contains correct RAM and SSD
+- Colour verified by catalog or title
+- `publication_state` and `quantity` correct
 
-### 5.4 Profitability Formula
-- Costs: purchase + parts + labour + shipping + buy fee
-- Fees: sell fee (10%), VAT (16.67% on margin)
-- B/E formula: `(fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667)`
-- Net@min: calculated at 3% floor price
-<!-- Content: full formula with worked example -->
+Mismatch → qty=0 immediately. Monday NOT updated. Telegram alert.
 
-### 5.5 Related SOPs
-- SOP 06: Listing
-- SOP 07: Buy box management
-- SOP 08: Sale detection
-- SOP 09: Shipping
-- SOP 10: Payment reconciliation
+### 5.3 Pricing
+
+**Pricing cascade:**
+1. Backbox `price_to_win` (if available and ≥ floor)
+2. Floor price (if backbox below floor)
+3. Live scrape grade price (if no backbox)
+4. Floor × 1.5 (if no scrape and no backbox)
+
+**Never use old listing prices.** They are stale.
+
+### 5.4 Related SOPs
+
+| SOP | What |
+|-----|------|
+| 06 | Listing: registry lookup, live scrape, clean-create, backbox pricing |
+| 06.5 | Reconciliation: Monday vs BM cross-check |
+| 07 | Buy box: price monitoring and auto-bump |
+| 08 | Sale detection: auto-accept, Monday updates |
+| 09 | Shipping: label buying + BM ship confirmation |
+| 10 | Payment reconciliation (manual) |
+| 11 | Tuesday cutoff protocol |
+| 12 | Returns and aftercare |
 
 ---
 
 ## 6. Costs & Profitability
 
 ### 6.1 Cost Components
-- Purchase price (ex VAT, from Monday `numeric`)
-- Parts cost (from Monday `lookup_mkx1xzd7` — mirror column, comma-separated, sum values)
-- Labour (hours × £24/hr, from Monday `formula__1`)
-- Shipping: £15 flat
-- BM buy fee: purchase × 10%
-- BM sell fee: sell × 10%
-- VAT (margin scheme): (sell - purchase) × 16.67%
-<!-- Content: source column for each, edge cases -->
+
+| Cost | Source | Column |
+|------|--------|--------|
+| Purchase price (ex VAT) | BM Devices Board | `numeric` |
+| Parts cost | Main Board (mirror, comma-separated, sum) | `lookup_mkx1xzd7` |
+| Labour | Main Board (hours × £24/hr) | `formula__1` |
+| Shipping | Flat | £15 |
+| BM buy fee | purchase × 10% | Calculated |
+| BM sell fee | sell × 10% | Calculated |
+| VAT (margin scheme) | (sell - purchase) × 16.67% (if positive) | Calculated |
+
+**Labour rate:** £24/hr (£18 base + £6 overhead). Source: Ricky, Mar 15.
 
 ### 6.2 Break-Even Formula
+
 ```
 total_fixed = purchase + parts + labour + shipping + bm_buy_fee
 break_even = ceil((total_fixed - purchase × 0.1667) / (1 - 0.10 - 0.1667))
 ```
-- Purchase VAT portion REDUCES B/E (not increases)
-- Incident: was wrong until Mar 21 fix
-<!-- Content: derivation, common mistakes -->
 
-### 6.3 Margin Thresholds
-- ≥30% + ≥£100 net: auto-list (currently disabled)
-- 15-30%: propose to Ricky
-- <15%: flag as low margin
-- <0%: flag as loss maker (can still be approved to clear stock)
-<!-- Content: threshold rationale, when to override -->
+Purchase VAT portion REDUCES break-even (VAT is only on margin above purchase price).
 
-### 6.4 Labour Rate
-- £24/hr loaded rate (£18 base Misha + £6 overhead)
-- Source: Ricky, Mar 15
-<!-- Content: how rate was derived, when to revisit -->
+### 6.3 Profitability at min_price
+
+```
+min_price = ceil(proposed × 0.97)    # 3% floor
+bm_sell_fee = min_price × 0.10
+vat = max(0, (min_price - purchase) × 0.1667)
+total_costs = purchase + parts + labour + shipping + bm_buy_fee + bm_sell_fee + vat
+net = min_price - total_costs
+margin = (net / min_price) × 100
+```
+
+### 6.4 Decision Gates
+
+| Condition | Decision |
+|-----------|----------|
+| Net ≥ £50 and margin ≥ 15% | PROPOSE |
+| Net ≥ £50 and margin < 15% | PROPOSE (flag low margin) |
+| Net < £50 | BLOCK (unless `--min-margin 0` override) |
+| Net < £0 | BLOCK (unless `--min-margin 0` override) |
+
+**Buy box auto-bump gates (SOP 07):**
+
+| Margin | Net | Action |
+|--------|-----|--------|
+| ≥ 30% | ≥ £50 | Auto-bump (silent) |
+| 15-30% | ≥ £50 | Auto-bump + flag Telegram |
+| < 15% | any | DO NOT bump |
+| any | < £50 | DO NOT bump |
 
 ---
 
 ## 7. Monday Integration
 
-### 7.1 Board IDs
-- Main Board: 349212843
-- BM Devices Board: 3892194968
-- Parts Board: 985177480
-<!-- Content: full board list with purposes -->
+### 7.1 Boards
 
-### 7.2 Column Reference — Main Board
-<!-- Content: full column ID table with types and purposes -->
+| Board | ID | Purpose |
+|-------|----|---------|
+| Main Board | 349212843 | Primary repair/sales workflow |
+| BM Devices Board | 3892194968 | BM-specific device data, listing linkage |
+| Parts Board | 985177480 | Parts inventory and supply prices |
 
-### 7.3 Column Reference — BM Devices Board
-<!-- Content: full column ID table -->
+### 7.2 Key Main Board Columns
+
+| Column ID | Title | Type |
+|-----------|-------|------|
+| `text_mky01vb4` | BM Trade-in ID | text |
+| `text4` | IMEI/SN (serial) | text |
+| `status4` | Status | status |
+| `status24` | Repair Type / lifecycle | status |
+| `status8` | Colour | status |
+| `status_2_Mjj4GJNQ` | Final Grade | status |
+| `lookup_mkx1xzd7` | Parts Cost (mirror) | mirror |
+| `formula_mkx1bjqr` | Labour Cost £ | formula |
+| `formula__1` | Labour Hours / RR&D Time | formula |
+| `text53` | Outbound Tracking | text |
+| `date_mkq385pa` | Date Listed (BM) | date |
+| `date_mkq34t04` | Date Sold (BM) | date |
+| `board_relation5` | Link to BM Devices | board_relation |
+
+### 7.3 Key BM Devices Board Columns
+
+| Column ID | Title | Type |
+|-----------|-------|------|
+| `text_mkyd4bx3` | BM Listing ID | text |
+| `text_mm1dt53s` | Product UUID | text |
+| `text89` | SKU | text |
+| `numeric` | Purchase Price (ex VAT) | numbers |
+| `numeric_mm1mgcgn` | Total Fixed Cost | numbers |
+| `numeric5` | Sale Price (ex VAT) | numbers |
+| `text_mkye7p1c` | BM Sales Order ID | text |
+| `text4` | Sold to (buyer) | text |
+| `text8` | Seller (customer) | text |
+| `status__1` | RAM | status |
+| `color2` | SSD | status |
+| `status7__1` | CPU | status |
+| `status8__1` | GPU | status |
+| `color_mm1fj7tb` | Trade-in Grade | status |
+| `board_relation` | Link to Main Board | board_relation |
+| `lookup_mm1vzeam` | BM Trade-in ID (mirror) | mirror |
 
 ### 7.4 Status Values (status24)
-- Index 7: Listed
-- Index 8: To List
-- Index 10: Sold
-- Index 104: Unlisted
-<!-- Content: full index reference -->
 
-### 7.5 What Gets Written When
-- At listing: status24, listing_id, date_listed, total_fixed_cost
-- At sale: status → Sold, sale price
-- At shipping: status → Shipped
-<!-- Content: full mapping of SOP step → Monday write -->
+| Index | Value | Set By |
+|-------|-------|--------|
+| 3 | Counteroffer | icloud-checker (spec mismatch) |
+| 6 | Purchased | bm-payout (after BM validate) |
+| 7 | Listed | list-device.js (after verified listing) |
+| 8 | To List | QC tech (after final grade) |
+| 10 | Sold | sale-detection.js (after sale confirmed) |
+| 12 | Pay-Out | Team (triggers payout webhook) |
+| 104 | Unlisted | Manual |
+
+### 7.5 Groups
+
+| Group | ID | Board | Purpose |
+|-------|----|-------|---------|
+| Incoming Future | `new_group34198` | Main | Incoming trade-ins |
+| Today's Repairs | `new_group70029` | Main | Active repair queue |
+| iCloud Locked | `group_mktsw34v` | Main | Locked devices |
+| BMs Awaiting Sale | `new_group88387__1` | Main | Devices ready to list/listed |
+| BM Trade-Ins | `group_mkq3wkeq` | BM Devices | Active trade-in items |
+| Shipped | `new_group269` | BM Devices | Shipped to buyer |
+| BM Returns | `new_group_mkmybfgr` | BM Devices | Returned by buyer |
 
 ---
 
-## 8. Scripts Reference
+## 8. Services & Scripts
 
-| Script | SOP | Purpose | Status |
-|--------|-----|---------|--------|
-| sent-orders.js | 01 | Trade-in SENT orders → Monday | ✅ QA'd |
-| trade-in-payout.js | 03b | Trade-in payout processing | ✅ QA'd |
-| list-device.js | 06 | Listing creation / reactivation | ✅ QA'd |
-| reconcile-listings.js | 06.5 | Monday↔BM listings reconciliation | ✅ QA'd |
-| buy-box-check.js | 07 | Sell-side buy box management | ✅ QA'd |
-| sale-detection.js | 08 | Sale detection from BM orders | ✅ QA'd |
-| shipping.js | 09 | Shipping workflow | ✅ QA'd |
-| listings-audit.js | — | Listings health check / audit | ✅ QA'd |
-| buyback-profitability-builder.js | — | Build profitability lookup from Monday data | ✅ QA'd |
-| buy_box_monitor.py | Buyback | Trade-in bidding (Hugo's) | Daily 05:00 |
-| sell_price_scraper_v7.js | — | V7 sell prices scraper | Daily 05:00 |
+### 8.1 Live Webhook Services
+
+| Service | Port | Route | SOP | systemd |
+|---------|------|-------|-----|---------|
+| icloud-checker | 8010 | `/webhook/icloud-check` | 02 | `icloud-checker.service` |
+| bm-grade-check | 8011 | `/webhook/bm/grade-check` | 03 | `bm-grade-check.service` |
+| bm-payout | 8012 | `/webhook/bm/payout` | 03b | `bm-payout.service` |
+| bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09 | `bm-shipping.service` |
+
+All behind nginx at `mc.icorrect.co.uk`. Port 8010 not exposed publicly.
+
+### 8.2 Scripts
+
+| Script | SOP | Purpose |
+|--------|-----|---------|
+| `sent-orders.js` | 01 | BM SENT orders → Monday (BM numbering, PDF assessments, device matching) |
+| `list-device.js` | 06 | Listing: registry lookup, live scrape, clean-create, backbox pricing |
+| `reconcile-listings.js` | 06.5 | Monday ↔ BM listings reconciliation |
+| `buy-box-check.js` | 07 | Buy box monitoring and auto-bump |
+| `sale-detection.js` | 08 | Sale detection and auto-accept |
+| `build-listings-registry.js` | — | Pre-create and verify listing slots |
+
+All scripts at `backmarket/scripts/`. Shared lib at `scripts/lib/`.
+
+### 8.3 Scraper
+
+**File:** `buyback-monitor/sell_price_scraper_v7.js`
+**Schedule:** Weekly, Monday 05:00 UTC (`run-weekly.sh`)
+**Coverage:** 16 MacBook models + 27 iPhone/iPad models (via `--all`)
+**Output:** `buyback-monitor/data/sell-prices-latest.json`
+
+### 8.4 Cron Jobs
+
+| Schedule | Script | Status |
+|----------|--------|--------|
+| `0 5 * * 1` | `run-weekly.sh` (V7 scraper → buy box monitor → sheet sync) | Active |
+| `0 6 * * *` | `sent-orders.js --live` | Active |
+| — | `sale-detection.js` | Not scheduled (needs cron) |
+| — | `dispatch.js` | Not scheduled (manual) |
 
 ---
 
 ## 9. Lessons & Incidents
 
 ### 9.1 Grade Mismatch Incident (Mar 21)
-- Path B CSV without grade column → BM defaults to GOOD
-- Stored listing IDs not spec-verified → wrong product sold
-- Fix: grade in CSV, spec+grade verification gate, title verification
-<!-- Content: full incident timeline, root causes, fixes -->
 
-### 9.2 Product_id = Exact Spec
-- One product_id per RAM/SSD/colour/CPU combo
-- Using wrong product_id = wrong product shown to buyer
-- V7 scraper gives base model product_id only
-- Lookup table from our listings is the reliable source
-<!-- Content: full explanation, examples -->
+Path B CSV without grade column → BM defaults to GOOD regardless of intent. Stored listing IDs not spec-verified → wrong product sold.
 
-### 9.3 Never Trust, Always Verify
-- Verify grade after every listing creation
-- Verify title contains correct RAM + SSD
-- Verify stored listing IDs match device specs before reuse
-- Auto-take offline on any mismatch
-<!-- Content: verification rules, what we check -->
+**Fixes:** Grade must be in CSV. Spec+grade verification gate. Title verification mandatory after every listing. Auto-take offline on mismatch.
+
+### 9.2 Rogue Payout Incident (Mar 27)
+
+Old Python payout watcher ran alongside new webhook service, causing duplicate payouts. Evidence preserved in `audit/payout-incident-evidence-2026-03-27/`.
+
+**Fixes:** Old watcher killed. Payout service hardened with dedup (in-flight + recent-update scan). Crontab cleaned.
+
+### 9.3 £626 M3 Pro Incident (Mar 27)
+
+Script reactivated a dormant listing with a stale price. Backbox returned 404 (listing offline), so it fell back to the old listing price which was months out of date.
+
+**Fixes:** Never reactivate old listings. Clean-create only. Draft first, price from backbox after creation. Safe placeholder (floor × 2) for draft. Registry of 261 verified slots eliminates on-demand creation.
+
+### 9.4 Cost Column Bug (Mar 27-28)
+
+`list-device.js` was reading `formula_mkx1bjqr` (Labour Cost £) as Parts Cost. The real Parts Cost is `lookup_mkx1xzd7` (mirror column, comma-separated, summed).
+
+**Fix:** Corrected column read. Backfilled 7 active devices with correct Total Fixed Cost. Added `--recalc` flag to `buy-box-check.js` for live cost refresh.
 
 ---
 
 ## 10. SOPs Index
 
-| SOP | Title | Script | Status |
-|-----|-------|--------|--------|
-| 01 | Trade-in order SENT | sent-orders.js | ✅ Script QA'd |
-| 02 | Intake/receiving | — | SOP written, manual process |
-| 03 | Diagnostic | — | SOP written, manual process |
-| 03b | Trade-in payout | trade-in-payout.js | ✅ Script QA'd |
-| 04 | Repair/refurb | — | SOP written, manual process |
-| 05 | QC/Final grade | — | SOP written, manual process |
-| 06 | Listing | list-device.js | ✅ Script QA'd |
-| 06.5 | Listings reconciliation | reconcile-listings.js | ✅ Script QA'd |
-| 07 | Buy box management | buy-box-check.js | ✅ Script QA'd |
-| 08 | Sale detection | sale-detection.js | ✅ Script QA'd |
-| 09 | Shipping | shipping.js | ✅ Script QA'd |
-| 10 | Payment reconciliation | — | SOP written, script pending |
-| 11 | Tuesday cutoff | — | SOP written, manual process |
-| 12 | Returns/aftercare | — | PLACEHOLDER, needs discussion |
+| SOP | Title | Script/Service | Status |
+|-----|-------|---------------|--------|
+| 01 | Trade-in Purchase | `sent-orders.js` | QA'd ✅ |
+| 02 | Intake & Receiving | `icloud-checker` (8010) | QA'd ✅ |
+| 03 | Diagnostic | `bm-grade-check` (8011) | QA'd ✅ |
+| 03b | Trade-in Payout | `bm-payout` (8012) | QA'd ✅ |
+| 04 | Repair & Refurb | Manual process | QA'd ✅ |
+| 05 | QC & Final Grade | Not documented | Gap |
+| 06 | Listing | `list-device.js` | QA'd ✅ v2.1 |
+| 06.5 | Listings Reconciliation | `reconcile-listings.js` | QA'd ✅ |
+| 07 | Buy Box Management | `buy-box-check.js` | QA'd ✅ |
+| 08 | Sale Detection | `sale-detection.js` | QA'd ✅ (no cron) |
+| 09 | Shipping | `dispatch.js` + `bm-shipping` (8013) | QA'd ✅ |
+| 10 | Payment Reconciliation | Manual process | QA'd ✅ |
+| 11 | Tuesday Cutoff | Not built | QA'd ✅ |
+| 12 | Returns & Aftercare | Manual + counter-offer buttons | QA'd ✅ |
+
+**Known gap:** SOP 05 (QC & Final Grade) does not exist. This is the step between repair (SOP 04) and listing (SOP 06) where the Final Grade is assigned.
