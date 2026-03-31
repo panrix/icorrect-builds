@@ -1,0 +1,12 @@
+{
+  "name": "icorrect-status-notifications",
+  "version": "1.0.0",
+  "description": "Monday.com status4 change → Intercom notification emails",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
