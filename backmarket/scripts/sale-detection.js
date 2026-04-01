@@ -30,7 +30,7 @@
  *   - Accept uses SKU from ORDER LINE (line.listing), NOT from Monday
  *   - Accept uses order_id, NOT line item id
  *   - Listing ID source of truth is BM Devices text_mkyd4bx3
- *   - Only items in the BM Devices saleable group (group new_group269 / Shipped) are eligible for matching
+ *   - Only items in the BM Devices saleable group (group new_group / BM To List / Listed / Sold) are eligible for matching
  *   - Every field must match 1:1: model, spec, grade, colour
  */
 
@@ -46,7 +46,7 @@ const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 
 const MAIN_BOARD = 349212843;
 const BM_DEVICES_BOARD = 3892194968;
-const BM_SALEABLE_GROUP = 'new_group269'; // BM Devices saleable stock group (Shipped)
+const BM_SALEABLE_GROUP = 'new_group'; // BM Devices saleable stock group (BM To List / Listed / Sold)
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 
