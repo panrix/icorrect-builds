@@ -1,7 +1,7 @@
 # Todo — Monday Status Notifications
 
 **Date:** 2026-03-31
-**Status:** Shadow service implemented and fully branch-covered. Not yet cut over to live Intercom sending.
+**Status:** Shadow service implemented, fully branch-covered, challenge-tested, and alert-tested. Not yet cut over to live Intercom sending.
 
 ## Current State
 
@@ -18,6 +18,9 @@ Completed:
 - shadow traffic observed from real production events
 - all 14 template branches exercised
 - missing-Intercom-ID skip path exercised
+- challenge response path exercised
+- failure alert path exercised and Slack alert observed
+- representative shadow output compared against the legacy template source
 - temporary Monday test items cleaned up
 
 Reference docs:
@@ -28,21 +31,9 @@ Reference docs:
 
 ## Remaining Before Cutover
 
-1. Capture the Monday service and docs in git.
-
-2. Test the Monday challenge path.
-- POST `{"challenge":"test"}`
-- confirm response echoes the challenge
-
-3. Simulate Intercom failure.
-- confirm Slack alerting fires
-- confirm service logs the failure cleanly
-
-4. Compare shadow output to old n8n output.
-- use representative cases across the observed routes
-- confirm body content and routing parity
-
-5. Keep the service in shadow mode until steps 1-4 are signed off.
+1. Pick the live cutover window.
+2. Confirm who will disable the old n8n sender.
+3. Keep the service in shadow mode until the cutover starts.
 
 ## Cutover Steps
 

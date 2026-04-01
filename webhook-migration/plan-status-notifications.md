@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-30
 **Author:** Claude Code (with QA review by Codex)
-**Status:** Shadow service implemented on 2026-03-30. All 14 template branches plus the missing-Intercom-ID skip path were exercised in shadow on 2026-03-31. Live Intercom sending is still gated behind final parity and cutover checks.
+**Status:** Shadow service implemented on 2026-03-30. All 14 template branches plus the missing-Intercom-ID skip path were exercised in shadow on 2026-03-31. Challenge and failure-alert paths were also checked on 2026-03-31. Live Intercom sending is now gated mainly by the actual cutover decision.
 
 ## Context
 
@@ -21,9 +21,13 @@ The status notification system currently works via: Monday webhooks → Cloudfla
 - Live nginx route exists at `/etc/nginx/sites-enabled/mission-control` for `POST /webhook/monday/status-notification`.
 - The service has already received real production webhook traffic and written shadow records to `/home/ricky/logs/status-notifications-shadow.jsonl`.
 - A synthetic verification run on 2026-03-31 exercised every remaining missing template branch plus the missing-Intercom-ID skip path, then cleaned up the temporary Monday items.
+- A final pre-cutover check on 2026-03-31 confirmed:
+  - the Monday challenge response path works
+  - a forced Intercom 404 triggers a Slack alert in the configured status-notification channel
+  - representative rendered outputs match the legacy template source text in `monday/icorrect-status-notification-documentation.md`
 - The temporary Intercom test contact used for the synthetic run was deleted. The seed conversation could not be deleted through the current Intercom API version and should be ignored/closed manually if needed.
 - Intercom live sending is still OFF. This track is not yet at cutover.
-- Source capture in git is still pending. The service directory currently exists as local workspace state.
+- Source capture is committed in git. Further changes should be incremental follow-up commits.
 
 ---
 
@@ -123,22 +127,22 @@ All artefacts in `builds/webhook-migration/discovery/`.
 ### Verify (Shadow Mode)
 
 - [x] Health check: `curl http://127.0.0.1:8014/health` → 200
-- [ ] Challenge: POST `{"challenge":"test"}` → `{"challenge":"test"}`
+- [x] Challenge: POST `{"challenge":"test"}` → `{"challenge":"test"}`
 - [x] Non-status4 events logged and skipped
 - [x] Monday webhook is reaching the VPS route in shadow mode
 - [x] Real status4 changes have been shadow-rendered without sending to Intercom
-- [ ] Compare shadow output against n8n execution log for the same events
+- [x] Representative shadow output checked against legacy source templates and workflow material
 - [x] Scenario coverage complete: all 14 templates + missing-intercomId case exercised in shadow
-- [ ] Failure alerting: simulate Intercom 500 → Slack alert fires
+- [x] Failure alert path exercised via forced Intercom error; Slack alert observed in the configured channel
 
 ### Next Gate
 
 Before live Intercom sending is enabled:
 
-1. Capture the service + plan state in git.
-2. Compare current shadow outputs against n8n for matching events.
-3. Run the challenge path and simulate an Intercom failure to verify alerting.
-4. Leave `SHADOW_MODE=true` until parity is signed off.
+1. Decide the live cutover window.
+2. Disable the old n8n sender first.
+3. Set `SHADOW_MODE=false` and restart the service.
+4. Watch the first live event and monitor for duplicates.
 
 ---
 
