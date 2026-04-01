@@ -23,13 +23,14 @@
  * Edge cases implemented:
  *   - No match found → flag, don't accept
  *   - Already processed (text4 populated) → skip
- *   - Multi-unit listing → pick first with empty text4
+ *   - Multi-unit listing → pick first with empty text4 in BMs Awaiting Sale group only
  *   - Qty -1 (double checkout) → flag for manual review
  *
  * CRITICAL RULES:
  *   - Accept uses SKU from ORDER LINE (line.listing), NOT from Monday
  *   - Accept uses order_id, NOT line item id
  *   - Listing ID source of truth is BM Devices text_mkyd4bx3
+ *   - Only items in BMs Awaiting Sale (group new_group88387__1) are eligible for matching
  *   - Every field must match 1:1: model, spec, grade, colour
  */
 
@@ -45,6 +46,7 @@ const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 
 const MAIN_BOARD = 349212843;
 const BM_DEVICES_BOARD = 3892194968;
+const BM_SALEABLE_GROUP = 'new_group88387__1'; // BMs Awaiting Sale / listed stock only
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 
@@ -104,7 +106,8 @@ async function fetchNewOrders() {
 async function matchToBmDevice(listingId) {
   const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
-  return d.data?.boards?.[0]?.items_page?.items || [];
+  const items = d.data?.boards?.[0]?.items_page?.items || [];
+  return items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
 }
 
 // ─── Step 3: Verify stock ─────────────────────────────────────────
@@ -151,8 +154,20 @@ async function updateMainBoard(mainItemId, dateSold) {
 }
 
 // ─── Step 5d: Rename Main Board item ──────────────────────────────
+// Format: "BM XXXX (Buyer Name)" — preserve BM number, replace seller name with buyer name
 async function renameMainBoardItem(mainItemId, buyerName) {
-  const q = `mutation { change_simple_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "name", value: ${JSON.stringify(buyerName)}) { id } }`;
+  // Fetch current item name to extract BM prefix
+  const fetchQ = `{ items(ids: [${mainItemId}]) { name } }`;
+  const fetchD = await mondayApi(fetchQ);
+  const currentName = fetchD?.data?.items?.[0]?.name || '';
+
+  // Extract "BM XXXX" prefix — everything up to and including the number
+  const bmMatch = currentName.match(/^(BM\s+\d+)/i);
+  const bmPrefix = bmMatch ? bmMatch[1] : currentName.split('(')[0].trim();
+
+  const newName = `${bmPrefix} (${buyerName})`;
+  const q = `mutation { change_simple_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "name", value: ${JSON.stringify(newName)}) { id } }`;
+  console.log(`  Renaming: "${currentName}" → "${newName}"`);
   const d = await mondayApi(q);
   return !!d.data;
 }
