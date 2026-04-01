@@ -23,14 +23,14 @@
  * Edge cases implemented:
  *   - No match found → flag, don't accept
  *   - Already processed (text4 populated) → skip
- *   - Multi-unit listing → pick first with empty text4 in BMs Awaiting Sale group only
+ *   - Multi-unit listing → pick first with empty text4 in the BM Devices saleable group only
  *   - Qty -1 (double checkout) → flag for manual review
  *
  * CRITICAL RULES:
  *   - Accept uses SKU from ORDER LINE (line.listing), NOT from Monday
  *   - Accept uses order_id, NOT line item id
  *   - Listing ID source of truth is BM Devices text_mkyd4bx3
- *   - Only items in BMs Awaiting Sale (group new_group88387__1) are eligible for matching
+ *   - Only items in the BM Devices saleable group (group new_group269 / Shipped) are eligible for matching
  *   - Every field must match 1:1: model, spec, grade, colour
  */
 
@@ -46,7 +46,7 @@ const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 
 const MAIN_BOARD = 349212843;
 const BM_DEVICES_BOARD = 3892194968;
-const BM_SALEABLE_GROUP = 'new_group88387__1'; // BMs Awaiting Sale / listed stock only
+const BM_SALEABLE_GROUP = 'new_group269'; // BM Devices saleable stock group (Shipped)
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
 
