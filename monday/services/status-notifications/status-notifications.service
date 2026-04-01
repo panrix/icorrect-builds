@@ -1,0 +1,15 @@
+[Unit]
+Description=Monday Status Notification Service (status4 -> Intercom)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/monday/services/status-notifications
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/home/ricky/config/.env
+Environment=SHADOW_MODE=false
+
+[Install]
+WantedBy=default.target

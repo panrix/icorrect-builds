@@ -1,6 +1,6 @@
 # Master Todo — Webhook Migration
 
-**Date:** 2026-03-31
+**Date:** 2026-04-01
 **Purpose:** One execution pack covering both active migration tracks without mixing their scopes again.
 
 ## Tracks
@@ -8,10 +8,11 @@
 There are **2 separate projects** here:
 
 1. **Monday Status Notifications**
-   - Current state: shadow service exists and is verified across all 14 template branches plus the missing-Intercom-ID skip path.
+   - Current state: live on VPS as of 2026-04-01. Old n8n sender is disabled. Controlled live smoke send passed. Remaining work is monitoring and automation cleanup.
    - Current docs:
      - `plan-status-notifications.md`
      - `status-notifications-shadow-verification-2026-03-31.md`
+     - `status-notifications-live-cutover-2026-04-01.md`
      - `cutover-checklist-status-notifications.md`
 
 2. **Shopify / Intercom Attribution Fix**
@@ -39,23 +40,20 @@ There are **2 separate projects** here:
 
 ## Execution Order
 
-1. Finish Monday pre-cutover checks.
-2. Capture Monday state in git.
-3. Cut over Monday status notifications.
-4. Monitor Monday for 48 hours.
-5. Re-scope and freeze Shopify / Intercom product decisions.
-6. Build Shopify Stage 1 only: consumer + corporate.
-7. Cut over Shopify in stages.
-8. Disable old n8n flows only after each completed stage is proven.
+1. Monitor Monday for 48 hours.
+2. Review Monday automation destinations in the UI.
+3. Disable only the confirmed-safe Monday token-burner automations.
+4. Re-scope and freeze Shopify / Intercom product decisions.
+5. Build Shopify Stage 1 only: consumer + corporate.
+6. Cut over Shopify in stages.
+7. Disable old n8n flows only after each completed stage is proven.
 
 ## Monday Track — Remaining Work
 
-1. Capture the service and docs in git.
-2. Test the Monday challenge path.
-3. Simulate Intercom failure and confirm Slack alerting.
-4. Compare representative shadow outputs against old n8n output.
-5. Keep `SHADOW_MODE=true` until the above are signed off.
-6. Use `cutover-checklist-status-notifications.md` for live cutover.
+1. Monitor logs and Slack alerts for 48 hours.
+2. Confirm there are no duplicate or missed notifications in production.
+3. Review Monday automation destinations in the UI.
+4. Disable only the automations confirmed safe to remove.
 
 ## Shopify / Intercom Track — Remaining Work
 
@@ -78,6 +76,7 @@ There are **2 separate projects** here:
 
 - VPS sender is live
 - old n8n sender is disabled
+- controlled live smoke send is verified
 - no duplicate or missed notifications are observed
 - logs are clean for 48 hours
 - token-burning automations are either safely disabled or explicitly documented as still pending UI confirmation

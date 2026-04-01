@@ -2,7 +2,7 @@
 
 **Date:** 2026-03-30
 **Author:** Claude Code (with QA review by Codex)
-**Status:** Shadow service implemented on 2026-03-30. All 14 template branches plus the missing-Intercom-ID skip path were exercised in shadow on 2026-03-31. Challenge and failure-alert paths were also checked on 2026-03-31. Live Intercom sending is now gated mainly by the actual cutover decision.
+**Status:** Shadow service was implemented on 2026-03-30, fully verified on 2026-03-31, and cut over to live Intercom sending on 2026-04-01. The remaining work is monitoring and final automation cleanup.
 
 ## Context
 
@@ -14,10 +14,10 @@ The status notification system currently works via: Monday webhooks → Cloudfla
 
 **Out of scope:** Shopify Contact Form / Quote Wizard migration (separate plan for Ferrari).
 
-## Current State (as of 2026-03-31)
+## Current State (as of 2026-04-01)
 
 - VPS shadow service exists at `/home/ricky/builds/monday/services/status-notifications/`.
-- systemd unit exists at `~/.config/systemd/user/status-notifications.service` and is running with `SHADOW_MODE=true`.
+- systemd unit exists at `~/.config/systemd/user/status-notifications.service` and is running with `SHADOW_MODE=false`.
 - Live nginx route exists at `/etc/nginx/sites-enabled/mission-control` for `POST /webhook/monday/status-notification`.
 - The service has already received real production webhook traffic and written shadow records to `/home/ricky/logs/status-notifications-shadow.jsonl`.
 - A synthetic verification run on 2026-03-31 exercised every remaining missing template branch plus the missing-Intercom-ID skip path, then cleaned up the temporary Monday items.
@@ -26,7 +26,9 @@ The status notification system currently works via: Monday webhooks → Cloudfla
   - a forced Intercom 404 triggers a Slack alert in the configured status-notification channel
   - representative rendered outputs match the legacy template source text in `monday/icorrect-status-notification-documentation.md`
 - The temporary Intercom test contact used for the synthetic run was deleted. The seed conversation could not be deleted through the current Intercom API version and should be ignored/closed manually if needed.
-- Intercom live sending is still OFF. This track is not yet at cutover.
+- The old n8n workflow `TDBSUDxpcW8e56y4` is disabled.
+- A controlled live smoke test on 2026-04-01 sent a real `ready-walkin` reply through the VPS service and verified the expected Intercom body content.
+- The cutover exposed a unit-file precedence issue: `Environment=SHADOW_MODE=false` must appear after `EnvironmentFile=/home/ricky/config/.env` or the shared env can override it.
 - Source capture is committed in git. Further changes should be incremental follow-up commits.
 
 ---
@@ -68,6 +70,7 @@ All artefacts in `builds/webhook-migration/discovery/`.
 | `index.js` | Express server: webhook handler, Monday fetch, routing, Intercom calls | ~320 |
 | `templates.js` | 14 email template functions | ~180 |
 | `package.json` | Express dependency | — |
+| `status-notifications.service` | Repo copy of the deployed user unit | — |
 
 **`index.js` route: `POST /webhook/monday/status-notification`**
 
@@ -137,12 +140,11 @@ All artefacts in `builds/webhook-migration/discovery/`.
 
 ### Next Gate
 
-Before live Intercom sending is enabled:
+After live cutover:
 
-1. Decide the live cutover window.
-2. Disable the old n8n sender first.
-3. Set `SHADOW_MODE=false` and restart the service.
-4. Watch the first live event and monitor for duplicates.
+1. Monitor logs and Slack alerts for 48 hours.
+2. Confirm there are no duplicate or missed production notifications.
+3. Review Monday automation destinations in the UI before disabling token-burner automations.
 
 ---
 
@@ -161,8 +163,8 @@ Deactivate n8n workflow `TDBSUDxpcW8e56y4`.
 Set `SHADOW_MODE=false`, restart service.
 
 ### Step 4: Verify live
-- [ ] Status4 change on real item → Intercom reply appears
-- [ ] No duplicate emails
+- [x] Status4 change on controlled live item → Intercom reply appears
+- [x] No duplicate emails from the old n8n sender
 - [ ] Monitor 48 hours
 
 ### Step 5: Disable broken automations
@@ -187,6 +189,7 @@ Set `SHADOW_MODE=false`, restart service.
 | CREATE | `/home/ricky/builds/monday/services/status-notifications/index.js` |
 | CREATE | `/home/ricky/builds/monday/services/status-notifications/templates.js` |
 | CREATE | `/home/ricky/builds/monday/services/status-notifications/package.json` |
+| CREATE | `/home/ricky/builds/monday/services/status-notifications/status-notifications.service` |
 | CREATE | `~/.config/systemd/user/status-notifications.service` |
 | EDIT | `/etc/nginx/sites-enabled/mission-control` (add 1 location block) |
 | EDIT | `/home/ricky/builds/monday/services/status-notifications/index.js` (board guard added 2026-03-31) |
