@@ -174,6 +174,11 @@ async function scrapeSingleProduct(productId) {
     });
     context = await createStealthContext(browser);
     const page = await context.newPage();
+
+    // Cloudflare warmup — visit homepage first to set cookies before hitting product page
+    await page.goto(BM_BASE, { waitUntil: 'domcontentloaded', timeout: 12000 });
+    await page.waitForTimeout(1500);
+
     await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
     await page.waitForTimeout(2500);
 
