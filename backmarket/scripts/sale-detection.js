@@ -103,11 +103,58 @@ async function fetchNewOrders() {
 }
 
 // ─── Step 2: Match to BM Devices Board ────────────────────────────
+// SAFE MATCH RULES:
+//   1. Must be in the saleable group (BM_SALEABLE_GROUP)
+//   2. If multiple matches on the same listing_id (e.g. return + resell share a slot),
+//      verify via Main Board link that the item isn't already in a terminal state
+//      (Sold status + non-empty date sold → discard).
+//      If still ambiguous after filtering, return empty and alert — never auto-pick.
 async function matchToBmDevice(listingId) {
   const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
   const items = d.data?.boards?.[0]?.items_page?.items || [];
-  return items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
+  const saleable = items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
+
+  // If only one match, return it directly
+  if (saleable.length <= 1) return saleable;
+
+  // Multiple items share this listing_id — verify via Main Board to disambiguate
+  console.log(`  ⚠️ Multiple BM Devices items match listing_id ${listingId}: ${saleable.map(i => i.name).join(', ')}`);
+  console.log(`  Checking Main Board status to disambiguate...`);
+
+  const filtered = [];
+  for (const item of saleable) {
+    const relCol = item.column_values.find(cv => cv.id === 'board_relation');
+    const mainItemId = relCol?.linked_item_ids?.[0];
+    if (!mainItemId) {
+      // No Main Board link — include cautiously but warn
+      console.log(`  ⚠️ ${item.name} (${item.id}) has no Main Board link — including as candidate`);
+      filtered.push(item);
+      continue;
+    }
+    const mbQ = `{ items(ids:[${mainItemId}]) { id name group { title } column_values(ids:["status24","date_mkq34t04"]) { id text } } }`;
+    const mbD = await mondayApi(mbQ);
+    const mbItem = mbD.data?.items?.[0];
+    if (!mbItem) {
+      console.log(`  ⚠️ ${item.name}: Main Board item ${mainItemId} not found — including as candidate`);
+      filtered.push(item);
+      continue;
+    }
+    const mbStatus = mbItem.column_values.find(cv => cv.id === 'status24')?.text || '';
+    const mbDateSold = mbItem.column_values.find(cv => cv.id === 'date_mkq34t04')?.text || '';
+    const mbGroup = mbItem.group?.title || '';
+    const isTerminal = (mbStatus === 'Sold' && mbDateSold) || /returned|returns/i.test(mbGroup);
+    console.log(`  ${item.name} (${item.id}): Main Board "${mbItem.name}" — status="${mbStatus}" date_sold="${mbDateSold}" group="${mbGroup}" → ${isTerminal ? 'DISCARD (terminal)' : 'KEEP'}`);
+    if (!isTerminal) filtered.push(item);
+  }
+
+  if (filtered.length > 1) {
+    // Still ambiguous after Main Board check — bail out, require manual fix
+    console.log(`  ❌ Still ${filtered.length} ambiguous matches after Main Board check. Will not auto-accept.`);
+    return []; // caller will treat as no-match and fire alert
+  }
+
+  return filtered;
 }
 
 // ─── Step 3: Verify stock ─────────────────────────────────────────
@@ -234,7 +281,7 @@ async function renameMainBoardItem(mainItemId, buyerName) {
 
       if (matches.length === 0) {
         console.log(`  ⛔ NO MATCH. Cannot accept. Manual investigation needed.`);
-        await postTelegram(`⚠️ New BM order ${orderId} for listing ${listingId} (${orderLineSku}) but NO matching device found on Monday. Manual investigation needed.`);
+        await postTelegram(`⚠️ BM order ${orderId} for listing ${listingId} (${orderLineSku}) — no unambiguous Monday match found. Multiple devices may share this listing slot (e.g. return + resell). Manual assignment needed.`);
         summary.noMatch++;
         continue;
       }
