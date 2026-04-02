@@ -63,26 +63,29 @@ When the UK is on BST, these correspond to 08:00 and 13:00 London local time.
 5. **Buy Royal Mail labels**
    - via `buyLabels()` imported from `./buy-labels.js`
 
-6. **Write tracking numbers to Monday Main Board**
+6. **Write tracking and status to Monday Main Board in one mutation**
    ```graphql
    mutation { change_multiple_column_values(
      board_id: 349212843,
      item_id: ITEM_ID,
-     column_values: "{\"text53\": \"TRACKING_NUMBER\"}"
+     column_values: "{\"text53\": \"TRACKING_NUMBER\", \"status4\": {\"label\": \"Return Booked\"}}"
    ) { id } }
    ```
 
    | Column ID | Title | Board |
    |-----------|-------|-------|
    | `text53` | Outbound Tracking | Main Board (349212843) |
+   | `status4` | Status | Main Board (349212843) |
 
-7. **Update Monday status after successful label purchase**
-   - sets `status4` to `Return Booked`
+   Rule:
+   - `status4` must only move to `Return Booked` if the same successful mutation also writes `text53`
+   - if the Monday writeback fails, the order must not be treated as successfully prepared for shipment confirmation
 
-8. **Download BM packaging slips for successful labels only**
+7. **Download BM packaging slips for successful labels only**
    - orders without a new tracking number are excluded
+   - orders with failed Monday writeback are also excluded from the successful downstream path
 
-9. **Post dispatch summary to Slack #general (`C024H7518J3`)**
+8. **Post dispatch summary to Slack #general (`C024H7518J3`)**
    - only after all labels are purchased
    - one Slack parent message per run, sent at the end only
    - only includes orders where a label was successfully purchased
@@ -95,7 +98,8 @@ When the UK is on BST, these correspond to 08:00 and 13:00 London local time.
 
 ## What dispatch.js DOES update on Monday
 - ✅ writes `text53` (Outbound Tracking) after successful label purchase
-- ✅ sets `status4` to `Return Booked` after tracking is written
+- ✅ sets `status4` to `Return Booked`
+- ✅ performs those two writes in the same Monday mutation so `Return Booked` cannot succeed while `text53` stays empty
 
 ## What dispatch.js Does NOT Do
 - ❌ does NOT notify BM of shipment
