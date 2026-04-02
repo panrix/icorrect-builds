@@ -13,20 +13,19 @@ Main Board item (349212843) in group "BMs Awaiting Sale" (`new_group88387__1`) w
 
 ## Operating Rules
 
-- **Dry run is always batch** — run `--dry-run` (no `--item`) to find and assess all eligible devices
-- **Live runs are always one at a time** — run `--live --item <id>` per device, one by one
-- **Never run `--live` without `--item`** — batch live is disabled by design
-- **Ricky approves each device individually** before going live — present the product card, wait for approval, then list
-- **Present cards in Telegram** — do not just write to file
+- **Always run one device at a time** — `--item <id>` on every run, dry-run or live
+- **Never run without `--item`** — batch mode (dry or live) is not the operating model
+- **Flow per device:** dry-run → present card in Telegram → wait for Ricky approval → live
+- **Ricky approves each device individually** before going live
+- **Present cards in Telegram** in the standard format — do not just write to file
+
+To find eligible devices first, query Monday directly (Main Board, group `new_group88387__1`, `status24 = To List`), then process each item ID one by one.
 
 ```bash
-# Dry-run all (find eligible devices)
-node scripts/list-device.js --dry-run
-
 # Dry-run single item
 node scripts/list-device.js --dry-run --item <mainBoardItemId>
 
-# Live single item (one at a time, after Ricky approval)
+# Live single item (after Ricky approval)
 node scripts/list-device.js --live --item <mainBoardItemId>
 
 # Override minimum margin (Ricky approval required)
