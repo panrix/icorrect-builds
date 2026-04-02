@@ -305,3 +305,47 @@ All notifications to BM Telegram: `-1003888456344`
 
 ### Verdict
 SOP 12 is now consistent with the current counter-offer and returns-related documentation. The main remaining gap is implementation breadth, not SOP accuracy.
+
+## Open Build Question (2026-04-02)
+
+### RTN device linking and shipped-state reconciliation
+
+**Problem:**
+Returned / resold BM devices (`RTN` items) can break the normal BM Devices ↔ Main Board relationship.
+This causes downstream automation failures, especially when scripts rely on the Main Board link for tracking-aware moves or shipped-state reconciliation.
+
+**Observed failure mode:**
+- BM Devices RTN item exists and is saleable again
+- order is accepted / shipped on BM
+- tracking may exist in reality or be posted to BM
+- but the linked Main Board item is missing, wrong, incomplete, or newly created without the original device context
+- result: housekeeping / reconciliation / dispatch logic cannot reliably move the BM Devices item to `Shipped`
+
+**Why this matters:**
+Current housekeeping logic correctly checks the linked Main Board for tracking before moving BM Devices `Sold` items into the BM Devices `Shipped` group. That works for standard sales, but RTN devices can fail this gate because the RTN linking model is not stable.
+
+**Questions to solve in a future build:**
+1. What is the canonical relationship for an RTN sale?
+   - reuse original Main Board item?
+   - create a new Main Board item?
+   - preserve original sold history while allowing a clean second-sale state?
+2. Where should tracking truth live for RTN sales?
+   - Main Board only?
+   - BM Devices only?
+   - both, with one as source of truth?
+3. How should automation identify the correct Main Board item for an RTN device?
+   - by board relation?
+   - by BM number variant (`BM 421 RTN`)?
+   - by original order lineage?
+4. What should housekeeping do if a BM Devices RTN item is `Sold` but the linked Main Board item is missing / wrong / incomplete?
+   - skip and alert?
+   - self-heal the relation?
+   - use BM order state as fallback?
+
+**Required future build outcome:**
+Design and implement a stable RTN data model so that:
+- accepted sale detection,
+- dispatch tracking,
+- housekeeping group moves,
+- and reconciliation
+all work without manual intervention for return/resell devices.
