@@ -267,7 +267,8 @@ Mismatch → qty=0 immediately. Monday NOT updated. Telegram alert.
 | 06.5 | Reconciliation: Monday vs BM cross-check |
 | 07 | Buy box: price monitoring and auto-bump |
 | 08 | Sale detection: auto-accept, Monday updates |
-| 09 | Shipping: label buying + BM ship confirmation |
+| 09 | Label buying |
+| 09.5 | Shipment confirmation to BM |
 | 10 | Payment reconciliation (manual) |
 | 11 | Tuesday cutoff protocol |
 | 12 | Returns and aftercare |
@@ -414,7 +415,7 @@ margin = (net / min_price) × 100
 | icloud-checker | 8010 | `/webhook/icloud-check` | 02 | `icloud-checker.service` |
 | bm-grade-check | 8011 | `/webhook/bm/grade-check` | 03 | `bm-grade-check.service` |
 | bm-payout | 8012 | `/webhook/bm/payout` | 03b | `bm-payout.service` |
-| bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09 | `bm-shipping.service` |
+| bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09.5 | `bm-shipping.service` |
 
 All behind nginx at `mc.icorrect.co.uk`. Port 8010 not exposed publicly.
 
@@ -442,10 +443,12 @@ All scripts at `backmarket/scripts/`. Shared lib at `scripts/lib/`.
 
 | Schedule | Script | Status |
 |----------|--------|--------|
-| `0 5 * * 1` | `run-weekly.sh` (V7 scraper → buy box monitor → sheet sync) | Active |
+| `0 5 * * 1` | `run-weekly.sh` (V7 scraper → Python `buy_box_monitor.py` → sheet sync) | Active |
 | `0 6 * * *` | `sent-orders.js --live` | Active |
-| — | `sale-detection.js` | Not scheduled (needs cron) |
-| — | `dispatch.js` | Not scheduled (manual) |
+| `0 7-17 * * 1-5` and `0 8,12,16 * * 6,0` | `sale-detection.js` | Active |
+| `0 7 * * 1-5` and `0 12 * * 1-5` | `dispatch.js` | Active |
+| — | `reconcile-listings.js` | No live cron |
+| — | `buy-box-check.js` | No live cron |
 
 ---
 
@@ -488,10 +491,11 @@ Script reactivated a dormant listing with a stale price. Backbox returned 404 (l
 | 04 | Repair & Refurb | Manual process | QA'd ✅ |
 | 05 | QC & Final Grade | Not documented | Gap |
 | 06 | Listing | `list-device.js` | QA'd ✅ v2.1 |
-| 06.5 | Listings Reconciliation | `reconcile-listings.js` | QA'd ✅ |
-| 07 | Buy Box Management | `buy-box-check.js` | QA'd ✅ |
-| 08 | Sale Detection | `sale-detection.js` | QA'd ✅ (no cron) |
-| 09 | Shipping | `dispatch.js` + `bm-shipping` (8013) | QA'd ✅ |
+| 06.5 | Listings Reconciliation | `reconcile-listings.js` | QA'd ✅ (on-demand; no live cron) |
+| 07 | Buy Box Management | `buy-box-check.js` | QA'd ✅ (on-demand; no live cron) |
+| 08 | Sale Detection | `sale-detection.js` | QA'd ✅ + live cron |
+| 09 | Label Buying | `dispatch.js` | QA'd ✅ + weekday dispatch cron |
+| 09.5 | Shipment Confirmation | `bm-shipping` (8013) | QA'd ✅ + webhook-driven |
 | 10 | Payment Reconciliation | Manual process | QA'd ✅ |
 | 11 | Tuesday Cutoff | Not built | QA'd ✅ |
 | 12 | Returns & Aftercare | Manual + counter-offer buttons | QA'd ✅ |

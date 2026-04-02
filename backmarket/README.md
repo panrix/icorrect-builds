@@ -31,10 +31,11 @@ The SOPs are the single source of truth. Each SOP has been QA'd against its scri
 | 03b | `sops/03b-trade-in-payout.md` | `bm-payout` service (8012) | QA'd |
 | 04 | `sops/04-repair-refurb.md` | Manual process | QA'd |
 | 06 | `sops/06-listing.md` | `scripts/list-device.js` | QA'd v2.1 |
-| 06.5 | `sops/06.5-listings-reconciliation.md` | `scripts/reconcile-listings.js` | QA'd |
-| 07 | `sops/07-buy-box-management.md` | `scripts/buy-box-check.js` | QA'd |
-| 08 | `sops/08-sale-detection.md` | `scripts/sale-detection.js` | QA'd (no cron) |
-| 09 | `sops/09-shipping.md` | `dispatch.js` + `bm-shipping` (8013) | QA'd |
+| 06.5 | `sops/06.5-listings-reconciliation.md` | `scripts/reconcile-listings.js` | QA'd (on-demand; no live cron) |
+| 07 | `sops/07-buy-box-management.md` | `scripts/buy-box-check.js` | QA'd (on-demand; no live cron) |
+| 08 | `sops/08-sale-detection.md` | `scripts/sale-detection.js` | QA'd + live cron |
+| 09 | `sops/09-shipping.md` | `dispatch.js` | QA'd + weekday dispatch cron |
+| 09.5 | `sops/09.5-shipment-confirmation.md` | `bm-shipping` (8013) | QA'd + webhook-driven |
 | 10 | `sops/10-payment-reconciliation.md` | Manual process | QA'd |
 | 11 | `sops/11-tuesday-cutoff.md` | Not built | QA'd |
 | 12 | `sops/12-returns-aftercare.md` | Manual + counter-offer buttons | QA'd |
@@ -69,7 +70,7 @@ All scripts are at `backmarket/scripts/`. Shared library at `scripts/lib/`.
 | icloud-checker | 8010 | `/webhook/icloud-check` | 02 |
 | bm-grade-check | 8011 | `/webhook/bm/grade-check` | 03 |
 | bm-payout | 8012 | `/webhook/bm/payout` | 03b |
-| bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09 |
+| bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09.5 |
 
 All services behind nginx at `mc.icorrect.co.uk`. Port 8010 not exposed publicly.
 
