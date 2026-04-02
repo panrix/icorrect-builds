@@ -1,7 +1,7 @@
 # SOP 06: Listing on Back Market
 
-**Version:** 2.0
-**Date:** 2026-03-28
+**Version:** 2.1
+**Date:** 2026-03-30
 **Scope:** End-to-end flow for listing a device on Back Market.
 **Script:** `backmarket/scripts/list-device.js`
 
@@ -11,14 +11,22 @@
 
 Main Board item (349212843) in group "BMs Awaiting Sale" (`new_group88387__1`) with `status24` = "To List" (index 8).
 
+## Operating Rules
+
+- **Dry run is always batch** — run `--dry-run` (no `--item`) to find and assess all eligible devices
+- **Live runs are always one at a time** — run `--live --item <id>` per device, one by one
+- **Never run `--live` without `--item`** — batch live is disabled by design
+- **Ricky approves each device individually** before going live — present the product card, wait for approval, then list
+- **Present cards in Telegram** — do not just write to file
+
 ```bash
-# Dry-run all
+# Dry-run all (find eligible devices)
 node scripts/list-device.js --dry-run
 
 # Dry-run single item
 node scripts/list-device.js --dry-run --item <mainBoardItemId>
 
-# Live single item
+# Live single item (one at a time, after Ricky approval)
 node scripts/list-device.js --live --item <mainBoardItemId>
 
 # Override minimum margin (Ricky approval required)
@@ -85,19 +93,39 @@ Write SKU to BM Devices Board `text89`.
 
 ---
 
-## Step 4: Resolve Product from BM Catalog (HARD GATE)
+## Step 4: Resolve Product from Canonical Resolver Truth (HARD GATE)
 
-**Source:** `backmarket/data/bm-catalog.json` (309 variants, 23 model families)
+Resolution uses a two-tier precedence: **canonical resolver truth first**, then raw catalog fallback.
 
-The catalog is the **single product resolver**. No other source is used for product identity.
+### Tier 1: Canonical resolver truth (`data/listings-registry.json`)
 
-### How it works:
+The listings registry is the canonical resolver truth store. It contains 261 verified MacBook listing slots with trusted `product_id`, colour, grade, and spec data.
+
+Each slot carries a `trust_class`:
+
+| Trust Class | Live-Safe | Meaning |
+|-------------|-----------|---------|
+| `registry_verified` | Yes | Created and verified by `build-listings-registry.js` |
+| `probe_verified` | Yes | Verified by strict probe (UUID + colour + spec all confirmed) |
+| `vetted_exact_with_no_current_contradiction` | Yes | Historical sales evidence with no current conflict |
+| `needs_probe` | No | Registry entry exists but not yet verified |
+| `catalog_conflict` | No | Contradictory evidence — quarantined |
+| `blocked_manual` | No | Manually blocked by Ricky |
+
+Resolution:
+1. Normalize the constructed SKU to uppercase
+2. Look up in `registry.slots[normalizedSku]`
+3. If found and `trust_class` is live-safe → use the slot's `product_id`. Proceed.
+4. If found but not live-safe → fall through to Tier 2.
+5. If not found → fall through to Tier 2.
+
+### Tier 2: BM catalog fallback (`data/bm-catalog.json`)
+
+**Source:** 309 variants, 23 model families.
 
 1. Derive `model_family` from model number (e.g. A2338 → "MacBook Pro 13-inch (2020)")
 2. Normalize RAM, SSD, colour
 3. Look up: `model_family + RAM + SSD + colour`
-
-### Resolution outcomes:
 
 | Outcome | Meaning | Action |
 |---------|---------|--------|
@@ -107,19 +135,28 @@ The catalog is the **single product resolver**. No other source is used for prod
 | Ambiguous (multiple matches) | Multiple candidates for same spec | BLOCK — manual review |
 | No match | Spec not in catalog | BLOCK |
 
-**HARD GATE:** Only `verification_status === "verified"` proceeds.
+**HARD GATE:** Only live-safe resolver slots or catalog matches with `verification_status === "verified"` proceed.
 
 ### Colour normalization:
 
 - `Space Grey` / `Space Gray` / `Grey` / `Gray` → `Space Gray`
 - `Space Black` and `Black` are NOT interchangeable
 - `Silver`, `Gold`, `Midnight`, `Starlight` → as-is
+- Resolver keys use uppercase: `GREY`, `SILVER`, `MIDNIGHT`, etc.
 
 ### For blocked devices with candidates:
 
 When the catalog has the right model family but can't exact-match (e.g. colour missing), BM's Path B CSV create can use **any product_id from the same model family**. BM auto-resolves to the correct backmarket_id. The post-create verification then confirms the title matches the device.
 
 Use the `--product-id <uuid>` override flag. The script creates the listing with that product_id, then post-create verification confirms BM assigned the correct title. If the title doesn't match the device specs, the listing stays as draft.
+
+### Shared resolver module
+
+Resolution logic lives in `scripts/lib/resolver-truth.js`. This module is shared by `list-device.js`, `buy-box-check.js`, and `build-listings-registry.js`. It handles:
+- Uppercase SKU normalization
+- Live-safe trust class policy
+- Registry schema upgrade and backfill
+- Resolver slot lookup by SKU, listing ID, or product ID
 
 ---
 
@@ -266,6 +303,49 @@ Verify:
 Check and correct SKU if BM kept an old one.
 
 **If critical mismatch:** Leave as draft. Alert Telegram. Do NOT publish.
+
+---
+
+## Probe Mode (`--probe-product-id <uuid>`)
+
+Probe mode creates a draft listing to test whether a candidate UUID is safe for a given device spec. It is used to validate unverified product IDs before committing them to resolver truth.
+
+```bash
+node scripts/list-device.js --probe-product-id <uuid> --item <mainBoardItemId>
+node scripts/list-device.js --probe-product-id <uuid> --item <mainBoardItemId> --json
+```
+
+### How it works:
+
+1. Creates a draft listing (qty=0, state=3) using the candidate UUID
+2. Fetches the created listing from BM
+3. Runs **strict verification** — all 5 checks must pass:
+   - `listing.product_id === candidate_product_id` (UUID preserved)
+   - Grade matches expected
+   - RAM matches expected
+   - SSD matches expected
+   - Colour matches expected
+4. Returns a binary verdict: `pass` or `fail`
+
+### Key differences from live mode:
+
+- **Colour check is NOT skipped.** Unlike `--product-id` override in live mode, probe mode runs the full colour title check.
+- **Non-zero exit code on failure.** `process.exitCode = 2` when verdict is `fail`.
+- **Promotability flag.** Report includes `promotable_resolver_truth: true|false`. Only `pass` verdicts are promotable.
+- **Never publishes.** Listing stays at qty=0.
+
+### Probe promotion gate:
+
+No probe result may be written into canonical resolver truth unless ALL of the following are true:
+
+1. `listing.product_id === candidate_product_id`
+2. Grade matches
+3. RAM matches
+4. SSD matches
+5. Colour matches
+6. Probe report records `verdict: "pass"`
+
+Failing probes are stored as advisory evidence only.
 
 ---
 
