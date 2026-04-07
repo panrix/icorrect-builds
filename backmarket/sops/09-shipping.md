@@ -87,12 +87,22 @@ When the UK is on BST, these correspond to 08:00 and 13:00 London local time.
 
 8. **Post dispatch summary to Slack #general (`C024H7518J3`)**
    - only after all labels are purchased
-   - one Slack parent message per run, sent at the end only
+   - one clean Slack parent message per dispatch batch, sent at the end only
    - only includes orders where a label was successfully purchased
-   - combined RM labels PDF uploaded as thread reply
-   - individual BM delivery slips uploaded as thread replies
+   - parent message format must be concise:
+     - `Dispatch Team: X BM devices to ship`
+     - bullet list format: `BM #### (Buyer Name)`
+     - do not include long product spec dumps in the parent message
+     - do not include tracking numbers in the parent message
+   - all dispatch artifacts for that batch must live in the SAME Slack thread
+   - follow-up labels/slips for the same batch must append into the existing thread via `--thread-ts`, not create a fresh parent message
+   - RM label PDFs uploaded as thread replies
+   - BM delivery slips uploaded as thread replies
+   - filenames must be BM-number-aware before upload:
+     - single label: `BM #### label.pdf`
+     - single packing slip: `BM #### packing slip.pdf`
+     - combined labels: `BM #### + BM #### labels.pdf`
    - failed orders are logged to console only
-   - follow-up labels can be posted into the same thread via `--thread-ts`
 
 ---
 
@@ -168,6 +178,14 @@ Use this when follow-up labels must be posted into an existing Slack dispatch th
 3. `PASS` Monday writeback clarified: tracking goes to Main Board `text53`, not BM Devices board.
 4. `PASS` Slack thread behavior documented, including `--thread-ts` follow-up usage.
 5. `PASS` Dead `updateBmTracking()` path called out explicitly as non-live behavior.
+6. `PASS` Slack output standard updated on 2026-04-07:
+   - one clean parent message per dispatch batch
+   - concise `BM #### (Buyer Name)` summary format
+   - all labels/slips must live in one thread for that batch
+7. `PASS` upload filename standard updated on 2026-04-07:
+   - `BM #### label.pdf`
+   - `BM #### packing slip.pdf`
+   - `BM #### + BM #### labels.pdf`
 
 ### Verdict
-SOP 09 now documents the real dispatch responsibility cleanly: buy labels, write tracking to Monday, and brief the team in Slack. Shipment confirmation lives separately in SOP 09.5.
+SOP 09 now documents the real dispatch responsibility cleanly: buy labels, write tracking to Monday, and brief the team in Slack using a single clean thread with BM-number-based filenames. Shipment confirmation lives separately in SOP 09.5.
