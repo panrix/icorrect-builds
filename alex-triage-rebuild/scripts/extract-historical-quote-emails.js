@@ -7,7 +7,9 @@ const ROOT = "/home/ricky/builds/alex-triage-rebuild";
 const SOURCE_JSON = "/home/ricky/builds/agent-rebuild/data/repair-history-full.json";
 const OUT_JSON = path.join(ROOT, "data", "historical-quote-emails.json");
 const LOG_PATH = path.join(ROOT, "data", "historical-quote-emails.log");
-const SAMPLE_LIMIT = Number(process.env.QUOTE_EMAIL_SAMPLE_LIMIT || 20);
+const SAMPLE_LIMIT = Number(process.env.QUOTE_EMAIL_SAMPLE_LIMIT || 320);
+const LOG_EVERY = 50;
+const SEARCH_DELAY_MS = 250;
 
 function log(message) {
   const line = `[${new Date().toISOString()}] ${message}`;
@@ -114,7 +116,8 @@ function candidateDiagnosticRepairs(raw) {
     const logs = statusLogs(item);
     const repairType = columns.status24?.text || "";
     const wentThroughDiagnostics = logs.some((log) => /diagnostic/i.test(log.to || ""));
-    const completed = logs.some((log) => /returned|collected|shipped|completed/i.test(log.to || "")) || /returned|collected|completed/i.test(columns.status4?.text || "");
+    const completionLog = [...logs].reverse().find((log) => /returned|collected|shipped|completed|ready to collect|repaired|client contacted/i.test(log.to || ""));
+    const completed = Boolean(completionLog) || /returned|collected|completed|ready to collect|repaired|client contacted|shipped/i.test(columns.status4?.text || "");
     const email = (columns.text5?.text || "").trim().toLowerCase() || null;
     if (!(repairType === "Diagnostic" || repairType === "Board Level" || wentThroughDiagnostics)) continue;
     if (!completed) continue;
@@ -128,7 +131,9 @@ function candidateDiagnosticRepairs(raw) {
       repair_type: repairType || (wentThroughDiagnostics ? "Diagnostic" : null),
       final_status: columns.status4?.text || null,
       quote_amount: columns.dup__of_quote_total?.text || columns.numeric_mkxx7j1t?.text || null,
-      latest_notes: entries.slice(-3).map((e) => e.text).join("\n\n")
+      latest_notes: entries.slice(-3).map((e) => e.text).join("\n\n"),
+      completion_at: completionLog?.at || logs.at(-1)?.at || 0,
+      received_at: logs[0]?.at || 0
     });
   }
   const deduped = new Map();
@@ -136,7 +141,13 @@ function candidateDiagnosticRepairs(raw) {
     const key = `${row.email}::${row.monday_item_id}`;
     deduped.set(key, row);
   }
-  return [...deduped.values()].slice(0, SAMPLE_LIMIT);
+  return [...deduped.values()]
+    .sort((a, b) => (b.completion_at || b.received_at || 0) - (a.completion_at || a.received_at || 0))
+    .slice(0, SAMPLE_LIMIT);
+}
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 class QuoteExtractor {
@@ -155,6 +166,26 @@ class QuoteExtractor {
   }
 
   async searchConversationsByEmail(email) {
+    const tries = [
+      `${this.baseUrl}/conversations?search_field=email&search_operator=%3D&search_value=${encodeURIComponent(email)}`,
+      `${this.baseUrl}/conversations?search_field=external_id&search_operator=%3D&search_value=${encodeURIComponent(email)}`
+    ];
+
+    for (const url of tries) {
+      try {
+        const payload = await requestJson(url, {
+          headers: this.headers(),
+          timeoutMs: 120000
+        });
+        const conversations = payload.conversations || payload.data || [];
+        if (conversations.length) {
+          return { conversations };
+        }
+      } catch (error) {
+        log(`search failed for ${email} via ${url}: ${error.message}`);
+      }
+    }
+
     const payload = {
       query: {
         operator: "AND",
@@ -291,7 +322,12 @@ async function main() {
   log(`Selected ${repairs.length} completed diagnostic/board-level repairs with email for initial matching`);
 
   const results = [];
+  let processed = 0;
   for (const repair of repairs) {
+    processed += 1;
+    if (processed === 1 || processed % LOG_EVERY === 0) {
+      log(`Progress: processing repair ${processed}/${repairs.length}; quotes found so far ${results.length}`);
+    }
     log(`Searching Intercom for ${repair.email} (${repair.item_name})`);
     const search = await extractor.searchConversationsByEmail(repair.email);
     const conversations = search.conversations || search.data || [];
@@ -319,10 +355,13 @@ async function main() {
           tone_patterns: analysis.tone_patterns,
           includes_excludes: analysis.includes_excludes,
           monday_quote_amount: repair.quote_amount,
-          latest_monday_notes: repair.latest_notes
+          latest_monday_notes: repair.latest_notes,
+          completion_at: repair.completion_at || null
         });
       }
+      await sleep(SEARCH_DELAY_MS);
     }
+    await sleep(SEARCH_DELAY_MS);
   }
 
   fs.writeFileSync(OUT_JSON, JSON.stringify(results, null, 2));
