@@ -383,6 +383,10 @@ export function formatRecentMessages(messages, limit = 5) {
 }
 
 export function formatTelegramCard(card, draftText, stateLabel = null) {
+  if (card?.card_kind === "quote") {
+    return formatQuoteTelegramCard(card, draftText, stateLabel);
+  }
+
   const confidenceLabel = `${card.confidence?.emoji || "🟡"} ${escapeHtml(card.confidence?.label || "Needs review")}`;
   const mondayConfidenceLabel = card.context.monday_confidence
     ? ` (${Math.round(card.context.monday_confidence * 100)}% · ${escapeHtml(card.context.monday_match_reason || "match")})`
@@ -528,6 +532,45 @@ function detectDeviceFromMessages(messages) {
     /\b(iPhone\s+\d{1,2}(?:\s+(?:Pro|Plus|Mini|Max))?|iPad\s+[A-Za-z0-9" ]+|MacBook\s+[A-Za-z0-9" ]+)/i
   );
   return match ? match[1].trim() : null;
+}
+
+export function formatQuoteTelegramCard(card, draftText, stateLabel = null) {
+  const confidenceLabel = `${card.confidence?.emoji || "🟡"} ${escapeHtml(card.confidence?.label || "Needs review")}`;
+  const lines = [
+    `<b>━━━ QUOTE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>`,
+    `Type: ${escapeHtml(titleize(card.type || "quote building"))}`,
+    `Channel: ${escapeHtml(titleize(card.channel || "email"))}`,
+    `Device: ${escapeHtml(card.device || "N/A")}`,
+    `Confidence: ${confidenceLabel}`,
+    `Priority: ${escapeHtml(card.priority || "P2")}`,
+    "",
+    `<b>━ CUSTOMER ━</b>`,
+    `Name: ${escapeHtml(card.customer_name || "Unknown")}`,
+    `Email: ${escapeHtml(card.customer_email || "Unknown")}`,
+    `Phone: ${escapeHtml(card.customer_phone || "Unknown")}`,
+    `Monday: ${escapeHtml(card.context?.monday_item_label || card.context?.monday_item_id || "Unknown")}`,
+    `Link: ${escapeHtml(card.context?.monday_url || "N/A")}`,
+    "",
+    `<b>━ DIAGNOSTIC FINDINGS ━</b>`,
+    ...(card.diagnostic_findings?.length ? card.diagnostic_findings.map((line) => escapeHtml(`• ${line}`)) : ["No diagnostic notes found."]),
+    "",
+    `<b>━ QUOTE BREAKDOWN ━</b>`,
+    ...(card.quote_breakdown?.length ? card.quote_breakdown.map((line) => escapeHtml(`• ${line}`)) : ["No structured quote breakdown available."]),
+    "",
+    `<b>━━ DRAFT QUOTE ━</b>`,
+    escapeHtml(draftText || "Draft pending"),
+    "",
+    `<b>━━ SOURCE ━</b>`,
+    `KB used: ${escapeHtml((card.context?.kb_used || []).join(", ") || "None")}`,
+    `Historical quotes used: ${escapeHtml(String(card.context?.historical_quote_count || 0))}`,
+    `Pricing: ${escapeHtml(card.context?.pricing_source || "Unknown")}`
+  ];
+
+  if (stateLabel) {
+    lines.push("", `<b>${escapeHtml(stateLabel)}</b>`);
+  }
+
+  return lines.join("\n");
 }
 
 function formatPastRepairLines(pastRepairs = []) {

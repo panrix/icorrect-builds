@@ -212,6 +212,45 @@ export class MondayClient {
     return items.map(mapItem);
   }
 
+  async fetchQuoteCandidates({ limit = 500 } = {}) {
+    const items = await this.fetchRecentItems({ limit });
+    return items.filter((item) => ["Quote Sent", "Diagnostic Complete"].includes(item.current_status || ""));
+  }
+
+  async getItemWithUpdates(itemId) {
+    const query = `
+      query {
+        items(ids: [${Number(itemId)}]) {
+          id
+          name
+          column_values {
+            id
+            text
+            value
+            type
+          }
+          updates(limit: 50) {
+            id
+            body
+            created_at
+            replies {
+              id
+              body
+              created_at
+            }
+          }
+        }
+      }
+    `;
+
+    const payload = await this.graphql(query);
+    const item = payload.data?.items?.[0] || null;
+    if (!item) return null;
+    const mapped = mapItem(item);
+    mapped.updates = item.updates || [];
+    return mapped;
+  }
+
   async createItem({ customerName, customerEmail, clientStatus, paymentStatus, intercomId, intercomLink }) {
     const columnValues = {
       text5: customerEmail,

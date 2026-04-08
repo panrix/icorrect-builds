@@ -65,6 +65,53 @@ export class DraftClient {
     return payload.choices?.[0]?.message?.content?.trim() || "";
   }
 
+  async draftQuote({ ferrariContextPath, learnedRulesPath, card, historicalQuotes = [], diagnosticNotes = [] }) {
+    const ferrariContext = readFileIfExists(ferrariContextPath);
+    const learnedRules = readFileIfExists(learnedRulesPath);
+    const prompt = [
+      "You are Alex supporting Ferrari at iCorrect. Draft a customer quote email in Ferrari's style.",
+      "",
+      "=== WRITING RULES (follow exactly) ===",
+      ferrariContext || "[No ferrari context loaded]",
+      "",
+      "=== LEARNED CORRECTIONS (from reviewer feedback) ===",
+      learnedRules || "[No learned rules yet]",
+      "",
+      "=== HISTORICAL REAL QUOTES (style reference only, not copy-paste) ===",
+      JSON.stringify(historicalQuotes.slice(0, 5), null, 2),
+      "",
+      "=== MONDAY QUOTE CARD ===",
+      JSON.stringify(card, null, 2),
+      "",
+      "=== DIAGNOSTIC NOTES ===",
+      diagnosticNotes.join("\n\n") || "[No diagnostic notes found]",
+      "",
+      "=== INSTRUCTIONS ===",
+      "Draft a quote email in Ferrari's style using the card, the notes, and the real quote examples.",
+      '- No em dashes. Sign as "Kind regards, Alex".',
+      '- Be explicit about faults found, required repairs, what is included, and any important exclusions.',
+      '- Use only pricing present in the card/notes/examples context. Do not invent missing prices.',
+      '- If the note suggests uncertainty, make the draft yellow-tier style and ask Ferrari to confirm details rather than bluffing.',
+      '- Output ONLY the quote email text. No preamble, no explanation.'
+    ].join("\n");
+
+    const payload = await requestJson(`${this.baseUrl}/chat/completions`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.apiKey}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        model: this.model,
+        temperature: 0.2,
+        messages: [{ role: "user", content: prompt }]
+      }),
+      timeoutMs: 60000
+    });
+
+    return payload.choices?.[0]?.message?.content?.trim() || "";
+  }
+
   async extractRules(groupedEdits) {
     const prompt = [
       "You are analysing customer service draft corrections.",
