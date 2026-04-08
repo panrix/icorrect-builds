@@ -113,4 +113,36 @@ export class IntercomClient {
       body: JSON.stringify({ id: tagId })
     });
   }
+
+  async listTags() {
+    return requestJson(`${this.baseUrl}/tags`, {
+      headers: this.headers()
+    });
+  }
+
+  async createTag(name) {
+    return requestJson(`${this.baseUrl}/tags`, {
+      method: "POST",
+      headers: this.headers(),
+      body: JSON.stringify({ name })
+    });
+  }
+
+  async addTagByName(conversationId, name, fallbackId = null) {
+    if (fallbackId) {
+      return this.addTag(conversationId, fallbackId);
+    }
+
+    const payload = await this.listTags();
+    const tags = payload.data || payload.tags || [];
+    let tag = tags.find((entry) => String(entry.name || "").toLowerCase() === String(name).toLowerCase());
+    if (!tag) {
+      const created = await this.createTag(name);
+      tag = created.data || created.tag || created;
+    }
+    if (!tag?.id) {
+      throw new Error(`Failed to resolve Intercom tag id for ${name}`);
+    }
+    return this.addTag(conversationId, tag.id);
+  }
 }

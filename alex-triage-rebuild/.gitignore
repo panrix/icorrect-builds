@@ -1,4 +1,6 @@
 data/*.db
+data/*.db-shm
+data/*.db-wal
 data/*.json
 data/*.log
 node_modules/

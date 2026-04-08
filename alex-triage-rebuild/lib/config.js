@@ -116,7 +116,8 @@ export function getConfig(options = {}) {
       token: required("INTERCOM_API_TOKEN", strict),
       adminId: valueOrRequired("INTERCOM_ADMIN_ID", strict, "9702338"),
       workspaceId: process.env.INTERCOM_WORKSPACE_ID || "pt6lwaq6",
-      needsFerrariTagId: process.env.INTERCOM_TAG_NEEDS_FERRARI_ID || null
+      needsFerrariTagId: process.env.INTERCOM_TAG_NEEDS_FERRARI_ID || null,
+      needsRickyTagId: process.env.INTERCOM_TAG_NEEDS_RICKY_ID || null
     },
     monday: {
       baseUrl: "https://api.monday.com/v2",
@@ -131,6 +132,7 @@ export function getConfig(options = {}) {
     telegram: {
       token: valueOrRequired("ALEX_TELEGRAM_BOT_TOKEN", strict, process.env.TELEGRAM_BOT_TOKEN || null),
       chatId: valueOrRequired("TELEGRAM_CHAT_ID", strict, "-1003822970061"),
+      rickyChatId: valueOrRequired("TELEGRAM_RICKY_CHAT_ID", strict, "1611042131"),
       emailsThreadId: optionalNumber("TELEGRAM_EMAILS_THREAD_ID", 774),
       quotesThreadId: optionalNumber("TELEGRAM_QUOTES_THREAD_ID"),
       invoicesThreadId: optionalNumber("TELEGRAM_INVOICES_THREAD_ID"),

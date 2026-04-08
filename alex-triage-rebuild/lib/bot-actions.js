@@ -50,7 +50,7 @@ export async function handleTelegramCallback(
   }
 
   if (action === "escalate_target") {
-    await handleEscalation({ db, telegramClient, intercomClient }, callbackQuery, conversation, extra || "ferrari");
+    await handleEscalation({ db, telegramClient, intercomClient, config }, callbackQuery, conversation, extra || "ferrari");
     return;
   }
 
@@ -66,7 +66,13 @@ export async function handleTelegramCallback(
             { text: "Tomorrow 08:00", callback_data: `snooze_until:${conversationId}:tomorrow` }
           ],
           [
-            { text: "Custom (+24h)", callback_data: `snooze_until:${conversationId}:custom` }
+            { text: "6h", callback_data: `snooze_until:${conversationId}:6h` },
+            { text: "12h", callback_data: `snooze_until:${conversationId}:12h` },
+            { text: "24h", callback_data: `snooze_until:${conversationId}:24h` }
+          ],
+          [
+            { text: "48h", callback_data: `snooze_until:${conversationId}:48h` },
+            { text: "Tomorrow 09:00", callback_data: `snooze_until:${conversationId}:tomorrow9` }
           ]
         ]
       }
@@ -135,12 +141,30 @@ async function handleApprove({ db, telegramClient, intercomClient, mondayClient,
   }
 }
 
-async function handleEscalation({ db, telegramClient, intercomClient }, callbackQuery, conversation, target) {
-  const targetLabel = target === "ricky" ? "Ricky" : "Ferrari";
-  await intercomClient.addNote(
-    conversation.id,
-    `Escalated from Telegram triage card to ${targetLabel}.\n\nCategory: ${conversation.category}\nPriority: ${conversation.priority}\nLatest message: ${conversation.card_json?.latest_message || "n/a"}`
-  );
+async function handleEscalation({ db, telegramClient, intercomClient, config }, callbackQuery, conversation, target) {
+  const isRicky = target === "ricky";
+  const targetLabel = isRicky ? "Ricky" : "Ferrari";
+  const tagName = isRicky ? "needs_ricky_escalation" : "needs_ferrari_review";
+  const fallbackId = isRicky ? config.intercom.needsRickyTagId : config.intercom.needsFerrariTagId;
+  const note = `Escalated from Telegram triage card to ${targetLabel}.\n\nCategory: ${conversation.category}\nPriority: ${conversation.priority}\nLatest message: ${conversation.card_json?.latest_message || "n/a"}`;
+
+  await intercomClient.addNote(conversation.id, note);
+  await intercomClient.addTagByName(conversation.id, tagName, fallbackId);
+
+  if (isRicky) {
+    await telegramClient.sendMessage({
+      chat_id: config.telegram.rickyChatId,
+      text: [
+        `⚠️ Alex triage escalation for Ricky`,
+        `Conversation: ${conversation.id}`,
+        `Customer: ${conversation.customer_name || "Unknown"}`,
+        `Category: ${conversation.category}`,
+        `Priority: ${conversation.priority}`,
+        `Intercom: ${conversation.card_json?.context?.intercom_url || "n/a"}`
+      ].join("\n")
+    });
+  }
+
   updateConversationStatus(db, conversation.id, "escalated");
   await telegramClient.editCard({
     chatId: callbackQuery.message.chat.id,
@@ -170,13 +194,20 @@ async function handleSnooze({ db, telegramClient }, callbackQuery, conversation,
 
 function computeSnoozeUntil(kind) {
   const now = new Date();
-  if (kind === "2h") {
-    return new Date(now.getTime() + 2 * 3600 * 1000);
+  const hoursMatch = String(kind).match(/^(\d+)h$/);
+  if (hoursMatch) {
+    return new Date(now.getTime() + Number(hoursMatch[1]) * 3600 * 1000);
   }
   if (kind === "tomorrow") {
     const tomorrow = new Date(now);
     tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
     tomorrow.setUTCHours(8, 0, 0, 0);
+    return tomorrow;
+  }
+  if (kind === "tomorrow9") {
+    const tomorrow = new Date(now);
+    tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
+    tomorrow.setUTCHours(9, 0, 0, 0);
     return tomorrow;
   }
   return new Date(now.getTime() + 24 * 3600 * 1000);

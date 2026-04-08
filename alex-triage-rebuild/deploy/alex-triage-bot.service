@@ -7,6 +7,8 @@ Type=simple
 WorkingDirectory=/home/ricky/builds/alex-triage-rebuild
 Environment=HOME=/home/ricky
 Environment=NODE_ENV=production
+EnvironmentFile=/home/ricky/config/api-keys/.env
+EnvironmentFile=/home/ricky/config/supabase/.env
 ExecStart=/usr/bin/node /home/ricky/builds/alex-triage-rebuild/services/telegram-bot.js
 Restart=always
 RestartSec=5
