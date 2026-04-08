@@ -55,37 +55,68 @@ export function flattenMessages(conversation) {
     .filter((message) => message.text);
 }
 
-const INTERNAL_EMAILS = new Set([
-  "operator+pt6lwaq6@intercom.io",
-  "michael.f@icorrect.co.uk"
-]);
+function isInternalAuthor(email) {
+  const normalized = lower(email || "");
+  return (
+    normalized === "operator+pt6lwaq6@intercom.io" ||
+    normalized.endsWith("@icorrect.co.uk") ||
+    normalized.endsWith("@intercom.io")
+  );
+}
 
 function extractCustomerFromBody(conversation) {
-  if (!conversation?.source?.body) return null;
-  const text = stripHtml(conversation.source.body || "").toLowerCase();
-  const raw = conversation.source.body || "";
+  const partBodies = (conversation.conversation_parts?.conversation_parts || [])
+    .map((part) => part.body || part.text || "")
+    .filter(Boolean);
+  const raw = [conversation.source?.subject || "", conversation.source?.body || "", ...partBodies].join("\n\n");
+  if (!raw.trim()) return null;
   const rawText = stripHtml(raw);
 
-  // Pattern: "New enquiry from <Name>" / "Walk-in Customer" / "Contact Form: <Name> - <Device>"
+  const emailMatches = [
+    rawText.match(/Email:\s*([^\s]+@[^\s]+)/i),
+    raw.match(/mailto:([^"'\s>]+)/i)
+  ];
+  const email = emailMatches.find((m) => m)?.[1]?.trim()?.replace(/[>,;.]$/, "") || null;
+
+  const phoneMatch = rawText.match(/Phone:\s*([^\n]+)/i);
+  const phone = phoneMatch?.[1]?.trim()?.replace(/\s+/g, " ") || null;
+
+  const subject = stripHtml(conversation.source?.subject || conversation.title || "");
   const nameMatches = [
-    rawText.match(/(?:New enquiry|Walk-in Customer|Contact Form)[:\s-]+([A-Z][a-zA-Z\s'-]+?)(?:\s*-\s*(?:iPhone|iPad|MacBook|iMac|Apple))/i),
-    rawText.match(/Name:\s*([^\n@]+)/i)
+    rawText.match(/New enquiry from\s+([^\n]+?)(?=\s+Email:|\s+Phone:|\n|$)/i),
+    rawText.match(/Contact Form:\s*([^\n-]+?)(?=\s*-\s*[^\n]+|\n|$)/i),
+    rawText.match(/Name:\s*([^\n]+)/i),
+    subject.match(/Contact Form:\s*([^\n-]+?)(?=\s*-\s*[^\n]+|\n|$)/i),
+    rawText.match(/Monday item created\s+([A-Z][A-Za-z' -]{1,80}?)(?=\s+Group:|$)/i),
+    rawText.match(/Hi\s+([A-Z][A-Za-z' -]{1,60}),/)
   ];
   const name = nameMatches.find((m) => m)?.[1]?.trim() || null;
 
-  // Pattern: "Email: <email>" or href mailto links
-  const emailMatches = [
-    rawText.match(/Email:\s*(\S+@\S+)/i),
-    raw.match(/mailto:([^"'\s>]+)/i)
-  ];
-  const email = emailMatches.find((m) => m)?.[1]?.trim() || null;
-
-  // Pattern: "Phone: <number>"
-  const phoneMatch = rawText.match(/Phone:\s*([+\d\s-]{6,})/i);
-  const phone = phoneMatch?.[1]?.trim() || null;
-
-  if (!name && !email) return null;
+  if (!name && !email && !phone) return null;
   return { name, email, phone, source: "body_parsed" };
+}
+
+export function extractConversationCustomer(conversation) {
+  const sourceEmail = conversation.source?.author?.email || null;
+  const sourceName = conversation.source?.author?.name || null;
+  const contact = conversation.contacts?.contacts?.[0] || {};
+
+  if (isInternalAuthor(sourceEmail)) {
+    const parsed = extractCustomerFromBody(conversation) || {};
+    return {
+      name: parsed.name || contact.name || sourceName || sourceEmail || `Conversation ${conversation.id}`,
+      email: parsed.email || contact.email || null,
+      phone: parsed.phone || contact.phone || conversation.source?.author?.phone || null,
+      source: parsed.source || "contact_fallback"
+    };
+  }
+
+  return {
+    name: sourceName || contact.name || sourceEmail || `Conversation ${conversation.id}`,
+    email: sourceEmail || contact.email || null,
+    phone: contact.phone || conversation.source?.author?.phone || null,
+    source: "author"
+  };
 }
 
 export function getLastCustomerMessage(messages) {
@@ -279,39 +310,10 @@ export function buildCard({
   const lastCustomerMessage = getLastCustomerMessage(messages);
   const lastAdminMessage = getLastAdminMessage(messages);
 
-  // When the source author is internal (Alex bot / Ferrari webhook), extract real customer from body
-  const sourceEmail = conversation.source?.author?.email || "";
-  let customerName, customerEmail, customerPhone;
-
-  if (INTERNAL_EMAILS.has(sourceEmail)) {
-    const parsed = extractCustomerFromBody(conversation);
-    customerName = parsed?.name || null;
-    customerEmail = parsed?.email || null;
-    customerPhone = parsed?.phone || null;
-
-    if (!customerName) {
-      customerName = conversation.contacts?.contacts?.[0]?.name
-        || conversation.source?.author?.name
-        || conversation.source?.author?.email
-        || `Conversation ${conversation.id}`;
-    }
-    if (!customerEmail) {
-      customerEmail = conversation.contacts?.contacts?.[0]?.email || null;
-    }
-    if (!customerPhone) {
-      customerPhone = conversation.contacts?.contacts?.[0]?.phone || null;
-    }
-  } else {
-    customerName =
-      conversation.source?.author?.name ||
-      conversation.contacts?.contacts?.[0]?.name ||
-      conversation.source?.author?.email ||
-      `Conversation ${conversation.id}`;
-    customerEmail =
-      conversation.source?.author?.email || conversation.contacts?.contacts?.[0]?.email || null;
-    customerPhone =
-      conversation.contacts?.contacts?.[0]?.phone || conversation.source?.author?.phone || null;
-  }
+  const extractedCustomer = extractConversationCustomer(conversation);
+  const customerName = extractedCustomer.name;
+  const customerEmail = extractedCustomer.email;
+  const customerPhone = extractedCustomer.phone;
 
   const device = mondayMatch?.device_model || detectDeviceFromMessages(messages) || "N/A";
   const payment = mondayMatch?.payment_status || "Unknown";

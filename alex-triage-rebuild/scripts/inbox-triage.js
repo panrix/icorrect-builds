@@ -17,7 +17,7 @@ import { buildFallbackDraft, DraftClient } from "../lib/draft.js";
 import { IntercomClient } from "../lib/intercom.js";
 import { MondayClient } from "../lib/monday.js";
 import { TelegramClient } from "../lib/telegram.js";
-import { formatRecentMessages, formatTelegramCard, flattenMessages, isActionableConversation } from "../lib/triage.js";
+import { extractConversationCustomer, formatRecentMessages, formatTelegramCard, flattenMessages, isActionableConversation } from "../lib/triage.js";
 import { lookupRepairHistory } from "../lib/repair-history.js";
 import { buildConversationCard } from "./card-builder.js";
 import { enrichConversationV2 } from "./monday-enrich-v2.js";
@@ -107,12 +107,10 @@ async function main() {
         continue;
       }
 
-      const customerEmail =
-        conversation.source?.author?.email || conversation.contacts?.contacts?.[0]?.email || null;
-      const customerName =
-        conversation.source?.author?.name || null;
-      const customerPhone =
-        conversation.contacts?.contacts?.[0]?.phone || conversation.source?.author?.phone || null;
+      const extractedCustomer = extractConversationCustomer(conversation);
+      const customerEmail = extractedCustomer.email;
+      const customerName = extractedCustomer.name;
+      const customerPhone = extractedCustomer.phone;
       const deviceHint = messages.map((message) => message.text).join(" ").slice(0, 1000);
       const mondayMatchResult = await enrichConversationV2({
         mondayClient,
