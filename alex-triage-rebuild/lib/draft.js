@@ -145,6 +145,41 @@ export class DraftClient {
   }
 }
 
+export function buildQuoteFallbackDraft(card) {
+  const greetingName = card?.customer_name ? firstName(card.customer_name) : "there";
+  const findings = card?.diagnostic_findings || [];
+  const price = card?.price;
+  const extractedPrices = card?.context?.extracted_prices || [];
+  const diagnosticFeeLine = card?.quote_breakdown?.find((line) => /Diagnostic fee:/i.test(line));
+  const firstFinding = findings[0]?.replace(/^On Arrival:\s*/i, "").trim();
+
+  if (price && !/quote needs confirmation|quote pending/i.test(String(price))) {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your patience.",
+      firstFinding ? `Following our diagnostic, we found ${firstFinding.replace(/\.$/, "")}.` : "We have now completed our diagnostic and confirmed the fault.",
+      `The quoted price for this repair is ${price}.${diagnosticFeeLine ? ` ${diagnosticFeeLine}.` : ""}`,
+      "If you would like to proceed, please let me know and I will confirm the next steps.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  return [
+    `Hi ${greetingName},`,
+    "",
+    "Thank you for your message.",
+    firstFinding ? `We have reviewed the device and identified the following issue: ${firstFinding}.` : "We have reviewed the device.",
+    "We would need to complete a diagnostic first to provide accurate pricing.",
+    "If you would like to proceed with that, please let me know and I will confirm the next steps.",
+    "",
+    "Kind regards,",
+    "Alex"
+  ].join("\n");
+}
+
 export function buildFallbackDraft(card) {
   const greetingName = card?.customer_name ? firstName(card.customer_name) : "there";
   const price = card?.price;
@@ -168,6 +203,36 @@ export function buildFallbackDraft(card) {
       "",
       "Thank you for your message.",
       "I am checking the latest status for you now and I will come back to you with an update shortly.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (lowerType === "quote" || lowerType === "quote building") {
+    const findings = card?.diagnostic_findings || [];
+    const breakdown = card?.quote_breakdown || [];
+    if (price && !/quote pending/i.test(String(price))) {
+      return [
+        `Hi ${greetingName},`,
+        "",
+        "Thank you for your patience.",
+        findings.length ? `Following our diagnostic, we found ${findings[0].replace(/^On Arrival:\s*/i, "").replace(/\.$/, "")}.` : "We have now assessed the device and confirmed the fault.",
+        `The quoted price for this repair is ${price}.`,
+        breakdown.length > 1 ? `This includes: ${breakdown.slice(1,3).join(' ')}.` : "If you would like to proceed, please let me know and I will confirm the next steps.",
+        "If you would like to proceed, please let me know and I will confirm the next steps.",
+        "",
+        "Kind regards,",
+        "Alex"
+      ].join("\n");
+    }
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      findings.length ? `We have reviewed the device and identified the following issue: ${findings[0].replace(/^On Arrival:\s*/i, "")}.` : "We have reviewed the device.",
+      "We would need to complete a diagnostic first to provide accurate pricing.",
+      "If you would like to proceed with that, please let me know and I will confirm the next steps.",
       "",
       "Kind regards,",
       "Alex"
