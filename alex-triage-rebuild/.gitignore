@@ -1,0 +1,6 @@
+data/*.db
+data/*.json
+data/*.log
+node_modules/
+npm-debug.log*
+

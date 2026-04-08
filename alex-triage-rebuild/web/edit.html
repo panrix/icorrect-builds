@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>Edit Reply</title>
+    <link rel="stylesheet" href="./edit.css" />
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script defer src="./edit.js"></script>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <div class="hero__eyebrow">Telegram Mini App</div>
+        <h1 id="page-title">Edit Reply</h1>
+        <p id="page-subtitle">
+          Review the draft, make any changes, and optionally explain why you changed it.
+        </p>
+      </section>
+
+      <section class="statusbar" aria-live="polite">
+        <div class="statusbar__pill" id="connection-pill">Loading</div>
+        <div class="statusbar__meta" id="draft-meta">Waiting for draft...</div>
+      </section>
+
+      <form id="editor-form" class="card">
+        <label class="field">
+          <span class="field__label">Draft reply</span>
+          <textarea
+            id="draft-input"
+            name="draft"
+            rows="16"
+            autocomplete="off"
+            autocapitalize="sentences"
+            spellcheck="true"
+            placeholder="The draft reply will appear here..."
+            required
+          ></textarea>
+          <span class="field__hint">
+            Keep the reply direct and human. Telegram will preserve your formatting.
+          </span>
+        </label>
+
+        <div class="split">
+          <label class="field field--compact">
+            <span class="field__label">Why did you change this?</span>
+            <textarea
+              id="reason-input"
+              name="reason"
+              rows="5"
+              autocomplete="off"
+              autocapitalize="sentences"
+              spellcheck="true"
+              placeholder="Optional. Add a short reason to improve future drafts."
+            ></textarea>
+            <span class="field__hint">Optional, but useful for the learning loop.</span>
+          </label>
+
+          <aside class="summary">
+            <div class="summary__block">
+              <div class="summary__label">Conversation</div>
+              <div class="summary__value" id="conversation-label">Not loaded</div>
+            </div>
+            <div class="summary__block">
+              <div class="summary__label">Draft length</div>
+              <div class="summary__value" id="draft-count">0 characters</div>
+            </div>
+            <div class="summary__block">
+              <div class="summary__label">Reason length</div>
+              <div class="summary__value" id="reason-count">0 characters</div>
+            </div>
+            <div class="summary__note">
+              This editor runs inside Telegram WebApp. Use Submit to save and return to the chat.
+            </div>
+          </aside>
+        </div>
+
+        <div class="actions">
+          <button type="button" class="button button--ghost" id="cancel-button">Cancel</button>
+          <button type="submit" class="button button--primary" id="submit-button">Submit changes</button>
+        </div>
+
+        <p class="error" id="error-box" hidden></p>
+      </form>
+    </main>
+  </body>
+</html>

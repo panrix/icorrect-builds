@@ -1,0 +1,15 @@
+[Unit]
+Description=Alex Triage Rebuild service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/alex-triage-rebuild
+Environment=HOME=/home/ricky
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /home/ricky/builds/alex-triage-rebuild/services/telegram-bot.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target

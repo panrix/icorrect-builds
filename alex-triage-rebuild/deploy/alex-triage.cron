@@ -1,0 +1,19 @@
+# Alex Triage Rebuild cron schedule
+#
+# Install with:
+#   crontab /home/ricky/builds/alex-triage-rebuild/deploy/alex-triage.cron
+#
+# The commands assume the repo lives at /home/ricky/builds/alex-triage-rebuild
+# and that runtime secrets are available via /home/ricky/config/api-keys/.env.
+
+# Morning full pull at 06:45 UTC
+45 6 * * * cd /home/ricky/builds/alex-triage-rebuild && /usr/bin/env bash -lc 'mkdir -p data && /usr/bin/node scripts/inbox-triage.js --mode=morning >> data/cron-triage-morning.log 2>&1'
+
+# Incremental checks every 15 minutes during working hours, Monday-Friday
+*/15 7-18 * * 1-5 cd /home/ricky/builds/alex-triage-rebuild && /usr/bin/env bash -lc 'mkdir -p data && /usr/bin/node scripts/inbox-triage.js --mode=check >> data/cron-triage-check.log 2>&1'
+
+# Refresh Shopify pricing daily at 05:00 UTC
+0 5 * * * cd /home/ricky/builds/alex-triage-rebuild && /usr/bin/env bash -lc 'mkdir -p data && /usr/bin/node scripts/shopify-pricing.js >> data/cron-pricing-sync.log 2>&1'
+
+# Learning run weekly on Sunday at 07:30 UTC
+30 7 * * 0 cd /home/ricky/builds/alex-triage-rebuild && /usr/bin/env bash -lc 'mkdir -p data && /usr/bin/node scripts/learning-run.js >> data/cron-learning-run.log 2>&1'

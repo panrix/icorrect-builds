@@ -1,0 +1,19 @@
+{
+  "name": "alex-triage-rebuild",
+  "version": "0.1.0",
+  "description": "Intercom triage, drafting, and Telegram review workflow for Alex.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "node services/telegram-bot.js",
+    "triage:morning": "node scripts/inbox-triage.js --mode=morning",
+    "triage:check": "node scripts/inbox-triage.js --mode=check",
+    "pricing:sync": "node scripts/shopify-pricing.js",
+    "learning:run": "node scripts/learning-run.js",
+    "qa:send-flow": "node scripts/qa-send-flow.js",
+    "repair-history:import": "node scripts/import-repair-history.js",
+    "repair-history:test": "node scripts/test-repair-history-integration.js",
+    "test:integration": "node scripts/test-integration.js",
+    "check": "node --check scripts/inbox-triage.js && node --check scripts/monday-enrich.js && node --check scripts/monday-enrich-v2.js && node --check scripts/card-builder.js && node --check scripts/shopify-pricing.js && node --check scripts/learning-run.js && node --check scripts/qa-send-flow.js && node --check scripts/import-repair-history.js && node --check scripts/test-repair-history-integration.js && node --check scripts/test-integration.js && node --check services/telegram-bot.js && node --check lib/bot-actions.js && node --check lib/config.js && node --check lib/db.js && node --check lib/http.js && node --check lib/intercom.js && node --check lib/monday.js && node --check lib/draft.js && node --check lib/telegram.js && node --check lib/triage.js && node --check lib/supabase.js && node --check lib/repair-history.js && node --check web/edit.js"
+  }
+}

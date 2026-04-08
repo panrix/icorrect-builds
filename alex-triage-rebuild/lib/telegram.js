@@ -1,0 +1,147 @@
+import crypto from "node:crypto";
+import { requestJson } from "./http.js";
+
+export class TelegramClient {
+  constructor(config) {
+    this.token = config.token;
+    this.chatId = config.chatId;
+    this.emailsThreadId = config.emailsThreadId;
+    this.baseUrl = `${config.baseUrl}/bot${config.token}`;
+    this.publicBaseUrl = config.publicBaseUrl.replace(/\/$/, "");
+  }
+
+  buildEditToken(conversationId) {
+    const payload = `${conversationId}:${Date.now()}`;
+    const signature = crypto
+      .createHmac("sha256", this.token)
+      .update(payload)
+      .digest("hex");
+    return Buffer.from(`${payload}:${signature}`).toString("base64url");
+  }
+
+  verifyEditToken(token, conversationId) {
+    if (!token) {
+      return false;
+    }
+
+    try {
+      const raw = Buffer.from(token, "base64url").toString("utf8");
+      const [id, issuedAt, signature] = raw.split(":");
+      if (id !== String(conversationId) || !issuedAt || !signature) {
+        return false;
+      }
+
+      const expected = crypto
+        .createHmac("sha256", this.token)
+        .update(`${id}:${issuedAt}`)
+        .digest("hex");
+
+      return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+    } catch {
+      return false;
+    }
+  }
+
+  editUrl(conversationId) {
+    const token = this.buildEditToken(conversationId);
+    return `${this.publicBaseUrl}/edit?id=${encodeURIComponent(conversationId)}&token=${encodeURIComponent(token)}`;
+  }
+
+  keyboard(conversationId, options = {}) {
+    const tier = options.tier || "yellow";
+    const rows = [];
+
+    if (tier === "red") {
+      rows.push([
+        { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` },
+        { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
+      ]);
+    } else {
+      rows.push([
+        { text: "✅ Approve", callback_data: `approve:${conversationId}` },
+        { text: "✏️ Edit", url: this.editUrl(conversationId) }
+      ]);
+      rows.push([
+        { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` },
+        { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
+      ]);
+    }
+
+    return { inline_keyboard: rows };
+  }
+
+  async call(method, payload) {
+    return requestJson(`${this.baseUrl}/${method}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
+  }
+
+  async sendCard({ text, conversationId, card }) {
+    const payload = {
+      chat_id: this.chatId,
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: this.keyboard(conversationId, { tier: card?.confidence?.tier })
+    };
+
+    if (this.emailsThreadId) {
+      payload.message_thread_id = this.emailsThreadId;
+    }
+
+    return this.call("sendMessage", payload);
+  }
+
+  async editCard({ chatId, messageId, text, conversationId, card }) {
+    return this.call("editMessageText", {
+      chat_id: chatId,
+      message_id: Number(messageId),
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true,
+      reply_markup: this.keyboard(conversationId, { tier: card?.confidence?.tier })
+    });
+  }
+
+  async editCardStatus({ chatId, messageId, text }) {
+    return this.call("editMessageText", {
+      chat_id: chatId,
+      message_id: Number(messageId),
+      text,
+      parse_mode: "HTML",
+      disable_web_page_preview: true
+    });
+  }
+
+  async getUpdates(offset) {
+    return this.call("getUpdates", {
+      offset,
+      timeout: 30,
+      allowed_updates: ["callback_query"]
+    });
+  }
+
+  async answerCallbackQuery(callbackQueryId, text, options = {}) {
+    return this.call("answerCallbackQuery", {
+      callback_query_id: callbackQueryId,
+      text,
+      show_alert: options.showAlert || false
+    });
+  }
+
+  async sendMessage(payload) {
+    return this.call("sendMessage", payload);
+  }
+
+  async deleteMessage(chatId, messageId) {
+    return this.call("deleteMessage", {
+      chat_id: chatId,
+      message_id: Number(messageId)
+    });
+  }
+}
+
