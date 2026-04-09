@@ -146,7 +146,8 @@ export function getConfig(options = {}) {
       model: process.env.OPENROUTER_MODEL || "qwen/qwen3.6-plus"
     },
     service: {
-      port: optionalNumber("ALEX_TRIAGE_PORT", 8020)
+      port: optionalNumber("ALEX_TRIAGE_PORT", 8020),
+      enableLivePosting: process.env.ALEX_ENABLE_LIVE_POSTING === "1"
     }
   };
 }

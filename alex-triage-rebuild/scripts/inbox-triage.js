@@ -184,7 +184,7 @@ async function main() {
       }
 
       const telegramText = formatTelegramCard(card, draftText);
-      if (!args.dryRun) {
+      if (!args.dryRun && config.service.enableLivePosting) {
         const sentMessage = await telegramClient.sendCard({
           text: telegramText,
           conversationId: conversation.id,
@@ -209,7 +209,7 @@ async function main() {
 
     const today = new Date().toISOString().slice(0, 10);
     writeJson(path.join(config.triageOutputDir, `triage-${today}.json`), actionable);
-    if (!args.dryRun) {
+    if (!args.dryRun && config.service.enableLivePosting) {
       setCheckpoint(db, checkpointKey, new Date().toISOString());
     }
 

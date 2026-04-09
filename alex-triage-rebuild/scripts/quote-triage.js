@@ -241,7 +241,7 @@ async function main() {
       });
 
       actionable += 1;
-      if (!args.dryRun) {
+      if (!args.dryRun && config.service.enableLivePosting) {
         const sent = await telegram.sendCard({
           text: formatTelegramCard(card, draftText),
           conversationId,
