@@ -538,6 +538,10 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     ...optionalLine("KB used", (card.context?.kb_used || []).join(", ")), 
     ...optionalLine("Pricing", cleanDisplayValue(card.context?.pricing_source), { fallback: "Not applicable" })
   ];
+  const latestCustomerLines = [
+    escapeHtml(cleanDisplayValue(card.latest_message, "No customer message found."))
+  ];
+  const threadLines = sanitizeThreadSummary(card.thread_summary);
   const lines = [
     `<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>`,
     `Type: ${escapeHtml(titleize(card.type))}`,
@@ -553,20 +557,25 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     `<b>━ ACTIVE REPAIR ━</b>`,
     ...activeRepairLines,
     "",
-    `<b>━ THREAD ━</b>`,
-    ...sanitizeThreadSummary(card.thread_summary),
-    "",
-    `<b>━ WHAT MATTERS ━</b>`,
-    escapeHtml(cleanDisplayValue(card.what_matters, "Needs human review before sending.")),
-    "",
+    `<b>━ LATEST CUSTOMER MESSAGE ━</b>`,
+    ...latestCustomerLines,
+    ""
+  ];
+
+  if (threadLines.length) {
+    lines.push(`<b>━ THREAD ━</b>`, ...threadLines, "");
+  }
+
+  lines.push(
     `<b>━━ DRAFT REPLY ━</b>`,
     escapeHtml(cleanDisplayValue(draftText, "Draft pending")),
     "",
     `<b>━━ SOURCE ━</b>`,
     ...sourceLines,
+    ...optionalLine("What matters", cleanDisplayValue(card.what_matters)),
     "",
     `<a href="${card.context.intercom_url}">Open Intercom</a>`
-  ];
+  );
 
   if (stateLabel) {
     lines.push("", `<b>${escapeHtml(stateLabel)}</b>`);

@@ -1,6 +1,11 @@
 import fs from "node:fs";
 import { requestJson } from "./http.js";
 
+const ALEX_REQUIRED_DRAFT_FILES = [
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/SOUL.md",
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/USER.md"
+];
+
 export class DraftClient {
   constructor(config) {
     this.baseUrl = config.baseUrl;
@@ -9,10 +14,14 @@ export class DraftClient {
   }
 
   async draftReply({ ferrariContextPath, learnedRulesPath, card, recentMessages }) {
+    const requiredWorkspaceDocs = readRequiredDraftFiles();
     const ferrariContext = readFileIfExists(ferrariContextPath);
     const learnedRules = readFileIfExists(learnedRulesPath);
     const prompt = [
       "You are Alex, customer service at iCorrect. Draft a reply for this customer.",
+      "",
+      "=== REQUIRED ALEX WORKSPACE DOCS (read before drafting) ===",
+      requiredWorkspaceDocs,
       "",
       "=== WRITING RULES (follow exactly) ===",
       ferrariContext || "[No ferrari context loaded]",
@@ -66,10 +75,14 @@ export class DraftClient {
   }
 
   async draftQuote({ ferrariContextPath, learnedRulesPath, card, historicalQuotes = [], diagnosticNotes = [] }) {
+    const requiredWorkspaceDocs = readRequiredDraftFiles();
     const ferrariContext = readFileIfExists(ferrariContextPath);
     const learnedRules = readFileIfExists(learnedRulesPath);
     const prompt = [
       "You are Alex supporting Ferrari at iCorrect. Draft a customer quote email in Ferrari's style.",
+      "",
+      "=== REQUIRED ALEX WORKSPACE DOCS (read before drafting) ===",
+      requiredWorkspaceDocs,
       "",
       "=== WRITING RULES (follow exactly) ===",
       ferrariContext || "[No ferrari context loaded]",
@@ -287,6 +300,26 @@ export function buildFallbackDraft(card) {
     "Kind regards,",
     "Alex"
   ].join("\n");
+}
+
+export function readRequiredDraftFiles(filePaths = ALEX_REQUIRED_DRAFT_FILES) {
+  const loaded = [];
+  for (const filePath of filePaths) {
+    if (!filePath || !fs.existsSync(filePath)) {
+      throw new Error(`Required draft file missing: ${filePath}`);
+    }
+    let text = "";
+    try {
+      text = fs.readFileSync(filePath, "utf8").trim();
+    } catch (error) {
+      throw new Error(`Required draft file unreadable: ${filePath} (${error.message})`);
+    }
+    if (!text) {
+      throw new Error(`Required draft file empty: ${filePath}`);
+    }
+    loaded.push(`--- ${filePath} ---\n${text}`);
+  }
+  return loaded.join("\n\n");
 }
 
 function readFileIfExists(filePath) {
