@@ -147,7 +147,8 @@ export function getConfig(options = {}) {
     },
     service: {
       port: optionalNumber("ALEX_TRIAGE_PORT", 8020),
-      enableLivePosting: process.env.ALEX_ENABLE_LIVE_POSTING === "1"
+      enableLivePosting: process.env.ALEX_ENABLE_LIVE_POSTING === "1",
+      emailFreshHours: optionalNumber("ALEX_EMAIL_FRESH_HOURS", 168)
     }
   };
 }

@@ -239,7 +239,33 @@ export function buildFallbackDraft(card) {
     ].join("\n");
   }
 
-  if (price && price !== "Not in catalogue") {
+  if (price && /quote pending/i.test(String(price))) {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      "Your device is still in diagnostics at the moment, so I do not have a confirmed quote yet.",
+      "As soon as the assessment is complete I will update you with the repair cost and next steps.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (price && /not in catalogue/i.test(String(price))) {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      "We would need to complete a diagnostic first to provide accurate pricing for this repair.",
+      "If you would like to proceed with that, please let me know and I will confirm the next steps.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (price) {
     return [
       `Hi ${greetingName},`,
       "",

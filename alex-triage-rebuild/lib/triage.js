@@ -21,8 +21,126 @@ function lower(value) {
   return normalizeText(value).toLowerCase();
 }
 
+export const EMAIL_TRIAGE_FRESHNESS_DAYS = 14;
+
+const FINALIZED_CONVERSATION_STATUSES = new Set([
+  "sent",
+  "sending",
+  "skipped",
+  "snoozed",
+  "escalated"
+]);
+
+const ACTIVE_REVIEW_CONVERSATION_STATUSES = new Set([
+  "pending",
+  "edited",
+  "sync_failed",
+  ...FINALIZED_CONVERSATION_STATUSES
+]);
+
 export function buildIntercomUrl(workspaceId, conversationId) {
   return `https://app.intercom.com/a/inbox/${workspaceId}/inbox/conversation/${conversationId}`;
+}
+
+export function getConversationUpdatedAtMs(conversation) {
+  return Number(conversation?.updated_at || conversation?.updatedAt || 0) * 1000;
+}
+
+export function isEmailConversation(conversation) {
+  const sourceType = lower(conversation?.source?.type || conversation?.source?.delivered_as || "");
+  return sourceType === "email";
+}
+
+export function computeEmailTriageWindowStart({
+  checkpointIso,
+  nowMs = Date.now(),
+  fallbackDays = 7,
+  freshnessDays = EMAIL_TRIAGE_FRESHNESS_DAYS
+} = {}) {
+  const freshnessFloorMs = nowMs - freshnessDays * 24 * 60 * 60 * 1000;
+  const fallbackMs = nowMs - fallbackDays * 24 * 60 * 60 * 1000;
+  const checkpointMs = checkpointIso ? Date.parse(checkpointIso) : null;
+  const effectiveMs = checkpointMs ? Math.max(checkpointMs, freshnessFloorMs) : Math.max(fallbackMs, freshnessFloorMs);
+  return new Date(effectiveMs).toISOString();
+}
+
+function hasProcessedState(existingConversation) {
+  if (!existingConversation) {
+    return false;
+  }
+
+  const status = lower(existingConversation.status || "");
+  if (existingConversation.sent_at || existingConversation.intercom_sent_at) {
+    return true;
+  }
+
+  if (FINALIZED_CONVERSATION_STATUSES.has(status)) {
+    return true;
+  }
+
+  return Boolean(existingConversation.telegram_message_id && ACTIVE_REVIEW_CONVERSATION_STATUSES.has(status));
+}
+
+function looksLikeHistoricalQuoteNoise(conversation, messages) {
+  const subject = lower(conversation?.source?.subject || conversation?.title || "");
+  const combinedText = messages.map((message) => message.text).join(" ").toLowerCase();
+  const text = `${subject} ${combinedText}`;
+
+  if (!text.includes("quote")) {
+    return false;
+  }
+
+  return (
+    text.includes("last year") ||
+    text.includes("from 2023") ||
+    text.includes("accepted the quote from last year") ||
+    text.includes("proceed with the quote from last year")
+  );
+}
+
+export function evaluateEmailTriageCandidate({
+  conversation,
+  messages = flattenMessages(conversation),
+  checkpointIso = null,
+  existingConversation = null,
+  nowMs = Date.now(),
+  freshnessDays = EMAIL_TRIAGE_FRESHNESS_DAYS
+} = {}) {
+  if (!conversation) {
+    return { include: false, reason: "exclude_missing_conversation" };
+  }
+
+  if (!isEmailConversation(conversation)) {
+    return { include: false, reason: "exclude_non_email" };
+  }
+
+  const updatedAtMs = getConversationUpdatedAtMs(conversation);
+  if (!updatedAtMs) {
+    return { include: false, reason: "exclude_missing_updated_at" };
+  }
+
+  const freshnessFloorMs = nowMs - freshnessDays * 24 * 60 * 60 * 1000;
+  if (updatedAtMs < freshnessFloorMs) {
+    return { include: false, reason: "exclude_stale" };
+  }
+
+  if (checkpointIso && updatedAtMs <= Date.parse(checkpointIso)) {
+    return { include: false, reason: "exclude_stale" };
+  }
+
+  if (looksLikeHistoricalQuoteNoise(conversation, messages)) {
+    return { include: false, reason: "exclude_historical_quote" };
+  }
+
+  if (hasProcessedState(existingConversation)) {
+    return { include: false, reason: "exclude_already_processed" };
+  }
+
+  if (!isActionableConversation(conversation, messages)) {
+    return { include: false, reason: "exclude_non_actionable" };
+  }
+
+  return { include: true, reason: "post" };
 }
 
 export function flattenMessages(conversation) {
@@ -125,6 +243,15 @@ export function getLastCustomerMessage(messages) {
 
 export function getLastAdminMessage(messages) {
   return [...messages].reverse().find((message) => message.author_type === "admin") || null;
+}
+
+export function isFreshConversation(conversation, freshHours = 168) {
+  const updatedAtSeconds = Number(conversation.updated_at || conversation.updatedAt || 0);
+  if (!updatedAtSeconds) {
+    return false;
+  }
+  const ageHours = (Date.now() / 1000 - updatedAtSeconds) / 3600;
+  return ageHours <= freshHours;
 }
 
 export function isActionableConversation(conversation, messages) {
@@ -418,10 +545,14 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     `<b>━ THREAD ━</b>`,
     ...card.thread_summary.map((line) => escapeHtml(line)),
     "",
+    `<b>━ WHAT MATTERS ━</b>`,
+    escapeHtml(card.what_matters || "Needs human review before sending."),
+    "",
     `<b>━━ DRAFT REPLY ━</b>`,
     escapeHtml(draftText || "Draft pending"),
     "",
     `<b>━━ SOURCE ━</b>`,
+    `Last reply from us: ${escapeHtml(card.context.last_reply_from_us || "None")}`,
     `KB used: ${escapeHtml((card.context.kb_used || []).join(", ") || "None")}`,
     `Pricing: ${escapeHtml(card.context.pricing_source || "Not applicable")}`,
     "",

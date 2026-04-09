@@ -17,7 +17,14 @@ import { buildFallbackDraft, DraftClient } from "../lib/draft.js";
 import { IntercomClient } from "../lib/intercom.js";
 import { MondayClient } from "../lib/monday.js";
 import { TelegramClient } from "../lib/telegram.js";
-import { extractConversationCustomer, formatRecentMessages, formatTelegramCard, flattenMessages, isActionableConversation } from "../lib/triage.js";
+import {
+  computeEmailTriageWindowStart,
+  evaluateEmailTriageCandidate,
+  extractConversationCustomer,
+  formatRecentMessages,
+  formatTelegramCard,
+  flattenMessages
+} from "../lib/triage.js";
 import { lookupRepairHistory } from "../lib/repair-history.js";
 import { buildConversationCard } from "./card-builder.js";
 import { enrichConversationV2 } from "./monday-enrich-v2.js";
@@ -43,8 +50,7 @@ function parseArgs(argv) {
 function buildFerrariContext(config) {
   const sourceFiles = [
     "/home/ricky/.openclaw/agents/alex-cs/workspace/docs/reply-templates.md",
-    "/home/ricky/.openclaw/agents/alex-cs/workspace/knowledge/ferrari-writing-library.md",
-    "/home/ricky/.openclaw/agents/alex-cs/workspace/docs/quote-building-sop.md"
+    "/home/ricky/.openclaw/agents/alex-cs/workspace/knowledge/ferrari-writing-library.md"
   ];
 
   const sections = sourceFiles
@@ -85,11 +91,10 @@ async function main() {
     const checkpointKey =
       args.mode === "check" ? LAST_SUCCESSFUL_CHECKPOINT_KEY : "last_successful_morning_at";
     const checkpoint = getCheckpoint(db, checkpointKey);
-    // First-ever run: look back 7 days. After that, always since last successful run of this type.
-    const fallback = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const updatedSince = computeEmailTriageWindowStart({ checkpointIso: checkpoint });
 
     const summaries = await intercomClient.listOpenConversations({
-      updatedSince: checkpoint || fallback,
+      updatedSince,
       maxItems: Number.isFinite(args.limit) && args.limit > 0 ? args.limit : null
     });
     const eligible = summaries.filter((conversation) =>
@@ -103,7 +108,14 @@ async function main() {
     for (const summary of limited) {
       const conversation = await intercomClient.getConversation(summary.id);
       const messages = flattenMessages(conversation);
-      if (!isActionableConversation(conversation, messages)) {
+      const existing = getConversation(db, String(conversation.id));
+      const decision = evaluateEmailTriageCandidate({
+        conversation,
+        messages,
+        checkpointIso: args.mode === "check" ? checkpoint : null,
+        existingConversation: existing
+      });
+      if (!decision.include) {
         continue;
       }
 
@@ -161,7 +173,6 @@ async function main() {
         draftText = buildFallbackDraft(card);
       }
 
-      const existing = getConversation(db, String(conversation.id));
       const alreadyPosted = existing && existing.telegram_message_id;
       const alreadyHandled = alreadyPosted && ["sent", "skipped", "sending"].includes(existing.status);
 
@@ -183,9 +194,13 @@ async function main() {
         continue;
       }
 
+      if (card.card_kind === "quote") {
+        continue;
+      }
+
       const telegramText = formatTelegramCard(card, draftText);
       if (!args.dryRun && config.service.enableLivePosting) {
-        const sentMessage = await telegramClient.sendCard({
+        const sentMessage = await telegramClient.sendEmailTriageCard({
           text: telegramText,
           conversationId: conversation.id,
           card

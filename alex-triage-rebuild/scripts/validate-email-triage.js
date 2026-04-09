@@ -1,30 +1,25 @@
 import fs from "node:fs";
 import path from "node:path";
 import { buildFallbackDraft } from "../lib/draft.js";
+import {
+  EMAIL_TRIAGE_FRESHNESS_DAYS,
+  evaluateEmailTriageCandidate,
+  extractConversationCustomer,
+  flattenMessages,
+  formatTelegramCard
+} from "../lib/triage.js";
 import { buildConversationCard } from "./card-builder.js";
-import { extractConversationCustomer, flattenMessages, formatTelegramCard, isActionableConversation } from "../lib/triage.js";
 
 const ROOT = "/home/ricky/builds/alex-triage-rebuild";
-const FIXTURES_PATH = path.join(ROOT, "data", "email-triage-fixtures.json");
-const OUT_JSON = path.join(ROOT, "data", "email-triage-validation-results.json");
-const OUT_MD = path.join(ROOT, "data", "email-triage-validation.md");
+const VALIDATION_DIR = path.join(ROOT, "docs", "validation");
+const FIXTURES_PATH = path.join(VALIDATION_DIR, "email-triage-fixtures.json");
+const RUN_DATE = new Date().toISOString().slice(0, 10);
+const OUT_JSON = path.join(VALIDATION_DIR, `email-triage-validation-results-${RUN_DATE}.json`);
+const OUT_MD = path.join(VALIDATION_DIR, `email-triage-validation-${RUN_DATE}.md`);
 const WORKSPACE_ID = "pt6lwaq6";
 
 function loadFixtures() {
   return JSON.parse(fs.readFileSync(FIXTURES_PATH, "utf8"));
-}
-
-function buildDecision(fixture, conversation, messages, existingConversation) {
-  const stale = fixture.checkpoint
-    ? Number(conversation.updated_at || 0) * 1000 <= Date.parse(fixture.checkpoint)
-    : false;
-  const actionable = isActionableConversation(conversation, messages);
-  const alreadyProcessed = !!(existingConversation?.telegram_message_id && ["sent", "skipped", "sending"].includes(existingConversation?.status));
-
-  if (stale) return "exclude_stale";
-  if (!actionable) return "exclude_non_actionable";
-  if (alreadyProcessed) return "exclude_already_processed";
-  return "post";
 }
 
 function pass(expected, actual) {
@@ -54,11 +49,16 @@ function main() {
     const conversation = fixture.conversation;
     const messages = flattenMessages(conversation);
     const customer = extractConversationCustomer(conversation);
-    const decision = buildDecision(fixture, conversation, messages, fixture.existingConversation);
+    const decision = evaluateEmailTriageCandidate({
+      conversation,
+      messages,
+      checkpointIso: fixture.checkpoint || null,
+      existingConversation: fixture.existingConversation || null
+    });
 
     let card = null;
     let draft = null;
-    if (decision === "post") {
+    if (decision.include) {
       const built = buildConversationCard({
         conversation,
         mondayMatch: fixture.mondayMatch,
@@ -72,20 +72,24 @@ function main() {
     }
 
     const passes = [];
-    passes.push(pass(fixture.expected.decision, decision));
+    passes.push(pass(fixture.expected.decision, decision.reason));
     if (card) {
       passes.push(pass(fixture.expected.type, card.type));
       passes.push(pass(fixture.expected.mondayMatched, !!card.context.monday_item_id));
       passes.push(pass(fixture.expected.hasPastRepairs, !!fixture.pastRepairs.length));
-      if (fixture.expected.customerTypeContains) passes.push(String(card.customer_type).includes(fixture.expected.customerTypeContains));
-      if (fixture.expected.priceLabelContains) passes.push(String(card.price).includes(fixture.expected.priceLabelContains));
+      if (fixture.expected.customerTypeContains) {
+        passes.push(String(card.customer_type).includes(fixture.expected.customerTypeContains));
+      }
+      if (fixture.expected.priceLabelContains) {
+        passes.push(String(card.price).includes(fixture.expected.priceLabelContains));
+      }
     }
 
     return {
       id: fixture.id,
       description: fixture.description,
       pass: passes.every(Boolean),
-      decision,
+      decision: decision.reason,
       customer,
       previousRepairsSummary: fixture.pastRepairs.length
         ? fixture.pastRepairs.map((repair) => `${repair.completion_date}: ${repair.device_model} ${repair.repair_type}`).join(" | ")
@@ -102,11 +106,18 @@ function main() {
   fs.writeFileSync(OUT_JSON, JSON.stringify(results, null, 2));
 
   const lines = [
-    "# Email Triage Validation — 2026-04-09",
+    `# Email Triage Validation — ${RUN_DATE}`,
     "",
     "## Scope",
     "",
     "Email triage only. Quote triage excluded from live validation. Live posting remains disabled unless `ALEX_ENABLE_LIVE_POSTING=1`.",
+    "",
+    "## Hard Guards",
+    "",
+    `- Freshness window: ${EMAIL_TRIAGE_FRESHNESS_DAYS} days`,
+    "- Email-only intake: non-email conversations are excluded before drafting/posting.",
+    "- Processed-state dedupe: existing Telegram-reviewed or sent conversations are excluded from repost.",
+    "- Historical quote noise: stale/last-year quote threads are excluded.",
     "",
     "## Test cases",
     ""

@@ -4,6 +4,13 @@
 
 Email triage only. Quote triage excluded from live validation. Live posting remains disabled unless `ALEX_ENABLE_LIVE_POSTING=1`.
 
+## Hard Guards
+
+- Freshness window: 14 days
+- Email-only intake: non-email conversations are excluded before drafting/posting.
+- Processed-state dedupe: existing Telegram-reviewed or sent conversations are excluded from repost.
+- Historical quote noise: stale/last-year quote threads are excluded.
+
 ## Test cases
 
 ### fresh-monday-match — Fresh Intercom email enquiry with valid Monday match
@@ -26,7 +33,7 @@ Email triage only. Quote triage excluded from live validation. Live posting rema
 - Monday item: Sarah Malik - iPhone 13
 - Monday link: https://icorrect.monday.com/boards/349212843/pulses/2222
 - Latest message excerpt: Hi, my iPhone is having charging issues again. Can you let me know the next step?
-- Draft reply quality: Hi Sarah,  Thank you for your message. The price for this repair is Quote pending — device in diagnostics. If you would like to go ahead, please let me know and I will confirm the next steps.  Kind regards, Alex
+- Draft reply quality: Hi Sarah,  Thank you for your message. Your device is still in diagnostics at the moment, so I do not have a confirmed quote yet. As soon as the assessment is complete I will update you with the repair cost and next steps.  Kind regards, Alex
 
 ### history-no-monday — Fresh email with no Monday match but repair history present
 
@@ -48,7 +55,7 @@ Email triage only. Quote triage excluded from live validation. Live posting rema
 - Monday item: None
 - Monday link: None
 - Latest message excerpt: Hi, my iPad has no power after liquid damage. Could you tell me the cost?
-- Draft reply quality: Hi Nina,  Thank you for your message. The price for this repair is Not in catalogue — diagnostic needed. If you would like to go ahead, please let me know and I will confirm the next steps.  Kind regards, Alex
+- Draft reply quality: Hi Nina,  Thank you for your message. We would need to complete a diagnostic first to provide accurate pricing for this repair. If you would like to proceed with that, please let me know and I will confirm the next steps.  Kind regards, Alex
 
 ### stale-old-quote-excluded — Old resolved quote or stale historical item that must be excluded
 
