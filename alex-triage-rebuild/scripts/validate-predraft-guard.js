@@ -1,20 +1,20 @@
 import { readRequiredDraftFiles } from "../lib/draft.js";
 
 const REQUIRED_FILES = [
-  "/home/ricky/.openclaw/agents/alex-cs/workspace/docs/ferrari-guide.md",
-  "/home/ricky/.openclaw/agents/alex-cs/workspace/docs/reply-templates.md"
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/CLAUDE.md",
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/AGENTS.md"
 ];
 
 function main() {
   const loaded = readRequiredDraftFiles(REQUIRED_FILES);
-  const hasFerrariGuide = loaded.includes(REQUIRED_FILES[0]);
-  const hasReplyTemplates = loaded.includes(REQUIRED_FILES[1]);
+  const hasClaude = loaded.includes(REQUIRED_FILES[0]);
+  const hasAgents = loaded.includes(REQUIRED_FILES[1]);
   console.log(JSON.stringify({
     enforcedFiles: REQUIRED_FILES,
-    hasFerrariGuide,
-    hasReplyTemplates,
+    hasClaude,
+    hasAgents,
     loadedLength: loaded.length,
-    status: hasFerrariGuide && hasReplyTemplates ? 'PASS' : 'FAIL'
+    status: hasClaude && hasAgents ? 'PASS' : 'FAIL'
   }, null, 2));
 }
 

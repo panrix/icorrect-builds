@@ -2,8 +2,8 @@ import fs from "node:fs";
 import { requestJson } from "./http.js";
 
 const ALEX_REQUIRED_DRAFT_FILES = [
-  "/home/ricky/.openclaw/agents/alex-cs/workspace/docs/ferrari-guide.md",
-  "/home/ricky/.openclaw/agents/alex-cs/workspace/docs/reply-templates.md"
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/CLAUDE.md",
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/AGENTS.md"
 ];
 
 export class DraftClient {
