@@ -3,6 +3,7 @@ import {
   createSnooze,
   deleteSnooze,
   getConversation,
+  insertEdit,
   markConversationIntercomSent,
   markConversationSendFailed,
   markConversationSent,
@@ -11,6 +12,39 @@ import {
   updateConversationStatus
 } from "./db.js";
 import { formatTelegramCard } from "./triage.js";
+
+export async function applyDraftEdit({ db, telegramClient }, { conversationId, editedText, reason = "" }) {
+  const conversation = getConversation(db, conversationId);
+  if (!conversation) {
+    throw new Error("Conversation not found");
+  }
+
+  insertEdit(db, {
+    conversationId,
+    originalDraft: conversation.original_draft || conversation.draft_text || "",
+    editedDraft: editedText,
+    reason,
+    category: conversation.category
+  });
+  updateConversationStatus(db, conversationId, "edited", { draftText: editedText });
+
+  const latestConversation = getConversation(db, conversationId);
+  if (latestConversation?.telegram_chat_id && latestConversation?.telegram_message_id) {
+    try {
+      await telegramClient.editCard({
+        chatId: latestConversation.telegram_chat_id,
+        messageId: latestConversation.telegram_message_id,
+        text: formatTelegramCard(latestConversation.card_json, latestConversation.draft_text),
+        conversationId,
+        card: latestConversation.card_json
+      });
+    } catch (error) {
+      console.error("Failed to update Telegram card after edit:", error);
+    }
+  }
+
+  return latestConversation;
+}
 
 export async function handleTelegramCallback(
   { db, telegramClient, intercomClient, mondayClient, config },
@@ -220,7 +254,7 @@ export async function repostDueSnoozes({ db, telegramClient, dueSnoozes }) {
       deleteSnooze(db, snooze.conversation_id);
       continue;
     }
-    const sent = await telegramClient.sendCard({
+    const sent = await telegramClient.sendEmailTriageCard({
       text: formatTelegramCard(conversation.card_json, conversation.draft_text, "💤 Snooze expired"),
       conversationId: conversation.id,
       card: conversation.card_json

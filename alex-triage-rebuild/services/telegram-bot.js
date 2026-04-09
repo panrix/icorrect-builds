@@ -2,20 +2,17 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
-import { handleTelegramCallback, repostDueSnoozes } from "../lib/bot-actions.js";
+import { applyDraftEdit, handleTelegramCallback, repostDueSnoozes } from "../lib/bot-actions.js";
 import { getConfig } from "../lib/config.js";
 import {
   getConversation,
   getDueSnoozes,
-  insertEdit,
   openDb,
-  updateConversationAfterTelegramPost,
-  updateConversationStatus
+  updateConversationAfterTelegramPost
 } from "../lib/db.js";
 import { IntercomClient } from "../lib/intercom.js";
 import { MondayClient } from "../lib/monday.js";
 import { TelegramClient } from "../lib/telegram.js";
-import { formatTelegramCard } from "../lib/triage.js";
 
 const config = getConfig();
 const db = openDb();
@@ -199,28 +196,7 @@ async function requestHandler(request, response) {
         return;
       }
 
-      insertEdit(db, {
-        conversationId,
-        originalDraft: conversation.original_draft || conversation.draft_text || "",
-        editedDraft: editedText,
-        reason,
-        category: conversation.category
-      });
-      updateConversationStatus(db, conversationId, "edited", { draftText: editedText });
-
-      if (conversation.telegram_chat_id && conversation.telegram_message_id) {
-        try {
-          await telegramClient.editCard({
-            chatId: conversation.telegram_chat_id,
-            messageId: conversation.telegram_message_id,
-            text: formatTelegramCard(conversation.card_json, editedText),
-            conversationId,
-            card: conversation.card_json
-          });
-        } catch (error) {
-          console.error("Failed to update Telegram card after edit:", error);
-        }
-      }
+      await applyDraftEdit({ db, telegramClient }, { conversationId, editedText, reason });
 
       sendJson(response, 200, { ok: true });
       return;

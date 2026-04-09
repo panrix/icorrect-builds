@@ -96,6 +96,13 @@ export class TelegramClient {
     return this.call("sendMessage", payload);
   }
 
+  async sendEmailTriageCard({ text, conversationId, card }) {
+    if (card?.card_kind === "quote") {
+      throw new Error("Quote cards are blocked from email triage routing");
+    }
+    return this.sendCard({ text, conversationId, card });
+  }
+
   async editCard({ chatId, messageId, text, conversationId, card }) {
     return this.call("editMessageText", {
       chat_id: chatId,
@@ -144,4 +151,3 @@ export class TelegramClient {
     });
   }
 }
-

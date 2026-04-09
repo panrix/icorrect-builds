@@ -1,0 +1,44 @@
+[
+  {
+    "id": "approve",
+    "description": "Approve sends once and blocks duplicate resend",
+    "pass": true,
+    "result": "PASS",
+    "details": "Intercom reply=1, Monday update=1, second callback rejected as already handled."
+  },
+  {
+    "id": "approve-retry",
+    "description": "Approve retry resumes Monday sync without resending Intercom reply",
+    "pass": true,
+    "result": "PASS",
+    "details": "First pass failed Monday sync only; retry completed send with Intercom reply count still at 1."
+  },
+  {
+    "id": "edit",
+    "description": "Edit updates stored draft and Telegram card",
+    "pass": true,
+    "result": "PASS",
+    "details": "Conversation moved to edited, 1 edit record stored, Telegram card refreshed."
+  },
+  {
+    "id": "escalate",
+    "description": "Escalate adds Intercom context, tags, and Ricky notification",
+    "pass": true,
+    "result": "PASS",
+    "details": "Intercom note/tag written and Ricky notification sent; conversation marked escalated."
+  },
+  {
+    "id": "snooze",
+    "description": "Snooze hides card and reposts it once due",
+    "pass": true,
+    "result": "PASS",
+    "details": "Conversation moved to snoozed, source message deleted, then reposted back to pending after expiry."
+  },
+  {
+    "id": "routing",
+    "description": "Email triage routing stays on the email topic and blocks quote cards",
+    "pass": true,
+    "result": "PASS",
+    "details": "Outgoing payload used Telegram topic 774; quote card send was rejected."
+  }
+]
