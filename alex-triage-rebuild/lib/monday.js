@@ -71,6 +71,23 @@ function mapItem(item) {
   };
 }
 
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
+function isRetryableMondayError(error) {
+  const text = String(error?.message || error || "").toLowerCase();
+  return (
+    text.includes("failed to parse json response") ||
+    text.includes("<html") ||
+    text.includes("http 5") ||
+    text.includes("bad gateway") ||
+    text.includes("gateway timeout") ||
+    text.includes("cloudflare") ||
+    text.includes("temporarily unavailable")
+  );
+}
+
 export class MondayClient {
   constructor(config) {
     this.baseUrl = config.baseUrl;
@@ -79,39 +96,65 @@ export class MondayClient {
   }
 
   async graphql(query) {
-    return requestJson(this.baseUrl, {
-      method: "POST",
-      headers: {
-        Authorization: this.token,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ query }),
-      timeoutMs: 120000
-    });
+    const maxAttempts = 4;
+    let lastError = null;
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+      try {
+        const payload = await requestJson(this.baseUrl, {
+          method: "POST",
+          headers: {
+            Authorization: this.token,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ query }),
+          timeoutMs: 120000
+        });
+
+        if (payload?.errors?.length) {
+          throw new Error(`Monday GraphQL errors: ${JSON.stringify(payload.errors).slice(0, 800)}`);
+        }
+
+        return payload;
+      } catch (error) {
+        lastError = error;
+        if (!isRetryableMondayError(error) || attempt === maxAttempts) {
+          break;
+        }
+        const delayMs = 1000 * attempt;
+        console.warn(`Monday graphql transient failure (attempt ${attempt}/${maxAttempts}): ${error.message}. Retrying in ${delayMs}ms`);
+        await sleep(delayMs);
+      }
+    }
+
+    throw new Error(`Monday request failed after retries: ${lastError?.message || lastError}`);
   }
 
   async itemsByColumn(columnId, value) {
     const query = `
       query {
-        items_by_column_values(
-          board_id: ${this.boardId},
-          column_id: "${escapeGraphQL(columnId)}",
-          column_value: "${escapeGraphQL(String(value))}"
-        ) {
-          id
-          name
-          column_values {
-            id
-            text
-            value
-            type
+        boards(ids: [${this.boardId}]) {
+          items_page(limit: 25, query_params: {
+            rules: [{column_id: "${escapeGraphQL(columnId)}", compare_value: ["${escapeGraphQL(String(value))}"]}],
+            operator: and
+          }) {
+            items {
+              id
+              name
+              column_values {
+                id
+                text
+                value
+                type
+              }
+            }
           }
         }
       }
     `;
 
     const payload = await this.graphql(query);
-    return (payload.data?.items_by_column_values || []).map(mapItem);
+    return (payload.data?.boards?.[0]?.items_page?.items || []).map(mapItem);
   }
 
   async findByEmail(email) {
@@ -296,4 +339,3 @@ export class MondayClient {
     return payload.data?.create_update?.id ? String(payload.data.create_update.id) : null;
   }
 }
-
