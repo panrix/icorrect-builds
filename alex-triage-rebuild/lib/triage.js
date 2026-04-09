@@ -408,7 +408,7 @@ export function summarizeWhyItMatters({ category, priceLabel, mondayMatch, pastR
 
   if (category === "chase") {
     return mondayMatch?.status || mondayMatch?.current_status
-      ? `Customer is chasing an update. Monday currently shows ${mondayMatch.status || mondayMatch.current_status}.`
+      ? `Customer is chasing an update. Monday currently shows ${humanizeStatus(mondayMatch.status || mondayMatch.current_status)}.`
       : "Customer is chasing an update, but Monday status is unclear.";
   }
 
@@ -515,46 +515,55 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
   }
 
   const confidenceLabel = `${card.confidence?.emoji || "🟡"} ${escapeHtml(card.confidence?.label || "Needs review")}`;
-  const mondayConfidenceLabel = card.context.monday_confidence
-    ? ` (${Math.round(card.context.monday_confidence * 100)}% · ${escapeHtml(card.context.monday_match_reason || "match")})`
-    : "";
+  const mondayConfidenceLabel = formatMondayConfidence(card.context?.monday_confidence, card.context?.monday_match_reason);
+  const customerLines = [
+    `Name: ${escapeHtml(cleanDisplayValue(card.customer_name, "Customer"))}`,
+    ...optionalLine("Email", card.customer_email),
+    ...optionalLine("Phone", card.customer_phone),
+    ...optionalLine("Type", card.customer_type)
+  ];
+  const activeRepairLines = [
+    `Monday: ${escapeHtml(cleanDisplayValue(card.context?.monday_item_label || card.context?.monday_item_id, "No active repair found on Monday."))}${mondayConfidenceLabel}`,
+    ...optionalLine("Status", humanizeStatus(card.raw?.current_status), { fallback: "No live repair status" }),
+    ...optionalLine("Payment", humanizeStatus(card.payment), { fallback: "No payment status" }),
+    ...optionalLine("Received", formatDisplayDate(card.received), { fallback: "Not yet" }),
+    ...optionalLine("Expected", formatDisplayDate(card.expected)),
+    ...optionalLine("Tech notes", cleanDisplayValue(card.tech_notes))
+  ];
+  if (card.context?.monday_item_id) {
+    activeRepairLines.push(`Link: ${escapeHtml(`https://icorrect.monday.com/boards/349212843/pulses/${card.context.monday_item_id}`)}`);
+  }
+  const sourceLines = [
+    ...optionalLine("Last reply from us", formatLastReply(card.context?.last_reply_from_us), { fallback: "None" }),
+    ...optionalLine("KB used", (card.context?.kb_used || []).join(", ")), 
+    ...optionalLine("Pricing", cleanDisplayValue(card.context?.pricing_source), { fallback: "Not applicable" })
+  ];
   const lines = [
     `<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>`,
     `Type: ${escapeHtml(titleize(card.type))}`,
     `Channel: ${escapeHtml(titleize(card.channel || "email"))}`,
-    `Device: ${escapeHtml(card.device)}`,
+    `Device: ${escapeHtml(cleanDisplayValue(card.device, "N/A"))}`,
     `Confidence: ${confidenceLabel}`,
-    `Priority: ${escapeHtml(card.priority)}`,
+    `Priority: ${escapeHtml(cleanDisplayValue(card.priority, "P2"))}`,
     "",
     `<b>━ CUSTOMER ━</b>`,
-    `Name: ${escapeHtml(card.customer_name)}`,
-    `Email: ${escapeHtml(card.customer_email || "Unknown")}`,
-    `Phone: ${escapeHtml(card.customer_phone || "Unknown")}`,
-    `Type: ${escapeHtml(card.customer_type)}`,
+    ...customerLines,
     ...formatLastRepairLines(card.last_repair),
     "",
     `<b>━ ACTIVE REPAIR ━</b>`,
-    `Monday: ${escapeHtml(card.context.monday_item_label || card.context.monday_item_id || "No active repair found on Monday.")}${mondayConfidenceLabel}`,
-    ` Status: ${escapeHtml(card.raw.current_status || "Not found")}`,
-    ` Payment: ${escapeHtml(card.payment || "Unknown")}`,
-    ` Received: ${escapeHtml(card.received || "Not yet")}`,
-    ` Expected: ${escapeHtml(card.expected || "TBC")}`,
-    ` Tech notes: ${escapeHtml(card.tech_notes || "None")}`,
-    ` Link: ${escapeHtml(card.context.monday_item_id ? `https://icorrect.monday.com/boards/349212843/pulses/${card.context.monday_item_id}` : "N/A")}`,
+    ...activeRepairLines,
     "",
     `<b>━ THREAD ━</b>`,
-    ...card.thread_summary.map((line) => escapeHtml(line)),
+    ...sanitizeThreadSummary(card.thread_summary),
     "",
     `<b>━ WHAT MATTERS ━</b>`,
-    escapeHtml(card.what_matters || "Needs human review before sending."),
+    escapeHtml(cleanDisplayValue(card.what_matters, "Needs human review before sending.")),
     "",
     `<b>━━ DRAFT REPLY ━</b>`,
-    escapeHtml(draftText || "Draft pending"),
+    escapeHtml(cleanDisplayValue(draftText, "Draft pending")),
     "",
     `<b>━━ SOURCE ━</b>`,
-    `Last reply from us: ${escapeHtml(card.context.last_reply_from_us || "None")}`,
-    `KB used: ${escapeHtml((card.context.kb_used || []).join(", ") || "None")}`,
-    `Pricing: ${escapeHtml(card.context.pricing_source || "Not applicable")}`,
+    ...sourceLines,
     "",
     `<a href="${card.context.intercom_url}">Open Intercom</a>`
   ];
@@ -702,6 +711,80 @@ export function formatQuoteTelegramCard(card, draftText, stateLabel = null) {
   }
 
   return lines.join("\n");
+}
+
+function cleanDisplayValue(value, fallback = "") {
+  const text = normalizeText(value || "");
+  if (!text) return fallback;
+  const lowered = text.toLowerCase();
+  if (["unknown", "none", "null", "undefined", "n/a", "na", "not found"].includes(lowered)) {
+    return fallback;
+  }
+  if (lowered.startsWith("unknown ") || lowered.includes("undefined") || lowered.includes("null")) {
+    return fallback;
+  }
+  return text;
+}
+
+function optionalLine(label, value, options = {}) {
+  const cleaned = cleanDisplayValue(value, options.fallback || "");
+  if (!cleaned) return [];
+  return [`${label}: ${escapeHtml(cleaned)}`];
+}
+
+function formatMondayConfidence(value, reason) {
+  if (typeof value !== 'number' || !Number.isFinite(value)) {
+    return "";
+  }
+  const pct = Math.round(value * 100);
+  if (!Number.isFinite(pct) || pct < 0) {
+    return "";
+  }
+  const cleanReason = cleanDisplayValue(reason, "match");
+  return ` (${pct}%${cleanReason ? ` · ${escapeHtml(cleanReason)}` : ""})`;
+}
+
+function humanizeStatus(value) {
+  const cleaned = cleanDisplayValue(value);
+  if (!cleaned) return "";
+  return cleaned
+    .replace(/[_-]+/g, " ")
+    .replace(/\bqc\b/gi, "QC")
+    .replace(/\bber\b/gi, "BER")
+    .replace(/\b([a-z])/g, (m) => m.toUpperCase());
+}
+
+function formatDisplayDate(value) {
+  const cleaned = cleanDisplayValue(value);
+  if (!cleaned) return "";
+  const parsed = Date.parse(cleaned);
+  if (Number.isNaN(parsed)) return cleaned;
+  return new Date(parsed).toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: cleaned.includes('T') ? '2-digit' : undefined,
+    minute: cleaned.includes('T') ? '2-digit' : undefined,
+    hour12: false,
+    timeZone: 'UTC'
+  }).replace(',', '');
+}
+
+function formatLastReply(value) {
+  const cleaned = cleanDisplayValue(value);
+  if (!cleaned || cleaned === 'None') return 'None';
+  const match = cleaned.match(/^(.*?) at (.+)$/);
+  if (!match) return cleaned;
+  const [, who, when] = match;
+  const formattedWhen = formatDisplayDate(when);
+  return formattedWhen ? `${who} at ${formattedWhen} UTC` : cleaned;
+}
+
+function sanitizeThreadSummary(lines = []) {
+  return (lines || [])
+    .map((line) => cleanDisplayValue(line))
+    .filter(Boolean)
+    .map((line) => escapeHtml(line));
 }
 
 function formatPastRepairLines(pastRepairs = []) {
