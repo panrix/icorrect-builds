@@ -2,7 +2,7 @@ import { buildCard, classifyConversation, computePriority, flattenMessages } fro
 
 export function buildConversationCard({ conversation, mondayMatch, mondayAlternatives = [], pastRepairs = [], price, workspaceId }) {
   const messages = flattenMessages(conversation);
-  const category = classifyConversation(conversation, messages, mondayMatch);
+  const category = classifyConversation(conversation, messages, mondayMatch, pastRepairs);
   const priority = computePriority({
     category,
     mondayMatch,

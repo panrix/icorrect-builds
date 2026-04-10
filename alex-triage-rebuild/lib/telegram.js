@@ -49,14 +49,40 @@ export class TelegramClient {
 
   keyboard(conversationId, options = {}) {
     const tier = options.tier || "yellow";
+    const category = options.category || "";
     const rows = [];
 
-    if (tier === "red") {
+    if (category === "complaint_warranty" || tier === "red") {
       rows.push([
         { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` },
         { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
       ]);
-    } else {
+      return { inline_keyboard: rows };
+    }
+
+    if (category === "quote_followup") {
+      rows.push([
+        { text: "✏️ Edit", url: this.editUrl(conversationId) },
+        { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` }
+      ]);
+      rows.push([
+        { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
+      ]);
+      return { inline_keyboard: rows };
+    }
+
+    if (category === "corporate_account") {
+      rows.push([
+        { text: "✏️ Edit", url: this.editUrl(conversationId) },
+        { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` }
+      ]);
+      rows.push([
+        { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
+      ]);
+      return { inline_keyboard: rows };
+    }
+
+    if (category === "active_repair" && tier === "green") {
       rows.push([
         { text: "✅ Approve", callback_data: `approve:${conversationId}` },
         { text: "✏️ Edit", url: this.editUrl(conversationId) }
@@ -65,7 +91,17 @@ export class TelegramClient {
         { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` },
         { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
       ]);
+      return { inline_keyboard: rows };
     }
+
+    rows.push([
+      { text: "✅ Approve", callback_data: `approve:${conversationId}` },
+      { text: "✏️ Edit", url: this.editUrl(conversationId) }
+    ]);
+    rows.push([
+      { text: "⚠️ Escalate", callback_data: `escalate:${conversationId}` },
+      { text: "💤 Snooze", callback_data: `snooze:${conversationId}` }
+    ]);
 
     return { inline_keyboard: rows };
   }
@@ -86,7 +122,7 @@ export class TelegramClient {
       text,
       parse_mode: "HTML",
       disable_web_page_preview: true,
-      reply_markup: this.keyboard(conversationId, { tier: card?.confidence?.tier })
+      reply_markup: this.keyboard(conversationId, { tier: card?.confidence?.tier, category: card?.type })
     };
 
     if (this.emailsThreadId) {
@@ -110,7 +146,7 @@ export class TelegramClient {
       text,
       parse_mode: "HTML",
       disable_web_page_preview: true,
-      reply_markup: this.keyboard(conversationId, { tier: card?.confidence?.tier })
+      reply_markup: this.keyboard(conversationId, { tier: card?.confidence?.tier, category: card?.type })
     });
   }
 
@@ -125,10 +161,17 @@ export class TelegramClient {
   }
 
   async getUpdates(offset) {
-    return this.call("getUpdates", {
-      offset,
-      timeout: 30,
-      allowed_updates: ["callback_query"]
+    return requestJson(`${this.baseUrl}/getUpdates`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        offset,
+        timeout: 30,
+        allowed_updates: ["callback_query"]
+      }),
+      timeoutMs: 40000
     });
   }
 

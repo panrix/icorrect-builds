@@ -428,7 +428,7 @@ export function summarizeWhyItMatters({ category, priceLabel, mondayMatch, pastR
   }
 
   if (category === "complaint_warranty") {
-    return "Complaint or warranty-related case — needs careful wording and Ferrari visibility.";
+    return "Complaint or warranty case — needs careful wording and Ferrari visibility.";
   }
 
   if (category === "active_repair") {
@@ -446,15 +446,19 @@ export function summarizeWhyItMatters({ category, priceLabel, mondayMatch, pastR
     return `Corporate account ${mondayMatch?.company || "lead"}. Escalate for relationship management.`;
   }
 
-  if (priceLabel && !/not in catalogue/i.test(priceLabel)) {
+  if (category === "new_enquiry" && priceLabel && !/not in catalogue/i.test(priceLabel)) {
     return `New enquiry, price available: ${priceLabel}. Draft a reply with pricing and next steps.`;
+  }
+
+  if (category === "new_enquiry") {
+    return "New enquiry, no catalogue match. Suggest walk-in diagnostics.";
   }
 
   if (pastRepairs.length >= 2) {
     return `Returning customer with ${pastRepairs.length} previous repairs. Keep tone warmer and reference history carefully.`;
   }
 
-  return "New enquiry, no catalogue match. Suggest walk-in diagnostics.";
+  return "Needs a drafted response with clear next step and human review.";
 }
 
 export function buildCard({
@@ -618,25 +622,20 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
   return lines.join("\n");
 }
 
-function determineConfidenceTier({ category, mondayMatch, priceLabel, pastRepairs, lastAdminMessage }) {
-  const payment = lower(mondayMatch?.payment_status || "");
-  const paidAndSilent = payment.includes("paid") && lastAdminMessage && (Date.now() / 1000 - Number(lastAdminMessage.created_at || 0)) / 3600 > 48;
-
-  if (category === "complaint" || category === "bm_email" || paidAndSilent) {
+function determineConfidenceTier({ category, mondayMatch }) {
+  if (category === "complaint_warranty") {
     return { tier: "red", emoji: "🔴", label: "Escalate" };
   }
 
-  if (
-    !priceLabel ||
-    priceLabel === "Not in catalogue — diagnostic needed" ||
-    lower(mondayMatch?.client_status).includes("corporate") ||
-    lower(mondayMatch?.client_status).includes("warranty") ||
-    (mondayMatch?.confidence ?? 0) < 0.85
-  ) {
-    return { tier: "yellow", emoji: "🟡", label: "Needs review" };
+  if (category === "active_repair") {
+    const status = lower(mondayMatch?.status || mondayMatch?.current_status || "");
+    const confidence = mondayMatch?.confidence ?? 0;
+    if (confidence >= 0.7 && status && !isTerminalMondayStatus(status)) {
+      return { tier: "green", emoji: "🟢", label: "Ready to send" };
+    }
   }
 
-  return { tier: "green", emoji: "🟢", label: "Ready to send" };
+  return { tier: "yellow", emoji: "🟡", label: "Needs review" };
 }
 
 function resolvePriceLabel({ price, mondayMatch }) {
