@@ -325,46 +325,67 @@ export function isActionableConversation(conversation, messages) {
   return true;
 }
 
-export function classifyConversation(conversation, messages, mondayMatch) {
-  // Only classify based on the last 3 messages, not the full thread history
-  const recentMessages = messages.slice(-3);
-  const recentText = recentMessages.map((message) => `${message.author_type}: ${message.text}`).join("\n").toLowerCase();
-  const allText = messages.map((message) => `${message.author_type}: ${message.text}`).join("\n").toLowerCase();
-  const sourceType = lower(conversation.source?.type || "");
-  const email = lower(conversation.source?.author?.email || "");
+function isBusinessDomain(email) {
+  const normalized = lower(email || "");
+  if (!normalized.includes("@")) return false;
+  const domain = normalized.split("@")[1];
+  const personalDomains = new Set([
+    "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com", "icloud.com", "me.com", "yahoo.com", "yahoo.co.uk", "proton.me", "protonmail.com"
+  ]);
+  return !personalDomains.has(domain);
+}
 
-  if (email.includes("backmarket") || allText.includes("back market")) {
+function isTerminalMondayStatus(status) {
+  return ["returned", "shipped", "cancelled/declined", "ber/parts"].includes(lower(status || ""));
+}
+
+function textSuggestsComplaint(text) {
+  return /(complaint|unhappy|refund|not acceptable|disgusted|trading standards|still not working|came back broken|warranty)/i.test(text);
+}
+
+function textSuggestsStatusChase(text) {
+  return /(status update|any update|when will|ready to collect|collect my|how is the repair going|is it ready|timeline)/i.test(text);
+}
+
+function textSuggestsQuoteHesitation(text) {
+  return /(too expensive|expensive|alternative|cheaper|best price|can you do better|discount|budge|payment plan|is there another option)/i.test(text);
+}
+
+function textSuggestsNewEnquiry(text) {
+  return /(how much|quote|can you fix|i need a quote|repair price|repair cost|cost to repair|price for|can this be repaired)/i.test(text);
+}
+
+export function classifyConversation(conversation, messages, mondayMatch, pastRepairs = []) {
+  const recentMessages = messages.slice(-3);
+  const recentText = recentMessages.map((message) => `${message.author_type}: ${message.text}`).join("\n");
+  const allText = messages.map((message) => `${message.author_type}: ${message.text}`).join("\n");
+  const email = lower(extractConversationCustomer(conversation).email || conversation.source?.author?.email || "");
+  const clientStatus = lower(mondayMatch?.client_status || "");
+  const mondayStatus = lower(mondayMatch?.status || mondayMatch?.current_status || "");
+  const mondayConfidence = mondayMatch?.confidence ?? 0;
+  const warrantyHistory = pastRepairs.some((repair) => repair.was_warranty || repair.warranty_returns > 0);
+
+  if (email.includes("backmarket") || lower(allText).includes("back market")) {
     return "bm_email";
   }
 
-  // Complaint detection based on recent messages only — old thread history doesn't count
-  if (
-    recentText.includes("complaint") ||
-    recentText.includes("unhappy") ||
-    recentText.includes("refund") ||
-    recentText.includes("not acceptable") ||
-    recentText.includes("disgusted") ||
-    recentText.includes("trading standards")
-  ) {
-    return "complaint";
+  if (textSuggestsComplaint(recentText) || warrantyHistory) {
+    return "complaint_warranty";
   }
 
-  if (
-    recentText.includes("status update") ||
-    recentText.includes("any update") ||
-    recentText.includes("when will") ||
-    recentText.includes("ready to collect") ||
-    recentText.includes("collect my")
-  ) {
-    return "chase";
+  if (mondayConfidence >= 0.7 && mondayStatus && !isTerminalMondayStatus(mondayStatus) && textSuggestsStatusChase(recentText)) {
+    return "active_repair";
   }
 
-  const hasAdminReply = messages.some((message) => message.author_type === "admin");
-  if (!hasAdminReply) {
-    return "new_enquiry";
+  if (mondayConfidence >= 0.7 && mondayMatch?.quote_amount && textSuggestsQuoteHesitation(recentText)) {
+    return "quote_followup";
   }
 
-  return "follow_up";
+  if (isBusinessDomain(email) || clientStatus.includes("corporate") || clientStatus.includes("client") || /procurement|purchase order|company billing|staff devices/i.test(allText)) {
+    return "corporate_account";
+  }
+
+  return "new_enquiry";
 }
 
 export function computePriority({ category, mondayMatch, lastAdminMessage, lastCustomerMessage }) {
@@ -378,7 +399,11 @@ export function computePriority({ category, mondayMatch, lastAdminMessage, lastC
     return "High";
   }
 
-  if (category === "complaint") {
+  if (category === "complaint_warranty") {
+    return "High";
+  }
+
+  if (category === "active_repair") {
     return "High";
   }
 
@@ -386,7 +411,7 @@ export function computePriority({ category, mondayMatch, lastAdminMessage, lastC
     return "High";
   }
 
-  if (category === "new_enquiry" || category === "follow_up" || category === "chase") {
+  if (["new_enquiry", "quote_followup", "corporate_account", "bm_email"].includes(category)) {
     return "Medium";
   }
 
@@ -399,28 +424,37 @@ export function computePriority({ category, mondayMatch, lastAdminMessage, lastC
 
 export function summarizeWhyItMatters({ category, priceLabel, mondayMatch, pastRepairs = [] }) {
   if (category === "bm_email") {
-    return "Back Market related email. Route with priority and avoid standard AI flow.";
+    return "Back Market related email. Route with priority.";
   }
 
-  if (category === "complaint") {
-    return "Complaint-style message. Needs careful wording and Ferrari visibility before send.";
+  if (category === "complaint_warranty") {
+    return "Complaint or warranty-related case — needs careful wording and Ferrari visibility.";
   }
 
-  if (category === "chase") {
+  if (category === "active_repair") {
     return mondayMatch?.status || mondayMatch?.current_status
-      ? `Customer is chasing an update. Monday currently shows ${humanizeStatus(mondayMatch.status || mondayMatch.current_status)}.`
-      : "Customer is chasing an update, but Monday status is unclear.";
+      ? `Existing repair in progress. Monday shows ${humanizeStatus(mondayMatch.status || mondayMatch.current_status)}. Draft a status update.`
+      : "Existing repair in progress. Draft a status update.";
+  }
+
+  if (category === "quote_followup") {
+    const amount = mondayMatch?.quote_amount ? `£${Number(String(mondayMatch.quote_amount).replace(/[^\d.]/g, "")).toFixed(0)}` : "an existing quote";
+    return `Quote of ${amount} sent. Customer is hesitating or asking questions. Needs commercial judgement.`;
+  }
+
+  if (category === "corporate_account") {
+    return `Corporate account ${mondayMatch?.company || "lead"}. Escalate for relationship management.`;
+  }
+
+  if (priceLabel && !/not in catalogue/i.test(priceLabel)) {
+    return `New enquiry, price available: ${priceLabel}. Draft a reply with pricing and next steps.`;
   }
 
   if (pastRepairs.length >= 2) {
     return `Returning customer with ${pastRepairs.length} previous repairs. Keep tone warmer and reference history carefully.`;
   }
 
-  if (priceLabel && priceLabel !== "Not in catalogue") {
-    return `Standard enquiry with a catalogue price available (${priceLabel}).`;
-  }
-
-  return "Needs a drafted response with clear next step and human review.";
+  return "New enquiry, no catalogue match. Suggest walk-in diagnostics.";
 }
 
 export function buildCard({
@@ -675,12 +709,67 @@ function ageDays(createdAtSeconds) {
   return Math.max(0, Math.floor((Date.now() / 1000 - Number(createdAtSeconds)) / 86400));
 }
 
-function detectDeviceFromMessages(messages) {
+export function detectDeviceFromMessages(messages) {
   const haystack = messages.map((message) => message.text).join(" ");
   const match = haystack.match(
-    /\b(iPhone\s+\d{1,2}(?:\s+(?:Pro|Plus|Mini|Max))?|iPad\s+[A-Za-z0-9" ]+|MacBook\s+[A-Za-z0-9" ]+)/i
+    /\b(iPhone\s+[A-Za-z0-9+\- ]+|iPad\s+[A-Za-z0-9" ]+|MacBook\s+[A-Za-z0-9" ]+|Apple Watch\s+[A-Za-z0-9" ]+|Watch\s+[A-Za-z0-9" ]+)/i
   );
   return match ? match[1].trim() : null;
+}
+
+export function extractDeviceForPricing(conversation, messages, mondayMatch) {
+  const device = mondayMatch?.device_model || detectDeviceFromMessages(messages) || conversation?.source?.subject || "";
+  return String(device)
+    .replace(/\b(oled screen repair|lcd screen repair|screen glass repair|screen repair|battery repair|charging port repair|rear camera repair|front camera repair|speaker repair|microphone repair|liquid damage diagnostic|board level repair|diagnostic|back glass repair|face id repair|touch id repair|camera lens repair|rear housing repair|keyboard repair|trackpad repair|fan repair)\b/gi, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function extractRepairType(conversation, messages, mondayMatch) {
+  const candidates = [
+    mondayMatch?.repair_type,
+    mondayMatch?.status,
+    mondayMatch?.current_status,
+    conversation?.source?.subject,
+    ...messages.map((message) => message.text)
+  ]
+    .filter(Boolean)
+    .map((value) => lower(value));
+
+  const joined = candidates.join(" \n ");
+  const patterns = [
+    [/(oled).*screen|screen.*oled|original screen|genuine lcd/, "original screen repair genuine lcd"],
+    [/(lcd).*screen|screen.*lcd/, "lcd screen repair"],
+    [/screen glass|glass only/, "screen glass repair"],
+    [/display|screen|cracked screen/, "lcd screen repair"],
+    [/battery|swollen battery|battery drains/, "battery replacement premium aftermarket battery"],
+    [/charging port|charge port|not charging|charge issue/, "charging port repair"],
+    [/rear camera|back camera/, "rear camera repair"],
+    [/front camera|selfie camera/, "front camera repair"],
+    [/ear speaker/, "earpiece speaker repair"],
+    [/loudspeaker/, "loudspeaker repair"],
+    [/speaker/, "earpiece speaker repair"],
+    [/microphone|mic issue/, "microphone repair"],
+    [/liquid damage|water damage/, "liquid damage diagnostic"],
+    [/board level|logic board|microsolder|motherboard/, "board level repair"],
+    [/diagnostic|diagnostics|assessment/, "diagnostic"],
+    [/back glass/, "back glass repair"],
+    [/face id/, "face id repair"],
+    [/touch id/, "touch id repair"],
+    [/camera lens/, "camera lens repair"],
+    [/housing|rear housing/, "rear housing repair"],
+    [/keyboard/, "keyboard repair"],
+    [/trackpad/, "trackpad repair"],
+    [/fan issue|fan replacement/, "fan repair"]
+  ];
+
+  for (const [pattern, label] of patterns) {
+    if (pattern.test(joined)) {
+      return label;
+    }
+  }
+
+  return null;
 }
 
 export function formatQuoteTelegramCard(card, draftText, stateLabel = null) {

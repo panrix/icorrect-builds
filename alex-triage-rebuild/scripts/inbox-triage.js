@@ -19,8 +19,11 @@ import { MondayClient } from "../lib/monday.js";
 import { TelegramClient } from "../lib/telegram.js";
 import {
   computeEmailTriageWindowStart,
+  detectDeviceFromMessages,
   evaluateEmailTriageCandidate,
   extractConversationCustomer,
+  extractDeviceForPricing,
+  extractRepairType,
   formatRecentMessages,
   formatTelegramCard,
   flattenMessages
@@ -144,7 +147,13 @@ async function main() {
       } catch (error) {
         console.error(`Repair history lookup failed for conversation ${conversation.id}:`, error);
       }
-      const price = findPrice(pricingIndex, mondayMatch?.device_model, mondayMatch?.repair_type);
+      const inferredDevice = extractDeviceForPricing(conversation, messages, mondayMatch) || detectDeviceFromMessages(messages);
+      const inferredRepairType = extractRepairType(conversation, messages, mondayMatch);
+      const price = findPrice(
+        pricingIndex,
+        mondayMatch?.device_model || inferredDevice,
+        mondayMatch?.repair_type || inferredRepairType
+      );
       const { card, category, priority, messages: builtMessages } = buildConversationCard({
         conversation,
         mondayMatch,
