@@ -38,6 +38,37 @@ const ACTIVE_REVIEW_CONVERSATION_STATUSES = new Set([
   ...FINALIZED_CONVERSATION_STATUSES
 ]);
 
+const REPAIR_INTENT_DEVICE_PATTERNS = [
+  /\biphone\b/i,
+  /\bipad\b/i,
+  /\bmacbook\b/i,
+  /\bimac\b/i,
+  /\bapple watch\b/i,
+  /\bmac mini\b/i,
+  /\bmac pro\b/i
+];
+
+const REPAIR_INTENT_FAULT_PATTERNS = [
+  /\bbroken\b/i,
+  /\bcracked\b/i,
+  /\brepair\b/i,
+  /\bfix\b/i,
+  /\breplace(?:ment|d|s)?\b/i,
+  /\bbattery\b/i,
+  /\bscreen\b/i,
+  /\bcharging\b/i,
+  /\bwon'?t turn on\b/i,
+  /\bnot working\b/i,
+  /\bliquid damage\b/i,
+  /\bwater damage\b/i,
+  /\bdisplay\b/i,
+  /\bkeyboard\b/i,
+  /\btrackpad\b/i,
+  /\bcamera\b/i,
+  /\bspeaker\b/i,
+  /\bmicrophone\b/i
+];
+
 export function buildIntercomUrl(workspaceId, conversationId) {
   return `https://app.intercom.com/a/inbox/${workspaceId}/inbox/conversation/${conversationId}`;
 }
@@ -46,9 +77,66 @@ export function getConversationUpdatedAtMs(conversation) {
   return Number(conversation?.updated_at || conversation?.updatedAt || 0) * 1000;
 }
 
+function getEmailDomain(email) {
+  const normalized = lower(email || "");
+  if (!normalized.includes("@")) {
+    return "";
+  }
+  return normalized.split("@").pop() || "";
+}
+
 export function isEmailConversation(conversation) {
   const sourceType = lower(conversation?.source?.type || conversation?.source?.delivered_as || "");
   return sourceType === "email";
+}
+
+function isNoiseConversation(conversation, messages = []) {
+  void messages;
+  const subject = lower(conversation?.source?.subject || conversation?.title || "");
+  const senderEmail = lower(conversation?.source?.author?.email || "");
+  const senderDomain = getEmailDomain(senderEmail);
+  const senderLocalPart = senderEmail.includes("@") ? senderEmail.split("@")[0] : "";
+
+  if (
+    senderEmail === "michael.f@icorrect.co.uk" &&
+    (subject.startsWith("contact form:") || subject.startsWith("quote request:"))
+  ) {
+    return true;
+  }
+
+  if (senderEmail === "admin@icorrect.co.uk") {
+    return true;
+  }
+
+  if (senderEmail === "mailer@shopify.com") {
+    return true;
+  }
+
+  if (senderEmail.includes("no-reply") && senderDomain.endsWith("backmarket.com")) {
+    return true;
+  }
+
+  if (senderLocalPart.includes("telesphere") || senderDomain.includes("telesphere")) {
+    return true;
+  }
+
+  if (subject.includes("[telesphere]") || subject.includes("voicemail attached")) {
+    return true;
+  }
+
+  return false;
+}
+
+function hasRepairIntent(messages = []) {
+  const combinedText = messages.map((message) => message.text).join(" ");
+  if (!combinedText.trim()) {
+    return false;
+  }
+
+  return (
+    REPAIR_INTENT_DEVICE_PATTERNS.some((pattern) => pattern.test(combinedText)) &&
+    REPAIR_INTENT_FAULT_PATTERNS.some((pattern) => pattern.test(combinedText))
+  );
 }
 
 export function computeEmailTriageWindowStart({
@@ -128,6 +216,10 @@ export function evaluateEmailTriageCandidate({
 
   if (!isEmailConversation(conversation)) {
     return { include: false, reason: "exclude_non_email" };
+  }
+
+  if (isNoiseConversation(conversation, messages)) {
+    return { include: false, reason: "exclude_noise" };
   }
 
   const updatedAtMs = getConversationUpdatedAtMs(conversation);
@@ -291,12 +383,40 @@ export function isActionableConversation(conversation, messages) {
   const senderEmail = lower(conversation.source?.author?.email || "");
   const senderName = lower(conversation.source?.author?.name || "");
   const combinedText = messages.map((message) => message.text).join(" ").toLowerCase();
+  const repairIntent = hasRepairIntent(messages);
+  const noiseConversation = isNoiseConversation(conversation, messages);
 
   if (!subject && !combinedText) {
     return false;
   }
 
-  const spamPatterns = [
+  // Hard spam: always blocked, even if repair keywords are present.
+  // These are suppliers selling TO iCorrect, phishing, reputation scams.
+  const hardSpamPatterns = [
+    () => combinedText.includes("moq requested"),
+    () => combinedText.includes("moq") && senderEmail.includes(".cn"),
+    () => combinedText.includes("trusted supplier"),
+    () => combinedText.includes("repair parts supplier"),
+    () => combinedText.includes("service pack lcd"),
+    () => combinedText.includes("wholesale price"),
+    () => combinedText.includes("bulk price"),
+    () => senderEmail.includes("sales@") && (combinedText.includes("supplier") || combinedText.includes("wholesale") || combinedText.includes("moq")),
+    () => combinedText.includes("unauthorized transaction"),
+    () => combinedText.includes("unauthorised transaction"),
+    () => combinedText.includes("unothorized transaction"),
+    () => combinedText.includes("verify your account"),
+    () => combinedText.includes("suspicious activity on your account"),
+    () => combinedText.includes("trustpilot") && combinedText.includes("reputation"),
+    () => combinedText.includes("reviews being removed"),
+    () => combinedText.includes("hard-earned reputation"),
+  ];
+
+  if (hardSpamPatterns.some((check) => check())) {
+    return false;
+  }
+
+  // Soft spam: blocked unless the message has genuine repair intent from a non-noise sender.
+  const softSpamPatterns = [
     // Sender patterns
     () => senderEmail.includes("sales@"),
     () => senderEmail.includes("marketing@"),
@@ -309,6 +429,16 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("partnership opportunity"),
     () => combinedText.includes("guest post"),
     () => combinedText.includes("seo service"),
+    () => combinedText.includes("seo error"),
+    () => combinedText.includes("seo audit"),
+    () => combinedText.includes("technical errors") && combinedText.includes("ranking"),
+    () => combinedText.includes("audit report") && combinedText.includes("website"),
+    () => combinedText.includes("domain authority"),
+    () => combinedText.includes("backlinks"),
+    () => combinedText.includes("search engine"),
+    () => combinedText.includes("google ranking"),
+    () => combinedText.includes("page speed"),
+    () => combinedText.includes("web traffic"),
     () => combinedText.includes("supplier catalog"),
     () => combinedText.includes("free demo"),
     () => combinedText.includes("instagram followers"),
@@ -326,11 +456,20 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("special discount for"),
     () => combinedText.includes("are you the right person"),
     () => combinedText.includes("just following up on my previous email"),
+    () => combinedText.includes("still waiting for your reply") && combinedText.includes("website"),
     () => combinedText.includes("i represent"),
     () => combinedText.includes("on behalf of my client"),
+    () => combinedText.includes("recruitment agency"),
+    () => combinedText.includes("staffing solution"),
+    () => combinedText.includes("hire developers"),
+    () => combinedText.includes("managed services"),
+    () => combinedText.includes("cloud migration"),
   ];
 
-  if (spamPatterns.some((check) => check())) {
+  if (softSpamPatterns.some((check) => check())) {
+    if (repairIntent && !noiseConversation) {
+      return true;
+    }
     return false;
   }
 

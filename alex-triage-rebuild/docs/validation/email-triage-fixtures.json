@@ -251,5 +251,188 @@
     "expected": {
       "decision": "exclude_already_processed"
     }
+  },
+  {
+    "id": "contact-form-forward-excluded",
+    "description": "Internal michael.f Contact Form forward must be excluded as noise",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900010",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "admin", "name": "Michael Ferrari Test", "email": "michael.f@icorrect.co.uk" },
+        "subject": "Contact Form: Test Customer - iPhone 15 Pro [1775859630466]",
+        "body": "New enquiry from Test Customer Email: test@example.com Phone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen"
+      },
+      "contacts": { "contacts": [{ "name": "Test Customer", "email": "test@example.com" }] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_noise"
+    }
+  },
+  {
+    "id": "quote-request-notification-excluded",
+    "description": "Internal michael.f Quote Request notification must be excluded as noise",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900011",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "admin", "name": "Michael Ferrari", "email": "michael.f@icorrect.co.uk" },
+        "subject": "Quote Request: Owen - MacBook Pro 16\" 'M2 Pro /Max' A2780 (2023)",
+        "body": "New quote emailed to email@owensutton.com Name: Owen Device: MacBook Pro 16"
+      },
+      "contacts": { "contacts": [{ "name": "Owen", "email": "email@owensutton.com" }] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_noise"
+    }
+  },
+  {
+    "id": "parts-supplier-excluded",
+    "description": "Parts supplier cold email with OLED/screen keywords must be excluded as spam",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900012",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "user", "name": "Carl Parts Sales", "email": "carl@elekworld.cn" },
+        "subject": "Diagnosable 120Hz Soft OLED, No Unknown Parts Message After Replacement",
+        "body": "Hello, friend Diagnosable Soft OLED, No Message after repair (Moq Requested) iPhone 13: US$39.11 iPhone 13 Pro 120Hz: US$43.15. We are a trusted supplier of service pack lcd screens."
+      },
+      "contacts": { "contacts": [] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_non_actionable"
+    }
+  },
+  {
+    "id": "phishing-excluded",
+    "description": "Phishing email about unauthorized transaction must be excluded as spam",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900013",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "user", "name": "Giulia Sofia", "email": "giuliasasso32@gmail.com" },
+        "subject": "Urgent request: unothorized transaction",
+        "body": "Dear Sir or Madam, I am writing because I noticed an unauthorized transaction on my account during the last night. An amount of 179 pounds was charged."
+      },
+      "contacts": { "contacts": [] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_non_actionable"
+    }
+  },
+  {
+    "id": "reputation-spam-excluded",
+    "description": "Trustpilot reputation management spam must be excluded",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900014",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "user", "name": "Pretty Anna", "email": "prettyanna031@gmail.com" },
+        "subject": "Don't Let Trustpilot Destroy Your Hard-Earned Reputation",
+        "body": "Hi Business Owner, Your hard-earned reputation is at risk. Right now, Trustpilot is removing and flagging reviews due to stricter AI detection."
+      },
+      "contacts": { "contacts": [] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_non_actionable"
+    }
+  },
+  {
+    "id": "seo-pitch-paraphrased-excluded",
+    "description": "SEO pitch using errors and ranking phrasing must be excluded",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900015",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "user", "name": "Steve Stoce", "email": "steve.itservices0150@hotmail.com" },
+        "subject": "Budget Planning",
+        "body": "Hello, Your website has several SEO and technical errors that may be affecting its ranking. I have an audit report ready for you."
+      },
+      "contacts": { "contacts": [] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_non_actionable"
+    }
+  },
+  {
+    "id": "corporate-repair-not-blocked",
+    "description": "Business domain sender with specific device + fault must NOT be excluded (repair intent protects it)",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900016",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "user", "name": "Karen Rai", "email": "karen.rai@lcp.uk.com" },
+        "subject": "iPhone screen repair",
+        "body": "Hi iCorrect, Please can we organise for a screen to be replaced on an iPhone device for Tom Durkin. Tom will be in London from 11am."
+      },
+      "contacts": { "contacts": [{ "name": "Karen Rai", "email": "karen.rai@lcp.uk.com" }] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "post",
+      "type": "new_enquiry"
+    }
   }
 ]
