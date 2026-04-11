@@ -13,7 +13,7 @@ import {
   upsertConversation,
   writeJson
 } from "../lib/db.js";
-import { buildFallbackDraft, DraftClient } from "../lib/draft.js";
+import { buildFallbackDraft, DraftClient, isReviewableDraft } from "../lib/draft.js";
 import { IntercomClient } from "../lib/intercom.js";
 import { MondayClient } from "../lib/monday.js";
 import { TelegramClient } from "../lib/telegram.js";
@@ -107,6 +107,11 @@ async function main() {
       Number.isFinite(args.limit) && args.limit > 0 ? eligible.slice(0, args.limit) : eligible;
 
     const actionable = [];
+    let postedCount = 0;
+
+    if (!args.dryRun && !config.service.enableLivePosting) {
+      console.warn("Live Telegram posting disabled: set ALEX_ENABLE_LIVE_POSTING=1 for controlled live restart.");
+    }
 
     for (const summary of limited) {
       const conversation = await intercomClient.getConversation(summary.id);
@@ -171,7 +176,7 @@ async function main() {
           card,
           recentMessages
         });
-        if (!draftText) {
+        if (!isReviewableDraft(draftText)) {
           draftText = buildFallbackDraft(card);
         }
       } catch (error) {
@@ -181,6 +186,8 @@ async function main() {
         );
         draftText = buildFallbackDraft(card);
       }
+
+      draftText = draftText.trim();
 
       const alreadyPosted = existing && existing.telegram_message_id;
       const alreadyHandled = alreadyPosted && ["sent", "skipped", "sending"].includes(existing.status);
@@ -215,11 +222,16 @@ async function main() {
           card
         });
 
+        if (!sentMessage?.result?.message_id) {
+          throw new Error(`Telegram card post for conversation ${conversation.id} did not return a message_id`);
+        }
+
         updateConversationAfterTelegramPost(db, String(conversation.id), {
-          telegramMessageId: String(sentMessage.result?.message_id || ""),
+          telegramMessageId: String(sentMessage.result.message_id),
           telegramChatId: String(sentMessage.result?.chat?.id || config.telegram.chatId),
           telegramThreadId: sentMessage.result?.message_thread_id ? String(sentMessage.result.message_thread_id) : null
         });
+        postedCount += 1;
       }
 
       actionable.push({
@@ -235,6 +247,7 @@ async function main() {
     writeJson(path.join(config.triageOutputDir, `triage-${today}.json`), actionable);
     if (!args.dryRun && config.service.enableLivePosting) {
       setCheckpoint(db, checkpointKey, new Date().toISOString());
+      console.log(`Posted ${postedCount} email triage card(s); checkpoint ${checkpointKey} advanced.`);
     }
 
     completeRun(db, runId, {

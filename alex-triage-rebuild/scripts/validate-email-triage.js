@@ -43,6 +43,26 @@ function summarizeResult(result) {
   };
 }
 
+function expectedOutcomeText(fixture) {
+  const bits = [];
+  if (fixture.expected.decision) {
+    bits.push(`decision=${fixture.expected.decision}`);
+  }
+  if (fixture.expected.type) {
+    bits.push(`type=${fixture.expected.type}`);
+  }
+  if (fixture.expected.mondayMatched !== undefined) {
+    bits.push(`mondayMatched=${fixture.expected.mondayMatched}`);
+  }
+  if (fixture.expected.hasPastRepairs !== undefined) {
+    bits.push(`hasPastRepairs=${fixture.expected.hasPastRepairs}`);
+  }
+  if (fixture.expected.priceLabelContains) {
+    bits.push(`price~${fixture.expected.priceLabelContains}`);
+  }
+  return bits.join(", ");
+}
+
 function main() {
   const fixtures = loadFixtures();
   const results = fixtures.map((fixture) => {
@@ -90,12 +110,22 @@ function main() {
       description: fixture.description,
       pass: passes.every(Boolean),
       decision: decision.reason,
+      expectedOutcome: expectedOutcomeText(fixture),
+      actualOutcome: card
+        ? [
+            `decision=${decision.reason}`,
+            `type=${card.type}`,
+            `mondayMatched=${Boolean(card.context?.monday_item_id)}`,
+            `hasPastRepairs=${Boolean(fixture.pastRepairs.length)}`,
+            `price=${card.price}`
+          ].join(", ")
+        : `decision=${decision.reason}`,
       customer,
       previousRepairsSummary: fixture.pastRepairs.length
         ? fixture.pastRepairs.map((repair) => `${repair.completion_date}: ${repair.device_model} ${repair.repair_type}`).join(" | ")
         : "No previous repair history.",
       mondayItem: card?.context?.monday_item_label || card?.context?.monday_item_id || "None",
-      mondayLink: card?.context?.monday_item_id ? `https://icorrect.monday.com/boards/349212843/pulses/${card.context.monday_item_id}` : "None",
+      mondayLink: card?.context?.monday_url || "None",
       latestMessage: card?.latest_message || messages.at(-1)?.text || "None",
       draft: draft || "Excluded",
       renderedCard: card ? formatTelegramCard(card, draft) : null,
@@ -127,7 +157,8 @@ function main() {
     lines.push(`### ${result.id} — ${result.description}`);
     lines.push("");
     lines.push(`- Pass: ${result.pass ? "PASS" : "FAIL"}`);
-    lines.push(`- Decision: ${result.decision}`);
+    lines.push(`- Expected outcome: ${result.expectedOutcome}`);
+    lines.push(`- Actual outcome: ${result.actualOutcome}`);
     lines.push(`- Customer: ${result.customer.name} <${result.customer.email || "unknown"}>`);
     lines.push(`- Previous repairs: ${result.previousRepairsSummary}`);
     lines.push(`- Monday item: ${result.mondayItem}`);

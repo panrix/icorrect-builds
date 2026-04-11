@@ -68,7 +68,7 @@ export class DraftClient {
           }
         ]
       }),
-      timeoutMs: 60000
+      timeoutMs: 120000
     });
 
     return payload.choices?.[0]?.message?.content?.trim() || "";
@@ -193,10 +193,51 @@ export function buildQuoteFallbackDraft(card) {
   ].join("\n");
 }
 
+function cleanFallbackSentence(value, fallback = null) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  if (!text) {
+    return fallback;
+  }
+  if (["none", "n/a", "unknown", "null", "undefined"].includes(text.toLowerCase())) {
+    return fallback;
+  }
+  return text;
+}
+
+function normalizeDraftOutput(value) {
+  return String(value || "")
+    .replace(/^```[a-z]*\s*/i, "")
+    .replace(/```$/i, "")
+    .trim();
+}
+
+export function isReviewableDraft(value) {
+  const draft = normalizeDraftOutput(value);
+  if (!draft) {
+    return false;
+  }
+
+  const lowered = draft.toLowerCase();
+  if (draft.length < 40) {
+    return false;
+  }
+  if (lowered.startsWith("{") || lowered.startsWith("[")) {
+    return false;
+  }
+  if (lowered.includes("output only") || lowered.includes("here is the draft")) {
+    return false;
+  }
+
+  return /kind regards,?\s*alex/i.test(draft);
+}
+
 export function buildFallbackDraft(card) {
   const greetingName = card?.customer_name ? firstName(card.customer_name) : "there";
   const price = card?.price;
   const lowerType = String(card?.type || "").toLowerCase();
+  const latestMessage = cleanFallbackSentence(card?.latest_message);
+  const mondayStatus = cleanFallbackSentence(card?.raw?.current_status || card?.client_status);
+  const expectedDate = cleanFallbackSentence(card?.expected);
 
   if (lowerType === "complaint") {
     return [
@@ -222,6 +263,72 @@ export function buildFallbackDraft(card) {
     ].join("\n");
   }
 
+  if (lowerType === "complaint_warranty") {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message. I am sorry to hear about the issue.",
+      "I have reviewed the conversation and I am escalating this for careful review now.",
+      latestMessage ? `I have noted your latest message: ${latestMessage}` : "I will come back to you as soon as the review is complete.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (lowerType === "active_repair") {
+    const statusLine = mondayStatus ? `Monday currently shows ${mondayStatus}.` : "I am checking the latest repair status for you now.";
+    const etaLine = expectedDate ? `The current expected date on our side is ${expectedDate}.` : "I will confirm the latest timing with the workshop and update you shortly.";
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      statusLine,
+      etaLine,
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (lowerType === "quote_followup") {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      price ? `The current repair price on file is ${price}.` : "I am reviewing the current quote details for you now.",
+      "If you would like to go ahead, or if you want me to clarify anything on the quote, please let me know.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (lowerType === "corporate_account") {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      "I have reviewed your enquiry and I am passing this to the team handling account and commercial requests.",
+      "We will come back to you shortly with the right next step.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
+  if (lowerType === "bm_email") {
+    return [
+      `Hi ${greetingName},`,
+      "",
+      "Thank you for your message.",
+      "I have flagged this for priority review and I will update you as soon as that review is complete.",
+      "",
+      "Kind regards,",
+      "Alex"
+    ].join("\n");
+  }
+
   if (lowerType === "quote" || lowerType === "quote building") {
     const findings = card?.diagnostic_findings || [];
     const breakdown = card?.quote_breakdown || [];
@@ -232,7 +339,7 @@ export function buildFallbackDraft(card) {
         "Thank you for your patience.",
         findings.length ? `Following our diagnostic, we found ${findings[0].replace(/^On Arrival:\s*/i, "").replace(/\.$/, "")}.` : "We have now assessed the device and confirmed the fault.",
         `The quoted price for this repair is ${price}.`,
-        breakdown.length > 1 ? `This includes: ${breakdown.slice(1,3).join(' ')}.` : "If you would like to proceed, please let me know and I will confirm the next steps.",
+        breakdown.length > 1 ? `This includes: ${breakdown.slice(1,3).join(" ")}.` : "If you would like to proceed, please let me know and I will confirm the next steps.",
         "If you would like to proceed, please let me know and I will confirm the next steps.",
         "",
         "Kind regards,",
@@ -265,7 +372,7 @@ export function buildFallbackDraft(card) {
     ].join("\n");
   }
 
-  if (price && /not in catalogue/i.test(String(price))) {
+  if (price && /not in catalogue|diagnostics recommended/i.test(String(price))) {
     return [
       `Hi ${greetingName},`,
       "",

@@ -467,3 +467,31 @@ After Phase 1 runs for ~1 week:
 - **Email triage topic:** thread `774`
 - **Mini App domain:** `alex.icorrect.co.uk` (port 8020, nginx reverse proxy)
 - **Existing nginx pattern:** see `/etc/nginx/sites-enabled/` for reverse proxy examples
+
+---
+
+## Issues from 2026-04-08 live tests — SLOPPY, NOT ACCEPTABLE
+
+### 1. Quote triage pulls ALL historical items with NO date filter
+The script pulls every Monday item with status "Quote Sent" / "Diagnostic Complete" from any date. Amjad's iPhone 5C (item 7070405040) was from months ago — already resolved — and still got posted as a fresh card.
+**Fix required:** Date gate (last 7 days default) + skip items already processed in SQLite.
+
+### 2. Quote cards posted to same topic as email cards
+Quote cards went to thread 774 (Emails), not thread 775 (Quotes). The quote-triage.js doesn't respect the quotesThreadId config.
+**Fix required:** Quote cards → topic 775, email cards → topic 774.
+
+### 3. "Quote pending" drafts are useless
+When no pricing found in structured Monday fields, the draft says "The price for this repair is Quote pending". Monday notes clearly contained "£299 minimum + £29 diagnostic" in free text.
+**Fix required:** Parse £ amounts from Monday notes text, not just structured fields.
+
+### 4. Device shows "N/A" when device_model from Monday is just the customer name
+Notes said "iPhone 5C" but card showed "Device: N/A".
+**Fix required:** Extract device from Monday notes when structured field is unusable.
+
+### 5. No date filter on inbox-triage.js Intercom calls
+First morning run tried to pull ALL 31K conversations. Intercom's list API doesn't support server-side date filtering.
+**Status:** Intercom cleanup (closing pre-2025 conversations) is running in background. After complete, checkpoint-based incremental pulls will be fast.
+
+### 6. Bot service was left polling when it should have been stopped
+The service kept running during testing and posting unintended cards. Took multiple commands to stop.
+**Fix required:** Clear on/off controls, never poll without explicit enable.

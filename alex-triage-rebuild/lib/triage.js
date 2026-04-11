@@ -85,6 +85,20 @@ function looksLikeHistoricalQuoteNoise(conversation, messages) {
   const subject = lower(conversation?.source?.subject || conversation?.title || "");
   const combinedText = messages.map((message) => message.text).join(" ").toLowerCase();
   const text = `${subject} ${combinedText}`;
+  const isInternalSource = isInternalAuthor(conversation?.source?.author?.email || "");
+
+  if (
+    isInternalSource &&
+    (
+      text.includes("new quote emailed to") ||
+      text.includes("quote emailed to") ||
+      text.includes("quote sent to") ||
+      text.includes("diagnostic complete") ||
+      text.includes("quote total")
+    )
+  ) {
+    return true;
+  }
 
   if (!text.includes("quote")) {
     return false;
@@ -94,7 +108,9 @@ function looksLikeHistoricalQuoteNoise(conversation, messages) {
     text.includes("last year") ||
     text.includes("from 2023") ||
     text.includes("accepted the quote from last year") ||
-    text.includes("proceed with the quote from last year")
+    text.includes("proceed with the quote from last year") ||
+    text.includes("historical quote") ||
+    text.includes("old quote")
   );
 }
 
@@ -330,7 +346,7 @@ function isBusinessDomain(email) {
   if (!normalized.includes("@")) return false;
   const domain = normalized.split("@")[1];
   const personalDomains = new Set([
-    "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com", "icloud.com", "me.com", "yahoo.com", "yahoo.co.uk", "proton.me", "protonmail.com"
+    "gmail.com", "googlemail.com", "outlook.com", "hotmail.com", "live.com", "icloud.com", "mail.com", "me.com", "yahoo.com", "yahoo.co.uk", "protonmail.com"
   ]);
   return !personalDomains.has(domain);
 }
@@ -339,49 +355,43 @@ function isTerminalMondayStatus(status) {
   return ["returned", "shipped", "cancelled/declined", "ber/parts"].includes(lower(status || ""));
 }
 
-function textSuggestsComplaint(text) {
-  return /(complaint|unhappy|refund|not acceptable|disgusted|trading standards|still not working|came back broken|warranty)/i.test(text);
-}
-
-function textSuggestsStatusChase(text) {
-  return /(status update|any update|when will|ready to collect|collect my|how is the repair going|is it ready|timeline)/i.test(text);
-}
-
-function textSuggestsQuoteHesitation(text) {
-  return /(too expensive|expensive|alternative|cheaper|best price|can you do better|discount|budge|payment plan|is there another option)/i.test(text);
-}
-
-function textSuggestsNewEnquiry(text) {
-  return /(how much|quote|can you fix|i need a quote|repair price|repair cost|cost to repair|price for|can this be repaired)/i.test(text);
-}
-
 export function classifyConversation(conversation, messages, mondayMatch, pastRepairs = []) {
+  void pastRepairs;
   const recentMessages = messages.slice(-3);
-  const recentText = recentMessages.map((message) => `${message.author_type}: ${message.text}`).join("\n");
-  const allText = messages.map((message) => `${message.author_type}: ${message.text}`).join("\n");
+  const recentText = recentMessages.map((message) => `${message.author_type}: ${message.text}`).join("\n").toLowerCase();
+  const allText = messages.map((message) => `${message.author_type}: ${message.text}`).join("\n").toLowerCase();
   const email = lower(extractConversationCustomer(conversation).email || conversation.source?.author?.email || "");
   const clientStatus = lower(mondayMatch?.client_status || "");
   const mondayStatus = lower(mondayMatch?.status || mondayMatch?.current_status || "");
   const mondayConfidence = mondayMatch?.confidence ?? 0;
-  const warrantyHistory = pastRepairs.some((repair) => repair.was_warranty || repair.warranty_returns > 0);
+  const businessSignals = /(procurement|purchase order|company billing|staff devices|trade account|business account|corporate account|accounts payable)/i;
+  const quoteSignals = /(price|cost|quote|too much|too expensive|discount|cheaper|go ahead|proceed)/i;
 
-  if (email.includes("backmarket") || lower(allText).includes("back market")) {
+  if (recentText.includes("backmarket") || recentText.includes("back market")) {
     return "bm_email";
   }
 
-  if (textSuggestsComplaint(recentText) || warrantyHistory) {
+  if (/(complaint|unhappy|refund|not acceptable|disgusted)/i.test(recentText)) {
     return "complaint_warranty";
   }
 
-  if (mondayConfidence >= 0.7 && mondayStatus && !isTerminalMondayStatus(mondayStatus) && textSuggestsStatusChase(recentText)) {
-    return "active_repair";
-  }
-
-  if (mondayConfidence >= 0.7 && mondayMatch?.quote_amount && textSuggestsQuoteHesitation(recentText)) {
+  if (
+    mondayMatch &&
+    mondayMatch.quote_amount &&
+    (quoteSignals.test(recentText) || mondayStatus.includes("quote"))
+  ) {
     return "quote_followup";
   }
 
-  if (isBusinessDomain(email) || clientStatus.includes("corporate") || clientStatus.includes("client") || /procurement|purchase order|company billing|staff devices/i.test(allText)) {
+  if (mondayMatch && mondayConfidence >= 0.7 && mondayStatus && !isTerminalMondayStatus(mondayStatus)) {
+    return "active_repair";
+  }
+
+  if (clientStatus.includes("corporate") || clientStatus.includes("client")) {
+    return "corporate_account";
+  }
+
+  if (isBusinessDomain(email) && businessSignals.test(allText)) {
     return "corporate_account";
   }
 
@@ -474,6 +484,7 @@ export function buildCard({
 }) {
   const lastCustomerMessage = getLastCustomerMessage(messages);
   const lastAdminMessage = getLastAdminMessage(messages);
+  const lastVisibleMessage = lastCustomerMessage || messages[messages.length - 1] || null;
 
   const extractedCustomer = extractConversationCustomer(conversation);
   const customerName = extractedCustomer.name;
@@ -494,6 +505,11 @@ export function buildCard({
   });
   const threadSummary = buildThreadSummary(messages);
 
+  const mondayItemId = mondayMatch?.monday_item_id || mondayMatch?.id || null;
+  const mondayUrl = mondayItemId
+    ? `https://icorrect.monday.com/boards/349212843/pulses/${mondayItemId}`
+    : null;
+
   return {
     id: String(conversation.id),
     customer_name: customerName,
@@ -511,7 +527,7 @@ export function buildCard({
     price: priceLabel,
     confidence,
     thread_summary: threadSummary,
-    latest_message: (lastCustomerMessage?.text || "No customer message found").slice(0, 280),
+    latest_message: (lastVisibleMessage?.text || "No recent message found").slice(0, 280),
     customer_type: buildCustomerTypeLabel(pastRepairs),
     last_repair: pastRepairs[0] || null,
     what_matters: summarizeWhyItMatters({ category, priceLabel, mondayMatch, pastRepairs }),
@@ -523,7 +539,7 @@ export function buildCard({
         : "None",
       thread_age_days: ageDays(messages[0]?.created_at || conversation.created_at),
       messages_in_thread: messages.length,
-      monday_item_id: mondayMatch?.monday_item_id || mondayMatch?.id || null,
+      monday_item_id: mondayItemId,
       monday_item_label: mondayMatch?.name || null,
       monday_confidence: mondayMatch?.confidence || null,
       monday_match_reason: mondayMatch?.match_reason || null,
@@ -531,6 +547,7 @@ export function buildCard({
       past_repairs: pastRepairs,
       kb_used: buildKbSources({ price, mondayMatch, pastRepairs }),
       pricing_source: price?.label ? "From KB ✓" : mondayMatch?.confidence >= 0.85 ? "From Monday repair ✓" : "Not in KB ⚠️",
+      monday_url: mondayUrl,
       intercom_url: buildIntercomUrl(workspaceId, conversation.id)
     },
     raw: {
@@ -560,6 +577,7 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     ...optionalLine("Phone", card.customer_phone),
     ...optionalLine("Type", card.customer_type)
   ];
+  const pastRepairLines = formatPastRepairLines(card.context?.past_repairs || []).slice(0, 3);
   const activeRepairLines = [
     `Monday: ${escapeHtml(cleanDisplayValue(card.context?.monday_item_label || card.context?.monday_item_id, "No active repair found on Monday."))}${mondayConfidenceLabel}`,
     ...optionalLine("Status", humanizeStatus(card.raw?.current_status), { fallback: "No live repair status" }),
@@ -568,8 +586,8 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     ...optionalLine("Expected", formatDisplayDate(card.expected)),
     ...optionalLine("Tech notes", cleanDisplayValue(card.tech_notes))
   ];
-  if (card.context?.monday_item_id) {
-    activeRepairLines.push(`Link: ${escapeHtml(`https://icorrect.monday.com/boards/349212843/pulses/${card.context.monday_item_id}`)}`);
+  if (card.context?.monday_url) {
+    activeRepairLines.push(`Link: ${escapeHtml(card.context.monday_url)}`);
   }
   const sourceLines = [
     ...optionalLine("Last reply from us", formatLastReply(card.context?.last_reply_from_us), { fallback: "None" }),
@@ -577,7 +595,7 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     ...optionalLine("Pricing", cleanDisplayValue(card.context?.pricing_source), { fallback: "Not applicable" })
   ];
   const latestCustomerLines = [
-    escapeHtml(cleanDisplayValue(card.latest_message, "No customer message found."))
+    escapeHtml(cleanDisplayValue(card.latest_message, "No recent message found."))
   ];
   const threadLines = sanitizeThreadSummary(card.thread_summary);
   const lines = [
@@ -591,6 +609,9 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     `<b>━ CUSTOMER ━</b>`,
     ...customerLines,
     ...formatLastRepairLines(card.last_repair),
+    "",
+    `<b>━ PREVIOUS REPAIRS ━</b>`,
+    ...pastRepairLines,
     "",
     `<b>━ ACTIVE REPAIR ━</b>`,
     ...activeRepairLines,
@@ -623,14 +644,15 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
 }
 
 function determineConfidenceTier({ category, mondayMatch }) {
-  if (category === "complaint_warranty") {
+  if (category === "complaint_warranty" || category === "bm_email") {
     return { tier: "red", emoji: "🔴", label: "Escalate" };
   }
 
   if (category === "active_repair") {
     const status = lower(mondayMatch?.status || mondayMatch?.current_status || "");
     const confidence = mondayMatch?.confidence ?? 0;
-    if (confidence >= 0.7 && status && !isTerminalMondayStatus(status)) {
+    const ambiguousStatuses = new Set(["diagnostics", "diagnostic", "quote sent", "client contacted", "repair booked"]);
+    if (confidence >= 0.85 && status && !isTerminalMondayStatus(status) && !ambiguousStatuses.has(status)) {
       return { tier: "green", emoji: "🟢", label: "Ready to send" };
     }
   }
@@ -648,7 +670,7 @@ function resolvePriceLabel({ price, mondayMatch }) {
   if (price?.label) {
     return price.label;
   }
-  return "Not in catalogue — diagnostic needed";
+  return "Diagnostics recommended";
 }
 
 function buildCustomerTypeLabel(pastRepairs = []) {
@@ -687,7 +709,7 @@ function buildThreadSummary(messages) {
 
 function formatLastRepairLines(lastRepair) {
   if (!lastRepair) {
-    return ["No previous repair history."];
+    return [];
   }
   return [
     `Last repair: ${lastRepair.device_model || "Unknown device"} ${lastRepair.repair_type || "Unknown repair"}, ${String(lastRepair.completion_date || lastRepair.intake_date || "Unknown").slice(0, 7)}, ${lastRepair.repair_status || "Unknown"}`,
@@ -886,7 +908,7 @@ function sanitizeThreadSummary(lines = []) {
 
 function formatPastRepairLines(pastRepairs = []) {
   if (!pastRepairs.length) {
-    return ["No previous repairs found. New customer."];
+    return ["No previous repair history."];
   }
 
   return pastRepairs.map((repair) => {

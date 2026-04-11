@@ -107,13 +107,19 @@ export class TelegramClient {
   }
 
   async call(method, payload) {
-    return requestJson(`${this.baseUrl}/${method}`, {
+    const response = await requestJson(`${this.baseUrl}/${method}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(payload)
     });
+
+    if (response?.ok === false) {
+      throw new Error(`Telegram ${method} failed: ${response.description || response.error_code || "Unknown Telegram error"}`);
+    }
+
+    return response;
   }
 
   async sendCard({ text, conversationId, card }) {
@@ -129,7 +135,12 @@ export class TelegramClient {
       payload.message_thread_id = this.emailsThreadId;
     }
 
-    return this.call("sendMessage", payload);
+    const response = await this.call("sendMessage", payload);
+    if (!response?.result?.message_id) {
+      throw new Error("Telegram sendMessage succeeded without a message_id");
+    }
+
+    return response;
   }
 
   async sendEmailTriageCard({ text, conversationId, card }) {

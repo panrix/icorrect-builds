@@ -83,7 +83,7 @@ async function main() {
 
   assert.ok(Array.isArray(card.context.past_repairs), "Expected card to include past repairs array");
   const telegram = formatTelegramCard(card, "Draft test reply");
-  assert.ok(telegram.includes("━ PAST REPAIRS ━"), "Expected Telegram card to render past repairs section");
+  assert.ok(telegram.includes("━ PREVIOUS REPAIRS ━"), "Expected Telegram card to render previous repairs section");
   assert.ok(telegram.includes("Monday:"), "Expected Telegram card to render Monday section");
 
   console.log(JSON.stringify({

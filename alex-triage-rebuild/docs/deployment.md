@@ -31,6 +31,7 @@ Optional but useful:
 - `TELEGRAM_EMAILS_THREAD_ID`
 - `ALEX_PUBLIC_BASE_URL`
 - `OPENROUTER_MODEL`
+- `ALEX_ENABLE_LIVE_POSTING`
 
 ## Systemd
 
@@ -86,6 +87,8 @@ Schedule summary:
 - `07:30 UTC` Sunday learning run
 
 The cron jobs create `data/` if needed and write logs into `data/cron-*.log` in the repo checkout.
+
+For controlled live email restart, the provided cron entries explicitly export `ALEX_ENABLE_LIVE_POSTING=1` unless the environment already overrides it. If you need a dry shadow run, set `ALEX_ENABLE_LIVE_POSTING=0` in the cron environment before installing it.
 
 ## Operational Notes
 

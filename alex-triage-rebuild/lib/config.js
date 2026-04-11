@@ -92,6 +92,23 @@ function optionalNumber(name, fallback = null) {
   return parsed;
 }
 
+function optionalBoolean(name, fallback = false) {
+  const value = process.env[name];
+  if (!value) {
+    return fallback;
+  }
+
+  const normalized = String(value).trim().toLowerCase();
+  if (["1", "true", "yes", "on"].includes(normalized)) {
+    return true;
+  }
+  if (["0", "false", "no", "off"].includes(normalized)) {
+    return false;
+  }
+
+  throw new Error(`Environment variable ${name} must be a boolean-like value`);
+}
+
 export function getConfig(options = {}) {
   const strict = options.strict ?? true;
   loadEnv();
@@ -136,7 +153,7 @@ export function getConfig(options = {}) {
       emailsThreadId: optionalNumber("TELEGRAM_EMAILS_THREAD_ID", 774),
       quotesThreadId: optionalNumber("TELEGRAM_QUOTES_THREAD_ID"),
       invoicesThreadId: optionalNumber("TELEGRAM_INVOICES_THREAD_ID"),
-      disablePolling: process.env.TELEGRAM_DISABLE_POLLING === "1",
+      disablePolling: optionalBoolean("TELEGRAM_DISABLE_POLLING", false),
       baseUrl: "https://api.telegram.org",
       publicBaseUrl: valueOrRequired("ALEX_PUBLIC_BASE_URL", strict, "https://alex.icorrect.co.uk")
     },
@@ -147,7 +164,7 @@ export function getConfig(options = {}) {
     },
     service: {
       port: optionalNumber("ALEX_TRIAGE_PORT", 8020),
-      enableLivePosting: process.env.ALEX_ENABLE_LIVE_POSTING === "1",
+      enableLivePosting: optionalBoolean("ALEX_ENABLE_LIVE_POSTING", false),
       emailFreshHours: optionalNumber("ALEX_EMAIL_FRESH_HOURS", 168)
     }
   };

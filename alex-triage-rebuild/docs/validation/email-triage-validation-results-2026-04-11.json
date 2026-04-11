@@ -1,0 +1,386 @@
+[
+  {
+    "id": "fresh-monday-match",
+    "description": "Fresh Intercom email enquiry with valid Monday match",
+    "pass": true,
+    "decision": "post",
+    "expectedOutcome": "decision=post, type=active_repair, mondayMatched=true, hasPastRepairs=false, price~£289",
+    "actualOutcome": "decision=post, type=active_repair, mondayMatched=true, hasPastRepairs=false, price=£289 (from repair)",
+    "customer": {
+      "name": "Liam Jones",
+      "email": "liam.jones@example.com",
+      "phone": "+447700000111",
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "Liam Jones - MacBook Pro 13",
+    "mondayLink": "https://icorrect.monday.com/boards/349212843/pulses/1111",
+    "latestMessage": "Hi, just checking if there is any update on my MacBook Pro repair please.",
+    "draft": "Hi Liam,\n\nThank you for your message.\nMonday currently shows Repaired.\nThe current expected date on our side is 2026-04-10.\n\nKind regards,\nAlex",
+    "renderedCard": "<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>\nType: Active Repair\nChannel: Email\nDevice: MacBook Pro 13\nConfidence: 🟢 Ready to send\nPriority: P1\n\n<b>━ CUSTOMER ━</b>\nName: Liam Jones\nEmail: liam.jones@example.com\nPhone: +447700000111\nType: 🆕 New customer\n\n<b>━ PREVIOUS REPAIRS ━</b>\nNo previous repair history.\n\n<b>━ ACTIVE REPAIR ━</b>\nMonday: Liam Jones - MacBook Pro 13 (95% · exact_email)\nStatus: Repaired\nPayment: Paid\nReceived: 07 Apr 2026\nExpected: 10 Apr 2026\nTech notes: Screen fitted and QC pending\nLink: https://icorrect.monday.com/boards/349212843/pulses/1111\n\n<b>━ LATEST CUSTOMER MESSAGE ━</b>\nHi, just checking if there is any update on my MacBook Pro repair please.\n\n<b>━ THREAD ━</b>\nLiam Jones: Hi, just checking if there is any update on my MacBook Pro repair please.\n\n<b>━━ DRAFT REPLY ━</b>\nHi Liam, Thank you for your message. Monday currently shows Repaired. The current expected date on our side is 2026-04-10. Kind regards, Alex\n\n<b>━━ SOURCE ━</b>\nLast reply from us: None\nKB used: pricing.json\nPricing: From KB ✓\nWhat matters: Existing repair in progress. Monday shows Repaired. Draft a status update.\n\n<a href=\"https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900001\">Open Intercom</a>",
+    "rawCard": {
+      "id": "900001",
+      "customer_name": "Liam Jones",
+      "customer_email": "liam.jones@example.com",
+      "customer_phone": "+447700000111",
+      "type": "active_repair",
+      "channel": "email",
+      "device": "MacBook Pro 13",
+      "received": "2026-04-07",
+      "expected": "2026-04-10",
+      "tech_notes": "Screen fitted and QC pending",
+      "client_status": "End User",
+      "payment": "Paid",
+      "priority": "P1",
+      "price": "£289 (from repair)",
+      "confidence": {
+        "tier": "green",
+        "emoji": "🟢",
+        "label": "Ready to send"
+      },
+      "thread_summary": [
+        "Liam Jones: Hi, just checking if there is any update on my MacBook Pro repair please."
+      ],
+      "latest_message": "Hi, just checking if there is any update on my MacBook Pro repair please.",
+      "customer_type": "🆕 New customer",
+      "last_repair": null,
+      "what_matters": "Existing repair in progress. Monday shows Repaired. Draft a status update.",
+      "context": {
+        "last_reply_from_us": "None",
+        "thread_age_days": 2,
+        "messages_in_thread": 1,
+        "monday_item_id": "1111",
+        "monday_item_label": "Liam Jones - MacBook Pro 13",
+        "monday_confidence": 0.95,
+        "monday_match_reason": "exact_email",
+        "monday_alternatives": [],
+        "past_repairs": [],
+        "kb_used": [
+          "pricing.json"
+        ],
+        "pricing_source": "From KB ✓",
+        "monday_url": "https://icorrect.monday.com/boards/349212843/pulses/1111",
+        "intercom_url": "https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900001"
+      },
+      "raw": {
+        "source_type": "email",
+        "current_status": "Repaired"
+      }
+    }
+  },
+  {
+    "id": "returning-customer-history",
+    "description": "Fresh email from returning customer with previous repairs visible",
+    "pass": true,
+    "decision": "post",
+    "expectedOutcome": "decision=post, type=active_repair, mondayMatched=true, hasPastRepairs=true",
+    "actualOutcome": "decision=post, type=active_repair, mondayMatched=true, hasPastRepairs=true, price=Quote pending — device in diagnostics",
+    "customer": {
+      "name": "Sarah Malik",
+      "email": "sarah.malik@example.com",
+      "phone": "+447700000222",
+      "source": "author"
+    },
+    "previousRepairsSummary": "2025-11-03: iPhone 12 Screen | 2026-02-14: iPhone 13 Battery",
+    "mondayItem": "Sarah Malik - iPhone 13",
+    "mondayLink": "https://icorrect.monday.com/boards/349212843/pulses/2222",
+    "latestMessage": "Hi, my iPhone is having charging issues again. Can you let me know the next step?",
+    "draft": "Hi Sarah,\n\nThank you for your message.\nMonday currently shows Diagnostics.\nI will confirm the latest timing with the workshop and update you shortly.\n\nKind regards,\nAlex",
+    "renderedCard": "<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>\nType: Active Repair\nChannel: Email\nDevice: iPhone 13\nConfidence: 🟡 Needs review\nPriority: P1\n\n<b>━ CUSTOMER ━</b>\nName: Sarah Malik\nEmail: sarah.malik@example.com\nPhone: +447700000222\nType: 🔁 Returning — 2 repairs since 2025\nLast repair: iPhone 12 Screen, 2025-11, Returned\nAny issues: None\n\n<b>━ PREVIOUS REPAIRS ━</b>\n2025-11-03: iPhone 12 — Screen (£149) ✅ Returned\n2026-02-14: iPhone 13 — Battery (£89) ✅ Returned\n\n<b>━ ACTIVE REPAIR ━</b>\nMonday: Sarah Malik - iPhone 13 (95% · exact_email)\nStatus: Diagnostics\nPayment: Unpaid\nReceived: 08 Apr 2026\nTech notes: Awaiting charging port test\nLink: https://icorrect.monday.com/boards/349212843/pulses/2222\n\n<b>━ LATEST CUSTOMER MESSAGE ━</b>\nHi, my iPhone is having charging issues again. Can you let me know the next step?\n\n<b>━ THREAD ━</b>\nSarah Malik: Hi, my iPhone is having charging issues again. Can you let me know the next step?\n\n<b>━━ DRAFT REPLY ━</b>\nHi Sarah, Thank you for your message. Monday currently shows Diagnostics. I will confirm the latest timing with the workshop and update you shortly. Kind regards, Alex\n\n<b>━━ SOURCE ━</b>\nLast reply from us: None\nKB used: pricing.json, repair_history Supabase\nPricing: From KB ✓\nWhat matters: Existing repair in progress. Monday shows Diagnostics. Draft a status update.\n\n<a href=\"https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900002\">Open Intercom</a>",
+    "rawCard": {
+      "id": "900002",
+      "customer_name": "Sarah Malik",
+      "customer_email": "sarah.malik@example.com",
+      "customer_phone": "+447700000222",
+      "type": "active_repair",
+      "channel": "email",
+      "device": "iPhone 13",
+      "received": "2026-04-08",
+      "expected": null,
+      "tech_notes": "Awaiting charging port test",
+      "client_status": "End User",
+      "payment": "Unpaid",
+      "priority": "P1",
+      "price": "Quote pending — device in diagnostics",
+      "confidence": {
+        "tier": "yellow",
+        "emoji": "🟡",
+        "label": "Needs review"
+      },
+      "thread_summary": [
+        "Sarah Malik: Hi, my iPhone is having charging issues again. Can you let me know the next step?"
+      ],
+      "latest_message": "Hi, my iPhone is having charging issues again. Can you let me know the next step?",
+      "customer_type": "🔁 Returning — 2 repairs since 2025",
+      "last_repair": {
+        "device_model": "iPhone 12",
+        "repair_type": "Screen",
+        "completion_date": "2025-11-03",
+        "repair_status": "Returned",
+        "quote_amount": 149,
+        "was_warranty": false,
+        "warranty_returns": 0
+      },
+      "what_matters": "Existing repair in progress. Monday shows Diagnostics. Draft a status update.",
+      "context": {
+        "last_reply_from_us": "None",
+        "thread_age_days": 2,
+        "messages_in_thread": 1,
+        "monday_item_id": "2222",
+        "monday_item_label": "Sarah Malik - iPhone 13",
+        "monday_confidence": 0.95,
+        "monday_match_reason": "exact_email",
+        "monday_alternatives": [],
+        "past_repairs": [
+          {
+            "device_model": "iPhone 12",
+            "repair_type": "Screen",
+            "completion_date": "2025-11-03",
+            "repair_status": "Returned",
+            "quote_amount": 149,
+            "was_warranty": false,
+            "warranty_returns": 0
+          },
+          {
+            "device_model": "iPhone 13",
+            "repair_type": "Battery",
+            "completion_date": "2026-02-14",
+            "repair_status": "Returned",
+            "quote_amount": 89,
+            "was_warranty": false,
+            "warranty_returns": 0
+          }
+        ],
+        "kb_used": [
+          "pricing.json",
+          "repair_history Supabase"
+        ],
+        "pricing_source": "From KB ✓",
+        "monday_url": "https://icorrect.monday.com/boards/349212843/pulses/2222",
+        "intercom_url": "https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900002"
+      },
+      "raw": {
+        "source_type": "email",
+        "current_status": "Diagnostics"
+      }
+    }
+  },
+  {
+    "id": "history-no-monday",
+    "description": "Fresh email with no Monday match but repair history present",
+    "pass": true,
+    "decision": "post",
+    "expectedOutcome": "decision=post, type=new_enquiry, mondayMatched=false, hasPastRepairs=true, price~£129",
+    "actualOutcome": "decision=post, type=new_enquiry, mondayMatched=false, hasPastRepairs=true, price=From £129",
+    "customer": {
+      "name": "Oliver Grant",
+      "email": "oliver.grant@example.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "2025-09-20: MacBook Air 13 Liquid Damage",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hello, I used you before and now my MacBook battery drains very quickly.",
+    "draft": "Hi Oliver,\n\nThank you for your message.\nThe price for this repair is From £129.\nIf you would like to go ahead, please let me know and I will confirm the next steps.\n\nKind regards,\nAlex",
+    "renderedCard": "<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>\nType: New Enquiry\nChannel: Email\nDevice: MacBook battery drains very quickly\nConfidence: 🟡 Needs review\nPriority: P2\n\n<b>━ CUSTOMER ━</b>\nName: Oliver Grant\nEmail: oliver.grant@example.com\nType: 🔁 Returning — 1 repairs since 2025\nLast repair: MacBook Air 13 Liquid Damage, 2025-09, Returned\nAny issues: None\n\n<b>━ PREVIOUS REPAIRS ━</b>\n2025-09-20: MacBook Air 13 — Liquid Damage (£349) ✅ Returned\n\n<b>━ ACTIVE REPAIR ━</b>\nMonday: No active repair found on Monday.\nStatus: No live repair status\nPayment: No payment status\nReceived: Not yet\n\n<b>━ LATEST CUSTOMER MESSAGE ━</b>\nHello, I used you before and now my MacBook battery drains very quickly.\n\n<b>━ THREAD ━</b>\nOliver Grant: Hello, I used you before and now my MacBook battery drains very quickly.\n\n<b>━━ DRAFT REPLY ━</b>\nHi Oliver, Thank you for your message. The price for this repair is From £129. If you would like to go ahead, please let me know and I will confirm the next steps. Kind regards, Alex\n\n<b>━━ SOURCE ━</b>\nLast reply from us: None\nKB used: pricing.json, repair_history Supabase\nPricing: From KB ✓\nWhat matters: New enquiry, price available: From £129. Draft a reply with pricing and next steps.\n\n<a href=\"https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900003\">Open Intercom</a>",
+    "rawCard": {
+      "id": "900003",
+      "customer_name": "Oliver Grant",
+      "customer_email": "oliver.grant@example.com",
+      "customer_phone": null,
+      "type": "new_enquiry",
+      "channel": "email",
+      "device": "MacBook battery drains very quickly",
+      "received": null,
+      "expected": null,
+      "tech_notes": "None",
+      "client_status": "No active repair found on Monday.",
+      "payment": "Unknown",
+      "priority": "P2",
+      "price": "From £129",
+      "confidence": {
+        "tier": "yellow",
+        "emoji": "🟡",
+        "label": "Needs review"
+      },
+      "thread_summary": [
+        "Oliver Grant: Hello, I used you before and now my MacBook battery drains very quickly."
+      ],
+      "latest_message": "Hello, I used you before and now my MacBook battery drains very quickly.",
+      "customer_type": "🔁 Returning — 1 repairs since 2025",
+      "last_repair": {
+        "device_model": "MacBook Air 13",
+        "repair_type": "Liquid Damage",
+        "completion_date": "2025-09-20",
+        "repair_status": "Returned",
+        "quote_amount": 349,
+        "was_warranty": false,
+        "warranty_returns": 0
+      },
+      "what_matters": "New enquiry, price available: From £129. Draft a reply with pricing and next steps.",
+      "context": {
+        "last_reply_from_us": "None",
+        "thread_age_days": 2,
+        "messages_in_thread": 1,
+        "monday_item_id": null,
+        "monday_item_label": null,
+        "monday_confidence": null,
+        "monday_match_reason": null,
+        "monday_alternatives": [],
+        "past_repairs": [
+          {
+            "device_model": "MacBook Air 13",
+            "repair_type": "Liquid Damage",
+            "completion_date": "2025-09-20",
+            "repair_status": "Returned",
+            "quote_amount": 349,
+            "was_warranty": false,
+            "warranty_returns": 0
+          }
+        ],
+        "kb_used": [
+          "pricing.json",
+          "repair_history Supabase"
+        ],
+        "pricing_source": "From KB ✓",
+        "monday_url": null,
+        "intercom_url": "https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900003"
+      },
+      "raw": {
+        "source_type": "email",
+        "current_status": null
+      }
+    }
+  },
+  {
+    "id": "weak-pricing-data",
+    "description": "Fresh email with weak/no pricing data",
+    "pass": true,
+    "decision": "post",
+    "expectedOutcome": "decision=post, type=new_enquiry, mondayMatched=false, hasPastRepairs=false, price~Diagnostics",
+    "actualOutcome": "decision=post, type=new_enquiry, mondayMatched=false, hasPastRepairs=false, price=Diagnostics recommended",
+    "customer": {
+      "name": "Nina Patel",
+      "email": "nina.patel@example.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hi, my iPad has no power after liquid damage. Could you tell me the cost?",
+    "draft": "Hi Nina,\n\nThank you for your message.\nWe would need to complete a diagnostic first to provide accurate pricing for this repair.\nIf you would like to proceed with that, please let me know and I will confirm the next steps.\n\nKind regards,\nAlex",
+    "renderedCard": "<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>\nType: New Enquiry\nChannel: Email\nDevice: iPad has no power after liquid damage\nConfidence: 🟡 Needs review\nPriority: P2\n\n<b>━ CUSTOMER ━</b>\nName: Nina Patel\nEmail: nina.patel@example.com\nType: 🆕 New customer\n\n<b>━ PREVIOUS REPAIRS ━</b>\nNo previous repair history.\n\n<b>━ ACTIVE REPAIR ━</b>\nMonday: No active repair found on Monday.\nStatus: No live repair status\nPayment: No payment status\nReceived: Not yet\n\n<b>━ LATEST CUSTOMER MESSAGE ━</b>\nHi, my iPad has no power after liquid damage. Could you tell me the cost?\n\n<b>━ THREAD ━</b>\nNina Patel: Hi, my iPad has no power after liquid damage. Could you tell me the cost?\n\n<b>━━ DRAFT REPLY ━</b>\nHi Nina, Thank you for your message. We would need to complete a diagnostic first to provide accurate pricing for this repair. If you would like to proceed with that, please let me know and I will confirm the next steps. Kind regards, Alex\n\n<b>━━ SOURCE ━</b>\nLast reply from us: None\nPricing: Not in KB ⚠️\nWhat matters: New enquiry, price available: Diagnostics recommended. Draft a reply with pricing and next steps.\n\n<a href=\"https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900004\">Open Intercom</a>",
+    "rawCard": {
+      "id": "900004",
+      "customer_name": "Nina Patel",
+      "customer_email": "nina.patel@example.com",
+      "customer_phone": null,
+      "type": "new_enquiry",
+      "channel": "email",
+      "device": "iPad has no power after liquid damage",
+      "received": null,
+      "expected": null,
+      "tech_notes": "None",
+      "client_status": "No active repair found on Monday.",
+      "payment": "Unknown",
+      "priority": "P2",
+      "price": "Diagnostics recommended",
+      "confidence": {
+        "tier": "yellow",
+        "emoji": "🟡",
+        "label": "Needs review"
+      },
+      "thread_summary": [
+        "Nina Patel: Hi, my iPad has no power after liquid damage. Could you tell me the cost?"
+      ],
+      "latest_message": "Hi, my iPad has no power after liquid damage. Could you tell me the cost?",
+      "customer_type": "🆕 New customer",
+      "last_repair": null,
+      "what_matters": "New enquiry, price available: Diagnostics recommended. Draft a reply with pricing and next steps.",
+      "context": {
+        "last_reply_from_us": "None",
+        "thread_age_days": 2,
+        "messages_in_thread": 1,
+        "monday_item_id": null,
+        "monday_item_label": null,
+        "monday_confidence": null,
+        "monday_match_reason": null,
+        "monday_alternatives": [],
+        "past_repairs": [],
+        "kb_used": [],
+        "pricing_source": "Not in KB ⚠️",
+        "monday_url": null,
+        "intercom_url": "https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900004"
+      },
+      "raw": {
+        "source_type": "email",
+        "current_status": null
+      }
+    }
+  },
+  {
+    "id": "stale-old-quote-excluded",
+    "description": "Old resolved quote or stale historical item that must be excluded",
+    "pass": true,
+    "decision": "exclude_stale",
+    "expectedOutcome": "decision=exclude_stale",
+    "actualOutcome": "decision=exclude_stale",
+    "customer": {
+      "name": "Amjad",
+      "email": "amjad@example.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Thanks, happy to proceed with the quote from last year.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "quote-automation-excluded",
+    "description": "Internal quote automation email must stay out of email triage",
+    "pass": true,
+    "decision": "exclude_historical_quote",
+    "expectedOutcome": "decision=exclude_historical_quote",
+    "actualOutcome": "decision=exclude_historical_quote",
+    "customer": {
+      "name": "Customer Example",
+      "email": "customer@example.com",
+      "phone": null,
+      "source": "contact_fallback"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "New quote emailed to customer@example.com with quote total £249 after diagnostic complete.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "already-processed-no-resurface",
+    "description": "Already-processed conversation that must not resurface",
+    "pass": true,
+    "decision": "exclude_already_processed",
+    "expectedOutcome": "decision=exclude_already_processed",
+    "actualOutcome": "decision=exclude_already_processed",
+    "customer": {
+      "name": "Eva Brooks",
+      "email": "eva.brooks@example.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hi, just confirming what time I can collect my device today.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  }
+]

@@ -42,7 +42,7 @@
       "mondayMatched": true,
       "hasPastRepairs": false,
       "priceLabelContains": "£289",
-      "type": "chase"
+      "type": "active_repair"
     }
   },
   {
@@ -90,7 +90,7 @@
       "mondayMatched": true,
       "hasPastRepairs": true,
       "customerTypeContains": "Returning",
-      "type": "new_enquiry"
+      "type": "active_repair"
     }
   },
   {
@@ -151,7 +151,7 @@
       "decision": "post",
       "mondayMatched": false,
       "hasPastRepairs": false,
-      "priceLabelContains": "Not in catalogue",
+      "priceLabelContains": "Diagnostics",
       "type": "new_enquiry"
     }
   },
@@ -179,6 +179,32 @@
     "existingConversation": null,
     "expected": {
       "decision": "exclude_stale"
+    }
+  },
+  {
+    "id": "quote-automation-excluded",
+    "description": "Internal quote automation email must stay out of email triage",
+    "checkpoint": "2026-04-09T00:00:00.000Z",
+    "conversation": {
+      "id": "900006a",
+      "state": "open",
+      "updated_at": 1775707200,
+      "created_at": 1775703600,
+      "source": {
+        "type": "email",
+        "author": { "type": "admin", "name": "Michael Ferrari", "email": "operator+pt6lwaq6@intercom.io" },
+        "subject": "New quote emailed to customer",
+        "body": "New quote emailed to customer@example.com with quote total £249 after diagnostic complete."
+      },
+      "contacts": { "contacts": [{ "name": "Customer Example", "email": "customer@example.com" }] },
+      "conversation_parts": { "conversation_parts": [] }
+    },
+    "mondayMatch": null,
+    "pastRepairs": [],
+    "price": null,
+    "existingConversation": null,
+    "expected": {
+      "decision": "exclude_historical_quote"
     }
   },
   {
