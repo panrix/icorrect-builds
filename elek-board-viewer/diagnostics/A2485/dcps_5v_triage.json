@@ -1,0 +1,62 @@
+{
+  "WARNING": "These test points are for A2485 (820-02100) ONLY. EVT schematic — component designators may differ from production. For A2442 (14\"), use that board's diagnostic files. Same X2728 MLB platform — power topology is identical.",
+  "board": "A2485",
+  "board_name": "MacBook Pro 16\" M1 Pro/Max (2021)",
+  "schematic": "820-02100",
+  "internal_name": "X2728/MLB",
+  "dcps_voltage": "5V",
+  "description": "Decision trees for all 5V DCPS scenarios on A2485 (Pro/Max 16\"). Same power topology as A2442 (14\") but with larger battery (99.6 Wh), dual fans, and different USB-C designators (UF400/UF500/UG400).",
+  "scenarios": [
+    {
+      "range": "0A (dead -- no current draw)",
+      "meaning": "CD3217 not loading VBUS. Connector, cable, or CD3217 fault.",
+      "steps": [
+        {"step": 1, "action": "Check USB-C connector", "measure": "Visual inspection", "expected": "Clean pins, no damage", "if_wrong": "Replace connector flex", "next_if_ok": 2},
+        {"step": 2, "action": "Check PPVBUS at connector", "measure": "Probe ATC0 area (page 67) or ATC2 area (page 77)", "expected": "5V from DCPS", "if_wrong": "Cable or connector fault. Try other port.", "next_if_ok": 3},
+        {"step": 3, "action": "Check CD3217 for short", "measure": "Diode mode on UF400 (ATC0, page 67) or UG400 (ATC2, page 77) VDD pins", "component": "UF400 / UG400", "expected": "Normal diode (~0.4-0.6V)", "if_wrong": "CD3217 dead or ROM short -> replace.", "next_if_ok": 4},
+        {"step": 4, "action": "Try all 3 ports + MagSafe", "measure": "Move DCPS to each port in turn", "expected": "At least one port draws current", "if_all_dead": "Upstream flex or all 3 CD3217s dead (rare -- usually liquid damage)"}
+      ]
+    },
+    {
+      "range": "0.001-0.05A (trickle -- not booting)",
+      "meaning": "CD3217 drawing some current but board not progressing. PPBUS_AON likely not coming up.",
+      "steps": [
+        {"step": 1, "action": "Check PPBUS_AON", "measure": "Probe PPBUS_AON decoupling near battery connector (page 27)", "expected": "12V (battery) or rising", "if_missing": "PPBUS_AON fault -> step 2", "if_present": "Go to step 3"},
+        {"step": 2, "action": "Check PPBUS_AON for short", "measure": "Diode mode on PPBUS_AON decoupling caps", "expected": ">0.3V", "if_wrong": "PPBUS_AON shorted. Remove cap, retest. (Confirmed on A2442 sibling: CR765 short at 5V/0.012A)", "next_if_ok": "Check charger IC (U5200), CHGR_AUX_OK signal"},
+        {"step": 3, "action": "Check PP3V8_AON", "measure": "Probe PP3V8_AON output caps (C57xx/C58xx area, pages 33-34)", "expected": "3.8V", "if_missing": "U5700 fault. Check PPVAON_PWR_EN enable.", "if_present": "Go to step 4"},
+        {"step": 4, "action": "Check PP5V_S2", "measure": "Probe TPS62130 output (CC2xx/RC2xx area, page 54)", "expected": "5.14V", "if_missing": "TPS62130 fault or P5VS2_PWR_EN not asserted", "if_present": "Go to step 5"},
+        {"step": 5, "action": "Check MPMU LDO outputs (U8100)", "measure": "Probe MPMU output caps (page 40) and PMU test points (page 129)", "if_all_present": "PMU OK, fault downstream -> step 6", "if_any_missing": "Thermal cam that rail -> step 7"},
+        {"step": 6, "action": "Check Viper VR (U9300)", "measure": "Probe Viper output caps (page 46, PH1/PH2/PH3 input area)", "expected": "DVFS voltage present (~0.7-1.1V)", "if_missing": "Viper VR fault. Check VIPER_ALERT_L. Check power stages (pages 48-49).", "if_present": "Check Monaco VR -> step 6b"},
+        {"step": "6b", "action": "Check Monaco VR", "measure": "Probe Monaco C0 output (UA100 area, page 50)", "expected": "DVFS voltage present", "if_missing": "Monaco VR fault. Check MONACO_ALERT_L.", "if_present": "SoC domain fault. Thermal cam."},
+        {"step": 7, "action": "Thermal camera on shorted rail", "measure": "Thermal cam", "expected": "Hot component visible", "if_found": "Replace hot chip", "if_not_found": "U8100 (MPMU) dead -> replace"}
+      ]
+    },
+    {
+      "range": "0.05-0.2A (partial boot attempt)",
+      "meaning": "Moderate current. PP3V8_AON likely present but downstream short holding board down.",
+      "steps": [
+        {"step": 1, "action": "Run full diagnostic chain", "measure": "PPBUS_AON -> PP3V8_AON (pages 33-34) -> PP5V_S2 (page 54) -> MPMU outputs (page 40) -> Viper (page 46) -> Monaco (pages 50-52)", "if_all_ok": "Check PP3V3_S2 and USB-C LDOs for shorts"},
+        {"step": 2, "action": "Check PP3V3 lines for short", "measure": "Diode mode on PP3V3_UPC0_LDO (page 67), PP3V3_UPC1_LDO (page 68), PP3V3_UPC2_LDO (page 77)", "expected": "Normal readings", "if_wrong": "CD3217 LDO short -> replace affected CD3217"},
+        {"step": 3, "action": "Check PP3V8_AON distribution for shorts", "measure": "Diode mode on PP3V8_AON_MPMU, PP3V8_AON_SPMU, PP3V8_AON_WLBT branches (page 33)", "expected": "Normal readings", "if_wrong": "Identify which branch is shorted. Thermal cam that area."}
+      ]
+    },
+    {
+      "range": "0.2-0.5A (significant current, stalled or shorted)",
+      "meaning": "Board drawing significant current at 5V. Either boot attempt stalling at PD negotiation, or downstream short.",
+      "steps": [
+        {"step": 1, "action": "Check for signs of boot", "measure": "Fan spin (BOTH fans on 16\"), keyboard backlight, display flash", "if_signs": "Board trying to boot at 5V. CD3217 PD negotiation issue. Check ROM.", "if_no_signs": "Short. Run full chain -> step 2"},
+        {"step": 2, "action": "Full diagnostic chain + thermal cam", "measure": "PPBUS_AON -> PP3V8_AON -> PP5V_S2 -> MPMU -> Viper -> Monaco", "sub_checks": "Identify which stage is drawing excess current"},
+        {"step": 3, "action": "Try 20V DCPS", "measure": "Switch to 20V, observe current", "expected": "2-4A normal boot", "if_boots": "PD negotiation issue. Replace CD3217 ROM.", "if_same": "Genuine short. Thermal cam all power stages."}
+      ]
+    },
+    {
+      "range": "0.5A+ (high current at 5V)",
+      "meaning": "Very high current at 5V. Major short or boot attempt. Pro/Max can draw more than Air due to more VRs.",
+      "steps": [
+        {"step": 1, "action": "Disconnect battery", "measure": "Remove battery flex (99.6 Wh -- larger than 14\" model)", "note": "Prevent heating damage"},
+        {"step": 2, "action": "Diode mode major rails", "measure": "PPBUS_AON -> PP3V8_AON -> PP5V_S2", "expected": "Normal readings", "if_any_short": "Dead short on that rail. Thermal cam immediately."},
+        {"step": 3, "action": "Check if board actually boots at 20V", "measure": "Switch to 20V DCPS", "if_boots": "Normal. Pro/Max draws more current at 5V during boot attempt.", "if_same": "Genuine short. Systematic thermal cam sweep."}
+      ]
+    }
+  ]
+}

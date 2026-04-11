@@ -1,0 +1,79 @@
+{
+  "WARNING": "These test points are for A2779 (820-02655) ONLY. This board uses AUSTRINGER (not Viper) and CLVR (not Monaco). Component designators differ from A2442.",
+  "board": "A2779",
+  "board_name": "MacBook Pro 14\" M2 Pro/Max (2023)",
+  "schematic": "820-02655",
+  "internal_name": "X2371/MLB-C",
+  "dcps_voltage": "20V",
+  "description": "Decision trees for 20V DCPS on A2779. Normal boot current is HIGHER than Air (2-4A Pro, 2.5-4.5A Max) due to CLVR and Austringer VRs.",
+  "normal_boot_range": "2.0-4.0A (Pro), 2.5-4.5A (Max)",
+  "scenarios": [
+    {
+      "range": "0-0.05A (dead at 20V)",
+      "meaning": "Board draws nothing. CD3217 or charger circuit completely non-functional.",
+      "steps": [
+        {"step": 1, "action": "Verify 20V at connector", "measure": "Probe CF400/CF401 (ATC0)", "expected": "20V", "if_wrong": "DCPS/cable fault", "next_if_ok": 2},
+        {"step": 2, "action": "Check CD3217 core LDO", "measure": "Probe PP1V5_UPC0_LDO_CORE (UF400 internal)", "expected": "~1.5V (CD3217 alive)", "if_wrong": "CD3217 dead -> replace", "next_if_ok": 3},
+        {"step": 3, "action": "Check PPBUS_AON", "measure": "Probe PPBUS_AON decoupling (pages 28-29)", "expected": "12V", "if_wrong": "Charger IC not converting. Check CHGR_AUX_OK, I2C to charger.", "if_present": "Go to step 4"},
+        {"step": 4, "action": "Check PP3V8_AON", "measure": "Probe PP3V8_AON desense caps (pages 34-35)", "expected": "3.8V", "if_wrong": "U5700 not starting (42A design). Check PPVAON_PWR_EN.", "if_present": "PMU not loading -> check U7700/U8100"}
+      ]
+    },
+    {
+      "range": "0.05-0.5A (low current -- short holding board down)",
+      "meaning": "Board partially active but well below normal 2-4A boot range.",
+      "steps": [
+        {"step": 1, "action": "Run full chain", "sub_checks": [
+            {"check": "PPBUS_AON decoupling caps", "expected": "12V", "rail": "PPBUS_AON"},
+            {"check": "PP3V8_AON desense caps (pages 34-35)", "expected": "3.8V", "rail": "PP3V8_AON"},
+            {"check": "UC260 output (page 58)", "expected": "~5V", "rail": "PP5V_S2"},
+            {"check": "MPMU output caps (page 41) + PMU test points (page 137)", "expected": "Present", "rail": "MPMU bucks"},
+            {"check": "CLVR0 output caps (page 52)", "expected": "DVFS voltage", "rail": "CLVR0 PCPU output"},
+            {"check": "Austringer output caps (page 47)", "expected": "Voltage present", "rail": "Austringer PCPU SRAM"}
+          ]},
+        {"step": 2, "action": "PP3V8_AON branch short?", "measure": "Diode mode on PP3V8_AON_MPMU, PP3V8_AON_SPMU, PP3V8_AON_WLBT, PP3V8_ATC01_LDO, PP3V8_ATC2_LDO branches (page 34)", "expected": "Normal", "if_wrong": "Shorted branch. Thermal cam."},
+        {"step": 3, "action": "CLVR or Austringer output short?", "measure": "Diode mode on CLVR0-4 outputs and Austringer outputs", "expected": "Normal", "if_wrong": "VR output shorted. Thermal cam SoC area."},
+        {"step": 4, "action": "MPMU LDO fault?", "measure": "Check PMU test points page 137", "if_any_missing": "Thermal cam that rail -> replace hot component or U8100"},
+        {"step": 5, "action": "I2C bus stuck?", "measure": "Check SMC_I2C0 (charger), SMC_I2C1 (UPC) pull-up voltage", "expected": "~1.2V on SCL/SDA at rest (PP1V2_S2 pull-ups)", "if_wrong": "Peripheral holding bus low. Isolate."}
+      ]
+    },
+    {
+      "range": "0.5-2.0A (partial boot -- board stalling)",
+      "meaning": "Below normal boot range. SoC partially powered but CLVR or Austringer may not be starting.",
+      "steps": [
+        {"step": 1, "action": "Observe current pattern", "measure": "Watch DCPS for 30 seconds", "if_cycling": "Boot loop -> check SSD/NAND (Ocarina pages 107/112)", "if_stable": "Stalled -> step 2"},
+        {"step": 2, "action": "Check CLVR0 (PCPU)", "measure": "Probe CLVR0 output caps (page 52)", "expected": "DVFS voltage (~0.7-1.1V)", "if_missing": "CLVR0 not starting. Check CLVR support (page 57). This is equivalent to A2442 Viper fault.", "if_present": "Go to step 3"},
+        {"step": 3, "action": "Check Austringer VR (U9300)", "measure": "Probe Austringer output (page 47)", "expected": "Voltage present", "if_missing": "Austringer not starting. Check PVRVD0N_FAULT_L. Check 5 power stage pages (49-51).", "if_present": "Go to step 4"},
+        {"step": 4, "action": "Check remaining CLVR instances", "measure": "CLVR1 (page 53, GPU0), CLVR2 (page 54, GPU1 Max), CLVR3 (page 55, DPL/Fabric), CLVR4 (page 56, ANE)", "expected": "All outputs present", "if_any_missing": "Identify failed CLVR instance. If CLVR3 (Fabric) dead -> board cannot boot. If CLVR2 dead -> Max GPU1 issue only."},
+        {"step": 5, "action": "Check dual SSD", "measure": "Check NAND power (Ocarina pages 107/112)", "expected": "All present", "if_ssd_missing": "Ocarina fault. Try DFU."},
+        {"step": 6, "action": "Check display", "measure": "Backlight? HDMI output?", "if_no_display": "Display sequencer UP710 (page 117) or Luxe UP800 (page 118) fault"}
+      ]
+    },
+    {
+      "range": "2.0-4.5A (normal boot range)",
+      "meaning": "NORMAL for M2 Pro (2-3.5A) and M2 Max (2.5-4.5A). Fault is peripheral not power.",
+      "steps": [
+        {"step": 1, "action": "Board is booting -- check peripherals", "sub_checks": [
+            {"symptom": "No display", "check": "UP710 sequencer (page 117), UP800 Luxe (page 118), eDP connector JP600 (page 116)"},
+            {"symptom": "No HDMI", "check": "Cobra IC (page 94) -- NOT Madea. Check PP1V2_DP2HDMI_DIG, PP3V3_DP2HDMI_RX_TX"},
+            {"symptom": "No SD card", "check": "SD controller (page 97), PP3V3_AWAKE_SW_SD, SD power VR (page 100)"},
+            {"symptom": "One USB-C port dead", "check": "UF400 (left rear), UF500 (left front), UG400 (right). Test each."},
+            {"symptom": "No TouchID", "check": "TouchID connector (page 132), PP16V0_TOUCHID, PP3V0_TOUCHID"},
+            {"symptom": "Fan always on/off", "check": "Fan controller (page 68), FAN_TACH, FAN_PWM"},
+            {"symptom": "No audio", "check": "Carlow B0 codec (page 122), PP3V8_CODEC_VP, PP1V2_CODEC_VL_VD"},
+            {"symptom": "No WiFi", "check": "Willamette module (page 101), PPVBAT_AON_WLBT, PP3V8_AON_WLBT, antenna (page 102)"},
+            {"symptom": "Battery not charging", "check": "Charger IC (U5200), CHGR_AUX_OK (page 30), battery connector J5151 (page 28)"},
+            {"symptom": "No camera", "check": "Camera flex (page 115), camera support level shifter (page 114), FTCAM_RESET_L"}
+          ]}
+      ]
+    },
+    {
+      "range": "4.5A+ (over-current)",
+      "meaning": "Excessive even for Max. Major short or GPU under extreme load.",
+      "steps": [
+        {"step": 1, "action": "Is board functional?", "measure": "Check boot", "if_functional": "May be charging deeply discharged battery. Should settle to 2-4A.", "if_not": "Short -> step 2"},
+        {"step": 2, "action": "Thermal camera full sweep", "measure": "Thermal cam across entire board", "expected": "Hot spot visible", "if_found": "Identify component. Common: U5700 (42A regulator into 3V8 short), CLVR (shorted SoC domain), SoC (dead -- BER).", "if_not_found": "Step 3"},
+        {"step": 3, "action": "Systematic rail isolation", "measure": "Diode mode: PPBUS -> PP3V8_AON -> PP5V_S2 -> CLVR0 -> Austringer -> CLVR1-4", "process": "Find shorted rail. Thermal cam that specific area."}
+      ]
+    }
+  ]
+}

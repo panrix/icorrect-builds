@@ -1,0 +1,75 @@
+✅ Winning: MBA.A2681.M2.8GB.256GB.Starlight.Fair
+BM#: 6736146 | Price: £525 | Net: N/A (N/A)
+Market:  Fair £589 | Good £626.96 | Excellent £590
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2681.M2.8GB.256GB.Starlight.Fair" vs resolver="MBA.A2681.M2.8C.8GB.256GB.STARLIGHT.FAIR" → ALERT ONLY
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2338.M1.16GB.2TB.Grey.Fair
+BM#: 6558670 | Price: £649 | Net: £-15.96 (-2.53%)
+Market:  Fair £378 | Good £418 | Excellent £485
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2289.i5.8GB.1TB.Grey.Fair
+BM#: 6505341 | Price: £423 | Net: £-65.55 (-15.95%)
+Market:  Fair £470 | Good £542 | Excellent £619
+
+────────────────────────────────────────
+
+🚫 Cannot win profitably: MBA.A2681.8GB.256GB.Midnight.Fair
+BM#: 6197426 | Listed: 4 days
+Our price: £549 | Buy box: £518
+
+Market:  Fair £589 | Good £626.96 | Excellent £590
+Net@win: £-35.55 (-7.07%)
+Break-even price: £552
+
+Action: No change. Monitor.
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2681.8GB.256GB.Midnight.Fair" vs resolver="MBA.A2681.M2.8C.8GB.256GB.MIDNIGHT.FAIR" → ALERT ONLY
+
+────────────────────────────────────────
+
+⚠️ Not winning: MBA.A2681.8GB.256GB.Midnight.Good
+BM#: 5995471 | Listed: 1 days
+Our price: £630 | Buy box: £550
+
+Market:  Fair £589 | Good £626.96 | Excellent £590
+Net@win: £254.65 (47.69%) | Net@current: £311.85 (50.96%)
+
+Action: Bump eligible (30%+ tier) — flagged for review
+         ⛔ VARIANT MISMATCH: resolver SKU mismatch: live="MBA.A2681.8GB.256GB.Midnight.Good" vs resolver="MBA.A2681.M2.8C.8GB.256GB.MIDNIGHT.FAIR" → WOULD AUTO-OFFLINE
+
+────────────────────────────────────────
+
+🚫 Cannot win profitably: MBA.A2337.8GB.256GB.Grey.Fair
+BM#: 5606597 | Listed: 4 days
+Our price: £396 | Buy box: £377
+
+Market:  Fair £378 | Good £418 | Excellent £485
+Net@win: £-77.14 (-21.08%)
+Break-even price: £472
+
+Action: No change. Monitor.
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2337.8GB.256GB.Grey.Fair" vs resolver="MBA.A2337.M1.7C.8GB.256GB.GREY.FAIR" → ALERT ONLY
+
+────────────────────────────────────────
+
+✅ Winning: MBA.A2337.M1.8GB.256GB.Gold.Good
+BM#: 5538073 | Price: £413 | Net: £89.22 (22.25%)
+Market:  Fair £378 | Good £418 | Excellent £485
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2337.M1.8GB.256GB.Gold.Good" vs resolver="MBA.A2337.M1.7C.8GB.256GB.GOLD.GOOD" → ALERT ONLY
+
+────────────────────────────────────────
+
+✅ Winning: MBA.A2337.16GB.1TB.Grey.Fair
+BM#: 5288756 | Price: £599 | Net: £-16.77 (-2.88%)
+Market:  Fair £378 | Good £418 | Excellent £485
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2337.16GB.1TB.Grey.Fair" vs resolver="MBA.A2337.M1.8C.16GB.1TB.GREY.FAIR" → ALERT ONLY
+
+────────────────────────────────────────
+
+✅ Winning: MBP14.A2442.16GB.512GB.Silver.Vgood
+BM#: 4952313 | Price: £800 | Net: £-24.39 (-3.14%)
+Market:  Fair £680 | Good £893 | Excellent £979
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBP14.A2442.16GB.512GB.Silver.Vgood" vs resolver="MBP.A2442.M1PRO.16GB.512GB.SILVER.VERY_GOOD" → ALERT ONLY

@@ -1,0 +1,16 @@
+[Unit]
+Description=Voice Note Pipeline (Slack -> Whisper -> Monday.com)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/voice-note-pipeline
+ExecStart=/usr/bin/python3 -u /home/ricky/builds/voice-note-pipeline/voice-note-worker.py
+Environment=PYTHONUNBUFFERED=1
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=default.target

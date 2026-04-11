@@ -1,0 +1,61 @@
+{
+  "name": "Devices",
+  "columns": [
+    {
+      "id": "name",
+      "title": "Name",
+      "type": "name",
+      "settings_str": "{}"
+    },
+    {
+      "id": "connect_boards5",
+      "title": "Products",
+      "type": "board_relation",
+      "settings_str": "{\"allowCreateReflectionColumn\":true,\"boardIds\":[2477699024,9934501517]}"
+    },
+    {
+      "id": "status9",
+      "title": "Device Type",
+      "type": "status",
+      "settings_str": "{\"done_colors\":[1],\"labels\":{\"0\":\"MacBook\",\"1\":\"iPhone\",\"5\":\"Other\",\"6\":\"iPad\",\"11\":\"Apple Watch\",\"15\":\"Device\"},\"labels_positions_v2\":{\"0\":0,\"1\":1,\"5\":2,\"6\":3,\"11\":4,\"15\":5},\"labels_colors\":{\"0\":{\"color\":\"#fdab3d\",\"border\":\"#e99729\",\"var_name\":\"orange\"},\"1\":{\"color\":\"#00c875\",\"border\":\"#00b461\",\"var_name\":\"green-shadow\"},\"5\":{\"color\":\"#c4c4c4\",\"border\":\"#b0b0b0\",\"var_name\":\"grey\"},\"6\":{\"color\":\"#037f4c\",\"border\":\"#006b38\",\"var_name\":\"grass-green\"},\"11\":{\"color\":\"#bb3354\",\"border\":\"#a42d4a\",\"var_name\":\"dark-red\"},\"15\":{\"color\":\"#9cd326\",\"border\":\"#89b921\",\"var_name\":\"lime-green\"}}}"
+    },
+    {
+      "id": "connect_boards41",
+      "title": "Pre-Check Sets",
+      "type": "board_relation",
+      "settings_str": "{\"allowCreateReflectionColumn\":false,\"boardIds\":[4347106321]}"
+    },
+    {
+      "id": "long_text",
+      "title": "Website Booking URL",
+      "type": "long_text",
+      "settings_str": "{}"
+    }
+  ],
+  "groups": [
+    {
+      "id": "new_group97770",
+      "title": "Apple Watch"
+    },
+    {
+      "id": "new_group96809",
+      "title": "iPad"
+    },
+    {
+      "id": "new_group",
+      "title": "MacBook"
+    },
+    {
+      "id": "topics",
+      "title": "iPhone"
+    },
+    {
+      "id": "new_group65865",
+      "title": "Other"
+    },
+    {
+      "id": "new_group88996",
+      "title": "Test"
+    }
+  ]
+}

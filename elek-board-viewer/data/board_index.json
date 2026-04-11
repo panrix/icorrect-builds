@@ -1,0 +1,305 @@
+{
+  "metadata": {
+    "board_revision_count": 17,
+    "model_count": 13,
+    "source_root": "/home/ricky/builds/elek-board-viewer/schematics"
+  },
+  "models": {
+    "A2179": {
+      "default_revision": "820-01958",
+      "revisions": {
+        "820-01958": {
+          "aliases": [
+            "A2179",
+            "820-01958"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2179 820-01958/820-01958.brd",
+          "chip": "Intel",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2179 820-01958",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2179 820-01958/820-01958.pdf"
+          ]
+        }
+      }
+    },
+    "A2251": {
+      "default_revision": "820-01949-A",
+      "revisions": {
+        "820-01949-A": {
+          "aliases": [
+            "A2251",
+            "820-01949-A"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2251 820-01949-A/820-01949-A.brd",
+          "chip": "Intel",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2251 820-01949-A",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2251 820-01949-A/820-01949-A.pdf"
+          ]
+        }
+      }
+    },
+    "A2289": {
+      "default_revision": "820-01987",
+      "revisions": {
+        "820-01987": {
+          "aliases": [
+            "A2289",
+            "820-01987"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2289 820-01987/820-01987.brd",
+          "chip": "Intel",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2289 820-01987",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2289 820-01987/820-01987.pdf"
+          ]
+        }
+      }
+    },
+    "A2337": {
+      "default_revision": "820-02016",
+      "revisions": {
+        "820-02016": {
+          "aliases": [
+            "A2337",
+            "820-02016"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2337 820-02016/820-02016.brd",
+          "chip": "M1",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2337 820-02016",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2337 820-02016/820-02016.pdf",
+            "/home/ricky/builds/elek-board-viewer/schematics/A2337 820-02016/820-02016_Rev4.pdf"
+          ]
+        }
+      }
+    },
+    "A2338": {
+      "default_revision": "820-02773",
+      "revisions": {
+        "820-02020": {
+          "aliases": [
+            "A2338",
+            "820-02020"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd",
+          "chip": "M1",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.pdf"
+          ]
+        },
+        "820-02773": {
+          "aliases": [
+            "A2338",
+            "820-02773"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2338 M2 820-02773/820-02773.brd",
+          "chip": "M2",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2338 M2 820-02773",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2338 M2 820-02773/820-02773.pdf"
+          ]
+        }
+      }
+    },
+    "A2442": {
+      "default_revision": "820-02098",
+      "revisions": {
+        "820-02098": {
+          "aliases": [
+            "A2442",
+            "820-02098",
+            "J314-BTR"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2442 820-02098/J314-BTR.brd",
+          "chip": "M1 Pro",
+          "codename": "J314-BTR",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2442 820-02098",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2442 820-02098/J314-BTR.pdf"
+          ]
+        },
+        "820-02443": {
+          "aliases": [
+            "A2442",
+            "820-02443",
+            "J314-CTO"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2442 820-02443/J314-CTO.brd",
+          "chip": "M1 Max",
+          "codename": "J314-CTO",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2442 820-02443",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2442 820-02443/J314-CTO.pdf"
+          ]
+        }
+      }
+    },
+    "A2485": {
+      "default_revision": "820-02100",
+      "revisions": {
+        "820-02100": {
+          "aliases": [
+            "A2485",
+            "820-02100",
+            "J316-EVTS"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2485 820-02100/J316-EVTs.brd",
+          "chip": "M1 Pro",
+          "codename": "J316-EVTS",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2485 820-02100",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2485 820-02100/J316-EVTs.pdf"
+          ]
+        },
+        "820-02382": {
+          "aliases": [
+            "A2485",
+            "820-02382",
+            "J316-EVTC"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2485 820-02382/J316-EVTc.brd",
+          "chip": "M1 Max",
+          "codename": "J316-EVTC",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2485 820-02382",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2485 820-02382/J316-EVTc.pdf"
+          ]
+        }
+      }
+    },
+    "A2681": {
+      "default_revision": "820-02536",
+      "revisions": {
+        "820-02536": {
+          "aliases": [
+            "A2681",
+            "820-02536",
+            "PJM-MLB"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2681 820-02536/PJM-MLB.brd",
+          "chip": "M2",
+          "codename": "PJM-MLB",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2681 820-02536",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2681 820-02536/A2681_Schematic.pdf"
+          ]
+        }
+      }
+    },
+    "A2779": {
+      "default_revision": "820-02841",
+      "revisions": {
+        "820-02655": {
+          "aliases": [
+            "A2779",
+            "820-02655",
+            "J414-C"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2779 820-02655/J414-C.brd",
+          "chip": "M3 Max",
+          "codename": "J414-C",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2779 820-02655",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2779 820-02655/J414-C.pdf"
+          ]
+        },
+        "820-02841": {
+          "aliases": [
+            "A2779",
+            "820-02841",
+            "J414-S"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2779 820-02841/J414-S.brd",
+          "chip": "M3 Pro",
+          "codename": "J414-S",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2779 820-02841",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2779 820-02841/J414-S.pdf"
+          ]
+        }
+      }
+    },
+    "A2780": {
+      "default_revision": "820-02652",
+      "revisions": {
+        "820-02652": {
+          "aliases": [
+            "A2780",
+            "820-02652",
+            "J416"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2780 820-02652/J416.brd",
+          "chip": "M3 Pro/Max",
+          "codename": "J416",
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2780 820-02652",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2780 820-02652/J416-C.pdf",
+            "/home/ricky/builds/elek-board-viewer/schematics/A2780 820-02652/J416-S.pdf"
+          ]
+        }
+      }
+    },
+    "A2918": {
+      "default_revision": "820-02757",
+      "revisions": {
+        "820-02757": {
+          "aliases": [
+            "A2918",
+            "820-02757"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A2918 820-02757/820-02757.brd",
+          "chip": "M3",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A2918 820-02757",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A2918 820-02757/820-02757.pdf"
+          ]
+        }
+      }
+    },
+    "A3113": {
+      "default_revision": "820-03286",
+      "revisions": {
+        "820-03286": {
+          "aliases": [
+            "A3113",
+            "820-03286"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A3113 820-03286/820-03286.brd",
+          "chip": "M4",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A3113 820-03286",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A3113 820-03286/820-03286.pdf"
+          ]
+        }
+      }
+    },
+    "A3114": {
+      "default_revision": "820-03285",
+      "revisions": {
+        "820-03285": {
+          "aliases": [
+            "A3114",
+            "820-03285"
+          ],
+          "board_path": "/home/ricky/builds/elek-board-viewer/schematics/A3114 820-03285/820-03285.brd",
+          "chip": "M4 Pro",
+          "codename": null,
+          "folder": "/home/ricky/builds/elek-board-viewer/schematics/A3114 820-03285",
+          "pdf_paths": [
+            "/home/ricky/builds/elek-board-viewer/schematics/A3114 820-03285/820-03285.pdf"
+          ]
+        }
+      }
+    }
+  }
+}

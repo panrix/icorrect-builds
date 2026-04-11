@@ -1,0 +1,218 @@
+{
+  "WARNING": "These ICs are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY. The C/CTO/Max variant has different component designators and additional ICs.",
+  "board": "A2779",
+  "variant": "S (Standard / M2 Pro only)",
+  "schematic": "820-02841",
+  "extraction_notes": "Complete extraction from 159 pages. All U-designators confirmed from schematic pages.",
+  "ics": [
+    {
+      "designator": "U6000",
+      "function": "SoC — Apple M2 Pro (Standard)",
+      "description": "Main System on Chip. BGA with PCPU, ECPU, GPU, Neural Engine (ANE), memory controller, I/O. DCP BSIO TSA. SYM 36 OF 36",
+      "pages": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+    },
+    {
+      "designator": "U5700",
+      "function": "SVR AON — 3V8 always-on switching voltage regulator",
+      "description": "30A ICC MAX, 3-phase buck producing PP3V8_AON from PPBUS_AON. Main power IC feeding both PMUs. Phase outputs: PPVAON_B0T7, PPVAON_SPA0, etc.",
+      "pages": [34, 35, 36]
+    },
+    {
+      "designator": "U7700",
+      "function": "SPMU (Slave PMU)",
+      "description": "Slave Power Management Unit. Bucks: 0-10 (Buck7 NC on S variant). LDOs: 0-9B. Input: PP3V8_AON. SBN-marked.",
+      "pages": [38, 39, 40]
+    },
+    {
+      "designator": "U8100",
+      "function": "MPMU (Master PMU)",
+      "description": "Master Power Management Unit. Bucks: 0-10. LDOs: 0-9B, INT. 32K clock, charger reset. Input: PP3V8_AON.",
+      "pages": [42, 43, 44]
+    },
+    {
+      "designator": "U9300",
+      "part_number": "Austringer",
+      "function": "Austringer VR — High-current SoC power regulator",
+      "description": "Austringer controller with 5 power phase stages. Replaces Viper VR from A2442 M1 Pro. Provides PPVDD_SRAM_MAMEISM. Controller-Austringer and Controller-Viper signals.",
+      "pages": [47, 48, 49, 50]
+    },
+    {
+      "designator": "UA100",
+      "part_number": "CLVR0",
+      "function": "CLVR0 — SoC multi-buck regulator instance C0",
+      "description": "CLVR instance C0, CFG=D (12+2+12+2), OTP=MP. 4 bucks: Buck0/HP0, Buck1/LP0, Buck2/HP1, Buck3/LP1. Powers PPVDD_PCPU1 domains.",
+      "pages": [51]
+    },
+    {
+      "designator": "UA200",
+      "part_number": "CLVR1",
+      "function": "CLVR1 — SoC multi-buck regulator instance C1",
+      "description": "CLVR instance C1, CFG=A (13+1+13+1), OTP=AP. 4 bucks: HP0, LP0, HP1, LP1. Powers PPVDD_GPU_SRAM domains.",
+      "pages": [52]
+    },
+    {
+      "designator": "UA600",
+      "part_number": "CLVR2 (S)",
+      "function": "CLVR2 — SoC multi-buck regulator instance C2 (S variant)",
+      "description": "CLVR instance C2, CFG=C (6+1+13+6), OTP=IP. S variant specific — address straps differ from C/D. 4 bucks. Powers PPVDD_ANE_SRAM domains.",
+      "pages": [53, 54]
+    },
+    {
+      "designator": "Charger IC",
+      "function": "Battery charger IC",
+      "description": "Main charger IC converting USB-C/MagSafe input to PPBUS_AON and managing battery charging. Visible on page 29.",
+      "pages": [29]
+    },
+    {
+      "designator": "UC259",
+      "function": "5V S2 buck converter",
+      "description": "Produces PP5V_S2 (5.15V) from PPBUS_AON. F=2.2MHz. Start up typ=0.4ms. VOUT=15V ESR=0.8R. 5V_S2_VR page.",
+      "pages": [55]
+    },
+    {
+      "designator": "UF400",
+      "function": "CD3217 USB-C PD port controller ATC0",
+      "description": "Port controller for ATC0 (left side). PD negotiation, CC signaling, VBUS control. Internal LDO (PP3V3_UPC0_LDO, PP1V05_UPC0_LDO_CORE). SPI ROM for firmware. CRITICAL placement note.",
+      "pages": [74]
+    },
+    {
+      "designator": "UF500",
+      "function": "CD3217 USB-C PD port controller ATC1",
+      "description": "Port controller for ATC1 (left side). Same as UF400 for second port.",
+      "pages": [75]
+    },
+    {
+      "designator": "UF600",
+      "function": "CD3217 USB-C PD port controller ATC2",
+      "description": "Port controller for ATC2 (right side). Third USB-C port.",
+      "pages": [83]
+    },
+    {
+      "designator": "UF690/UF650/UF658",
+      "function": "MACAW 0, MACAW 1, MACAW 2 — USB2 repeaters",
+      "description": "Three MACAW instances for eUSB signal repeating. MACAW 0 (left ATC0), MACAW 1 (left ATC1), MACAW 2 (right ATC2).",
+      "pages": [76, 84]
+    },
+    {
+      "designator": "U5000",
+      "part_number": "SN300V (Eos)",
+      "function": "Eos Secure Element",
+      "description": "Eos SE. Powered by VDDPL SE, PP3V8_AON. I2C + NFC interface. Wired Mode SE Only reference design.",
+      "pages": [27]
+    },
+    {
+      "designator": "U5150",
+      "function": "BMU support IC",
+      "description": "BMU support on battery connector flex. SYS_DETECT circuit. BLKAMPMHY. CRITICAL.",
+      "pages": [28]
+    },
+    {
+      "designator": "J5150",
+      "function": "Battery flex connector",
+      "description": "Battery flex connector. Pattern PAD MLB 51754. APN: 518S0818. Includes ARKANOID debug connector.",
+      "pages": [28]
+    },
+    {
+      "designator": "J5401",
+      "function": "MagSafe 3 connector",
+      "description": "MagSafe connector. MLB: 516S00787, Flex: 516S00788. Q5401 MOSFET pair with DS485.",
+      "pages": [31]
+    },
+    {
+      "designator": "MagSafe Port Controller",
+      "part_number": "AAROVARKS/CD96",
+      "function": "MagSafe port controller",
+      "description": "Controls MagSafe charging. Configured as UPC5 (1lo 4th slot). SPI ROM. Fused power via F5601.",
+      "pages": [32, 33]
+    },
+    {
+      "designator": "U5910 / U6040",
+      "function": "3V8 AON current sense / throttle summing amp",
+      "description": "U5910: PP3V8_AON current sense via PPVAON_ISNS_P/N. U6040: Summing amp for 3 phases (P3V8 Low Side ISENSE and ILIMIT). 10k MAX on phase 3, max total current sense @ freq 48.11A.",
+      "pages": [36]
+    },
+    {
+      "designator": "UP710",
+      "part_number": "SLG5AP312A",
+      "function": "Display power sequencer",
+      "description": "Sequences display panel power rails. Controls DSP_PANEL_PWD_EN, DSP_DAILY_SVO_EN, PPACVL_POWE_DISCHARGE.",
+      "pages": [114]
+    },
+    {
+      "designator": "UP730",
+      "function": "Display power sequencer (secondary)",
+      "description": "Secondary display power sequencer. CRITICAL placement.",
+      "pages": [114]
+    },
+    {
+      "designator": "UP701",
+      "function": "Display power controller (tertiary)",
+      "description": "Third display power IC. CRITICAL placement.",
+      "pages": [114]
+    },
+    {
+      "designator": "UP800",
+      "part_number": "RAX2915GKE",
+      "function": "Luxe LCD Backlight Driver",
+      "description": "LCD backlight boost converter. CP800 and CP801 MUST BE MIRRORED. CP834 and CP835 MUST BE MIRRORED. Replaces BEN (U6560) from A2681.",
+      "pages": [115]
+    },
+    {
+      "designator": "JH500",
+      "function": "HDMI connector",
+      "description": "HDMI port PCPT-A2365. Full-size HDMI 2.0. ESD protection via DZH5xx series.",
+      "pages": [89]
+    },
+    {
+      "designator": "UK150",
+      "part_number": "GL9755S/GL9FE22Y708",
+      "function": "SD Card controller",
+      "description": "SD card controller IC. PCIe to SD bridge. Powered by PP3V3_MAME_SD, PP1V2_BL_LMHP, PPVDS_S2_SDMA. CRITICAL placement.",
+      "pages": [94]
+    },
+    {
+      "designator": "UE510",
+      "part_number": "LGS04P1540H/D500",
+      "function": "Fan PWM level shifter",
+      "description": "Level shifter for fan PWM signals. CRITICAL.",
+      "pages": [67]
+    },
+    {
+      "designator": "Willamette Module",
+      "function": "WiFi 6E / Bluetooth module",
+      "description": "Willamette WiFi/BT module with 2GFEM_C0/C1, 5GFEM, front-ends. Powered by VBAT, PP3V8_AON_WLBT. Replaces Typhoon from A2681.",
+      "pages": [98, 99]
+    },
+    {
+      "designator": "NAND0 S5E0-S5E3",
+      "function": "SSD NAND flash packages (SSD0)",
+      "description": "4 NAND packages for SSD0. Each with dedicated data/clock lanes.",
+      "pages": [100, 101, 102, 103, 104]
+    },
+    {
+      "designator": "NAND1 S5E0-S5E3",
+      "function": "SSD NAND flash packages (SSD1)",
+      "description": "4 NAND packages for SSD1.",
+      "pages": [105, 106, 107, 108, 109]
+    },
+    {
+      "designator": "Sovereign IMU",
+      "part_number": "Bosch BMI270AA (APN: S5680BBMA)",
+      "function": "6-axis accelerometer and gyroscope",
+      "description": "Motion sensor. Powered by PP3V3_S2, PP1V2_S2. SPI interface. Sovereign BOM options table.",
+      "pages": [66]
+    },
+    {
+      "designator": "JP600",
+      "function": "Display connector",
+      "description": "Display flex connector. APN: 516S00682. eDP data lanes, TCON SPI, display power/backlight. HDMI notes: APN needs to have 4TP PD on SoC side.",
+      "pages": [113]
+    },
+    {
+      "designator": "JE500/JE510",
+      "function": "Fan connectors (left/right)",
+      "description": "JE500 = PWM FAN0 (LEFT) connector. JE510 = PWM FAN1 (RIGHT) connector. Dummy fan to plug into either. PP14A connector pin format.",
+      "pages": [67]
+    }
+  ]
+}

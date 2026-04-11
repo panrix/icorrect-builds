@@ -1,0 +1,79 @@
+{
+  "WARNING": "These test points are for A2485 (820-02382) ONLY. EVT schematic -- component designators may differ from production. Same X2728 MLB platform as A2442 but 16\" form factor with dual fans and larger battery.",
+  "board": "A2485_EVTc",
+  "board_name": "MacBook Pro 16\" M1 Pro/Max (2021)",
+  "schematic": "820-02382",
+  "internal_name": "X2728/MLB",
+  "dcps_voltage": "20V",
+  "description": "Decision trees for 20V DCPS on A2485. Normal boot current is HIGHER than A2681 Air (2-4A vs 1.5-2.5A) due to Pro/Max SoC power. Max variant draws more than Pro. 16\" may draw slightly more than 14\" due to larger display + dual fans.",
+  "normal_boot_range": "2.0-4.0A (Pro), 2.5-4.5A (Max)",
+  "scenarios": [
+    {
+      "range": "0-0.05A (dead at 20V)",
+      "meaning": "Board draws nothing. CD3217 or charger circuit completely non-functional.",
+      "steps": [
+        {"step": 1, "action": "Verify 20V at connector", "measure": "Probe ATC0 area (page 67)", "expected": "20V", "if_wrong": "DCPS/cable fault", "next_if_ok": 2},
+        {"step": 2, "action": "Check CD3217 core LDO", "measure": "Probe PP1V5_UPC0_LDO_CORE (UF000 internal, page 67)", "component": "UF000", "expected": "~1.5V (CD3217 alive)", "if_wrong": "CD3217 dead -> replace", "next_if_ok": 3},
+        {"step": 3, "action": "Check PPBUS_AON", "measure": "Probe PPBUS_AON decoupling near battery connector (page 27)", "expected": "12V", "if_wrong": "Charger IC not converting. Check CHGR_AUX_OK, I2C to charger.", "if_present": "Go to step 4"},
+        {"step": 4, "action": "Check PP3V8_AON", "measure": "Probe PP3V8_AON caps (C57xx/C58xx area, pages 33-34)", "expected": "3.8V", "if_wrong": "U5700 not starting. Check PPVAON_PWR_EN.", "if_present": "PMU not loading -> check U7700/U8100 connections"}
+      ]
+    },
+    {
+      "range": "0.05-0.5A (low current -- short holding board down)",
+      "meaning": "Board partially active but well below normal 2-4A boot range. A shorted rail is clamping a regulator.",
+      "steps": [
+        {"step": 1, "action": "Run full chain: PPBUS -> 3V8 -> 5V -> MPMU -> Viper -> Monaco", "sub_checks": [
+            {"expected": "12V", "rail": "PPBUS_AON", "page": 27},
+            {"expected": "3.8V", "rail": "PP3V8_AON", "page": [33, 34]},
+            {"expected": "5.14V", "rail": "PP5V_S2", "page": 54},
+            {"expected": "MPMU outputs present", "rail": "MPMU bucks", "page": [40, 42, 129]},
+            {"expected": "DVFS voltage", "rail": "Viper PCPU output", "page": 46},
+            {"expected": "DVFS voltage", "rail": "Monaco GPU output (C0=UA100, C1=UA200)", "page": [50, 51]}
+          ], "next": "Identify which stage has low/missing output"},
+        {"step": 2, "action": "PP3V8_AON branch short?", "measure": "Diode mode on PP3V8_AON_MPMU, PP3V8_AON_SPMU, PP3V8_AON_WLBT, PP3V8_ATC01_LDO, PP3V8_ATC2_LDO branches (page 33)", "expected": "Normal readings", "if_wrong": "Identify shorted branch. Thermal cam."},
+        {"step": 3, "action": "Viper or Monaco output short?", "measure": "Diode mode on Viper outputs (page 46) and Monaco outputs (UA100 page 50, UA200 page 51)", "expected": "Normal", "if_wrong": "VR output shorted. Thermal cam to find hot SoC pin or decoupling cap."},
+        {"step": 4, "action": "MPMU LDO fault?", "measure": "Check PMU test points (page 129) for each MPMU output", "if_any_missing": "Thermal cam that rail -> replace hot component or U8100"},
+        {"step": 5, "action": "I2C bus stuck?", "measure": "Check SMC_I2C0 (charger, page 56), SMC_I2C1 (UPC, page 56) pull-up voltage (PP3V3_AON)", "expected": "3.3V on SCL/SDA at rest", "if_wrong": "Peripheral holding bus low. Isolate."}
+      ]
+    },
+    {
+      "range": "0.5-2.0A (partial boot -- board stalling)",
+      "count_note": "Below normal boot range for Pro/Max",
+      "meaning": "Board drawing boot-level current for an Air, but insufficient for Pro/Max. SoC partially powered but Viper or Monaco may not be starting.",
+      "steps": [
+        {"step": 1, "action": "Observe current pattern", "measure": "Watch DCPS for 30 seconds", "if_cycling": "Boot loop -> check SSD/NAND (Ocarina pages 101/106)", "if_stable": "Stalled -> step 2"},
+        {"step": 2, "action": "Check Viper VR (U9300)", "measure": "Probe Viper output (page 46, PH1/PH2/PH3 area)", "expected": "DVFS voltage (~0.7-1.1V)", "if_missing": "Viper not starting. Check U9300, VIPER_ALERT_L. Check power stages (pages 48-49). This is the most likely cause of stalled boot on Pro/Max at this current range.", "if_present": "Go to step 3"},
+        {"step": 3, "action": "Check Monaco VR", "measure": "Probe Monaco C0 output (UA100 area, page 50) and C1 output (UA200 area, page 51)", "expected": "DVFS voltage", "if_missing": "Monaco not starting. MONACO_ALERT_L. Check page 53 for CLVR throttle. Max variant: more phases -> more failure points.", "if_present": "Go to step 4"},
+        {"step": 4, "action": "Check dual SSD", "measure": "Check NAND power: PP0V9_NAND0, PP0V9_NAND1, PP1V2_NAND0, PP1V2_NAND1 (Ocarina pages 101/106)", "expected": "All present", "if_ssd0_missing": "Ocarina SSD0 fault", "if_ssd1_missing": "Ocarina SSD1 fault", "if_both_ok": "SSD powered. Try DFU restore."},
+        {"step": 5, "action": "Check display", "measure": "Backlight on? Image on external HDMI?", "if_no_display": "Display power sequencer (page 110) or Luxe backlight (page 111) fault"},
+        {"step": 6, "action": "Check dual fans (A2485-specific)", "measure": "Both FAN0 (left, JE500) and FAN1 (right, JE510) spinning?", "if_one_dead": "Fan controller (UE500 or UE510 on page 66) fault. Check FAN_PWR_EN, SMC_FAN_x_TACH.", "note": "16\" has dual fans. Fan failure may cause thermal throttle but not prevent boot."}
+      ]
+    },
+    {
+      "range": "2.0-4.5A (normal boot range)",
+      "meaning": "NORMAL for M1 Pro (2-3.5A) and M1 Max (2.5-4.5A). If customer reports a fault, it's peripheral not power.",
+      "steps": [
+        {"step": 1, "action": "Board is booting -- check peripherals", "measure": "Display, keyboard, trackpad, speakers, USB-C ports, HDMI, SD card, fans", "sub_checks": [
+            {"symptom": "No display", "check": "Luxe backlight (page 111), display power sequencer (page 110), eDP connector (page 109)"},
+            {"symptom": "No HDMI", "check": "Madea IC (pages 87-89), HDMI power rails"},
+            {"symptom": "No SD card", "check": "SD controller (pages 91-94), PP3V3_AWAKE_SW_SD"},
+            {"symptom": "One USB-C port dead", "check": "UF400 (ATC0 left rear, page 67), UF500 (ATC1 left front, page 68), or UG400 (ATC2 right, page 77). Test each."},
+            {"symptom": "No TouchID", "check": "TouchID connector (page 124), PP16V0_TOUCHID, PP3V0_TOUCHID"},
+            {"symptom": "Fan always on/off", "check": "Fan controllers UE500/UE510 (page 66), FAN_PWR_EN, SMC_FAN_0_TACH, SMC_FAN_1_TACH. A2485 has DUAL fans."},
+            {"symptom": "One fan dead", "check": "Check specific fan connector JE500 (left) or JE510 (right) on page 66. Check UE500 or UE510."},
+            {"symptom": "No audio", "check": "Codec (page 115), PP3V8_CODEC_VP, PP1V8_CODEC_VA. Speaker amps on AP_I2C1 and AP_I2C3 (page 55)."},
+            {"symptom": "Battery not charging", "check": "Charger IC (U5200, page 28), CHGR_AUX_OK, battery connector (page 27). 99.6 Wh battery."}
+          ]}
+      ]
+    },
+    {
+      "range": "4.5A+ (over-current)",
+      "meaning": "Excessive even for Max. Major short or GPU under extreme load.",
+      "steps": [
+        {"step": 1, "action": "Is board functional?", "measure": "Check boot", "if_functional": "May be charging deeply discharged 99.6 Wh battery. Monitor -- should settle to 2-4A.", "if_not": "Short -> step 2"},
+        {"step": 2, "action": "Thermal camera full sweep", "measure": "Thermal cam across entire board", "expected": "Hot spot visible", "if_found": "Identify component. Common: U5700 (regulating into 3V8 short), Viper/Monaco (shorted SoC domain), SoC (dead -- BER).", "if_not_found": "Step 3"},
+        {"step": 3, "action": "Systematic rail isolation", "measure": "Diode mode: PPBUS_AON -> PP3V8_AON (pages 33-34) -> PP5V_S2 (page 54) -> Viper (page 46) -> Monaco (pages 50-52)", "process": "Find shorted rail. Thermal cam that specific area."}
+      ]
+    }
+  ]
+}

@@ -16,7 +16,7 @@ import requests
 
 # ── Config ──────────────────────────────────────────────────────────
 
-MONDAY_API_TOKEN = os.environ.get("MONDAY_API_TOKEN")
+MONDAY_APP_TOKEN = os.environ.get("MONDAY_APP_TOKEN")
 MONDAY_API_URL = "https://api.monday.com/v2"
 BM_BOARD_ID = 3892194968
 
@@ -27,7 +27,7 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
 
 MONDAY_HEADERS = {
-    "Authorization": MONDAY_API_TOKEN,
+    "Authorization": MONDAY_APP_TOKEN,
     "Content-Type": "application/json",
     "API-Version": "2024-10"
 }
@@ -441,8 +441,8 @@ def insert_to_supabase(rows):
 def main():
     # Validate env
     missing = []
-    if not MONDAY_API_TOKEN:
-        missing.append("MONDAY_API_TOKEN")
+    if not MONDAY_APP_TOKEN:
+        missing.append("MONDAY_APP_TOKEN")
     if not BACKMARKET_API_AUTH:
         missing.append("BACKMARKET_API_AUTH")
     if not SUPABASE_URL:

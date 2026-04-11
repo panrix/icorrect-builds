@@ -1,0 +1,293 @@
+{
+  "WARNING": "These test points are for A2681 (820-02536) ONLY. For other boards, use that board's diagnostic files. Component designators (C5704, C8450, C8440, etc.) are board-specific — the same rail appears at DIFFERENT components on other boards.",
+  "board": "A2681",
+  "board_name": "MacBook Air 13\" M2 (2022)",
+  "schematic": "820-02536",
+  "internal_name": "X2203/MLB",
+  "dcps_voltage": "5V",
+  "description": "Decision trees for all 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Current draw indicates where in the power chain the fault lies.",
+  "data_source": "198 ammeter readings at 5V from safan_diagnostics_parsed.json + Ricky's step-by-step workflow",
+  "scenarios": [
+    {
+      "range": "0A (dead — no current draw)",
+      "count_in_data": 14,
+      "meaning": "Board draws nothing. CD3217 is not even loading the VBUS line. Fault is at the input stage — connector, cable, or CD3217 itself.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check USB-C connector physical condition",
+          "measure": "Visual inspection of connector pins",
+          "expected": "Clean pins, no bent/missing contacts, no liquid residue",
+          "if_wrong": "Replace USB-C connector flex or clean connector",
+          "next_if_ok": 2
+        },
+        {
+          "step": 2,
+          "action": "Check PPVBUS_USBC0 at connector output",
+          "measure": "Probe CF400 (PPVBUS_USBC0 decoupling)",
+          "component": "CF400",
+          "expected": "5V from DCPS",
+          "if_wrong": "DCPS cable or connector open circuit. Try other port (CF501 for ATC1). If both dead, connector flex fault.",
+          "next_if_ok": 3
+        },
+        {
+          "step": 3,
+          "action": "Check CD3217 (UF400) power supply",
+          "measure": "Diode mode on UF400 VDD pins",
+          "component": "UF400",
+          "expected": "Normal diode reading (~0.4-0.6V to ground)",
+          "if_wrong": "UF400 short to ground → replace CD3217. Known fault: ROM short can kill CD3217 (see Saf data: UF400 + ROM short).",
+          "next_if_ok": 4
+        },
+        {
+          "step": 4,
+          "action": "Check CF408 (CD3217 support cap)",
+          "measure": "Diode mode on CF408",
+          "component": "CF408",
+          "expected": "Normal reading, no short",
+          "if_wrong": "CF408 shorted → remove and retest. If short clears, replace cap. If short persists, CD3217 (UF400) is the source.",
+          "next_if_ok": 5,
+          "data_note": "CF408 appears in 4 fault records in Saf's data"
+        },
+        {
+          "step": 5,
+          "action": "Try second USB-C port",
+          "measure": "Move DCPS to second port, probe CF501",
+          "component": "CF501",
+          "expected": "5V present, current draw",
+          "if_wrong": "Both ports dead → likely upstream issue (connector flex, liquid damage to both CD3217s)",
+          "if_ok": "First port CD3217 (UF400) fault. Second port works → replace UF400."
+        }
+      ]
+    },
+    {
+      "range": "0.001–0.05A (trickle — board loading but not booting)",
+      "count_in_data": 58,
+      "meaning": "CD3217 is drawing some current but board is not progressing through boot. Most common 5V scenario. The 5V is reaching the charger circuit but PPBUS_AON is likely not coming up, or it's coming up but PP3V8_AON is not.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check PPBUS_AON",
+          "measure": "Probe C5704",
+          "component": "C5704",
+          "expected": "12V (battery voltage) or rising toward ~5V (adapter only, pre-PD)",
+          "if_missing": "Fault in charging circuit. Go to step 2.",
+          "if_present": "Go to step 3.",
+          "data_note": "From Ricky's workflow: 'NO → fault in charging circuit / CD3217 / U5200'"
+        },
+        {
+          "step": 2,
+          "action": "Check PPBUS_AON for short",
+          "measure": "Diode mode on PPBUS_AON (C5704 or CR765)",
+          "component": "CR765",
+          "expected": "Normal diode reading (>0.3V)",
+          "if_wrong": "PPBUS_AON shorted. Isolate: remove CR765, retest. If short clears, CR765 was source. If short persists, trace downstream. Known fault: CR734 short on PPBUS_AON (see Saf data: 5V/0.014A → CR734 replace → fixed).",
+          "next_if_ok": "Check charger IC (U5200 area) and CD3217 communication. CD3217 may not be sending CHGR_AUX_OK."
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V8_AON",
+          "measure": "Probe C8450",
+          "component": "C8450",
+          "expected": "3.8V",
+          "if_missing": "Fault in U5700 (SVR AON) or Q5800. Check PPVAON_PWR_EN (enable) — if not asserted, PMU not requesting 3V8. Check for short on PP3V8_AON line.",
+          "if_present": "Go to step 4.",
+          "data_note": "From Ricky's workflow: 'NO → fault in U5700 / Q5800'"
+        },
+        {
+          "step": 4,
+          "action": "Check PP3V8_AON for short on VDDMAIN",
+          "measure": "Diode mode on C7705 (PP3V8_AON_VDDMAIN)",
+          "component": "C7705",
+          "expected": "Normal diode reading",
+          "if_wrong": "PP3V8_AON_VDDMAIN shorted. Known fault location. Thermal cam to find hot component. C7701 also on PP3V8_AON — check C7701, C7702, C7714 (PP3V8_AON_SPMU_ISNS).",
+          "next_if_ok": 5,
+          "data_note": "C7705 appears in 3 fault records. C7714 (PP3V8_AON_SPMU_ISNS) shorted at 5V/0.12A in Saf data."
+        },
+        {
+          "step": 5,
+          "action": "Check PP5V_S2",
+          "measure": "Probe C8440",
+          "component": "C8440",
+          "expected": "5V",
+          "if_missing": "Check C8430 (diode — shorted?), L8430 (open?). Replace faulty component, retest.",
+          "if_present": "Go to step 6.",
+          "data_note": "From Ricky's workflow: step 3"
+        },
+        {
+          "step": 6,
+          "action": "Check U8100 (MPMU) LDO outputs",
+          "measure": "Probe each LDO test point",
+          "sub_checks": [
+            {"component": "C8320", "expected": "1.8V", "rail": "PP1V8_AON_MPMU (LDO 9)"},
+            {"component": "C8330", "expected": "3.3V", "rail": "PP3V3_S2M_SNR (LDO 13)"},
+            {"component": "C83A0", "expected": "3.3V", "rail": "MPMU LDO variant"},
+            {"component": "C8360", "expected": "1.2V", "rail": "PP1V2_AON_MPMU (LDO 9B)"},
+            {"component": "C8380", "expected": "1.5V", "rail": "MPMU LDO 20"}
+          ],
+          "if_all_present": "Fault is downstream of PMU — SoC domain or peripheral. Thermal cam.",
+          "if_any_missing": "Go to step 7.",
+          "data_note": "From Ricky's workflow: step 4"
+        },
+        {
+          "step": 7,
+          "action": "Thermal camera on shorted rail",
+          "measure": "Apply thermal cam to the rail that is missing/shorted",
+          "expected": "Hot component visible",
+          "if_found": "Replace hot chip. Known: PP1V8_AON shorted → suspect UC870.",
+          "if_not_found": "U8100 (MPMU) likely dead → replace U8100.",
+          "data_note": "From Ricky's workflow: step 5"
+        }
+      ]
+    },
+    {
+      "range": "0.05–0.2A (partial boot attempt)",
+      "count_in_data": 28,
+      "meaning": "Board is drawing moderate current at 5V. Charger circuit is partially working. PP3V8_AON is likely present but something downstream is loading it or a short is holding the board in a partial state. PD negotiation may not be completing.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check PPBUS_AON",
+          "measure": "Probe C5704",
+          "component": "C5704",
+          "expected": "12V (with battery) or ~5V (adapter only)",
+          "if_missing": "Charger path fault. See 0.001-0.05A tree step 2.",
+          "if_present": "Go to step 2."
+        },
+        {
+          "step": 2,
+          "action": "Check PP3V8_AON",
+          "measure": "Probe C8450",
+          "component": "C8450",
+          "expected": "3.8V",
+          "if_missing": "U5700 fault. See 0.001-0.05A tree step 3.",
+          "if_present": "Go to step 3."
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V8_AON_SPMU_ISNS line",
+          "measure": "Diode mode on C7714",
+          "component": "C7714",
+          "expected": "Normal (not shorted)",
+          "if_wrong": "PP3V8_AON_SPMU_ISNS shorted. Remove C7714 and retest. Known fault at 5V/0.12A in Saf data.",
+          "next_if_ok": 4,
+          "data_note": "Saf: 5V/0.12A → C7714 (PP3V8_AON_SPMU_ISNS) short → removed → fixed"
+        },
+        {
+          "step": 4,
+          "action": "Check PP3V8_AON short — thermal cam",
+          "measure": "Thermal camera across PP3V8_AON area",
+          "expected": "No hot spots",
+          "if_found": "Identify and replace hot component. Common: C7701, C7702 area.",
+          "if_not_found": "Go to step 5.",
+          "data_note": "Saf: 5V/0.14A → C7702 short; 5V/0.23A → PP3V8_AON + PP3V8_AON_SPMU_ISNS dual short (C7701)"
+        },
+        {
+          "step": 5,
+          "action": "Check PP5V_S2 and PP3V3_S2",
+          "measure": "Probe C8440 (5V) and PP3V3_S2 nearby cap",
+          "component": "C8440",
+          "expected": "5V on C8440, 3.3V on PP3V3_S2",
+          "if_5v_missing": "Check C8430/L8430 per Ricky workflow.",
+          "if_3v3_missing": "Check PP3V3_S2_LDO line. Known fault: CF660 short on PP3V3_S2_LDO at 5V/0.22A.",
+          "data_note": "Saf: 5V/0.22A → CF660 (PP3V3_S2_LDO) short → removed → fixed"
+        }
+      ]
+    },
+    {
+      "range": "0.2–0.5A (significant current, boot stalled or shorted rail)",
+      "count_in_data": 60,
+      "meaning": "Board is drawing significant current at 5V. Either: (A) board is trying to boot but stalling (possibly waiting for PD to negotiate 20V), or (B) a rail downstream of PP3V8_AON has a short pulling current. Common: PP3V3_S2 short, PP3V8_AON branch short.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Is the board trying to boot? Check for signs of life.",
+          "measure": "Look for fan spin, keyboard backlight, display backlight flash, chime",
+          "expected": "Any sign of partial boot",
+          "if_signs": "Board is booting at 5V but not completing PD negotiation. Check CD3217 firmware ROM (SPI_UPC0). If ROM corrupted, CD3217 can't negotiate 20V. Try known-good ROM. Go to step 5.",
+          "if_no_signs": "Board is drawing current into a short or stalled PMU. Go to step 2."
+        },
+        {
+          "step": 2,
+          "action": "Run Ricky's full diagnostic chain",
+          "measure": "C5704→C8450→C8440→U8100 LDOs",
+          "sub_checks": [
+            {"component": "C5704", "expected": "12V", "rail": "PPBUS_AON"},
+            {"component": "C8450", "expected": "3.8V", "rail": "PP3V8_AON"},
+            {"component": "C8440", "expected": "5V", "rail": "PP5V_S2"},
+            {"component": "C8320", "expected": "1.8V", "rail": "PP1V8_AON_MPMU"},
+            {"component": "C8330", "expected": "3.3V", "rail": "PP3V3_S2M_SNR"},
+            {"component": "C8360", "expected": "1.2V", "rail": "PP1V2_AON_MPMU"}
+          ],
+          "if_all_present": "Go to step 3.",
+          "if_any_missing": "Fault identified at the missing rail. See 0.001-0.05A tree for that specific rail."
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V3_S2 and PP3V3_UPC LDO lines for shorts",
+          "measure": "Diode mode on PP3V3_S2 line, PP3V3_UPC0_LDO, PP3V3_UPC1_LDO",
+          "expected": "Normal diode readings",
+          "if_wrong": "PP3V3 rail shorted. Known fault: Saf 5V/0.223A → PP3V3_UPC1_LDO + PP3V3_S2 short → CD3217 causing the short.",
+          "next_if_ok": 4,
+          "data_note": "Saf: 5V/0.223A → PP3V3_UPC1_LDO + PP3V3_S2 short (CD chip fault)"
+        },
+        {
+          "step": 4,
+          "action": "Check PP3V8_AON (CT610 area)",
+          "measure": "Diode mode on PP3V8_AON distribution caps",
+          "expected": "Normal readings",
+          "if_wrong": "PP3V8_AON short at 0.2-0.5A. Known: Saf 5V/0.443A → CT610 on PP3V8_AON line shorted.",
+          "data_note": "Saf: 5V/0.443A → CT610 (PP3V8_AON) short"
+        },
+        {
+          "step": 5,
+          "action": "Connect to 20V DCPS and check if board transitions",
+          "measure": "Switch DCPS to 20V, observe current",
+          "expected": "Current rises to 1.5-2.5A range (normal boot)",
+          "if_normal_boot": "Board boots at 20V. Problem was CD3217 PD negotiation. Replace SPI ROM or CD3217.",
+          "if_same_current": "Short is genuine. Thermal cam all power domains."
+        }
+      ]
+    },
+    {
+      "range": "0.5A+ (high current at 5V — major short or boot attempt)",
+      "count_in_data": 38,
+      "meaning": "Very high current at 5V. Either a serious short on a high-current rail (PP3V8_AON, PPBUS_AON) or the board is attempting to boot and pulling significant power. At 5V, >0.5A is unusual and suggests a short.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Disconnect battery immediately",
+          "measure": "Remove battery flex",
+          "expected": "Current should drop when battery disconnected",
+          "note": "High current at 5V with battery can cause heating. Disconnect battery and test on DCPS only."
+        },
+        {
+          "step": 2,
+          "action": "Check PPBUS_AON for dead short",
+          "measure": "Diode mode on PPBUS_AON (C5704, CR765)",
+          "component": "C5704",
+          "expected": ">0.2V in diode mode",
+          "if_wrong": "PPBUS_AON dead short. Thermal cam immediately. Suspect charger IC area, battery connector, or bulk cap failure.",
+          "next_if_ok": 3
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V8_AON for dead short",
+          "measure": "Diode mode on C8450 and C7705",
+          "component": "C8450",
+          "expected": ">0.15V in diode mode",
+          "if_wrong": "PP3V8_AON dead short. U5700 pulling max current trying to regulate into a short. Thermal cam → find hot component in PP3V8_AON distribution (C7705 VDDMAIN area, WiFi module PP3V8_AON_WLBT).",
+          "next_if_ok": 4
+        },
+        {
+          "step": 4,
+          "action": "Check if board is actually booting",
+          "measure": "Switch to 20V DCPS",
+          "expected": "If board boots normally at 20V with 1.5-2.5A, the 5V high current was a boot attempt. PD negotiation working.",
+          "if_boots": "Normal. Board was trying to boot at 5V. No fault.",
+          "if_same_high_current": "Genuine short. Systematic thermal cam sweep of all power stages."
+        }
+      ]
+    }
+  ]
+}

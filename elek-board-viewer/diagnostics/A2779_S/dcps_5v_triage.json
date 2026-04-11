@@ -1,0 +1,216 @@
+{
+  "WARNING": "These test points are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY. The C/CTO/Max variant (820-02655) has different component designators. Do NOT use these on the C variant. Component designators are board-specific — the same rail appears at DIFFERENT components on other boards.",
+  "board": "A2779",
+  "variant": "S (Standard / M2 Pro only)",
+  "board_name": "MacBook Pro 14\" M2 Pro (2023) — Standard",
+  "schematic": "820-02841",
+  "internal_name": "X2523/MLB_S",
+  "dcps_voltage": "5V",
+  "description": "Decision trees for 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Adapted from A2681 diagnostic workflow but with M2 Pro-specific power architecture (Austringer VR, 3 CLVR instances, 3 USB-C ports).",
+  "data_source": "Adapted from A2681 Safan diagnostic patterns. No A2779_S-specific repair data yet — patterns are analogous but component designators WILL differ.",
+  "scenarios": [
+    {
+      "range": "0A (dead — no current draw)",
+      "meaning": "Board draws nothing. CD3217 is not loading VBUS. Fault at input stage.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check USB-C connector physical condition",
+          "measure": "Visual inspection of all 3 USB-C connectors (left x2, right x1)",
+          "expected": "Clean pins, no bent/missing contacts, no liquid residue",
+          "if_wrong": "Replace USB-C connector flex or clean connector",
+          "next_if_ok": 2
+        },
+        {
+          "step": 2,
+          "action": "Check PPVBUS at connector output",
+          "measure": "Probe PPVBUS_USBC0 decoupling cap (left upper port, page 74)",
+          "expected": "5V from DCPS",
+          "if_wrong": "DCPS cable fault or connector open circuit. Try other ports.",
+          "next_if_ok": 3
+        },
+        {
+          "step": 3,
+          "action": "Check CD3217 (UF400) for signs of life",
+          "measure": "Diode mode on UF400 VDD pins",
+          "expected": "Normal diode reading (~0.4-0.6V to ground)",
+          "if_wrong": "UF400 short → replace CD3217. Check SPI ROM for short.",
+          "next_if_ok": 4
+        },
+        {
+          "step": 4,
+          "action": "Try all 3 USB-C ports",
+          "measure": "Move DCPS to each port in turn, probe VBUS decoupling",
+          "expected": "At least one port shows 5V and current draw",
+          "if_wrong": "All ports dead → connector flex, widespread liquid damage, or all 3 CD3217s dead",
+          "if_ok": "Fault isolated to specific port CD3217"
+        }
+      ]
+    },
+    {
+      "range": "0.001–0.05A (trickle — board loading but not booting)",
+      "meaning": "CD3217 is drawing some current but board not progressing. PPBUS_AON likely not coming up or PP3V8_AON missing.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check PPBUS_AON",
+          "measure": "Probe PPBUS_AON decoupling cap",
+          "expected": "12V (battery voltage) or rising toward ~5V (adapter only, pre-PD)",
+          "if_missing": "Fault in charging circuit. Go to step 2.",
+          "if_present": "Go to step 3."
+        },
+        {
+          "step": 2,
+          "action": "Check PPBUS_AON for short",
+          "measure": "Diode mode on PPBUS_AON",
+          "expected": "Normal diode reading (>0.3V)",
+          "if_wrong": "PPBUS_AON shorted. Isolate and trace downstream.",
+          "next_if_ok": "Check charger IC (page 29), SYS_DETECT circuit (J5150/U5150 BLKAMPMHY CRITICAL)."
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V8_AON",
+          "measure": "Probe PP3V8_AON decoupling cap",
+          "expected": "3.8V",
+          "if_missing": "Fault in U5700 (SVR AON, 30A, 3-phase). Check PPVAON_PWR_EN from J5150. Check 3V8 VR enable delay circuit (page 30).",
+          "if_present": "Go to step 4."
+        },
+        {
+          "step": 4,
+          "action": "Check PP3V8_AON for short on VDDMAIN branch",
+          "measure": "Diode mode on PP3V8_AON_VDDMAIN distribution caps",
+          "expected": "Normal diode reading",
+          "if_wrong": "PP3V8_AON_VDDMAIN shorted — common fault. Thermal cam to find hot component.",
+          "next_if_ok": 5
+        },
+        {
+          "step": 5,
+          "action": "Check PP5V_S2",
+          "measure": "Probe PP5V_S2 output from UC259",
+          "expected": "5V",
+          "if_missing": "UC259 fault or P5V2TPS_PWR_EN not asserted.",
+          "if_present": "Go to step 6."
+        },
+        {
+          "step": 6,
+          "action": "Check MPMU (U8100) AON LDO outputs",
+          "measure": "Probe PP1V8_AON_MPMU, PP1V2_AON_MPMU, PP3V_AON caps",
+          "expected": "1.8V, 1.2V, 3.0V respectively",
+          "if_all_present": "Fault downstream — check Austringer (U9300) and CLVR outputs",
+          "if_any_missing": "Go to step 7."
+        },
+        {
+          "step": 7,
+          "action": "Thermal camera on shorted rail",
+          "measure": "Apply thermal cam to the rail that is missing/shorted",
+          "if_found": "Replace hot chip.",
+          "if_not_found": "U8100 (MPMU) or U7700 (SPMU) likely dead → replace."
+        }
+      ]
+    },
+    {
+      "range": "0.05–0.2A (partial boot attempt)",
+      "meaning": "Board drawing moderate current at 5V. Charger circuit partially working. PP3V8_AON likely present but something downstream loading it.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check PPBUS_AON",
+          "measure": "Probe PPBUS_AON",
+          "expected": "12V (with battery) or ~5V (adapter only)",
+          "if_missing": "Charger path fault. See trickle tree.",
+          "if_present": "Go to step 2."
+        },
+        {
+          "step": 2,
+          "action": "Check PP3V8_AON",
+          "measure": "Probe PP3V8_AON",
+          "expected": "3.8V",
+          "if_missing": "U5700 fault. Check PPVAON_PWR_EN and PPVAON_FAULT_L.",
+          "if_present": "Go to step 3."
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V8_AON distribution for shorts",
+          "measure": "Diode mode on PP3V8_AON branches (VDDMAIN, SPMU_ISNS, WLBT)",
+          "expected": "Normal readings on all branches",
+          "if_wrong": "Identify shorted branch. Thermal cam that area.",
+          "next_if_ok": 4
+        },
+        {
+          "step": 4,
+          "action": "Check PP5V_S2 and PP3V3_S2",
+          "measure": "Probe PP5V_S2 and PP3V3_S2 caps",
+          "expected": "5V and 3.3V respectively",
+          "if_wrong": "UC259 or PP3V3 path fault."
+        }
+      ]
+    },
+    {
+      "range": "0.2–0.5A (significant current, boot stalled or shorted rail)",
+      "meaning": "Board drawing significant current at 5V. Either boot attempt stalling or downstream rail short.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Is the board trying to boot? Check for signs of life.",
+          "measure": "Look for fan spin, keyboard backlight, display backlight flash, chime",
+          "if_signs": "Board booting at 5V but not completing PD. Check CD3217 SPI ROM. Try 20V DCPS.",
+          "if_no_signs": "Go to step 2."
+        },
+        {
+          "step": 2,
+          "action": "Run full diagnostic chain",
+          "measure": "PPBUS_AON → PP3V8_AON → PP5V_S2 → MPMU LDOs → SPMU LDOs",
+          "if_all_present": "Check Austringer (U9300) and CLVR outputs. Go to step 3.",
+          "if_any_missing": "Fault at missing rail. See trickle tree."
+        },
+        {
+          "step": 3,
+          "action": "Check for PP3V3 or PP3V3_UPC LDO shorts",
+          "measure": "Diode mode on PP3V3 lines and PP3V3_UPC0/1/2_LDO lines",
+          "expected": "Normal readings",
+          "if_wrong": "PP3V3 rail shorted — possibly CD3217 internal LDO fault."
+        },
+        {
+          "step": 4,
+          "action": "Connect to 20V DCPS and check transition",
+          "measure": "Switch DCPS to 20V, observe current",
+          "expected": "Current rises to 1.5-3A range (normal boot)",
+          "if_normal_boot": "Board boots at 20V — CD3217 PD negotiation issue. Replace SPI ROM or CD3217.",
+          "if_same_current": "Genuine short. Thermal cam all power domains."
+        }
+      ]
+    },
+    {
+      "range": "0.5A+ (high current at 5V — major short or boot attempt)",
+      "meaning": "Very high current at 5V. Serious short on a high-current rail or boot attempt.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Disconnect battery immediately",
+          "note": "High current at 5V with battery can cause heating."
+        },
+        {
+          "step": 2,
+          "action": "Check PPBUS_AON for dead short",
+          "measure": "Diode mode on PPBUS_AON",
+          "expected": ">0.2V in diode mode",
+          "if_wrong": "PPBUS_AON dead short. Thermal cam immediately."
+        },
+        {
+          "step": 3,
+          "action": "Check PP3V8_AON for dead short",
+          "measure": "Diode mode on PP3V8_AON and VDDMAIN caps",
+          "expected": ">0.15V in diode mode",
+          "if_wrong": "PP3V8_AON dead short. U5700 pulling max current. Thermal cam."
+        },
+        {
+          "step": 4,
+          "action": "Check if board is actually booting",
+          "measure": "Switch to 20V DCPS",
+          "if_boots": "Normal — board was trying to boot at 5V.",
+          "if_same_high_current": "Genuine short. Systematic thermal cam sweep."
+        }
+      ]
+    }
+  ]
+}

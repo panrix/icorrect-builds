@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iCorrect - Walk-In Intake Process v2</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.5; padding: 40px 20px; }
+  .container { max-width: 800px; margin: 0 auto; }
+  
+  .header { text-align: center; margin-bottom: 50px; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 8px; }
+  .header p { font-size: 16px; color: #86868b; }
+  
+  .problem-box { background: #fff; border-radius: 16px; padding: 30px; margin-bottom: 30px; border-left: 4px solid #ff3b30; }
+  .problem-box h2 { font-size: 18px; color: #ff3b30; margin-bottom: 12px; }
+  .problem-box p { font-size: 15px; color: #424245; }
+  
+  .flow-section { margin-bottom: 40px; }
+  .flow-section h2 { font-size: 22px; font-weight: 700; margin-bottom: 20px; text-align: center; }
+  
+  .step { background: #fff; border-radius: 16px; padding: 24px 28px; margin-bottom: 16px; position: relative; }
+  .step-number { display: inline-block; background: #007aff; color: #fff; width: 32px; height: 32px; border-radius: 50%; text-align: center; line-height: 32px; font-weight: 700; font-size: 14px; margin-right: 12px; }
+  .step h3 { display: inline; font-size: 17px; font-weight: 600; }
+  .step p { margin-top: 10px; font-size: 15px; color: #424245; }
+  .step .detail { margin-top: 12px; background: #f5f5f7; border-radius: 10px; padding: 16px; font-size: 14px; }
+  .step .detail li { margin-bottom: 6px; list-style: none; padding-left: 20px; position: relative; }
+  .step .detail li:before { content: "→"; position: absolute; left: 0; color: #007aff; font-weight: 700; }
+  
+  .arrow { text-align: center; font-size: 24px; color: #007aff; margin: -4px 0; }
+  
+  .new-badge { display: inline-block; background: #34c759; color: #fff; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 6px; margin-left: 8px; vertical-align: middle; }
+  
+  .example-box { background: #f0f7ff; border-radius: 10px; padding: 16px; margin-top: 12px; border-left: 3px solid #007aff; font-size: 14px; color: #424245; font-style: italic; }
+  
+  .form-questions { margin-top: 16px; }
+  .form-q { background: #f5f5f7; border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; font-size: 14px; }
+  .form-q strong { color: #1d1d1f; }
+  .form-q .options { color: #86868b; font-size: 13px; margin-top: 4px; }
+  
+  .comparison { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 30px; }
+  .comparison .before, .comparison .after { background: #fff; border-radius: 16px; padding: 24px; }
+  .comparison .before { border-top: 4px solid #ff3b30; }
+  .comparison .after { border-top: 4px solid #34c759; }
+  .comparison h3 { font-size: 16px; margin-bottom: 12px; }
+  .comparison li { font-size: 14px; margin-bottom: 8px; color: #424245; list-style: none; padding-left: 20px; position: relative; }
+  .comparison .before li:before { content: "✕"; position: absolute; left: 0; color: #ff3b30; font-weight: 700; }
+  .comparison .after li:before { content: "✓"; position: absolute; left: 0; color: #34c759; font-weight: 700; }
+  
+  .phase2 { background: #fff; border-radius: 16px; padding: 30px; margin-top: 40px; border-left: 4px solid #86868b; }
+  .phase2 h2 { font-size: 18px; color: #86868b; margin-bottom: 12px; }
+  .phase2 li { font-size: 14px; margin-bottom: 6px; color: #424245; list-style: none; padding-left: 20px; position: relative; }
+  .phase2 li:before { content: "○"; position: absolute; left: 0; color: #86868b; }
+  
+  .footer { text-align: center; margin-top: 50px; font-size: 13px; color: #86868b; }
+
+  @media print {
+    body { background: #fff; padding: 20px; }
+    .step, .problem-box, .phase2 { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>Walk-In Intake Process v2</h1>
+  <p>Phase 1 Pilot | 9 March 2026</p>
+</div>
+
+<div class="problem-box">
+  <h2>The Problem</h2>
+  <p>With no dedicated front-of-house, every walk-in pulls a technician off the bench. That costs us repairs, revenue, and output. The goal: minimise time away from the bench, capture everything properly, and make sure nothing gets missed.</p>
+</div>
+
+<div class="flow-section">
+  <h2>The New Flow</h2>
+
+  <div class="step">
+    <span class="step-number">1</span>
+    <h3>Customer Arrives</h3>
+    <p>Same as today. Customer walks in, fills in the Typeform on the iPad. The form asks why they're here: drop-off (booked), drop-off (walk-in), collection, or enquiry.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="step">
+    <span class="step-number">2</span>
+    <h3>Smarter Form Questions</h3>
+    <span class="new-badge">NEW</span>
+    <p>We're adding questions so we capture more before anyone goes upstairs. Less discovery, more confirmation.</p>
+    
+    <div class="form-questions">
+      <div class="form-q">
+        <strong>Has your device had any liquid damage or been dropped?</strong>
+        <div class="options">Yes / No / Not sure</div>
+      </div>
+      <div class="form-q">
+        <strong>Is the data on your device backed up?</strong>
+        <div class="options">Yes / No / I don't know</div>
+      </div>
+      <div class="form-q">
+        <strong>Would you like your device delivered back after repair (free of charge)?</strong>
+        <div class="options">Deliver to me / I'll collect in person</div>
+      </div>
+      <div class="form-q">
+        <strong>We will need your device passcode for testing. Please have it ready.</strong>
+        <div class="options">Acknowledged (not asking them to type it, just a heads-up)</div>
+      </div>
+      <div class="form-q">
+        <strong>Do you have any other questions before we book your device in?</strong>
+        <div class="options">Free text (optional)</div>
+      </div>
+    </div>
+
+    <p style="margin-top: 12px; font-size: 14px; color: #86868b;">For customers who haven't reviewed pricing online, the form will show pricing information before these questions.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="step">
+    <span class="step-number">3</span>
+    <h3>Slack Notification + Agent Briefing</h3>
+    <span class="new-badge">NEW</span>
+    <p>Typeform submits, Slack notification lands (same as today). But now an agent automatically replies in the thread with extra context pulled from Monday and Intercom.</p>
+    
+    <div class="example-box">
+      <strong>Returning customer.</strong> Last repair: MacBook Air screen replacement, Oct 2025.<br>
+      Intercom: 3 previous conversations. Last one: battery health query, Jan 2026.<br>
+      Monday: No open items.<br>
+      <strong>Note:</strong> Customer has NOT reviewed pricing online. Confirm pricing before booking in.
+    </div>
+
+    <p style="margin-top: 10px; font-size: 14px;">Andres reads this before going upstairs. He already knows who the customer is and what they need.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="step">
+    <span class="step-number">4</span>
+    <h3>Andres Sees the Customer</h3>
+    <p>Andres goes up with context. The conversation is now confirmation, not discovery:</p>
+    <div class="detail">
+      <ul>
+        <li>Confirm the device and issue</li>
+        <li>Take the passcode verbally</li>
+        <li>Take payment if needed</li>
+        <li>Collect the device</li>
+      </ul>
+    </div>
+    <p style="margin-top: 10px; font-size: 14px; color: #86868b;">Target: 3-5 minutes, not 10-15.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="step">
+    <span class="step-number">5</span>
+    <h3>Voice Note</h3>
+    <span class="new-badge">NEW</span>
+    <p>Back downstairs, Andres leaves a <strong>voice note</strong> in the Slack thread. No typing. Just talk for 30 seconds.</p>
+    
+    <div class="example-box">
+      "Customer John, MacBook Pro 14 M1 Pro, dropped it last week, screen cracked on the left side, no AppleCare, wants delivery back, took £49 deposit on SumUp, passcode 4521."
+    </div>
+
+    <p style="margin-top: 10px; font-size: 14px;">The voice note is automatically transcribed and added as an update to the Monday.com item. Andres talks, the system writes.</p>
+  </div>
+
+  <div class="arrow">↓</div>
+
+  <div class="step">
+    <span class="step-number">6</span>
+    <h3>Monday.com Updated Automatically</h3>
+    <p>The repair item in Monday now has everything:</p>
+    <div class="detail">
+      <ul>
+        <li>Customer details from the form (name, email, phone, device, issue)</li>
+        <li>New form answers (liquid damage, backup, delivery preference)</li>
+        <li>Agent context (prior repairs, Intercom history)</li>
+        <li>Andres's voice note, transcribed and formatted</li>
+      </ul>
+    </div>
+    <p style="margin-top: 10px; font-size: 14px;">The technician picking up the repair has full context. No chasing, no guessing.</p>
+  </div>
+</div>
+
+<div class="comparison">
+  <div class="before">
+    <h3>Before</h3>
+    <ul>
+      <li>Andres goes up blind, 10-15 min per walk-in</li>
+      <li>Intake notes inconsistent or missing</li>
+      <li>No prior customer context at intake</li>
+      <li>Passcode chased after the fact</li>
+      <li>Every customer comes back to collect</li>
+      <li>"Issue: Slow" with no detail</li>
+    </ul>
+  </div>
+  <div class="after">
+    <h3>After</h3>
+    <ul>
+      <li>Andres has a briefing, 3-5 min per walk-in</li>
+      <li>Voice note captures everything automatically</li>
+      <li>Agent pulls Monday + Intercom history</li>
+      <li>Customer told to have passcode ready</li>
+      <li>Delivery option offered upfront</li>
+      <li>Form captures damage, backup, and more</li>
+    </ul>
+  </div>
+</div>
+
+<div class="phase2">
+  <h2>What Comes Next (Phase 2)</h2>
+  <ul>
+    <li>Replace Typeform with a custom intake form (saves £70/month, dynamic questions per device)</li>
+    <li>Enquiry routing to Ferrari via video call for complex questions</li>
+    <li>New Technical Operations Coordinator takes over front of house</li>
+    <li>AI-powered intake that answers common questions before escalating</li>
+  </ul>
+</div>
+
+<div class="footer">
+  iCorrect | Walk-In Intake Process v2 | For internal discussion only
+</div>
+
+</div>
+</body>
+</html>

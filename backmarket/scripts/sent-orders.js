@@ -384,10 +384,10 @@ async function buildPreparedOrderData(order, bmNumber) {
 
   // Trade-in grade from BM — map cosmetic grades to Monday labels
   const BM_GRADE_MAP = {
-    'STALLONE': 'NONFUNC_CRACKED', 'BRONZE': 'NONFUNC_USED', 'SILVER': 'FUNC_CRACKED',
+    'STALLONE': 'NONFUNC_CRACK', 'BRONZE': 'NONFUNC_USED', 'SILVER': 'FUNC_CRACK',
     'GOLD': 'FUNC_USED', 'PLATINUM': 'FUNC_GOOD', 'DIAMOND': 'FUNC_EXCELLENT',
-    'FUNC_CRACK': 'FUNC_CRACKED', 'FUNC_USED': 'FUNC_USED', 'FUNC_GOOD': 'FUNC_GOOD',
-    'FUNC_EXCELLENT': 'FUNC_EXCELLENT', 'NONFUNC_CRACK': 'NONFUNC_CRACKED', 'NONFUNC_USED': 'NONFUNC_USED',
+    'FUNC_CRACK': 'FUNC_CRACK', 'FUNC_USED': 'FUNC_USED', 'FUNC_GOOD': 'FUNC_GOOD',
+    'FUNC_EXCELLENT': 'FUNC_EXCELLENT', 'NONFUNC_CRACK': 'NONFUNC_CRACK', 'NONFUNC_USED': 'NONFUNC_USED',
   };
   const rawGrade = extractField(orderDetail, 'listing.grade', 'grade', 'condition', 'offer_grade');
   const bmGrade = BM_GRADE_MAP[rawGrade] || '';

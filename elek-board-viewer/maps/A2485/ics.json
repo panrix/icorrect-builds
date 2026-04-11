@@ -1,0 +1,187 @@
+{
+  "board": "A2485",
+  "schematic": "820-02100",
+  "WARNING": "EVT schematic (J316-EVTs). Some U-designators may differ from production boards. Verify against boardview (.brd) for physical placement. Pages marked ***OK2INTEGRATE*** have provisional data.",
+  "extraction_notes": "Extracted from 155-page schematic PNGs. Same X2728 MLB platform as A2442 (J314). Pro/Max BOM variants noted where applicable.",
+  "ics": [
+    {
+      "designator": "U6000",
+      "function": "SoC — Apple M1 Pro/Max",
+      "description": "Main SoC. Pro has 8-core CPU + 14/16-core GPU. Max has 10-core CPU + 24/32-core GPU. OMIT_TABLE on page 15. Power domains: PCPU0/1, ECPU, GPU0/1, SRAM, DISP, DCS, VDD1, VDD2, VDDQ, AFR, ANE, CIO, Fabric, Fixed, VDDIO, VDD2H0, VDD2H1.",
+      "pages": [5, 6, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
+    },
+    {
+      "designator": "U5700",
+      "function": "SVR AON — 3V8 always-on switching voltage regulator",
+      "description": "30A ICC MAX multi-phase buck producing PP3V8_AON from PPBUS_AON. Component range: R57xx, C57xx, R58xx, C58xx.",
+      "pages": [33, 34]
+    },
+    {
+      "designator": "U7700",
+      "function": "SPMU (Slave PMU)",
+      "description": "Slave PMU with 22+ system bucks (BUCK0-BUCK21, BUCK15 not used on sC designs). VODCOM Vout=3.7V shared by SMC. VDDLOM Vout=0.8V (based on AN/BN OTP). Page 37: VIN/LDO/SW. Page 38: Bucks. Page 39: GPIO & GND.",
+      "pages": [37, 38, 39, 40]
+    },
+    {
+      "designator": "U8100",
+      "part_number": "JM8165",
+      "function": "MPMU (Master PMU)",
+      "description": "Master PMU with 10+ system bucks (BUCK0-BUCK10). Has Pro vs Max BOM variant table. JM8170 companion IC nearby. Page 41: VIN/LDO/SW. Page 42: Bucks. Page 43: GPIO & GND.",
+      "bom_variants": "Pro and Max have different BOM options for GPU power phases",
+      "pages": [41, 42, 43, 44, 45]
+    },
+    {
+      "designator": "U9300",
+      "function": "Viper VR controller",
+      "description": "Multi-phase voltage regulator controller for high-current SoC PCPU domains. NOT present on A2681. Controls power stages on pages 48-49. PVDDDOM signals for PWM/EN/FAULT. VIPER_BOOT, VIPER_GDML, VIPER_GSMWL signals route differential-twisted.",
+      "pages": [46, 47, 48, 49]
+    },
+    {
+      "designator": "Monaco VR (Instance C0)",
+      "function": "Monaco multi-output VR — GPU/fabric/SoC dynamic domains",
+      "description": "Instance C0. SILICON:CFG = A0:A0, B0:D0. SILICON:OTP = A0:ZP_, B0:YP_. 10+ buck outputs. Custom Apple ORCT_TABLE IC. UA100 controller. XMA100/XMA101 power stages. Handles PPVDD_S0VE, S0VS, MCPW, S0CL, GACS + more. PP1V10_S1_CLVR_VDDH input from Viper MOPASS.",
+      "component_range": "CA1xx, UA100, XMA100/101",
+      "pages": [50]
+    },
+    {
+      "designator": "Monaco VR (Instance C1)",
+      "function": "Monaco multi-output VR — additional SoC domains",
+      "description": "Instance C1. CFG = A5. OTP = BP_. UA200 controller. XMA200/XMA201 power stages. Handles: PPVDD_S0DL, AGXS, S0KE, S0PE + more.",
+      "component_range": "CA2xx, UA200, XMA200/201",
+      "pages": [51]
+    },
+    {
+      "designator": "Monaco VR (Instance C2/C4)",
+      "function": "Monaco multi-output VR — SC/1C/2C instances",
+      "description": "SC: Instance C2, CFG=C0, OTP=QP_. 1C: Instance C4, CFG=C1, OTP=RP_. 2C: Instance C4, CFG=C2, OTP=SP_. UA500/XMA500/501/502 power stages. Handles GPU SRAM, ANE SRAM, PCPU SRAM domains.",
+      "component_range": "CA5xx, UA500, XMA500/501/502",
+      "pages": [52]
+    },
+    {
+      "designator": "U5200 (area)",
+      "function": "Battery charger IC",
+      "description": "Main charger IC. Multi-FET input stage. Converts USB-C/MagSafe input to PPBUS_AON.",
+      "pages": [28]
+    },
+    {
+      "designator": "TPS62130",
+      "function": "5V S2 buck converter (Texas Instruments TPS62130)",
+      "description": "Produces PP5V_S2 (Vout-nom=5.14V, Iout Max=2.1A, f=1.25MHz). Low power option. Startup 4.7/7.5/10.5ms. XMC260 inductor. Component range: CC2xx, RC2xx.",
+      "pages": [54]
+    },
+    {
+      "designator": "UF400",
+      "function": "CD3217 USB-C PD port controller ATC0 (CD3217/M190CK)",
+      "description": "Left port 0. ORCT_TABLE IC with SPI ROM. CRITICAL. Component range: CF4xx, RF4xx. Port controller on page 71, high-speed on page 67.",
+      "pages": [67, 71]
+    },
+    {
+      "designator": "UF500",
+      "function": "CD3217 USB-C PD port controller ATC1 (CD3217/M190CK)",
+      "description": "Left port 1. ORCT_TABLE IC with SPI ROM. Component range: CF5xx, RF5xx. Port controller on page 72, high-speed on page 68.",
+      "pages": [68, 72]
+    },
+    {
+      "designator": "UG400",
+      "function": "CD3217 USB-C PD port controller ATC2 (CD3217/M190CK)",
+      "description": "RIGHT port. ORCT_TABLE IC. Component range: CG4xx, RG4xx. Port controller on page 80, high-speed on page 77. NOT present on A2681.",
+      "pages": [77, 80]
+    },
+    {
+      "designator": "UF000",
+      "function": "USB-C High Speed ATC0 retimer/controller",
+      "description": "ATC0 high-speed controller. ORCT_TABLE IC on page 67. Handles USB-C high-speed AC coupling, retimer, and ATCRTMR0 connections.",
+      "pages": [67]
+    },
+    {
+      "designator": "UF100",
+      "function": "USB-C High Speed ATC1 retimer/controller",
+      "description": "ATC1 high-speed controller. ORCT_TABLE IC on page 68.",
+      "pages": [68]
+    },
+    {
+      "designator": "UG000",
+      "function": "USB-C High Speed ATC2 retimer/controller",
+      "description": "ATC2 high-speed controller. ORCT_TABLE IC on page 77. Right side port.",
+      "pages": [77]
+    },
+    {
+      "designator": "Ace ATC0/ATC1",
+      "function": "USB-C port controller ACE",
+      "description": "ACE port controllers for ATC0 and ATC1. Pages 69-70 show SPI/UART connections, port controller support. Bridge Arkanoid and Aardvarkanoid connectors.",
+      "pages": [69, 70]
+    },
+    {
+      "designator": "UG700",
+      "function": "USB-C HS Level Shifter (Left)",
+      "description": "Parrot 2 I2C/Reset level shifters for ATC0/ATC1. OMIT_TABLE IC. TBT LS RX/TX level shifters. SSR retimer connections.",
+      "pages": [82]
+    },
+    {
+      "designator": "Madea IC",
+      "function": "HDMI retimer/controller",
+      "description": "Handles HDMI output. ORCT_TABLE IC. NOT present on A2681.",
+      "pages": [87, 88, 89]
+    },
+    {
+      "designator": "SD Card Controller",
+      "function": "SD card reader controller",
+      "description": "Controls SD card slot. SDCARD CONNECTOR 514-00175. OMIT_TABLE with HOST_SD_Q3004. NOT present on A2681.",
+      "pages": [91, 92, 93, 94]
+    },
+    {
+      "designator": "Ocarina (SSD0/SSD1)",
+      "function": "NAND controller / SSD power management",
+      "description": "Dedicated NAND controller. Two instances: SSD0 Ocarina (page 101) and SSD1 Ocarina (page 106). NOT present on A2681.",
+      "pages": [101, 106]
+    },
+    {
+      "designator": "J5401",
+      "function": "MagSafe 3 connector",
+      "description": "MagSafe connector. Q5401 MOSFET pair. Whamola support on page 29.",
+      "pages": [30]
+    },
+    {
+      "designator": "U5050 (likely)",
+      "function": "Secure Element",
+      "description": "Secure Element IC. Same function as A2681 Ceres SE.",
+      "pages": [26]
+    },
+    {
+      "designator": "JM8170",
+      "function": "MPMU companion IC (XMB170)",
+      "description": "Located near U8100 (MPMU). OMIT_TABLE companion. Visible on page 41.",
+      "pages": [41]
+    },
+    {
+      "designator": "UC000/UC001",
+      "function": "Monaco Project Support",
+      "description": "CLVR throttle support. CC000 bypass cap. RC000/RC001 MOSFETs for CLVR_PARROT_SLPCT_THROTTLE_L bypass.",
+      "pages": [53]
+    },
+    {
+      "designator": "UE400",
+      "function": "Kobol Accel & Gyro (IMU)",
+      "description": "Combined accelerometer and gyroscope. SPI interface with level translation (UE410/UE412/UE420). FLE400 ferrite.",
+      "pages": [65]
+    },
+    {
+      "designator": "UE500/UE510",
+      "function": "Fan controllers (FAN0/FAN1)",
+      "description": "Dual fan controllers. UE500 for FAN0 (left, JE500). UE510 for FAN1 (right, JE510). A2485-specific: dual fans for 16\" thermal design. Dummy cooler connector also present.",
+      "pages": [66]
+    },
+    {
+      "designator": "U2010",
+      "function": "SPI NOR Flash (1.8V 64MBIT)",
+      "description": "SoC boot NOR flash. APN 1035S00604. PP1V225_AWAKE power.",
+      "pages": [12]
+    },
+    {
+      "designator": "U2000",
+      "function": "SEP EEPROM (16KBIT)",
+      "description": "Secure Enclave EEPROM. Write 6xOH, Read 8xKG. APN 3435000048. PP1V225_AWAKE_SEPROM power.",
+      "pages": [12]
+    }
+  ]
+}

@@ -1,0 +1,2744 @@
+{
+  "MacBook": {
+    "MacBook Air 13 M4 A3240": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 479
+      },
+      "Not Set": {
+        "price": 299
+      }
+    },
+    "MacBook Air 15 M3 A3114": {
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Keyboard": {
+        "price": 299
+      },
+      "Screen": {
+        "price": 469
+      },
+      "Trackpad": {
+        "price": 299
+      }
+    },
+    "MacBook Air 13 M3 A3113": {
+      "Screen": {
+        "price": 429
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Keyboard": {
+        "price": 299
+      },
+      "Trackpad": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "MacBook Air 13 M2 A2681": {
+      "Screen": {
+        "price": 399
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Keyboard": {
+        "price": 279
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 16 M3 Pro/Max A2991": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Keyboard": {
+        "price": 329
+      },
+      "Glass": {
+        "price": 699
+      },
+      "Trackpad": {
+        "price": 299
+      },
+      "Logic Board": {
+        "price": 149
+      }
+    },
+    "MacBook Pro 16 M4 Pro/Max A3186/A3403": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 449
+      },
+      "Keyboard": {
+        "price": 499
+      },
+      "Glass": {
+        "price": 799
+      },
+      "Trackpad": {
+        "price": 399
+      },
+      "Logic Board": {
+        "price": 149
+      }
+    },
+    "MacBook Pro 14 M3 Pro/Max A2992": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Keyboard": {
+        "price": 329
+      },
+      "Glass": {
+        "price": 649
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 14 M3 A2918": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Keyboard": {
+        "price": 329
+      },
+      "Glass": {
+        "price": 649
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 16 M2 Pro/Max A2780": {
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Keyboard": {
+        "price": 289
+      },
+      "Screen": {
+        "price": 639
+      },
+      "Trackpad": {
+        "price": 299
+      }
+    },
+    "MacBook Pro 14 M2 Pro/Max A2779": {
+      "Screen": {
+        "price": 599
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Keyboard": {
+        "price": 279
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 14 M4 Pro/Max A3401": {
+      "Screen": {
+        "price": 599
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Keyboard": {
+        "price": 279
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Air 15 M2 A2941": {
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Keyboard": {
+        "price": 289
+      },
+      "Screen": {
+        "price": 449
+      },
+      "Trackpad": {
+        "price": 299
+      }
+    },
+    "MacBook Air 13 A1932": {
+      "Screen": {
+        "price": 299
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      }
+    },
+    "MacBook 12 A1534": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      }
+    },
+    "MacBook Air 11 A1465": {
+      "Screen": {
+        "price": 179
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      }
+    },
+    "MacBook Air 13 A1466": {
+      "Screen": {
+        "price": 299
+      },
+      "Battery": {
+        "price": 159
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 149
+      }
+    },
+    "MacBook Pro 15 A1398": {
+      "Screen": {
+        "price": 499
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      }
+    },
+    "MacBook Pro 13 M1 A2338": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 159
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      },
+      "Other": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 13 M2 A2338": {
+      "Screen": {
+        "price": 429
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 159
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 249
+      },
+      "Other": {
+        "price": 249
+      },
+      "Screen Lines": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 16 M1 Pro/Max A2485": {
+      "Screen": {
+        "price": 599
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Keyboard": {
+        "price": 289
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 14 M1 Pro/Max A2442": {
+      "Screen": {
+        "price": 549
+      },
+      "Battery": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 13\" 4TB 3 A2251": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      },
+      "Other": {
+        "price": 249
+      },
+      "Logic Board": {
+        "price": 119
+      }
+    },
+    "MacBook Pro 13\" 2TB 3 A2289": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 13\" 2TB 3 A2159": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      },
+      "Other": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 13\" Touch Bar A1989": {
+      "Screen": {
+        "price": 299
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 299
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      },
+      "Other": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 13\" Touch Bar A1706": {
+      "Screen": {
+        "price": 399
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 149
+      },
+      "Microsoldering": {
+        "price": 349
+      },
+      "Screen Lines": {
+        "price": 349
+      },
+      "Other": {
+        "price": 199
+      }
+    },
+    "MacBook Pro 13\"  A1708": {
+      "Screen": {
+        "price": 399
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Microsoldering": {
+        "price": 349
+      },
+      "Screen Lines": {
+        "price": 349
+      }
+    },
+    "MacBook Pro 13 A1502": {
+      "Screen": {
+        "price": 399
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      }
+    },
+    "MacBook Air 13 M1 A2337": {
+      "Screen": {
+        "price": 339
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      }
+    },
+    "MacBook Air 13 A2179": {
+      "Screen": {
+        "price": 299
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 149
+      }
+    },
+    "MacBook Pro 16 A2141": {
+      "Screen": {
+        "price": 449
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      },
+      "Not Set": {
+        "price": 249
+      }
+    },
+    "MacBook Pro 15 A1707": {
+      "Screen": {
+        "price": 499
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Microsoldering": {
+        "price": 349
+      },
+      "Screen Lines": {
+        "price": 349
+      }
+    },
+    "MacBook Pro 15 A1990": {
+      "Screen": {
+        "price": 449
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Keyboard": {
+        "price": 249
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Trackpad": {
+        "price": 199
+      },
+      "Screen Lines": {
+        "price": 249
+      }
+    }
+  },
+  "iPad": {
+    "iPad Air 6 (11)": {
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPad Air 6 (13)": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Not Set": {
+        "price": 349
+      }
+    },
+    "iPad Pro 11 (5G)": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 699
+      },
+      "Charging Port": {
+        "price": 149
+      }
+    },
+    "iPad Pro 13 (7G)": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 799
+      }
+    },
+    "iPad Mini 2": {
+      "LCD": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 149
+      }
+    },
+    "iPad Mini 3": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 99
+      }
+    },
+    "iPad Pro 12.9 (6G)": {
+      "Screen": {
+        "price": 449
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 399
+      }
+    },
+    "iPad Pro 12.9 (5G)": {
+      "Screen": {
+        "price": 399
+      },
+      "Battery": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 349
+      }
+    },
+    "iPad Pro 12.9 (4G)": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 159
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 249
+      }
+    },
+    "iPad Pro 12.9 (3G)": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 159
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 199
+      }
+    },
+    "iPad Pro 12.9 (2G)": {
+      "Screen": {
+        "price": 399
+      },
+      "Battery": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 349
+      }
+    },
+    "iPad Pro 12.9 (1G)": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 159
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 299
+      }
+    },
+    "iPad Pro 11 (4G)": {
+      "Screen": {
+        "price": 349
+      },
+      "Battery": {
+        "price": 169
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 299
+      }
+    },
+    "iPad Pro 11 (3G)": {
+      "Screen": {
+        "price": 299
+      },
+      "Battery": {
+        "price": 159
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 249
+      }
+    },
+    "iPad Pro 11 (2G)": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 199
+      }
+    },
+    "iPad Pro 11 (1G)": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 199
+      }
+    },
+    "iPad Pro 10.5": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 149
+      }
+    },
+    "iPad Pro 9.7": {
+      "Screen": {
+        "price": 189
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 139
+      }
+    },
+    "iPad Air 5": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 199
+      }
+    },
+    "iPad Air 4": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 199
+      }
+    },
+    "iPad Air 3": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 149
+      }
+    },
+    "iPad Air 2": {
+      "Screen": {
+        "price": 179
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 129
+      }
+    },
+    "iPad Air": {
+      "LCD": {
+        "price": 109
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 89
+      }
+    },
+    "iPad 10": {
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "LCD": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 149
+      }
+    },
+    "iPad 9": {
+      "LCD": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 120
+      },
+      "Not Set": {
+        "price": 139
+      }
+    },
+    "iPad 8": {
+      "LCD": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 39
+      },
+      "Screen": {
+        "price": 120
+      }
+    },
+    "iPad 7": {
+      "LCD": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 39
+      },
+      "Screen": {
+        "price": 99
+      }
+    },
+    "iPad 6": {
+      "LCD": {
+        "price": 109
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 39
+      },
+      "Screen": {
+        "price": 90
+      }
+    },
+    "iPad 5": {
+      "LCD": {
+        "price": 99
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 39
+      },
+      "Screen": {
+        "price": 90
+      }
+    },
+    "iPad 4": {
+      "LCD": {
+        "price": 99
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Charging Port": {
+        "price": 69
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 80
+      }
+    },
+    "iPad Mini 6": {
+      "Screen": {
+        "price": 319
+      },
+      "Battery": {
+        "price": 169
+      },
+      "Charging Port": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 269
+      }
+    },
+    "iPad Mini 5": {
+      "Screen": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Charging Port": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 119
+      }
+    },
+    "iPad Mini 4": {
+      "Screen": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 79
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Glass": {
+        "price": 119
+      }
+    }
+  },
+  "iPhone": {
+    "iPhone 6S Plus": {
+      "Screen": {
+        "price": 90
+      },
+      "Battery": {
+        "price": 50
+      },
+      "Charging Port": {
+        "price": 50
+      },
+      "Rear Camera": {
+        "price": 40
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Not Set": {
+        "price": 49
+      }
+    },
+    "iPhone 6": {
+      "Screen": {
+        "price": 70
+      },
+      "Battery": {
+        "price": 50
+      },
+      "Charging Port": {
+        "price": 50
+      },
+      "Rear Camera": {
+        "price": 40
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Other": {
+        "price": 50
+      }
+    },
+    "iPhone 6s": {
+      "Screen": {
+        "price": 70
+      },
+      "Battery": {
+        "price": 50
+      },
+      "Charging Port": {
+        "price": 50
+      },
+      "Rear Camera": {
+        "price": 40
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 6 Plus": {
+      "Screen": {
+        "price": 80
+      },
+      "Battery": {
+        "price": 50
+      },
+      "Charging Port": {
+        "price": 50
+      },
+      "Rear Camera": {
+        "price": 40
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Other": {
+        "price": 50
+      }
+    },
+    "iPhone 16 Pro Max": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 379
+      },
+      "Small Part": {
+        "price": 179
+      },
+      "Rear Housing": {
+        "price": 379
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Rear Camera": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 119
+      }
+    },
+    "iPhone 16 Pro": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 349
+      },
+      "Small Part": {
+        "price": 179
+      },
+      "Rear Housing": {
+        "price": 349
+      },
+      "Charging Port": {
+        "price": 199
+      },
+      "Rear Camera": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 119
+      }
+    },
+    "iPhone 16 Plus": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 299
+      },
+      "Small Part": {
+        "price": 159
+      },
+      "Rear Housing": {
+        "price": 319
+      },
+      "Charging Port": {
+        "price": 179
+      },
+      "Rear Camera": {
+        "price": 179
+      },
+      "Battery": {
+        "price": 119
+      }
+    },
+    "iPhone 16": {
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 279
+      },
+      "Small Part": {
+        "price": 159
+      },
+      "Rear Housing": {
+        "price": 289
+      },
+      "Charging Port": {
+        "price": 179
+      },
+      "Rear Camera": {
+        "price": 179
+      },
+      "Battery": {
+        "price": 119
+      }
+    },
+    "iPhone 15 Pro Max": {
+      "Screen": {
+        "price": 249
+      },
+      "Rear Housing": {
+        "price": 279
+      },
+      "Charging Port": {
+        "price": 129
+      },
+      "Rear Camera": {
+        "price": 129
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Battery": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 15 Pro": {
+      "Screen": {
+        "price": 249
+      },
+      "Battery": {
+        "price": 99
+      },
+      "Charging Port": {
+        "price": 129
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 79
+      },
+      "Rear Camera": {
+        "price": 129
+      },
+      "Rear Housing": {
+        "price": 279
+      }
+    },
+    "iPhone 15 Plus": {
+      "Battery": {
+        "price": 99
+      },
+      "Charging Port": {
+        "price": 129
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Rear Camera": {
+        "price": 129
+      },
+      "Rear Housing": {
+        "price": 259
+      },
+      "Screen": {
+        "price": 229
+      }
+    },
+    "iPhone 15": {
+      "Battery": {
+        "price": 99
+      },
+      "Charging Port": {
+        "price": 129
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Rear Camera": {
+        "price": 129
+      },
+      "Rear Housing": {
+        "price": 259
+      },
+      "Screen": {
+        "price": 229
+      }
+    },
+    "iPhone 14 Pro Max": {
+      "Screen": {
+        "price": 239
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 209
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 99
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 14 Pro": {
+      "Screen": {
+        "price": 239
+      },
+      "Battery": {
+        "price": 79
+      },
+      "Rear Housing": {
+        "price": 209
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 99
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 14 Plus": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 79
+      },
+      "Rear Housing": {
+        "price": 249
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 79
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 14": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 79
+      },
+      "Rear Housing": {
+        "price": 239
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 79
+      },
+      "Small Part": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone SE3": {
+      "Screen": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 129
+      },
+      "Charging Port": {
+        "price": 69
+      },
+      "Rear Camera": {
+        "price": 59
+      },
+      "Small Part": {
+        "price": 59
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Not Set": {
+        "price": 228
+      }
+    },
+    "iPhone 13 Pro Max": {
+      "Screen": {
+        "price": 219
+      },
+      "Rear Housing": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 89
+      },
+      "Small Part": {
+        "price": 89
+      },
+      "Battery": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 13 Pro": {
+      "Battery": {
+        "price": 79
+      },
+      "Rear Housing": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 89
+      },
+      "Small Part": {
+        "price": 89
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 219
+      }
+    },
+    "iPhone 13 Mini": {
+      "Screen": {
+        "price": 219
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 199
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 89
+      },
+      "Small Part": {
+        "price": 89
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 13": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 79
+      },
+      "Rear Housing": {
+        "price": 189
+      },
+      "Charging Port": {
+        "price": 89
+      },
+      "Rear Camera": {
+        "price": 59
+      },
+      "Small Part": {
+        "price": 89
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 12 Pro Max": {
+      "Screen": {
+        "price": 199
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 189
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Rear Camera": {
+        "price": 59
+      },
+      "Small Part": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 200
+      }
+    },
+    "iPhone 12 Pro": {
+      "Screen": {
+        "price": 159
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 189
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Rear Camera": {
+        "price": 59
+      },
+      "Small Part": {
+        "price": 80
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 200
+      }
+    },
+    "iPhone 12": {
+      "Screen": {
+        "price": 159
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Rear Camera": {
+        "price": 59
+      },
+      "Small Part": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 180
+      }
+    },
+    "iPhone 12 Mini": {
+      "Screen": {
+        "price": 159
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Charging Port": {
+        "price": 79
+      },
+      "Rear Camera": {
+        "price": 59
+      },
+      "Small Part": {
+        "price": 79
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 180
+      }
+    },
+    "iPhone 11 Pro Max": {
+      "Screen": {
+        "price": 189
+      },
+      "Rear Housing": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Charging Port": {
+        "price": 69
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 59
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 160
+      }
+    },
+    "iPhone 11 Pro": {
+      "Screen": {
+        "price": 189
+      },
+      "Rear Housing": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Charging Port": {
+        "price": 69
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 59
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 160
+      }
+    },
+    "iPhone 11": {
+      "Screen": {
+        "price": 159
+      },
+      "Rear Housing": {
+        "price": 139
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Charging Port": {
+        "price": 69
+      },
+      "Small Part": {
+        "price": 59
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 120
+      }
+    },
+    "iPhone XS Max": {
+      "Screen": {
+        "price": 189
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 119
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 120
+      }
+    },
+    "iPhone XS": {
+      "Screen": {
+        "price": 189
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 119
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 120
+      }
+    },
+    "iPhone XR": {
+      "Screen": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 109
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 110
+      }
+    },
+    "iPhone X": {
+      "Screen": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 59
+      },
+      "Rear Housing": {
+        "price": 109
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 50
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Logic Board": {
+        "price": 110
+      }
+    },
+    "iPhone SE2": {
+      "Screen": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 89
+      },
+      "Rear Housing": {
+        "price": 109
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 49
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 8 Plus": {
+      "Screen": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 59
+      },
+      "Rear Housing": {
+        "price": 109
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 49
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 8": {
+      "Screen": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 59
+      },
+      "Rear Housing": {
+        "price": 109
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 49
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 7": {
+      "Screen": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 59
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 49
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    },
+    "iPhone 7 Plus": {
+      "Screen": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 59
+      },
+      "Charging Port": {
+        "price": 59
+      },
+      "Rear Camera": {
+        "price": 49
+      },
+      "Small Part": {
+        "price": 49
+      },
+      "Diagnostic": {
+        "price": 49
+      }
+    }
+  },
+  "Other": {
+    "Zebra PDA": {
+      "Screen": {
+        "price": 216
+      }
+    },
+    "iPod Touch 6th Gen": {
+      "Screen": {
+        "price": 80
+      },
+      "Battery": {
+        "price": 50
+      },
+      "Charging Port": {
+        "price": 70
+      },
+      "Other": {
+        "price": 25
+      },
+      "Rear Camera": {
+        "price": 60
+      },
+      "Logic Board": {
+        "price": 120
+      }
+    },
+    "iPod Touch 7th Gen": {
+      "Screen": {
+        "price": 80
+      },
+      "Battery": {
+        "price": 50
+      },
+      "Charging Port": {
+        "price": 70
+      },
+      "Other": {
+        "price": 25
+      },
+      "Logic Board": {
+        "price": 120
+      }
+    },
+    "TEST PRODUCT GROUP": {
+      "Screen": {
+        "price": 80
+      },
+      "Other": {
+        "price": 50
+      },
+      "Glass": {
+        "price": 40
+      },
+      "Not Set": {
+        "price": 10
+      }
+    }
+  },
+  "Apple Watch": {
+    "Apple Watch S1 38mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S1 42mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S2 38mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S2 42mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S3 38mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S3 42mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S4 40mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 179
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "HR Monitor": {
+        "price": 129
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S4 44mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 129
+      },
+      "Battery": {
+        "price": 129
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "HR Monitor": {
+        "price": 129
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S5 40mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S5 44mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch SE 40mm": {
+      "Screen": {
+        "price": 199
+      },
+      "Glass": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Crown": {
+        "price": 119
+      },
+      "Power Button": {
+        "price": 119
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 159
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch SE 44mm": {
+      "Screen": {
+        "price": 199
+      },
+      "Glass": {
+        "price": 149
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Crown": {
+        "price": 119
+      },
+      "Power Button": {
+        "price": 119
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 159
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S6 40mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S6 44mm": {
+      "Screen": {
+        "price": 179
+      },
+      "Glass": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 99
+      },
+      "Power Button": {
+        "price": 99
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S7 41MM": {
+      "Screen": {
+        "price": 199
+      },
+      "Glass": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 119
+      },
+      "Power Button": {
+        "price": 119
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S7 45MM": {
+      "Screen": {
+        "price": 199
+      },
+      "Glass": {
+        "price": 139
+      },
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 119
+      },
+      "Power Button": {
+        "price": 119
+      },
+      "HR Monitor": {
+        "price": 139
+      },
+      "Rear Housing": {
+        "price": 199
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch SE2 40MM": {
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 129
+      },
+      "Diagnostic": {
+        "price": 49
+      },
+      "Screen": {
+        "price": 149
+      },
+      "Other": {
+        "price": 149
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Small Part": {
+        "price": 129
+      }
+    },
+    "Apple Watch SE2 44MM": {
+      "Battery": {
+        "price": 139
+      },
+      "Crown": {
+        "price": 129
+      },
+      "Diagnostic": {
+        "price": 19
+      },
+      "Screen": {
+        "price": 149
+      },
+      "Other": {
+        "price": 149
+      },
+      "Rear Housing": {
+        "price": 179
+      },
+      "Small Part": {
+        "price": 129
+      }
+    },
+    "Apple Watch S8 41MM": {
+      "Screen": {
+        "price": 219
+      },
+      "Glass": {
+        "price": 159
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Crown": {
+        "price": 119
+      },
+      "Power Button": {
+        "price": 119
+      },
+      "HR Monitor": {
+        "price": 159
+      },
+      "Rear Housing": {
+        "price": 219
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S8 45MM": {
+      "Screen": {
+        "price": 219
+      },
+      "Glass": {
+        "price": 159
+      },
+      "Battery": {
+        "price": 149
+      },
+      "Crown": {
+        "price": 119
+      },
+      "Power Button": {
+        "price": 119
+      },
+      "HR Monitor": {
+        "price": 159
+      },
+      "Rear Housing": {
+        "price": 219
+      },
+      "Diagnostic": {
+        "price": 19
+      }
+    },
+    "Apple Watch S9 41MM": {
+      "Battery": {
+        "price": 179
+      },
+      "Crown": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 19
+      },
+      "Screen": {
+        "price": 179
+      },
+      "Other": {
+        "price": 179
+      },
+      "Rear Housing": {
+        "price": 249
+      },
+      "Small Part": {
+        "price": 149
+      }
+    },
+    "Apple Watch S9 45mm": {
+      "Battery": {
+        "price": 179
+      },
+      "Crown": {
+        "price": 149
+      },
+      "Diagnostic": {
+        "price": 19
+      },
+      "Screen": {
+        "price": 179
+      },
+      "Other": {
+        "price": 179
+      },
+      "Rear Housing": {
+        "price": 249
+      },
+      "Small Part": {
+        "price": 149
+      }
+    },
+    "Apple Watch Ultra": {
+      "Diagnostic": {
+        "price": 19
+      },
+      "Battery": {
+        "price": 279
+      },
+      "Crown": {
+        "price": 229
+      },
+      "Glass": {
+        "price": 329
+      },
+      "Other": {
+        "price": 299
+      },
+      "Rear Housing": {
+        "price": 349
+      },
+      "Small Part": {
+        "price": 229
+      }
+    }
+  }
+}

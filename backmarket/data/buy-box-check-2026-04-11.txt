@@ -1,0 +1,34 @@
+✅ Winning: MBP.A2338.M1.16GB.2TB.Grey.Fair
+BM#: 6558670 | Price: £629 | Net: £-29.89 (-4.89%)
+Market:  Fair £629 | Good £724 | Excellent £899
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2289.i5.8GB.1TB.Grey.Fair
+BM#: 6505341 | Price: £404 | Net: £-79.49 (-20.28%)
+Market:  Fair £404 | Good £405 | Excellent £405
+
+────────────────────────────────────────
+
+🚫 Cannot win profitably: MBA.A2681.8GB.256GB.Midnight.Fair
+BM#: 6197426 | Listed: 9 days
+Our price: £549 | Buy box: £500
+
+Market:  Fair £504 | Good £556 | Excellent £611
+Net@win: £-48.75 (-10.05%)
+Break-even price: £552
+
+Action: No change. Monitor.
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2681.8GB.256GB.Midnight.Fair" vs resolver="MBA.A2681.M2.8C.8GB.256GB.MIDNIGHT.FAIR" → ALERT ONLY
+
+────────────────────────────────────────
+
+⚠️ Not winning: MBA.A2681.8GB.256GB.Midnight.Good
+BM#: 5995471 | Listed: 6 days
+Our price: £569 | Buy box: £533
+
+Market:  Fair £504 | Good £556 | Excellent £611
+Net@win: £242.92 (46.9%) | Net@current: £267.85 (48.52%)
+
+Action: Bump eligible (30%+ tier) — flagged for review
+         ⛔ VARIANT MISMATCH: resolver SKU mismatch: live="MBA.A2681.8GB.256GB.Midnight.Good" vs resolver="MBA.A2681.M2.8C.8GB.256GB.MIDNIGHT.FAIR" → AUTO-OFFLINED

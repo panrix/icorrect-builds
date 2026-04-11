@@ -1,0 +1,154 @@
+{
+  "board": "A3113",
+  "schematic": "820-03286",
+  "WARNING": "MacBook Air 13-inch M3 (X2818/MLB). NOT Pro, NOT M4.",
+  "description": "Boot power-on sequence for M3 MacBook Air. Starts from USB-C cable insertion, ends at display LOGO.",
+  "sequence": [
+    {
+      "step": 1,
+      "name": "USB-C Cable Insertion - 5V Default",
+      "action": "USB-C cable inserted. Charger provides default 5V on VBUS.",
+      "rail": "PPVBUS_USBC0",
+      "voltage": "5V",
+      "ic": "UF400 (ATC0 Port Controller)",
+      "what_happens": "Port controller passes 5V via DF400 fuse. Output goes to PPDCIN_USBC_AON.",
+      "next_trigger": "Port controller detects 5V on VBUS -> begins CC communication",
+      "page": [64, 69]
+    },
+    {
+      "step": 2,
+      "name": "PPCON_ACNSW - Charger Input Active",
+      "action": "Charger input path enabled. Feeds charger IC.",
+      "rail": "PPCON_ACNSW",
+      "voltage": "~5V (initially)",
+      "ic": "Charger IC (page 30)",
+      "enables": "CHGR_AUX_OK pulled up (page 31)",
+      "page": [30, 31]
+    },
+    {
+      "step": 3,
+      "name": "PPBUS_AON Established",
+      "action": "Main power bus comes up. If battery connected, PPBUS_AON ~12.6V.",
+      "rail": "PPBUS_AON",
+      "voltage": "12.6V (battery) / ~5V (adapter, pre-PD)",
+      "ic": "Charger IC (page 30)",
+      "test_point": "C5704 -> 12V",
+      "prerequisite": "BMU SYS_DETECT circuit (J5150 connector) must enable VBAT output",
+      "next_trigger": "PPBUS_AON present -> enables U5700 (SVR AON)",
+      "page": [29, 30]
+    },
+    {
+      "step": 4,
+      "name": "PP3V8_AON - SVR AON Powers Up",
+      "action": "U5700 converts PPBUS_AON -> PP3V8_AON (3.8V, 30A max).",
+      "rail": "PP3V8_AON",
+      "voltage": "3.8V",
+      "ic": "U5700 (SVR AON, APN 351002645)",
+      "enable": "P3V8AON_PWR_EN",
+      "fault": "P3V8AON_FAULT_L (active low)",
+      "branches": ["PP3V8_AON_VDDMAIN", "PP3V8_AON_WLBT"],
+      "delay": "3.8V VR enable delayed by D5340 circuit (page 31)",
+      "next_trigger": "PP3V8_AON present -> SPMU (U7700) and MPMU (U8100) begin startup",
+      "page": [31, 35, 36]
+    },
+    {
+      "step": 5,
+      "name": "SPMU & MPMU Startup - PMU Rails Cascade",
+      "action": "Both PMUs receive PP3V8_AON and begin generating output rails.",
+      "rails_generated": {
+        "aon_first": [
+          "PP1V8_AON_SPMU (SPMU LDO 9)",
+          "PP1V8_AON_MPMU (MPMU LDO 9)",
+          "PP1V2_AON_SPMU (SPMU LDO 9B)",
+          "PP1V2_AON_MPMU (MPMU LDO 9B)",
+          "PP1V5_LDOINT_MPMU (MPMU LDOINT)",
+          "PP1V5_LDOINT_SPMU (SPMU LDOINT)",
+          "PP3V_AON (MPMU LDO 2)",
+          "PP5V_MPMU_BSTLQ / PP5V_SPMU_BSTLQ (VDD BOOST)"
+        ],
+        "s2_next": [
+          "PP1V8_S2 (MPMU BUCK 3)",
+          "PP1V25_S2 (MPMU BUCK 13)",
+          "PP0V72_S2_VDD_LOW (SPMU LDO 4)",
+          "PP1V12_S2SM_AMPH (SPMU BUCK 14)",
+          "PP1V85_S2SM_VDDQ5 (MPMU BUCK 4)",
+          "PPVDS5_S2SM_CIO (MPMU LDO 10)",
+          "PP1V2_S2_CIO (MPMU LDO 20)",
+          "PP3V3_S2_LDO (MPMU LDO 7)"
+        ],
+        "s1_then": [
+          "PP0V78_S1_VDD_FIXED (SPMU LDO 12)",
+          "PP0V75_S1_SRAM (SPMU BUCK 5)",
+          "PPVDD_S1_SOC (MPMU BUCK 2)",
+          "PPVDD_S1_DCS (MPMU BUCK 9)",
+          "PPVDD_S1_ESTP (SPMU BUCK 8)",
+          "PP0V5_S1_VDDOL (SPMU BUCK 10)"
+        ]
+      },
+      "signal": "SPMU_READY_REQ -> PMU_GPIO_READY1_REQ",
+      "page": [38, 39, 42, 43, 44]
+    },
+    {
+      "step": 6,
+      "name": "UC300 (5V) & UC710 (3V3) Power Up",
+      "action": "Standalone buck converters generate PP5V_S2 and PP3V3_S2 from PPBUS_AON.",
+      "rails_generated": [
+        {"rail": "PP5V_S2", "voltage": "5.15V", "ic": "UC300 (LN84243-1)", "enable": "P5VS2_PWR_EN"},
+        {"rail": "PP3V3_S2", "voltage": "3.3V", "ic": "UC710", "enable": "EDP_PANEL_PWR_EN"}
+      ],
+      "page": [51, 52, 53]
+    },
+    {
+      "step": 7,
+      "name": "SoC AWAKE Rails - DVFS Domains Power Up",
+      "action": "SoC dynamic voltage domains enabled.",
+      "rails_generated": [
+        "PPVDD_AWAKE_PCPU (MPMU BUCK 0)",
+        "PPVDD_AWAKE_ECPU (MPMU BUCK 11)",
+        "PPVDD_AWAKE_GPU (MPMU BUCK 1)",
+        "PPVDD_AWAKE_CPU_SRAM (MPMU BUCK 7)",
+        "PP1V25_AWAKE_3D (MPMU BUCK 13 SW3)",
+        "PP1V8_AWAKE (MPMU BUCK 3 SW1)",
+        "PP1V2_AWAKE_PLL (MPMU LDO 8)"
+      ],
+      "signal": "PMU_ACTIVE_READY -> SoC begins hard start",
+      "page": [18, 19, 20, 21, 46]
+    },
+    {
+      "step": 8,
+      "name": "M3 Hard Start Complete - SoC Commands Port Controllers",
+      "action": "M3 SoC has completed OTP verification. SoC communicates with port controllers.",
+      "page": [69, 70]
+    },
+    {
+      "step": 9,
+      "name": "PD Negotiation - 20V Boost",
+      "action": "Port controller uses CC line to negotiate PD 20V from charger.",
+      "rail": "PPVBUS_USBC0",
+      "voltage": "5V -> 20V",
+      "page": [69]
+    },
+    {
+      "step": 10,
+      "name": "PPBUS_AON Stabilises at Full Power",
+      "action": "With 20V on VBUS, PPBUS_AON stabilises at battery voltage with full charging power.",
+      "rail": "PPBUS_AON",
+      "voltage": "12.6V",
+      "page": [30]
+    },
+    {
+      "step": 11,
+      "name": "Soft Start - SSD, BIOS, Display",
+      "action": "M3 SoC reads SSD, loads iBoot, enables display.",
+      "what_happens": [
+        "SoC reads NAND0 S5E MK2 via PCIe (pages 77-78)",
+        "iBoot loaded from NAND",
+        "Display power sequencer (UP700/UP710) enables panel rails",
+        "San Diego Display PMU generates PP_AVDD, PP_VGH, PP_VGL (page 85)",
+        "BEN LP800 drives backlight via PPBUS_AONSW_LCD (page 83)",
+        "Apple LOGO appears on screen"
+      ],
+      "page": [77, 78, 82, 83, 84, 85]
+    }
+  ]
+}

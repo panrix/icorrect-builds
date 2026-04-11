@@ -1,0 +1,13 @@
+date,day,start_time,meeting_mins,adjusted_start,lunch_start,lunch_over,lunch_mins,finish_time,gross_hours,available_hours,completions,items_touched,paused_count,pause_reasons,revenue,net_profit,shared_items,qc_reworks,tracked_mins,utilisation_pct,max_capacity
+2026-01-26,Mon,09:55,0,09:00,,,0,18:22,8.45,8.0,3,11,4,Repair Paused -> Stuck; Repair Paused -> No Stock; Repair Paused; Repair Paused -> Diagnostics,443.5,337.16,2,0,193,40.3,8
+2026-01-27,Tue,09:13,0,09:00,14:05,+5,65,17:51,8.63,8.0,8,10,1,Repair Paused -> Under Repair,1955.0,1476.21,1,0,574,119.5,8
+2026-01-28,Wed,09:54,0,09:00,12:40,,20,18:05,8.19,8.0,5,14,4,Repair Paused -> Diagnostics; Repair Paused; Repair Paused -> No Stock; Repair Paused -> Password Req,1073.0,832.97,3,0,282,58.8,8
+2026-01-29,Thu,09:14,0,09:00,,,0,18:09,8.91,8.0,2,12,2,Repair Paused -> Diagnostics; Repair Paused,89.0,-25.42,1,0,130,27.2,8
+2026-01-30,Fri,09:09,0,09:00,12:07,,47,17:59,8.83,8.0,1,12,4,Repair Paused -> Diagnostics; Awaiting Part; Repair Paused; Repair Paused -> Under Repair,0.0,0.0,0,1,267,55.6,8
+2026-01-31,Sat,10:06,0,09:00,,,0,17:31,7.43,8.0,4,9,4,Awaiting Part -> No Stock; Repair Paused -> Under Repair; Repair Paused; Repair Paused -> Under Repair,1597.0,1011.3,2,1,356,74.3,8
+2026-02-02,Mon,09:01,126,11:06,09:02,+11,71,18:18,9.28,5.9,6,14,3,Awaiting Part -> Under Repair; Awaiting Part -> Under Repair; Repair Paused,1493.5,1244.58,1,0,766,216.3,8
+2026-02-03,Tue,,111.15,,,,0,,0,0,0,0,0,,0,0,0,0,0,0,0
+2026-02-04,Wed,,80.58333333333333,,,,0,,0,0,0,0,0,,0,0,0,0,0,0,0
+2026-02-05,Thu,10:05,68,10:08,13:53,+16,76,17:56,7.85,6.87,7,8,1,Awaiting Part,1628.0,1279.08,2,0,697,169.1,8
+2026-02-06,Fri,09:56,72,10:12,13:01,+8,68,18:51,8.92,6.79,5,11,3,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Under Repair,842.0,642.56,1,2,438,107.6,8
+2026-02-07,Sat,10:13,0,09:00,11:14,,23,17:10,6.94,8.0,5,8,1,Repair Paused,1469.0,1002.71,2,1,825,171.8,8

@@ -8,11 +8,13 @@
 There are **2 separate projects** here:
 
 1. **Monday Status Notifications**
-   - Current state: live on VPS as of 2026-04-01. Old n8n sender is disabled. Controlled live smoke send passed. Remaining work is monitoring and automation cleanup.
+   - Current state: live on VPS as of 2026-04-01. Old n8n sender is disabled. Controlled live smoke send passed. The broad status and parts action-burners were remapped on 2026-04-08. Remaining work is monitoring and checking any older catch-all webhooks left on the board.
    - Current docs:
      - `plan-status-notifications.md`
-     - `status-notifications-shadow-verification-2026-03-31.md`
-     - `status-notifications-live-cutover-2026-04-01.md`
+     - `verification/status-notifications-shadow-verification-2026-03-31.md`
+     - `verification/status-notifications-live-cutover-2026-04-01.md`
+     - `verification/status-webhook-remap-2026-04-08.md`
+     - `verification/parts-webhook-remap-2026-04-08.md`
      - `cutover-checklist-status-notifications.md`
 
 2. **Shopify / Intercom Attribution Fix**
@@ -23,8 +25,8 @@ There are **2 separate projects** here:
 
 ## Rules
 
-1. Do not execute from `plan.md`.
-   - That file is now historical only.
+1. Do not execute from `archive/plan-combined-2026-03-30.md`.
+   - That file is historical only.
 
 2. Do not combine Monday and Shopify cutovers.
    - They are separate code paths, separate risks, and separate rollback plans.
@@ -41,8 +43,8 @@ There are **2 separate projects** here:
 ## Execution Order
 
 1. Monitor Monday for 48 hours.
-2. Review Monday automation destinations in the UI.
-3. Disable only the confirmed-safe Monday token-burner automations.
+2. Review remaining Monday legacy catch-all webhooks in the UI.
+3. Disable only the confirmed-safe leftover Monday automations.
 4. Re-scope and freeze Shopify / Intercom product decisions.
 5. Build Shopify Stage 1 only: consumer + corporate.
 6. Cut over Shopify in stages.
@@ -52,8 +54,8 @@ There are **2 separate projects** here:
 
 1. Monitor logs and Slack alerts for 48 hours.
 2. Confirm there are no duplicate or missed notifications in production.
-3. Review Monday automation destinations in the UI.
-4. Disable only the automations confirmed safe to remove.
+3. Confirm the remapped status and parts hooks keep action usage down.
+4. Review only the remaining legacy catch-all webhooks in the UI.
 
 ## Shopify / Intercom Track — Remaining Work
 
@@ -79,7 +81,7 @@ There are **2 separate projects** here:
 - controlled live smoke send is verified
 - no duplicate or missed notifications are observed
 - logs are clean for 48 hours
-- token-burning automations are either safely disabled or explicitly documented as still pending UI confirmation
+- known action-burning webhook automations have been remapped or disabled, and any remaining legacy catch-all hooks are explicitly documented
 
 ### Shopify / Intercom is done when
 

@@ -1,0 +1,102 @@
+{
+  "board": "A2442",
+  "schematic": "820-02098",
+  "connectors": [
+    {
+      "designator": "USB-C Left Port 0",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UF400 (CD3217 ATC0)",
+      "position": "Left, rear",
+      "signals": {"vbus": "PPVBUS_USBC0", "cc1": "USBC0_CC1", "cc2": "USBC0_CC2", "sbu1": "USBC0_SBU1", "sbu2": "USBC0_SBU2"},
+      "page": [72, 74]
+    },
+    {
+      "designator": "USB-C Left Port 1",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UF500 (CD3217 ATC1)",
+      "position": "Left, front",
+      "signals": {"vbus": "PPVBUS_USBC1", "cc1": "USBC1_CC1", "cc2": "USBC1_CC2"},
+      "page": [73, 74]
+    },
+    {
+      "designator": "USB-C Right Port",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UG400 (CD3217 ATC2)",
+      "position": "Right",
+      "note": "Different designator prefix (UG vs UF) from left ports. NOT present on A2681.",
+      "signals": {"vbus": "PPVBUS_USBC2", "cc1": "USBC2_CC1", "cc2": "USBC2_CC2"},
+      "page": [81, 82]
+    },
+    {
+      "designator": "J5401",
+      "type": "MagSafe 3",
+      "controller": "MagSafe Port Controller (UPC5 area)",
+      "position": "Left side",
+      "apn": {"mlb": "516300787", "flex": "516300788"},
+      "page": [30, 31, 32]
+    },
+    {
+      "designator": "HDMI Connector",
+      "type": "HDMI 2.0",
+      "controller": "Madea retimer IC",
+      "position": "Right side",
+      "note": "NOT present on A2681. Handles via ATC3 path.",
+      "page": [87, 88]
+    },
+    {
+      "designator": "SD Card Slot",
+      "type": "SD / SDXC",
+      "controller": "SD Card Controller IC",
+      "position": "Right side",
+      "note": "NOT present on A2681.",
+      "page": [92, 93]
+    },
+    {
+      "designator": "Battery Connector",
+      "type": "Internal battery",
+      "page": 27
+    },
+    {
+      "designator": "Display Connector",
+      "type": "Internal display flex (Mini-LED Liquid Retina XDR)",
+      "page": [110, 111]
+    },
+    {
+      "designator": "Camera Flex",
+      "type": "Internal camera",
+      "page": 109
+    },
+    {
+      "designator": "BCON Connector",
+      "type": "Board connector",
+      "page": 113
+    },
+    {
+      "designator": "Keyboard Connector",
+      "type": "Internal keyboard + backlight",
+      "page": [122, 123]
+    },
+    {
+      "designator": "Trackpad Connector",
+      "type": "Internal Force Touch trackpad",
+      "page": [124, 125]
+    },
+    {
+      "designator": "TouchID Connector",
+      "type": "Touch ID / Power button",
+      "note": "NOT present on A2681. Pro/Max specific.",
+      "page": [126, 127, 128]
+    },
+    {
+      "designator": "Audio Flex Connectors",
+      "type": "Speaker + headphone jack",
+      "page": [119, 120]
+    },
+    {
+      "designator": "Fan Connector",
+      "type": "Internal cooling fan",
+      "note": "NOT present on A2681 (fanless Air). Pro/Max has active cooling.",
+      "page": 67
+    }
+  ]
+}

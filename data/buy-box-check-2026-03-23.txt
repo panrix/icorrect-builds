@@ -1,0 +1,202 @@
+6675379 MacBook Pro 16-inch (2023) - Apple M3 Pro 12-core and 18-core GPU - 18GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP.A2991.M3PRO.18GB.512GB.Black.Fair
+
+Buy Box  ✅ WINNING @ £1390
+Grades   F:£1390 ←  G:£1601  E:£1430
+Ladder   ⛔ INVERTED (G:£1601 ≥ E:£1430)
+
+Costs    Fixed £719 | Purchase £550
+Fees     Sell £134.90 | VAT £133.19
+B/E      £856
+Net      £361.91 | Margin 26.83%
+Real     ⚠️ ESTIMATE — no real data for this model+grade
+Listed   1 day
+Status   ✅ Winning
+         ⛔ Grade inversion: Good ≥ Excellent
+
+────────────────────────────────────────
+
+6577955 MacBook Air 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 1000GB - QWERTY - English
+SKU      MBA.A2681.M2.8GB.1TB.Midnight.Fair
+
+Buy Box  ✅ WINNING @ £649
+Grades   F:£505 ←  G:£600  E:£612  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £95, £12)
+
+Costs    Fixed £221 | Purchase £187
+Fees     Sell £63.00 | VAT £73.85
+B/E      £259
+Net      £272.15 | Margin 43.2%
+
+Real     [15 sales] AvgSell £555 | Parts £29 | Labour £15 | Profit £229 (40.7%)
+Delta    ⚠️ Real avg fixed £200 vs Monday £221 (£-21)
+Listed   28 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6558670 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 2000GB - QWERTY - English
+SKU      MBP.A2338.M1.16GB.2TB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £679
+Grades   F:£371 ←  G:£430  E:£499  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £59, £69)
+
+Costs    Fixed £312 | Purchase £270
+Fees     Sell £65.90 | VAT £64.85
+B/E      £365
+Net      £216.25 | Margin 32.82%
+
+Real     [98 sales] AvgSell £484 | Parts £65 | Labour £32 | Profit £133 (27.5%)
+Delta    ⚠️ Real avg fixed £241 vs Monday £312 (£-71)
+Listed   38 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6505341 MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 1000 QWERTY - English
+SKU      MBP.A2289.i5.8GB.1TB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £455
+Grades   F:£427 ←  G:£482  E:£487  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £55, £5)
+
+Costs    Fixed £112 | Purchase £88
+Fees     Sell £44.20 | VAT £59.01
+B/E      £133
+Net      £226.79 | Margin 51.31%
+Real     ⚠️ ESTIMATE — no real data for this model+grade
+Listed   51 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6461991 MacBook Pro 14-inch (2023) - Apple M2 Pro 10-core and 16-core GPU - 16GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP.A2779.16GB.512GB.Silver.Good
+
+Buy Box  ✅ WINNING @ £878
+Grades   F:£1113  G:£967 ←  E:£1079
+Ladder   ⛔ INVERTED (F:£1113 ≥ G:£967)
+
+Costs    Fixed £15 | Purchase £0
+Fees     Sell £85.20 | VAT £142.03
+B/E      £21
+Net      £609.77 | Margin 71.57%
+
+Real     [5 sales] AvgSell £1047 | Parts £46 | Labour £24 | Profit £608 (57.7%)
+Delta    ⚠️ Real avg fixed £173 vs Monday £15 (+£158)
+Listed   9 days
+Status   ✅ Winning
+         ⛔ Grade inversion: Fair ≥ Good
+
+────────────────────────────────────────
+
+6290951 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English
+SKU      MBP.A2338.M1.8GB.256GB.Silver.VGood
+
+Buy Box  ✅ WINNING @ £539
+Grades   F:£427  G:£482  E:£487
+Ladder   ✅ F < G < E (gaps: £55, £5)
+
+Costs    Fixed £109 | Purchase £85
+Fees     Sell £52.30 | VAT £73.01
+B/E      £130
+Net      £288.69 | Margin 55.2%
+
+Real     [25 sales] AvgSell £558 | Parts £89 | Labour £50 | Profit £129 (22.1%)
+Delta    ⚠️ Real avg fixed £303 vs Monday £109 (+£194)
+Listed   14 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+5860258 MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 512 QWERTY - English
+SKU      MBA.A2179.2020.i5.8GB.512GB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £352
+Grades   F:£371 ←  G:£430  E:£499  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £59, £69)
+
+Costs    Fixed £109 | Purchase £85
+Fees     Sell £34.20 | VAT £42.84
+B/E      £130
+Net      £155.96 | Margin 45.6%
+Real     ⚠️ ESTIMATE — no real data for this model+grade
+Listed   19 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+5500817 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English
+SKU      MBP.A2338.M1.8GB.256GB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £432
+Grades   F:£427 ←  G:£482  E:£487
+Ladder   ✅ F < G < E (gaps: £55, £5)
+
+Costs    Fixed £115 | Purchase £91
+Fees     Sell £42.00 | VAT £54.84
+B/E      £137
+Net      £208.16 | Margin 49.56%
+
+Real     [98 sales] AvgSell £484 | Parts £65 | Labour £32 | Profit £133 (27.5%)
+Delta    ⚠️ Real avg fixed £241 vs Monday £115 (+£126)
+Listed   1 day
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+4952313 MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 16GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP14.A2442.16GB.512GB.Silver.Vgood
+
+Buy Box  ✅ WINNING @ £930
+Grades   F:£669  G:£731  E:£930 ←  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £62, £199)
+
+Costs    Fixed £421 | Purchase £248
+Fees     Sell £90.30 | VAT £109.19
+B/E      £518
+Net      £282.51 | Margin 31.29%
+
+Real     [5 sales] AvgSell £696 | Parts £52 | Labour £43 | Profit £284 (39.5%)
+Delta    ⚠️ Real avg fixed £247 vs Monday £421 (£-174)
+Listed   1 day
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+4908051 MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 16GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP14.A2442.16GB.512GB.Silver.Fair
+
+Buy Box  ✅ WINNING @ £657
+Grades   F:£669 ←  G:£731  E:£930  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £62, £199)
+
+Costs    Fixed £260 | Purchase £223
+Fees     Sell £63.80 | VAT £69.18
+B/E      £304
+Net      £245.02 | Margin 38.4%
+
+Real     [17 sales] AvgSell £762 | Parts £35 | Labour £30 | Profit £257 (33.3%)
+Delta    ⚠️ Real avg fixed £342 vs Monday £260 (+£82)
+Listed   13 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+3155388 MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - QWERTY - English
+SKU      MBA.A2337.256.Gold.Vgood
+
+Buy Box  ✅ WINNING @ £449
+Grades   F:£371  G:£430  E:£499 ←
+Ladder   ✅ F < G < E (gaps: £59, £69)
+
+Costs    Fixed £265 | Purchase £95
+Fees     Sell £43.60 | VAT £56.84
+B/E      £340
+Net      £70.56 | Margin 16.18%
+
+Real     [18 sales] AvgSell £494 | Parts £97 | Labour £21 | Profit £128 (23.8%)
+Delta    Real avg fixed £252 vs Monday £265 (£-13)
+Listed   2 days
+Status   ✅ Winning

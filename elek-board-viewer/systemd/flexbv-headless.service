@@ -1,0 +1,12 @@
+[Unit]
+Description=FlexBV headless Xvfb/Openbox session
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=/home/ricky/builds/elek-board-viewer/scripts/flexbv_session.sh
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=default.target

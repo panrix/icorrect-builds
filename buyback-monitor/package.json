@@ -1,0 +1,20 @@
+{
+  "name": "buyback-monitor",
+  "version": "1.0.0",
+  "description": "Automated buy box monitoring and price management for BackMarket buyback listings. Scans all live listings, checks competitor positions via API, calculates profit at current and win prices, generates actionable reports, and optionally auto-bumps losing listings that are profitable to win.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "playwright": "^1.58.2",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2"
+  }
+}

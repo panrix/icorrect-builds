@@ -1,0 +1,19 @@
+date,day,start_time,meeting_mins,adjusted_start,lunch_start,lunch_over,lunch_mins,finish_time,gross_hours,available_hours,completions,items_touched,paused_count,pause_reasons,revenue,net_profit,shared_items,qc_reworks,tracked_mins,utilisation_pct,max_capacity
+2026-02-09,Mon,08:55,25,09:24,16:26,,22,17:45,8.82,7.59,0,9,0,,0,0,0,0,0,0.0,0
+2026-02-10,Tue,10:41,96,10:36,,,0,18:04,7.39,6.4,0,11,0,,0,0,0,0,0,0.0,0
+2026-02-11,Wed,09:01,49,09:48,,,0,18:12,9.18,7.19,0,10,2,Repair Paused -> Diagnostics; Repair Paused,0,0,0,0,0,0.0,0
+2026-02-12,Thu,09:42,0,09:00,,,0,18:37,8.92,8.0,0,9,1,Repair Paused -> Under Refurb,0,0,0,0,0,0.0,0
+2026-02-13,Fri,08:39,105,10:45,,,0,19:58,11.33,6.25,0,19,3,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Under Refurb,0,0,0,0,0,0.0,0
+2026-02-14,Sat,10:04,0,09:00,,,0,18:03,7.99,8.0,0,14,2,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-16,Mon,07:11,101,10:40,13:19,+16,76,19:20,12.14,6.32,0,23,2,Repair Paused -> Diagnostics; Repair Paused -> Under Refurb,0,0,0,0,0,0.0,0
+2026-02-17,Tue,08:51,76,10:16,09:13,+4,64,18:13,9.37,6.73,0,28,3,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-18,Wed,10:01,95,10:35,,,0,18:18,8.29,6.41,0,12,1,Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-19,Thu,09:14,101,10:40,13:51,,31,18:20,9.1,6.32,0,17,6,Repair Paused -> QC Failure; Repair Paused -> Fair; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-20,Fri,10:13,0,09:00,14:07,+21,81,19:48,9.58,8.0,0,13,3,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-21,Sat,10:18,0,09:00,11:52,,27,17:41,7.37,8.0,0,18,3,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-23,Mon,08:50,60,10:00,11:16,,49,18:20,9.51,7.0,0,15,1,Repair Paused -> Fair,0,0,0,0,0,0.0,0
+2026-02-24,Tue,10:10,137,11:17,10:35,,30,18:14,8.05,5.71,0,18,2,Awaiting Part -> Queued For Repair; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-25,Wed,09:36,35,09:34,,,0,18:21,8.75,7.42,0,18,2,Repair Paused -> Good; Repair Paused -> Diagnostics,0,0,0,0,0,0.0,0
+2026-02-26,Thu,08:49,0,09:00,,,0,18:04,9.24,8.0,0,18,4,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused -> Diagnostic Complete,0,0,0,0,0,0.0,0
+2026-02-27,Fri,08:52,56,09:55,09:02,+6,66,17:58,9.11,7.07,0,17,3,Repair Paused -> Diagnostics; Repair Paused -> QC Failure; Repair Paused -> Under Refurb,0,0,0,0,0,0.0,0
+2026-02-28,Sat,09:32,0,09:00,13:11,,39,16:44,7.2,8.0,0,13,2,Awaiting Part; Awaiting Part,0,0,0,0,0,0.0,0

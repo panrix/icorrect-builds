@@ -1,0 +1,653 @@
+{
+  "name": "Products & Pricing",
+  "columns": [
+    {
+      "id": "name",
+      "title": "Name",
+      "type": "name",
+      "settings_str": "{}"
+    },
+    {
+      "id": "subitems",
+      "title": "Subitems",
+      "type": "subtasks",
+      "settings_str": "{\"allowMultipleItems\":true,\"itemTypeName\":\"column.subtasks.title\",\"displayType\":\"BOARD_INLINE\",\"boardIds\":[3379352610]}"
+    },
+    {
+      "id": "status3",
+      "title": "Product Type",
+      "type": "status",
+      "settings_str": "{\"done_colors\":[1],\"color_mapping\":{\"6\":155,\"9\":151,\"10\":12,\"12\":10,\"13\":109,\"16\":102,\"17\":108,\"101\":153,\"102\":16,\"108\":17,\"109\":13,\"151\":9,\"153\":101,\"155\":6},\"labels\":{\"0\":\"Battery\",\"1\":\"Screen\",\"2\":\"Diagnostic\",\"3\":\"Rear Housing\",\"4\":\"Logic Board\",\"5\":\"Not Set\",\"6\":\"Charging Port\",\"7\":\"Keyboard\",\"8\":\"Trackpad\",\"9\":\"Other\",\"10\":\"Face ID\",\"11\":\"Rear Camera\",\"12\":\"Index\",\"13\":\"Microsoldering\",\"14\":\"LCD\",\"15\":\"Small Part\",\"16\":\"Accessory\",\"17\":\"Glass\",\"18\":\"HR Monitor\",\"19\":\"Power Button\",\"101\":\"Crown\",\"102\":\"Screen Lines\"},\"labels_positions_v2\":{\"0\":0,\"1\":1,\"2\":5,\"3\":6,\"4\":8,\"5\":2,\"6\":9,\"7\":10,\"8\":11,\"9\":12,\"10\":7,\"11\":3,\"12\":13,\"13\":14,\"14\":15,\"15\":4,\"16\":0,\"17\":0,\"18\":0,\"19\":0,\"101\":0,\"102\":0},\"labels_colors\":{\"0\":{\"color\":\"#fdab3d\",\"border\":\"#e99729\",\"var_name\":\"orange\"},\"1\":{\"color\":\"#00c875\",\"border\":\"#00b461\",\"var_name\":\"green-shadow\"},\"2\":{\"color\":\"#df2f4a\",\"border\":\"#ce3048\",\"var_name\":\"red-shadow\"},\"3\":{\"color\":\"#007eb5\",\"border\":\"#3db0df\",\"var_name\":\"blue-links\"},\"4\":{\"color\":\"#9d50dd\",\"border\":\"#9238af\",\"var_name\":\"purple\"},\"5\":{\"color\":\"#c4c4c4\",\"border\":\"#b0b0b0\",\"var_name\":\"grey\"},\"6\":{\"color\":\"#e484bd\",\"border\":\"#e484bd\",\"var_name\":\"kids\"},\"7\":{\"color\":\"#579bfc\",\"border\":\"#4387e8\",\"var_name\":\"bright-blue\"},\"8\":{\"color\":\"#cab641\",\"border\":\"#c0ab31\",\"var_name\":\"mustered\"},\"9\":{\"color\":\"#563e3e\",\"border\":\"#563e3e\",\"var_name\":\"pecan\"},\"10\":{\"color\":\"#ff007f\",\"border\":\"#e01279\",\"var_name\":\"dark-pink\"},\"11\":{\"color\":\"#bb3354\",\"border\":\"#a42d4a\",\"var_name\":\"dark-red\"},\"12\":{\"color\":\"#333333\",\"border\":\"#000\",\"var_name\":\"soft-black\"},\"13\":{\"color\":\"#5559df\",\"border\":\"#5559df\",\"var_name\":\"indigo\"},\"14\":{\"color\":\"#784bd1\",\"border\":\"#8f4dc4\",\"var_name\":\"dark-purple\"},\"15\":{\"color\":\"#9cd326\",\"border\":\"#89b921\",\"var_name\":\"lime-green\"},\"16\":{\"color\":\"#faa1f1\",\"border\":\"#faa1f1\",\"var_name\":\"bubble\"},\"17\":{\"color\":\"#4eccc6\",\"border\":\"#4eccc6\",\"var_name\":\"australia\"},\"18\":{\"color\":\"#7f5347\",\"border\":\"#70493e\",\"var_name\":\"brown\"},\"19\":{\"color\":\"#ff6d3b\",\"border\":\"#e05828\",\"var_name\":\"dark-orange\"},\"101\":{\"color\":\"#216edf\",\"border\":\"#216edf\",\"var_name\":\"sky\"},\"102\":{\"color\":\"#66ccff\",\"border\":\"#5ab3e0\",\"var_name\":\"turquoise\"}}}"
+    },
+    {
+      "id": "numbers",
+      "title": "Price inc VAT",
+      "type": "numbers",
+      "settings_str": "{\"hide_footer\":true,\"function\":\"average\",\"unit\":{\"symbol\":\"\u00a3\",\"custom_unit\":\"\",\"direction\":\"left\"}}"
+    },
+    {
+      "id": "formula",
+      "title": "Price ex VAT",
+      "type": "formula",
+      "settings_str": "{\"formula\":\"CONCATENATE(\\\"\u00a3\\\", ROUND(DIVIDE({numbers}, 1.2), 2))\",\"hide_footer\":true}"
+    },
+    {
+      "id": "numbers7",
+      "title": "Required Minutes",
+      "type": "numbers",
+      "settings_str": "{}"
+    },
+    {
+      "id": "numeric",
+      "title": "Mins Fallback",
+      "type": "numbers",
+      "settings_str": "{\"function\":\"median\"}"
+    },
+    {
+      "id": "numeric8",
+      "title": "Client Side Turnaround (hrs)",
+      "type": "numbers",
+      "settings_str": "{\"unit\":{\"symbol\":\"custom\",\"custom_unit\":\" Hour\",\"direction\":\"right\"},\"function\":\"average\"}"
+    },
+    {
+      "id": "connect_boards8",
+      "title": "Parts",
+      "type": "board_relation",
+      "settings_str": "{\"allowCreateReflectionColumn\":true,\"boardIds\":[985177480]}"
+    },
+    {
+      "id": "mirror2",
+      "title": "Stock Level",
+      "type": "mirror",
+      "settings_str": "{\"relation_column\":{\"connect_boards8\":true},\"displayed_column\":{},\"displayed_linked_columns\":{\"985177480\":[\"quantity\"]},\"function\":\"min\"}"
+    },
+    {
+      "id": "lookup_mkwzzwkx",
+      "title": "Available Stock",
+      "type": "mirror",
+      "settings_str": "{\"relation_column\":{\"connect_boards8\":true},\"displayed_column\":{},\"displayed_linked_columns\":{\"985177480\":[\"formula_mkv86xh7\"]},\"function\":\"min\"}"
+    },
+    {
+      "id": "item_id",
+      "title": "Product ID",
+      "type": "item_id",
+      "settings_str": "{}"
+    },
+    {
+      "id": "link_to_devices6",
+      "title": "Device",
+      "type": "board_relation",
+      "settings_str": "{\"allowMultipleItems\":false,\"allowCreateReflectionColumn\":true,\"boardIds\":[3923707691,6155618491]}"
+    },
+    {
+      "id": "mirror7",
+      "title": "Device Type",
+      "type": "mirror",
+      "settings_str": "{\"relation_column\":{\"link_to_devices6\":true},\"displayed_column\":{},\"displayed_linked_columns\":{\"3923707691\":[\"status9\"],\"6155618491\":[\"status9\"]}}"
+    },
+    {
+      "id": "status6",
+      "title": "Price Sync",
+      "type": "status",
+      "settings_str": "{\"done_colors\":[1],\"labels\":{\"0\":\"Syncing\",\"5\":\"Not Set\",\"6\":\"Synced\",\"11\":\"Error\"},\"labels_colors\":{\"0\":{\"color\":\"#fdab3d\",\"border\":\"#e99729\",\"var_name\":\"orange\"},\"5\":{\"color\":\"#c4c4c4\",\"border\":\"#b0b0b0\",\"var_name\":\"grey\"},\"6\":{\"color\":\"#037f4c\",\"border\":\"#006b38\",\"var_name\":\"grass-green\"},\"11\":{\"color\":\"#bb3354\",\"border\":\"#a42d4a\",\"var_name\":\"dark-red\"}}}"
+    },
+    {
+      "id": "text74",
+      "title": "Profit Model Gen",
+      "type": "text",
+      "settings_str": "{}"
+    },
+    {
+      "id": "date",
+      "title": "Last Web Price Sync",
+      "type": "date",
+      "settings_str": "{\"hide_footer\":false}"
+    },
+    {
+      "id": "board_relation4",
+      "title": "Repair Model",
+      "type": "board_relation",
+      "settings_str": "{\"allowMultipleItems\":false,\"allowCreateReflectionColumn\":true,\"boardIds\":[5959544342]}"
+    },
+    {
+      "id": "text_mkzdte13",
+      "title": "Shopify ID",
+      "type": "text",
+      "settings_str": "{}"
+    }
+  ],
+  "groups": [
+    {
+      "id": "group_mkxvhgwk",
+      "title": "MacBook Air 13 M4 A3240"
+    },
+    {
+      "id": "new_group21160__1",
+      "title": "MacBook Air 15 M3 A3114"
+    },
+    {
+      "id": "new_group__1",
+      "title": "MacBook Air 13 M3 A3113"
+    },
+    {
+      "id": "new_group79815__1",
+      "title": "iPad Air 6 (11)"
+    },
+    {
+      "id": "new_group43567__1",
+      "title": "iPad Air 6 (13)"
+    },
+    {
+      "id": "group_mm1ded7n",
+      "title": "iPad Air 7 (13)"
+    },
+    {
+      "id": "new_group41962__1",
+      "title": "iPad Pro 11 (5G)"
+    },
+    {
+      "id": "new_group42724__1",
+      "title": "iPad Pro 13 (7G)"
+    },
+    {
+      "id": "new_group11233",
+      "title": "MacBook Air 13 M2 A2681"
+    },
+    {
+      "id": "iphone_6s_plus__1",
+      "title": "iPhone 6S Plus"
+    },
+    {
+      "id": "iphone_6__1",
+      "title": "iPhone 6"
+    },
+    {
+      "id": "iphone_6s__1",
+      "title": "iPhone 6s"
+    },
+    {
+      "id": "iphone_6_plus__1",
+      "title": "iPhone 6 Plus"
+    },
+    {
+      "id": "new_group12180",
+      "title": "MacBook Pro 16 M3 Pro/Max A2991"
+    },
+    {
+      "id": "group_mkzanef2",
+      "title": "MacBook Pro 16 M4 Pro/Max A3186/A3403"
+    },
+    {
+      "id": "new_group70169",
+      "title": "MacBook Pro 14 M3 Pro/Max A2992"
+    },
+    {
+      "id": "group_mkxv3n8k",
+      "title": "MacBook Pro 14 M3 A2918"
+    },
+    {
+      "id": "new_group17266",
+      "title": "MacBook Pro 16 M2 Pro/Max A2780"
+    },
+    {
+      "id": "new_group70387",
+      "title": "MacBook Pro 14 M2 Pro/Max A2779"
+    },
+    {
+      "id": "group_mkyff3b4",
+      "title": "MacBook Pro 14 M4 Pro/Max A3401"
+    },
+    {
+      "id": "new_group87288",
+      "title": "MacBook Air 15 M2 A2941"
+    },
+    {
+      "id": "ipad_mini_211537",
+      "title": "iPad Mini 2"
+    },
+    {
+      "id": "ipad_mini_335688",
+      "title": "iPad Mini 3"
+    },
+    {
+      "id": "new_group58601",
+      "title": "Zebra PDA"
+    },
+    {
+      "id": "ipod_touch_6th_gen61150",
+      "title": "iPod Touch 6th Gen"
+    },
+    {
+      "id": "macbook_air_13_a1932",
+      "title": "MacBook Air 13 A1932"
+    },
+    {
+      "id": "macbook_12_a1534",
+      "title": "MacBook 12 A1534"
+    },
+    {
+      "id": "macbook_air_11_a1465",
+      "title": "MacBook Air 11 A1465"
+    },
+    {
+      "id": "macbook_air_13_a1466",
+      "title": "MacBook Air 13 A1466"
+    },
+    {
+      "id": "macbook_pro_15_a1398",
+      "title": "MacBook Pro 15 A1398"
+    },
+    {
+      "id": "macbook_pro_13_m1_a2338",
+      "title": "MacBook Pro 13 M1 A2338"
+    },
+    {
+      "id": "new_group21022",
+      "title": "MacBook Pro 13 M2 A2338"
+    },
+    {
+      "id": "new_group71620",
+      "title": "MacBook Pro 16 M1 Pro/Max A2485"
+    },
+    {
+      "id": "new_group33711",
+      "title": "MacBook Pro 14 M1 Pro/Max A2442"
+    },
+    {
+      "id": "macbook_pro_13_4tb_a2251",
+      "title": "MacBook Pro 13\" 4TB 3 A2251"
+    },
+    {
+      "id": "macbook_pro_13_2tb_a2289",
+      "title": "MacBook Pro 13\" 2TB 3 A2289"
+    },
+    {
+      "id": "macbook_pro_13_2tb_a2159",
+      "title": "MacBook Pro 13\" 2TB 3 A2159"
+    },
+    {
+      "id": "macbook_pro_13_touch_bar_a1989",
+      "title": "MacBook Pro 13\" Touch Bar A1989"
+    },
+    {
+      "id": "macbook_pro_13_touch_bar_a1706",
+      "title": "MacBook Pro 13\" Touch Bar A1706"
+    },
+    {
+      "id": "macbook_pro_13_a1708",
+      "title": "MacBook Pro 13\"  A1708"
+    },
+    {
+      "id": "macbook_pro_13_a1502",
+      "title": "MacBook Pro 13 A1502"
+    },
+    {
+      "id": "macbook_air_13_m1_a2337",
+      "title": "MacBook Air 13 M1 A2337"
+    },
+    {
+      "id": "macbook_air_13_a2179",
+      "title": "MacBook Air 13 A2179"
+    },
+    {
+      "id": "macbook_pro_16_a2141",
+      "title": "MacBook Pro 16 A2141"
+    },
+    {
+      "id": "macbook_pro_15_a1707",
+      "title": "MacBook Pro 15 A1707"
+    },
+    {
+      "id": "macbook_pro_15_a1990",
+      "title": "MacBook Pro 15 A1990"
+    },
+    {
+      "id": "watch_s1_38mm",
+      "title": "Apple Watch S1 38mm"
+    },
+    {
+      "id": "watch_s1_42mm",
+      "title": "Apple Watch S1 42mm"
+    },
+    {
+      "id": "watch_s2_38mm",
+      "title": "Apple Watch S2 38mm"
+    },
+    {
+      "id": "watch_s2_42mm",
+      "title": "Apple Watch S2 42mm"
+    },
+    {
+      "id": "watch_s3_38mm",
+      "title": "Apple Watch S3 38mm"
+    },
+    {
+      "id": "watch_s3_42mm",
+      "title": "Apple Watch S3 42mm"
+    },
+    {
+      "id": "watch_s4_40mm",
+      "title": "Apple Watch S4 40mm"
+    },
+    {
+      "id": "watch_s4_44mm",
+      "title": "Apple Watch S4 44mm"
+    },
+    {
+      "id": "watch_s5_40mm",
+      "title": "Apple Watch S5 40mm"
+    },
+    {
+      "id": "watch_s5_44mm",
+      "title": "Apple Watch S5 44mm"
+    },
+    {
+      "id": "watch_se_40mm21582",
+      "title": "Apple Watch SE 40mm"
+    },
+    {
+      "id": "watch_se_44mm14025",
+      "title": "Apple Watch SE 44mm"
+    },
+    {
+      "id": "watch_s6_40mm",
+      "title": "Apple Watch S6 40mm"
+    },
+    {
+      "id": "watch_s6_44mm",
+      "title": "Apple Watch S6 44mm"
+    },
+    {
+      "id": "watch_s7_41mm",
+      "title": "Apple Watch S7 41MM"
+    },
+    {
+      "id": "apple_watch_series_7",
+      "title": "Apple Watch S7 45MM"
+    },
+    {
+      "id": "new_group26088",
+      "title": "Apple Watch SE2 40MM"
+    },
+    {
+      "id": "new_group85443",
+      "title": "Apple Watch SE2 44MM"
+    },
+    {
+      "id": "new_group77516",
+      "title": "Apple Watch S8 41MM"
+    },
+    {
+      "id": "new_group32992",
+      "title": "Apple Watch S8 45MM"
+    },
+    {
+      "id": "new_group55102",
+      "title": "Apple Watch S9 41MM"
+    },
+    {
+      "id": "new_group54061",
+      "title": "Apple Watch S9 45mm"
+    },
+    {
+      "id": "new_group24189",
+      "title": "Apple Watch Ultra"
+    },
+    {
+      "id": "new_group18614",
+      "title": "iPad Pro 12.9 (6G)"
+    },
+    {
+      "id": "ipad_pro_12_9__5g_",
+      "title": "iPad Pro 12.9 (5G)"
+    },
+    {
+      "id": "ipad_pro_12_9__4g_",
+      "title": "iPad Pro 12.9 (4G)"
+    },
+    {
+      "id": "ipad_pro_12_9__3g_",
+      "title": "iPad Pro 12.9 (3G)"
+    },
+    {
+      "id": "ipad_pro_12_9__2g_",
+      "title": "iPad Pro 12.9 (2G)"
+    },
+    {
+      "id": "ipad_pro_12_9__1g_",
+      "title": "iPad Pro 12.9 (1G)"
+    },
+    {
+      "id": "new_group36086",
+      "title": "iPad Pro 11 (4G)"
+    },
+    {
+      "id": "ipad_pro_11__3g_",
+      "title": "iPad Pro 11 (3G)"
+    },
+    {
+      "id": "ipad_pro_11__2g_",
+      "title": "iPad Pro 11 (2G)"
+    },
+    {
+      "id": "ipad_pro_11__1g_",
+      "title": "iPad Pro 11 (1G)"
+    },
+    {
+      "id": "ipad_pro_10_5",
+      "title": "iPad Pro 10.5"
+    },
+    {
+      "id": "ipad_pro_9_7",
+      "title": "iPad Pro 9.7"
+    },
+    {
+      "id": "ipad_air_5",
+      "title": "iPad Air 5"
+    },
+    {
+      "id": "ipad_air_4",
+      "title": "iPad Air 4"
+    },
+    {
+      "id": "ipad_air_3",
+      "title": "iPad Air 3"
+    },
+    {
+      "id": "ipad_air_2",
+      "title": "iPad Air 2"
+    },
+    {
+      "id": "ipad_air",
+      "title": "iPad Air"
+    },
+    {
+      "id": "new_group16469",
+      "title": "iPad 10"
+    },
+    {
+      "id": "ipad_9th_gen",
+      "title": "iPad 9"
+    },
+    {
+      "id": "ipad_8th_gen",
+      "title": "iPad 8"
+    },
+    {
+      "id": "ipad_7th_gen",
+      "title": "iPad 7"
+    },
+    {
+      "id": "ipad_6th_gen",
+      "title": "iPad 6"
+    },
+    {
+      "id": "ipad_5th_gen",
+      "title": "iPad 5"
+    },
+    {
+      "id": "ipad_4th_gen",
+      "title": "iPad 4"
+    },
+    {
+      "id": "ipad_mini_6",
+      "title": "iPad Mini 6"
+    },
+    {
+      "id": "ipad_mini_5",
+      "title": "iPad Mini 5"
+    },
+    {
+      "id": "ipad_mini_4",
+      "title": "iPad Mini 4"
+    },
+    {
+      "id": "new_group_mkm72xzj",
+      "title": "iPhone 16 Pro Max"
+    },
+    {
+      "id": "new_group_mkm7mpgz",
+      "title": "iPhone 16 Pro"
+    },
+    {
+      "id": "new_group_mkm7z1f2",
+      "title": "iPhone 16 Plus"
+    },
+    {
+      "id": "new_group_mkm7vfd7",
+      "title": "iPhone 16"
+    },
+    {
+      "id": "iphone_15_pro_max",
+      "title": "iPhone 15 Pro Max"
+    },
+    {
+      "id": "iphone_15_pro",
+      "title": "iPhone 15 Pro"
+    },
+    {
+      "id": "iphone_15_plus",
+      "title": "iPhone 15 Plus"
+    },
+    {
+      "id": "iphone_15",
+      "title": "iPhone 15"
+    },
+    {
+      "id": "new_group11040",
+      "title": "iPhone 14 Pro Max"
+    },
+    {
+      "id": "new_group60144",
+      "title": "iPhone 14 Pro"
+    },
+    {
+      "id": "new_group79788",
+      "title": "iPhone 14 Plus"
+    },
+    {
+      "id": "new_group10243",
+      "title": "iPhone 14"
+    },
+    {
+      "id": "new_group67917",
+      "title": "iPhone SE3"
+    },
+    {
+      "id": "iphone_13_pro_max",
+      "title": "iPhone 13 Pro Max"
+    },
+    {
+      "id": "iphone_13_pro",
+      "title": "iPhone 13 Pro"
+    },
+    {
+      "id": "iphone_13_mini",
+      "title": "iPhone 13 Mini"
+    },
+    {
+      "id": "iphone_13",
+      "title": "iPhone 13"
+    },
+    {
+      "id": "iphone_12_pro_max",
+      "title": "iPhone 12 Pro Max"
+    },
+    {
+      "id": "duplicate_of_iphone_12_pro_max",
+      "title": "iPhone 12 Pro"
+    },
+    {
+      "id": "iphone_12",
+      "title": "iPhone 12"
+    },
+    {
+      "id": "iphone_12_mini",
+      "title": "iPhone 12 Mini"
+    },
+    {
+      "id": "iphone_11_pro_max",
+      "title": "iPhone 11 Pro Max"
+    },
+    {
+      "id": "iphone_11_pro",
+      "title": "iPhone 11 Pro"
+    },
+    {
+      "id": "iphone_11",
+      "title": "iPhone 11"
+    },
+    {
+      "id": "iphone_xs_max",
+      "title": "iPhone XS Max"
+    },
+    {
+      "id": "iphone_xs",
+      "title": "iPhone XS"
+    },
+    {
+      "id": "iphone_xr",
+      "title": "iPhone XR"
+    },
+    {
+      "id": "iphone_x",
+      "title": "iPhone X"
+    },
+    {
+      "id": "iphone_se2",
+      "title": "iPhone SE2"
+    },
+    {
+      "id": "iphone_8_plus",
+      "title": "iPhone 8 Plus"
+    },
+    {
+      "id": "iphone_8",
+      "title": "iPhone 8"
+    },
+    {
+      "id": "iphone_7",
+      "title": "iPhone 7"
+    },
+    {
+      "id": "iphone_7_plus",
+      "title": "iPhone 7 Plus"
+    },
+    {
+      "id": "duplicate_of_ipod_touch_6th_ge",
+      "title": "iPod Touch 7th Gen"
+    },
+    {
+      "id": "new_group77067",
+      "title": "Index Items"
+    },
+    {
+      "id": "new_group23804",
+      "title": "Other Device"
+    },
+    {
+      "id": "test_product_group85788",
+      "title": "TEST PRODUCT GROUP"
+    }
+  ]
+}

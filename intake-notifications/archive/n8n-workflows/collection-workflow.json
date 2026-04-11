@@ -1,0 +1,299 @@
+{
+  "name": "Collection Form → Enriched Slack Notification",
+  "description": "Collection form (vslvbFQr) with enrichment → Slack collection-form-responses channel",
+  "active": true,
+  "nodes": [
+    {
+      "parameters": {
+        "formId": "vslvbFQr"
+      },
+      "type": "n8n-nodes-base.typeformTrigger",
+      "typeVersion": 1.1,
+      "position": [-3440, 352],
+      "id": "typeform-trigger",
+      "name": "Typeform: Collection Form",
+      "webhookId": "collection-typeform-trigger",
+      "credentials": {
+        "typeformApi": {
+          "id": "bqyPkUAjnFJ8SrHN",
+          "name": "Typeform account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract data from Typeform collection form\nconst tf = $input.first().json;\n\n// Extract form fields\nconst name = (tf['name'] || tf['Name'] || 'Customer').trim();\nconst deviceType = tf['device_type'] || tf['Device Type'] || '';\n\n// Hidden fields for Monday lookup\nconst mondayId = tf['monday_id'] || tf['Monday ID'] || '';\nconst email = (tf['email'] || tf['Email'] || '').trim().toLowerCase();\n\n// Validation\nif (!mondayId && !email) {\n  throw new Error(\n    'No Monday ID or email for lookup. Available fields: ' +\n    JSON.stringify(Object.keys(tf), null, 2)\n  );\n}\n\nreturn {\n  json: {\n    name,\n    deviceType,\n    mondayId,\n    email,\n    _rawFields: Object.keys(tf)\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-3200, 352],
+      "id": "extract-form-data",
+      "name": "Extract Form Data"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "has-monday-id",
+              "leftValue": "={{ $json.mondayId }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "isNotEmpty"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-2960, 352],
+      "id": "check-monday-id",
+      "name": "Has Monday ID?"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "mondayComApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ (() => {\n  const d = $json;\n  \n  const query = `query {\n    items (ids: [${d.mondayId}]) {\n      id\n      name\n      group {\n        id\n        title\n      }\n      board {\n        id\n      }\n      column_values {\n        id\n        text\n        value\n      }\n    }\n  }`;\n  \n  return JSON.stringify({ query });\n})() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-2720, 256],
+      "id": "fetch-by-id",
+      "name": "Fetch Monday Item by ID",
+      "credentials": {
+        "mondayComApi": {
+          "id": "hsM1x7SguzFOFDIc",
+          "name": "Monday.com account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "mondayComApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ (() => {\n  const d = $json;\n  \n  const query = `query {\n    boards (ids: [349212843]) {\n      items {\n        id\n        name\n        group {\n          id\n          title\n        }\n        column_values {\n          id\n          text\n          value\n        }\n      }\n    }\n  }`;\n  \n  return JSON.stringify({ query });\n})() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-2720, 448],
+      "id": "search-by-email",
+      "name": "Search Monday by Email",
+      "credentials": {
+        "mondayComApi": {
+          "id": "hsM1x7SguzFOFDIc",
+          "name": "Monday.com account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Process Monday search results and find matching item(s)\nconst searchResponse = $input.first().json;\nconst formData = $('Extract Form Data').first().json;\n\nlet mondayItem = null;\nlet multipleMatches = [];\n\n// Check if this came from direct ID lookup or email search\nconst isDirectLookup = $node.name === 'Fetch Monday Item by ID';\n\nif (isDirectLookup) {\n  // Direct ID lookup\n  const items = searchResponse.data?.items || [];\n  if (items.length > 0) {\n    mondayItem = items[0];\n  }\n} else {\n  // Email search - filter by email in column\n  const allItems = searchResponse.data?.boards?.[0]?.items || [];\n  \n  const matchingItems = allItems.filter(item => {\n    const emailColumn = item.column_values?.find(col => col.id === 'text5');\n    return emailColumn?.text?.toLowerCase() === formData.email;\n  });\n  \n  // Filter to active items (not in completed groups)\n  const activeItems = matchingItems.filter(item => {\n    const groupId = item.group?.id;\n    // Filter out completed groups - adjust these group IDs as needed\n    return !['completed_group', 'archived_group'].includes(groupId);\n  });\n  \n  if (activeItems.length === 1) {\n    mondayItem = activeItems[0];\n  } else if (activeItems.length > 1) {\n    multipleMatches = activeItems;\n  }\n}\n\nif (!mondayItem && multipleMatches.length === 0) {\n  throw new Error(`No Monday item found for ${formData.mondayId ? 'ID: ' + formData.mondayId : 'email: ' + formData.email}`);\n}\n\nreturn {\n  json: {\n    ...formData,\n    mondayItem,\n    multipleMatches,\n    hasMultipleMatches: multipleMatches.length > 0\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-2480, 352],
+      "id": "process-monday-results",
+      "name": "Process Monday Results"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "multiple-matches",
+              "leftValue": "={{ $json.hasMultipleMatches }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [-2240, 352],
+      "id": "check-multiple-matches",
+      "name": "Multiple Matches?"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09G72DRZC7",
+          "mode": "id"
+        },
+        "text": "=⚠️ *Multiple Monday Items Found for Collection*\n\n*Customer:* {{ $json.name }}\n*Email:* {{ $json.email }}\n*Device:* {{ $json.deviceType }}\n\n*Matching Items:*\n{{ $json.multipleMatches.map(item => `• ${item.name} (${item.group?.title || 'Unknown Group'})`).join('\\n') }}\n\n@channel Please identify the correct item for this collection.",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [-2000, 256],
+      "id": "slack-multiple-matches",
+      "name": "Slack - Multiple Matches Alert",
+      "credentials": {
+        "slackApi": {
+          "id": "sxmejCcdtgLdlxBy",
+          "name": "Slack account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "mondayComApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ (() => {\n  const d = $json;\n  \n  const query = `query {\n    items (ids: [${d.mondayItem.id}]) {\n      updates (limit: 15) {\n        id\n        body\n        created_at\n        creator {\n          name\n        }\n      }\n    }\n  }`;\n  \n  return JSON.stringify({ query });\n})() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1760, 448],
+      "id": "fetch-updates",
+      "name": "Fetch Monday Updates",
+      "credentials": {
+        "mondayComApi": {
+          "id": "hsM1x7SguzFOFDIc",
+          "name": "Monday.com account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.monday.com/v2",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "mondayComApi",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ (() => {\n  const d = $json;\n  \n  const query = `query {\n    boards (ids: [349212843]) {\n      items {\n        id\n        name\n        column_values {\n          id\n          text\n          value\n        }\n      }\n    }\n  }`;\n  \n  return JSON.stringify({ query });\n})() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [-1520, 448],
+      "id": "check-repeat-customer",
+      "name": "Check Repeat Customer",
+      "credentials": {
+        "mondayComApi": {
+          "id": "hsM1x7SguzFOFDIc",
+          "name": "Monday.com account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// ENRICHMENT ANALYSIS\n// Analyze Monday item data, updates, and customer history\n\nconst formData = $('Process Monday Results').first().json;\nconst updatesResponse = $('Fetch Monday Updates').first().json;\nconst repeatCustomerResponse = $('Check Repeat Customer').first().json;\n\nconst mondayItem = formData.mondayItem;\nconst updates = updatesResponse.data?.items?.[0]?.updates || [];\nconst allItems = repeatCustomerResponse.data?.boards?.[0]?.items || [];\n\n// Extract column data\nconst getColumnValue = (columnId) => {\n  const col = mondayItem.column_values?.find(c => c.id === columnId);\n  return col?.text || col?.value || '';\n};\n\nconst email = getColumnValue('text5');\nconst phone = getColumnValue('text00');\nconst service = getColumnValue('service');\nconst status = getColumnValue('status4');\nconst paidAmount = getColumnValue('dup__of_quote_total');\nconst intercomLink = getColumnValue('link1');\nconst intercomId = getColumnValue('text_mm087h9p');\nconst problemRepair = getColumnValue('color_mkse6rw0');\nconst problemClient = getColumnValue('color_mkse6bhk');\nconst collectionNotes = getColumnValue('lookup_mkshe2da');\n\n// Payment analysis from item title\nlet paymentStatus = 'Unknown';\nconst title = mondayItem.name || '';\nconst paymentMatch = title.match(/\\*Paying £(\\d+(?:\\.\\d{2})?) on collection/i);\nif (paidAmount && paidAmount !== '0' && paidAmount !== '') {\n  paymentStatus = 'Paid in full';\n} else if (paymentMatch) {\n  paymentStatus = `Outstanding: \"Paying £${paymentMatch[1]} on collection\"`;\n}\n\n// Analyze updates for flags\nconst allUpdateText = updates.map(u => u.body?.toLowerCase() || '').join(' ');\n\nconst difficultyKeywords = ['difficult', 'issue', 'problem', 'complication', 'damage', 'failed', 'challenge', 'error'];\nconst chasingKeywords = ['chased', 'chasing', 'upset', 'complaint', 'unhappy', 'frustrated', 'escalat', 'angry', 'annoyed'];\nconst accessoryKeywords = ['case', 'charger', 'cable', 'accessory', 'accessories', 'box', 'adapter', 'headphones', 'airpods'];\n\nconst hasRepairDifficulties = difficultyKeywords.some(keyword => allUpdateText.includes(keyword));\nconst hasCustomerChasing = chasingKeywords.some(keyword => allUpdateText.includes(keyword));\nconst hasAccessories = accessoryKeywords.some(keyword => allUpdateText.includes(keyword));\n\n// Escalation flags\nconst hasEscalation = problemRepair || problemClient;\n\n// Repeat customer check\nconst customerItems = allItems.filter(item => {\n  const itemEmail = item.column_values?.find(c => c.id === 'text5')?.text?.toLowerCase();\n  return itemEmail === email && item.id !== mondayItem.id;\n});\n\nconst isRepeatCustomer = customerItems.length > 0;\nconst repeatSummary = isRepeatCustomer \n  ? `Yes - ${customerItems.length} previous repair${customerItems.length === 1 ? '' : 's'}`\n  : 'No';\n\n// Recent meaningful updates (last 3, filter out automated ones)\nconst meaningfulUpdates = updates\n  .filter(u => {\n    const body = u.body?.toLowerCase() || '';\n    return !body.includes('parts check') && \n           !body.includes('automated') && \n           body.length > 10;\n  })\n  .slice(0, 3)\n  .map(u => {\n    const cleanBody = u.body?.replace(/<[^>]*>/g, '') || '';\n    const truncated = cleanBody.length > 100 ? cleanBody.substring(0, 100) + '...' : cleanBody;\n    return `• ${truncated}`;\n  });\n\n// Build flags array\nconst flags = [];\nif (hasRepairDifficulties) flags.push('⚠️ Repair difficulties detected');\nif (hasCustomerChasing) flags.push('😤 Customer upset/chasing detected');\nif (hasEscalation) flags.push('🚨 Escalation flag (Problem columns set)');\n\n// Build Monday URL\nconst mondayUrl = `https://icorrect.monday.com/boards/349212843/pulses/${mondayItem.id}`;\n\n// Build Intercom URL\nlet intercomUrl = '';\nif (intercomLink) {\n  // Extract URL from link column JSON value\n  try {\n    const linkData = JSON.parse(intercomLink);\n    intercomUrl = linkData.url || '';\n  } catch {\n    // Fallback: try parsing as simple text\n    intercomUrl = intercomLink;\n  }\n} else if (intercomId) {\n  intercomUrl = `https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/${intercomId}`;\n}\n\nreturn {\n  json: {\n    // Original form data\n    ...formData,\n    \n    // Monday item data\n    service,\n    status,\n    paymentStatus,\n    mondayUrl,\n    intercomUrl,\n    \n    // Enrichment flags\n    flags,\n    isRepeatCustomer,\n    repeatSummary,\n    meaningfulUpdates,\n    hasAccessories,\n    accessoryNotes: hasAccessories ? 'Accessories mentioned in updates' : 'No accessories mentioned',\n    \n    // For debugging\n    _debugInfo: {\n      title,\n      paymentMatch: paymentMatch ? paymentMatch[0] : null,\n      paidAmount,\n      problemRepair,\n      problemClient,\n      updateCount: updates.length,\n      customerItemCount: customerItems.length\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-1280, 448],
+      "id": "enrichment-analysis",
+      "name": "Enrichment Analysis"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "C09G72DRZC7",
+          "mode": "id"
+        },
+        "text": "=📦 *Collection: {{ $json.name }}*\n\n*Device:* {{ $json.deviceType }}\n*Repair:* {{ $json.service || 'Not specified' }}\n*Status:* {{ $json.status || 'Unknown' }}\n\n💰 *Payment:* {{ $json.paymentStatus }}\n{{ $json.flags.length > 0 ? '⚠️ *Flags:*\\n' + $json.flags.join('\\n') + '\\n' : '' }}\n🔄 *Repeat Customer:* {{ $json.repeatSummary }}\n{{ $json.meaningfulUpdates.length > 0 ? '📝 *Recent Updates:*\\n' + $json.meaningfulUpdates.slice(0, 2).join('\\n') + '\\n' : '' }}\n🎒 *Accessories:* {{ $json.accessoryNotes }}\n\n*Monday:* {{ $json.mondayUrl }}{{ $json.intercomUrl ? ' | *Intercom:* ' + $json.intercomUrl : '' }}",
+        "otherOptions": {
+          "includeLinkToWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [-1040, 448],
+      "id": "slack-enriched-notification",
+      "name": "Slack - Enriched Collection Notification",
+      "credentials": {
+        "slackApi": {
+          "id": "sxmejCcdtgLdlxBy",
+          "name": "Slack account 4"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Typeform: Collection Form": {
+      "main": [[{"node": "Extract Form Data", "type": "main", "index": 0}]]
+    },
+    "Extract Form Data": {
+      "main": [[{"node": "Has Monday ID?", "type": "main", "index": 0}]]
+    },
+    "Has Monday ID?": {
+      "main": [
+        [{"node": "Fetch Monday Item by ID", "type": "main", "index": 0}],
+        [{"node": "Search Monday by Email", "type": "main", "index": 0}]
+      ]
+    },
+    "Fetch Monday Item by ID": {
+      "main": [[{"node": "Process Monday Results", "type": "main", "index": 0}]]
+    },
+    "Search Monday by Email": {
+      "main": [[{"node": "Process Monday Results", "type": "main", "index": 0}]]
+    },
+    "Process Monday Results": {
+      "main": [[{"node": "Multiple Matches?", "type": "main", "index": 0}]]
+    },
+    "Multiple Matches?": {
+      "main": [
+        [{"node": "Slack - Multiple Matches Alert", "type": "main", "index": 0}],
+        [{"node": "Fetch Monday Updates", "type": "main", "index": 0}]
+      ]
+    },
+    "Fetch Monday Updates": {
+      "main": [[{"node": "Check Repeat Customer", "type": "main", "index": 0}]]
+    },
+    "Check Repeat Customer": {
+      "main": [[{"node": "Enrichment Analysis", "type": "main", "index": 0}]]
+    },
+    "Enrichment Analysis": {
+      "main": [[{"node": "Slack - Enriched Collection Notification", "type": "main", "index": 0}]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": {}
+}

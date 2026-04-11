@@ -1,0 +1,337 @@
+{
+  "board": "A3113",
+  "schematic": "820-03286",
+  "WARNING": "MacBook Air 13-inch M3 (X2818/MLB). NOT Pro, NOT M4.",
+  "extraction_notes": "Complete extraction from all 121 pages. All vague names replaced with actual U-designators from schematic.",
+  "ics": [
+    {
+      "designator": "U6000",
+      "function": "SoC - Apple M3",
+      "description": "Main System on Chip. M3 generation. BGA with PCPU, ECPU, GPU, Neural Engine, memory controller, I/O. Uses AWAKE naming (not MAME like M2).",
+      "pages": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27]
+    },
+    {
+      "designator": "U5700",
+      "function": "SVR AON - 3V8 always-on switching voltage regulator",
+      "part_number": "APN 351002645",
+      "description": "30A ICC MAX multi-phase buck producing PP3V8_AON from PPBUS_AON. F_SW register controlled at 1MHz. Main power IC feeding both PMUs. Two BOM options: 1-stage (30A, Irx=44A) or 2-stage (30+42A).",
+      "pages": [35, 36, 37]
+    },
+    {
+      "designator": "U7700",
+      "function": "SPMU (Slave/Follower PMU)",
+      "part_number": "OMIT_TABLE 998-23585",
+      "description": "Slave Power Management Unit. Bucks: 5,6,8,10,12,13,14. LDOs: 4,9,9B,12,INT. Switches: SW4-7. NC LDOs: 6,15,17,16,18. Input: PP3V8_AON. SYM 3 OF 4.",
+      "pages": [38, 39, 40, 41]
+    },
+    {
+      "designator": "U8100",
+      "function": "MPMU (Master/Leader PMU)",
+      "part_number": "OMIT_TABLE 998-23524",
+      "description": "Master Power Management Unit. Bucks: 0,1,2,3,4,7,9,11,13. LDOs: 2,7,8,9,9B,10,11,20,INT,RTC. Switches: SW1-3. NC LDOs: 1,3,5,14,16. 32K clock, charger reset. Input: PP3V8_AON (VODMAN). SYM 5 OF 8.",
+      "pages": [42, 43, 44, 45, 46, 47, 48]
+    },
+    {
+      "designator": "Charger IC (page 30 area)",
+      "function": "Battery charger IC",
+      "description": "Main charger IC converting USB-C/MagSafe input to PPBUS_AON and managing battery charging. OKINTEGRATE marked. Multiple BOM options.",
+      "pages": [30, 31]
+    },
+    {
+      "designator": "UC300",
+      "function": "5V S2 buck converter",
+      "part_number": "LN84243-1",
+      "description": "Produces PP5V_S2 (5.15V) from PPBUS_AON. F=1.5MHz, EDC=5.85A. Two BOM options: THINSTNC / THICKSTNC.",
+      "pages": [51]
+    },
+    {
+      "designator": "UC710",
+      "function": "3V3 S2 buck converter",
+      "description": "Produces PP3V3_S2 (3.3V) from PPBUS_AON. VOUT=3.3V, EDC=1.2A, F=1.3MHz. Also produces PP3V3_SW_LCD and PP3V3_S2_DEBUG.",
+      "pages": [53]
+    },
+    {
+      "designator": "UF400",
+      "function": "USB-C PD port controller ATC0",
+      "description": "Port controller for ATC0 (left rear). PD negotiation, CC signaling, VBUS control via DF400. Has internal LDO (PP3V3_UPCO_LDO, PP1V5_UPCO_LDO_CORE). Powered by PP5V_S2, PP1V25_S2, PPVBUS_USBC0.",
+      "pages": [69]
+    },
+    {
+      "designator": "UF500",
+      "function": "USB-C PD port controller ATC1",
+      "description": "Port controller for ATC1 (left front). Same function as UF400 for second port.",
+      "pages": [70]
+    },
+    {
+      "designator": "UF600",
+      "function": "MACAW 0 - USB-C retimer/repeater ATC0",
+      "part_number": "CYG40442",
+      "description": "Combined retimer and USB2 repeater for ATC0. Replaces separate re-timer + UF600 repeater from A2681. Powered by PP1V25_S2, PP1V8_S2, PP3V3_S2_100.",
+      "pages": [71]
+    },
+    {
+      "designator": "UF650",
+      "function": "MACAW 1 - USB-C retimer/repeater ATC1",
+      "part_number": "CYG1A1142",
+      "description": "Combined retimer and USB2 repeater for ATC1. Same as UF600 for second port.",
+      "pages": [71]
+    },
+    {
+      "designator": "U5900",
+      "function": "ACE3 - MagSafe port controller",
+      "part_number": "338S01614",
+      "description": "ACE3 MagSafe/USB-C port controller. Replaces AAROXA9PA0830 from A2681. Has internal LDOs: PP3V3_UPC5_LDO, PP1V5_UPC5_LDO_CORE. Extensive GPIO. OMIT_TABLE. IN PROGRESS marked.",
+      "pages": [33, 34]
+    },
+    {
+      "designator": "U5050",
+      "function": "Secure Element",
+      "description": "Secure Element IC. Powered by VDDPL1_SE, PP3V8_AON.",
+      "pages": [28]
+    },
+    {
+      "designator": "U5910",
+      "function": "PP3V8_AON current sense amplifier",
+      "part_number": "MAX41033ANT+",
+      "description": "Monitors PP3V8_AON current via sense resistors. Output to MPMU ADC.",
+      "pages": [37]
+    },
+    {
+      "designator": "U5940",
+      "function": "PP3V8_AON ILIMIT3 comparator",
+      "description": "Current limit comparator for 3V8 AON rail throttling. Connected to MONT_VDDMAIN_UVMON30.",
+      "pages": [37]
+    },
+    {
+      "designator": "U5950",
+      "function": "PP3V8_AON current sense (secondary)",
+      "description": "Secondary current sense for 3V8 AON rail.",
+      "pages": [37]
+    },
+    {
+      "designator": "U8430",
+      "function": "PBUS Sense opamp",
+      "part_number": "TLV0S1DPW (possible smaller footprint)",
+      "description": "PPBUS voltage sense amplifier. Feeds MPMU ADC.",
+      "pages": [45]
+    },
+    {
+      "designator": "U8450",
+      "function": "PBUS PMU DEV (secondary sense)",
+      "part_number": "TLV9351",
+      "description": "PP3V8_AON sense amplifier. PMU_PBUS.DEV dual function.",
+      "pages": [45]
+    },
+    {
+      "designator": "U8780",
+      "function": "32kHz clock buffer to trackpad",
+      "description": "Buffers PP1V8_AON_MPMU clock signal to trackpad. BOM option for TPAD_32KCLK:YES.",
+      "pages": [48]
+    },
+    {
+      "designator": "U8720",
+      "function": "Early crash PMU signal buffer",
+      "part_number": "SN74LV1L1T",
+      "description": "Buffers CHGR_EN_MFR_1V8 to BMU_CRASH_L signal. OD buffer if input is 5V tolerant.",
+      "pages": [48]
+    },
+    {
+      "designator": "UC630",
+      "function": "LDO for PP3V3_S2_HOLD_IPD",
+      "part_number": "3V/0.15500N (QSFN040316R)",
+      "description": "3.3V LDO producing PP3V3_S2_HOLD_IPD from PP1V8_AON. Current limit 350mA.",
+      "pages": [54]
+    },
+    {
+      "designator": "UC840",
+      "function": "PP5V_S2_HOLD_IPD load switch",
+      "part_number": "TPG2300570",
+      "description": "Load switch/e-fuse. 490mA current limit. RC delay 4.7ms.",
+      "pages": [54]
+    },
+    {
+      "designator": "UC850",
+      "function": "PPBUS_AONSW_IPD load switch",
+      "part_number": "TPG2300550",
+      "description": "Load switch/e-fuse for PPBUS to IPD. 3A current limit.",
+      "pages": [54]
+    },
+    {
+      "designator": "UC820",
+      "function": "PP1V8_S2SW load switch",
+      "part_number": "SN74AUP1T17",
+      "description": "PP1V8 switched load switch.",
+      "pages": [54]
+    },
+    {
+      "designator": "UC860",
+      "function": "IPD OCP FLT logic IC",
+      "part_number": "SN74AUP1L200",
+      "description": "IPD overcurrent/fault protection logic.",
+      "pages": [54]
+    },
+    {
+      "designator": "UC870",
+      "function": "IPD_PWR_EN gating logic",
+      "part_number": "SN74AUP2G08DR",
+      "description": "AND gate for IPD power enable gating.",
+      "pages": [54]
+    },
+    {
+      "designator": "UC637",
+      "function": "P5VS2_PWR_EN control logic (stage 1)",
+      "part_number": "SN74AUP1G04DR1",
+      "description": "Inverter in P5VS2 enable gating chain.",
+      "pages": [52]
+    },
+    {
+      "designator": "UC630 (page 52)",
+      "function": "P5VS2_PWR_EN control logic (stage 2)",
+      "part_number": "SN74AUP1G08DR",
+      "description": "AND gate in P5VS2 enable gating chain.",
+      "pages": [52]
+    },
+    {
+      "designator": "UP950",
+      "function": "PPBUS_AONSW_LCD load switch / e-Fuse",
+      "description": "5A current limit. Switches PPBUS_AON to PPBUS_AONSW_LCD for BEN backlight. RLIM = 3334/5A = 666.8 ohms.",
+      "pages": [84]
+    },
+    {
+      "designator": "LP800",
+      "function": "BEN - Display/KBD backlight boost converter",
+      "part_number": "OPA71A1",
+      "description": "Display and keyboard backlight boost converter. Input: PPBUS_S2 / PPBUS_AON. Outputs PPVOUT_LCDBKLT. Multiple LED string modes. Has PMOS_SAI, COMBO footprint. FP800 fuse on input.",
+      "pages": [83]
+    },
+    {
+      "designator": "San Diego Display PMU (page 85)",
+      "function": "Display PMU IC",
+      "description": "Display power management IC. Outputs: PP_AVDD (default 4.85V), PP_VGH, PP_VGL, PP_VCOM. PMC I2C address 0x74 (0xE8/0xE9). TI vs Intersil BOM options. Has LR001 inductor.",
+      "pages": [85, 86]
+    },
+    {
+      "designator": "UP700",
+      "function": "Display power sequencer",
+      "part_number": "SLG04P2541Q",
+      "description": "Sequences display panel power rails. Controls PANEL_EN_OUT, PANEL_PWR_EN, MLC_LOGIC_EN, MLC_D1_IN, EDP_PANEL_DISCHARGE.",
+      "pages": [82]
+    },
+    {
+      "designator": "UP710",
+      "function": "Display power controller",
+      "part_number": "SLG0A241G51Y",
+      "description": "Panel power controller. LCD_PWR_EN input, controls PANEL_EN_IN, SYS_ALIVE. 7 NC outputs on this design.",
+      "pages": [82]
+    },
+    {
+      "designator": "UP420",
+      "function": "Camera reset level shifter",
+      "part_number": "SN74AO01945",
+      "description": "Level shifts camera reset signal. Powered by PP1V25_S2, PP1V8_S2.",
+      "pages": [80]
+    },
+    {
+      "designator": "LP410",
+      "function": "Camera power filter",
+      "description": "Ferrite bead filter: PP5V_S2 to PP5V_S2_CAMERA_FILT. CRITICAL component.",
+      "pages": [80]
+    },
+    {
+      "designator": "UL000 (Willamette)",
+      "function": "WiFi 6E / Bluetooth module",
+      "description": "Willamette WiFi/BT module. Replaces Typhoon from A2681. With 2GFEM + 5GFEM front-ends (CL001-CL035). Powered by VBAT, PP3V8_AON_WLBT, PP1V25_S2.",
+      "pages": [75, 76]
+    },
+    {
+      "designator": "NAND0 S5E0",
+      "function": "SSD NAND flash package 0 (MK2)",
+      "description": "First NAND package. S5E MK2 design. UN000/UN000 power ICs. PCIe AC caps critical.",
+      "pages": [77]
+    },
+    {
+      "designator": "NAND0 S5E1",
+      "function": "SSD NAND flash package 1 (MK2)",
+      "description": "Second NAND package. Same power as S5E0. UN100 power ICs.",
+      "pages": [78]
+    },
+    {
+      "designator": "UR000/UR030/UR060",
+      "function": "Audio amplifiers A/B/C (TAWANG B98)",
+      "description": "Left speaker amplifiers. TAWANG B98 codec. Powered by PP3V8_AON (PVDD_SNSR), PPBUS_AON (PVDD). 6 amps total (A-F).",
+      "pages": [88]
+    },
+    {
+      "designator": "UR700/UR730/UR760",
+      "function": "Audio amplifiers D/E/F (TAWANG B98)",
+      "description": "Right speaker amplifiers. Same TAWANG codec.",
+      "pages": [89]
+    },
+    {
+      "designator": "UE400 (Sovereign)",
+      "function": "6-axis accelerometer and gyroscope",
+      "part_number": "BMI284A (Bosch, APN 338300716)",
+      "description": "Sovereign IMU. Powered by PP1V8_S2 (via FLE400 filter). SPI interface.",
+      "pages": [63]
+    },
+    {
+      "designator": "UR300",
+      "function": "SECDIS SAK IC",
+      "part_number": "SGA0P1531V",
+      "description": "Secure disable SAK with AMR+LAS. Powered by PP1V8_AON, PP1V25_S2. CRITICAL: SPI_LD_ORON_HW pin.",
+      "pages": [87]
+    },
+    {
+      "designator": "UR330",
+      "function": "SECDIS DMIC logic",
+      "description": "DMIC disable logic for SECDIS. Powered by PP1V25_S2.",
+      "pages": [87]
+    },
+    {
+      "designator": "UF790",
+      "function": "ATC01 regulator/sequencer",
+      "part_number": "SLG04V00111",
+      "description": "USB-C ATC power sequencer. Controls VDDIO, VDD_FIXED, VDD_CIO timing. CRITICAL. 3.3V must be HIGH before VIN_LV of Aces.",
+      "pages": [72]
+    },
+    {
+      "designator": "UF900/UF930 (page 73)",
+      "function": "ATC01 voltage regulators",
+      "description": "USB-C ATC0/ATC1 voltage regulators. Vout=1.212V, IOUT max 1.5A, F=1.8MHz. Multiple inductor/cap stages.",
+      "pages": [73]
+    },
+    {
+      "designator": "UF960 (page 73)",
+      "function": "ATC01 additional regulator",
+      "description": "Third USB-C regulator. Vout=0.872V, IOUT max 5.5A, F=1.8MHz.",
+      "pages": [73]
+    },
+    {
+      "designator": "J5150",
+      "function": "BMU (Battery Management Unit) connector",
+      "part_number": "887540-2611-1A",
+      "description": "Battery flex connector. Dual connector (J5150 + J5157). SYS_DETECT circuit with D5100/Q5100/Q5190.",
+      "pages": [29]
+    },
+    {
+      "designator": "J5401",
+      "function": "MagSafe 3 connector",
+      "part_number": "24713E04(18)19",
+      "description": "MagSafe connector with D5401 diode + D5402/D5403 ESD protection. Mates with APN: 516S00788.",
+      "pages": [32]
+    },
+    {
+      "designator": "JG200",
+      "function": "USB-C/MagSafe debug connector",
+      "part_number": "BRC890-6-1413/24-0.15V",
+      "description": "Debug connector for USB-C and MagSafe signals. BOM option USBC_DBG.",
+      "pages": [74]
+    },
+    {
+      "designator": "UP620",
+      "function": "TCON UART level shifter",
+      "description": "Level shifter for display TCON UART interface. Powered by PP1V25_AWAKE_3D.",
+      "pages": [81]
+    }
+  ]
+}

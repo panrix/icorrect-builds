@@ -1,0 +1,189 @@
+{
+  "board": "A2338",
+  "schematic": "820-02020",
+  "title": "Common Faults — MacBook Pro 13\" M1 (A2338, 820-02020)",
+  "WARNING": "A2338 is MBP 13\" M1. Not MBA. Has Touch Bar, fan, 2x USB-C, no MagSafe.",
+  "faults": [
+    {
+      "id": "CF001",
+      "symptom": "No power at all — no LED, no fan spin, no PPBUS_AON",
+      "likely_cause": "Charger circuit failure or battery disconnect",
+      "diagnosis": [
+        "Check FF201 fuse (page 55) — blown fuse = short downstream",
+        "Check J5150 solder pads (page 21) — BMU flex is SOLDERED, can crack",
+        "Check SYS_DETECT circuit (Q5155, S5190/S5191)",
+        "Check U5200 charger IC (353S01525) for shorts",
+        "Check PPOCIN_USBC_AON for voltage when charger connected"
+      ],
+      "page": [21, 22, 23, 55]
+    },
+    {
+      "id": "CF002",
+      "symptom": "PPBUS_AON present but no PP3V8_AON",
+      "likely_cause": "U5700 SVR AON failure or enable signal not reaching it",
+      "diagnosis": [
+        "Check P3V8AON_PWR_EN — is it asserted? (delayed by U5340 circuit, page 23)",
+        "Check P3V8AON_FAULT_L — if LOW, fault condition in U5700",
+        "Check for short on PP3V8_AON rail — thermal image the board",
+        "Common: short on PP3V8_AON VDDMAIN distribution (page 100)",
+        "Check phase driver MOSFETs (Q5800 area, page 26)"
+      ],
+      "page": [23, 25, 26]
+    },
+    {
+      "id": "CF003",
+      "symptom": "PP3V8_AON present but no PP5V_S2",
+      "likely_cause": "UC300 (LT8642S) failure or enable signal missing",
+      "diagnosis": [
+        "Check P5VS2_PWR_EN enable signal",
+        "Check UC300 input (PPBUS_AON should be present)",
+        "Check for short on PP5V_S2 — diode mode test on output caps",
+        "Check 5VS2 discharge circuit: QC420 MOSFET, RC423/RC422 bleeders (page 38)",
+        "Check 5VS2_EN turn off delay circuit: DC401, RC401/RC402 (page 38)"
+      ],
+      "page": [37, 38]
+    },
+    {
+      "id": "CF004",
+      "symptom": "No display but board appears to boot (fan spins, SSD activity)",
+      "likely_cause": "Display power sequencer, BEN controller, or display connector fault",
+      "diagnosis": [
+        "Check LCD_PWR_EN signal at UP700 (SLG4AP4365V, page 69)",
+        "Check PMU_SYS_ALIVE at UP700 pin 3",
+        "Check PP5V_SW_LCD and PP3V3_SW_LCD from UP701",
+        "Check PPVOUT_LCDBKLT from UP800 BEN (page 70)",
+        "Check JP600 display connector for damage/corrosion (page 68)",
+        "Check display flex cable seating"
+      ],
+      "page": [68, 69, 70]
+    },
+    {
+      "id": "CF005",
+      "symptom": "Touch Bar (DFR) not working",
+      "likely_cause": "DFR power rail failure or DFR connector issue",
+      "diagnosis": [
+        "Check DER_PWR_EN signal",
+        "Check PP1V8_AWAKE_DFR from UT700 (page 86/87)",
+        "Check PP3V3_AWAKE_DFR from UT710",
+        "Check DFR touch connector JT700 (page 86)",
+        "Check DFR display connector JT710 (page 86)",
+        "Check SPI_DFR signals and level shifters (UT820/UT830/UT860/UT880/UT890)"
+      ],
+      "page": [86, 87]
+    },
+    {
+      "id": "CF006",
+      "symptom": "Fan not spinning / thermal throttling",
+      "likely_cause": "Fan circuit or connector failure",
+      "diagnosis": [
+        "Check PP5V_S2_TO_FAN at JE501 connector (page 52)",
+        "Check QE500 (NTS4C569N) MOSFET — drives fan via SMC_FAN_LS_PWM",
+        "Check UE501 level shifter (SN74A4C1T45)",
+        "Check fan connector JE501 for damage",
+        "Check FAN_RT_TACH signal — if fan connected but no tach, motor may be seized",
+        "Check thermal sensor connections (TDEV pages 49-50)"
+      ],
+      "page": [52]
+    },
+    {
+      "id": "CF007",
+      "symptom": "USB-C port not working (one port only)",
+      "likely_cause": "CD3217 or retimer failure on affected port",
+      "diagnosis": [
+        "Identify which port: ATC0 = left rear (debug), ATC1 = left front",
+        "Check specific CD3217: UF400 (ATC0) or UF500 (ATC1)",
+        "Check retimer: UF000 (ATC0) or UF100 (ATC1) on pages 53-54",
+        "Check port-specific power: PP3V3_S2_UPC, PP1V25_S2 at that port",
+        "Check CC lines for shorts (USBC0_CC1/CC2 or USBC1_CC1/CC2)",
+        "Check USB2 chokes: LF800 (ATC0) or LF810 (ATC1) on page 61"
+      ],
+      "page": [53, 54, 57, 58, 59, 60, 61]
+    },
+    {
+      "id": "CF008",
+      "symptom": "No WiFi / Bluetooth",
+      "likely_cause": "Rasputin module or antenna connection failure",
+      "diagnosis": [
+        "Check WLBT_PWR_EN signal",
+        "Check PP1V25_S2 and PP3V3_S2 at Rasputin module (page 62)",
+        "Check PP3V3_S2_WLBT_ISNS, PP1V8_S2_WLBT_ISNS rails",
+        "Check antenna connectors JL110-JL133 (SUNWAY, page 63)",
+        "Check PCIE WLAN/BT reset and clock signals",
+        "Rasputin module (LBRECAUV1-506) is soldered — rework requires BGA skills"
+      ],
+      "page": [62, 63]
+    },
+    {
+      "id": "CF009",
+      "symptom": "No audio / speakers not working",
+      "likely_cause": "Speaker amplifier or codec failure",
+      "diagnosis": [
+        "Check PPBUS_SPKRAMP_LEFT_ISNS and PPBUS_SPKRAMP_RIGHT_ISNS (page 78)",
+        "Check PP1V25_AWAKE_IO and PP1V8_AWAKE at amp ICs (pages 76-77)",
+        "Check UR500 (CS42L83) audio codec (page 75)",
+        "Check speaker amp connectors JR800 (left) and JR850 (right) (page 78)",
+        "4 amps: A/B/C left (UR600 area), D/E/F right (UR700 area)",
+        "Check SPKRAMP_LVS_RESET_L signals"
+      ],
+      "page": [74, 75, 76, 77, 78]
+    },
+    {
+      "id": "CF010",
+      "symptom": "Keyboard not responding",
+      "likely_cause": "Keyboard IOX, signal connector, or power fault",
+      "diagnosis": [
+        "Check PP3V3_AON_KBD_CONN rail",
+        "Check PP1V85_S2_KBD_ISNS (keyboard 1.85V power sense)",
+        "Check keyboard IOX1 (UT101, PCA6416A) and IOX2 (UT102) on page 81",
+        "Check UT103 (BUMQU03V) RSLOC isolation IC",
+        "Check JT200 membrane ZIF connector (30-pin, page 82)",
+        "Check keyboard ESD protection (DZT201-DZT206, page 82)"
+      ],
+      "page": [81, 82]
+    },
+    {
+      "id": "CF011",
+      "symptom": "SSD not detected / no boot",
+      "likely_cause": "NAND power rail failure or NAND controller fault",
+      "diagnosis": [
+        "Check PP2V5_AWAKE_NAND (SPMU BUCK 6, page 28/100)",
+        "Check PP1V25_AWAKE5W_VCCQ (SPMU BUCK 13 SW5)",
+        "Check PP0V88_AWAKE5W_NAND (SPMU BUCK 12 SW6)",
+        "Check PPVDS_MAME5W_NAND (SPMU BUCK 12 SW7)",
+        "Check NAND0 reset: NAND0_RESET_L, NAND0_PCIE_RESET_L (page 67)",
+        "Check PMU_SYS_ALIVE → NAND0_PEN_L path (RP002, page 67)",
+        "Check non-Ocarina VCC discharge circuit (QN420, page 66)",
+        "NAND is soldered — not user-replaceable"
+      ],
+      "page": [28, 64, 65, 66, 67, 100]
+    },
+    {
+      "id": "CF012",
+      "symptom": "Trackpad not working",
+      "likely_cause": "Trackpad power, SPI bus, or connector fault",
+      "diagnosis": [
+        "Check PP5V_S2_TPAD_ISNS (via LT400 ferrite, page 84)",
+        "Check PP3V3_S2_TPAD (UT305 LDO, page 83)",
+        "Check PP1V85_S2_IPD (UT300 LDO, page 83)",
+        "Check IPD_PWR_EN signal (AND gate on page 83)",
+        "Check JT400 trackpad connector (DF40C-50DS, page 84)",
+        "Check SPI TPAD signals and level shifter UT360 (page 83)"
+      ],
+      "page": [83, 84]
+    },
+    {
+      "id": "CF013",
+      "symptom": "Liquid damage — board partially working",
+      "likely_cause": "Corrosion on critical power or signal paths",
+      "diagnosis": [
+        "Clean board with isopropyl alcohol and ultrasonic cleaner",
+        "Inspect all connector areas under microscope",
+        "Check for corroded 0201 resistors near PMU (pages 28-35)",
+        "Check for corroded level shifter ICs (many SN74AXC1T45 on board)",
+        "Check PP3V8_AON distribution — corrosion can cause partial shorts",
+        "After cleaning: run full power-on sequence diagnosis from Step 1"
+      ],
+      "page": "all"
+    }
+  ]
+}

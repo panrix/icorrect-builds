@@ -1,0 +1,173 @@
+{
+  "board": "A2918",
+  "schematic": "820-02757",
+  "connectors": [
+    {
+      "designator": "USB-C Left Rear Port",
+      "type": "USB-C",
+      "controller": "UF400 (CD3217 ATC0)",
+      "position": "Left rear",
+      "signals": {
+        "vbus": "PPVBUS_USBC0",
+        "cc1": "USBC0_CC1",
+        "cc2": "USBC0_CC2",
+        "sbu1": "USBC0_SBU1",
+        "sbu2": "USBC0_SBU2",
+        "dp_tx": "USBC_ATC0_DP lanes",
+        "usb3_tx": "USBC0_ATC0_TX lanes",
+        "usb3_rx": "USBC0_ATC0_RX lanes",
+        "usb2_dp": "EUSB_ATC0_P",
+        "usb2_dm": "EUSB_ATC0_N"
+      },
+      "protection": "USBC0 PP_CABLE protection (page 70)",
+      "page": 66,
+      "note": "MJ722 connector with ESD protection. RETIMER=USBC_DUAL has resistor/capacitor ESD network."
+    },
+    {
+      "designator": "USB-C Left Front Port",
+      "type": "USB-C",
+      "controller": "UF500 (CD3217 ATC1)",
+      "position": "Left front",
+      "signals": {
+        "vbus": "PPVBUS_USBC1",
+        "cc1": "USBC1_CC1",
+        "cc2": "USBC1_CC2",
+        "sbu1": "USBC1_SBU1",
+        "sbu2": "USBC1_SBU2",
+        "dp_tx": "USBC_ATC1_DP lanes",
+        "usb3_tx": "USBC1_ATC1_TX lanes",
+        "usb3_rx": "USBC1_ATC1_RX lanes",
+        "usb2_dp": "EUSB_ATC1_P",
+        "usb2_dm": "EUSB_ATC1_N"
+      },
+      "protection": "USBC1 PP_CABLE protection (page 70)",
+      "page": 66
+    },
+    {
+      "designator": "J5401",
+      "type": "MagSafe 3",
+      "controller": "UPC5 (CD3217/CD3218)",
+      "position": "Left side",
+      "signals": {
+        "power": "PPVBUS_USBC5",
+        "cc": "USBC5_CC1/CC2",
+        "data": "SPI ROM"
+      },
+      "mates_with": "MLB:516S00787, FLEX:516S00788",
+      "mosfet_pair": "Q5401",
+      "power_fuse": "F5601 (from PPVN_INTS_ADRIM)",
+      "page": 31
+    },
+    {
+      "designator": "J5151",
+      "type": "Internal battery",
+      "part_number": "APN:518S0818",
+      "signals": {
+        "power": "PPBUS_AON / PPVBAT_AON (to/from battery, ~12.6V)",
+        "smbus_sda": "SMBUS_BATT_SDA",
+        "smbus_scl": "SMBUS_BATT_SCL",
+        "sys_detect": "SYS_DETECT (via D5130/U5150)"
+      },
+      "page": 28,
+      "note": "J5150 is pattern (OMIT). J5151 is active battery connector. D5150/C5150 gasket circuit."
+    },
+    {
+      "designator": "HDMI Connector",
+      "type": "HDMI 2.1",
+      "controller": "UH700 (Cobra)",
+      "position": "Right side",
+      "signals": {
+        "tmds": "HDMI data lanes D0-D3",
+        "hpd": "HDMI HPD",
+        "cec": "HDMI CEC",
+        "scl": "HDMI DDC SCL",
+        "sda": "HDMI DDC SDA",
+        "5v": "PP5V_HDMI"
+      },
+      "page": 78,
+      "note": "RCPT-HDMI-ABC-BLK-X1502. Pro-specific feature. Not synced (following X2371). Desense filters on page 79."
+    },
+    {
+      "designator": "SD Card Connector (JK600)",
+      "type": "SD card",
+      "part_number": "514-00196",
+      "controller": "UK550 (GL9755)",
+      "position": "Right side",
+      "signals": {
+        "data": "SDCARD data lines D0-D3",
+        "cmd": "SDCARD CMD",
+        "clk": "SDCARD CLK",
+        "card_detect": "SDCARD_DETECT"
+      },
+      "page": 84,
+      "note": "Pro-specific feature. RCPT-SLA-JHSJT-SD-X1002. LK600 inductor in power path."
+    },
+    {
+      "designator": "Display Connector",
+      "type": "Internal display flex",
+      "signals": {
+        "ldp": "LDP_INT_DATA lanes (A/B 0-3)",
+        "tcon_i2c": "SPI_TCON signals",
+        "backlight": "Backlight control"
+      },
+      "page": 94
+    },
+    {
+      "designator": "JE500 (Fan 0 Left)",
+      "type": "Fan connector",
+      "position": "Left fan",
+      "signals": {
+        "pwm": "FAN_0_PWR_5V",
+        "tach": "FAN_0_TACH"
+      },
+      "page": 65,
+      "note": "FF14A-7C-2LCL-0-3H connector"
+    },
+    {
+      "designator": "Antenna Connectors",
+      "type": "WiFi/BT antenna",
+      "signals": {
+        "2g_c0": "2.4GHz Chain 0",
+        "5g_c0": "5GHz Chain 0",
+        "bt_c0": "Bluetooth Chain 0",
+        "2g_c1": "2.4GHz Chain 1",
+        "5g_c1": "5GHz Chain 1",
+        "bt_c1": "Bluetooth Chain 1",
+        "bt_c1_ded": "BT Chain 1 Dedicated"
+      },
+      "page": 88
+    },
+    {
+      "designator": "Keyboard Connector (JT200)",
+      "type": "Internal keyboard flex",
+      "part_number": "Membrane POR 34 PIN ZIF",
+      "page": 108
+    },
+    {
+      "designator": "Trackpad Connector",
+      "type": "Internal trackpad",
+      "page": 107
+    },
+    {
+      "designator": "TouchID Connector",
+      "type": "TouchID sensor",
+      "page": 109
+    },
+    {
+      "designator": "Camera Flex Connector",
+      "type": "Internal camera flex",
+      "page": 91
+    },
+    {
+      "designator": "Audio Jack",
+      "type": "3.5mm audio",
+      "page": 101
+    },
+    {
+      "designator": "Speaker Connectors (XWR800/XWR850)",
+      "type": "Internal speakers",
+      "description": "Left and right speaker connectors with separate woofer and tweeter channels.",
+      "page": 104
+    }
+  ]
+}

@@ -30,7 +30,7 @@ const BM_BOARD_ID = 3892194968;
 const BM_LISTING_ID_COLUMN = "text_mkyd4bx3";
 const BM_LISTING_UUID_COLUMN = "text_mm1dt53s";
 // BM_SALES_ORDER_COLUMN defined below in shipping section (text_mkye7p1c)
-const LISTINGS_CACHE_PATH = "/home/ricky/builds/agent-rebuild/data/bm-listings-clean.json";
+const LISTINGS_CACHE_PATH = "/home/ricky/builds/icloud-checker/data/bm-listings-clean.json";
 const BM_LISTINGS_SLACK_CHANNEL = "C09VB5G7CTU"; // #bm-trade-in-checks (same channel for now)
 const BM_RAM_COLUMN = "status__1";
 const BM_SSD_COLUMN = "color2";

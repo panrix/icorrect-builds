@@ -1,0 +1,303 @@
+ID,Sentence,Description,App names,Owner,State,Updated at
+537692848,"When Invoice Action changes to Create Invoice, send a webhook",,"Webhooks","Michael Ferrari","active","Feb 18, 2026, 7:08 PM"
+537444955,"When any column changes, send a webhook",,"Webhooks","Ricky Panesar","active","Feb 18, 2026, 1:36 PM"
+517634192,"When Status changes to Received
+ and only if Client is BM set **Deadline** to today and push **Deadline** by 1 day",,"","Michael Ferrari","active","Feb 11, 2026, 1:53 PM"
+530471762,"When any column changes, send a webhook",,"Webhooks","Michael Ferrari","active","Feb 4, 2026, 5:03 PM"
+530469026,"When an item is created, send a webhook",,"Webhooks","Michael Ferrari","active","Feb 4, 2026, 4:59 PM"
+526854222,"When Parts Required changes, send a webhook",,"Webhooks","Ricky Panesar","active","Jan 28, 2026, 5:37 PM"
+524402757,"When Status changes to Repaired
+ and if IMEI/SN is empty and only if Technician is assigned to Mykhailo Kepeshchuk set Status to Error and notify Mykhailo Kepeshchuk and move item to Mykhailo",,"","Michael Ferrari","active","Jan 23, 2026, 10:52 AM"
+524401012,"When Status changes to Diagnostic Complete
+ and if IMEI/SN is empty and only if Technician is assigned to Safan Patel set Status to Error and notify Safan Patel and move item to Safan (Short Deadline)",,"","Michael Ferrari","active","Jan 23, 2026, 10:51 AM"
+524401791,"When Status changes to Repaired
+ and if IMEI/SN is empty and only if Technician is assigned to Safan Patel set Status to Error and notify Safan Patel and move item to Safan (Short Deadline)",,"","Michael Ferrari","active","Jan 23, 2026, 10:51 AM"
+524402464,"When Status changes to Repaired
+ and if IMEI/SN is empty and only if Technician is assigned to Roni Mykhailiuk set Status to Error and notify Roni Mykhailiuk and move item to Roni",,"","Michael Ferrari","active","Jan 23, 2026, 10:51 AM"
+524402133,"When Status changes to Repaired
+ and if IMEI/SN is empty and only if Technician is assigned to Andres Egas set Status to Error and notify Andres Egas and move item to Andres",,"","Michael Ferrari","active","Jan 23, 2026, 10:49 AM"
+509016371,"When Status changes to BER/Parts, send a webhook",,"Webhooks","Ricky Panesar","deactivated","Jan 20, 2026, 3:39 PM"
+269546292,"When Device changes, send a webhook","https://eric9-c2d6de2066d6.herokuapp.com/main-board/main-status-change","Webhooks","Maksym Shtanko","deactivated","Jan 20, 2026, 3:39 PM"
+336200256,"When Requested Repairs changes, send a webhook",,"Webhooks","Ricky Panesar","deactivated","Jan 20, 2026, 3:39 PM"
+264095774,"When Status changes, send a webhook","eric9 Status Change","Webhooks","Maksym Shtanko","deactivated","Jan 20, 2026, 3:39 PM"
+520364311,"When Parts Deducted changes to Do Now!, send a webhook",,"Webhooks","Ricky Panesar","active","Jan 15, 2026, 5:38 AM"
+520364200,"When Status changes to Ready To Collect, send a webhook",,"Webhooks","Ricky Panesar","active","Jan 15, 2026, 5:37 AM"
+519172033,"When Status changes to Ready To Collect
+ and only if Client is not BM notify Michael Ferrari",,"","Michael Ferrari","active","Jan 13, 2026, 11:16 AM"
+13661888,"When Technician is assigned to Mike McAdam, move item to group",,"","Maksym Shtanko","auto_disabled_by_deleted_resource","Jan 11, 2026, 6:36 AM"
+411590646,"When Status changes to Ready To Collect
+ and only if Client is BM and only if Repair Type is not Listed and only if Repair Type is not Sold and only if Repair Type is not BM RTN/RFD move item to BMs Awaiting Sale and set Repair Type to To List",,"","Mike McAdam","active","Jan 8, 2026, 9:27 AM"
+511131239,"When Status changes to Under Refurb, start Refurb Time. When it changes to anything stop.",,"","Ricky Panesar","active","Dec 20, 2025, 1:39 PM"
+511131197,"When Status changes to Under Refurb, start Refurb Time. When it changes to anything stop.",,"","Ricky Panesar","active","Dec 20, 2025, 1:39 PM"
+510266236,"When Status changes to Cleaning, start Cleaning Time. When it changes to anything stop.",,"","Michael Ferrari","active","Dec 20, 2025, 5:33 AM"
+509618257,"When Status changes to Repaired
+ and if IMEI/SN is empty set Status to Error and notify Technician",,"","Michael Ferrari","active","Dec 17, 2025, 8:54 AM"
+417781933,"When Status changes to Queued For Repair
+ and only if Client is BM and only if Repair Type is not BM RTN/RFD set Repair Type to Pay-Out",,"","Mike McAdam","active","Dec 11, 2025, 4:32 PM"
+507333831,"When Status changes to Ready To Collect
+ and only if Repair Type is BM RTN/RFD move item to Outbound Shipping and set Status to Book Return Courier",,"","Michael Ferrari","active","Dec 11, 2025, 1:11 PM"
+485375901,"When Repair Type changes to IC ON
+ notify Michael Ferrari",,"","Michael Ferrari","deactivated","Dec 5, 2025, 1:25 PM"
+482496680,"When Status changes to Diagnostic Complete
+ and only if Technician is assigned to Mike McAdam Assign (replace) Mike McAdam as Diagnostic",,"","Michael Ferrari","deactivated","Dec 4, 2025, 12:24 PM"
+482496783,"When Status changes to Diagnostics
+ and only if Technician is assigned to Mykhailo Kepeshchuk and if Diagnostic is empty Assign (replace) Mykhailo Kepeshchuk as Diagnostic",,"","Michael Ferrari","active","Dec 4, 2025, 11:53 AM"
+482496952,"When Status changes to Diagnostics
+ and only if Technician is assigned to Safan Patel and if Diagnostic is empty Assign (replace) Safan Patel as Diagnostic",,"","Michael Ferrari","active","Dec 4, 2025, 11:53 AM"
+482495684,"When Status changes to Diagnostics
+ and only if Technician is assigned to Andres Egas and if Diagnostic is empty Assign (replace) Andres Egas as Diagnostic",,"","Michael Ferrari","active","Dec 4, 2025, 11:52 AM"
+482496856,"When Status changes to Diagnostics
+ and only if Technician is assigned to Roni Mykhailiuk and if Diagnostic is empty Assign (replace) Roni Mykhailiuk as Diagnostic",,"","Michael Ferrari","active","Dec 4, 2025, 11:51 AM"
+334093818,"When Courier Collection changes to Attempting Booking, send a webhook",,"Webhooks","Maksym Shtanko","deactivated","Nov 25, 2025, 5:15 AM"
+140560944,"When Courier Return changes to Attempting Booking, send a webhook","v8/main/couriers","Webhooks","Maksym Shtanko","deactivated","Nov 25, 2025, 5:15 AM"
+250217665,"When IMEI/SN changes, send a webhook",,"Webhooks","Maksym Shtanko","deactivated","Nov 25, 2025, 5:14 AM"
+269546180,"When IMEI/SN changes, send a webhook",,"Webhooks","Maksym Shtanko","deactivated","Nov 25, 2025, 5:14 AM"
+485372687,"When Repair Type changes to Pay-Out
+ notify Michael Ferrari",,"","Michael Ferrari","deactivated","Nov 24, 2025, 5:27 AM"
+499932331,"When Status changes to Repaired
+ notify Roni Mykhailiuk",,"","Michael Ferrari","active","Nov 21, 2025, 4:37 PM"
+474233835,"When Repair Type changes to IC ON
+ move item to Trade-In BMs Awaiting Validation",,"","Michael Ferrari","active","Nov 20, 2025, 1:04 PM"
+79519687,"When Status changes to Diagnostic Complete
+ and only if Client is not BM move item to Awaiting Confirmation of Price",,"","Maksym Shtanko","active","Nov 18, 2025, 9:40 AM"
+466963163,"When Status changes to Part Repaired
+ and if Parts Used is not empty notify Mike McAdam and move item to group",,"","Mike McAdam","deactivated","Nov 10, 2025, 1:41 PM"
+161355079,"When Status changes to Password Req
+ and only if Notifications is ON move item to Client Services - Awaiting Confirmation",,"","Maksym Shtanko","active","Nov 7, 2025, 1:02 PM"
+493570056,"When Status changes to Password Req
+ and only if Notifications is OFF move item to Client Services - To Do",,"","Mike McAdam","active","Nov 7, 2025, 1:01 PM"
+338493656,"When Status changes to Diagnostic Complete
+ and only if Client is not BM notify Michael Ferrari",,"","Mike McAdam","active","Nov 6, 2025, 11:00 AM"
+489426254,"When an item is moved to Outbound Shipping and only if Service is Unconfirmed set Service to Mail-In",,"","Mike McAdam","active","Oct 29, 2025, 4:34 PM"
+488623832,"When Technician is assigned and only if Technician is assigned to Client Services move item to Adil",,"","Michael Ferrari","active","Oct 28, 2025, 11:31 AM"
+475267570,"When Status changes to Received
+ and only if Service is not Walk-In and only if Info Capture is not Info Validated and only if Client is not BM and only if Client is not Corporate set Status to Client To Contact and set Info Capture to Not Filled and notify Michael Ferrari",,"","Michael Ferrari","active","Oct 23, 2025, 3:09 PM"
+482555797,"When Device changes and only if Repair Type is Trade-In notify Michael Ferrari",,"","Michael Ferrari","active","Oct 14, 2025, 2:21 PM"
+339375219,"When Status changes to Ready To Collect
+ and only if Service is not Walk-In and only if Client is not BM move item to Outbound Shipping and set Status to Book Return Courier",,"","Mike McAdam","active","Oct 14, 2025, 12:21 PM"
+482498532,"When Status changes from Under Refurb to Repaired
+ and only if Technician is assigned to Mykhailo Kepeshchuk Assign (replace) Mykhailo Kepeshchuk as Refurb",,"","Michael Ferrari","active","Oct 14, 2025, 12:09 PM"
+482498477,"When Status changes from Under Refurb to Repaired
+ and only if Technician is assigned to Roni Mykhailiuk Assign (replace) Roni Mykhailiuk as Refurb",,"","Michael Ferrari","active","Oct 14, 2025, 12:08 PM"
+482498431,"When Status changes from Under Refurb to Repaired
+ and only if Technician is assigned to Andres Egas Assign (replace) Andres Egas as Refurb",,"","Michael Ferrari","active","Oct 14, 2025, 12:08 PM"
+482498342,"When Status changes from Under Refurb to Repaired
+ and only if Technician is assigned to Mike McAdam Assign (replace) Mike McAdam as Refurb",,"","Michael Ferrari","active","Oct 14, 2025, 12:08 PM"
+482498216,"When Status changes from Under Repair to Repaired
+ and only if Technician is assigned to Mike McAdam Assign (replace) Mike McAdam as Repair",,"","Michael Ferrari","active","Oct 14, 2025, 12:07 PM"
+482498139,"When Status changes from Under Repair to Repaired
+ and only if Technician is assigned to Andres Egas Assign (replace) Andres Egas as Repair",,"","Michael Ferrari","active","Oct 14, 2025, 12:07 PM"
+482498095,"When Status changes from Under Repair to Repaired
+ and only if Technician is assigned to Roni Mykhailiuk Assign (replace) Roni Mykhailiuk as Repair",,"","Michael Ferrari","active","Oct 14, 2025, 12:06 PM"
+482497012,"When Status changes from Under Repair to Repaired
+ and only if Technician is assigned to Safan Patel Assign (replace) Safan Patel as Repair",,"","Michael Ferrari","active","Oct 14, 2025, 12:06 PM"
+115492627,"When Status changes to Repaired
+ and if Parts Used is not empty and only if Client is not BM set Date Repaired to today and move item to Quality Control and notify Mike McAdam",,"","Maksym Shtanko","active","Oct 10, 2025, 11:44 AM"
+458670657,"When Status changes to Repaired
+ and if Parts Used is not empty and only if Client is BM set Date Repaired to today and move item to Quality Control and notify Andres Egas",,"","Mike McAdam","active","Oct 10, 2025, 11:42 AM"
+351394248,"When Status changes to Received
+ clear Booking Time",,"","Mike McAdam","active","Oct 10, 2025, 10:38 AM"
+450959488,"When Repair Type changes to Purchased
+ and only if Status is Awaiting Confirmation move item to BMs No repair / iCloud and clear Technician and set Status to Queued For Repair and set Client to BM and set Service to Mail-In",,"","Michael Ferrari","deactivated","Oct 9, 2025, 12:42 PM"
+478837222,"When Status changes to Quote Sent
+ and if Quote Sent is empty set Quote Sent to today",,"","Michael Ferrari","active","Oct 4, 2025, 11:12 AM"
+478836826,"When Status changes to Diagnostic Complete
+ and if Diag. Complete is empty set Diag. Complete to today",,"","Michael Ferrari","active","Oct 4, 2025, 11:12 AM"
+478837686,"When Status changes from Under Refurb to Repaired
+ and only if Repair Type is Diagnostic set Repaired to today",,"","Michael Ferrari","active","Oct 4, 2025, 11:10 AM"
+478837287,"When Status changes from Under Repair to Repaired
+ and only if Repair Type is Diagnostic set Repaired to today",,"","Michael Ferrari","active","Oct 4, 2025, 11:09 AM"
+441937418,"When Status changes to Repaired
+ and only if Problem (Repair) is Stuck set Problem (Repair) to Solved",,"","Mike McAdam","active","Sep 25, 2025, 12:56 PM"
+429075536,"When Parts Status changes to No Stock
+ and if Part to Order is not empty clear **Deadline** and move item to Awaiting Parts and notify Michael Ferrari",,"","Michael Ferrari","active","Sep 25, 2025, 12:55 PM"
+472186986,"When Info Capture changes to Not Filled
+ set Status to Client To Contact",,"","Michael Ferrari","active","Sep 17, 2025, 3:54 PM"
+157225250,"When Status changes to Book Courier and only if Service is Stuart Courier and only if Courier Collection is not Booking Complete set Courier Collection to Attempting Booking",,"","Maksym Shtanko","deactivated","Sep 8, 2025, 6:45 PM"
+157225010,"When Status changes to Book Return Courier and only if Service is Stuart Courier and only if Courier Return is not Booking Complete set Courier Return to Attempting Booking",,"","Maksym Shtanko","deactivated","Sep 8, 2025, 6:45 PM"
+204008466,"When Status changes to Book Courier and only if Service is Gophr Express and only if Courier Collection is not Booking Complete set Courier Collection to Attempting Booking",,"","Maksym Shtanko","deactivated","Sep 8, 2025, 6:45 PM"
+204008419,"When Status changes to Book Return Courier and only if Service is Gophr Express and only if Courier Return is not Booking Complete set Courier Return to Attempting Booking",,"","Maksym Shtanko","deactivated","Sep 8, 2025, 6:45 PM"
+33350842,"When Status changes to Book Courier and only if Service is Gophr Courier and only if Courier Collection is not Booking Complete set Courier Collection to Attempting Booking",,"","Maksym Shtanko","deactivated","Sep 8, 2025, 6:44 PM"
+33745960,"When Status changes to Book Return Courier and only if Service is Gophr Courier and only if Courier Return is not Booking Complete set Courier Return to Attempting Booking",,"","Maksym Shtanko","deactivated","Sep 8, 2025, 6:44 PM"
+344114608,"When Status changes to Client Contacted
+ and only if Client is not BM move item to Client Services - Awaiting Confirmation",,"","Michael Ferrari","active","Aug 28, 2025, 3:53 PM"
+340118443,"When Booking Time arrives and only if Service is not Mail-In and if Received is empty and only if Status is not Awaiting Confirmation move item to Today's Repairs",,"","Mike McAdam","active","Aug 22, 2025, 9:23 AM"
+458670105,"When Status changes to Repaired
+ and only if Problem (Repair) is Deadline Delay set Problem (Repair) to Solved",,"","Mike McAdam","active","Aug 14, 2025, 1:36 PM"
+458670068,"When Status changes to Repaired
+ and only if Problem (Repair) is Solving set Problem (Repair) to Solved",,"","Mike McAdam","active","Aug 14, 2025, 1:35 PM"
+456510291,"When Status changes to Software Install
+ and only if Technician is assigned to Andres Egas move item to Andres",,"","Mike McAdam","active","Aug 8, 2025, 3:52 PM"
+456509728,"When Status changes to QC Failure
+ and only if Technician is assigned to Roni Mykhailiuk move item to Roni",,"","Mike McAdam","active","Aug 8, 2025, 3:51 PM"
+456509194,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Roni Mykhailiuk move item to Roni",,"","Mike McAdam","active","Aug 8, 2025, 3:50 PM"
+456508980,"When Status changes to Software Install
+ and only if Technician is assigned to Roni Mykhailiuk move item to Roni",,"","Mike McAdam","active","Aug 8, 2025, 3:50 PM"
+456508014,"When Status changes to Reassemble
+ and only if Technician is assigned to Roni Mykhailiuk move item to Roni",,"","Mike McAdam","active","Aug 8, 2025, 3:47 PM"
+456507728,"When Technician is assigned and only if Technician is assigned to Roni Mykhailiuk move item to Roni",,"","Mike McAdam","active","Aug 8, 2025, 3:47 PM"
+449355354,"When Add to enquiries clicked create an item in Enquiries and connect iCorrect Main Board with column",,"","Michael Ferrari","active","Jul 22, 2025, 10:19 AM"
+443069923,"When an item is created create an item in Client Information Capture and connect iCorrect Main Board&Client Information Capture with Link - Client Information Capture",,"","Mike McAdam","active","Jul 4, 2025, 11:22 AM"
+442073587,"When Problem (Repair) changes to Deadline Delay
+ notify Mike McAdam and notify Ricky Panesar and notify Michael Ferrari",,"","Mike McAdam","active","Jul 2, 2025, 10:38 AM"
+442072426,"When Problem (Repair) changes to Stuck
+ notify Mike McAdam and notify Ricky Panesar and notify Michael Ferrari",,"","Mike McAdam","active","Jul 2, 2025, 10:36 AM"
+442073118,"When Problem (Repair) changes to Solving
+ notify Mike McAdam and notify Ricky Panesar and notify Michael Ferrari",,"","Mike McAdam","active","Jul 2, 2025, 10:35 AM"
+3611197,"When Status changes to Received, set Received to current date",,"","Ricky Panesar","active","Jun 27, 2025, 10:36 AM"
+429081804,"When an item is moved to Awaiting Parts notify Ricky Panesar",,"","Michael Ferrari","active","Jun 19, 2025, 11:16 AM"
+432315289,"When Status changes to Diagnostic Complete
+ clear **Deadline**",,"","Michael Ferrari","active","Jun 5, 2025, 9:22 AM"
+251687708,"When Status changes to Returned
+ clear Passcode",,"","Maksym Shtanko","deactivated","May 30, 2025, 1:29 PM"
+429085203,"When Parts Status changes to No Stock
+ and if Part to Order is empty set Status to Error and notify Technician",,"","Michael Ferrari","active","May 28, 2025, 10:46 AM"
+384600181,"When Repair Type changes to To List
+ notify Ricky Panesar and notify Michael Ferrari",,"","Mike McAdam","active","May 14, 2025, 3:50 PM"
+418734895,"When Repair Type changes to Purchased
+ set Date Purchased (BM) to today",,"","Mike McAdam","active","Apr 30, 2025, 9:58 AM"
+5576384,"When Status changes to Received, start Total Time. When it changes to Ready To Collect stop.",,"","Ricky Panesar","active","Apr 17, 2025, 6:32 PM"
+414522418,"When Repair Type changes to Sold
+ set Date Sold (BM) to today",,"","Mike McAdam","active","Apr 17, 2025, 5:04 PM"
+414521830,"When Repair Type changes to Listed
+ set Date Listed (BM) to today",,"","Mike McAdam","active","Apr 17, 2025, 5:03 PM"
+362779687,"When Repair Type changes to Sold
+ and only if Status is Ready To Collect move item to Outbound Shipping and set Status to Book Return Courier",,"","Michael Ferrari","active","Jan 29, 2025, 3:07 PM"
+362327734,"When Status changes to Ready To Collect
+ and only if Repair Type is Sold move item to Outbound Shipping and set Status to Book Return Courier",,"","Michael Ferrari","active","Jan 27, 2025, 2:23 PM"
+380507610,"When Status changes to QC Failure
+ create an item in Warranties & Breakages and connect Warranties & Breakages with Main Item",,"","Michael Ferrari","active","Jan 20, 2025, 4:11 PM"
+380499701,"When Status changes to QC Failure
+ and only if Technician is assigned to Mykhailo Kepeshchuk move item to Mykhailo",,"","Michael Ferrari","active","Jan 20, 2025, 3:51 PM"
+380499268,"When Status changes to QC Failure
+ and only if Technician is assigned to Andres Egas move item to Andres",,"","Michael Ferrari","active","Jan 20, 2025, 3:50 PM"
+380498808,"When Status changes to QC Failure
+ and only if Technician is assigned to Safan Patel move item to Safan (Short Deadline)",,"","Michael Ferrari","active","Jan 20, 2025, 3:50 PM"
+318092989,"When Repair Type changes to Booking Cancelled
+ move item to Cancelled/Missed Bookings",,"","Maksym Shtanko","active","Jan 20, 2025, 3:46 PM"
+371622983,"When Status changes to Repaired
+ and only if Supplier contains all these labels notify Michael Ferrari",,"","Michael Ferrari","active","Jan 7, 2025, 4:52 PM"
+344114656,"When Status changes to Client To Contact
+ notify Michael Ferrari and move item to Client Services - To Do",,"","Michael Ferrari","active","Dec 19, 2024, 2:30 PM"
+362901244,"When Client changes to Warranty
+ set Repair Type to Warranty and set Payment Method to Warranty and set Payment Status to Warranty",,"","Ricky Panesar","deactivated","Dec 19, 2024, 11:35 AM"
+337370919,"When Technician is assigned to Maksym Shtanko, move item to group",,"","Maksym Shtanko","auto_disabled_by_deleted_resource","Dec 18, 2024, 2:04 PM"
+362887045,"When Repair Type changes to Sold
+ and only if Client is BM set Payment Status to Confirmed and set Payment Method to BM Sale",,"","Ricky Panesar","active","Dec 17, 2024, 11:17 AM"
+364025154,"When Status changes to Book Courier
+ and only if Service is Mail-In move item to Outbound Shipping",,"","Michael Ferrari","active","Nov 29, 2024, 10:21 AM"
+339385373,"When Status changes to Courier Booked
+ and only if Service is Mail-In move item to Outbound Shipping",,"","Mike McAdam","active","Nov 26, 2024, 3:03 PM"
+362869414,"When Status changes to Shipped
+ and if Received is empty and only if Repair Type is Sold move item to Returned",,"","Michael Ferrari","active","Nov 26, 2024, 1:42 PM"
+260513231,"When Status changes to Shipped
+ and if Received is empty and only if Repair Type is not Sold move item to Incoming Future",,"","Maksym Shtanko","active","Nov 25, 2024, 6:36 PM"
+362329061,"When Status changes to Ready To Collect
+ and only if Repair Type is Listed move item to BMs Awaiting Sale",,"","Michael Ferrari","active","Nov 25, 2024, 11:45 AM"
+205853796,"When Status changes to BER/Parts
+ set Payment Status to Confirmed",,"","Maksym Shtanko","active","Nov 25, 2024, 10:46 AM"
+361591581,"When Status changes to Expecting Device
+ move item to Incoming Future",,"","Michael Ferrari","active","Nov 22, 2024, 2:32 PM"
+206743263,"When Status changes to Received
+ and only if Client is Warranty create an item in Warranties & Breakages and connect Warranties & Breakages with Main Item (if any)",,"","Maksym Shtanko","active","Nov 11, 2024, 3:34 PM"
+355902302,"When Status changes to Ready To Collect
+ and only if Service is Stuart Courier move item to Outbound Shipping",,"","Mike McAdam","active","Nov 6, 2024, 5:04 PM"
+355319600,"When Repair Type changes to BER
+ clear Requested Repairs and clear Custom Products",,"","Michael Ferrari","active","Nov 5, 2024, 10:03 AM"
+355318918,"When Repair Type changes to Quote Rejected
+ clear Requested Repairs and clear Custom Products",,"","Michael Ferrari","active","Nov 5, 2024, 10:03 AM"
+349863952,"When any column changes, send a webhook",,"Webhooks","Michael Ferrari","deactivated","Oct 24, 2024, 9:05 AM"
+319314766,"When Status changes to Returned
+ move item to Returned",,"","Maksym Shtanko","active","Oct 23, 2024, 6:31 PM"
+349862649,"When an item is created, send a webhook",,"Webhooks","Michael Ferrari","deactivated","Oct 22, 2024, 5:05 PM"
+350113039,"When any column changes, send a webhook",,"Webhooks","Michael Ferrari","deactivated","Oct 22, 2024, 11:12 AM"
+349863361,"When any column changes, send a webhook",,"Webhooks","Michael Ferrari","deactivated","Oct 19, 2024, 4:58 PM"
+349881274,"When an item is created, send a webhook",,"Webhooks","Michael Ferrari","deactivated","Oct 19, 2024, 4:58 PM"
+337386341,"When Status changes, send a webhook",,"Webhooks","Maksym Shtanko","deactivated","Oct 15, 2024, 3:04 PM"
+344291572,"When Make Sale Item changes, send a webhook",,"Webhooks","Maksym Shtanko","deactivated","Oct 9, 2024, 3:05 PM"
+309734967,"When Make Sale Item changes, send a webhook",,"Webhooks","Maksym Shtanko","active","Oct 9, 2024, 2:35 PM"
+338556547,"When Make Sale Item changes, send a webhook",,"Webhooks","Ricky Panesar","deactivated","Oct 8, 2024, 11:09 AM"
+341940054,"When an item is moved to Returned stop Total Time",,"","Mike McAdam","active","Sep 24, 2024, 11:40 AM"
+341517382,"When Notifications changes to ON
+ and only if Service is Walk-In and only if Status is New Repair move item to Today's Repairs",,"","Mike McAdam","active","Sep 23, 2024, 10:04 AM"
+3616510,"When Status changes to Returned, set Collection Date to current date",,"","Ricky Panesar","active","Sep 20, 2024, 5:40 AM"
+5834756,"When Status changes to Quote Sent, move item to Client Services - Awaiting Confirmation",,"","Ricky Panesar","active","Sep 20, 2024, 5:40 AM"
+339427949,"When Booking Time arrives and only if Payment Status is Unsuccessful notify Michael Ferrari",,"","Michael Ferrari","active","Sep 18, 2024, 10:27 AM"
+329581709,"When an item is moved to Awaiting Confirmation of Price notify Michael Ferrari",,"","Michael Ferrari","deactivated","Sep 17, 2024, 11:03 AM"
+339411159,"When Status changes to Quote Sent
+ clear **Deadline**",,"","Mike McAdam","active","Sep 16, 2024, 1:47 PM"
+339383390,"When Status changes to Shipped
+ and if Received is not empty move item to Returned",,"","Mike McAdam","active","Sep 16, 2024, 12:00 PM"
+272490060,"When Status changes to Ready To Collect
+ and only if Service is Walk-In move item to Awaiting Collection",,"","Maksym Shtanko","active","Sep 16, 2024, 11:09 AM"
+338559396,"When Status changes to Diagnostics, start Diagnostic Time. When it changes to anything stop.",,"","Ricky Panesar","active","Sep 12, 2024, 4:12 PM"
+338558605,"When Status changes to Under Repair, start Repair Time. When it changes to anything stop.",,"","Ricky Panesar","active","Sep 12, 2024, 4:10 PM"
+159585715,"1 day after Collection Date arrives and only if Client is not Corporate and only if Repair Type is not Quote Rejected and only if Repair Type is not Unrepairable and only if Repair Type is not No Fault Found and only if Client is not Warranty and only if Feedback is not Do Not Request set Feedback to Request Now","Trigger Feedback Request","","Maksym Shtanko","deactivated","Sep 12, 2024, 11:10 AM"
+156855785,"When Feedback changes, send a webhook","Send Feedback Request Webhook","Webhooks","Maksym Shtanko","deactivated","Sep 12, 2024, 11:10 AM"
+196083212,"When Requested Repairs changes, send a webhook",,"Webhooks","Ricky Panesar","deactivated","Sep 5, 2024, 11:38 AM"
+319768936,"When Service changes to Mail-In
+ notify Ricky Panesar",,"","Maksym Shtanko","deactivated","Sep 4, 2024, 9:47 AM"
+44663250,"When Client changes to End User and only if Notifications is Unconfirmed set Notifications to ON",,"","Maksym Shtanko","active","Sep 3, 2024, 3:04 PM"
+34083968,"When Status changes to Battery Testing, create an item in Battery Run-Down Tests and connect them in the selected board",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+16264589,"When Technician is assigned to Ricky Panesar, move item to Ricky",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+319313101,"When Status changes to Returned
+ and only if Client is Warranty set Payment Status to Confirmed and set Payment Method to Warranty and move item to Returned",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+319902324,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Mike McAdam move item to group",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+319313390,"When Status changes to Invoiced
+ set Payment Method to Invoiced - Xero and set Payment Status to Pending and move item to Client Services - To Do",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+319877126,"When Client changes to Warranty
+ set Payment Status to Warranty and set Payment Method to Warranty",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+44663331,"When Client changes to Warranty and only if Notifications is Unconfirmed set Notifications to ON",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+35667471,"When Courier Return changes to Booking Complete set Status to Return Booked",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+318742209,"When Status changes to Repair Paused
+ and only if Technician is assigned to Michael Ferrari move item to Ferrari",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+44664616,"When Client changes to Refurb set Notifications to OFF",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+275236281,"When an item is created set Unified Groups to Complete",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+218545034,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Andres Egas move item to Andres",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+259333840,"When Status changes from Under Repair to anything
+ set Tech Repair Status to Complete",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+35667419,"When Courier Collection changes to Booking Complete set Status to Courier Booked",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+261851578,"When Technician is assigned and only if Technician is assigned to Michael Ferrari move item to Ferrari",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+177522593,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Michael Ferrari move item to Ferrari",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+277388549,"When status changes to something
+ notify Gabriel Barr and clear Dev: Phase Deadline",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+259328813,"When Status changes to Diagnostics
+ set Tech Repair Status to Active",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+154487601,"When Courier Collection changes to Booking Failed
+ set Status to Error",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+259328523,"When Status changes to Under Repair
+ set Tech Repair Status to Active",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+255422860,"When status changes to something
+ clear Dev: Phase Deadline and notify Gabriel Barr",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+330530550,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Safan Patel move item to Safan (Short Deadline)",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+333956233,"When Status changes to Software Install
+ and only if Technician is assigned to Safan Patel move item to Safan (Short Deadline)",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+44663164,"When Client changes to Corporate and only if Notifications is Unconfirmed set Notifications to ON",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+259334255,"When Status changes from Diagnostics to anything
+ set Tech Repair Status to Complete",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+154487916,"When Courier Return changes to Booking Failed
+ set Status to Error",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+218545511,"When Technician is assigned and only if Technician is assigned to Andres Egas move item to Andres",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+330530788,"When Status changes to Reassemble
+ and only if Technician is assigned to Safan Patel move item to Safan (Short Deadline)",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+326485718,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Andres Egas move item to Andres",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+317079729,"When Status changes to Reassemble
+ and only if Technician is assigned to Andres Egas move item to Andres",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+330530503,"When Technician is assigned and only if Technician is assigned to Safan Patel move item to Safan (Short Deadline)",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+135165968,"When Status changes to Ready to Quote
+ move item to Client Services - To Do",,"","Maksym Shtanko","active","Sep 3, 2024, 9:04 AM"
+296270417,"When a status changes to something, send a webhook",,"Webhooks","Ricky Panesar","not_connected","Aug 28, 2024, 10:31 PM"
+328789674,"When Status changes to Reassemble
+ and only if Technician is assigned to Mykhailo Kepeshchuk move item to Mykhailo",,"","Michael Ferrari","active","Aug 13, 2024, 1:37 PM"
+328788651,"When Status changes to Queued For Repair
+ and only if Technician is assigned to Mykhailo Kepeshchuk move item to Mykhailo",,"","Michael Ferrari","active","Aug 13, 2024, 1:34 PM"
+328773856,"When Technician is assigned and only if Technician is assigned to Mykhailo Kepeshchuk move item to Mykhailo",,"","Michael Ferrari","active","Aug 13, 2024, 12:37 PM"
+316954206,"When an item is created or updated, create an event in Google Calendar, and sync future changes from this board",,"Google Calendar","Ricky Panesar","not_connected","Jul 7, 2024, 8:56 PM"
+258771358,"When Tech Repair Status changes, send a webhook",,"Webhooks","Gabriel Barr","deactivated","Jun 26, 2024, 10:33 AM"
+259345048,"When Tech Repair Status changes to Active, send a webhook",,"Webhooks","Gabriel Barr","deactivated","Jun 22, 2024, 1:30 PM"

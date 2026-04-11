@@ -1,0 +1,1329 @@
+# Discovery Log
+
+## 2026-03-31 — Bootstrap
+
+- Read `/home/ricky/.openclaw/shared/COMPANY.md`
+  - Found: business profile, revenue mix, core systems, and strategic emphasis on Back Market.
+  - Led to: prioritize Back Market, Monday, and customer/intake systems in bootstrap context.
+
+- Read `/home/ricky/.openclaw/shared/GOALS.md`
+  - Found: 12-month targets emphasizing SOPs, queue management, intake system, Mission Control, inventory, and profitability.
+  - Led to: treat workflow, documentation, and throughput systems as central audit targets rather than side concerns.
+
+- Read `/home/ricky/.openclaw/shared/PROBLEMS.md`
+  - Found: critical internal pain points around SOP absence, Monday limits, intake inconsistency, queue management, and remote visibility.
+  - Led to: add these as audit lenses for findings classification.
+
+- Read `/home/ricky/.openclaw/shared/VISION.md` and `PRINCIPLES.md`
+  - Found: evidence-first operating model and strict anti-hallucination principle.
+  - Led to: use `Observed / Inferred / Unknown` labeling throughout audit artifacts.
+
+- Read `/home/ricky/.openclaw/shared/CREDENTIALS.md`, `/home/ricky/README.md`, `/home/ricky/config/README.md`
+  - Found: canonical credential path is `/home/ricky/config/.env`; multiple platform credentials are present; `mission-control-v2` is reference-only.
+  - Led to: build access matrix from master env + safe auth checks.
+
+- Read `/home/ricky/builds/INDEX.md`
+  - Found: active project map and stale section; `backmarket/docs/buyback-optimisation-strategy.md` referenced but missing in current docs path.
+  - Led to: treat stale/historical docs cautiously and log path mismatch.
+
+- Read `/home/ricky/builds/backmarket/README.md`
+  - Found: BM SOP-to-script/service mapping, live service ports/routes, board IDs, env usage.
+  - Led to: identify BM as the densest integration area and log live VPS service targets.
+
+- Read `/home/ricky/builds/agent-rebuild/backmarket/BM-PROCESS-CURRENT-STATE.md`
+  - Found: Ricky’s current-state BM flow with explicit automation gaps and intended triggers.
+  - Led to: plan cross-check against live code, Monday config, and BM API usage.
+
+- Read `/home/ricky/builds/buyback-monitor/docs/PROFITABILITY-FINDINGS.md`
+  - Found: profitability logic by grade/model, strong NFU/NFC strategy signal, and major stuck-in-pipeline issue.
+  - Led to: mark profitability + throughput as key process dependencies to trace.
+
+- Read `/home/ricky/builds/monday/repair-flow-traces.md` and `/home/ricky/builds/monday/target-state.md`
+  - Found: current flow complexity, repeated pause/comms states, and a target-state split into repair/comms/QC/shipping/trade-in columns.
+  - Led to: prioritize Monday schema/automation audit.
+
+## 2026-03-31 — Safe Auth Verification
+
+- Monday.com auth check
+  - Method: GraphQL read query
+  - Result: reachable
+  - Class: A
+
+- Intercom auth check
+  - Method: `GET /me`
+  - Result: reachable, HTTP 200
+  - Class: A
+
+- Shopify auth check
+  - Method: `GET /admin/api/2025-01/shop.json`
+  - Result: reachable, HTTP 200
+  - Class: A
+
+- Supabase auth check
+  - Method: REST probe on `/rest/v1/`
+  - Result: reachable, HTTP 200
+  - Class: A
+
+- n8n Cloud auth check
+  - Method: `GET /api/v1/workflows`
+  - Result: reachable, HTTP 200
+  - Class: A
+
+- Back Market auth check
+  - Method: `GET /ws/orders?state=1`
+  - Result: reachable, HTTP 200
+  - Class: A
+
+- Slack auth check
+  - Method: `auth.test`
+  - Result: reachable
+  - Class: A
+
+- Cloudflare auth check
+  - Method: `GET /client/v4/user/tokens/verify`
+  - Result: HTTP 401
+  - Class: A
+
+- Typeform auth check
+  - Method: `GET /forms?page_size=1`
+  - Result: HTTP 403
+  - Class: A
+
+- Telegram auth check
+  - Method: `getMe`
+  - Result: reachable
+  - Class: A
+
+- Stripe auth check
+  - Method: `GET /v1/account`
+  - Result: reachable
+  - Class: A
+
+- PostHog auth check
+  - Method: `GET /api/projects/{project_id}`
+  - Result: reachable
+  - Class: A
+
+- SumUp auth check
+  - Method: `GET /v0.1/me`
+  - Result: HTTP 401
+  - Class: A
+
+- SICKW auth check
+  - Method: sample iCloud lookup probe
+  - Result: reachable
+  - Class: A
+
+- n8n self-hosted auth check
+  - Method: `GET https://n8n.icorrect.co.uk/api/v1/workflows`
+  - Result: reachable, HTTP 200
+  - Class: A
+
+## 2026-03-31 — Monday Inventory
+
+- Queried main Monday board `349212843`
+  - Found: `iCorrect Main Board`, `4443` items, `34` groups, `169` columns.
+  - Group examples: New Orders, Today's Repairs, BM Inbound, Quality Control, Outbound Shipping, Trade-In BMs Awaiting Validation, Locked.
+  - Column shape: `51` status columns, `32` text, `20` date, `16` mirror, `8` formula, `6` board_relation.
+  - Led to: confirm current-state operational sprawl and start platform inventory write-up.
+
+- Queried BM Devices board `3892194968`
+  - Found: `1334` items, `10` groups, `93` columns.
+  - Group examples: BM Trade-Ins, BM To List / Listed / Sold, BM Returns, Devices to Refurbish, Rejected / iC Locked, Shipped.
+  - Column shape: `45` mirror columns, `10` status, `8` formula, `6` board_relation.
+  - Led to: confirm heavy dependency on mirrored fields from the main board and linked systems.
+
+- Queried Parts/Stock Levels board `985177480`
+  - Found: `1802` items, `52` groups, `37` columns.
+  - Group structure is part-centric: MacBook LCDs, Battery, Logic Board, Face ID, MacBook Chargers/Cables/Adapters, etc.
+  - Led to: confirm parts board is a key dependency for main-board and BM-board mirror/formula fields.
+
+## 2026-03-31 — n8n Inventory
+
+- Queried n8n Cloud workflow list
+  - Found: `52` workflows total, `13` active.
+  - Active workflows include Shopify, Typeform, Intercom, Monday, Xero, Slack, warranty, and notification flows.
+  - Inactive workflows include many older BM flows, older iCloud flows, and historical Shopify/BM variants.
+  - Led to: conclude cloud n8n is the current live automation surface for several customer/intake/notification flows.
+
+- Queried self-hosted n8n workflow list
+  - Found: `1` workflow total, `0` active.
+  - Workflow present: `Jarvis Telegram Bot v2` (inactive).
+  - Led to: treat self-hosted n8n as reachable but effectively dormant until contrary evidence appears.
+
+- Pulled definitions for all active cloud n8n workflows
+  - Found: active flows are webhook/trigger driven and mostly built from `httpRequest`, `code`, `if`, `slack`, `typeformTrigger`, `shopifyTrigger`, `emailSend`, and webhook response nodes.
+  - Notable active workflows:
+    - `Shopify Order to Monday.com + Intercom - iCorrect`
+    - `Intercom → Monday (Create Repair)`
+    - `Typeform To Monday Pre-Repair Form Responses (v2)`
+    - `Walk-In Typeform → Intercom + Monday`
+    - `Status Notifications → Intercom Email`
+    - `Monday Stock Checker - Part Required`
+    - `Xero Invoice Creator`
+  - Led to: prioritize workflow-detail cross-reference against Monday fields, Intercom attributes, and intake forms.
+
+- Inspected active workflow details for key cross-system flows
+  - `Shopify Order to Monday.com + Intercom - iCorrect`
+    - Trigger: Shopify `orders/create`
+    - Nodes show duplicate check, Intercom contact/ticket creation, Monday item creation, Monday update, Slack notification.
+  - `Intercom → Monday (Create Repair)`
+    - Trigger path: `intercom-create-repair`
+    - Nodes show Intercom contact fetch, Monday item creation, Intercom conversation note.
+  - `Typeform To Monday Pre-Repair Form Responses (v2)`
+    - Trigger form ID: `sDieaFMs`
+    - Nodes show Monday lookup/update, optional Intercom note, group/status movement, Slack alerts.
+  - `Status Notifications → Intercom Email`
+    - Trigger path: `status-notification`
+    - Nodes show routing by notification type and Intercom reply send.
+  - `Monday Stock Checker - Part Required`
+    - Trigger path: `monday-stock-check`
+    - Nodes show stock lookup, stock status update, and internal update on Monday.
+  - Led to: start initial integration catalog and journey drafts.
+
+## 2026-04-01 — Monday Webhooks And VPS Services
+
+- Parsed Monday active automation summary
+  - Found: `147` active automations grouped as:
+    - `22` status routing
+    - `19` status timestamps
+    - `14` QC/error handling
+    - `19` BM/trade-in
+    - `22` client communication
+    - `7` shipping/courier
+    - `8` active webhooks
+    - `36` other
+  - Led to: treat webhook rules as a distinct dependency layer, not just part of general automations.
+
+- Read `backmarket/docs/INGRESS-MAP.md`
+  - Found: post-cutover live route map for BM services is documented and validated with real Monday webhooks.
+  - Key live routes:
+    - `/webhook/icloud-check` -> `127.0.0.1:8010`
+    - `/webhook/bm/grade-check` -> `127.0.0.1:8011`
+    - `/webhook/bm/payout` -> `127.0.0.1:8012`
+    - `/webhook/bm/shipping-confirmed` -> `127.0.0.1:8013`
+  - Also found: Slack interactivity is routed through `telephone-inbound` on `8003`.
+  - Led to: distinguish live BM VPS routes from older monolith references and from n8n.
+
+- Read `backmarket/services/bm-payout/index.js`
+  - Found: canonical live payout service consumes Monday webhook on main board `349212843`, column `status24`, gated on `Pay-Out` index `12`, requires BM trade-in ID + iCloud clear state, calls BM `/validate`, then updates Monday to `Purchased`.
+  - Found: dedup logic, stale-webhook check, 5xx retry once after 30s, no retry on 4xx.
+  - Led to: record Monday -> VPS -> BM payout flow as confirmed live integration.
+
+- Read `backmarket/services/bm-shipping/index.js`
+  - Found: canonical live shipping service consumes Monday webhook on main board `349212843`, column `status4`, gated on `Shipped` index `160`, requires tracking number + serial number + linked BM Devices item + BM sales order ID, updates BM sales order, comments on Monday, and moves BM Devices item to shipped group.
+  - Found: 5xx retry once after 30s, no retry on 4xx.
+  - Led to: record Monday -> VPS -> BM ship-confirmation flow as confirmed live integration.
+
+- Read `icloud-checker/src/index.js` and BM SOP docs
+  - Found: monolith still owns `/webhook/icloud-check`, `/webhook/icloud-check/slack-interact`, `/webhook/icloud-check/recheck`, `/webhook/icloud-check/spec-check`, `/webhook/bm/counter-offer-action`, and disabled `/webhook/bm/to-list`.
+  - Found: `to-list` webhook route is explicitly disabled and returns `410 Gone`, with listing logic moved to `list-device.js`.
+
+## 2026-04-01 — Team, Timing, And Loss-Driver Deepening
+
+- Read OpenClaw team and timing sources
+  - Sources:
+    - `/home/ricky/.openclaw/shared/TEAM.md`
+    - `/home/ricky/kb/team/roster.md`
+    - `/home/ricky/.openclaw/agents/team/workspace/docs/team-performance-audit.md`
+    - `/home/ricky/.openclaw/agents/customer-service/workspace/docs/knowledge-base/01-turnaround-times.md`
+    - `/home/ricky/builds/monday/repair-flow-traces.md`
+    - `/home/ricky/builds/monday/QUERY-SPEC.md`
+    - `/home/ricky/builds/monday/main-board-column-audit.md`
+  - Found: current roster and timing promises are more current than older February audit summaries.
+  - Led to: create `team-operations-summary.md` and `timing-mapping.md`.
+
+- Read business viability and marketing evidence
+  - Sources:
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/business-deep-dive-2026-03.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/financial-leak-analysis-2026-03.md`
+    - `/home/ricky/builds/buyback-monitor/docs/PROFITABILITY-FINDINGS.md`
+    - marketing workspace reports on Shopify sessions, bounce, SEO, and Meta
+    - live Xero exports under `/home/ricky/data/exports/system-audit-2026-03-31/xero/`
+  - Found: the business still shows real demand and revenue, but loss drivers cluster around BM work mix, conversion leakage, aged WIP, and weak finance closure.
+  - Led to: create `business-viability-analysis.md`.
+
+- Pulled board-wide Monday queue/timing snapshot
+  - Method: read-only board-wide query of all `4453` items on main board `349212843`, extracting service, client type, repair type, main status, received, diagnostic-complete, quote-sent, date-repaired, collection date, technician, and group.
+  - Wrote raw exports:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/timing-analysis-2026-04-01-summary.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/timing-analysis-2026-04-01-status-age.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/timing-analysis-2026-04-01-paths.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/timing-analysis-2026-04-01-missing-quote-top50.json`
+  - Found:
+    - `206` items with both `Diag. Complete` and `Quote Sent`, median lag `1 day`, `p75 = 2 days`
+    - `900` non-terminal items still open on the board
+    - `322` items in blocked/customer-wait style states
+    - `75` open items with `Diag. Complete` but no `Quote Sent` date
+    - biggest open statuses by count/median age:
+      - `Booking Confirmed`: `232`, median `835.5 days`
+      - `Awaiting Confirmation`: `127`, median `810 days`
+      - `Client Contacted`: `120`, median `317.5 days`
+      - `Repair Paused`: `39`, median `79 days`
+      - `Quote Sent`: `22`, median `239.5 days`
+      - `Awaiting Part`: `22`, median `59.5 days`
+  - Led to: conclude broad quote generation speed is not the main timing problem; stale queue debt and exception handling are bigger issues.
+
+- Bucketed open Monday queue by age
+  - Method: second read-only Monday pull over non-terminal items with age buckets `0-30`, `31-90`, `91-180`, `181-365`, `366+`.
+  - Wrote raw exports:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/open-age-buckets-2026-04-01-summary.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/open-age-buckets-2026-04-01-by-status.json`
+  - Found:
+    - `158` open items aged `0-30 days`
+    - `127` aged `31-90 days`
+    - `66` aged `91-180 days`
+    - `109` aged `181-365 days`
+    - `440` aged `366+ days`
+    - `Booking Confirmed` carries `215` items older than a year
+    - `Awaiting Confirmation` carries `104` items older than a year
+  - Led to: refine the diagnosis from “large open queue” to “operational debt pile with a much smaller current queue embedded inside it.”
+
+- Pulled current-month Intercom response sample
+  - Method: read-only `GET /conversations` with noise filtering, scoped to conversations created since `2026-03-01`.
+  - Wrote raw exports:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/intercom/response-sample-2026-04-01-summary.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/intercom/response-sample-2026-04-01-by-channel.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/intercom/response-sample-2026-04-01-unanswered-top50.json`
+  - Found:
+    - `58` customer-facing March-window conversations after filtering
+    - `31` replied, `27` unanswered
+    - median reply time `6.39h`, mean `24.47h`, `p90 = 45.42h`
+    - by channel:
+      - `email`: `44` conversations, `17` unanswered, median `6.39h`
+      - `instagram`: `9` conversations, `5` unanswered, median `17.97h`
+      - `whatsapp`: `5` conversations, `5` unanswered
+  - Led to: refine the business diagnosis from “slow response” to “improving but still inconsistent, with channel-specific gaps and too many untouched conversations.”
+
+- Pulled live March Shopify order summary
+  - Method: read-only Shopify Admin `orders.json` for `2026-03-01T00:00:00Z` through `2026-04-01T00:00:00Z`.
+  - Wrote raw exports:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/march-2026-orders-summary.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/march-2026-orders-sample.json`
+  - Found:
+    - `64` orders
+    - `£13,686.00` gross revenue
+    - `58` `paid`
+    - `5` `refunded`
+    - `1` `partially_refunded`
+    - `64/64` on `shopify_payments`
+  - Led to: strengthen the evidence that the business still has live online demand and current paid order flow, so the loss problem is not purely lack of market demand.
+
+- Attempted Monday quote-to-decision replay
+  - Method: pulled all items with `Quote Sent` date since `2025-12-01`, then replayed accessible `activity_logs(column_ids:[\"status4\"])` in batches to find `Quote Sent -> next decision/progress status`.
+  - Wrote raw exports:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/quote-decision-lag-2026-04-01-summary.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/quote-decision-lag-2026-04-01-by-path.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/quote-decision-lag-2026-04-01-by-next-status.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/quote-decision-lag-2026-04-01-sample.json`
+  - Found:
+    - `126` items with `Quote Sent` date since `2025-12-01`
+    - only `3` items with a usable `status4` quote-to-next-decision event chain in accessible activity logs
+    - live board schema has no separate visible `comms_status` column
+  - Led to: classify quote-approval timing as a real current blocker on the Monday data surface rather than a simple unfinished query.
+
+## 2026-04-01 — Back Market Revalidation After Workspace Cleanup
+
+- Checked `git status --short` and recent commits in `/home/ricky/builds/backmarket`
+  - Found: core BM SOP/script files changed again after cleanup, including `README.md`, `scripts/list-device.js`, `scripts/sent-orders.js`, `scripts/sale-detection.js`, `sops/00-BACK-MARKET-MASTER.md`, `sops/06-listing.md`, `sops/06.5-listings-reconciliation.md`, `sops/07-buy-box-management.md`, `sops/08-sale-detection.md`, and `sops/09-shipping.md`.
+  - Led to: rerun BM workspace truth-mapping before trusting the existing audit pack.
+
+- Diffed `scripts/list-device.js` and `sops/06-listing.md`
+  - Found: the rebuilt listing flow now treats `data/listings-registry.json` as canonical resolver truth, normalizes slots via `scripts/lib/resolver-truth.js`, restricts auto-resolution to live-safe trust classes, and makes probe mode a strict promotion gate with explicit `verdict` and `promotable_resolver_truth`.
+  - Led to: update the audit to reflect resolver-truth-first listing safety rather than a generic registry/catalog fallback model.
+
+- Diffed `scripts/sent-orders.js`
+  - Found: grade-label mapping regression was fixed back to `NONFUNC_CRACK` / `FUNC_CRACK`.
+  - Led to: keep BM ingress notes aligned with the restored grade labels and treat the rebuild regression as corrected.
+
+- Diffed `sops/00-BACK-MARKET-MASTER.md`, `sops/07-buy-box-management.md`, and `buyback-monitor/run-weekly.sh`
+  - Found: the current docs now correctly state `buy-box-check.js` has no live cron, while the live Monday `05:00 UTC` sell-side schedule still runs `/home/ricky/builds/buyback-monitor/run-weekly.sh`, which executes `sell_price_scraper_v7.js`, `python3 buy_box_monitor.py --no-resume --auto-bump`, and `python3 sync_to_sheet.py`.
+  - Led to: replace the old stale-cron finding with the more accurate split-ownership finding for scheduled sell-side pricing and buy-box automation.
+
+- Read `backmarket/qa/QA-SOP-SCRIPT-AUDIT-2026-04-01.md`
+  - Found: the QA pass independently confirms `sale-detection.js` and `dispatch.js` are live, `reconcile-listings.js` and `buy-box-check.js` have no live cron, and the scheduled weekly buy-box owner is still Python `buy_box_monitor.py`.
+  - Led to: treat the BM QA audit as supporting evidence for the revalidation pass and patch the audit workspace accordingly.
+
+- Diffed `sops/09-shipping.md`
+  - Found: dispatch logic now explicitly documents a duplicate-label guard using Main Board tracking field `text53` and a manual Northern Ireland customs edge.
+  - Led to: add those dispatch details to the BM runtime map and resale journey.
+
+- Checked `royal-mail-automation/dispatch.js` and live `dispatch.log` against staged BM process notes
+  - Found: `dispatch.js` still defines `updateBmTracking()`, but the current main flow does not invoke it; live `dispatch.log` still ends with `BM NOT notified — confirm shipping in Monday when physically posted`.
+  - Found: `backmarket/docs/staged/2026-04-01/BM-PROCESS-AUDIT.md` still claims dispatch immediately marks BM shipped at label-purchase time.
+  - Led to: treat the staged BM process audit as stale/conflicting, keep the current audit aligned to code + live log, and avoid reintroducing the old label-to-shipped bug claim as current truth.
+
+- Checked for hidden `reconcile-listings.js` runtime ownership
+  - Method: user crontab, `/etc/cron*`, systemd timers, pm2 process list, and active-builds grep
+  - Found: no active scheduler for `reconcile-listings.js`; only source/docs/task references were found.
+  - Led to: downgrade reconciliation from `Unknown runtime owner` to `appears operator-driven/on-demand` unless new runtime evidence emerges.
+  - Led to: mark BM listing webhook path as deprecated and separate live routes from dead routes.
+
+- Read status-notification migration docs
+  - Found: status notifications currently documented as Monday -> Cloudflare Worker -> n8n -> Intercom, but a VPS shadow service exists at `/webhook/monday/status-notification` on port `8014`.
+  - Found: live Intercom sending is still gated; shadow mode is active as of 2026-03-31.
+  - Led to: treat status notification cutover as incomplete and note dual-path / migration risk.
+
+## 2026-04-01 — Intercom, Shopify, And Phone Intake
+
+- Verified Intercom with the documented credential name
+  - Source checked: `/home/ricky/config/.env`, `/home/ricky/.openclaw/shared/CREDENTIALS.md`
+  - Command / API call: `GET /admins`, `GET /tags`, `GET /teams`, `GET /segments`, `GET /data_attributes?model=contact`
+  - Result: conclusive
+  - Found:
+    - `3` admins
+    - `1` team
+    - `21` tags
+    - `3` segments
+    - `57` contact data attributes, `24` custom
+  - Key cross-reference: multiple `shopify_*` contact attributes are explicitly described as imported by Shopify integration.
+  - Led to: add Intercom platform inventory and flag a second Shopify -> Intercom path beyond n8n.
+
+- Verified Shopify with the documented credential name
+  - Source checked: `/home/ricky/config/.env`, `/home/ricky/.openclaw/shared/CREDENTIALS.md`
+  - Command / API call: `GET /admin/api/2025-10/shop.json`, GraphQL inventory query
+  - Result: conclusive
+  - Found:
+    - shop `iCorrect`
+    - `967` products
+    - `109` orders
+    - `182` customers
+    - repair-price collections across iPhone, iPad, Apple Watch, and MacBook families
+    - `0` visible webhook subscriptions on the current token/query surface
+  - Led to: record Shopify as live, update access matrix, and open a question around hidden/app-owned webhook ownership.
+
+- Inspected `telephone-inbound/server.py`
+  - Found: Slack `/call` intake can log only, create Intercom only, or create Intercom + Monday.
+  - Found: Monday items created here target board `349212843`, mark the source as phone, set service/client to unconfirmed, and optionally attach device/product relations.
+  - Found: non-phone Slack interactions are forwarded to `icloud-checker` on `8010`.
+  - Led to: add `Phone Enquiry` as a discovered business-process scenario and record a new Slack -> Intercom/Monday integration.
+
+- Inspected `backmarket/services/bm-grade-check/index.js`
+  - Found: profitability gate uses two condition grades, local sell-price data, `10%` commission, `£15` shipping cost, and profitability thresholds of `>=30%` margin and `>=£100` net.
+  - Found: below-threshold cases post Slack warnings and Monday comments instead of mutating BM state directly.
+  - Led to: upgrade the grade-check path from an open thread to a documented live integration.
+
+- Read `builds/webhook-migration/discovery/monday-webhooks.md`
+  - Found: board `349212843` has `31` documented webhook registrations.
+  - Found: webhook IDs `537444955` and `530471762` are active catch-all `change_column_value` webhooks with unknown destinations.
+  - Found: properly filtered `status4` webhooks are documented separately from those catch-all rules, so the status notification path should not be equated with the token-burning webhooks.
+  - Led to: record the catch-all hooks as explicit active risks and tighten the Monday platform inventory.
+
+- Expanded live Intercom inventory beyond top-level config objects
+  - Command / API call: `GET /contacts?per_page=1`, `GET /conversations?per_page=3`, `GET /articles?per_page=5`, `GET /help_center/collections?per_page=5`
+  - Result: conclusive
+  - Found:
+    - `19,798` contacts
+    - `30,959` conversations
+    - current sample conversation source types include `admin_initiated`, `instagram`, and `whatsapp`
+    - `0` help-centre articles and `0` help-centre collections
+  - Also found: `GET /tickets` returned `404`, while local proof docs show `POST /tickets` was successfully used on 2026-03-30.
+  - Led to: update Intercom inventory to reflect production scale and note ticket-surface ambiguity as a follow-up question.
+
+- Read active workflow `fuVSFQvvJ1GRPkPe` in detail
+  - Found: Shopify `orders/create` flow deduplicates on Monday main board `349212843` using item name `#<order_number>`.
+  - Found: the workflow derives `Walk-In` vs `Mail-In`, booking slot, turnaround priority, address fields, and optional IMEI/SN from Shopify order content.
+  - Found: Monday items are created in group `new_group77101__1` with payment/source/intercom-link fields already populated.
+  - Found: Intercom ticket creation uses ticket type `2985889` and Slack notification posts into channel `shopify-orders`.
+  - Led to: tighten the Shopify order client journey and move the Monday destination from inferred to observed.
+
+- Read `backmarket/scripts/sent-orders.js` and SOP 01
+  - Found: BM SENT-order ingress is documented as a polling flow against `GET /ws/buyback/v1/orders?status=SENT`.
+  - Found: the script de-dups on Main Board `text_mky01vb4`, creates one Main Board item in `Incoming Future`, creates one BM Devices item in `BM Trade-Ins`, links them, and sends Telegram notifications.
+  - Found: SOP 01 documents a `06:00 UTC` cron schedule.
+  - Found: live user crontab contains the exact `0 6 * * * ... sent-orders.js --live` entry, and `logs/cron/sent-orders.log` shows a `2026-03-31 06:00 UTC` run that created four linked Monday records.
+  - Found: this conflicts with `BM-PROCESS-CURRENT-STATE.md`, which describes Stage 1 as Slack-notification visibility only.
+  - Led to: update the BM platform inventory and trade-in journey, and reclassify the conflict as stale/incomplete current-state documentation rather than an unverified runtime question.
+
+- Checked live scheduler/runtime state for BM scripts
+  - Source checked: user crontab, `logs/cron/`
+  - Found active cron entries for:
+    - `sent-orders.js --live` daily `06:00 UTC`
+    - `sale-detection.js` hourly on weekdays and three times daily on weekends
+    - `dispatch.js` weekdays at `07:00` and `12:00 UTC`
+  - Found: `backmarket/sops/00-BACK-MARKET-MASTER.md` still says `sale-detection.js` is not scheduled and `dispatch.js` is manual.
+  - Led to: log a second BM documentation-drift finding around scheduled jobs.
+
+- Inspected Monday automation screenshots
+  - Source checked: `builds/monday/automation screenshots/*.png`
+  - Found: the catch-all webhook automations are visibly active in the Monday UI, each showing `3,572` actions at screenshot time.
+  - Found: screenshot labels identify the Michael Ferrari-owned catch-all as `Notifications.` and the Ricky Panesar-owned catch-all as `Stock Checker`.
+  - Found: filtered webhook rows for shipped, pay-out, diagnostic complete, IMEI/SN, and ready-to-collect are also visibly active.
+  - Limitation: the screenshots do not reveal destination URLs, so UI access is still required to identify the unknown consumers.
+  - Led to: strengthen evidence for the catch-all-webhook finding without over-claiming their destinations.
+
+- Read `backmarket/scripts/list-device.js` and `backmarket/sops/06-listing.md`
+  - Found: live listing is single-item only and requires `--live --item`; no batch live mode exists.
+  - Found: listing reads Main Board grade/colour/cost data plus linked BM Devices specs, resolves safe product UUIDs from resolver truth/catalog, creates/verifies draft listings, fetches backbox pricing, publishes, then writes listing identity and total fixed cost back to Monday.
+  - Found: no user crontab entry exists for `list-device.js`.
+  - Led to: classify listing as an operator-invoked automation step rather than a scheduled autonomous workflow.
+
+- Read `backmarket/scripts/sale-detection.js`, `backmarket/sops/08-sale-detection.md`, and `/home/ricky/logs/cron/sale-detection.log`
+  - Found: sale detection polls BM `state=1` orders, matches on BM Devices listing ID, accepts with the order payload SKU, updates BM Devices and the linked Main Board item, renames the Main Board item to the buyer, and notifies Telegram.
+  - Found: user crontab schedules sale detection hourly on weekdays and three times daily on weekends.
+  - Found: `sale-detection.log` shows a successful production acceptance on `2026-03-31` and later no-op polling runs the same day.
+  - Found: SOP 08's scheduler note is stale because it still says no active cron entry exists.
+  - Led to: add a BM resale-order journey and tighten the BM runtime findings around mixed manual/scheduled ownership.
+
+- Read `backmarket/scripts/reconcile-listings.js` and checked user crontab
+  - Found: the script cross-checks Monday Listed items against BM listings, flags offline/orphan/spec-mismatch cases, and can backfill costs.
+  - Found: no live crontab entry exists for reconciliation.
+  - Led to: keep reconciliation runtime as an open question rather than assuming it is active.
+
+- Read `/home/ricky/logs/cron/dispatch.log`
+  - Found: Royal Mail dispatch automation is live, buys labels, extracts tracking, uploads PDFs to Slack, and explicitly notes that BM is not notified until shipping is confirmed later in Monday.
+  - Led to: connect dispatch runtime to the later `status4 -> Shipped -> bm-shipping` confirmation path in the BM resale journey.
+
+- Expanded Intercom ticket and company surfaces
+  - Command / API call:
+    - `GET /ticket_types`
+    - `POST /tickets/search`
+    - `GET /companies?per_page=5`
+    - `GET /data_attributes?model=company`
+  - Result: conclusive
+  - Found:
+    - `2` active ticket types: `Tickets` and `Internal Notes`
+    - `30,650` tickets total across `1,533` pages
+    - first sampled page shows operator workflow events on every returned ticket
+    - `169` companies
+    - `21` company attributes, `5` custom
+    - custom company fields include `Payment Method`, `Corporate Account Item ID`, and `creation_source`
+  - Also found:
+    - `GET /inboxes` returned `404`
+    - `GET /macros` returned `intercom_version_invalid`
+  - Led to: reclassify ticket inventory as a confirmed production surface and narrow the remaining Intercom unknowns to inbox/routing/macro exposure rather than ticket existence.
+
+- Expanded Intercom admin/help-centre/API-limit surface
+  - Command / API call:
+    - `GET /admins?per_page=1`
+    - `GET /teams?per_page=1`
+    - `GET /help_center/help_centers?per_page=10`
+    - `GET /articles?per_page=1`
+    - `GET /help_center/collections?per_page=1`
+    - `POST /contacts/search` for `role=user` and `role=lead`
+    - `POST /conversations/search` for `source.type=conversation`
+    - `GET /inboxes`
+    - `GET /macros`
+    - `GET /news/news_items`
+  - Found:
+    - only `1` visible inbox seat across `3` admins
+    - one `Support` team with round-robin distribution and one member
+    - one Help Center exists, but `website_turned_on=false` with `0` articles and `0` collections
+    - `19,361` user contacts and `440` leads via role search
+    - customer-initiated conversations show `ai_agent_participated=true`, team routing to `Support`, and AI/CX metadata on live records
+    - `/inboxes` is `404 not_found`
+    - `/macros` is `400 intercom_version_invalid`
+    - `/news/news_items` is `404 not_found`
+  - Led to: classify Intercom help-centre content as dormant/off, document the one-seat support ownership model, and narrow the remaining unknown to whether inbox/macro/routing admin features are only exposed in another API/UI layer.
+
+- Expanded Shopify REST/admin-scope surface
+  - Command / API call:
+    - `GET /admin/oauth/access_scopes.json`
+    - `GET /admin/api/2025-01/webhooks.json?limit=50`
+    - `GET /admin/api/2025-01/themes.json`
+    - `GET /admin/api/2025-01/pages.json?limit=10`
+    - `GET /admin/api/2025-01/blogs.json?limit=10`
+    - `GET /admin/api/2025-01/metafields.json?limit=10`
+    - `GET /admin/api/2025-01/redirects.json?limit=10`
+    - `GET /admin/api/2025-01/script_tags.json?limit=50`
+    - `GET /admin/api/2025-01/locations.json`
+    - `GET /admin/api/2025-01/product_listings.json?limit=10`
+  - Found:
+    - the documented “read-only” token is not actually read-only; granted scopes include write access to orders, products, content, theme code, and themes
+    - REST `webhooks.json` also returns `0` visible webhooks, matching the earlier GraphQL result
+    - the store has `16` themes with one live main theme and many preview/unpublished variants
+    - pages, blogs, redirects, and shop metafields are all readable
+    - shop metafields include active `gtm` and `SEOMetaManager` configuration
+    - `script_tags`, `locations`, and `product_listings` are blocked by missing merchant-approved scopes
+    - versioned `/admin/api/2025-01/access_scopes.json` returns `404`, while the non-versioned OAuth path works
+  - Led to: add a high-severity permission finding for the Shopify token, reclassify webhook invisibility as a real ownership gap rather than a GraphQL-only blind spot, and extend Shopify’s role in the audit to include theme/content/tracking surfaces.
+
+- Closed the current BM payout runtime question
+  - Command / evidence:
+    - current user crontab
+    - `systemctl --user status bm-payout.service`
+    - `/home/ricky/builds/backmarket/audit/payout-incident-evidence-2026-03-27/crontab.before.txt`
+    - `/home/ricky/builds/backmarket/audit/payout-incident-evidence-2026-03-27/crontab.after.txt`
+    - `/home/ricky/builds/backmarket/audit/bm-payout-root-cause-2026-03-27.md`
+    - staged BM docs under `backmarket/docs/staged/2026-04-01/`
+  - Found:
+    - `bm-payout.service` is active and listening on `127.0.0.1:8012`
+    - current crontab no longer contains the rogue `buyback_payout_watch.py` watcher
+    - the old watcher script/log are not present in the current OpenClaw workspace
+    - incident evidence confirms that watcher was real historically and was removed after the March 27 payout incident
+    - some staged BM docs still describe `buyback_payout_watch.py` as an active fallback or live cron path
+  - Led to: reclassify the rogue payout cron as historical/removed, keep `bm-payout` as the current live payout executor, and move the remaining issue into documentation drift rather than runtime ambiguity.
+
+- Expanded Shopify scope and configuration reads
+  - Command / API call:
+    - `GET /admin/api/2025-01/shipping_zones.json`
+    - `GET /admin/api/2025-01/price_rules.json?limit=20`
+    - GraphQL `appInstallations`
+    - GraphQL `shop { shipsToCountries plan { displayName partnerDevelopment } }`
+  - Result: partial
+  - Found:
+    - shipping zones are readable and show one zone, `Europe`, covering `GB`
+    - GraphQL `shop.plan.displayName` returns `Shopify`
+    - `price_rules` access is blocked pending merchant approval for `read_price_rules`
+    - `appInstallations` returns `ACCESS_DENIED`
+    - `payment_gateways.json` returned `404` on the current token/path
+  - Led to: record Shopify scope limitations as access blockers rather than treating missing app/discount visibility as proof of absence.
+
+- Read `backmarket/sops/12-returns-aftercare.md`, `icloud-checker` counter-offer code, and active n8n warranty flow
+  - Found: BM buyer returns are still detected/handled manually through BM dashboard or email; there is no dedicated automated return-detection service.
+  - Found: BM `/ws/sav` aftercare API is explicitly documented as under construction/non-functional.
+  - Found: `icloud-checker` does provide a live partial automation island for trade-in counter-offers:
+    - sets Monday `status24` to `Counteroffer`
+    - posts Slack approval buttons
+    - executes BM buyback counter-offers on approve/adjust
+    - enforces a `15%` rolling counter-offer rate cap
+  - Found: active n8n workflow `Warranty Claim Form` accepts website warranty claims on webhook path `warranty-claim`, emails `support@icorrect.co.uk`, then reconciles the resulting Intercom conversation to the real customer contact.
+  - Led to: add a dedicated warranty/aftercare/returns journey, new integration rows for warranty claims and counter-offers, and a finding that BM aftercare is still mostly manual despite partial edge automation.
+
+- Read mail-in/corporate routing docs plus live workflow evidence
+  - Source checked:
+    - `monday/board-schema.md`
+    - `monday/icorrect-status-notification-documentation.md`
+    - `monday/main-board-column-audit.md`
+    - `agents/data-architecture-brief.md`
+    - active n8n Shopify and status-notification workflows
+    - Intercom ticket/company evidence
+  - Found:
+    - mail-in flow is explicitly documented through `Incoming Future -> Today's Repairs -> ... -> Outbound Shipping -> Returned`
+    - status notifications have dedicated `received-remote`, `courier-mailin`, and `return-courier` templates
+    - non-corporate remote/courier templates append a Typeform link; corporate templates suppress it
+    - corporate is a first-class Monday client type and also appears in Intercom ticket/company data
+  - Led to: add first-pass journey drafts for `mail-in-send-in-customer` and `corporate-b2b-client`, while leaving non-Shopify mail-in ingress and deeper corporate routing as open questions.
+
+- Tightened journey files against live workflow and notification evidence
+  - Source checked:
+    - active n8n workflow `Walk-In Typeform → Intercom + Monday`
+    - active n8n workflow `Shopify Contact Form`
+    - `monday/services/status-notifications/templates.js`
+    - `monday/icorrect-status-notification-documentation.md`
+    - `intake-system/SPEC.md`
+    - current journey files under `client_journeys/`
+  - Found:
+    - walk-in entry is concretely supported by a live Typeform -> Intercom ticket -> Monday item -> Slack flow, not just by inferred board usage
+    - mail-in/customer-return messaging is concretely tied to `status4`, `service`, `status` (client type), `text53`, and `text_mm087h9p`
+    - corporate website enquiries have a live `shopify-contact-form` path that creates/reuses Intercom contacts, creates/updates companies, creates tickets, and posts Slack notifications
+    - warranty and BM aftercare remain intentionally split: website claims are system-routed into Intercom, while BM buyer returns are still mostly manual
+    - BM trade-in status24 branches are now explicit in the journey pack: `IC ON` / `IC OFF` / `Counteroffer` / `Pay-Out` / `Purchased`
+  - Led to:
+    - promote `walk-in-customer`, `mail-in-send-in-customer`, `corporate-b2b-client`, `warranty-aftercare-returns`, `backmarket-tradein`, `backmarket-resale-order`, and `shopify-online-purchase` to evidence-backed wording where supported
+    - shrink the open journey questions to genuine remaining evidence gaps rather than first-pass uncertainty
+
+- Probed blocked and partial credential surfaces with read-only auth checks
+  - Source checked:
+    - `/home/ricky/config/.env`
+    - `/home/ricky/config/api-keys/.env`
+    - live probes to Google OAuth/Search Console/Drive/Calendar, Typeform `/forms`, Cloudflare token verify, SumUp `/v0.1/me`, JARVIS IMAP/SMTP, and Royal Mail OAuth
+  - Found:
+    - `config/.env` and `config/api-keys/.env` are separate files and diverge on overlapping keys
+    - Google Jarvis token from `config/.env` is live for Search Console and Calendar but not Drive; token scopes differ from shared docs
+    - `EDGE_GOOGLE_REFRESH_TOKEN` is missing from `config/.env` but present and live in `config/api-keys/.env`
+    - Typeform and SumUp both fail with the `config/.env` values but succeed with the `config/api-keys/.env` values
+    - Cloudflare token verify still returns `401 Invalid API Token`
+    - JARVIS IMAP login succeeds, but SMTP connect to the configured SiteGround host/port initially times out
+    - the attempted Royal Mail OAuth endpoint currently returns a `404 Not Found` body rather than a token
+  - Led to:
+    - reclassify Google, Typeform, SumUp, JARVIS email, and Royal Mail in the access matrix
+    - add a new high-severity finding for env-file credential drift
+    - narrow the remaining blocked surfaces to Cloudflare, unresolved Royal Mail endpoint/onboarding state, and safe Xero auth verification until SMTP could be retested on alternate ports
+
+- Expanded platform inventory for newly opened and partially blocked systems
+  - Source checked:
+    - live exports for Typeform, Google, SumUp, and JARVIS IMAP
+    - local docs for Cloudflare migration, Xero invoice automation, and Royal Mail dispatch
+  - Found:
+    - Typeform has `37` live forms on the working token, with verified mappings for `LtNyVqVN` and `sDieaFMs`
+    - Google splits by identity and env source: Jarvis covers Search Console/Calendar/GA, while Edge covers Search Console/Drive/GA when sourced from `config/api-keys/.env`
+    - SumUp is live on the working key and exposes the `Panrix Ltd T/a iCorrect` merchant profile plus readable transaction history
+    - JARVIS email is a real IMAP mailbox with current message volume, even before SMTP was fully resolved
+    - Cloudflare and Royal Mail still have enough local evidence to document their operational role despite blocked/unresolved live auth
+    - Xero has strong local evidence through the active `Xero Invoice Creator` workflow, but live auth remains intentionally untested because of rotating refresh tokens
+  - Led to:
+    - add platform inventory files for `typeform.md`, `google.md`, `sumup.md`, `jarvis-email.md`, `cloudflare.md`, `royal-mail.md`, and `xero.md`
+    - reduce the remaining blocker list to Cloudflare live access, Royal Mail API endpoint/onboarding, and safe Xero auth verification
+
+- Tightened payment ownership using local finance docs plus live Stripe reads
+  - Source checked:
+    - `documentation/raw-imports/finance-cashflow.md`
+    - `documentation/raw-imports/shopify-website.md`
+    - `monday/automation-audit.md`
+    - `xero-invoice-automation/BRIEF.md`
+    - `agent-rebuild/technical/evidence/xero-api-reference.md`
+    - `agents/data-architecture-brief.md`
+    - live Stripe `GET /v1/account`
+    - live Stripe `GET /v1/payment_intents?limit=3`
+  - Found:
+    - Stripe is a live rail with account `acct_1P8Ks7S1IqGUbO9S`, `GB`, `gbp`, and charges/payouts enabled
+    - sampled Stripe payment intents are succeeded and carry invoice-style metadata including `Invoice number`
+    - Shopify ingress is operationally treated as prepaid by writing `payment_status = Confirmed`, `payment_method = Shopify`, and `dup__of_quote_total` to Monday
+    - SumUp remains the best-supported walk-in card rail in the local finance/data docs
+    - Xero draft-invoice creation is active, but local evidence still says the downstream send-invoice and payment-received flows are not deployed
+  - Led to:
+    - add `platform_inventory/stripe.md`
+    - tighten the Shopify, walk-in, mail-in, and corporate journey payment branches
+    - add a findings entry that payment ownership/reconciliation remains split across Shopify, Stripe, SumUp, Monday, and Xero
+
+- Checked whether payment reconciliation has a current live runtime owner
+  - Source checked:
+    - archived script `/home/ricky/data/archives/agents/2026-03-31/disk-orphans/finance-archived/workspace/docs/payment_reconciliation.py`
+    - `/home/ricky/config/xero_refresh.sh`
+    - cron/systemd references under `/home/ricky/.openclaw/cron`, `/home/ricky/.config/systemd`, `/etc/systemd`
+    - Monday main-board audit docs for `Payments Reconciled`
+  - Found:
+    - the archived script is a real implementation that fetches Stripe and SumUp transactions, matches them to Monday repairs, and writes Payment 1/2 refs, amounts, dates, and reconciliation state
+    - it loads credentials from `config/api-keys/.env`
+    - current `xero_refresh.sh` also treats `config/api-keys/.env` as the Xero token source
+    - no current cron or systemd runtime referencing `payment_reconciliation.py` was found
+    - Monday docs say `Payments Reconciled` has zero activity
+  - Led to:
+    - reframe payment reconciliation from `unknown owner` to `archived/orphaned implementation with no live runtime evidence`
+    - add a finding that payment reconciliation currently exists only as archived tooling
+
+- Re-tested JARVIS SMTP and tightened the Cloudflare / Royal Mail blocker picture
+  - Source checked:
+    - live socket scans against `uk1000.siteground.eu`
+    - live no-send SMTP auth probes using the JARVIS mailbox credentials
+    - `webhook-migration/verification/status-notifications-live-cutover-2026-04-01.md`
+    - `backmarket/docs/staged/2026-04-01/BM-PROCESS-CURRENT-STATE.md`
+    - `royal-mail-automation/DISPATCH-TASK.md`
+  - Found:
+    - SMTP port `465` times out, but `587` and `2525` both accept `STARTTLS` and successful login with the same credentials
+    - the problem is stale SMTP config rather than a dead mailbox
+    - the status-notification VPS cutover is complete as of `2026-04-01`; the old n8n sender is disabled and the VPS service is live
+    - Royal Mail browser automation remains the live shipping path, while local BM docs explicitly say the Royal Mail API onboarding/subscription is parked
+  - Led to:
+    - reclassify JARVIS email from `blocked SMTP` to `working mailbox with stale SMTP port config`
+    - tighten the Cloudflare note from `migration in progress` to `cutover complete, cleanup pending`
+    - tighten the Royal Mail note from `unclear API state` to `API parked, browser automation active`
+
+- Verified live Xero tenant access and current finance-state inventory with safe read-only probes
+  - Source checked:
+    - `/home/ricky/config/xero_refresh.sh`
+    - live Xero REST endpoints:
+      - `/connections`
+      - `/Organisation`
+      - `/Accounts`
+      - `/Invoices`
+      - `/Payments`
+      - `/BankTransactions`
+      - `/Contacts`
+      - `/Reports/ProfitAndLoss`
+      - `/Reports/BalanceSheet`
+    - current-period filters from `2025-01-01` onward for `ACCREC`, `ACCPAY`, payments, and authorised bank transactions
+  - Found:
+    - Xero tenant access is live for `Panrix Ltd`
+    - organisation settings show `SalesTaxBasis=CASH` and `SalesTaxPeriod=QUARTERLY`, matching the operator-confirmed cash-accounting model
+    - the chart of accounts has `135` accounts including explicit `Cash Account`, `Starling`, and `Stripe` ledger accounts
+    - Xero is current, not just historical:
+      - recent `ACCREC` invoices include `AUTHORISED`, `DRAFT`, and `PAID` states
+      - recent `ACCPAY` invoices are mostly `PAID`
+      - current-period payments and authorised bank transactions are present
+      - April 2026 P&L and Balance Sheet reports are available live
+    - April 2026 P&L sample shows revenue accounts `Backmarket` and `Shopify`
+    - current balance sheet sample shows `Accounts Receivable`, cash/bank balances, and Stripe account balances
+  - Led to:
+    - reclassify Xero from `likely active / auth unverified` to `active / live verified`
+    - strengthen the finance mapping around cash accounting, receivables, and bank-state visibility
+    - add a new finding that Xero is live and current but the Monday -> Xero loop still stops at draft-invoice stage
+    - narrow the remaining finance open questions to reconciliation ownership and payment-received write-back rather than Xero access itself
+
+- Audited the active Xero invoice workflow implementation for control-plane risks
+  - Source checked:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/n8n/active/9jD6J2X3yCPk8Rjp.json`
+    - `/home/ricky/builds/xero-invoice-automation/workflow_v4.json`
+    - `/home/ricky/builds/xero-invoice-automation/SETUP.md`
+    - `/home/ricky/builds/agent-rebuild/technical/evidence/xero-api-reference.md`
+  - Found:
+    - the active invoice workflow is live and matches the documented `xero-invoice-create` path
+    - the workflow is not using a clean credential abstraction
+    - embedded auth material and internal workflow refresh-token state are present in the exported workflow definition
+    - archived `xero-send-invoice.json` and `xero-payment-received.json` exist as reference workflows only; they are not part of the active n8n export set
+    - the historical Xero reference audit already warned about token race conditions, placeholder credentials for undeployed workflows, and missing Xero webhook registration
+  - Led to:
+    - add a new high-severity finding for embedded secret material in the active finance workflow
+    - add finance-controls cleanup to the next-steps list
+    - tighten the finance mapping from `access problem` to `reconciliation and secret-ownership problem`
+
+- Audited the archived Xero send-invoice and payment-received workflow drafts
+  - Source checked:
+    - `/home/ricky/data/archives/agents/2026-03-31/disk-orphans/processes/workspace/docs/workflows/xero-send-invoice.json`
+    - `/home/ricky/data/archives/agents/2026-03-31/disk-orphans/processes/workspace/docs/workflows/xero-payment-received.json`
+  - Found:
+    - both workflows are archived reference JSONs, not active n8n exports
+    - both use placeholder Xero credential IDs
+    - the send-invoice workflow also uses a placeholder Slack channel ID
+    - the payment-received workflow depends on a Xero webhook registration that has not been observed
+    - the payment-received workflow tries to extract `Monday ID:` from invoice reference, but the active invoice creator uses `{Device Name} Repair` instead
+  - Led to:
+    - tighten the Xero finding from `undeployed follow-on workflows` to `undeployed and not deployment-ready`
+    - narrow the remaining finance design choice to whether these drafts should be repaired or replaced entirely
+
+- Cross-checked the live Xero picture against local finance planning docs
+  - Source checked:
+    - `/home/ricky/builds/documentation/raw-imports/finance-cashflow.md`
+    - `/home/ricky/data/archives/agents/2026-03-31/disk-orphans/finance-archived/workspace/docs/KNOWLEDGE-BASE.md`
+    - `/home/ricky/builds/agents/FINANCE-MERGE.md`
+  - Found:
+    - finance docs explicitly say Xero reconciliation was still ongoing and bank statements were treated as more reliable for short-term decisions
+    - the same docs mention custom CSV processing scripts for Stripe-to-Xero import
+    - archived KPI/finance knowledge tracks revenue by channel across `Back Market`, `Corporate (BACS)`, `Stripe`, `Shopify (Cash)`, and `SumUp`
+    - archived knowledge notes `Shopify cash in Xero from W/C 19 Jan`
+    - finance scope was merged into operations in February 2026, which explains why finance ownership is now spread across operations docs and archived finance material
+  - Led to:
+    - tighten the finance map around channel-specific payment rails and ongoing reconciliation lag
+    - add new open questions for the real current Stripe-to-Xero import owner and unexplained `FERRARI_XERO_*` credentials
+
+- Checked for any current live finance-reconciliation runtime outside historical artifacts
+  - Source checked:
+    - current filesystem search for `payment_reconciliation.py`, `reconciliation.py`, Xero forensics, and Stripe/Xero import-style scripts
+    - `/home/ricky/mission-control-v2/config/cron/reconciliation.py`
+    - current operations workspace reports:
+      - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/xero_invoice_crossref.csv`
+      - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/xero_invoice_cleanup.csv`
+  - Found:
+    - the only current `reconciliation.py` in the live workspace is a Mission Control stuck-work checker, not a finance reconciliation service
+    - no current live Stripe-to-Xero import script or payment-reconciliation runtime was found outside archived finance artifacts
+    - current operations workspace does contain Xero cleanup report outputs, which look like analyst/manual cleanup artefacts rather than an automated service
+  - Led to:
+    - treat the remaining finance gap as a true ownership/runtime blocker rather than an undiscovered code path
+    - keep payment reconciliation classified as archived/manual-output-heavy until a live owner is proven
+
+- Cross-checked Monday finance-state handling against the Xero mapping
+  - Source checked:
+    - `/home/ricky/builds/monday/automation-audit.md`
+  - Found:
+    - the Monday automation audit documents a finance-state transition where `Invoiced` sets `Payment Method = Invoiced - Xero` and `Payment Status = Pending`
+    - this supports the existing picture that Monday owns the front-half operational invoice state, while Xero payment closure back into Monday is the missing half
+  - Led to:
+    - tighten the finance map around where invoice-state ownership starts
+    - confirm that the remaining uncertainty is the back-half reconciliation/payment-received owner rather than the initial invoice-state handoff
+
+- Cross-checked current operations finance docs and cleanup outputs for ghost-invoice backlog evidence
+  - Source checked:
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/IMPROVEMENTS.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/KNOWLEDGE-BASE.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/finance/otter-transcript-insights.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/financial-leak-analysis-2026-03.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/xero_invoice_crossref.csv`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/xero_invoice_cleanup.csv`
+  - Found:
+    - current operations docs explicitly describe `343` ghost invoices and approximately `£91k` of fake debt caused by missing payment matching
+    - `xero_invoice_crossref.csv` contains `343` rows:
+      - `265` `SAFE TO VOID - payment matched`
+      - `78` `REVIEW NEEDED - no payment found`
+    - `xero_invoice_cleanup.csv` contains `450` rows:
+      - `343` `VOID - Likely paid/ghost`
+      - `107` `KEEP - Corporate`
+    - the cleanup CSVs are current analyst/output artefacts, not proof of a live owned reconciliation runtime
+  - Led to:
+    - add a new finance finding for ghost-invoice backlog ownership risk
+    - tighten the financial mapping around manual cleanup volume and distorted debt visibility
+    - add open questions for owner/disposition of the unmatched review set
+
+- Cross-checked current `xero-send-invoice` workflow spec against live Monday finance controls
+  - Source checked:
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/workflows/xero-send-invoice.json`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/KNOWLEDGE-BASE.md`
+    - `/home/ricky/builds/monday/automations.md`
+    - `/home/ricky/builds/monday/automations-export.csv`
+    - `/home/ricky/builds/monday/main-board-column-audit.md`
+    - `/home/ricky/builds/monday/build-new-board.py`
+  - Found:
+    - current operations docs still describe a three-workflow Xero pipeline: Generate Invoice, Send Invoice, Payment Received
+    - the current `xero-send-invoice.json` remains an undeployed draft:
+      - webhook path `xero-send-invoice`
+      - placeholder Xero credential ID `REPLACE_WITH_XERO_CRED_ID`
+      - placeholder Slack channel
+      - Intercom comment send step for customer payment link
+    - current Monday board evidence only proves one live finance trigger:
+      - webhook automation `537692848`
+      - `Invoice Action -> Create Invoice -> webhook`
+    - current board evidence does not show a separate live `Send Invoice` board action or automation
+  - Led to:
+    - tighten the Xero platform inventory and finance mapping around stage-one-only Monday control
+    - strengthen the existing Xero finding that the live loop stops at draft-invoice stage
+    - narrow the next finance check to current `xero-payment-received.json` parity and final payment-state ownership
+
+- Cross-checked current `xero-payment-received` workflow spec against live Xero references and live Monday schema labels
+  - Source checked:
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/workflows/xero-payment-received.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/xero/invoices-accrec-2025plus-page1.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/main-board-schema.json`
+    - `/home/ricky/builds/monday/main-board-column-audit.md`
+  - Found:
+    - current `xero-payment-received.json` remains an undeployed draft with:
+      - placeholder Xero credential ID `REPLACE_WITH_XERO_CRED_ID`
+      - placeholder Slack channel
+      - expectation that Xero invoice `Reference` contains `Monday ID: <id>`
+      - Monday write-back targets `payment_status = Paid` and `payment_method = Online (Xero)`
+    - live `2025+` sampled Xero receivable invoices contain `0` references matching `Monday ID:`
+    - sampled draft invoice references are mostly device/job descriptions or blank values
+    - live Monday schema labels do not match the draft write-back:
+      - `Payment Status` includes `Confirmed` and `Pending`, but not `Paid`
+      - `Payment Method` includes `Invoiced - Xero`, but not `Online (Xero)`
+      - `Invoice Status` includes `Paid`
+  - Led to:
+    - confirm that the documented payment-received workflow is not only undeployed but currently incompatible with live references and live Monday schema labels
+    - tighten the finance open question from `is there a webhook?` to `what should the canonical paid-state write-back model be?`
+
+- Cross-checked live Xero ledger structure and bank transactions for actual cash-entry patterns
+  - Source checked:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/xero/accounts.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/xero/bank-transactions-2025plus-authorised-page1.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/xero/payments-2025plus-page1.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/xero/contacts-page1.json`
+  - Found:
+    - live Xero has dedicated revenue accounts for `SumUp`, `Stripe`, `Shopify`, and `Backmarket`
+    - live Xero also has explicit fee/cost accounts for `Payment Fees - SumUp`, `Payment Fees - Stripe`, `Stripe Fees`, and `Backmarket - TradeIns`
+    - `Stripe GBP` and `Stripe GBP 1` exist as Xero `BANK` accounts with Stripe-style account identifiers
+    - `Starling Business Account` and `Starling Business Account#001` exist as active GBP bank accounts
+    - no dedicated `SumUp` bank account was observed in the sampled chart of accounts
+    - current `2025+` authorised bank-transaction sample is concentrated in `Starling Business Account#001`
+    - the receive-side sample has `20` rows totalling `11978.93`, with top contacts `Stripe` (`7`), `SumUp` (`5`), and `BackMarket` (`2`)
+    - this supports a bank-centric view of cash visibility even while invoice/payment automation remains incomplete
+  - Led to:
+    - strengthen the financial mapping around channel-level ledger structure and bank-driven cash evidence
+    - narrow Stripe vs SumUp ownership ambiguity slightly: Stripe has direct Xero-bank-account representation, while SumUp currently appears through Starling receive-side activity plus revenue/fee accounts
+    - narrow the remaining gap to ownership of write-back/reconciliation rather than whether channel cash reaches Xero at all
+
+- Checked whether historically documented Xero/reconciliation scripts still exist in the live operations workspace
+  - Source checked:
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/finance/KNOWLEDGE-BASE.md`
+    - filesystem search under `/home/ricky/.openclaw/agents/operations/workspace`
+    - filesystem search under `/home/ricky/data/archives`
+  - Found:
+    - current operations finance KB still references:
+      - `docs/payment_reconciliation.py`
+      - `docs/xero_vat_forensics.py`
+      - `docs/xero_vat_forensics_v2.py`
+      - `docs/xero_refresh_token.txt`
+      - `docs/xero_vat_forensics_results.json`
+    - none of those files exist in the live operations workspace
+    - all of them exist only in `/home/ricky/data/archives/agents/2026-03-31/disk-orphans/finance-archived/workspace/docs/`
+  - Led to:
+    - strengthen the reconciliation finding from `archived runtime` to `current docs still point at archive-only tooling`
+    - add a finance-doc-ownership cleanup question and next-step item
+
+- Checked active n8n workflow exports for direct Stripe or SumUp handling
+  - Source checked:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/n8n/active/*.json`
+  - Found:
+    - no `Stripe` references in the active n8n export set
+    - no `SumUp` references in the active n8n export set
+  - Led to:
+    - narrow payment-rail automation ownership away from active n8n workflows
+    - focus the remaining Stripe/SumUp search on non-n8n scripts, reporting jobs, Xero ledger handling, or manual processes
+
+- Checked non-doc source code for direct Stripe or SumUp payment-handling services
+  - Source checked:
+    - source-only search across `/home/ricky/builds`, `/home/ricky/.openclaw`, and `/home/ricky/mission-control-v2`
+    - excluded docs, JSON/CSV exports, sessions, archives, and backups
+  - Found:
+    - Stripe appears only in `mission-control-v2/scripts/kpi/kpi_updater.py`
+    - SumUp appears in `mission-control-v2/scripts/kpi/kpi_updater.py` and `builds/pricing-sync/*` catalog/pricing tooling
+    - no live non-doc source files were found that consume Stripe events, SumUp transactions, or payment-rail exports for reconciliation/write-back
+  - Led to:
+    - strengthen the conclusion that current payment-rail automation ownership is not sitting in active n8n or obvious live service code
+    - treat the remaining Stripe/SumUp closure gap as a real blocker with current local evidence
+
+- Cross-checked Shopify order-ingress ownership against the live n8n workflow definition
+  - Source checked:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/n8n/active/fuVSFQvvJ1GRPkPe.json`
+    - `/home/ricky/builds/system-audit-2026-03-31/platform_inventory/shopify.md`
+    - `/home/ricky/builds/system-audit-2026-03-31/access_matrix.md`
+  - Found:
+    - the live `Shopify Order to Monday.com + Intercom - iCorrect` workflow uses an n8n `shopifyTrigger` node
+    - the trigger uses Shopify OAuth credentials (`shopifyOAuth2Api`)
+    - this makes an app-managed / credential-owned subscription more likely than a manually registered raw webhook
+    - current REST and GraphQL Shopify surfaces for the audit token still show `0` visible webhook subscriptions
+  - Led to:
+    - narrow the Shopify webhook ambiguity toward `app-owned or token-hidden subscription`
+    - update the Shopify inventory and findings so operators do not mistake `0 visible webhooks` for `no live order-ingress trigger`
+
+- Re-probed Shopify with the current custom app installation surface and live order payment fields
+  - Source checked:
+    - `/home/ricky/config/api-keys/.env`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/orders-payment-sample.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/current-app-installation.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/current-app-detail.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/webhook-subscriptions-admin.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/app_installations_admin.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/shopify-payments-account.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/shopify/webhooks-rest-admin.json`
+  - Found:
+    - recent paid orders expose `payment_gateway_names = ["shopify_payments"]`, which is direct API evidence for Shopify Payments on live checkout orders
+    - `currentAppInstallation` resolves and identifies the current app as `Jarvis`
+    - the current app's granted scopes match the earlier OAuth scope read and still do not include `read_apps`, `read_shopify_payments`, or `read_shopify_payments_accounts`
+    - GraphQL `webhookSubscriptionsCount` returns exact `0` and REST `GET /webhooks.json` also returns `0` for the current app token
+    - GraphQL `appInstallations` remains `ACCESS_DENIED`
+    - GraphQL `shopifyPaymentsAccount` exists on the schema but is blocked without `read_shopify_payments`
+  - Led to:
+    - close the Shopify gateway question at the business level: checkout is API-observed as using Shopify Payments
+    - narrow the remaining ownership gap to `which app/credential actually owns the live n8n Shopify trigger`
+    - reframe the remaining Shopify blocker as a scope/app-ownership problem, not an absence-of-trigger problem
+
+- Tried to resolve Shopify trigger ownership from the n8n credentials API
+  - Source checked:
+    - `/home/ricky/data/exports/system-audit-2026-03-31/n8n/active/fuVSFQvvJ1GRPkPe.json`
+    - n8n Cloud API `GET /api/v1/credentials?limit=200`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/n8n/credentials-list.json`
+  - Found:
+    - the live workflow credential is `shopifyOAuth2Api / Shopify account 2`
+    - the simple n8n Cloud admin API path tested for credential inventory returned `GET method not allowed`
+    - no safe credential-metadata surface was exposed from that path during this pass
+  - Led to:
+    - treat direct confirmation of the Shopify OAuth credential owner as blocked on a different n8n admin surface or credential export path
+    - move the Shopify thread forward with the current narrower conclusion: the live trigger exists, but it is not visible through the `Jarvis` custom app token
+
+- Folded OpenClaw team workspace and current KB roster into the main audit
+  - Source checked:
+    - `/home/ricky/.openclaw/shared/TEAM.md`
+    - `/home/ricky/kb/team/roster.md`
+    - `/home/ricky/builds/team-audits/PROJECT_OVERVIEW.md`
+    - `/home/ricky/builds/team-audits/CLAUDE.md`
+    - `/home/ricky/.openclaw/agents/team/workspace/docs/team-performance-audit.md`
+    - `/home/ricky/.openclaw/agents/customer-service/workspace/docs/knowledge-base/01-turnaround-times.md`
+    - `/home/ricky/builds/monday/repair-flow-traces.md`
+    - `/home/ricky/builds/monday/QUERY-SPEC.md`
+    - `/home/ricky/builds/monday/main-board-column-audit.md`
+  - Found:
+    - `/home/ricky/.openclaw/shared/TEAM.md` explicitly redirects current roster lookups to `/home/ricky/kb/team/roster.md`
+    - `/home/ricky/kb/team/roster.md` is newer than the February team-audit overview and marks Adil as dismissed on `2026-03-05`
+    - `CLAUDE.md` in `builds/team-audits` shows all six core audits complete, while `PROJECT_OVERVIEW.md` still shows several as pending
+    - the system already has the raw timing surfaces needed for a proper SLA/performance layer:
+      - customer-facing turnaround promises in the customer-service knowledge base
+      - Monday time-tracking columns for diagnostic, repair, refurb, cleaning, and total lifecycle
+      - Monday activity-log replay spec for per-status duration analysis
+      - role/performance context in the team audit docs
+    - the remaining gap is a computed timing synthesis, not lack of raw source material
+  - Led to:
+    - add `team-operations-summary.md`
+    - add `timing-mapping.md`
+    - move the next major audit pass toward workflow ownership and timing metrics rather than broad platform discovery
+
+- Added business-level viability and loss-driver analysis
+  - Source checked:
+    - `/home/ricky/builds/system-audit-2026-03-31/financial-mapping.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/business-deep-dive-2026-03.md`
+    - `/home/ricky/.openclaw/agents/operations/workspace/docs/reports/financial-leak-analysis-2026-03.md`
+    - `/home/ricky/builds/buyback-monitor/docs/PROFITABILITY-FINDINGS.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/shopify-agent-brief-mar-2026.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/bounce-rate-report-mar-2026.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/seo-audit-feb-2026.md`
+    - live Xero exports:
+      - `report-profit-and-loss.json`
+      - `report-balance-sheet.json`
+      - `invoices-accrec-2025plus-page1.json`
+      - `bank-transactions-2025plus-authorised-page1.json`
+      - `payments-2025plus-page1.json`
+  - Found:
+    - closed-month finance research already shows the business loss-making in `5` of `6` months with BM acquisition cost drift and weak gross margin as major causes
+    - marketing docs show live demand still exists:
+      - paid Shopify orders in the last 30 days
+      - corrected conversion evidence after the PostHog session-stitching fix
+      - active search demand and known SEO/UX leakage
+    - workshop and queue docs show severe trapped-value drag:
+      - aged Hole items
+      - stale leads
+      - stuck BM inventory
+      - long parts waits
+    - live Xero exports confirm the finance system is current enough to support the conclusion that the problem is operational/mix/closure, not absence of accounting data
+  - Led to:
+    - add `business-viability-analysis.md`
+    - add a top-level finding that the business loss is best explained by weak-margin BM volume plus poor lead conversion plus stuck-work drag
+
+- Computed first direct timing metrics from Monday and Intercom
+  - Source checked:
+    - live Monday API read-only pull of board `349212843` item date fields over the last `120` days
+    - February 2026 Intercom audit
+    - live `2026-04-01` Intercom recent-conversation sample (`150` conversations, filtered for obvious system/internal noise)
+  - Found:
+    - Monday elapsed timing is now partially quantified:
+      - walk-in diagnostics median `1 day` from received to diagnostic complete
+      - walk-in repairs median `1 day` from received to date repaired
+      - mail-in diagnostics median `4 days` to diagnostic complete
+      - mail-in repairs median `4 days` to date repaired
+      - corporate diagnostics median `1 day` to diagnostic complete
+    - technician splits suggest the longer timing problem is more diagnostic/mail-in-chain related than simple walk-in repair throughput
+    - Intercom reply timing has improved versus the February full-month audit, but remains too slow and too inconsistent:
+      - February full-month audit: `36.4h` mean, `22.4h` median, `29%` reply rate
+      - current filtered recent sample: `9.58h` median, `26.42h` mean, `27` unanswered out of `60`
+  - Led to:
+    - strengthen the timing layer in `timing-mapping.md`
+    - add a customer-response performance finding
+    - shift the next research pass toward quote-lag and active-vs-paused duration separation
+
+- Executed Track 1 marketing and growth analytics from the expansion brief
+  - Source checked:
+    - `/home/ricky/builds/system-audit-2026-03-31/RESEARCH-EXPANSION-BRIEF.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/shopify-agent-brief-mar-2026.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/seo-audit-feb-2026.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/google-fixes-brief-mar-2026.md`
+    - `/home/ricky/.openclaw/agents/marketing/workspace/docs/404-redirect-fix-brief.md`
+    - `/home/ricky/config/api-keys/.env`
+    - `/home/ricky/config/api-keys/google-token.sh`
+    - live PostHog API on `https://us.posthog.com/api/projects/296651/`
+    - live GA4 Data API using `EDGE_GOOGLE_REFRESH_TOKEN`
+    - live Search Console API for `https://www.icorrect.co.uk/`
+    - live Meta Graph API for ad account `act_513485772889925` and page `1768980250003769`
+    - live Shopify Admin API for `i-correct-final.myshopify.com`
+  - Found:
+    - demand is clearly live rather than absent:
+      - GA4 Q1 2026 sessions: `24,477`
+      - Shopify Q1 2026 orders: `108`
+      - Shopify Q1 2026 gross revenue: `£20,711.00`
+      - Shopify March 2026 gross revenue: `£13,686.00`
+    - acquisition mix is currently dominated by organic and direct traffic:
+      - Organic Search `61.8%`
+      - Direct `27.8%`
+      - Paid Social `4.6%`
+    - PostHog shows the March stitching fix is directionally visible because real funnel events now appear in production:
+      - `175` add-to-cart
+      - `153` checkout-started
+      - `104` wizard conversions
+    - the biggest visible web leakage is on high-intent pages, not just low-value content:
+      - `/pages/contact` has `275` dead clicks
+      - `/pages/macbook-repairs` has `160`
+      - GA4 recorded `543` `404 Not Found – iCorrect` pageviews in the recent window
+    - search demand exists but is still overly brand/homepage concentrated:
+      - homepage `531` clicks / `18,960` impressions
+      - contact page `23` clicks / `3,316` impressions
+      - `iphone repair london` has `556` impressions but only `4` clicks
+    - paid social is live but not fully attributable:
+      - `30` campaigns visible, `2` active
+      - visible active-campaign spend in Q1 `£317.75`
+      - no clean purchase / ROAS surface from the accessible Meta insight pull
+    - social footprint is materially larger on Instagram than Facebook:
+      - Facebook followers `4,500`
+      - Instagram followers `31,541`
+  - Led to:
+    - add `marketing-analysis.md`
+    - add `marketing-blockers.md`
+    - add Track 1 findings about demand-versus-conversion leakage and page-level friction
+    - re-order next work toward Track 3 Monday update mining, then Track 2 staff performance
+
+- Executed Track 3 Monday internal updates analysis from the expansion brief
+  - Source checked:
+    - live Monday app-token GraphQL update pull from board `349212843`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/items-updated-at-census-2026-04-01.json`
+    - `/home/ricky/data/exports/system-audit-2026-03-31/monday/item-updates-2026-04-01.json`
+    - derived summaries in:
+      - `monday-updates-summary-2026-04-01.json`
+      - `monday-updates-human-summary-2026-04-01.json`
+      - `monday-updates-human-samples-2026-04-01.json`
+  - Found:
+    - six-month window contains `6,164` recent updates across `1,547` items, but only `2,240` are human-written while `3,924` are automation/template notes
+    - only `1,069` items had a human-written update at all
+    - human note ownership is concentrated:
+      - Ricky `1,145`
+      - Ferrari `647`
+      - Adil `348`
+    - the strongest documented human-note themes are:
+      - BM issue `790`
+      - diagnostic complication `620`
+      - rework/return `446`
+    - free-text updates are valuable for technical/BM exception context, but weak for customer-no-response and parts-delay measurement because those appear under-documented in text
+  - Led to:
+    - add `monday-updates-analysis.md`
+    - add `monday-updates-blockers.md`
+    - add findings about noisy update telemetry and hidden BM/diagnostic/rework workload
+    - move the next expansion pass to Track 2 staff performance
+
+- Executed Track 2 staff performance analysis from the expansion brief
+  - Source checked:
+    - live Monday activity logs for:
+      - Safan Patel `25304513`
+      - Misha Kepeshchuk `64642914`
+      - Andreas Egas `49001724`
+      - Roni Mykhailiuk `79665360`
+      - Michael Ferrari `55780786`
+    - item-detail joins in:
+      - `staff-performance-items-2026-04-01.json`
+      - `staff-performance-summary-2026-04-01.json`
+  - Found:
+    - unique completion volume is concentrated:
+      - Safan `610`
+      - Misha `339`
+      - Andreas `230`
+      - Roni `89`
+      - Ferrari `7` in the accessible slice
+    - same-day completion and completions-per-working-day both point to Safan as the main throughput engine
+    - Misha has the strongest visible paid-value average on the subset with populated `Paid` values
+    - QC/repeat-completion proxies are materially non-trivial across the main three completers
+    - Ferrari's log surface lands exactly on `10,000` entries, so his activity slice may be capped
+    - device family and clean full revenue attribution remain blocked by board-surface limitations
+  - Led to:
+    - add `staff-performance-analysis.md`
+    - add `staff-performance-blockers.md`
+    - add findings about throughput concentration and rework/QC burden
+    - move the next pass toward supplementary economics/logistics research and cross-track verification
+
+- Executed supplementary supplier, logistics, retention, and capacity analysis
+  - Source checked:
+    - Xero filtered bank transactions in:
+      - `bank-transactions-authorised-2025-10-plus-all-2026-04-01.json`
+    - Monday paid/service surface in:
+      - `main-board-paid-service-surface-2026-04-01.json`
+      - `main-board-paid-service-surface-summary-2026-04-01.json`
+    - Monday parts board snapshot in:
+      - `parts-board-items-2026-04-01.json`
+      - `parts-board-items-summary-2026-04-01.json`
+    - Monday customer repeat surface in:
+      - `customer-repeat-surface-2026-04-01.json`
+      - `customer-repeat-surface-summary-2026-04-01.json`
+    - queue/capacity docs and queue-state exports:
+      - `/home/ricky/kb/operations/queue-management.md`
+      - `open-age-buckets-2026-04-01-summary.json`
+      - `open-age-buckets-2026-04-01-by-status.json`
+  - Found:
+    - identified logistics spend since `2025-10-01` is `£12,314.35`, mainly Royal Mail `£10,305.21`
+    - visible remote-service paid value on the main board is `£99,517.67`, so identified logistics cost is about `12.4%` of that visible remote paid surface
+    - identified parts/procurement spend across major suppliers and marketplaces is `£31,821.48`
+    - the live parts board has `1,802` rows but effectively no usable supplier identity, so Monday cannot currently support clean supplier concentration analysis
+    - the board-wide repeat-customer proxy finds `320` repeat customers out of `3,944` identifiable customers (`8.1%`)
+    - repeat behaviour is stronger in Walk-In and courier-led work than in standard Mail-In
+    - physical capacity is documented as `8` workstations, but there is no live workstation tracking in Monday and the visible open queue is dominated by blocked/waiting states rather than a huge active bench queue
+  - Led to:
+    - add `logistics-supplier-analysis.md`
+    - add `logistics-supplier-blockers.md`
+    - add `customer-retention-analysis.md`
+    - add `customer-retention-blockers.md`
+    - add `physical-capacity-analysis.md`
+    - add `physical-capacity-blockers.md`
+    - add findings on shipping drag, weak supplier metadata, modest repeat demand, and lack of workstation telemetry
+
+- Executed supplementary competitor benchmarking
+  - Source checked:
+    - iCorrect pricing page
+    - iSmash Apple-repairs and Trustpilot pages
+    - Mac Repair London prices and service pages
+    - Mind The Mac pricing and homepage
+    - I Repair Macs pricing, repair example, and Trustpilot pages
+    - TommyTech pricing and contact/home pages
+  - Found:
+    - iCorrect’s public entry pricing is broadly in-market rather than obviously overpriced
+    - same-day or near-same-day promise is common across London competitors, so speed is a baseline expectation
+    - the market splits between convenience chains/local fast-turn shops and premium Mac specialists
+    - the stronger external pressure point appears to be trust/convenience signalling and execution quality, not a clearly broken price position
+  - Led to:
+    - add `competitor-benchmarking.md`
+    - add `competitor-benchmarking-blockers.md`
+    - strengthen the business-viability diagnosis that execution and margin control matter more than headline retail price
+
+- Executed follow-up source sweep on hidden supplier and customer-identity surfaces
+  - Source checked:
+    - `/home/ricky/kb/monday/parts-board.md`
+    - `/home/ricky/Claude-SOPs-for-iCorrect/26_Supplier_Directory.md`
+    - `/home/ricky/kb/monday/board-relationships.md`
+    - live Monday board lookups for:
+      - `Contacts` board `7653746906`
+      - `Leads` board `7653746903`
+      - main-board relation `board_relation_mkshr9ah`
+  - Found:
+    - supplier docs contain a richer named supplier model than the live parts board does
+    - the main-board `Link - Client Information Capture` relation is effectively unbound in live schema (`boardIds: []`)
+    - the small `Contacts` and `Leads` boards look like dormant/demo CRM boards, not a live customer registry
+  - Led to:
+    - strengthen supplier-analysis drift notes
+    - strengthen retention blockers and findings around lack of canonical customer identity
+
+- Executed loop-back verification after the expanded research pass
+  - Source checked:
+    - `main-board-paid-service-surface-summary-2026-04-01.json`
+    - `customer-repeat-surface-summary-2026-04-01.json`
+    - `staff-performance-summary-2026-04-01.json`
+    - `monday-updates-summary-2026-04-01.json`
+    - `track1-summary-2026-04-01.json`
+    - `track1-derived-summary-2026-04-01.json`
+    - `bank-transactions-authorised-2025-10-plus-all-2026-04-01.json`
+  - Found:
+    - board-wide service counts still sum exactly to `4,453`
+    - repeat-customer, staff, marketing, and Xero summaries all parse cleanly and align to their expected raw-export universes
+    - the expanded research strengthens rather than overturns the main viability diagnosis
+  - Led to:
+    - add `loopback-verification-2026-04-01.md`
+
+- Consolidated remaining operator-facing questions into one handoff file
+  - Source checked:
+    - `open_questions.md`
+    - `logistics-supplier-blockers.md`
+    - `customer-retention-blockers.md`
+    - `physical-capacity-blockers.md`
+    - latest operator note that workstation allocation may map to technician repair group on the main board
+  - Found:
+    - remaining blockers are now specific enough to route through one master Q&A file rather than scattered notes
+  - Led to:
+    - add `MASTER-QUESTIONS-FOR-JARVIS.md`
+    - update `physical-capacity-blockers.md` with the new workstation-allocation lead
+
+- Folded operator-confirmed Jarvis answers back into the audit pack
+  - Source checked:
+    - `MASTER-QUESTIONS-FOR-JARVIS.md`
+    - live Monday group inventory on board `349212843`
+    - board-wide service export `main-board-paid-service-surface-2026-04-01.json`
+  - Found:
+    - technician groups, not a dedicated column, are the main-board workstation / repair-queue proxy
+    - those groups map to queue ownership, not literal physical-on-desk state
+    - Monday is the canonical customer identity owner, but current implementation still lacks a stable customer-ID layer
+    - `Link - Client Information Capture` is dead legacy
+    - `Contacts` and `Leads` boards are dead
+    - current payment truth is broken and ownerless
+    - shipping-cost ownership, supplier-source reality, blended conversion truth, non-Shopify mail-in entry, corporate routing, profitable NFU growth signal, and competitor comparison basket are now operator-confirmed
+  - Led to:
+    - update `marketing-analysis.md`
+    - update `marketing-blockers.md`
+    - update `physical-capacity-analysis.md`
+    - update `physical-capacity-blockers.md`
+    - update `customer-retention-analysis.md`
+    - update `customer-retention-blockers.md`
+    - update `timing-mapping.md`
+    - update `logistics-supplier-analysis.md`
+    - update `logistics-supplier-blockers.md`
+    - update `competitor-benchmarking.md`
+    - update `business-viability-analysis.md`
+    - update `financial-mapping.md`
+    - tighten `findings.md` and reduce resolved items in `open_questions.md`
+# 2026-04-02 — Jarvis-answer fold-in, Monday source pull, and target-state synthesis
+
+- Checked updated `/home/ricky/builds/system-audit-2026-03-31/MASTER-QUESTIONS-FOR-JARVIS.md` and folded confirmed operator answers into the non-overlapping research tracks.
+- Ran a fresh full-board Monday source pull with columns:
+  - `service`
+  - `status4`
+  - `status`
+  - `dup__of_quote_total`
+  - `payment_status`
+  - `payment_method`
+  - `color_mkzmbya2` (`Source`)
+  - `person`
+  - `date4`
+- Saved raw export:
+  - `/home/ricky/data/exports/system-audit-2026-03-31/monday/source-surface-2026-04-02.json`
+- Derived summaries:
+  - `/home/ricky/data/exports/system-audit-2026-03-31/monday/source-surface-summary-2026-04-02.json`
+  - `/home/ricky/data/exports/system-audit-2026-03-31/monday/tech-group-age-summary-2026-04-02.json`
+- Main findings from that pass:
+  - Monday `Source` is effectively broken for attribution (`4,319 / 4,459` blank; `0` phone-labelled items)
+  - technician groups are confirmed queue/workstation proxies, but they contain aged paused work and cannot be treated as literal bench occupancy
+- Wrote new synthesis docs:
+  - `channel-attribution-model.md`
+  - `payment-truth-target-state.md`
+  - `customer-identity-normalisation.md`
+  - `supplier-source-of-truth.md`
+  - `bench-occupancy-measurement.md`
+- Ran a second fresh Monday pull for quote/payment proxy fields:
+  - `date_mkwdwx03` (`Quote Sent`)
+  - `payment_status`
+  - `payment_method`
+  - `date_mm0erp17`
+  - `date_mm0e4e3f`
+  - `text_mm0a8fwb`
+  - `color_mm0pkek6`
+- Saved:
+  - `/home/ricky/data/exports/system-audit-2026-03-31/monday/quote-payment-proxy-surface-2026-04-02.json`
+  - `/home/ricky/data/exports/system-audit-2026-03-31/monday/quote-payment-proxy-summary-2026-04-02.json`
+- Main result:
+  - quote-to-payment lag cannot yet be trusted from Monday alone because recent quoted items show `0` populated Xero invoice IDs and many inconsistent payment dates relative to `Quote Sent`

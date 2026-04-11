@@ -1,0 +1,109 @@
+{
+  "board": "A2779",
+  "schematic": "820-02655",
+  "signals": {
+    "power_enables": [
+      {"name": "PPVAON_PWR_EN", "description": "3V8 AON VR (U5700) enable", "source": "PMU/SMC", "destination": "U5700", "page": 34},
+      {"name": "P5VS2_PWR_EN", "description": "5V S2 VR (UC260) enable — aliased as PP5V2P5_PWR_EN on page 58", "source": "SPMU GPIO", "destination": "UC260", "page": 58},
+      {"name": "PVVAON_MUX_EN", "description": "3V8 AON mux enable", "page": 34},
+      {"name": "LCD_PWR_EN", "description": "Display power enable", "source": "SoC", "destination": "UP710", "page": 117},
+      {"name": "EDP_PANEL_3V0_EN", "description": "EDP panel 3V0 enable", "page": 117},
+      {"name": "CHGR_AUX_OK", "description": "Charger AUX OK — charger ready indicator", "page": 30},
+      {"name": "CHGR_AUX_EN", "description": "Charger AUX enable", "page": 30},
+      {"name": "CHGR_LDSW_EN", "description": "Charger load switch enable", "page": 30},
+      {"name": "IPD_PWR_EN", "description": "IPD subsystem power enable", "page": 143}
+    ],
+    "power_good_fault": [
+      {"name": "PPVAON_FAULT_L", "type": "fault (active low)", "source": "U5700 SVR AON", "page": 34},
+      {"name": "PMU_ACTIVE_READY", "type": "power good", "source": "MPMU U8100", "destination": "SoC", "page": 44},
+      {"name": "PMU_FAULT_INT_L", "type": "fault (active low)", "source": "MPMU U8100", "destination": "SoC", "page": 44},
+      {"name": "SPMU_READY", "type": "power good", "source": "SPMU U7700", "page": 40},
+      {"name": "PVRVD0N_FAULT_L", "type": "fault (active low)", "source": "Austringer VR (U9300)", "page": 48},
+      {"name": "PVRVD0N_SMDS_FAULT_L", "type": "fault (active low)", "source": "Austringer power stages", "page": 48},
+      {"name": "PVRVD0N_SMDS_PH01", "type": "phase indicator", "source": "Austringer", "page": 48},
+      {"name": "NC_FAN_PWR_EN", "description": "Not connected on A2779/A2523 — aliased on page 46", "page": 46}
+    ],
+    "resets": [
+      {"name": "PMU_RESET_L", "type": "reset (active low)", "description": "Master PMU reset", "page": 6},
+      {"name": "SOC_FORCE_DFU", "type": "force DFU mode", "page": 6},
+      {"name": "ATCRTMR0_RESET", "type": "ATC0 retimer reset", "page": 80},
+      {"name": "ATCRTMR1_RESET", "type": "ATC1 retimer reset", "page": 80},
+      {"name": "ATCRTMR2_RESET", "type": "ATC2 retimer reset", "page": 85},
+      {"name": "CHGR_RST_2N_R", "type": "Charger reset from PMU", "page": 45},
+      {"name": "ATCRTMR0_RESET_1V2_LVL", "type": "ATC0 retimer reset level-shifted", "page": 80},
+      {"name": "FTCAM_RESET_L", "type": "Front camera reset", "page": 114}
+    ],
+    "i2c_buses": [
+      {"name": "AP_I2C0", "description": "AP I2C bus 0 — UPC I2C, PMU", "pull_up_rail": "PP1V2_S2", "page": 59},
+      {"name": "AP_I2C1", "description": "AP I2C bus 1 — speaker amps", "pull_up_rail": "PP1V2_AWAKE", "devices": "SPKAWP_L, SPKAWP_R, SPKAWP0_L, SPKAWP0_R", "page": 59},
+      {"name": "AP_I2C2", "description": "AP I2C bus 2 — ATC retimers", "pull_up_rail": "PP1V2_AWAKE", "page": 59},
+      {"name": "AP_I2C3", "description": "AP I2C bus 3 — device table", "pull_up_rail": "PP1V2_AWAKE", "page": 59},
+      {"name": "AP_I2C4", "description": "AP I2C bus 4", "pull_up_rail": "PP1V2_AWAKE", "page": 59},
+      {"name": "AP_I2C6", "description": "AP I2C bus 6 — TCON/Luxe debug", "pull_up_rail": "PP1V2_AWAKE", "page": 59},
+      {"name": "AP_I2C7", "description": "AP I2C bus 7 — I2C BCON connection", "pull_up_rail": "PP1V2_AWAKE", "page": 59},
+      {"name": "AP_I2C8", "description": "AP I2C bus 8 — HDMI debug", "pull_up_rail": "PP1V2_S2", "page": 59},
+      {"name": "SMC_I2C0", "description": "SMC I2C bus 0 — charger, battery gauge, PMU", "pull_up_rail": "PP1V2_S2", "page": 60},
+      {"name": "SMC_I2C1", "description": "SMC I2C bus 1 — UPC SMC I2C", "pull_up_rail": "PP1V2_S2", "devices": "UPC SMC I2C", "page": 60},
+      {"name": "SMC_I2C2", "description": "SMC I2C bus 2 — NAND PMGR", "pull_up_rail": "PP1V2_S2", "page": 60},
+      {"name": "SMC_I2C3", "description": "SMC I2C bus 3", "page": 61},
+      {"name": "SMC_I2C4", "description": "SMC I2C bus 4 — DRGN sensors", "pull_up_rail": "PP1V2_S2", "page": 61},
+      {"name": "AOP_I2C0", "description": "AOP I2C bus 0 — ALS 1V8", "pull_up_rail": "PP1V2_S2 / PP1V8_S2", "page": 61},
+      {"name": "ISP_I2C2", "description": "ISP I2C bus 2 — camera", "pull_up_rail": "PP1V2_AWAKE", "page": 61},
+      {"name": "DISP_I2C", "description": "Display I2C — PP1V8_DISP_TEMP", "page": 116},
+      {"name": "HDMI_DDC_I2C", "description": "HDMI DDC I2C", "page": 92}
+    ],
+    "spi_buses": [
+      {"name": "SPI_UPC0", "description": "CD3217 ATC0 firmware ROM", "page": 77},
+      {"name": "SPI_UPC1", "description": "CD3217 ATC1 firmware ROM", "page": 78},
+      {"name": "SPI_UPC2", "description": "CD3217 ATC2 firmware ROM", "page": 86},
+      {"name": "SPI_UPC5", "description": "MagSafe controller ROM", "page": 32},
+      {"name": "SOC_SPI_ROM", "description": "SoC SPI NOR flash", "page": 18}
+    ],
+    "usb_c_signals": [
+      {"name": "USBC0_CC1", "type": "CC", "controller": "UF400", "port": "Left rear", "page": 77},
+      {"name": "USBC0_CC2", "type": "CC", "controller": "UF400", "port": "Left rear", "page": 77},
+      {"name": "USBC1_CC1", "type": "CC", "controller": "UF500", "port": "Left front", "page": 78},
+      {"name": "USBC1_CC2", "type": "CC", "controller": "UF500", "port": "Left front", "page": 78},
+      {"name": "USBC2_CC1", "type": "CC", "controller": "UG400", "port": "Right", "page": 86},
+      {"name": "USBC2_CC2", "type": "CC", "controller": "UG400", "port": "Right", "page": 86},
+      {"name": "USBC0_SBU1", "type": "SBU", "controller": "UF400", "page": 77},
+      {"name": "USBC0_SBU2", "type": "SBU", "controller": "UF400", "page": 77},
+      {"name": "USBC1_SBU1", "type": "SBU", "controller": "UF500", "page": 78},
+      {"name": "USBC1_SBU2", "type": "SBU", "controller": "UF500", "page": 78},
+      {"name": "USBC2_SBU1", "type": "SBU", "controller": "UG400", "page": 86},
+      {"name": "USBC2_SBU2", "type": "SBU", "controller": "UG400", "page": 86}
+    ],
+    "hdmi_signals": [
+      {"name": "HDMI_DDC_SCL", "type": "I2C DDC clock", "page": 92},
+      {"name": "HDMI_DDC_SDA", "type": "I2C DDC data", "page": 92},
+      {"name": "HDMI_HPD", "type": "Hot Plug Detect", "page": 92},
+      {"name": "HDMI_CEC", "type": "Consumer Electronics Control", "page": 92}
+    ],
+    "sd_card_signals": [
+      {"name": "SD_CMD", "type": "Command line", "page": 98},
+      {"name": "SD_CLK", "type": "Clock", "page": 98},
+      {"name": "SD_DATA0-3", "type": "Data bits", "page": 98},
+      {"name": "SD_CD_L", "type": "Card detect (active low)", "page": 98}
+    ],
+    "clock_signals": [
+      {"name": "PMU_32K768_OUT", "type": "32.768kHz clock", "source": "MPMU crystal/MEMS", "page": [44, 45]},
+      {"name": "SOC_VTALIGN_OUT_R", "type": "VT align clock output", "source": "SoC", "page": 6}
+    ],
+    "thermal_sensors": [
+      {"name": "MPMU TDEV sensors", "type": "temperature", "page": 66},
+      {"name": "SPMU TDEV sensors", "type": "temperature", "page": 66},
+      {"name": "DISP_TEMP", "type": "temperature", "description": "Display panel temp (PP1V8_DISP_TEMP)", "page": 116}
+    ],
+    "sensor_adc": [
+      {"name": "PP3V8_AON_MPMU_ISNS", "type": "current sense", "description": "PP3V8_AON current to MPMU", "page": 34},
+      {"name": "PP3V8_AON_SPMU_ISNS", "type": "current sense", "description": "PP3V8_AON current to SPMU", "page": 34},
+      {"name": "PP3V8_AON_WLBT_ISNS", "type": "current sense", "description": "PP3V8_AON current to WiFi/BT", "page": 34},
+      {"name": "PPBUS_AON_LUXE_ISNS", "type": "current sense", "description": "PPBUS_AON current to Luxe backlight", "page": 118},
+      {"name": "PPVBUS_USBC_LDO_ISNS", "type": "current sense", "description": "USB-C LDO current sense", "page": 77}
+    ],
+    "fan_control": [
+      {"name": "FAN_TACH", "type": "fan tachometer", "page": 68},
+      {"name": "FAN_PWM", "type": "fan PWM control", "page": 68}
+    ]
+  }
+}

@@ -1,0 +1,19 @@
+date,day,start_time,meeting_mins,adjusted_start,lunch_start,lunch_over,lunch_mins,finish_time,gross_hours,available_hours,completions,items_touched,paused_count,pause_reasons,revenue,net_profit,shared_items,qc_reworks,tracked_mins,utilisation_pct,max_capacity
+2026-02-09,Mon,11:07,25,09:24,11:43,+24,84,18:01,6.9,7.59,1,12,2,Repair Paused -> Repaired; Repair Paused -> Diagnostic Complete,311.5,259.58,1,0,296,65.0,8
+2026-02-10,Tue,10:38,96,10:36,,,0,18:03,7.42,6.4,4,8,2,Repair Paused -> Diagnostics; Repair Paused,1343.0,1119.17,0,0,5126,1334.8,8
+2026-02-11,Wed,09:47,49,09:48,13:58,+9,69,17:57,8.17,7.19,2,9,2,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics,946.0,788.34,0,1,341,79.0,8
+2026-02-12,Thu,09:16,0,09:00,13:47,+15,75,18:16,9.0,8.0,4,12,2,Repair Paused -> Diagnostic Complete; Repair Paused -> Diagnostics,702.0,265.13,2,0,684,142.6,8
+2026-02-13,Fri,09:01,105,10:45,13:00,+19,79,17:46,8.75,6.25,8,11,3,Repair Paused -> Diagnostics; Repair Paused -> Under Repair; Repair Paused -> Diagnostic Complete,1470.0,1225.01,1,2,730,194.6,8
+2026-02-14,Sat,10:03,0,09:00,14:13,,39,17:28,7.42,8.0,6,9,2,Repair Paused -> Under Repair; Repair Paused -> Stuck,2492.5,1798.01,3,1,645,134.3,8
+2026-02-16,Mon,09:11,101,10:40,09:28,,21,18:01,8.83,6.32,7,12,2,Repair Paused -> Diagnostics; Repair Paused -> Parts,223.5,140.15,1,0,679,179.2,8
+2026-02-17,Tue,09:11,76,10:16,13:49,+21,81,18:08,8.96,6.73,3,9,4,Repair Paused -> Under Repair; Repair Paused; Repair Paused; Repair Paused -> Under Repair,903.5,620.44,1,1,219,54.3,8
+2026-02-18,Wed,10:53,95,10:35,15:32,+18,78,18:00,7.11,6.41,1,8,2,Repair Paused; Repair Paused -> Under Repair,651.0,465.82,0,0,229,59.4,8
+2026-02-19,Thu,08:09,101,10:40,14:53,,45,16:32,8.38,6.32,4,9,3,Awaiting Part -> No Stock; Repair Paused -> Diagnostics; Repair Paused -> Under Repair,1257.0,951.27,1,1,483,127.3,8
+2026-02-20,Fri,08:10,0,09:00,12:26,+34,94,16:31,8.35,8.0,5,9,2,Repair Paused -> Diagnostic Complete; Repair Paused -> Under Repair,698.0,466.5,1,1,529,110.2,8
+2026-02-21,Sat,09:47,0,09:00,,,0,16:30,6.73,8.0,4,7,2,Repair Paused; Repair Paused -> Under Repair,1510.0,958.43,1,1,311,64.7,8
+2026-02-23,Mon,08:17,60,10:00,15:05,,26,16:31,8.23,7.0,8,11,3,Repair Paused -> Under Repair; Repair Paused -> Under Repair; Repair Paused -> Diagnostics,2103.88,1454.31,3,0,662,157.8,8
+2026-02-24,Tue,08:23,137,11:17,13:16,,26,16:21,7.97,5.71,4,10,1,Repair Paused -> Part Repaired,760.0,471.26,1,1,418,121.9,8
+2026-02-25,Wed,08:20,35,09:34,09:03,,48,16:28,8.14,7.42,3,11,4,Repair Paused -> Diagnostics; Repair Paused -> Diagnostics; Repair Paused; Repair Paused -> Under Repair,0.0,-125.86,1,0,177,39.7,8
+2026-02-26,Thu,08:18,0,09:00,14:59,,26,16:31,8.22,8.0,7,12,2,Repair Paused; Repair Paused -> Diagnostics,1072.44,882.66,0,0,644,134.2,8
+2026-02-27,Fri,08:11,56,09:55,09:03,,42,16:22,8.18,7.07,2,7,4,Repair Paused -> Diagnostics; Repair Paused; Repair Paused -> Client To Contact; Repair Paused -> Diagnostics,298.0,248.33,0,0,283,66.6,8
+2026-02-28,Sat,09:46,0,09:00,,,0,16:18,6.53,8.0,3,8,3,Awaiting Part -> No Stock; Repair Paused -> Battery Testing; Repair Paused,228.0,-14.51,3,0,289,60.2,8

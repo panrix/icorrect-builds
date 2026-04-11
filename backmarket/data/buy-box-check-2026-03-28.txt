@@ -1,0 +1,206 @@
+6710313 MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - QWERTY - English
+SKU      MBA.A2337.M1.7C.8GB.256GB.Grey.Good
+
+Buy Box  ❌ LOSING
+Current  £407 | Win@ £375
+Variant  product_id b5ebc79d-0304-41a6-b1ae-d2a487afa11f
+         Catalog: MacBook Air 13-inch (2020) | 8GB/256GB | Space Gray
+         ✅ Live variant matches Monday colour (Space Grey) and grade (GOOD)
+
+Grades   F:£368  G:£407 ←  E:£432
+Ladder   ✅ F < G < E (gaps: £39, £25)
+
+Costs    Fixed £342 | Purchase £137
+Fees     Sell £39.50 | VAT £43.01
+B/E      £435
+@ Current £407:  Net £-29.24  Margin -7.4%
+@ Win     £375:    Net £-51.97  Margin -14.28%
+Listed   0 days
+Status   ⛔ Cannot win profitably (loss £52 at win price)
+
+────────────────────────────────────────
+
+6709049 MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English
+SKU      MBA.A2681.M2.8C.8GB.256GB.Silver.Fair
+
+Buy Box  ❌ LOSING
+Current  £525 | Win@ £488
+Variant  product_id 6c42ad60-b32e-499d-8cc6-03b18e570202
+         Catalog: MacBook Air 13-inch (2022) | 8GB/256GB | Silver
+         ✅ Live variant matches Monday colour (Silver) and grade (FAIR)
+
+Grades   F:£525 ←  G:£582  E:£649
+Ladder   ✅ F < G < E (gaps: £57, £67)
+
+Costs    Fixed £361 | Purchase £91
+Fees     Sell £51.00 | VAT £69.85
+B/E      £472
+@ Current £525:  Net £28.31  Margin 5.55%
+@ Win     £488:    Net £1.91  Margin 0.4%
+Listed   0 days
+Status   ⛔ Cannot win profitably (0.4% < 15%)
+
+────────────────────────────────────────
+
+6709048 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English
+SKU      MBP.A2338.M1.8GB.256GB.Silver.Fair
+
+Buy Box  ✅ WINNING @ £458
+Variant  product_id 0dfd2e16-45be-4594-afaa-ee5a19662985
+         Catalog: MacBook Pro 13-inch (2020) | 8GB/256GB | Silver
+         ✅ Live variant matches Monday colour (Silver) and grade (FAIR)
+
+Grades   F:£368 ←  G:£407  E:£432  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £39, £25)
+
+Costs    Fixed £276 | Purchase £91
+Fees     Sell £44.50 | VAT £59.01
+B/E      £356
+Net      £65.63 | Margin 14.75%
+Listed   0 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6709047 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 256GB - QWERTY - English
+SKU      MBP.A2338.M1.16GB.256GB.Grey.Fair
+
+Buy Box  ❌ LOSING
+Current  £565 | Win@ £502
+Variant  product_id 7408af3f-40ad-4e74-aff8-d2acca799683
+         Catalog: MacBook Pro 13-inch (2020) | 16GB/256GB | Space Gray
+         ✅ Live variant matches Monday colour (Space Grey) and grade (FAIR)
+
+Grades   F:£428 ←  G:£467  E:£560
+Ladder   ✅ F < G < E (gaps: £39, £93)
+
+Costs    Fixed £277 | Purchase £154
+Fees     Sell £54.90 | VAT £65.85
+B/E      £343
+@ Current £565:  Net £151.23  Margin 27.55%
+@ Win     £502:    Net £105.77  Margin 21.72%
+Listed   0 days
+Status   ⚠️ Can win at 21.72% margin
+         ⛔ Won't sell: Fair (£565) > Good (£467)
+
+────────────────────────────────────────
+
+6709046 MacBook Pro 16-inch (2023) - Apple M3 Pro 12-core and 18-core GPU - 18GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP.A2991.M3PRO.18GB.512GB.Space Black.Fair
+
+Buy Box  ✅ WINNING @ £1516
+Variant  product_id bb65708b-a0c7-4570-81ee-39b2737f90ee
+         Catalog: MacBook Pro 16-inch (2023) | 18GB/512GB | Space Black
+         ✅ Live variant matches Monday colour (Space Black) and grade (FAIR)
+
+Grades   G:£1596  E:£2599
+
+Costs    Fixed £712 | Purchase £550
+Fees     Sell £147.10 | VAT £153.53
+B/E      £846
+Net      £458.54 | Margin 31.17%
+Listed   0 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6558670 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 2000GB - QWERTY - English
+SKU      MBP.A2338.M1.16GB.2TB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £978
+Variant  product_id 2bc8a185-15f9-4e3e-a21b-420b928528c3
+         Catalog: MacBook Pro 13-inch (2020) | 16GB/2000GB | Space Gray
+         ✅ Live variant matches Monday colour (Space Grey) and grade (FAIR)
+
+Grades   F:£368 ←  G:£407  E:£432  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £39, £25)
+
+Costs    Fixed £523 | Purchase £270
+Fees     Sell £94.90 | VAT £113.19
+B/E      £652
+Net      £217.96 | Margin 22.97%
+Listed   0 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6505341 MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 1000 QWERTY - English
+SKU      MBP.A2289.i5.8GB.1TB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £450
+Variant  product_id 1e646c25-5397-4ff3-9301-1c9adc23e752
+         Catalog: MacBook Pro Retina 13-inch (2020) | 8GB/1000GB | Space Gray
+         ✅ Live variant matches Monday colour (Space Grey) and grade (FAIR)
+
+Grades   F:£428 ←  G:£467  E:£560  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £39, £93)
+
+Costs    Fixed £382 | Purchase £88
+Fees     Sell £43.70 | VAT £58.18
+B/E      £501
+Net      £-46.49 | Margin -10.64%
+Listed   0 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+6039434 MacBook Air Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English
+SKU      MBA.A2179.i5.2020.8GB.512GB.Grey.Fair
+
+Buy Box  ❌ LOSING
+Current  £654 | Win@ £300
+Variant  product_id ab191cdf-2e76-4701-bb6a-b851d27ef262
+         Catalog: MacBook Air Retina 13-inch (2020) | 8GB/512GB | Space Gray
+         ✅ Live variant matches Monday colour (Space Grey) and grade (FAIR)
+
+Grades   F:£368 ←  G:£407  E:£432  ⚠️ approx
+Ladder   ✅ F < G < E (gaps: £39, £25)
+
+Costs    Fixed £109 | Purchase £85
+Fees     Sell £63.50 | VAT £91.68
+B/E      £130
+@ Current £654:  Net £370.82  Margin 58.4%
+@ Win     £300:    Net £118.56  Margin 40.74%
+Listed   0 days
+Status   ✅ Can win at 40.74% margin
+
+────────────────────────────────────────
+
+5550903 MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP.A2338.M1.8GB.512GB.Grey.Fair
+
+Buy Box  ✅ WINNING @ £463
+Variant  product_id 30c2c24c-be74-409d-8bec-50e9b9bf421a
+         Catalog: MacBook Pro 13-inch (2020) | 8GB/512GB | Space Gray
+         ✅ Live variant matches Monday colour (Space Grey) and grade (FAIR)
+
+Grades   F:£428 ←  G:£467  E:£560
+Ladder   ✅ F < G < E (gaps: £39, £93)
+
+Costs    Fixed £279 | Purchase £145
+Fees     Sell £45.00 | VAT £50.84
+B/E      £347
+Net      £75.55 | Margin 16.79%
+Listed   0 days
+Status   ✅ Winning
+
+────────────────────────────────────────
+
+4952313 MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 16GB RAM - SSD 512GB - QWERTY - English
+SKU      MBP14.A2442.16GB.512GB.Silver.Vgood
+
+Buy Box  ✅ WINNING @ £1050
+Variant  product_id 43221f93-0d9a-45ec-870b-02d1613c7471
+         Catalog: MacBook Pro 14-inch (2021) | 16GB/512GB | Silver
+         ✅ Live variant matches Monday colour (Silver) and grade (VERY_GOOD)
+
+Grades   F:£777  G:£741  E:£790 ←  ⚠️ approx
+Ladder   ⛔ INVERTED (F:£777 ≥ G:£741)
+
+Costs    Fixed £635 | Purchase £248
+Fees     Sell £101.90 | VAT £128.53
+B/E      £810
+Net      £153.80 | Margin 15.09%
+Listed   0 days
+Status   ✅ Winning
+         ⛔ Grade inversion: Fair ≥ Good

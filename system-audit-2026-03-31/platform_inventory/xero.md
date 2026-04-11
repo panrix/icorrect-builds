@@ -1,0 +1,260 @@
+# Xero
+
+## Access
+
+- `Observed`: live Xero OAuth refresh and tenant-scoped API access work when sourced from `/home/ricky/config/api-keys/.env` using `/home/ricky/config/xero_refresh.sh`.
+- Safe read-only probes completed:
+  - `GET /connections`
+  - `GET /Organisation`
+  - `GET /Accounts`
+  - `GET /Invoices?page=1`
+  - `GET /Invoices?page=1&where=Type=="ACCREC"`
+  - `GET /Invoices?page=1&where=Type=="ACCPAY"`
+  - `GET /Invoices?page=1&where=Type=="ACCREC"&&Date>=DateTime(2025,1,1)`
+  - `GET /Invoices?page=1&where=Type=="ACCPAY"&&Date>=DateTime(2025,1,1)`
+  - `GET /Payments?page=1`
+  - `GET /Payments?page=1&where=Date>=DateTime(2025,1,1)`
+  - `GET /BankTransactions?page=1`
+  - `GET /BankTransactions?page=1&where=Status=="AUTHORISED"`
+  - `GET /BankTransactions?page=1&where=Date>=DateTime(2025,1,1)&&Status=="AUTHORISED"`
+  - `GET /Contacts?page=1`
+  - `GET /Reports/ProfitAndLoss`
+  - `GET /Reports/BalanceSheet`
+
+Evidence sources:
+- `/home/ricky/builds/xero-invoice-automation/BRIEF.md`
+- `/home/ricky/builds/xero-invoice-automation/WEBHOOK_URL.txt`
+- `/home/ricky/data/exports/system-audit-2026-03-31/n8n/active/9jD6J2X3yCPk8Rjp.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/connections.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/organisation.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/accounts.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/invoices-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/invoices-accrec-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/invoices-accpay-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/invoices-accrec-2025plus-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/invoices-accpay-2025plus-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/payments-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/payments-2025plus-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/bank-transactions-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/bank-transactions-authorised-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/bank-transactions-2025plus-authorised-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/contacts-page1.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/report-profit-and-loss.json`
+- `/home/ricky/data/exports/system-audit-2026-03-31/xero/report-balance-sheet.json`
+
+## Observed Inventory
+
+- Tenant connection:
+  - tenant name `Panrix Ltd`
+  - tenant ID `72344ba9-f550-453d-86d8-34822817b2bd`
+- Organisation:
+  - name `Panrix Ltd`
+  - legal name `Panrix Ltd`
+  - organisation type `COMPANY`
+  - country `GB`
+  - base currency `GBP`
+  - `PaysTax=true`
+  - `SalesTaxBasis=CASH`
+  - `SalesTaxPeriod=QUARTERLY`
+- Chart of accounts:
+  - `135` total accounts
+  - account types observed:
+    - `BANK` `7`
+    - `CURRENT` `4`
+    - `CURRLIAB` `22`
+    - `DIRECTCOSTS` `17`
+    - `EQUITY` `4`
+    - `EXPENSE` `5`
+    - `FIXED` `16`
+    - `INVENTORY` `1`
+    - `OVERHEADS` `47`
+    - `REVENUE` `8`
+    - `SALES` `1`
+    - `TERMLIAB` `3`
+- Bank / finance accounts visible in the live ledger include:
+  - `Cash Account`
+  - `Starling Business Account`
+  - `Starling Business Account#001`
+  - `Stripe GBP`
+  - `Stripe GBP 1`
+  - `Pleo account`
+  - `SUZY GRACE G MCADAM`
+- Bank-account structure details observed in live Xero:
+  - `Stripe GBP` has a Stripe-style account identifier in `BankAccountNumber`
+  - `Stripe GBP 1` has a Stripe-style account identifier in `BankAccountNumber`
+  - `Starling Business Account` and `Starling Business Account#001` have GBP bank account numbers
+  - no dedicated `SumUp` bank account was observed in the sampled chart of accounts
+- Revenue / fee structure visible in the live ledger includes:
+  - revenue accounts:
+    - `SumUp`
+    - `Stripe`
+    - `Shopify`
+    - `Backmarket`
+  - cost / fee accounts:
+    - `Backmarket - TradeIns`
+    - `Payment Fees - SumUp`
+    - `Payment Fees - Stripe`
+    - `Stripe Fees`
+- Historical invoice sample:
+  - `100` receivable invoices on sampled `ACCREC` page
+  - `100` payable invoices on sampled `ACCPAY` page
+- Current-period invoice activity from `2025-01-01` onward:
+  - `ACCREC`: `100` sampled invoices on page 1
+    - `41` `AUTHORISED`
+    - `6` `DRAFT`
+    - `24` `PAID`
+    - `23` `VOIDED`
+    - `6` `DELETED`
+  - `ACCPAY`: `73` sampled invoices on page 1
+    - `67` `PAID`
+    - `4` `VOIDED`
+    - `2` `DELETED`
+- Current-period receivable sample includes:
+  - `INV-2860` `AUTHORISED` for `VCCP GROUP LLP`, total `195.80`, amount due `195.80`
+  - other recent invoice contacts include named consumers and business customers
+- Current-period payable sample includes:
+  - `Mobio Distribution Ltd`
+  - `Ak Icd Repair Ltd`
+  - `Laptop Power NW`
+  - `Royal Mail`
+- Payments:
+  - `100` sampled payments on page 1
+  - current-period sample includes payments against invoices for `Gophr`, `ITX UK LTD`, and `Fourfront`
+- Bank transactions:
+  - `100` sampled bank transactions on page 1
+  - `100` sampled `AUTHORISED` bank transactions on page 1
+  - current-period sample includes spend lines against `Stripe`, `Royal Mail`, and `Stuart Couriers`
+  - current `2025+` authorised sample is heavily concentrated in `Starling Business Account#001`
+  - current receive-side sample includes:
+    - `20` `RECEIVE` rows totalling `11978.93`
+    - top contacts `Stripe` (`7`), `SumUp` (`5`), `BackMarket` (`2`), `Apple Self Serve` (`2`), `Royal Mail` (`2`)
+- Contacts:
+  - `100` sampled contacts on page 1
+  - sample includes customers and suppliers such as `Ron Orders - CineContact`, `HMRC`, `Royal Mail`, `Stuart Couriers`, and `SumUp`
+- Reporting:
+  - live `Profit & Loss` report title: `1 April 2026 to 30 April 2026`
+  - live `Balance Sheet` report title: `As at 30 April 2026`
+  - sampled April 2026 P&L shows income accounts:
+    - `Backmarket` `4679.32`
+    - `Shopify` `1188.14`
+    - total income `5867.46`
+    - net profit `5613.81`
+  - sampled balance sheet shows current finance-state lines including:
+    - `Cash Account` `8270.00`
+    - `Starling Business Account` `18162.37`
+    - `Starling Business Account#001` `2148.89`
+    - `Stripe GBP` `-146.56`
+    - `Stripe GBP 1` `-2642.04`
+    - `Accounts Receivable` `21821.80`
+
+- Active n8n workflow: `Xero Invoice Creator`
+- Workflow status: `active`
+- Webhook path: `xero-invoice-create`
+- Intended Monday source board: `349212843`
+- Pre-existing Monday columns referenced:
+  - `text_mm0a8fwb` Xero Invoice ID
+  - `link_mm0a43e0` Xero Invoice URL
+- Additional invoice-state columns referenced in the build brief:
+  - Invoice Status
+  - Invoice Amount
+
+Notable observed workflow stages:
+- `Read Refresh Token`
+- `Refresh Xero Token`
+- `Save Refresh Token`
+- `Get Monday Item`
+- `Build Invoice Payload`
+- `Search Xero Contact`
+- `Create Xero Contact`
+- `Create Xero Invoice`
+- `Prepare Monday Update`
+- `Update Monday Columns`
+
+## Cross-System Role
+
+- `Observed`: Xero is wired as a Monday-triggered invoicing system, not as a standalone finance silo.
+- `Observed`: Xero is also a live current finance ledger, not just a planned integration layer.
+- `Observed`: the tenant is configured on a cash tax basis, which matches the operator confirmation that the business uses cash accounting rather than accrual.
+- `Observed`: the live Monday finance trigger proven in current board automation evidence is narrower than the three-workflow design docs imply.
+  - Monday automation `537692848` is active: `When Invoice Action changes to Create Invoice, send a webhook`
+  - `Invoice Action` is documented with `Create Invoice` and `Done`, not a separate `Send Invoice` trigger
+  - no current Monday automation or board-column evidence has been found for a live `Send Invoice` button/action
+- Intended flow is:
+  - Monday automation triggers `xero-invoice-create`
+  - n8n refreshes the Xero token
+  - Monday item data is fetched and validated
+  - Xero contact is searched/created
+  - draft invoice is created in Xero
+  - Xero invoice ID/URL/status/amount are written back to Monday
+  - Monday item gets a success or failure update
+- `Observed`: adjacent local evidence shows the next two finance automations are not yet deployed:
+  - send-authorised-invoice-and-payment-link workflow
+  - payment-received webhook back into Monday
+- `Observed`: the archived undeployed workflow drafts have concrete implementation blockers, not just missing rollout:
+  - `xero-send-invoice.json` uses placeholder Xero credential IDs and placeholder Slack channel IDs
+  - `xero-payment-received.json` uses placeholder Xero credential IDs, expects a Xero webhook registration that is not present, and attempts to extract `Monday ID:` from invoice reference even though the active invoice creator writes reference as `{Device Name} Repair`
+- `Observed`: the current operations-workspace copy of `xero-send-invoice.json` still matches the same undeployed-draft pattern.
+  - webhook path `xero-send-invoice`
+  - placeholder Xero credential ID `REPLACE_WITH_XERO_CRED_ID`
+  - placeholder Slack channel
+  - depends on existing Monday fields for `Xero Invoice ID` and Intercom conversation ID before sending the payment link
+- `Observed`: the current operations-workspace copy of `xero-payment-received.json` also remains an undeployed draft with concrete mapping issues.
+  - webhook path `xero-payment-webhook`
+  - placeholder Xero credential ID `REPLACE_WITH_XERO_CRED_ID`
+  - placeholder Slack channel
+  - expects `Monday ID:` inside the Xero invoice `Reference`
+  - attempts to write Monday `payment_status = Paid` and `payment_method = Online (Xero)`
+- `Observed`: live Monday schema evidence does not support those write-back labels as written.
+  - current `Payment Status` labels are `Corporate - Pay Later`, `Confirmed`, `Unsuccessful`, `Pending`, `Warranty`, `No Payment`, and `Pay In Store - Pending`
+  - current `Payment Method` labels include `Invoiced - Xero`, but not `Online (Xero)`
+  - current `Invoice Action` labels are `Create Invoice`, `Done`, and `Error`
+  - current `Payments Reconciled` labels are `Processing`, `Do Now!`, `Complete`, and `Error`
+- `Observed`: live Xero invoice samples also do not support the workflow's current `Monday ID:` parsing assumption.
+  - in the saved `2025+` `ACCREC` sample, `0` invoice references contain `Monday ID:`
+  - sampled draft references are mostly device/job descriptions or blank values
+- `Observed`: the active workflow implementation is not using a clean external secret abstraction.
+  - the exported active workflow contains embedded Monday API auth values
+  - the exported active workflow contains embedded Xero OAuth app values
+  - the workflow persists its own `xeroRefreshToken` in workflow static data
+- `Observed`: live Xero reporting already classifies current income into named revenue accounts including `Backmarket` and `Shopify`.
+- `Observed`: live Xero chart-of-accounts and authorised bank transactions also show Stripe, SumUp, and BackMarket directly in ledger structure and receive-side bank activity.
+- `Observed`: live Xero accounts and bank-transaction samples show explicit finance-state visibility for cash, bank, Stripe, receivables, suppliers, and logistics spend.
+- `Observed`: local finance cashflow docs say Xero reconciliation was still ongoing as of `2026-02-23`, with bank statements treated as more reliable for near-term decision-making.
+- `Observed`: the same finance docs say custom CSV processing scripts were built for Stripe-to-Xero import handling.
+- `Inferred`: draft-invoice creation is the most mature live Xero automation surface, while the downstream send/payment loop and reconciliation write-back remain partly manual or incomplete.
+- `Inferred`: cash capture is currently more visible through bank-account and ledger-state evidence than through a clean live invoice-payment automation chain back into Monday.
+- `Inferred`: Stripe appears to have a more direct Xero-bank-account presence than SumUp, which currently appears through revenue/fee accounts and Starling receive-side bank activity.
+
+## Business Rules Captured In Local Design
+
+- invoice total = `formula74 - dup__of_quote_total - numeric_mkxx7j1t`
+- block if invoice total `<= 0`
+- block non-invoiceable client types such as:
+  - Corporate Warranty
+  - BM
+  - Refurb
+- use one draft invoice line item
+- tax type `OUTPUT2`
+- account code `201`
+- Xero invoice URL pattern:
+  - `https://go.xero.com/AccountsReceivable/View.aspx?InvoiceID={InvoiceID}`
+- `Observed`: the local build brief still uses `ACCINV` in example payload language, while live Xero invoice classification and query surfaces are expressed as `ACCREC` and `ACCPAY`.
+
+## Observed Risks
+
+- the refresh token rotates on every use, so ad hoc auth checks must continue to use `/home/ricky/config/xero_refresh.sh` or equivalent persistence logic
+- the active Xero invoice workflow carries embedded secrets and stores refresh-token state internally, which creates secret-sprawl and token-desynchronisation risk if the workflow state diverges from the canonical env-backed token path
+- Xero is clearly current and operational, but the automation stack is stronger on draft-invoice creation than on payment-state closure back into Monday
+- cash-basis accounting means unpaid invoice state and bank/payment evidence need to be read together; Monday finance state cannot be assumed to mirror Xero by itself
+
+## Open Threads
+
+- confirm whether invoice sending and payment-received write-back still depend on manual steps because the documented downstream workflows remain undeployed and currently broken
+- decide what the correct live Monday write-back model should be for paid Xero invoices:
+  - `Payment Status`
+  - `Payment Method`
+  - `Invoice Status`
+  - `Payments Reconciled`
+- determine how Stripe, SumUp, and bank-entry reconciliation actually land in Xero today: direct feed, manual import, or mixed handling
+- determine whether the documented Stripe CSV import path is still current or has been replaced by another workflow
+- decide whether the active n8n workflow should be rebuilt onto credential-store / env-backed secret handling instead of embedded token state

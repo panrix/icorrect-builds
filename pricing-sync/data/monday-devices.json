@@ -1,0 +1,4447 @@
+{
+  "source": "monday-devices",
+  "board_id": 3923707691,
+  "board_name": "Devices",
+  "pulled_at": "2026-03-16T08:01:48.912072+00:00",
+  "total": 146,
+  "columns": [
+    {
+      "id": "name",
+      "title": "Name",
+      "type": "name",
+      "settings_str": "{}"
+    },
+    {
+      "id": "connect_boards5",
+      "title": "Products",
+      "type": "board_relation",
+      "settings_str": "{\"allowCreateReflectionColumn\":true,\"boardIds\":[2477699024,9934501517]}"
+    },
+    {
+      "id": "status9",
+      "title": "Device Type",
+      "type": "status",
+      "settings_str": "{\"done_colors\":[1],\"labels\":{\"0\":\"MacBook\",\"1\":\"iPhone\",\"5\":\"Other\",\"6\":\"iPad\",\"11\":\"Apple Watch\",\"15\":\"Device\"},\"labels_positions_v2\":{\"0\":0,\"1\":1,\"5\":2,\"6\":3,\"11\":4,\"15\":5},\"labels_colors\":{\"0\":{\"color\":\"#fdab3d\",\"border\":\"#e99729\",\"var_name\":\"orange\"},\"1\":{\"color\":\"#00c875\",\"border\":\"#00b461\",\"var_name\":\"green-shadow\"},\"5\":{\"color\":\"#c4c4c4\",\"border\":\"#b0b0b0\",\"var_name\":\"grey\"},\"6\":{\"color\":\"#037f4c\",\"border\":\"#006b38\",\"var_name\":\"grass-green\"},\"11\":{\"color\":\"#bb3354\",\"border\":\"#a42d4a\",\"var_name\":\"dark-red\"},\"15\":{\"color\":\"#9cd326\",\"border\":\"#89b921\",\"var_name\":\"lime-green\"}}}"
+    },
+    {
+      "id": "connect_boards41",
+      "title": "Pre-Check Sets",
+      "type": "board_relation",
+      "settings_str": "{\"allowCreateReflectionColumn\":false,\"boardIds\":[4347106321]}"
+    },
+    {
+      "id": "long_text",
+      "title": "Website Booking URL",
+      "type": "long_text",
+      "settings_str": "{}"
+    }
+  ],
+  "groups": [
+    {
+      "id": "new_group97770",
+      "title": "Apple Watch"
+    },
+    {
+      "id": "new_group96809",
+      "title": "iPad"
+    },
+    {
+      "id": "new_group",
+      "title": "MacBook"
+    },
+    {
+      "id": "topics",
+      "title": "iPhone"
+    },
+    {
+      "id": "new_group65865",
+      "title": "Other"
+    },
+    {
+      "id": "new_group88996",
+      "title": "Test"
+    }
+  ],
+  "items": [
+    {
+      "id": "3926460267",
+      "name": "Apple Watch S1 38mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-1-38mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926461084",
+      "name": "Apple Watch S1 42mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-1-42mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926461531",
+      "name": "Apple Watch S2 38mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-2-38mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926461956",
+      "name": "Apple Watch S2 42mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-2-42mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926462402",
+      "name": "Apple Watch S3 38mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-3-38mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926462921",
+      "name": "Apple Watch S3 42mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-3-42mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926463443",
+      "name": "Apple Watch S4 40mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-4-40mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926463911",
+      "name": "Apple Watch S4 44mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-4-44mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926464416",
+      "name": "Apple Watch S5 40mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-5-40mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926465009",
+      "name": "Apple Watch S5 44mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-5-44mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926465520",
+      "name": "Apple Watch SE 40mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/se-40mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926466000",
+      "name": "Apple Watch SE 44mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/se-44mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926466437",
+      "name": "Apple Watch S6 44mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-6-44mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926467112",
+      "name": "Apple Watch S6 40mm",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-6-40mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926467865",
+      "name": "Apple Watch S7 41MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-7-41mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926468853",
+      "name": "Apple Watch S7 45MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-7-45mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926469485",
+      "name": "Apple Watch S8 41MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-8-41mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926470446",
+      "name": "Apple Watch S8 45MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-8-45mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926471372",
+      "name": "Apple Watch Ultra",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/ultra",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885921000",
+      "name": "Apple Watch S9 41MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-9-41mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885922003",
+      "name": "Apple Watch S9 45MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/series-9-45mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885923603",
+      "name": "Apple Watch SE2 40MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/se-2-40mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885925320",
+      "name": "Apple Watch SE2 44MM",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Apple Watch",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/apple-watch-repairs/se-2-44mm",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7093814256",
+      "name": "iPhone 5c",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "8463706926",
+      "name": "A2918",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "11213959461",
+      "name": "A3241",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "11213957791",
+      "name": "MacBook Air 15 3241",
+      "group": {
+        "id": "new_group97770",
+        "title": "Apple Watch"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926479612",
+      "name": "iPad Air",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926480158",
+      "name": "iPad 10",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-10th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926480551",
+      "name": "iPad 9",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-9th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926481080",
+      "name": "iPad 8",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-8th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926481496",
+      "name": "iPad 7",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-7th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926481969",
+      "name": "iPad 6",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-6th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926483069",
+      "name": "iPad 5",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-5th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926484107",
+      "name": "iPad 4",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-4th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926486139",
+      "name": "iPad Mini 6",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-mini-6",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926486555",
+      "name": "iPad Mini 5",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-mini-5",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926487020",
+      "name": "iPad Mini 4",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-mini-4",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926410537",
+      "name": "iPad Mini 2",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-mini-2",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926445657",
+      "name": "iPad Mini 3",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-mini-3",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926471883",
+      "name": "iPad Pro 12.9 (6G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-129-6th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926472325",
+      "name": "iPad Pro 12.9 (5G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-129-5th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926472867",
+      "name": "iPad Pro 12.9 (4G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-12-9-4th-generation",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926473701",
+      "name": "iPad Pro 12.9 (3G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-12-9-3rd-generation",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926474210",
+      "name": "iPad Pro 12.9 (2G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-12-9-2nd-generation",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926474711",
+      "name": "iPad Pro 12.9 (1G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-12-9",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926475117",
+      "name": "iPad Pro 11 (4G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-11-4th-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926475451",
+      "name": "iPad Pro 11 (3G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-11-3rd-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926476053",
+      "name": "iPad Pro 11 (2G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-11-2nd-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926476335",
+      "name": "iPad Pro 11 (1G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-11",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926476907",
+      "name": "iPad Pro 10.5",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-10-5",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926477410",
+      "name": "iPad Pro 9.7",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-9-7",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926477843",
+      "name": "iPad Air 5",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air-5",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926478392",
+      "name": "iPad Air 4",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air-4",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926478775",
+      "name": "iPad Air 3",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air-3",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926479272",
+      "name": "iPad Air 2",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air-2",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7525118525",
+      "name": "iPad Pro 13 (7G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-13-7th-gen-m4",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7525123425",
+      "name": "iPad Pro 11 (5G)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-pro-11-5th-gen-m4",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7525144710",
+      "name": "iPad Air 6 (13)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air-13-6th-gen-m2",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7525148722",
+      "name": "iPad Air 6 (11)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPad",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipad-repairs/ipad-air-11-6th-gen-m2",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "8471664402",
+      "name": "iPad 2",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "11499095004",
+      "name": "iPad Air 7 (13)",
+      "group": {
+        "id": "new_group96809",
+        "title": "iPad"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926457177",
+      "name": "MacBook Air 13 M1 A2337",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-13-m1-a2337",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926457737",
+      "name": "MacBook Air 13 A2179",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-13-a2179",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926458304",
+      "name": "MacBook Pro 16 A2141",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-16-a2141",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926459259",
+      "name": "MacBook Pro 15 A1707",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-retina-15-a1707",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926459672",
+      "name": "MacBook Pro 15 A1990",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-a1990",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926447250",
+      "name": "MacBook Air 13 A1932",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-a1932",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926447839",
+      "name": "MacBook 12 A1534",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-12-a1534",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926448283",
+      "name": "MacBook Air 11 A1465",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-a1465",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926448729",
+      "name": "MacBook Air 13 A1466",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-a1466",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926449672",
+      "name": "MacBook Pro 15 A1398",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-retina-15-a1398",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926450106",
+      "name": "MacBook Pro 13 M1 A2338",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-m1-a2338",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926450993",
+      "name": "MacBook Pro 13 M2 A2338",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-m2-a2338-2022",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926452154",
+      "name": "MacBook Air 13 M2 A2681",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-13-m2-a2681-2022",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926452555",
+      "name": "MacBook Pro 16 M1 Pro/Max A2485",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-16-m1-pro-max-a2485",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926452867",
+      "name": "MacBook Pro 14 M1 Pro/Max A2442",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-14-m1-pro-max-a2442",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926453272",
+      "name": "MacBook Pro 13 4TB 3 A2251",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-4tb-3-a2251",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926453755",
+      "name": "MacBook Pro 13 2TB 3 A2289",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-2tb-3-a2289",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926454177",
+      "name": "MacBook Pro 13 2TB 3 A2159",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-2tb-3-a2159",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926454557",
+      "name": "MacBook Pro 13 Touch Bar A1989",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-touch-bar-a1989",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926455417",
+      "name": "MacBook Pro 13 Touch Bar A1706",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-touchbar-a1706",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926456204",
+      "name": "MacBook Pro 13  A1708",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-a1708",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926456695",
+      "name": "MacBook Pro 13 A1502",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-13-a1502",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885981588",
+      "name": "MacBook Air 15 M2 A2941",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-15-m2-a2941-2023",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885985801",
+      "name": "MacBook Pro 14 M2 Pro/Max A2779",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-14-m2-pro-max-a2779",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5885988924",
+      "name": "MacBook Pro 16 M2 Pro/Max A2780",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-16-m2-pro-max-a2780",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "6153251833",
+      "name": "MacBook Pro 14 M3 A2992",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-14-m3-pro-max-a2992",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "6153253101",
+      "name": "MacBook Pro 16 M3 Pro/Max A2991",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-pro-16-m3-pro-max-a2991",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "6184437095",
+      "name": "MacBook Air A1369",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7306070177",
+      "name": "MacBook A1278",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7524327976",
+      "name": "MacBook Air 13 M3 A3113",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-13-m3-a3113-2024",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7528658845",
+      "name": "MacBook Air 15 M3 A3114",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/macbook-repairs/macbook-air-15-m3-a3114-2024",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "18384235969",
+      "name": "MacBook Air 13 M4 A3240",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "9570266969",
+      "name": "MacBook Pro 14 M3 A2918",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7568366443",
+      "name": "MacBook Pro 13 A1425",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "9343856889",
+      "name": "MacBook Pro 14 M4 A3401",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "9350859408",
+      "name": "MacBook Pro 14 M4 A3112",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "10909208915",
+      "name": "MacBook Pro 16 M4 Pro/Max A3186/A3403",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "MacBook",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "11213959609",
+      "name": "MacBook Air 15 A3241",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "11432785202",
+      "name": "MacBook Pro 14 M5 A3434",
+      "group": {
+        "id": "new_group",
+        "title": "MacBook"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926513805",
+      "name": "iPhone 11 Pro",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-11-pro",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926515763",
+      "name": "iPhone 11",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-11",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926517663",
+      "name": "iPhone XS Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-xs-max",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926519890",
+      "name": "iPhone XS",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-xs",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926521350",
+      "name": "iPhone XR",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-xr",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926523099",
+      "name": "iPhone X",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-x",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926524493",
+      "name": "iPhone SE2",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-se-2nd-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926526420",
+      "name": "iPhone 8 Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-8-plus",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926527556",
+      "name": "iPhone 8",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-8",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926529137",
+      "name": "iPhone 7",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-7",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926530147",
+      "name": "iPhone 7 Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-7-plus",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926488185",
+      "name": "iPhone 14 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-14-pro-max",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926489361",
+      "name": "iPhone 14 Pro",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-14-pro",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926490335",
+      "name": "iPhone 14 Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-14-plus",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926492445",
+      "name": "iPhone 14",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-14",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926494863",
+      "name": "iPhone SE3",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-se-3rd-gen",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926497261",
+      "name": "iPhone 13 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-13-pro-max",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926498459",
+      "name": "iPhone 13 Pro",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-13-pro",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926499728",
+      "name": "iPhone 13 Mini",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-13-mini",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926500860",
+      "name": "iPhone 13",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-13",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926503770",
+      "name": "iPhone 12 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-12-pro-max",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926505598",
+      "name": "iPhone 12 Pro",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-12-pro",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926508172",
+      "name": "iPhone 12",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-12",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926509562",
+      "name": "iPhone 12 Mini",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-12-mini",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926512273",
+      "name": "iPhone 11 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-11-pro-max",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5881310841",
+      "name": "iPhone 15",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-15",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5881312868",
+      "name": "iPhone 15 Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-15-plus",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5881313059",
+      "name": "iPhone 15 Pro",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-15-pro",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "5881313222",
+      "name": "iPhone 15 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-15-pro-max",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926531830",
+      "name": "iPhone 6S Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-6s-plus",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926533346",
+      "name": "iPhone 6s",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-6s",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926444271",
+      "name": "iPhone 6",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-6",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926445357",
+      "name": "iPhone 6 Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/iphone-repairs/iphone-6-plus",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7186616701",
+      "name": "iPhone SE",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "7701991171",
+      "name": "iPhone 5S",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "8248272640",
+      "name": "iPhone 16",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "8248274059",
+      "name": "iPhone 16 Plus",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "8248274468",
+      "name": "iPhone 16 Pro",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "8248278467",
+      "name": "iPhone 16 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "iPhone",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "18299016116",
+      "name": "iPhone 17 Pro Max",
+      "group": {
+        "id": "topics",
+        "title": "iPhone"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Other",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926446154",
+      "name": "Zebra PDA",
+      "group": {
+        "id": "new_group65865",
+        "title": "Other"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Device",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926446598",
+      "name": "iPod Touch 6th Gen",
+      "group": {
+        "id": "new_group65865",
+        "title": "Other"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Device",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipod-repairs/ipod-touch-6th-generation",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926534446",
+      "name": "iPod Touch 7th Gen",
+      "group": {
+        "id": "new_group65865",
+        "title": "Other"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Device",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "https://icorrect.co.uk/ipod-repairs/ipod-touch-7th-generation",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "4028854241",
+      "name": "Other Device",
+      "group": {
+        "id": "new_group65865",
+        "title": "Other"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Device",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    },
+    {
+      "id": "3926445975",
+      "name": "TEST PRODUCT GROUP",
+      "group": {
+        "id": "new_group88996",
+        "title": "Test"
+      },
+      "column_values": [
+        {
+          "id": "connect_boards5",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "status9",
+          "text": "Device",
+          "type": "status"
+        },
+        {
+          "id": "connect_boards41",
+          "text": null,
+          "type": "board_relation"
+        },
+        {
+          "id": "long_text",
+          "text": "",
+          "type": "long_text"
+        }
+      ]
+    }
+  ]
+}

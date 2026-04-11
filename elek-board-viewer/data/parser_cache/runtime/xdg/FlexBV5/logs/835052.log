@@ -1,0 +1,187 @@
+000000 PID:835052
+000000 FlexBV Start Wed Apr  1 04:26:49 2026
+
+000000 FlexBV Log initiated
+000000 FlexBV build version 5.1383 Timestamp: Fri Mar 20 14:21:15 2026
+000000 FlexBV Standard Edition
+000000 Binary path: /opt/flexbv
+000000 Config path: /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/home/.config/FlexBV5
+000000 Data path: /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5
+000000 FlexBV bin: /opt/flexbv/flexbv
+000000 Schematic bin: /opt/flexbv/fbvpdf
+000001 Schematic viewer version: 5.7140
+000001 Crashlog build path: /opt/flexbv
+000001 Current LC settings...
+000001 LC_ALL: C.UTF-8
+000001 LC_CTYPE: C.UTF-8
+000001 Modified LC settings...
+000001 LC_ALL: en_US.UTF8
+000001 LC_CTYPE: en_US.UTF8
+000001 Parameter parsing...
+000001 argv[0] '/opt/flexbv/flexbv'
+000001 argv[1] '-d'
+000001 argv[2] '-x'
+000001 argv[3] '1200'
+000001 argv[4] '-y'
+000001 argv[5] '700'
+000001 argv[6] '-i'
+000001 argv[7] '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd'
+000002 CrashLogs: Checking log folder (/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/logs) to see if we have any logs from possible crashes...
+000002 CrashLogs: PID for log '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/logs/835018.log' is ALIVE, not pushing
+000002 CrashLogs: PID for log '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/logs/834806.log' is a dead-pid log, pushed.
+000002 CrashLogs: PID for log '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/logs/835052.log' is ALIVE, not pushing
+000002 CrashLogs: Crash log scan done. 1 crashed logs found
+000002 Compiled against SDL version 3.4.2
+000002 Linking against SDL version 3.4.2
+000002 Compiled ImGUI version 1.92.6
+000002 Compiled SQLite version 3.38.5
+000059 Linux BUILD
+000059 Standard edition
+000059 FlexBV bin: /opt/flexbv/flexbv
+000059 Log: /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/logs/835052.log
+000059 Schematic viewer log: /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/logs/fbvpdf.log
+000059 RunID: de30a0d8d2cf0280
+000059 LOCALE set to en_US.UTF8
+000059 Setting up signal handlers...
+000059 Config File: /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/home/.config/FlexBV5/flexbv.conf
+000059 History file: '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/flexbv.history'
+000059 Loading history...
+000059 Loading config...
+000059 Setup GUI...
+000077 Create Window... [1200 x 700 @ 100, 100]
+000079 Pixel scale set to 1.0
+000079 Create rendering context...
+000242 SDL Renderer: software
+000242 Drawable size: 1200 x 700
+000246 Setting window postion to: 100, 100
+000246 Loading FBV configuration
+000246 Loading licence data...
+000246 Loading theme...
+000247 PCB theme = 'Olive'
+000247 PCB Theme file = '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/themes/Olive.fbvtheme'
+000247 UI colorTheme = light
+000247 Configuring fonts...
+000247 Main font index/size = 0px
+000247 Display DPI = 96
+000247 Pixel Scale = 1.0
+000284 Configuring Job system...
+000285 JobsDB cache file = '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/jobs/jobs_cache.sq3'
+000285 Configuring keyboard system...
+000285 Configuring DDI system...
+002703 Window decoration offset size is [ 0 x 0 ]
+002703 Starting main loop.
+002703 Calling join for cache load thread
+002703 Library cache load complete
+002705 FlexBV:Main: Preloading board '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd'
+002705 Commence process of board file load '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd'
+002705 BoardView.cpp:1039:Load '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd'
+002709 Loading boardfile '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd'
+002753 BVLOAD_OK:/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd
+002753 Board outline contains 2286 elements
+002753 Board outline bounding box is (0.000000, 0.000000 -> 3294.000000, 8105.000000)
+002763 Normalising: coordinate data from boardview parsing
+002763 Normalisation: START Boardview data bounds 340282346638528859811704183484516925440.0, 340282346638528859811704183484516925440.0 - -340282346638528859811704183484516925440.0, -340282346638528859811704183484516925440.0
+002763 Normalisation: After OUTLINE Boardview data bounds 0.0, 0.0 - 3294.0, 8105.0
+002764 Normalisation: After PARTS Boardview data bounds 0.0, 0.0 - 3294.0, 8105.0
+002764 Normalisation: After PINS Boardview data bounds 0.0, 0.0 - 3294.0, 8105.0
+002764 Normalisation: After NAILS Boardview data bounds 0.0, 0.0 - 3294.0, 8105.0
+002764 Normalisation: After VIAS Boardview data bounds 0.0, 0.0 - 3294.0, 8105.0
+002764 Normalisation: Boardview data bounds 0.0, 0.0 - 3294.0, 8105.0
+002764 Normalisation: Board data updated
+002776 Bounding box details: Normal ( 0.000000,0.000000 to 3294.000000,8105.000000 ),  Butterfly ( 0.000000,8510.250000 to 3294.000000,16615.250000 )
+002776 Board dimensions: 3294.000000 x 8105.000000
+002777 Board Stats: '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd' size = 3294.0 x 8105,  13653 pins, 4283 parts, 2286 outline points [type=Points]
+002777 Finished SetFile()
+002777 Board is VALID, now going to generate meta path, load board database and OBData
+002777 Generating meta path for file
+002777 meta_path for '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.brd' (as '820-02020.brd') computed to be '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577'
+002777 Using META system, setting OBData path to
+002777 Migrating META Enabled
+002777 META Migration done for board
+002778 Board is higher than wide, spinning the board 90 to align long edges
+002779 Bounding box details: Normal ( 0 0 - 8105 3294 ),  Butterfly ( 0.000000 3458.699951 - 8105.000000 6752.700195 )
+002779 Reprocess/prepare board again
+002779 Begin preparing board data...
+002779 Maximum point count is 2502
+002779 Testing to see if parts have pins on both sides...
+002779 Setting component colours and pin sizes...
+002779 Setting NC, GND and dummy pin attributes...002779 Looking for 1-pin networks (set to NC) and GND set to is_ground (for net, not pin)002788 Examining board for shields/heatsinks/brackets to mark as invisible...
+002788 0 parts marked as hidden
+002788 Prepare pin colours
+002789 Prepare pad centers
+002789 Prepare part colours
+002789 Prepare net colours
+002789 Add larger parts to minimap vector
+002789 Board data prep finished, width=8105.000000, height=3294.000000
+002789 Board aspect: 2.46 (inverse 0.41)
+002789 Go over ALL PINS and set olmin/max size rectangle
+002789 Go over ALL PARTS and set min/max size rectangle and track the expanse too
+002790 Board preprocessing completed
+002790 Populating the hover-search grid
+002798 GridPopulateArea: areas are in negative distances, aborting, check normalisation code!
+002801 GridPopulateArea: areas are in negative distances, aborting, check normalisation code!
+002806 Generating valid lists of net and part names
+002807 Checking for net aliases
+002807 Creating part name map
+002807 Calculating largest net & pin names
+002808 Check winding order of all polygons and reversing if required
+002808 Preprocessing of board completed
+002808 Board rotation and reprocessing done
+002808 Fixing board pins if radius under 1-thou
+002808 Checking for net aliases after loading OBData
+002881 Attempt to load schematic for board
+002881 BoardView.cpp:1426:Looking for PDF
+002881 Finished looking for a schematic for the board
+002881 Launching PDFViewer for '/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.pdf'
+002881 /home/pld/development/ctpc/FlexBVPVT/src/flexbv/BV-launchers.cpp:868: PDF Normal mode DDI data='!load:/home/ricky/builds/elek-board-viewer/schematics/A2338 820-02020/820-02020.pdf
+!setaalevel:2!keyundo=24 0!keysearch=9 1!keynext=17 0!keyprev=19 0!keypgup=75 0!keypgdn=78 0!keyup=82 0!keydown=81 0!keyleft=80 0!keyright=79 0!keyzoomin=46 0!keyzoomout=45 0!keyrotatecw=55 0!keyrotateccw=54 0!keyfitwindow=93 0!keyfitwidth=26 0!keyfitheight=11 0!keygopage=10 0!keygoendpage=10 4!highlightcolour:ff7b20f3!highlightmode:0!setwindowsizepos:1000 710 100 100
+!ss:!noraise:!heuristics:
+'
+002883 Checking OBData
+002883 Clear old OBDataQueue
+002883 Setting OBData server options
+002883 Loading local board meta/database file
+002883 Loading OpenBoardData file '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata'
+002883 OBData.cpp:591: OBData file '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata' does not seem to exist here, aborting load
+002883 OBData file '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata' missing BPATH header - retaining data but consider adding BPATH
+002883 OBData local file '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata.local' missing BPATH header - retaining data but consider adding BPATH
+002883 OBDataQ filename = /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata.queued
+002884 OBData changes queue file not present '/home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata.queued' (No such file or directory)
+002884 OBDataQ log filename = /home/ricky/builds/elek-board-viewer/data/parser_cache/runtime/xdg/FlexBV5/meta/51/512c147f0088c928133531ddd6311577/obdata.log
+002888 Begin preparing board data...
+002889 Maximum point count is 2502
+002889 Testing to see if parts have pins on both sides...
+002889 Setting component colours and pin sizes...
+002889 Setting NC, GND and dummy pin attributes...002890 Looking for 1-pin networks (set to NC) and GND set to is_ground (for net, not pin)002891 Examining board for shields/heatsinks/brackets to mark as invisible...
+002891 0 parts marked as hidden
+002891 Prepare pin colours
+002891 Prepare pad centers
+002891 Prepare part colours
+002891 Prepare net colours
+002892 Add larger parts to minimap vector
+002892 Board data prep finished, width=8105.000000, height=3294.000000
+002892 Board aspect: 2.46 (inverse 0.41)
+002892 Go over ALL PINS and set olmin/max size rectangle
+002892 Go over ALL PARTS and set min/max size rectangle and track the expanse too
+002892 Board preprocessing completed
+002892 Populating the hover-search grid
+002902 GridPopulateArea: areas are in negative distances, aborting, check normalisation code!
+002905 GridPopulateArea: areas are in negative distances, aborting, check normalisation code!
+002910 Generating valid lists of net and part names
+002910 Checking for net aliases
+002911 Creating part name map
+002911 Calculating largest net & pin names
+002912 Check winding order of all polygons and reversing if required
+002912 Preprocessing of board completed
+002913 PrepareChooseFlip: Flipping board to maximise data density at middle
+002913 Generate board stats
+002914 Getting initial board load states
+002914 Flipping board twice to set bounds
+002914 Centering view
+002914 Show butterfly for this board: Y
+002914 Clearing memory used by board load
+002914 Board loading process complete, status = Success
+002914 FlexBV:Main: Loading of board complete
+002914 flexbv.cpp:2258:Centering view
+002914 Updating file history
+002914 Updating window title to 'FlexBV5 Licensed - 820-02020.brd'

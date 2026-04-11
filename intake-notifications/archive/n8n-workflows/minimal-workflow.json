@@ -1,0 +1,23 @@
+{
+  "name": "Test Collection Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "formId": "vslvbFQr"
+      },
+      "type": "n8n-nodes-base.typeformTrigger",
+      "typeVersion": 1.1,
+      "position": [0, 0],
+      "id": "trigger-node",
+      "name": "Typeform Trigger",
+      "credentials": {
+        "typeformApi": {
+          "id": "bqyPkUAjnFJ8SrHN",
+          "name": "Typeform account"
+        }
+      }
+    }
+  ],
+  "connections": {},
+  "settings": {}
+}

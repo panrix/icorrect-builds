@@ -1,0 +1,15 @@
+{
+  "name": "quote-wizard",
+  "version": "1.0.0",
+  "description": "",
+  "main": "rebuild-wizard-menus.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}

@@ -5,6 +5,8 @@
 **Status:** Execution gated. Do not start implementation until Phase 0 spikes + contract freeze are complete.
 **For review by:** Michael Ferrari
 
+**Latest research update:** `research-shopify-intercom-phase0-2026-04-01.md`
+
 ---
 
 ## The Problem
@@ -29,6 +31,12 @@ Replace the SMTP/contact-swap hacks with a VPS service that creates/links the co
 - Warranty claim → create Intercom **ticket** attributed to the customer
 
 **Important:** The target state above is the implementation target. It is **not yet proven** across all production cases. Phase 0 exists to prove the risky assumptions before build starts.
+
+**Phase 0 update as of 2026-04-01**
+- consumer and warranty are still confirmed on SMTP-authored ingress through `michael.f@icorrect.co.uk`
+- quote email is still confirmed on SMTP for both customer email and internal Intercom notification
+- corporate has stronger live evidence of direct ticket-plus-company handling than the older narrative suggested
+- the live customer ticket type is now proven simpler than expected: only `_default_title_` and `_default_description_` remain active
 
 **Current flow (broken):**
 ```
@@ -82,8 +90,6 @@ This plan becomes build-ready only after the following are complete and written 
    - new contact
    - existing contact
    - corporate contact + company attach
-   - warranty claim
-   - quote-email internal ticket path
 2. **Quote-email contract frozen:** v1 preserves outbound customer quote email and current UI copy
 3. **Theme deploy source of truth confirmed:** exact production branch/theme target recorded
 4. **Contracts frozen:** request fixtures, response contracts, validation rules, and ticket templates recorded
@@ -94,6 +100,13 @@ If a Phase 0 spike fails or becomes ambiguous, cut scope in this order:
 2. Quote-email internal ticket changes
 
 Do **not** cut consumer or corporate attribution fixes first.
+
+Current recommendation after the 2026-04-01 research pass:
+
+- keep Phase 1 as consumer + corporate only
+- keep quote inline, quote email, and warranty outside the first live cutover batch
+- treat Shopify theme ID `158358438141` (`icorrect-shopify-theme/main`) as the production cutover target until contrary evidence appears
+- replace the invalid build path with a stable service home, preferably `/home/ricky/builds/intercom/services/shopify-contact-form/`
 
 ---
 
@@ -513,7 +526,7 @@ If those are decided during coding, the implementation will drift and tests will
   - flat snake_case payloads
   - flat camelCase payloads
 - `discovery/shopify-payload-schemas.md` also documents different client response handling rules per source.
-- The older `plan.md` had explicit CORS, parsing, browser contract, and failure response detail that this revised plan dropped.
+- The older `archive/plan-combined-2026-03-30.md` had explicit CORS, parsing, browser contract, and failure response detail that this revised plan dropped.
 
 **What should change before implementation starts**
 
@@ -599,7 +612,7 @@ You will create duplicate Intercom artifacts and then have no reliable way to di
 - `assets/contact-form-interceptor.js` uses a 30s timeout.
 - `sections/quote-wizard.liquid` uses a 30s timeout.
 - The revised plan says to monitor 48 hours but defines no metrics, alerts, logs, or failure thresholds.
-- The older `plan.md` explicitly called for failure alerting on Intercom API failures; this revised plan does not.
+- The older `archive/plan-combined-2026-03-30.md` explicitly called for failure alerting on Intercom API failures; this revised plan does not.
 
 **What should change before implementation starts**
 
@@ -660,7 +673,7 @@ Engineers will either waste time implementing irrelevant challenge logic or skip
 **Evidence**
 
 - `plan-shopify-contact-form.md` includes "Verify health + CORS + challenge handling"
-- `plan.md` previously had concrete CORS and health details for this service
+- `archive/plan-combined-2026-03-30.md` previously had concrete CORS and health details for this service
 - Discovery docs for Shopify/browser forms do not establish a real challenge contract
 
 **What should change before implementation starts**
@@ -674,7 +687,7 @@ Replace vague wording with explicit interface definitions:
 
 ### What The First QA Likely Missed
 
-- The revised plan is materially less executable than the older `plan.md` because it dropped explicit contracts and kept only high-confidence prose plus a task checklist.
+- The revised plan is materially less executable than the older `archive/plan-combined-2026-03-30.md` because it dropped explicit contracts and kept only high-confidence prose plus a task checklist.
 - The quote-email path is not just attribution plumbing; it contains a customer-visible outbound email feature and UI promise.
 - The deployment/rollback story is not validated against the actual theme source of truth.
 

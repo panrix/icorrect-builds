@@ -2,15 +2,15 @@
 
 **Date:** 2026-03-30
 **Author:** Claude Code (with QA review by Codex)
-**Status:** Shadow service was implemented on 2026-03-30, fully verified on 2026-03-31, and cut over to live Intercom sending on 2026-04-01. The remaining work is monitoring and final automation cleanup.
+**Status:** Shadow service was implemented on 2026-03-30, fully verified on 2026-03-31, cut over to live Intercom sending on 2026-04-01, and the broad status action-burners were remapped to exact hooks on 2026-04-08. The remaining work is monitoring and reviewing any older catch-all webhooks still left on the board.
 
 ## Context
 
-Two Monday.com automations (537444955 and 530471762) fire on **every column change**, burning ~4,000+ automation actions/day. Both are active with unknown destinations. The automation audit says 537444955 should be parts-only and 530471762 should be status-only for Intercom notifications.
+At discovery time, two Monday.com automations (`537444955` and `530471762`) were firing on **every column change**, burning ~4,000+ automation actions/day. On 2026-04-08 they were replaced with exact hooks: six status-specific `status4` webhooks for notifications and one `Parts Used`-only webhook for the parts service.
 
 The status notification system currently works via: Monday webhooks → Cloudflare Worker (`icorrect-macros`) → n8n Cloud → Intercom. This routes through 3 external services when the VPS already hosts 6 similar webhook services.
 
-**Outcome:** Build a VPS service that replaces the Cloudflare Worker + n8n path for status notifications. Kill the token-burning automations once their destinations are confirmed in Monday UI.
+**Outcome:** Build a VPS service that replaces the Cloudflare Worker + n8n path for status notifications, then reduce Monday action burn by replacing the broad board webhooks with exact triggers.
 
 **Out of scope:** Shopify Contact Form / Quote Wizard migration (separate plan for Ferrari).
 
@@ -30,6 +30,14 @@ The status notification system currently works via: Monday webhooks → Cloudfla
 - A controlled live smoke test on 2026-04-01 sent a real `ready-walkin` reply through the VPS service and verified the expected Intercom body content.
 - The cutover exposed a unit-file precedence issue: `Environment=SHADOW_MODE=false` must appear after `EnvironmentFile=/home/ricky/config/.env` or the shared env can override it.
 - Source capture is committed in git. Further changes should be incremental follow-up commits.
+- On 2026-04-08 the broad status webhook `530471762` was removed and replaced with six exact `status4` hooks:
+  - `562149816` (`Received`)
+  - `562149840` (`Courier Booked`)
+  - `562149843` (`Return Booked`)
+  - `562149845` (`Ready To Collect`)
+  - `562149846` (`Booking Confirmed`)
+  - `562149847` (`Password Req`)
+- On 2026-04-08 the broad parts webhook `537444955` was removed and replaced with `562164741` on `connect_boards__1` (`Parts Used`).
 
 ---
 
@@ -39,7 +47,7 @@ All artefacts in `builds/webhook-migration/discovery/`.
 
 | Artefact | File | Key Finding |
 |----------|------|-------------|
-| Monday webhooks | `monday-webhooks.md` | 31 webhooks. Status notifications use properly-filtered webhooks (264095774, 337386341). The catch-all automations are separate. |
+| Monday webhooks | `monday-webhooks.md` | 2026-03-30 snapshot of board webhooks before the Apr 8 remap. |
 | Cloudflare Worker source | `cloudflare-icorrect-macros.js` | The REAL notification router (474 lines). Named `icorrect-macros`, not `icorrect-status-router` as docs say. Handles item_created + email_updated + status4 changes. |
 | n8n workflow export | `n8n-exports/status-notifications.json` | Full workflow JSON (56KB). Contains Extract Data, Merge Contact Name, Send Intercom Reply nodes. |
 | Intercom API proof | `intercom-api-proof.md` | All write endpoints proven live: conversations, tickets, companies, contact search/create. |
@@ -144,7 +152,8 @@ After live cutover:
 
 1. Monitor logs and Slack alerts for 48 hours.
 2. Confirm there are no duplicate or missed production notifications.
-3. Review Monday automation destinations in the UI before disabling token-burner automations.
+3. Review the remaining legacy catch-all webhook IDs `349863361`, `349863952`, and `350113039` in the Monday UI.
+4. Confirm action usage drops after the Apr 8 webhook remap.
 
 ---
 
@@ -167,11 +176,14 @@ Set `SHADOW_MODE=false`, restart service.
 - [x] No duplicate emails from the old n8n sender
 - [ ] Monitor 48 hours
 
-### Step 5: Disable broken automations
-**Prerequisite:** Ricky confirms destination URLs in Monday UI.
-- If 537444955 confirmed dead/to-Cloudflare → disable
-- If 530471762 confirmed dead/to-Cloudflare → disable
-- [ ] Automation token usage drops
+### Step 5: Reduce action burn
+- [x] `530471762` removed and replaced with exact status hooks on 2026-04-08
+- [x] `537444955` removed and replaced with exact parts hook on 2026-04-08
+- [ ] Confirm automation usage drops
+- [ ] Review only the remaining legacy catch-all webhooks:
+  - `349863361`
+  - `349863952`
+  - `350113039`
 
 ---
 

@@ -24,6 +24,12 @@ const { mondayQuery, BOARDS, COLUMNS } = require('./lib/monday');
 const { BM_API_HEADERS, fetchSalesHistory } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
 const {
+  findResolverSlot,
+  isResolverSlotLiveSafe,
+  normalizeResolverSku,
+  upgradeRegistrySchema,
+} = require('./lib/resolver-truth');
+const {
   resolveNuxt, extractNuxtPrice, categorisePickerLabel,
   findNuxtPickers, extractNuxtDataCategories,
   createStealthContext, extractNuxtDataFromPage, isCloudflareBlocked,
@@ -558,19 +564,16 @@ function loadListingsRegistry() {
     _registry = { slots: {} };
     return _registry;
   }
-  _registry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  const rawRegistry = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+  _registry = upgradeRegistrySchema(rawRegistry).registry;
   console.log(`  Loaded listings registry: ${Object.keys(_registry.slots || {}).length} slots`);
   return _registry;
 }
 
 function lookupRegistrySlot(sku) {
   const registry = loadListingsRegistry();
-  const normalizedSku = sku.replace(/\.(Fair|Good|Excellent)$/i, (_, gradeText) => {
-    const map = { Fair: 'FAIR', Good: 'GOOD', Excellent: 'VERY_GOOD' };
-    return `.${map[gradeText] || gradeText.toUpperCase()}`;
-  });
-  const slot = registry.slots?.[normalizedSku] || registry.slots?.[sku];
-  if (slot?.verified) return slot;
+  const slot = findResolverSlot(registry, { sku: normalizeResolverSku(sku) });
+  if (slot && isResolverSlotLiveSafe(slot)) return slot;
   return null;
 }
 
@@ -615,6 +618,37 @@ function findGradePricesForCatalogVariant(scraperData, variant) {
     return variant.grade_prices;
   }
   return {};
+}
+
+function resolveProductFromRegistrySlot(slot) {
+  return {
+    source: 'listings-registry',
+    modelKey: slot?.model_family || '(registry slot)',
+    modelFamily: slot?.model_family || '',
+    normalizedRam: normalizeRamForCatalog(slot?.ram || ''),
+    normalizedSsd: normalizeStorageForCatalog(slot?.ssd || ''),
+    normalizedColour: normalizeColour(slot?.colour || ''),
+    gradePrices: {},
+    ssdPicker: {},
+    colourPrices: {},
+    adjacentSsd: [],
+    ramPicker: {},
+    colourPicker: {},
+    cpuGpuPicker: {},
+    colourVerified: !!normalizeColour(slot?.colour || ''),
+    liveEligible: isResolverSlotLiveSafe(slot),
+    productId: slot?.product_id || '',
+    title: slot?.title || '',
+    lookupTitle: slot?.title || '',
+    backmarketId: slot?.backmarket_id || null,
+    resolutionConfidence: slot?.trust_class || '',
+    verificationStatus: slot?.verified ? 'verified' : 'unverified',
+    resolutionSource: `resolver-truth:${slot?.trust_class || 'unknown'}`,
+    trustClass: slot?.trust_class || '',
+    truthSource: slot?.source || '',
+    contradictionFlags: Array.isArray(slot?.contradiction_flags) ? slot.contradiction_flags : [],
+    slot,
+  };
 }
 
 function resolveProductFromCatalog(specs, scraperData) {
@@ -1067,7 +1101,7 @@ async function verifyListing(listingId, expected) {
   // BM titles don't always include colour — the product_id IS the colour verification
   if (expected.colourVerifiedByCatalog) {
     console.log(`  Colour: ✅ verified by catalog (skipping title check)`);
-  } else if (EFFECTIVE_PRODUCT_ID_OVERRIDE) {
+  } else if (expected.skipColourTitleCheckForManualOverride) {
     // When --product-id is manually supplied, BM titles often omit colour (e.g. M2 Airs).
     // The product_id itself is the colour signal — skip title colour check for manual overrides.
     console.log(`  Colour: ⚠️ skipping title check (--product-id override — colour in product_id)`);
@@ -1097,14 +1131,33 @@ async function verifyListing(listingId, expected) {
   };
 }
 
+function determineProbeVerdict(checks) {
+  return (
+    checks.candidate_product_id_preserved &&
+    checks.grade_match &&
+    checks.ram_match &&
+    checks.ssd_match &&
+    checks.colour_match
+  ) ? 'pass' : 'fail';
+}
+
 function buildProbeReport(result, candidateProductId, draftVerification, taskResult, options = {}) {
   const listing = draftVerification?.listing || {};
   const issues = draftVerification?.issues || [];
   const issueHas = (prefix) => issues.some(i => i.startsWith(prefix));
-  const colourCheckSkipped = !!options.colourCheckSkipped;
+  const checks = {
+    candidate_product_id_preserved: listing.product_id ? listing.product_id === candidateProductId : false,
+    grade_match: !issueHas('⛔ GRADE MISMATCH'),
+    ram_match: !issueHas('⛔ TITLE RAM MISMATCH'),
+    ssd_match: !issueHas('⛔ TITLE SSD MISMATCH'),
+    colour_match: !issueHas('⛔ TITLE COLOUR MISMATCH'),
+  };
+  const verdict = determineProbeVerdict(checks);
 
   return {
     mode: 'probe',
+    verdict,
+    promotable_resolver_truth: verdict === 'pass',
     main_item_id: result.mainItemId,
     sku: result.sku,
     candidate_product_id: candidateProductId,
@@ -1129,15 +1182,7 @@ function buildProbeReport(result, candidateProductId, draftVerification, taskRes
       publication_state: listing.publication_state ?? listing.pub_state ?? null,
       sku: listing.sku || '',
     },
-    checks: {
-      candidate_product_id_preserved: listing.product_id ? listing.product_id === candidateProductId : false,
-      grade_match: !issueHas('⛔ GRADE MISMATCH'),
-      ram_match: !issueHas('⛔ TITLE RAM MISMATCH'),
-      ssd_match: !issueHas('⛔ TITLE SSD MISMATCH'),
-      colour_check_skipped: colourCheckSkipped,
-      colour_match: colourCheckSkipped ? null : !issueHas('⛔ TITLE COLOUR MISMATCH'),
-      overall_verified: !!draftVerification?.verified,
-    },
+    checks,
     issues,
   };
 }
@@ -1263,7 +1308,11 @@ function formatSummary(device) {
   lines.push(`Path     ${device.pathLabel || 'B (clean create — draft then publish)'}`);
   lines.push(`SKU      ${sku}`);
   if (device.registrySlot) {
-    lines.push(`Registry  hit -> listing_id ${device.registrySlot.listing_id}`);
+    const registryParts = [];
+    if (device.registrySlot.listing_id) registryParts.push(`listing_id ${device.registrySlot.listing_id}`);
+    if (device.registrySlot.product_id) registryParts.push(`product_id ${device.registrySlot.product_id}`);
+    if (device.registrySlot.trust_class) registryParts.push(`trust ${device.registrySlot.trust_class}`);
+    lines.push(`Registry  hit -> ${registryParts.join(' | ') || 'resolver truth present'}`);
   } else {
     lines.push(`Registry  miss`);
   }
@@ -1342,8 +1391,10 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   const sku = constructSku(specs, grade.gradeText);
   console.log(`  SKU: ${sku}`);
 
-  // Step 4: Resolve product from canonical BM catalog
-  console.log('[Step 4] Resolving product from BM catalog...');
+  const registrySlot = lookupRegistrySlot(sku);
+
+  // Step 4: Resolve product from canonical resolver truth, then BM catalog fallback
+  console.log('[Step 4] Resolving product from canonical resolver truth...');
   let catalogResult;
   if (EFFECTIVE_PRODUCT_ID_OVERRIDE) {
     // Manual product_id override — for family-member resolution when catalog can't exact-match
@@ -1360,18 +1411,33 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       liveEligible: true,
       colourVerified: false, // Must verify after creation
     };
+  } else if (registrySlot?.product_id) {
+    console.log(`  Resolver truth hit: ${registrySlot.sku} -> ${registrySlot.product_id}`);
+    catalogResult = resolveProductFromRegistrySlot(registrySlot);
   } else {
+    console.log('  Resolver truth miss; falling back to BM catalog exact lookup.');
     catalogResult = resolveProductFromCatalog(specs, scraperData);
   }
   const hasCatalogMatch = catalogResult && catalogResult.productId;
   console.log(`  Family: ${catalogResult.modelFamily || '(unmapped)'}`);
   console.log(`  Lookup: ${catalogResult.normalizedRam}/${catalogResult.normalizedSsd}/${catalogResult.normalizedColour || '(no colour)'}`);
   if (hasCatalogMatch) {
-    console.log(`  product_id: ${catalogResult.productId} (${catalogResult.resolutionSource === 'product-id-override' ? 'MANUAL OVERRIDE' : `catalog: "${catalogResult.modelKey}"`})`);
+    const sourceLabel = catalogResult.source === 'listings-registry'
+      ? `resolver truth: "${catalogResult.trustClass || 'unknown'}"`
+      : catalogResult.resolutionSource === 'product-id-override'
+        ? 'MANUAL OVERRIDE'
+        : `catalog: "${catalogResult.modelKey}"`;
+    console.log(`  product_id: ${catalogResult.productId} (${sourceLabel})`);
     console.log(`  resolution_confidence: ${catalogResult.resolutionConfidence}`);
     console.log(`  verification_status: ${catalogResult.verificationStatus}`);
     console.log(`  Grade prices: ${JSON.stringify(catalogResult.gradePrices)}`);
     console.log(`  Resolution: ${catalogResult.resolutionSource}`);
+    if (catalogResult.truthSource) {
+      console.log(`  Truth source: ${catalogResult.truthSource}`);
+    }
+    if (catalogResult.contradictionFlags?.length) {
+      console.log(`  Contradictions: ${catalogResult.contradictionFlags.join(', ')}`);
+    }
     if (catalogResult.resolutionConfidence === 'market_only') {
       console.log('  ⛔ market_only cannot authorize live listing.');
       catalogResult.liveEligible = false;
@@ -1502,9 +1568,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   // Step 7: Registry lookup (preferred)
   console.log('[Step 7] Registry lookup...');
-  const registrySlot = lookupRegistrySlot(sku);
   if (registrySlot) {
-    console.log(`  Registry hit: listing_id=${registrySlot.listing_id}`);
+    console.log(`  Registry hit: product_id=${registrySlot.product_id}${registrySlot.listing_id ? ` listing_id=${registrySlot.listing_id}` : ''}`);
   } else {
     console.log('  Registry miss');
   }
@@ -1535,7 +1600,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     floorPrice,
     placeholderPrice,
     catalogGradePrice: marketGradePrice,
-    pathLabel: registrySlot ? 'Registry (pre-built slot)' : 'B (clean create — draft then publish)',
+    pathLabel: registrySlot?.listing_id ? 'Registry (pre-built slot)' : 'B (clean create — draft then publish)',
   };
 
   // Print formatted summary (dry-run output)
@@ -1546,7 +1611,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     if (Object.keys(gp).length > 0) {
       console.log(`Market   ${Object.entries(gp).map(([g, p]) => `${g[0]}:£${p}`).join('  ')} (${liveMarket.ok ? 'live scrape' : 'catalog fallback'})`);
     }
-    if (registrySlot) {
+    if (registrySlot?.listing_id) {
       console.log(`Registry listing_id ${registrySlot.listing_id}`);
     }
     console.log(`Product  ${catalogResult.productId} (${catalogResult.modelFamily || catalogResult.modelKey})`);
@@ -1573,22 +1638,20 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       await bmApiFetch(`/ws/listings/${listingId}`, { method: 'POST', body: JSON.stringify({ quantity: 0 }) });
     }
 
-    const colourCheckSkipped = !!EFFECTIVE_PRODUCT_ID_OVERRIDE || !!catalogResult?.colourVerified;
     console.log('[Probe] Verifying returned draft listing...');
     const draftVerification = await verifyListing(listingId, {
       quantity: 0,
       grade: grade.bmGrade,
-      productId: EFFECTIVE_PRODUCT_ID_OVERRIDE ? undefined : catalogResult.productId,
+      productId: catalogResult.productId,
       ram: specs.ram,
       ssd: specs.ssd,
       colour: specs.colour,
-      colourVerifiedByCatalog: colourCheckSkipped,
+      colourVerifiedByCatalog: false,
+      skipColourTitleCheckForManualOverride: false,
       pubState: undefined,
     });
 
-    const probeReport = buildProbeReport(result, catalogResult.productId, draftVerification, taskResult, {
-      colourCheckSkipped,
-    });
+    const probeReport = buildProbeReport(result, catalogResult.productId, draftVerification, taskResult);
 
     if (JSON_OUTPUT) {
       console.log(JSON.stringify(probeReport, null, 2));
@@ -1601,6 +1664,9 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     }
 
     result.probe = probeReport;
+    if (probeReport.verdict !== 'pass') {
+      process.exitCode = 2;
+    }
     return result;
   }
 
@@ -1617,12 +1683,13 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   if (shouldExecuteLive) {
     try {
+      const reusableRegistrySlot = registrySlot?.listing_id ? registrySlot : null;
       const listingProductId = registrySlot?.product_id || catalogResult.productId;
       let newListingId;
       let createdViaPathB = false;
 
-      if (registrySlot) {
-        newListingId = registrySlot.listing_id;
+      if (reusableRegistrySlot) {
+        newListingId = reusableRegistrySlot.listing_id;
         console.log(`\n[Step 8] Using registry slot ${newListingId}...`);
       } else {
         console.log('\n[Step 8] Creating draft listing via Path B...');
@@ -1645,7 +1712,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         }
       }
 
-      const colourVerifiedByCatalog = !EFFECTIVE_PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
+      const colourVerifiedByCatalog = !EFFECTIVE_PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && (catalogResult?.resolutionSource === 'catalog-exact' || catalogResult?.source === 'listings-registry');
       if (createdViaPathB) {
         console.log('[Step 8c] Verifying draft listing...');
         const draftVerification = await verifyListing(newListingId, {
@@ -1656,6 +1723,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           ssd: specs.ssd,
           colour: specs.colour,
           colourVerifiedByCatalog,
+          skipColourTitleCheckForManualOverride: !!PRODUCT_ID_OVERRIDE,
           pubState: undefined,
         });
         if (!draftVerification.verified) {
@@ -1735,6 +1803,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         ssd: specs.ssd,
         colour: specs.colour,
         colourVerifiedByCatalog,
+        skipColourTitleCheckForManualOverride: !!PRODUCT_ID_OVERRIDE,
         pubState: 2, // published
       });
       if (pubVerification.verified) {
@@ -1759,6 +1828,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           ssd: specs.ssd,
           colour: specs.colour,
           colourVerifiedByCatalog,
+          skipColourTitleCheckForManualOverride: !!PRODUCT_ID_OVERRIDE,
           pubState: 2,
         });
         if (!retry.verified) {
@@ -1805,7 +1875,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       const costBasis = Math.round(finalProfitability.totalFixedCost || 0);
       const tgMsg = [
         `✅ Listing proposal: ${grade.name} ${specs.ram}/${specs.ssd} ${specs.colour} ${grade.gradeText}`,
-        `BM#: ${newListingId} | Path: ${registrySlot ? 'Registry' : 'B'}`,
+        `BM#: ${newListingId} | Path: ${reusableRegistrySlot ? 'Registry' : 'B'}`,
         `Proposed price: £${finalPrice} | Min: £${finalMinPrice}`,
         `Net@min: £${finalProfitability.net} (${finalProfitability.margin}%) | Cost basis: £${costBasis}`,
         `  └ Purchase £${Math.round(specs.purchasePrice || 0)} + Parts £${Math.round(specs.partsCost || 0)} + Labour £${Math.round(finalProfitability.labourCost || 0)} + Ship £${SHIPPING_COST}`,
@@ -1936,11 +2006,23 @@ process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled rejection:', reason);
 });
 
-main().then(() => {
-  // Ensure stdout flushes before exit
-  if (process.stdout.writableEnded) return;
-  process.stdout.write('', () => process.exit(0));
-}).catch(e => {
-  console.error('Fatal error:', e);
-  process.exit(1);
-});
+if (require.main === module) {
+  main().then(() => {
+    // Ensure stdout flushes before exit
+    if (process.stdout.writableEnded) return;
+    process.stdout.write('', () => process.exit(process.exitCode || 0));
+  }).catch(e => {
+    console.error('Fatal error:', e);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  buildProbeReport,
+  determineProbeVerdict,
+  loadListingsRegistry,
+  lookupRegistrySlot,
+  processItem,
+  resolveProductFromRegistrySlot,
+  verifyListing,
+};

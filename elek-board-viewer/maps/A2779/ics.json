@@ -1,0 +1,154 @@
+{
+  "board": "A2779",
+  "schematic": "820-02655",
+  "extraction_notes": "Extracted from 163-page schematic PNGs. M2 Pro/Max variant. Uses Austringer (not Viper) and CLVR (not Monaco). Pro/Max BOM variants noted.",
+  "WARNING": "A2779 uses AUSTRINGER VR (U9300) instead of A2442 Viper. CLVR instances (C0-C4) replace Monaco. Cobra replaces Madea for HDMI. Carlow B0 audio codec.",
+  "ics": [
+    {
+      "designator": "U6000",
+      "function": "SoC — Apple M2 Pro/Max",
+      "description": "Main SoC. Pro has 10/12-core CPU + 16/19-core GPU. Max has 12-core CPU + 30/38-core GPU. Same power domain topology as M1 Pro/Max but with M2-gen naming.",
+      "pages": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26]
+    },
+    {
+      "designator": "U5700",
+      "function": "SVR AON — 3V8 always-on switching voltage regulator (42A design)",
+      "description": "42A ICC MAX multi-phase buck producing PP3V8_AON from PPBUS_AON. Higher current than A2442 (30A). 3 Iceman gate driver phases. Component range: R57xx, C57xx.",
+      "pages": [34, 35, 36]
+    },
+    {
+      "designator": "U7700",
+      "function": "SPMU (Slave PMU)",
+      "description": "Slave PMU. Buck outputs: BUCK0 (SRAM_S1), BUCK1 (unused on C platforms), BUCK2 (ECPU_SRAM_AWAKESW), BUCK3 (1V8_S2), BUCK4 (VDDQ0H1_S2SW), BUCK5 (SOC_S1), BUCK6 (CIO_S2SW), BUCK7 (DISP2_AWAKESW/actually see aliases), BUCK8 (1V2_AWAKE), BUCK9 (DCS_S1), BUCK10 (ECPU_AWAKESW/see aliases), BUCK11 (VDDOO_S1), BUCK12 (PP1V2_S2). LDOs: LDO0-LDO6, SW0-SW2.",
+      "pages": [38, 39, 40, 146]
+    },
+    {
+      "designator": "U8100",
+      "function": "MPMU (Master PMU)",
+      "description": "Master PMU. Buck outputs: BUCK0 (SRAM_S1), BUCK1 (GPU_BMPR_S1), BUCK2 (unused), BUCK3 (1V8_S2SW), BUCK4 (VDDQ0H1_S2SW), BUCK5 (ECPU_AWAKESW), BUCK6 (AMPH1_S2SW), BUCK7 (DCS_S1), BUCK8 (FIXED_S1_S2SW), BUCK9 (AMPH0_S2SW), BUCK10 (VDDOO_S1). LDOs: LDO0-LDO4, SW1.",
+      "pages": [42, 43, 44, 145]
+    },
+    {
+      "designator": "U9300",
+      "part_number": "MAAZ1552A-SW-GPR-A0-1",
+      "function": "Austringer VR controller (replaces Viper on A2442)",
+      "description": "Multi-phase voltage regulator controller for high-current SoC domains. 5-phase design with Iceman gate driver support. Routes AUSTRINGER_BOOT_1 and AUSTRINGER_GWM1. Controls power stages on pages 49-51. Fed by PPVIN_PVRVD0N and PP5V_S2_MAIN.",
+      "pages": [47, 48, 49, 50, 51]
+    },
+    {
+      "designator": "CLVR0 (UA100/UA200, Instance C0)",
+      "function": "CLVR VR — PCPU power (replaces part of Monaco on A2442)",
+      "description": "CFG = D (12+2+12+2). 4 bucks: BUCK0/HP0 (PPVDD_PCPU0_AWAKESW), BUCK1/LP0 (PPVDD_PCPU0_SRAMB_AWAKESW), BUCK2/HP1 (PPVDD_PCPU1_AWAKESW), BUCK3/LP1 (PPVDD_PCPU1_SRAMB_AWAKESW). OTP = MP.",
+      "pages": [52, 144]
+    },
+    {
+      "designator": "CLVR1 (UA100/UA200, Instance C1)",
+      "function": "CLVR VR — GPU0 power",
+      "description": "CFG = A (13+1+13+1). 4 bucks: BUCK0/HP0 (PPVDD_GPU0_AWAKESW), BUCK1/LP0 (PPVDD_GPU0_SRAM_AWAKESW), BUCK2/HP1 (PPVDD_GPU0_SRAMB_AWAKESW), BUCK3/LP1. OTP = AP.",
+      "pages": [53, 144]
+    },
+    {
+      "designator": "CLVR2 (UA300/UA300, Instance C2, C/D)",
+      "function": "CLVR VR — GPU1 power (Max variant)",
+      "description": "CFG = A (13+1+13+1). Same buck layout as CLVR1 but for GPU1 cluster. Only populated on Max. OTP = AP.",
+      "pages": [54, 144]
+    },
+    {
+      "designator": "CLVR3 (UA100/UA600, Instance C3, C/D)",
+      "function": "CLVR VR — DPL/Fabric power",
+      "description": "CFG = E (4+0+24+0). Buck0/HP0 and Buck2/HP1 (PPVDD_DPL0_AWAKESW, PPVDD_FABRIC_S1). Buck8/HP1 unused on C platforms. OTP = QP (C platforms) / RP (D platforms).",
+      "pages": [55, 144]
+    },
+    {
+      "designator": "CLVR4 (UA500/UA600, Instance C4)",
+      "function": "CLVR VR — ANE/APR power",
+      "description": "CFG = F_P (12+1+15+0). BUCK0/HP0 (PPVDD_ANE_AWAKESW), BUCK1/LP0 (PPVDD_ANE_SRAM_AWAKESW), BUCK2/HP1 (PPVDD_APR_CS_S1). OTP = UP.",
+      "pages": [56, 144]
+    },
+    {
+      "designator": "U5200 (area)",
+      "function": "Battery charger IC",
+      "description": "Main charger IC. Multi-FET input stage. Converts USB-C/MagSafe input to PPBUS_AON. ARKANOID debug connector (J5150) on battery page.",
+      "pages": [29, 30]
+    },
+    {
+      "designator": "UC260",
+      "function": "5V S2 VR",
+      "description": "Produces PP5V_S2 (VOUT=15V, f=1.25MHz). Different IC from A2442 TPS62130. Input from PPBUS_AON via XWC260. Start up time typ=6.0ms.",
+      "pages": [58]
+    },
+    {
+      "designator": "UF400",
+      "function": "CD3217 USB-C PD port controller ATC0",
+      "description": "Left port 0. CD3217/ACE3 ORCT_TABLE IC with SPI ROM. Manages CC signaling and VBUS switching.",
+      "pages": [77]
+    },
+    {
+      "designator": "UF500",
+      "function": "CD3217 USB-C PD port controller ATC1",
+      "description": "Left port 1. Same architecture as ATC0.",
+      "pages": [78]
+    },
+    {
+      "designator": "UG400",
+      "function": "CD3217 USB-C PD port controller ATC2",
+      "description": "Right port. Different designator prefix (UG vs UF) from left ports.",
+      "pages": [86]
+    },
+    {
+      "designator": "Cobra IC",
+      "function": "HDMI retimer/controller (replaces Madea on A2442)",
+      "description": "Handles HDMI output. OMIT_TABLE IC. HDMI connector JH500 (RCPT-HDMI-C-BLK-X1502). Different from A2442's Madea retimer.",
+      "pages": [94, 95, 96]
+    },
+    {
+      "designator": "SD Card Controller",
+      "function": "SD card reader controller",
+      "description": "Controls SD card slot. SDCARD POWER SUPPORT page shows TPS62130-style VR (Iout Max = 2.08A, f=1.25MHz) with LDO output.",
+      "pages": [97, 98, 99, 100]
+    },
+    {
+      "designator": "Ocarina (SSD0/SSD1)",
+      "function": "NAND controller / SSD power management",
+      "description": "Two instances: SSD0 Ocarina (page 107) and SSD1 Ocarina (page 112).",
+      "pages": [107, 112]
+    },
+    {
+      "designator": "J5401",
+      "function": "MagSafe 3 connector",
+      "description": "MagSafe connector. APN: MLB:516S00787, Flex:516S00788. Q5401 MOSFET pair. Configured as UPC5 (16 pin size).",
+      "pages": [31, 32]
+    },
+    {
+      "designator": "U5050",
+      "function": "Eos Secure Element",
+      "description": "Eos Secure Element IC. SN300V wired mode SE only. Replaces Ceres on A2442. DS303891/DS117A6.",
+      "pages": [27]
+    },
+    {
+      "designator": "UP800",
+      "part_number": "RAX391004E",
+      "function": "Luxe LCD Backlight Driver",
+      "description": "Mini-LED backlight driver. Fed from PPBUS_AON. Output: PPVOUT_LUXE. OMIT_TABLE IC.",
+      "pages": [118]
+    },
+    {
+      "designator": "Carlow B0 (area U-designator near page 122)",
+      "function": "Audio Jack Codec",
+      "description": "Carlow B0 silicon audio codec. I2C address: 0H TO UNO = 0x10, 1SNK TO UNO = 0x1A, 0SNK TO VDDGO = 0xBA10, 0H TO VDDGO = 0xBA08. Fed by PP3V8_CODEC_VP (VP supply), CODEC_DP_1V0_FILT, PP1V2_CODEC_VL_VD.",
+      "pages": [122]
+    },
+    {
+      "designator": "UP710",
+      "function": "Display Power Sequencer",
+      "description": "SLGAP5157V. Controls EDP_PANEL_3V0_EN and EDP_PANEL_DISCHARGE. Feeds UP730 (3V29 to backlight) and UP701 (3V8 to MDB). PP3V8_AON input.",
+      "pages": [117]
+    },
+    {
+      "designator": "Willamette module",
+      "function": "WiFi/BT Module (replaces A2442 WiFi/BT)",
+      "description": "Willamette WiFi 6E + BT module. OMIT_TABLE. 2GFEM_C0/C1, 5GFEM, 5GFEM_C0/C1 antenna front-end modules. Fed by PPVBAT_AON_WLBT and PP3V8_AON_WLBT.",
+      "pages": [101, 102]
+    }
+  ]
+}

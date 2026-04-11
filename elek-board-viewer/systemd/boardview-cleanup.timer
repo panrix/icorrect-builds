@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily cleanup for boardview screenshots and logs
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+Unit=boardview-cleanup.service
+
+[Install]
+WantedBy=timers.target

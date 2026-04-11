@@ -1,0 +1,282 @@
+{
+  "board": "A2337",
+  "schematic": "820-02016",
+  "description": "Complete power delivery chain from USB-C input to SoC power pins. 7 sequential stages. M1 (T8103) architecture - no MagSafe, two USB-C ports only.",
+  "WARNING": "A2337 has NO MagSafe port (M1 Air). Power input is USB-C only. PMU naming: SERA=Master (U8100), SIMETRA=Slave (U7700). UC320 produces 5V (not UC300 as on A2681). XMC710 produces 3.3V (not UC710 as on A2681).",
+  "stages": [
+    {
+      "stage": 1,
+      "name": "USB-C Input & Initial 5V",
+      "description": "USB-C cable inserted. CD3217 port controllers manage CC signaling and VBUS switching. No MagSafe on this model.",
+      "nodes": [
+        {
+          "input": "USB-C cable (5V default)",
+          "output": "PPVBUS_USBC0",
+          "voltage": "5V (initial)",
+          "ic": "UF400 (CD3217 ATC0)",
+          "port": "Left Rear USB-C",
+          "enable": "Cable insertion detected via CC1/CC2",
+          "fault": "No CC communication -> cable/connector fault",
+          "page": [57, 55]
+        },
+        {
+          "input": "USB-C cable (5V default)",
+          "output": "PPVBUS_USBC1",
+          "voltage": "5V (initial)",
+          "ic": "UF500 (CD3217 ATC1)",
+          "port": "Left Front USB-C",
+          "enable": "Cable insertion detected via CC1/CC2",
+          "fault": "No CC communication -> cable/connector fault",
+          "page": [57, 56]
+        }
+      ]
+    },
+    {
+      "stage": 2,
+      "name": "PD Negotiation & 20V Boost",
+      "description": "CD3217 reads firmware from SPI ROM, negotiates USB PD to request 20V from charger adapter.",
+      "sequence": [
+        "1. CD3217 internal MOSFET passes 5V",
+        "2. SoC powers up at 5V (hard start)",
+        "3. M1 SoC sends command to CD3217",
+        "4. CD3217 reads ROM information from SPI ROM",
+        "5. CD3217 sends PD Source_Capabilities request via CC line",
+        "6. Charger adapter responds with 20V capability",
+        "7. PPVBUS transitions from 5V -> 20V"
+      ],
+      "signals": {
+        "cc_lines": ["USBC0_CC1", "USBC0_CC2", "USBC1_CC1", "USBC1_CC2"],
+        "spi_rom": ["SPI_UPC0 (ATC0 firmware)", "SPI_UPC1 (ATC1 firmware)"],
+        "charger_aux": "CHGR_AUX_OK",
+        "charger_int": "CHGR_INT_L"
+      },
+      "page": [23, 24, 55, 56]
+    },
+    {
+      "stage": 3,
+      "name": "Charger -> PPBUS_AON",
+      "description": "Charger IC (U5200) converts USB-C input to PPBUS_AON. Battery also connects to PPBUS_AON.",
+      "nodes": [
+        {
+          "input": "PPVBUS_USBCx (from CD3217)",
+          "output": "PPBUS_AON",
+          "voltage": "12.6V (battery) / ~20V (adapter, before regulation)",
+          "ic": "U5200 (Charger IC)",
+          "enable": "CHGR_AUX_OK, BMU SYS_DETECT (J5100 gasket)",
+          "fault": "No PPBUS -> charger IC fault, CD3217 not negotiating, or battery disconnected",
+          "page": [23, 22]
+        }
+      ]
+    },
+    {
+      "stage": 4,
+      "name": "SVR AON -> PP3V8_AON",
+      "description": "U5700 multi-phase buck converts PPBUS_AON to 3.8V always-on rail. Master rail for both PMUs.",
+      "nodes": [
+        {
+          "input": "PPBUS_AON",
+          "output": "PP3V8_AON",
+          "voltage": "3.8V",
+          "ic": "U5700 (SVR AON, 30A ICC MAX, 1MHz)",
+          "enable": "PPVAON_PWR_EN (delayed by D5340/D5345)",
+          "fault": "PPVAON_FAULT_L (active low)",
+          "current_sense": "U5910 (PP3V8_AON current sense)",
+          "page": [25, 26, 27]
+        },
+        {
+          "input": "PP3V8_AON",
+          "output": "PP3V8_AON_VDDMAIN",
+          "voltage": "3.8V",
+          "ic": "Distribution (branch of PP3V8_AON)",
+          "description": "VDDMAIN distribution to PMU inputs",
+          "page": 79
+        },
+        {
+          "input": "PP3V8_AON",
+          "output": "PP3V8_AON_VODMAN",
+          "voltage": "3.8V",
+          "ic": "Distribution to external LDOs",
+          "description": "Feeds UC100 (3.3V AON LDO) and UC200 (1.8V AON LDO)",
+          "page": [36, 79]
+        }
+      ]
+    },
+    {
+      "stage": 5,
+      "name": "PMU Distribution",
+      "description": "PP3V8_AON feeds both SPMU/SIMETRA (U7700) and MPMU/SERA (U8100). Each generates buck and LDO outputs.",
+      "spmu_u7700_simetra": {
+        "input": "PP3V8_AON",
+        "bucks": [
+          {"buck": "SIMETRA BUCK 13", "state": "ACTIVE", "page": 28},
+          {"buck": "SIMETRA BUCK 14", "state": "ACTIVE", "page": 28}
+        ],
+        "ldos": [
+          {"ldo": "SIMETRA LDO 8", "state": "SLEEP2", "page": 29},
+          {"ldo": "SIMETRA LDO 9", "state": "ACTIVE", "description": "PP1V8_AON_SPMU equivalent", "page": 29},
+          {"ldo": "SIMETRA LDO 10", "state": "ACTIVE", "page": 29},
+          {"ldo": "SIMETRA LDO 11", "state": "SLEEP2", "page": 29},
+          {"ldo": "SIMETRA LDO 12", "state": "SLEEP2", "page": 29}
+        ],
+        "switches": [
+          {"sw": "SIMETRA SW4", "state": "SLEEP2", "page": 78},
+          {"sw": "SIMETRA SW5", "state": "SLEEP2 PARALLEL", "note": "Parallel with SW7", "page": 78},
+          {"sw": "SIMETRA SW7", "state": "SLEEP2 PARALLEL", "note": "Parallel with SW5", "page": 78}
+        ],
+        "page": [28, 29, 30, 31]
+      },
+      "mpmu_u8100_sera": {
+        "input": "PP3V8_AON",
+        "bucks": [
+          {"buck": "SERA BUCK 0", "state": "ACTIVE", "description": "PCPU primary DVFS", "page": 32},
+          {"buck": "SERA BUCK 1", "state": "SW CTRL", "page": 32},
+          {"buck": "SERA BUCK 2", "state": "SLEEP1", "page": 32},
+          {"buck": "SERA BUCK 3", "state": "SLEEP3", "page": 32},
+          {"buck": "SERA BUCK 4", "state": "SLEEP3", "page": 32},
+          {"buck": "SERA BUCK 5", "state": "SLEEP1", "page": 32},
+          {"buck": "SERA BUCK 6", "state": "ACTIVE", "page": 32},
+          {"buck": "SERA BUCK 7", "state": "ACTIVE", "page": 32},
+          {"buck": "SERA BUCK 8", "state": "SW CTRL", "page": 33},
+          {"buck": "SERA BUCK 9", "state": "SLEEP1", "page": 33},
+          {"buck": "SERA BUCK 10", "state": "SLEEP1", "page": 33},
+          {"buck": "SERA BUCK 11", "state": "ACTIVE", "page": 33},
+          {"buck": "SERA BUCK 12", "state": "ACTIVE", "page": 33}
+        ],
+        "ldos": [
+          {"ldo": "SERA LDO 1", "state": "SLEEP2", "page": 34},
+          {"ldo": "SERA LDO 2", "state": "SLEEP2", "page": 34},
+          {"ldo": "SERA LDO 3", "state": "SLP_S2R", "page": 34},
+          {"ldo": "SERA LDO 4", "state": "SW CTRL", "page": 34},
+          {"ldo": "SERA LDO 7", "state": "SW CTRL", "page": 34},
+          {"ldo": "SERA LDO 9", "state": "ACTIVE", "description": "PP1V8_AON_MPMU equivalent", "page": 34},
+          {"ldo": "SERA LDO 10", "state": "ACTIVE", "page": 34},
+          {"ldo": "SERA LDO 13", "state": "SW CTRL", "page": 34},
+          {"ldo": "SERA LDO 16", "state": "SW CTRL", "page": 34},
+          {"ldo": "SERA LDO 19", "state": "SPARE (NC)", "description": "NOT CONNECTED", "page": 78},
+          {"ldo": "SERA LDO 20", "state": "SW CTRL", "page": 34}
+        ],
+        "switches": [
+          {"sw": "SERA SW1", "state": "ACTIVE", "page": 78}
+        ],
+        "control_signals": {
+          "ready": "PMU_ACTIVE_READY",
+          "fault": "PMU_FAULT_INT_L",
+          "reset": "PMU_RESET_L",
+          "force_dfu": "SOC_K15_DFU_SELECT"
+        },
+        "page": [32, 33, 34, 35]
+      }
+    },
+    {
+      "stage": 6,
+      "name": "Standalone Regulators & Load Switches",
+      "description": "UC320 and XMC710 produce 5V and 3.3V from PPBUS_AON. UC100/UC200 produce 3.3V/1.8V AON LDOs. Load switches gate power to subsystems.",
+      "regulators": [
+        {
+          "input": "PPBUS_AON",
+          "output": "PP5V_S2",
+          "voltage": "5.15V",
+          "ic": "UC320",
+          "enable": "P5VS2_PWR_EN",
+          "frequency": "1.5MHz",
+          "startup": "<15ms",
+          "page": [38, 37]
+        },
+        {
+          "input": "PPBUS_AON",
+          "output": "PP3V3_S2",
+          "voltage": "3.12V",
+          "ic": "XMC710",
+          "enable": "P3V3S2_PWR_EN",
+          "frequency": "2.25MHz",
+          "startup": "<5ms",
+          "page": [39, 37]
+        },
+        {
+          "input": "PP3V8_AON_VODMAN",
+          "output": "PP3V3_AON",
+          "voltage": "3.3V",
+          "ic": "UC100",
+          "description": "Always-on 3.3V LDO",
+          "page": 36
+        },
+        {
+          "input": "PP3V8_AON_VODMAN",
+          "output": "PP1V8_AON",
+          "voltage": "1.8V",
+          "ic": "UC200",
+          "description": "Always-on 1.8V LDO",
+          "page": 36
+        }
+      ],
+      "load_switches": [
+        {
+          "input": "PP3V3_S2",
+          "output": "PP3V3_S2SW_IPD",
+          "voltage": "3.3V",
+          "enable": "MPMU GPIO6 (PP1V8_AON)",
+          "current_limit": "400mA",
+          "rc_delay": "25.5ms",
+          "page": 40
+        },
+        {
+          "input": "PP5V_S2",
+          "output": "PP5V_S2SW_IPD",
+          "voltage": "5V",
+          "enable": "MPMU GPIO6 (PP1V8_AON)",
+          "current_limit": "1.35A",
+          "rc_delay": "4.7ms",
+          "page": 40
+        },
+        {
+          "input": "PPBUS_AON",
+          "output": "PPBUS_AONSW_IPD",
+          "voltage": "12.6V/20V",
+          "enable": "Self Controlled (3.13-5.93V)",
+          "current_limit": "3A",
+          "page": 40
+        }
+      ]
+    },
+    {
+      "stage": 7,
+      "name": "SoC Power Domains",
+      "description": "Final rails reaching SoC U6000 (M1 T8103) pin groups. Each domain has dedicated decoupling.",
+      "domains": [
+        {
+          "domain": "PCPU (Performance CPU)",
+          "rail": "SERA BUCK 0 output",
+          "voltage": "Variable (DVFS)",
+          "page": 13
+        },
+        {
+          "domain": "ECPU (Efficiency CPU)",
+          "rail": "SERA BUCK 11 output",
+          "voltage": "Variable (DVFS)",
+          "page": 13
+        },
+        {
+          "domain": "GPU",
+          "rail": "SERA BUCK output (ACTIVE domain)",
+          "voltage": "Variable (DVFS)",
+          "page": 13
+        },
+        {
+          "domain": "DDR/SRAM",
+          "rail": "Multiple PMU bucks",
+          "page": [11, 14]
+        },
+        {
+          "domain": "IO",
+          "rail": "PMU LDO/buck outputs",
+          "page": 12
+        },
+        {
+          "domain": "Fixed/PLL/Filtered",
+          "rail": "PMU LDO outputs",
+          "page": 15
+        }
+      ]
+    }
+  ]
+}

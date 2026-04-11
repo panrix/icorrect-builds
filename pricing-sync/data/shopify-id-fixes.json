@@ -1,0 +1,782 @@
+{
+  "fixes": [
+    [
+      "6479055660",
+      "MacBook Pro 16 M3 Pro/Max A2991 Screen",
+      "",
+      "8850276155645"
+    ],
+    [
+      "10909237239",
+      "MacBook Pro 16 M4 Pro/Max A3186/A3403 Screen",
+      "",
+      "8908138283261"
+    ],
+    [
+      "6479050017",
+      "MacBook Pro 14 M3 Pro/Max A2992 Screen",
+      "",
+      "8894349639933"
+    ],
+    [
+      "2682219528",
+      "MacBook Pro 13 Touch Bar A1989 Diagnostic",
+      "8850278809853",
+      "8850278613245"
+    ],
+    [
+      "2682915620",
+      "MacBook Pro 13 Touch Bar A1706 Diagnostic",
+      "8850279301373",
+      "8850279039229"
+    ],
+    [
+      "3991475979",
+      "Apple Watch S4 40mm Side Button",
+      "",
+      "8850315116797"
+    ],
+    [
+      "3991475952",
+      "Apple Watch S4 44mm Side Button",
+      "",
+      "8850314821885"
+    ],
+    [
+      "3991475918",
+      "Apple Watch S5 40mm Side Button",
+      "",
+      "8850314461437"
+    ],
+    [
+      "3991475896",
+      "Apple Watch S5 44mm Side Button",
+      "",
+      "8850313871613"
+    ],
+    [
+      "3991475867",
+      "Apple Watch SE 40mm Side Button",
+      "",
+      "8850316132605"
+    ],
+    [
+      "3991475840",
+      "Apple Watch SE 44MM Side Button",
+      "",
+      "8850315641085"
+    ],
+    [
+      "3991475793",
+      "Apple Watch S6 40mm Side Button",
+      "",
+      "8850313543933"
+    ],
+    [
+      "3991475758",
+      "Apple Watch S6 44mm Side Button",
+      "",
+      "8850313249021"
+    ],
+    [
+      "3991475698",
+      "Apple Watch S7 41MM Side Button",
+      "",
+      "8850312986877"
+    ],
+    [
+      "3991475604",
+      "Apple Watch S7 45MM Side Button",
+      "",
+      "8850312560893"
+    ],
+    [
+      "5886161768",
+      "Apple Watch SE2 40MM Glass Screen",
+      "8850317017341",
+      "8850316919037"
+    ],
+    [
+      "5886098530",
+      "Apple Watch SE2 44MM Glass Screen",
+      "8850316722429",
+      "8850316493053"
+    ],
+    [
+      "3991476080",
+      "Apple Watch S8 41MM Side Button",
+      "",
+      "8850312102141"
+    ],
+    [
+      "3991476101",
+      "Apple Watch S8 45MM Side Button",
+      "",
+      "8850311315709"
+    ],
+    [
+      "5886061459",
+      "Apple Watch S9 41MM Glass Screen",
+      "8850311053565",
+      "8850310856957"
+    ],
+    [
+      "5886026282",
+      "Apple Watch S9 45MM Glass Screen",
+      "8850310627581",
+      "8850310496509"
+    ],
+    [
+      "6677961607",
+      "Apple Watch Ultra  Display Screen",
+      "8850310004989",
+      "8850310299901"
+    ],
+    [
+      "3792131829",
+      "iPad 10 Display Screen",
+      "",
+      "8850323603709"
+    ],
+    [
+      "2525766847",
+      "iPad 9 Display Screen",
+      "",
+      "8850322424061"
+    ],
+    [
+      "2525836693",
+      "iPad 8 Display Screen",
+      "",
+      "8850322653437"
+    ],
+    [
+      "2526212647",
+      "iPad 7 Display Screen",
+      "",
+      "8850322981117"
+    ],
+    [
+      "2526237415",
+      "iPad 6 Display Screen",
+      "",
+      "8850323276029"
+    ],
+    [
+      "8248403208",
+      "iPhone 16 Pro Max Rear Glass",
+      "",
+      "8850317672701"
+    ],
+    [
+      "8248382495",
+      "iPhone 16 Pro Rear Glass",
+      "",
+      "8850291818749"
+    ],
+    [
+      "8248365749",
+      "iPhone 16 Plus Rear Glass",
+      "",
+      "8850292572413"
+    ],
+    [
+      "8248347946",
+      "iPhone 16 Rear Glass",
+      "",
+      "8850293391613"
+    ],
+    [
+      "5885511170",
+      "iPhone 15 Pro Max Rear Glass",
+      "",
+      "8850294079741"
+    ],
+    [
+      "5885522435",
+      "iPhone 15 Pro Max Microphone",
+      "8850294538493",
+      "8850294243581"
+    ],
+    [
+      "5885657920",
+      "iPhone 15 Pro Microphone",
+      "8850295324925",
+      "8850294931709"
+    ],
+    [
+      "5885671871",
+      "iPhone 15 Pro Rear Glass",
+      "",
+      "8850294767869"
+    ],
+    [
+      "5885717423",
+      "iPhone 15 Plus Microphone",
+      "8850296078589",
+      "8850295750909"
+    ],
+    [
+      "5885765310",
+      "iPhone 15 Plus Rear Glass",
+      "",
+      "8850295521533"
+    ],
+    [
+      "5885805786",
+      "iPhone 15 Microphone",
+      "8850296963325",
+      "8850296537341"
+    ],
+    [
+      "5885865300",
+      "iPhone 15 Rear Glass",
+      "",
+      "8850296275197"
+    ],
+    [
+      "3792195965",
+      "iPhone 14 Pro Max Rear Housing (Rear Glass And Frame)",
+      "",
+      "8850297422077"
+    ],
+    [
+      "3792196061",
+      "iPhone 14 Pro Max Rear Camera Lens",
+      "8850297192701",
+      "8850297127165"
+    ],
+    [
+      "3792213060",
+      "iPhone 14 Pro Rear Housing (Rear Glass And Frame)",
+      "",
+      "8850298241277"
+    ],
+    [
+      "3792213206",
+      "iPhone 14 Pro Rear Camera Lens",
+      "8850297946365",
+      "8850297880829"
+    ],
+    [
+      "3792243053",
+      "iPhone 14 Plus Rear Glass",
+      "",
+      "8850298732797"
+    ],
+    [
+      "3792243121",
+      "iPhone 14 Plus Rear Camera Lens",
+      "8850298798333",
+      "8850298765565"
+    ],
+    [
+      "3792227953",
+      "iPhone 14 Rear Glass",
+      "",
+      "8850275533053"
+    ],
+    [
+      "3792228043",
+      "iPhone 14 Rear Camera Lens",
+      "8850275565821",
+      "8850299584765"
+    ],
+    [
+      "3791951973",
+      "iPhone SE3 Rear Camera Lens",
+      "8850288050429",
+      "8850287984893"
+    ],
+    [
+      "3791952225",
+      "iPhone SE3 Microphone",
+      "8850288935165",
+      "8850288541949"
+    ],
+    [
+      "2478897089",
+      "iPhone 13 Pro Max Rear Camera Lens",
+      "8850300436733",
+      "8850300371197"
+    ],
+    [
+      "2483757152",
+      "iPhone 13 Pro Rear Camera Lens",
+      "8850301190397",
+      "8850301124861"
+    ],
+    [
+      "2484721852",
+      "iPhone 13 Mini Rear Camera Lens",
+      "8850302075133",
+      "8850301976829"
+    ],
+    [
+      "2484994724",
+      "iPhone 13 Rear Camera Lens",
+      "8850302796029",
+      "8850302763261"
+    ],
+    [
+      "2485421131",
+      "iPhone 12 Pro Max Rear Camera Lens",
+      "8850303549693",
+      "8850303516925"
+    ],
+    [
+      "2957346014",
+      "iPhone 12 Pro Rear Camera Lens",
+      "8850304401661",
+      "8850304368893"
+    ],
+    [
+      "2488916670",
+      "iPhone 12 Rear Camera Lens",
+      "8850306171133",
+      "8850306138365"
+    ],
+    [
+      "2488985451",
+      "iPhone 12 Mini Rear Camera Lens",
+      "8850305319165",
+      "8850305286397"
+    ],
+    [
+      "2489099756",
+      "iPhone 11 Pro Max Rear Camera Lens",
+      "8850307154173",
+      "8850307088637"
+    ],
+    [
+      "2489099846",
+      "iPhone 11 Pro Max Microphone",
+      "8850307973373",
+      "8850307547389"
+    ],
+    [
+      "2489290582",
+      "iPhone 11 Pro Rear Camera Lens",
+      "8850308169981",
+      "8850308104445"
+    ],
+    [
+      "2489290661",
+      "iPhone 11 Pro Microphone",
+      "8850308989181",
+      "8850308366589"
+    ],
+    [
+      "2489353652",
+      "iPhone 11 Screen",
+      "8850309349629",
+      "8850309382397"
+    ],
+    [
+      "2489353705",
+      "iPhone 11 Rear Camera Lens",
+      "8850309251325",
+      "8850309218557"
+    ],
+    [
+      "2489353765",
+      "iPhone 11 Microphone",
+      "8850309808381",
+      "8850309480701"
+    ],
+    [
+      "2489407928",
+      "iPhone XS Max Rear Camera Lens",
+      "8850285068541",
+      "8850285003005"
+    ],
+    [
+      "2489408004",
+      "iPhone XS Max Microphone",
+      "8850285625597",
+      "8850285199613"
+    ],
+    [
+      "2489440057",
+      "iPhone XS Rear Camera Lens",
+      "8850285822205",
+      "8850285789437"
+    ],
+    [
+      "2489465973",
+      "iPhone XR Rear Camera Lens",
+      "8850286510333",
+      "8850286477565"
+    ],
+    [
+      "2491037449",
+      "iPhone X Rear Camera Lens",
+      "8850287329533",
+      "8850287263997"
+    ],
+    [
+      "2491037543",
+      "iPhone X Microphone",
+      "8850287821053",
+      "8850287460605"
+    ],
+    [
+      "2502387890",
+      "iPhone SE2 Rear Camera Lens",
+      "8850289230077",
+      "8850289164541"
+    ],
+    [
+      "2502388034",
+      "iPhone SE2 Microphone",
+      "8850290049277",
+      "8850289557757"
+    ],
+    [
+      "2491166593",
+      "iPhone 8 Plus Rear Camera Lens",
+      "8850290278653",
+      "8850290213117"
+    ],
+    [
+      "2491166863",
+      "iPhone 8 Plus Microphone",
+      "8850290901245",
+      "8850290540797"
+    ],
+    [
+      "2491380878",
+      "iPhone 8 Rear Camera Lens",
+      "8850291097853",
+      "8850291032317"
+    ],
+    [
+      "2491381139",
+      "iPhone 8 Microphone",
+      "8850291622141",
+      "8850291294461"
+    ]
+  ],
+  "clears": [
+    [
+      "10973201513",
+      "iPad Air 6 (13) Screen",
+      "8894264901885"
+    ],
+    [
+      "11499234970",
+      "iPad Air 7 (13) Screen",
+      "8929797177597"
+    ],
+    [
+      "18168307203",
+      "iPad Pro 11 (5G) Screen",
+      "8894263722237"
+    ],
+    [
+      "18168296917",
+      "iPad Pro 13 (7G) Screen",
+      "8894263001341"
+    ],
+    [
+      "10595039774",
+      "MacBook Pro 14 M3 A2918 Diagnostic",
+      "8894354096381"
+    ],
+    [
+      "10595036549",
+      "MacBook Pro 14 M3 A2918 Charging Port",
+      "8850318950653"
+    ],
+    [
+      "10595039861",
+      "MacBook Pro 14 M3 A2918 Battery",
+      "8894349508861"
+    ],
+    [
+      "10595050980",
+      "MacBook Pro 14 M3 A2918 Keyboard",
+      "8850318852349"
+    ],
+    [
+      "10595051123",
+      "MacBook Pro 14 M3 A2918 Trackpad",
+      "8850318754045"
+    ],
+    [
+      "4077839348",
+      "MacBook Pro 13 M1 A2338 Backlight",
+      "8850282250493"
+    ],
+    [
+      "4077892230",
+      "MacBook Pro 13 4TB 3 A2251 Backlight",
+      "8850280710397"
+    ],
+    [
+      "4077908836",
+      "MacBook Pro 13 2TB 3 A2289 Backlight",
+      "8850280972541"
+    ],
+    [
+      "4077943836",
+      "MacBook Pro 13 2TB 3 A2159 Backlight",
+      "8850281431293"
+    ],
+    [
+      "4077952063",
+      "MacBook Pro 13 Touch Bar A1989 Dustgate",
+      "8850278613245"
+    ],
+    [
+      "4077953779",
+      "MacBook Pro 13 Touch Bar A1989 Backlight",
+      "8850278678781"
+    ],
+    [
+      "5913453195",
+      "MacBook Pro 13 Touch Bar A1989 Touch Bar",
+      "8850278613245"
+    ],
+    [
+      "4077778926",
+      "MacBook Pro 13 Touch Bar A1706 Flexgate",
+      "8850279039229"
+    ],
+    [
+      "5373810031",
+      "MacBook Pro 13 Touch Bar A1706 Dustgate",
+      "8850279039229"
+    ],
+    [
+      "5913418520",
+      "MacBook Pro 13 Touch Bar A1706 Touch Bar",
+      "8850279039229"
+    ],
+    [
+      "4077983371",
+      "MacBook Pro 16 A2141 Backlight",
+      "8850275729661"
+    ],
+    [
+      "4077972555",
+      "MacBook Pro 15 A1990 Backlight",
+      "8850278220029"
+    ],
+    [
+      "2516419758",
+      "iPad Pro 12.9 (4G) Display Screen",
+      "8850319900925"
+    ],
+    [
+      "2516450285",
+      "iPad Pro 12.9 (3G) Display Screen",
+      "8850320130301"
+    ],
+    [
+      "3792179231",
+      "iPad Pro 11 (4G) Display Screen",
+      "8850320359677"
+    ],
+    [
+      "2516748801",
+      "iPad Pro 11 (3G) Display Screen",
+      "8850320687357"
+    ],
+    [
+      "2516789621",
+      "iPad Pro 11 (2G) Display Screen",
+      "8850320883965"
+    ],
+    [
+      "2516825468",
+      "iPad Pro 11 (1G) Display Screen",
+      "8908153356541"
+    ],
+    [
+      "3327442694",
+      "iPad Air 5 Display Screen",
+      "8850321998077"
+    ],
+    [
+      "2525667218",
+      "iPad Air 4 Display Screen",
+      "8850323865853"
+    ],
+    [
+      "2525720083",
+      "iPad Air 3 Display Screen",
+      "8850322194685"
+    ],
+    [
+      "4270604030",
+      "iPad 10 Glass Screen",
+      "8850323570941"
+    ],
+    [
+      "4270594419",
+      "iPad 9 Glass Screen",
+      "8850322358525"
+    ],
+    [
+      "2525766826",
+      "iPad 9 Glass and Touch Screen",
+      "8850322358525"
+    ],
+    [
+      "3343517685",
+      "iPad 8 ERROR 4013",
+      "8850322718973"
+    ],
+    [
+      "4270578047",
+      "iPad 8 Glass Screen",
+      "8850322587901"
+    ],
+    [
+      "2525836636",
+      "iPad 8 Glass and Touch Screen",
+      "8850322587901"
+    ],
+    [
+      "3343519228",
+      "iPad 7 ERROR 4013",
+      "8850323013885"
+    ],
+    [
+      "4270572264",
+      "iPad 7 Glass Screen",
+      "8850322882813"
+    ],
+    [
+      "3343522435",
+      "iPad 6 ERROR 4013",
+      "8850323308797"
+    ],
+    [
+      "4270650089",
+      "iPad 6 Glass Screen",
+      "8850323210493"
+    ],
+    [
+      "2526237391",
+      "iPad 6 Glass and Touch Screen",
+      "8850323210493"
+    ],
+    [
+      "2527070405",
+      "iPad Mini 6 Display Screen",
+      "8850321309949"
+    ],
+    [
+      "2527277102",
+      "iPad Mini 5 Display Screen",
+      "8850321572093"
+    ],
+    [
+      "8257570293",
+      "iPhone 15 Pro Max Aftermarket Screen",
+      "8850294374653"
+    ],
+    [
+      "8257574824",
+      "iPhone 15 Pro Aftermarket Screen",
+      "8850295095549"
+    ],
+    [
+      "8257575749",
+      "iPhone 15 Plus Aftermarket Screen",
+      "8850295914749"
+    ],
+    [
+      "8257576869",
+      "iPhone 15 Aftermarket Screen",
+      "8850296701181"
+    ],
+    [
+      "8257488330",
+      "iPhone 14 Pro Max Aftermarket Screen",
+      "8850297454845"
+    ],
+    [
+      "8257488723",
+      "iPhone 14 Pro Aftermarket Screen",
+      "8850298274045"
+    ],
+    [
+      "8257490666",
+      "iPhone 14 Plus Aftermarket Screen",
+      "8850299126013"
+    ],
+    [
+      "8257491827",
+      "iPhone 14 Aftermarket Screen",
+      "8850299879677"
+    ],
+    [
+      "3791970350",
+      "iPhone SE3 Original LCD Screen",
+      "8850288410877"
+    ],
+    [
+      "8257346236",
+      "iPhone 13 Pro Max Aftermarket Screen",
+      "8850300731645"
+    ],
+    [
+      "8257347269",
+      "iPhone 13 Pro Aftermarket Screen",
+      "8850301550845"
+    ],
+    [
+      "8257350773",
+      "iPhone 13 Mini Aftermarket Screen",
+      "8850302370045"
+    ],
+    [
+      "8257353854",
+      "iPhone 13 Aftermarket Screen",
+      "8850303090941"
+    ],
+    [
+      "8257290680",
+      "iPhone 12 Pro Max Aftermarket Screen",
+      "8850303877373"
+    ],
+    [
+      "8257312078",
+      "iPhone 12 Pro Aftermarket Screen",
+      "8850304729341"
+    ],
+    [
+      "8257325402",
+      "iPhone 12 Aftermarket Screen",
+      "8850306466045"
+    ],
+    [
+      "8257338324",
+      "iPhone 12 Mini Aftermarket Screen",
+      "8850305646845"
+    ],
+    [
+      "2489465672",
+      "iPhone XR Display (Original LCD Screen)",
+      "8850286608637"
+    ],
+    [
+      "2502387787",
+      "iPhone SE2 Display (Original LCD Screen)",
+      "8850289459453"
+    ],
+    [
+      "2491166174",
+      "iPhone 8 Plus Display (Original LCD Screen)",
+      "8850290442493"
+    ],
+    [
+      "2491380494",
+      "iPhone 8 Original LCD Screen",
+      "8850291228925"
+    ]
+  ]
+}

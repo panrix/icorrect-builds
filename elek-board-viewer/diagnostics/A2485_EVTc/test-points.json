@@ -1,0 +1,53 @@
+{
+  "board": "A2485_EVTc",
+  "schematic": "820-02382",
+  "WARNING": "EVTc variant. Test point designators from schematic. Physical board locations may differ from EVTs.",
+  "test_points": {
+    "power_rails": [
+      {"tp": "TP5700", "rail": "PP3V8_AON", "voltage": "3.8V", "location": "PP3V8AON rail output (page 57)", "priority": "critical"},
+      {"tp": "PP5V_S2 decoupling", "rail": "PP5V_S2", "voltage": "5.14V", "location": "TPS62130 output area (page 122)", "priority": "critical"},
+      {"tp": "PPBUS_AON decoupling", "rail": "PPBUS_AON", "voltage": "12.6V", "location": "Charger output area (page 52)", "priority": "critical"},
+      {"tp": "PP3V3_AON decoupling", "rail": "PP3V3_AON", "voltage": "3.3V", "location": "SPMU LDO output (page 77)", "priority": "high"},
+      {"tp": "PP1V8_AON decoupling", "rail": "PP1V8_AON", "voltage": "1.8V", "location": "MPMU LDO0 output (page 81)", "priority": "high"},
+      {"tp": "PP1V2_AON decoupling", "rail": "PP1V2_AON", "voltage": "1.2V", "location": "MPMU LDO1V output (page 81)", "priority": "high"},
+      {"tp": "PP5V_USBC01 output", "rail": "PP5V_USBC01", "voltage": "5.23V", "location": "UF800 LT8640 output (page 79)", "priority": "high"},
+      {"tp": "PP5V_USBC23 output", "rail": "PP5V_USBC23", "voltage": "5.23V", "location": "UG800 TPS62180 output (page 86)", "priority": "high"}
+    ],
+    "control_signals": [
+      {"tp": "P3V8AON_PWR_EN", "signal": "SVR AON enable", "page": 57, "priority": "critical"},
+      {"tp": "P3V8AON_FAULT_L", "signal": "SVR AON fault (active low)", "page": 57, "priority": "critical"},
+      {"tp": "PMU_ACTIVE_READY", "signal": "MPMU ready to SoC", "page": 83, "priority": "critical"},
+      {"tp": "PMU_FAULT_INT_L", "signal": "PMU fault interrupt", "page": 83, "priority": "critical"},
+      {"tp": "PVDDVDN_FAULT_L", "signal": "Viper VR fault", "page": 93, "priority": "high"},
+      {"tp": "PSVUSBC01_PGOOD", "signal": "Left USB-C 5V power good", "page": 79, "priority": "medium"},
+      {"tp": "PSVUSBC23_PGOOD", "signal": "Right USB-C 5V power good", "page": 86, "priority": "medium"},
+      {"tp": "SYS_DETECT", "signal": "System detect from battery", "page": 51, "priority": "critical"},
+      {"tp": "CHGR_AUX_OK", "signal": "Charger OK (level translated)", "page": 53, "priority": "high"}
+    ],
+    "soc_debug": [
+      {"tp": "TP_A2A_SYNC_ACK", "signal": "A2A sync acknowledge", "page": 6},
+      {"tp": "TP_A2A_SYNC_REQ", "signal": "A2A sync request", "page": 6},
+      {"tp": "TP_A2A_WAKEUP", "signal": "A2A wakeup", "page": 6},
+      {"tp": "TP_CIO_CLK_24_EN", "signal": "CIO clock 24MHz enable", "page": 6},
+      {"tp": "TP_CIO_TIME_SYNC_IN", "signal": "CIO time sync input", "page": 6},
+      {"tp": "TP_CIO_TIME_SYNC_OUT", "signal": "CIO time sync output", "page": 6},
+      {"tp": "TP_GTRSS TX/RX", "signal": "GTRSS debug TX/RX", "page": 6}
+    ],
+    "sensor_adc": [
+      {"tp": "P3V8_AON ISNS", "signal": "PP3V8_AON high-side current sense", "gain": 100, "range": "15A", "page": 62},
+      {"tp": "PBUS VSENSE", "signal": "PPBUS_AON voltage sense", "max": "13.7V", "gain": 0.190, "page": 62},
+      {"tp": "DCIN VSENSE", "signal": "PPDCIN_AON voltage sense", "max": "30V", "gain": 0.0901, "page": 62},
+      {"tp": "BMON ISENSE", "signal": "Battery current sense", "max": "37.91A", "page": 62},
+      {"tp": "NAND0 ISNS", "signal": "SSD0 PBUS current", "range": "2.5A", "page": 63},
+      {"tp": "NAND1 ISNS", "signal": "SSD1 PBUS current", "range": "2.5A", "page": 63},
+      {"tp": "LUXE ISNS", "signal": "Backlight current", "range": "5A", "page": 64},
+      {"tp": "SD ISNS", "signal": "SD card PBUS current", "range": "0.5A", "page": 64}
+    ],
+    "nand_ocarina": [
+      {"tp": "TP_NAND0_OCARINA_VCC_OCT", "signal": "SSD0 Ocarina VCC test", "page": 104},
+      {"tp": "TP_NAND0_OCARINA_MP_L", "signal": "SSD0 Ocarina MP test", "page": 104},
+      {"tp": "TP_NAND1_OCARINA_VCC_OCT", "signal": "SSD1 Ocarina VCC test", "page": 109},
+      {"tp": "TP_NAND1_OCARINA_MP_L", "signal": "SSD1 Ocarina MP test", "page": 109}
+    ]
+  }
+}

@@ -1,0 +1,355 @@
+{
+  "WARNING": "These signals are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY.",
+  "board": "A2779",
+  "variant": "S (Standard / M2 Pro only)",
+  "schematic": "820-02841",
+  "signals": {
+    "power_enables": [
+      {
+        "name": "PPVAON_PWR_EN",
+        "type": "enable",
+        "description": "3V8 AON VR enable — gates the main PP3V8_AON rail via U5700",
+        "source": "MPMU/SMC via battery connector J5150",
+        "destination": "SVR AON controller U5700",
+        "page": [28, 34]
+      },
+      {
+        "name": "P5V2TPS_PWR_EN",
+        "type": "enable",
+        "description": "5V S2 VR enable — gates PP5V_S2 from UC259",
+        "source": "SPMU GPIO / PMU",
+        "destination": "UC259",
+        "page": 55
+      },
+      {
+        "name": "PPVAON_PWR_EN_B",
+        "type": "enable",
+        "description": "3V8 AON VR enable B (secondary)",
+        "source": "SVR AON controller",
+        "page": 34
+      },
+      {
+        "name": "LCD_PWR_EN",
+        "type": "enable",
+        "description": "LCD power enable — gates display power sequencer UP710",
+        "page": 114
+      },
+      {
+        "name": "CHGR_AUX_OK",
+        "type": "enable",
+        "description": "Charger AUX OK — indicates charger is ready. Pull up to PP1V8_AON or 3V3 via MOSTUFF (page 30)",
+        "page": 30
+      },
+      {
+        "name": "CHGR_LDSW_EN",
+        "type": "enable",
+        "description": "Charger load switch enable",
+        "page": 30
+      },
+      {
+        "name": "SE_PMT_EN",
+        "type": "enable",
+        "description": "Secure Element power enable — PP3V2E_AON",
+        "page": 27
+      }
+    ],
+    "power_good_fault": [
+      {
+        "name": "PPVAON_FAULT_L",
+        "type": "fault (active low)",
+        "description": "3V8 AON fault indicator from U5700",
+        "source": "SVR AON controller U5700",
+        "page": 34
+      },
+      {
+        "name": "PPVAON_SMOS_FAULT_L",
+        "type": "fault (active low)",
+        "description": "3V8 AON SMOS fault (secondary)",
+        "page": 34
+      },
+      {
+        "name": "PMU_ACTIVE_READY",
+        "type": "power good",
+        "description": "PMU active ready — indicates PMU has completed startup",
+        "source": "MPMU",
+        "destination": "SoC U6000",
+        "page": 5
+      },
+      {
+        "name": "PPVAON_ISNS_P",
+        "type": "current sense (positive)",
+        "description": "PP3V8_AON current sense via U5910",
+        "page": 36
+      },
+      {
+        "name": "PPVAON_ISNS_N",
+        "type": "current sense (negative)",
+        "description": "PP3V8_AON current sense via U5910",
+        "page": 36
+      },
+      {
+        "name": "PPVAON_ILIMIT_L",
+        "type": "current limit (active low)",
+        "description": "3V8 AON current limit flag from summing amp",
+        "page": 36
+      },
+      {
+        "name": "SPMU_READY_ANS_DS",
+        "type": "power good",
+        "description": "SPMU ready signal",
+        "source": "SPMU (U7700)",
+        "page": 40
+      }
+    ],
+    "resets": [
+      {
+        "name": "LPS_IN_RESET_L",
+        "type": "reset (active low)",
+        "description": "Low power state reset",
+        "page": 5
+      },
+      {
+        "name": "SOC_FORCE_DFU",
+        "type": "control",
+        "description": "Force DFU mode — puts SoC into Device Firmware Update mode",
+        "page": 5
+      },
+      {
+        "name": "SOC_RESET_STATUS",
+        "type": "status",
+        "description": "SoC reset status output",
+        "page": 5
+      },
+      {
+        "name": "SYS_DETECT",
+        "type": "enable/detect",
+        "description": "System detect from BMU — battery flex J5150 gasket circuit via U5150 (BLKAMPMHY, CRITICAL). Must be present for PPBUS_AON.",
+        "page": 28
+      },
+      {
+        "name": "CHGR_RST_IN",
+        "type": "reset",
+        "description": "Charger reset input",
+        "page": 30
+      },
+      {
+        "name": "ATCRTMR0_RESET",
+        "type": "reset",
+        "description": "ATC0 re-timer reset",
+        "page": 76
+      },
+      {
+        "name": "ATCRTMR1_RESET_3V2",
+        "type": "reset",
+        "description": "ATC1 re-timer reset (3.2V domain)",
+        "page": 76
+      },
+      {
+        "name": "MACAW2_RESET",
+        "type": "reset",
+        "description": "MACAW 2 (right side USB2 repeater) reset",
+        "page": 84
+      }
+    ],
+    "i2c_buses": [
+      {
+        "name": "AP_I2C0",
+        "description": "AP I2C bus 0 — UPC I2C",
+        "pull_up_rail": "PP1V2_S2",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C1",
+        "description": "AP I2C bus 1 — SPKAWMP I2C",
+        "pull_up_rail": "PP1V2_MAME",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C2",
+        "description": "AP I2C bus 2 — SPKAWMP I2C (secondary)",
+        "pull_up_rail": "PP1V2_MAME",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C3",
+        "description": "AP I2C bus 3 — SPKAWMP_Paddr2 I2C",
+        "pull_up_rail": "PP1V2_MAME",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C4",
+        "description": "AP I2C bus 4 — ATCRTMR I2C",
+        "pull_up_rail": "PP1V2_MAME",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C6",
+        "description": "AP I2C bus 6 — I2C_TCON_BMLY",
+        "pull_up_rail": "PP1V2_MAME",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C7",
+        "description": "AP I2C bus 7 — I2C_CODEC",
+        "pull_up_rail": "PP1V2_MAME",
+        "page": 56
+      },
+      {
+        "name": "AP_I2C8",
+        "description": "AP I2C bus 8 — I2C_HDMI_MSEL",
+        "pull_up_rail": "PP5V_S2",
+        "page": 56
+      },
+      {
+        "name": "SMC_I2C0",
+        "description": "SMC I2C bus 0 — battery charger, power management",
+        "pull_up_rail": "PP1V2_S2",
+        "devices": "I2C_SMC_PWR_SDA/SCL",
+        "page": 57
+      },
+      {
+        "name": "SMC_I2C1",
+        "description": "SMC I2C bus 1 — SMC UPC I2C",
+        "pull_up_rail": "PP1V2_S2",
+        "page": 57
+      },
+      {
+        "name": "SMC_I2C2",
+        "description": "SMC I2C bus 2 — I2C_NAND_PMCC_SVS_1V2",
+        "pull_up_rail": "PP1V8_S2",
+        "page": 57
+      }
+    ],
+    "spi_buses": [
+      {
+        "name": "SPI_UPC0",
+        "description": "SPI to UF400 (CD3217 ATC0) firmware ROM",
+        "page": 74
+      },
+      {
+        "name": "SPI_UPC1",
+        "description": "SPI to UF500 (CD3217 ATC1) firmware ROM",
+        "page": 75
+      },
+      {
+        "name": "SPI_UPC2",
+        "description": "SPI to UF600 (CD3217 ATC2) firmware ROM",
+        "page": 83
+      },
+      {
+        "name": "SOC_SPI_ROM",
+        "description": "SoC SPI NOR ROM interface (pages 13-14)",
+        "page": [13, 14]
+      },
+      {
+        "name": "SPI_TCON",
+        "description": "SPI to display TCON",
+        "page": 113
+      }
+    ],
+    "usb_c_signals": [
+      {
+        "name": "USBC0_CC1/CC2",
+        "type": "CC",
+        "description": "USB-C port 0 Configuration Channels",
+        "page": 74
+      },
+      {
+        "name": "USBC1_CC1/CC2",
+        "type": "CC",
+        "description": "USB-C port 1 Configuration Channels",
+        "page": 75
+      },
+      {
+        "name": "USBC2_CC1/CC2",
+        "type": "CC",
+        "description": "USB-C port 2 Configuration Channels (right side)",
+        "page": 83
+      }
+    ],
+    "sensor_adc": [
+      {
+        "name": "P3V8_AON_ISENSE (IMVR)",
+        "type": "current sense",
+        "description": "P3V8 AON high side ISENSE. Gain: 10V, ESP: 11.614A. Rsense: 0.001 Ohm. Vsensei: 11.11 mV. Range: 15A. MPMU AMCA_A1 8ms",
+        "page": 59
+      },
+      {
+        "name": "5V_S2_VR_ISENSE (ISSR)",
+        "type": "current sense",
+        "description": "5V S2 VR high side ISENSE. Gain: 200, ESP: 1.001A. Rsense: 0.005 Ohm. Vsensei: 5.005 mV. Range: 1.5A. MPMU AMCL_A1 8ms",
+        "page": 59
+      },
+      {
+        "name": "DCIN_VOLTAGE_SENSE (VDOR)",
+        "type": "voltage sense",
+        "description": "DC input voltage sensor. Max adapter voltage: 28V to 5% = 13.7V. Divider gain: 0.21. Thevenin equivalent: 4.476K",
+        "page": 59
+      },
+      {
+        "name": "DCIN_ISENSE_AMON (IDOR)",
+        "type": "current sense",
+        "description": "DC input current sensor. Max adapter current: 5A. AMON gain, RSENSE: 25mR, 10mV. SMK AMON OUTPUT VOLTAGE: 50mV",
+        "page": 59
+      },
+      {
+        "name": "BATTERY_ISENSE_BMON (IPBR)",
+        "type": "current sense",
+        "description": "Battery monitor current sensor. BMON gain, RSENSE: 7.8K 5K. Max ADC input voltage: 1.5V, ESP: 4.0A. Max BATT CURRENT ISENSE: 37.97A",
+        "page": 59
+      },
+      {
+        "name": "PBUS_VOLTAGE_SENSE (VPOR)",
+        "type": "voltage sense",
+        "description": "PPBUS voltage sensor. Max PPBUS voltage: 13.05V + 5% = 13.7V. Divider gain: 0.11. Thevenin equivalent: 4.555K",
+        "page": 59
+      },
+      {
+        "name": "P1V8VDDH_HIGH_SIDE_ISENSE (ISVR)",
+        "type": "current sense",
+        "description": "1V8 VDDH high side ISENSE. Rsense: 10.885k 33V R. Vsensei: 18.888V mV. Range: 20A. SPMU AMCA_A0 8ms",
+        "page": 59
+      },
+      {
+        "name": "P1V8VDDH_VSENSE (VSVR)",
+        "type": "voltage sense",
+        "description": "1V8 VDDH voltage sense. PP1V8_S1_CLVR_VDDH.",
+        "page": 59
+      }
+    ],
+    "thermal_sensors": [
+      {
+        "name": "MPMU TDEV1-8",
+        "type": "temperature",
+        "description": "Master PMU 8 thermal sensors. TDEV1(Txxx), TDEV2(xxx), ..., TDEV8(xxx). Each with CRITICAL NTC and connection to GND_MPMU_QUIET1.",
+        "page": 65
+      },
+      {
+        "name": "SPMU TDEV1-8",
+        "type": "temperature",
+        "description": "Slave PMU 8 thermal sensors. TDEV1-8 with CRITICAL NTC connections.",
+        "page": 65
+      },
+      {
+        "name": "VIPER/SKYHAWK TSENSE",
+        "type": "temperature",
+        "description": "Austringer/Viper thermal sense (values TBD)",
+        "page": 65
+      }
+    ],
+    "clvr_signals": [
+      {
+        "name": "CLVR_ADDR_STRAP_0/1/2",
+        "type": "address",
+        "description": "CLVR address straps. DIFFERENT between S vs C/D variants. S uses specific I2CTARGET and SWPSS values per CLVR instance.",
+        "page": 54
+      },
+      {
+        "name": "CLVR_THROTTLE_PROBE",
+        "type": "throttle",
+        "description": "CLVR throttle probe access. DIFFERENT between S, C, D variants. S variant has specific probe points: CLVR_BROU_BURST_L, CLVR_BROU_SLTTH_L on PPGASB_BRAVL",
+        "page": 54
+      }
+    ]
+  }
+}

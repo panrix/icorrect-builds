@@ -1,0 +1,118 @@
+{
+  "board": "A2681",
+  "schematic": "820-02536",
+  "connectors": [
+    {
+      "designator": "USB-C Left Rear Port",
+      "type": "USB-C",
+      "controller": "UF400 (CD3217 ATC0)",
+      "position": "Left rear",
+      "signals": {
+        "vbus": "PPVBUS_USBC0",
+        "cc1": "USBC0_CC1",
+        "cc2": "USBC0_CC2",
+        "sbu1": "USBC0_SBU1",
+        "sbu2": "USBC0_SBU2",
+        "dp_tx": "USBC_ATC0_DP lanes",
+        "dp_rx": "USBC_ATC0_DP lanes",
+        "usb3_tx": "USBC0_ATC0_TX lanes",
+        "usb3_rx": "USBC0_ATC0_RX lanes",
+        "usb2_dp": "EUSB_ATC0_P",
+        "usb2_dm": "EUSB_ATC0_N"
+      },
+      "protection": "PP_CABLE protection circuit (page 62)",
+      "page": 58
+    },
+    {
+      "designator": "USB-C Left Front Port",
+      "type": "USB-C",
+      "controller": "UF500 (CD3217 ATC1)",
+      "position": "Left front",
+      "signals": {
+        "vbus": "PPVBUS_USBC1",
+        "cc1": "USBC1_CC1",
+        "cc2": "USBC1_CC2",
+        "sbu1": "USBC1_SBU1",
+        "sbu2": "USBC1_SBU2",
+        "dp_tx": "USBC_ATC1_DP lanes",
+        "dp_rx": "USBC_ATC1_DP lanes",
+        "usb3_tx": "USBC1_ATC1_TX lanes",
+        "usb3_rx": "USBC1_ATC1_RX lanes",
+        "usb2_dp": "EUSB_ATC1_P",
+        "usb2_dm": "EUSB_ATC1_N"
+      },
+      "protection": "PP_CABLE protection circuit (page 62)",
+      "page": 58
+    },
+    {
+      "designator": "J5401",
+      "type": "MagSafe 3",
+      "controller": "AAROXA9PA0830 (UPC5, APN: 516S00610)",
+      "position": "Left side (near USB-C)",
+      "signals": {
+        "power": "PPVBUS_USBC (via 20V aliases)",
+        "cc": "MagSafe CC lines",
+        "data": "SPI ROM"
+      },
+      "mates_with": "APN: 516S00788",
+      "mosfet_pair": "Q5401 (2x7120892018029)",
+      "power_fuse": "F5601 (from PPVN_S5T1_ADRIM)",
+      "page": 27
+    },
+    {
+      "designator": "Battery Connector",
+      "type": "Internal battery",
+      "signals": {
+        "power": "PPBUS_AON (to/from battery, ~12.6V)",
+        "smbus_sda": "Battery I2C SDA",
+        "smbus_scl": "Battery I2C SCL",
+        "thermistor": "Battery temperature sense"
+      },
+      "page": 25
+    },
+    {
+      "designator": "Display Connector",
+      "type": "Internal display flex",
+      "signals": {
+        "edp": "eDP lanes to display panel",
+        "backlight": "Backlight control",
+        "i2c": "DISP_I2C (page 49)"
+      },
+      "page": 75,
+      "note": "Includes display panel controller and backlight driver (pages 76-79)"
+    },
+    {
+      "designator": "Keyboard Connector",
+      "type": "Internal keyboard flex",
+      "page": 85
+    },
+    {
+      "designator": "Trackpad Connector",
+      "type": "Internal trackpad",
+      "signals": {
+        "i2c": "Trackpad I2C",
+        "power": "PP3V3_S2 or similar"
+      },
+      "page": [86, 87]
+    },
+    {
+      "designator": "Camera Flex Connector",
+      "type": "Internal camera flex",
+      "page": 74
+    },
+    {
+      "designator": "Antenna Connectors",
+      "type": "WiFi/BT antenna",
+      "signals": {
+        "2g_c0": "2.4GHz Chain 0",
+        "5g_c0": "5GHz Chain 0",
+        "bt_c0": "Bluetooth Chain 0",
+        "2g_c1": "2.4GHz Chain 1",
+        "5g_c1": "5GHz Chain 1",
+        "bt_c1": "Bluetooth Chain 1",
+        "bt_c1_ded": "Bluetooth Chain 1 Dedicated"
+      },
+      "page": 70
+    }
+  ]
+}

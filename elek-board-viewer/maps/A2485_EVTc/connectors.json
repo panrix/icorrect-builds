@@ -1,0 +1,133 @@
+{
+  "board": "A2485_EVTc",
+  "schematic": "820-02382",
+  "connectors": [
+    {
+      "designator": "USB-C Left Port 0 (ATC0)",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UF400 (CD3217B18KE ATC0)",
+      "position": "Left, rear",
+      "signals": {"vbus": "PPVBUS_USBC0", "cc1": "USBC0_CC1", "cc2": "USBC0_CC2", "sbu1": "USBC0_SBU1", "sbu2": "USBC0_SBU2"},
+      "page": [74, 77]
+    },
+    {
+      "designator": "USB-C Left Port 1 (ATC1)",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UF500 (CD3218I2AKZ2 ATC1)",
+      "position": "Left, front",
+      "signals": {"vbus": "PPVBUS_USBC1", "cc1": "USBC1_CC1", "cc2": "USBC1_CC2"},
+      "page": [76, 77]
+    },
+    {
+      "designator": "USB-C Right Port (ATC2)",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UG400 (CD3217B18KE ATC2)",
+      "position": "Right",
+      "note": "Different designator prefix (UG vs UF) from left ports.",
+      "signals": {"vbus": "PPVBUS_USBC2", "cc1": "USBC2_CC1", "cc2": "USBC2_CC2"},
+      "page": [83, 84]
+    },
+    {
+      "designator": "J5401",
+      "type": "MagSafe 3",
+      "controller": "U5500 (CD3218I2AKZ2, configured as UPC5)",
+      "position": "Left side",
+      "apn": "516500767",
+      "note": "CC 0V and External RD design. Q5420/Q5428/Q5429 MOSFETs. PPVBUS_USBC5 at VOLTAGE=20V.",
+      "page": [54, 55, 56]
+    },
+    {
+      "designator": "JH500 (HDMI Connector, thru-hole)",
+      "type": "HDMI 2.0",
+      "controller": "UK700 (Madea MCR50MA4, page 91)",
+      "position": "Right side",
+      "apn": "514S00208",
+      "note": "0.5A over-current limit. HDMI output 0.25-6.0 Gbps. DDC = 100kBPS.",
+      "page": [89, 90]
+    },
+    {
+      "designator": "JK600 (SD Card Slot, 514-00175)",
+      "type": "SD / SDXC",
+      "controller": "UK500 (GL9755 SPB, page 94)",
+      "position": "Right side",
+      "note": "PCIe to SoC (PCIE_SD_UHS2_D2R/R2D). SD_WAKE_L for wake detection. I2C debug via UK700 level shifter.",
+      "page": [94, 95]
+    },
+    {
+      "designator": "J5150 (Battery Connector, OMIT_TABLE)",
+      "type": "Internal battery (APN 518S0818)",
+      "note": "J5150 pattern PWR-MLB-X1704. J5151 (FF14A-6C-R11DL-B-3H) for debug. PPVBAT_AON_CONN rail. SYS_DETECT_L, SMBUS_BATT_SCL/SDA. BMU power flex hotbar'd to MLB (632-04146, PCBA_FLEX_BMU-POWER_X1703).",
+      "page": 51
+    },
+    {
+      "designator": "JP600 (Display Connector, APN 516500682)",
+      "type": "Internal display flex (Mini-LED Liquid Retina XDR, 16\")",
+      "note": "LPDP INT data lanes. SPI TCON MISO/MOSI/CLK connections. 3.0V I/O connects to SMC I2C4. LP600/LP601 OMIT_TABLE CMC (050009D2, 1.7uH).",
+      "page": [112, 113]
+    },
+    {
+      "designator": "JP400 (Camera Flex, 20B75-8206-01)",
+      "type": "Internal camera",
+      "note": "LPDP_FTCAM_AUX/DATA connections. I2C_CAM_1V8_SCL/SDA. I2C_ALS_1V8_SCL/SDA. PP5V_S2_CAMERA power. ALS_INT_L interrupt.",
+      "page": 111
+    },
+    {
+      "designator": "JP900 (BCON Connector, 20B73-8S6E-01)",
+      "type": "Board connector (backlight)",
+      "note": "I2C_BKLT_1V8_SCL/SDA. BL_PMIC_PWR_EN. SPI_DISP_BKLT CLK/MOSI/MISO/CS connections. PPVOUT_LUXE power. PP1V2_AWAKE_BKLTCONN. PP3V8_AWAKE_BKLTCONN.",
+      "page": 115
+    },
+    {
+      "designator": "Keyboard Connector",
+      "type": "Internal keyboard + backlight",
+      "page": [123, 124, 125]
+    },
+    {
+      "designator": "Trackpad Connector",
+      "type": "Internal Force Touch trackpad",
+      "page": [126, 127]
+    },
+    {
+      "designator": "TouchID Connector",
+      "type": "Touch ID / Power button",
+      "note": "PP16V0_TOUCHID boost, PP3V0_TOUCHID, PP1V8_TOUCHID. Mesa backlight with TOUCHID_BKLT_PWM.",
+      "page": [128, 129, 130]
+    },
+    {
+      "designator": "JR900 (Audio Jack Flex, APN 516S1181)",
+      "type": "Headphone jack + mic (matinGM plug APN 516S1189, same as J214)",
+      "note": "AUDIO_JACK_LEFT/RIGHT_OUT, GB/CH_MIC. Audio codec Carlow B0 via FLR901-FLR907 ferrites (15000HM-0.4A-0.8OHM). AUD_CONN_HP_LEFT/RIGHT, AUD_CONN_RING2, AUD_CONN_SLEEVE.",
+      "page": 122
+    },
+    {
+      "designator": "Left Speaker Connector (J152/J316 APN)",
+      "type": "6-channel speaker (3 left)",
+      "note": "L Woofer 1 (SPKRAMP_A), L Woofer 2 (SPKRAMP_B), L Tweeter (SPKRAMP_C). J152 CONN APN 518S00818 for P0. J316 CONN APN 516S00690 for P1. POR COST CONN APN 516S00787 for P1C,P2S.",
+      "page": 121
+    },
+    {
+      "designator": "Right Speaker Connector",
+      "type": "6-channel speaker (3 right)",
+      "note": "R Woofer 1 (SPKRAMP_D), R Woofer 2 (SPKRAMP_E), R Tweeter (SPKRAMP_F). APN 516S00787.",
+      "page": 121
+    },
+    {
+      "designator": "JR940 (Digital Mic Flex, APN 518S0818)",
+      "type": "Digital microphone flex",
+      "note": "FF14A-6C-R11DL-B-3H. AUD_DMIC0/1 CLK/DATA. PP1V8_DMIC via LR940 ferrite (FERR-470-OHM).",
+      "page": 122
+    },
+    {
+      "designator": "JR200 (LAS, Lid Angle Sensor, APN 516S0873)",
+      "type": "Lid angle sensor",
+      "note": "SPI_AOP_LAS connections. PP1V8_AON_LAS, PP3V3_AON_LAS, PP1V2_S2_LAS power. Current per rail: 1.2 S2 = 22uA/1.2mA, 1.8 AON = 30uA/8mA, 3.3 AON = 1uA/10mA.",
+      "page": 116
+    },
+    {
+      "designator": "Fan Connector",
+      "type": "Internal cooling fan (left)",
+      "note": "FAN_TACH (tachometer), FAN_PWM (speed control). Left fan PBUS ISENSE on page 65.",
+      "page": 66
+    }
+  ]
+}

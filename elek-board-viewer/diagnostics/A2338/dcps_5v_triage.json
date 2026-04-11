@@ -1,0 +1,72 @@
+{
+  "board": "A2338",
+  "schematic": "820-02020",
+  "title": "DCPS 5V Triage — No Power / Low Power at 5V USB-C",
+  "WARNING": "A2338 is MBP 13\" M1. No MagSafe. USB-C only. Has DFR + fan. Different PMU from MBA M2.",
+  "description": "Diagnostic steps when board draws no or abnormal current at initial 5V USB-C connection.",
+  "steps": [
+    {
+      "step": 1,
+      "name": "Check USB-C connector and CC lines",
+      "action": "Inspect both USB-C connectors (page 59). Check for bent pins, corrosion, liquid damage.",
+      "test": "Diode mode on CC1/CC2 pins of each port",
+      "expected": "~0.4-0.5V diode reading on CC lines",
+      "if_fail": "Damaged connector → replace connector. If both ports fail, suspect SoC or CD3217 damage.",
+      "page": 59
+    },
+    {
+      "step": 2,
+      "name": "Check CD3217 port controllers",
+      "action": "Verify UF400 (ATC0, left rear) and UF500 (ATC1, left front) are receiving power.",
+      "test": [
+        "Check PP3V3_S2_UPC rail at CF400/CF500 caps",
+        "Check PP1V25_S2 at CF402/CF502",
+        "Check PP1V8_S2 (PPVN_INT1_AONN) at UF400/UF500 VIN"
+      ],
+      "expected": "PP3V3_S2_UPC = 3.3V, PP1V25_S2 = 1.25V (both need PMU running first)",
+      "if_fail": "If no power to CD3217 at all → check upstream: PPBUS_AON, then PP3V8_AON, then PMU rails",
+      "page": [57, 58]
+    },
+    {
+      "step": 3,
+      "name": "Check PPOCIN_USBC_AON path",
+      "action": "Verify the USB-C VBUS → charger input path.",
+      "test": [
+        "Check FF201 fuse continuity (page 55 HV POWER ALIASES)",
+        "Check PPOCIN_USBC_AON for voltage",
+        "Check PPVN_INT1_AONN internal rail"
+      ],
+      "expected": "~5V at PPOCIN_USBC_AON when charger connected",
+      "if_fail": "FF201 blown → replace fuse. If intact but no voltage → CD3217 internal MOSFET not passing VBUS.",
+      "page": 55
+    },
+    {
+      "step": 4,
+      "name": "Check charger IC U5200",
+      "action": "Verify U5200 (Suona B379, 353S01525) is receiving input and producing PPBUS_AON.",
+      "test": [
+        "Check input at U5200 from PPOCIN path",
+        "Check CHGR_AUX_OK signal (page 23)",
+        "Check CHGR_EN_MVR enable",
+        "Check PPBUS_AON output"
+      ],
+      "expected": "PPBUS_AON = ~12.6V (with battery) or ~5V (adapter only, pre-PD)",
+      "if_fail": "U5200 not switching → check charger gate drivers (PP5231-PP5228 area, page 22). Check SYS_DETECT (J5150 battery connector).",
+      "page": [22, 23]
+    },
+    {
+      "step": 5,
+      "name": "Check SYS_DETECT circuit",
+      "action": "Battery connector J5150 has SYS_DETECT circuit that must be asserted for charger to work.",
+      "test": [
+        "Check SYS_DETECT_L signal (page 21)",
+        "Check Q5155 MOSFET (NTS4C569N)",
+        "Check S5190/S5191 STO switches",
+        "Check R5156 pull-up to PP3V8_AON"
+      ],
+      "expected": "SYS_DETECT_L pulled low when battery detected",
+      "if_fail": "Battery flex not making contact, or J5150 solder joints cracked (flex is SOLDERED to MLB).",
+      "page": 21
+    }
+  ]
+}

@@ -1,0 +1,322 @@
+{
+  "board": "A3113",
+  "schematic": "820-03286",
+  "WARNING": "MacBook Air 13-inch M3 (X2818/MLB). NOT Pro, NOT M4.",
+  "signals": {
+    "power_enables": [
+      {
+        "name": "P3V8AON_PWR_EN",
+        "type": "enable",
+        "description": "3V8 AON VR enable - gates the main PP3V8_AON rail",
+        "source": "MPMU/SMC",
+        "destination": "SVR AON controller (U5700)",
+        "page": 35
+      },
+      {
+        "name": "P5VS2_PWR_EN",
+        "type": "enable",
+        "description": "5V S2 VR enable - gates PP5V_S2 from UC300. Gated through UC637/UC630 logic.",
+        "source": "PMU CRASH logic (page 52)",
+        "destination": "UC300",
+        "page": [51, 52]
+      },
+      {
+        "name": "EDP_PANEL_PWR_EN",
+        "type": "enable",
+        "description": "3V3 S2 / panel power enable - gates PP3V3_S2 from UC710",
+        "source": "Display power sequencer",
+        "destination": "UC710",
+        "page": 53
+      },
+      {
+        "name": "IPD_PWR_EN",
+        "type": "enable",
+        "description": "IPD power enable - gates all IPD load switches via UC870 AND gate",
+        "source": "MPMU GPIO6 (1.8V LVCMOS PP1V8_AON)",
+        "destination": "Load switch gating logic (UC870)",
+        "page": 54
+      },
+      {
+        "name": "CHGR_AUX_OK",
+        "type": "enable",
+        "description": "Charger AUX OK - indicates charger is ready",
+        "page": 31
+      },
+      {
+        "name": "PBUS_AONSW_LCD_1A",
+        "type": "enable",
+        "description": "LCD backlight PBUS load switch enable",
+        "destination": "UP950",
+        "page": 84
+      },
+      {
+        "name": "SPDCL_PWR_EN",
+        "type": "enable",
+        "description": "PP1V8_S2SW load switch enable",
+        "destination": "UC820",
+        "page": 54
+      }
+    ],
+    "power_good_fault": [
+      {
+        "name": "P3V8AON_FAULT_L",
+        "type": "fault (active low)",
+        "description": "3V8 AON fault indicator. Fault pull-down current 1-3mA typical.",
+        "source": "SVR AON controller (U5700)",
+        "page": 35
+      },
+      {
+        "name": "MPMU_FAULT_OUT_L",
+        "type": "fault (active low)",
+        "description": "MPMU fault interrupt",
+        "source": "MPMU (U8100)",
+        "destination": "SoC",
+        "page": 46
+      },
+      {
+        "name": "PMU_ACTIVE_READY",
+        "type": "power good",
+        "description": "PMU active ready - indicates PMU completed startup",
+        "source": "MPMU (U8100)",
+        "destination": "SoC",
+        "page": [46, 49]
+      },
+      {
+        "name": "PMU_SYS_ALIVE",
+        "type": "power good",
+        "description": "System alive signal from PMU",
+        "source": "MPMU (U8100)",
+        "page": 46
+      },
+      {
+        "name": "SPMU_STSA31_L",
+        "type": "status",
+        "description": "SPMU status signal",
+        "source": "SPMU (U7700)",
+        "page": 40
+      },
+      {
+        "name": "PMU_GPIO_READY1_REQ",
+        "type": "power good",
+        "description": "SPMU ready request signal",
+        "source": "SPMU (U7700)",
+        "page": 40
+      }
+    ],
+    "resets": [
+      {
+        "name": "PMU_RESET_L",
+        "type": "reset (active low)",
+        "description": "PMU reset line - master reset for MPMU",
+        "page": [46, 49]
+      },
+      {
+        "name": "MPMU_CRASH_L",
+        "type": "crash (active low)",
+        "description": "MPMU crash signal. Routed via R8564 to SPMU.",
+        "page": [46, 48]
+      },
+      {
+        "name": "SOC_FORCE_DFU",
+        "type": "control",
+        "description": "Force DFU mode - puts SoC into Device Firmware Update mode",
+        "page": [46, 49]
+      },
+      {
+        "name": "PMU_UPC_FORCE_DFU",
+        "type": "control",
+        "description": "PMU UPC Force DFU signal. Via R8562/R8563 resistors. >> PU LDO9.",
+        "page": [47, 48]
+      },
+      {
+        "name": "ATCRTMR0_RESET_L",
+        "type": "reset (active low)",
+        "description": "ATC retimer 0 reset. Sequenced: deasserts 11ms after VDDC_EN.",
+        "page": 72
+      }
+    ],
+    "i2c_buses": [
+      {
+        "name": "AP_I2C1",
+        "description": "AP I2C bus 1 - SPKAWP I2C (speaker amps)",
+        "pull_up_rail": "PP1V25_AWAKE_3D",
+        "page": 55
+      },
+      {
+        "name": "AP_I2C2",
+        "description": "AP I2C bus 2 - ATCRTMR I2C (USB-C retimers)",
+        "pull_up_rail": "PP1V25_S2",
+        "page": 55
+      },
+      {
+        "name": "AP_I2C3",
+        "description": "AP I2C bus 3 - SPKAWP R CODEC I2C (right speaker codec)",
+        "pull_up_rail": "PP1V25_AWAKE_3D",
+        "page": 55
+      },
+      {
+        "name": "DISP_I2C",
+        "description": "Display I2C - via UD050 level shifter (NQSFVF)",
+        "pull_up_rail": "PP1V25_SW_MIMIC",
+        "page": 55
+      },
+      {
+        "name": "ISP_I2C0",
+        "description": "ISP I2C bus 0 - Camera I2C (via UD120 level shifter)",
+        "pull_up_rail": "PP1V25_S2 / PP1V8_S2",
+        "page": 56
+      },
+      {
+        "name": "AOP_I2CM0",
+        "description": "AOP I2C master bus 0 - ALS I2C (via UD140 level shifter)",
+        "pull_up_rail": "PP1V25_S2 / PP1V8_S2",
+        "page": 56
+      },
+      {
+        "name": "SEP_I2C0",
+        "description": "SEP I2C bus 0 - EEPROM (U1950) at address 0x71/0x43",
+        "pull_up_rail": "At EEPROM U1950",
+        "page": 56
+      },
+      {
+        "name": "SMC_I2C1",
+        "description": "SMC I2C bus 1 - Charger, Battery, PMU I2C. Multiple devices.",
+        "pull_up_rail": "PP1V8_S2 via CD200/RD200/RD201/UD200",
+        "page": 57
+      },
+      {
+        "name": "SMC_I2C2",
+        "description": "SMC I2C bus 2 - NDB temperature sensor (via UD220)",
+        "pull_up_rail": "PP1V25_S2 / PP1V8_S2",
+        "page": 57
+      },
+      {
+        "name": "SMC_I2C3",
+        "description": "SMC I2C bus 3 - DPS/STMP I2C (via UD230 level shifter)",
+        "pull_up_rail": "PP1V25_S2 / PP1V8_S2. Output: PP1V5_S2_HOLD_IPD rail.",
+        "page": 57
+      }
+    ],
+    "spi_buses": [
+      {
+        "name": "SPI UPC0",
+        "description": "SPI to UF400 (ATC0) firmware ROM (via UF250/UF260)",
+        "page": 67
+      },
+      {
+        "name": "SPI UPC5",
+        "description": "SPI to MagSafe ACE3 (U5900) firmware ROM (via J5602)",
+        "page": [33, 34]
+      }
+    ],
+    "thermal_sensors": [
+      {
+        "name": "Leader PMU TDEV1 (Txxx)", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV2 (Tm0B)", "description": "Ambient", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV3 (TIOP)", "description": "Thunderbolt Proximity", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV4 (TW0P)", "description": "Wireless Proximity", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV5 (TPMP)", "description": "Leader PMU Proximity", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV6 (T5SP)", "description": "PP5V_S2 (UC300)", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV7 (TCHP)", "description": "Charger Proximity", "page": 62
+      },
+      {
+        "name": "Leader PMU TDEV8 (TMVR)", "description": "Main VR (PP3V8_AON_VDDMAN)", "page": 62
+      },
+      {
+        "name": "Follower PMU TDEV1 (Txxx)", "page": 62
+      },
+      {
+        "name": "Follower PMU TDEV2 (TH0T)", "description": "NAND Proximity", "page": 62
+      },
+      {
+        "name": "Follower PMU TDEV3 (Txxx)", "page": 62
+      },
+      {
+        "name": "Follower PMU TDEV4 (TSCD)", "description": "SOC Proximity", "page": 62
+      },
+      {
+        "name": "Follower PMU TDEV5 (TPSP)", "description": "Follower PMU Proximity", "page": 62
+      }
+    ],
+    "sensor_adc": [
+      {
+        "name": "PPBUS VSENSE (VP0R)",
+        "type": "voltage sense",
+        "description": "PPBUS voltage sensor. Gain 0.11.30V, Range 14.05V, RC 1.06ms",
+        "page": 58
+      },
+      {
+        "name": "DCIN VSENSE (VD0R)",
+        "type": "voltage sense",
+        "description": "DC input voltage sensor. Gain 0.03524, RC 1.12ms, Range 22.29V",
+        "page": 58
+      },
+      {
+        "name": "DCIN ISENSE (ID0R)",
+        "type": "current sense",
+        "description": "DC input current sensor. Charger Gain 20x, EDP 4.2A, RSENSE 0.010 (RD220). RC 1.10ms",
+        "page": 58
+      },
+      {
+        "name": "BMON ISENSE (IPBR)",
+        "type": "current sense",
+        "description": "Battery monitor current sensor. Charger Gain 1x, EDP 8.48A, RSENSE 0.005 (RD505). RC 1.10ms",
+        "page": 58
+      },
+      {
+        "name": "5V_S2_VR ISENSE (IO5R)",
+        "type": "current sense",
+        "description": "5V S2 VR high-side current sensor. Gain 50x, EDP 3.78A @ 5.15V. UD550.",
+        "page": 58
+      },
+      {
+        "name": "3V3_SW_LCD ISENSE (IO3R)",
+        "type": "current sense",
+        "description": "3V3 SW LCD VR high-side current sensor. Gain 50x, Short 0.9.8MOhm. UD560.",
+        "page": 58
+      },
+      {
+        "name": "LCD_BKLT ISENSE (IBLR)",
+        "type": "current sense",
+        "description": "LCD backlight high-side current sensor. Gain 50x, EDP 0.150A @ 46V. UD6C0.",
+        "page": 59
+      },
+      {
+        "name": "WLAN_BT_3V8 ISENSE (IW3C)",
+        "type": "current sense",
+        "description": "WLAN/BT 3V8 AON current sensor. Gain 25x, EDP 1.818A @ 3.8V. UD810.",
+        "page": 60
+      },
+      {
+        "name": "KBD_LED_5V ISENSE (IKBC)",
+        "type": "current sense",
+        "description": "Keyboard LED 5V current sensor. Gain 100x, EDP 0.183A @ 30V. UD880.",
+        "page": 60
+      },
+      {
+        "name": "TouchID ISENSE (IIDR)",
+        "type": "current sense",
+        "description": "TouchID current sensor. Gain 200x, EDP 0.200A @ 3.8V.",
+        "page": 60
+      },
+      {
+        "name": "Iceman VMEAS (VMVC)",
+        "type": "voltage sense",
+        "description": "Iceman (3V8 AON main) voltage sensor. Gain 0.838x, Vmax 3.8V, Range 3.2-3.6V.",
+        "page": 59
+      }
+    ]
+  }
+}

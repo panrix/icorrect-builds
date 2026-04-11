@@ -1,0 +1,175 @@
+{
+  "WARNING": "These test points are for A3113 (820-03285) ONLY. Component designators are board-specific.",
+  "board": "A3114",
+  "board_name": "MacBook Air 13\" M3 (2024)",
+  "schematic": "820-03285",
+  "internal_name": "X2819/MLB",
+  "dcps_voltage": "20V",
+  "description": "Decision trees for 20V DCPS scenarios. Primary diagnostic voltage.",
+  "scenarios": [
+    {
+      "range": "0-0.05A (dead or near-dead at 20V)",
+      "meaning": "Board draws almost nothing. Port controller dead, charger IC not accepting input, or PPBUS_AON open.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Verify 20V reaching board",
+          "measure": "Probe PPVBUS_USBC0 at CF400",
+          "component": "CF400",
+          "expected": "20V",
+          "if_missing": "DCPS cable/connector fault."
+        },
+        {
+          "step": 2,
+          "action": "Check port controller (UF400) for signs of life",
+          "measure": "Probe PP3V3_UPCO_LDO or PP1V5_UPCO_LDO_CORE (internal LDO of UF400)",
+          "expected": "Internal LDO voltages present",
+          "if_missing": "UF400 dead. Replace port controller."
+        },
+        {
+          "step": 3,
+          "action": "Check PPBUS_AON",
+          "measure": "Probe C5704",
+          "component": "C5704",
+          "expected": "12V (battery) or voltage from 20V input",
+          "if_missing": "Charger IC not converting. Check CHGR_AUX_OK (page 31), SMC_I2C1 bus (page 57)."
+        },
+        {
+          "step": 4,
+          "action": "Check PP3V8_AON",
+          "measure": "Probe PP3V8_AON output area (U5700, page 35)",
+          "expected": "3.8V",
+          "if_missing": "U5700 not starting. Check P3V8AON_PWR_EN."
+        }
+      ]
+    },
+    {
+      "range": "0.05-0.5A (low current - partial activity, likely short)",
+      "meaning": "Some current but below normal boot (1.5-2.5A). Shorted rail clamping a regulator or early boot stall.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Run full diagnostic chain",
+          "sub_checks": [
+            {"component": "C5704", "expected": "12V", "rail": "PPBUS_AON"},
+            {"check": "PP3V8_AON output", "expected": "3.8V", "rail": "PP3V8_AON"},
+            {"check": "PP5V_S2 output", "expected": "5.15V", "rail": "PP5V_S2"},
+            {"component": "C8320", "expected": "1.8V", "rail": "PP1V8_AON_MPMU (LDO 9)"},
+            {"component": "C8330/C8331", "expected": "1.2V", "rail": "PP1V2_AON_MPMU (LDO 9B)"},
+            {"component": "C8380/C8381", "expected": "1.5V", "rail": "PP1V5_LDOINT_MPMU"}
+          ],
+          "if_all_present": "All main rails present. Fault in SoC domain or peripheral. Go to step 5.",
+          "if_any_missing": "Identify missing rail -> follow specific fault path."
+        },
+        {
+          "step": 2,
+          "action": "PP3V8_AON missing - investigate U5700 / short on 3V8",
+          "measure": "Diode mode on PP3V8_AON distribution",
+          "if_shorted": "PP3V8_AON shorted. Thermal cam. Check VDDMAIN branch, WLBT branch.",
+          "if_not_shorted": "U5700 enable fault. Check P3V8AON_PWR_EN."
+        },
+        {
+          "step": 3,
+          "action": "PP5V_S2 missing - investigate UC300 path",
+          "measure": "Check UC300 (LN84243-1) output and enable gating (UC637/UC630, page 52)",
+          "note": "A3113 uses LN84243-1 for UC300 (not same part as A2681). P5VS2_PWR_EN gated by PMU_CRASH logic."
+        },
+        {
+          "step": 4,
+          "action": "MPMU LDO output missing - thermal cam",
+          "measure": "Thermal camera on the shorted/missing LDO rail area",
+          "if_found": "Replace hot component.",
+          "if_not_found": "U8100 (MPMU, OMIT_TABLE 998-23524) dead -> replace."
+        },
+        {
+          "step": 5,
+          "action": "All rails present - check SoC and I2C",
+          "measure": "Check SMC_I2C1 bus (page 57), SoC reset signals",
+          "note": "I2C bus stuck can hold board in low-current state."
+        }
+      ]
+    },
+    {
+      "range": "0.5-1.5A (partial boot - stalling)",
+      "meaning": "Boot-level current but not completing. SoC likely powered but stalling during firmware/display/storage.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Watch current pattern - stable or cycling?",
+          "if_cycling": "Boot loop. Check SSD/NAND path.",
+          "if_stable": "Stalled boot. Check display path."
+        },
+        {
+          "step": 2,
+          "action": "Boot loop - check SSD/NAND",
+          "measure": "Check NAND power: PP1V25_AWAKE_NAND_VCC (SPMU BUCK 6), PP3V8_AWAKE_NAND_VDD (SPMU BUCK 12 SW6/7)",
+          "if_missing": "NAND power fault. Check SPMU BUCK 6/12 outputs.",
+          "if_present": "NAND powered but SSD may be dead. Try DFU restore."
+        },
+        {
+          "step": 3,
+          "action": "Stalled boot - check display chain",
+          "measure": "Check PPBUS_AONSW_LCD (UP950 output, page 84), San Diego display PMU (page 85)",
+          "sub_checks": [
+            {"check": "PPBUS_AONSW_LCD present?", "if_no": "UP950 load switch fault."},
+            {"check": "PP_AVDD_DISP present?", "if_no": "San Diego display PMU fault."},
+            {"check": "Backlight on?", "if_no": "BEN LP800 (page 83) fault."}
+          ]
+        },
+        {
+          "step": 4,
+          "action": "Check SoC DVFS domains",
+          "measure": "Probe PPVDD_AWAKE_PCPU, PPVDD_AWAKE_ECPU, PPVDD_AWAKE_GPU decoupling",
+          "if_any_missing": "MPMU buck feeding that domain failed.",
+          "if_all_present": "SoC powered -> firmware/SSD issue. DFU restore."
+        }
+      ]
+    },
+    {
+      "range": "1.5-3A (normal boot range)",
+      "meaning": "NORMAL operating range for M3 MacBook Air at 20V. If customer reports fault at this current, issue is peripheral not power.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Check for display output",
+          "if_display_working": "Board boots. Fault not power-related. Check peripherals.",
+          "if_no_display": "Go to step 2."
+        },
+        {
+          "step": 2,
+          "action": "No display but normal current",
+          "measure": "Check display chain: UP950 -> LP800 (BEN) -> JP600 connector -> San Diego PMU",
+          "sub_checks": [
+            {"check": "Backlight present?", "if_no": "UP950, LP800, or FP800 fuse fault."},
+            {"check": "Image on external?", "if_yes": "LCD panel or eDP flex fault."},
+            {"check": "No external either?", "if_yes": "SoC GPU output fault. Check PPVDD_AWAKE_GPU."}
+          ]
+        }
+      ]
+    },
+    {
+      "range": "3A+ (over-current - major short)",
+      "meaning": "Excessive current. Dead short or max power draw.",
+      "steps": [
+        {
+          "step": 1,
+          "action": "Is board functional at this current?",
+          "if_functional": "May be under heavy load + charging. Monitor - should settle to 1.5-2.5A.",
+          "if_not_functional": "Short circuit. Go to step 2."
+        },
+        {
+          "step": 2,
+          "action": "Thermal camera sweep",
+          "measure": "Thermal cam across entire board",
+          "if_found": "Identify hot component, cross-reference with rails.json."
+        },
+        {
+          "step": 3,
+          "action": "Systematic rail isolation",
+          "measure": "Diode mode: PPBUS_AON (C5704) -> PP3V8_AON -> PP5V_S2 -> PP3V3_S2",
+          "process": "Find which rail reads short. Thermal cam that area."
+        }
+      ]
+    }
+  ]
+}

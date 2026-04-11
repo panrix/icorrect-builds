@@ -1,0 +1,177 @@
+{
+  "board": "A2337",
+  "schematic": "820-02016",
+  "description": "Common fault patterns for MacBook Air 13 M1 (A2337, 820-02016). Based on M1 architecture patterns and known failure modes.",
+  "WARNING": "M1 board. Faults listed here are board-specific. Do NOT apply A2681 (M2) fault patterns directly. PMU: SERA=Master (U8100), SIMETRA=Slave (U7700).",
+  "safan_data_status": "No A2337-specific records found in safan_diagnostics_parsed.json. The a_numbers and board_numbers fields are empty in all records. QA validation against schematic not possible with current Safan data.",
+  "common_faults": [
+    {
+      "id": "CF001",
+      "name": "No power - CD3217 not negotiating",
+      "symptom": "Board draws no current or minimal current (<10mA) at 5V. No PPBUS_AON.",
+      "root_cause": "CD3217 (UF400/UF500) port controller failure or SPI ROM corruption",
+      "affected_rails": ["PPVBUS_USBC0", "PPVBUS_USBC1"],
+      "diagnosis_steps": [
+        "Check CC1/CC2 lines for continuity (page 55/56)",
+        "Check SPI ROM (SPI_UPC0/SPI_UPC1) for corruption",
+        "Measure VBUS pass-through on CD3217 output",
+        "Check Burnside Bridge (UF000/UF100) for shorts dragging VBUS"
+      ],
+      "fix": "Replace UF400 or UF500 (CD3217). If SPI ROM corrupted, reprogram or replace.",
+      "page": [55, 56, 57]
+    },
+    {
+      "id": "CF002",
+      "name": "No power - Charger IC fault",
+      "symptom": "5V present at VBUS but no PPBUS_AON. Board draws 50-200mA at 5V but does not boot.",
+      "root_cause": "Charger IC (U5200) failure or battery SYS_DETECT not triggered",
+      "affected_rails": ["PPBUS_AON"],
+      "diagnosis_steps": [
+        "Check PPBUS_AON at bulk cap - should be ~12V with battery",
+        "Check CHGR_AUX_OK signal (page 24)",
+        "Check BMU connector J5100 SYS_DETECT (page 22)",
+        "Check for shorts on PPBUS_AON bulk caps (diode mode)"
+      ],
+      "fix": "If SYS_DETECT missing: check J5100 connector and gasket circuit. If charger IC dead: replace U5200.",
+      "page": [22, 23, 24]
+    },
+    {
+      "id": "CF003",
+      "name": "No power - PP3V8_AON short",
+      "symptom": "PPBUS_AON present but PP3V8_AON missing or low. High current draw on PPBUS_AON.",
+      "root_cause": "Short circuit on PP3V8_AON distribution (VDDMAIN or VODMAN branch)",
+      "affected_rails": ["PP3V8_AON", "PP3V8_AON_VDDMAIN", "PP3V8_AON_VODMAN"],
+      "diagnosis_steps": [
+        "Measure diode mode on PP3V8_AON bulk caps",
+        "Check PPVAON_FAULT_L - will be low if U5700 detects overload",
+        "Use thermal imaging at low voltage to find hot component",
+        "Systematically lift capacitors on PP3V8_AON branches to isolate short",
+        "Check PP3V8_AON_VDDMAIN caps first (common short location)"
+      ],
+      "fix": "Replace shorted capacitor or IC pulling PP3V8_AON low. Common: capacitor failure on VDDMAIN branch.",
+      "page": [25, 26, 27, 79]
+    },
+    {
+      "id": "CF004",
+      "name": "No power - U5700 SVR AON failure",
+      "symptom": "PPBUS_AON present, PPVAON_PWR_EN asserted, but PP3V8_AON missing. No short detected.",
+      "root_cause": "U5700 SVR AON controller IC failure",
+      "affected_rails": ["PP3V8_AON"],
+      "diagnosis_steps": [
+        "Verify PPVAON_PWR_EN is high",
+        "Verify PPVAON_FAULT_L is not pulled low",
+        "Check U5700 switching waveform at phase outputs",
+        "Check inductor continuity on SVR AON output"
+      ],
+      "fix": "Replace U5700 SVR AON controller.",
+      "page": [25, 26]
+    },
+    {
+      "id": "CF005",
+      "name": "No boot - PMU not starting",
+      "symptom": "PP3V8_AON present at 3.8V but PMU LDO outputs missing. No PP5V_S2 or PP3V3_S2.",
+      "root_cause": "MPMU (U8100/SERA) or SPMU (U7700/SIMETRA) failure",
+      "affected_rails": ["SERA LDO outputs", "SIMETRA LDO outputs", "PP5V_S2", "PP3V3_S2"],
+      "diagnosis_steps": [
+        "Check SERA LDO 9 output (~1.8V) - if missing, SERA (U8100) may be dead",
+        "Check SIMETRA LDO 9 output (~1.8V) - if missing, SIMETRA (U7700) may be dead",
+        "Check for shorts on PMU LDO output caps",
+        "Thermal imaging to find hot PMU",
+        "Check PMU_ACTIVE_READY signal"
+      ],
+      "fix": "Replace failed PMU IC. U8100 (SERA/Master) or U7700 (SIMETRA/Slave).",
+      "page": [28, 29, 32, 33, 34]
+    },
+    {
+      "id": "CF006",
+      "name": "No boot - PP5V_S2 missing",
+      "symptom": "PMU rails present but PP5V_S2 missing. Board partially powers on but does not boot.",
+      "root_cause": "UC320 5V buck converter failure or enable signal missing",
+      "affected_rails": ["PP5V_S2", "PP5V_S2SW_IPD"],
+      "diagnosis_steps": [
+        "Check P5VS2_PWR_EN - should be asserted by PMU GPIO",
+        "Check for short on PP5V_S2 output (diode mode on output caps)",
+        "Check UC320 inductor for continuity",
+        "If shorted: check PP5V_S2SW_IPD load switch for downstream short"
+      ],
+      "fix": "If P5VS2_PWR_EN missing: trace PMU GPIO. If output shorted: find and fix short. If UC320 dead: replace UC320.",
+      "page": [37, 38]
+    },
+    {
+      "id": "CF007",
+      "name": "No boot - PP3V3_S2 missing",
+      "symptom": "PMU rails present but PP3V3_S2 missing.",
+      "root_cause": "XMC710 3V3 buck converter failure or enable signal missing",
+      "affected_rails": ["PP3V3_S2", "PP3V3_S2SW_IPD", "PP3V3_S2SW_SNS"],
+      "diagnosis_steps": [
+        "Check P3V3S2_PWR_EN gating logic (page 37)",
+        "Check for short on PP3V3_S2 output",
+        "Check XMC710 inductor continuity"
+      ],
+      "fix": "Fix P3V3S2_PWR_EN path or replace XMC710.",
+      "page": [37, 39]
+    },
+    {
+      "id": "CF008",
+      "name": "USB-C port not working (one port)",
+      "symptom": "One USB-C port does not charge or data. Other port works fine.",
+      "root_cause": "CD3217 port controller fault on affected port, or connector damage",
+      "affected_rails": ["PPVBUS_USBC0 or PPVBUS_USBC1"],
+      "diagnosis_steps": [
+        "Check CC1/CC2 on affected port for shorts/opens",
+        "Check SBU1/SBU2 for shorts",
+        "Check VBUS for dead short",
+        "Inspect connector physically for bent/broken pins",
+        "Check Burnside Bridge (UF000/UF100) for related fault"
+      ],
+      "fix": "Replace connector if physical damage. Replace CD3217 (UF400 or UF500) if controller fault.",
+      "page": [55, 56, 57]
+    },
+    {
+      "id": "CF009",
+      "name": "No display - backlight fault",
+      "symptom": "Board boots (fan spin, chime) but no display. External display may work.",
+      "root_cause": "BEN (DP600) backlight boost converter failure or display connector issue",
+      "affected_rails": ["PPBUS_AONSW_LCD (backlight input)", "Backlight output"],
+      "diagnosis_steps": [
+        "Check display connector (page 67) for physical damage",
+        "Check PPBUS_AONSW_LCD load switch output",
+        "Check DP600 (BEN) input and output (page 69)",
+        "Check display power sequencer UP700/UP705/UP715 (page 68)",
+        "Try known-good display cable/panel"
+      ],
+      "fix": "Replace DP600 (BEN), display connector, or display cable. If UP700/UP705 sequencer fault: replace sequencer IC.",
+      "page": [67, 68, 69]
+    },
+    {
+      "id": "CF010",
+      "name": "WiFi/Bluetooth not working",
+      "symptom": "Board boots and works but no WiFi or Bluetooth detected in macOS.",
+      "root_cause": "Rasputin WiFi/BT module failure or antenna connection issue",
+      "affected_rails": ["PP3V8_AON (WiFi/BT power)"],
+      "diagnosis_steps": [
+        "Check WiFi/BT module power rails (page 60)",
+        "Check antenna connections (page 61)",
+        "Check for physical damage to Rasputin module",
+        "Check PCIe connection to SoC (page 9)"
+      ],
+      "fix": "Reseat antenna cables. If module fault: replace Rasputin WiFi/BT module.",
+      "page": [60, 61]
+    },
+    {
+      "id": "CF011",
+      "name": "SSD not detected",
+      "symptom": "Board boots to DFU/recovery but cannot see internal storage.",
+      "root_cause": "NAND flash failure, NAND power rail missing, or SoC NAND controller issue",
+      "affected_rails": ["NAND power rails from PMU"],
+      "diagnosis_steps": [
+        "Check NAND power rails on pages 62-63",
+        "Check NAND clock and data connections",
+        "Check for physical damage to NAND packages",
+        "Note: M1 has integrated SSD controller in SoC - NAND is soldered on MLB"
+      ],
+      "fix": "NAND replacement on M1 is extremely difficult (paired to SoC). If NAND fault confirmed, board may be unrepairable for data recovery.",
+      "page": [62, 63, 64, 65]
+    }
+  ]
+}

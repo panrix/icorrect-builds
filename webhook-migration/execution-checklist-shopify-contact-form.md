@@ -31,6 +31,10 @@ These are established enough to build against:
   - consumer/corporate use JSON-aware fetch with a 30s timeout
   - quote wizard uses a 30s timeout and looser success handling
   - warranty expects JSON and specific success/error messages
+- Live Intercom ticket type `2985889` is now proven as a simple customer ticket shape with only:
+  - `_default_title_`
+  - `_default_description_`
+- Corporate company reuse is now proven in production through recent `QA Test Ltd` tickets sharing one `company_id`
 - A working VPS shadow-mode pattern already exists on this machine for another migration:
   - `status-notifications.service`
   - `/home/ricky/builds/monday/services/status-notifications/index.js`
@@ -50,18 +54,20 @@ These are buildable, but not safe to cut over yet:
   - ops alert hooks
 - Intercom ticket flow for existing contacts, if verified during Phase 0.
 - Corporate company attach flow, if duplicate/collision behavior is explicitly frozen.
+- Consumer current-state parity is more complex than the old docs implied:
+  - ingress is still SMTP-authored as `michael.f@icorrect.co.uk`
+  - the ticket surface appears later on the same Intercom object
+- Corporate current-state parity must account for the fact that n8n returns success before downstream Intercom and Slack work is fully finished.
 
 ### Red
 
 These block production cutover:
 
 - The plan path for the new service is wrong. `/home/ricky/builds/shopify/services/contact-form/` does not exist and cannot be treated as the implementation target.
-- Production Shopify deploy source of truth is not recorded. The local theme checkout is not enough.
+- Production Shopify deploy source of truth is not fully recorded. We now know the live main target is theme ID `158358438141` (`icorrect-shopify-theme/main`), but rollback/process ownership still needs to be written operator-grade.
 - Ticket-first behavior is not fully proven for:
   - new contacts
-  - corporate company attach edge cases
-  - quote-email internal ticket path
-  - warranty
+  - corporate company attach edge cases under the new service
 - Quote-email is customer-facing and cannot be treated as plumbing. The UI promise is "Sent! Check your inbox."
 - Warranty is a separate route with separate browser behavior and separate current back-end behavior.
 - No Shopify VPS service, systemd unit, nginx route, or port `8015` listener exists yet.
@@ -91,7 +97,11 @@ Build must not start today for this scope:
 Required:
 
 - Record the actual service directory.
+- Recommended target: `/home/ricky/builds/intercom/services/shopify-contact-form/`
 - Record the exact production theme branch and deploy target.
+- Minimum deploy target evidence now known:
+  - Shopify main theme ID `158358438141`
+  - theme name `icorrect-shopify-theme/main`
 - Freeze the normalized DTO for:
   - consumer
   - corporate
@@ -168,8 +178,8 @@ No-go if:
 - Prove and save exact request/response examples for:
   - new contact ticket
   - existing contact ticket
-  - corporate contact + company create
-  - corporate contact + company attach when company already exists
+  - corporate contact + company create under the new service
+  - corporate contact + company attach when company already exists under the new service
 - Record exact failure behavior for:
   - duplicate company slug or ID
   - missing contact

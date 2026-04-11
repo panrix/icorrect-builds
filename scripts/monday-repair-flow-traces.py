@@ -18,13 +18,13 @@ from collections import Counter
 import requests
 
 # Config
-MONDAY_API_TOKEN = os.environ.get("MONDAY_API_TOKEN")
+MONDAY_APP_TOKEN = os.environ.get("MONDAY_APP_TOKEN")
 MONDAY_API_URL = "https://api.monday.com/v2"
 BOARD_ID = 349212843
 OUTPUT_FILE = "/home/ricky/builds/documentation/monday/repair-flow-traces.md"
 
 HEADERS = {
-    "Authorization": MONDAY_API_TOKEN,
+    "Authorization": MONDAY_APP_TOKEN,
     "Content-Type": "application/json",
     "API-Version": "2024-10"
 }
@@ -420,8 +420,8 @@ def find_common_pattern(all_transitions):
 
 
 def main():
-    if not MONDAY_API_TOKEN:
-        print("ERROR: MONDAY_API_TOKEN not set", file=sys.stderr)
+    if not MONDAY_APP_TOKEN:
+        print("ERROR: MONDAY_APP_TOKEN not set", file=sys.stderr)
         sys.exit(1)
 
     # Step 1: Fetch ALL items from the board

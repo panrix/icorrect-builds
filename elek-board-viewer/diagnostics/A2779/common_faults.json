@@ -1,0 +1,117 @@
+{
+  "WARNING": "These test points are for A2779 (820-02655) ONLY. Component designators differ from A2442. This board uses AUSTRINGER (not Viper) and CLVR (not Monaco). Do NOT apply A2442 diagnostics to this board.",
+  "board": "A2779",
+  "board_name": "MacBook Pro 14\" M2 Pro/Max (2023)",
+  "schematic": "820-02655",
+  "internal_name": "X2371/MLB-C",
+  "data_source": "Schematic analysis from 163-page J414-C PDF. No Saf repair data yet for this board.",
+  "faults": [
+    {
+      "id": "F001",
+      "name": "PPBUS_AON short",
+      "frequency": "Common pattern across all M-series boards",
+      "symptoms": {"dcps_5v": "0.01-0.02A", "dcps_20v": "~0.1A"},
+      "affected_rail": "PPBUS_AON",
+      "component": "PPBUS_AON decoupling caps (pages 28-29)",
+      "root_cause": "Capacitor short on PPBUS_AON distribution.",
+      "fix": "Diode mode confirms short. Remove suspect cap. Retest.",
+      "test_point": "PPBUS_AON decoupling caps near charger IC area"
+    },
+    {
+      "id": "F002",
+      "name": "CD3217 liquid damage",
+      "frequency": "Common pattern across all USB-C MacBooks",
+      "symptoms": {"dcps_5v": "0.01-0.3A", "dcps_20v": "0.1-0.6A"},
+      "affected_rail": "PPVBUS_USBC0/1/2",
+      "components": ["UF400 (ATC0)", "UF500 (ATC1)", "UG400 (ATC2)"],
+      "root_cause": "Liquid ingress under CD3217 or level shifter ICs.",
+      "fix": "Clean board. Replace affected CD3217. Check level shifters on pages 80 (ATC0/1) and 88 (ATC2)."
+    },
+    {
+      "id": "F003",
+      "name": "Austringer VR (U9300) failure -- replaces Viper on A2442",
+      "frequency": "Schematic analysis (no Saf data yet)",
+      "symptoms": {"dcps_20v": "0.5-2.0A (below normal 2-4A range)"},
+      "affected_rail": "PPVDD_PCPU_SRAM0_AWAKESW / PPVDD_PCPU_SRAM1_AWAKESW",
+      "component": "U9300 (Austringer VR controller, MAAZ1552A-SW-GPR-A0-1)",
+      "root_cause": "Austringer VR controller dead or power stage failure. Board partially boots but PCPU SRAM domains don't power up.",
+      "test_point": "Austringer output caps (C92xx area, page 47)",
+      "fault_signal": "PVRVD0N_FAULT_L (active low) -- NOT VIPER_ALERT_L",
+      "fix": "If PVRVD0N_FAULT_L is low -> Austringer has detected a fault. Check 5 power stage pages (49-51). If output has no voltage -> U9300 dead.",
+      "note": "This is the A2779 equivalent of the A2442 Viper fault. Same diagnostic approach, different IC name."
+    },
+    {
+      "id": "F004",
+      "name": "CLVR instance failure -- replaces Monaco on A2442",
+      "frequency": "Schematic analysis (no Saf data yet)",
+      "symptoms": {"dcps_20v": "0.5-2.0A (below normal)"},
+      "affected_rail": "Various CLVR outputs (PCPU, GPU, DPL, ANE domains)",
+      "components": ["CLVR0 (UA100, page 52)", "CLVR1 (UA100, page 53)", "CLVR2 (UA300, page 54, Max)", "CLVR3 (UA100/UA600, page 55)", "CLVR4 (UA500/UA600, page 56)"],
+      "root_cause": "CLVR VR instance not starting. SoC dynamic domain not powered.",
+      "test_point": "CLVR output caps (CA1xx-CA5xx area, pages 52-56)",
+      "fix": "Check each CLVR instance. Max variant: CLVR2 failure = GPU1 dead. Test each output. If all CLVR dead -> check CLVR supply (PP1V8_S1_CLVR_VDDH, PP0V8_S2_CLVR_VDDDIG from MPMU/SPMU LDOs).",
+      "note": "5 CLVR instances vs 3 Monaco on A2442. More failure points but isolated -- one CLVR can fail without others."
+    },
+    {
+      "id": "F005",
+      "name": "U5700 SVR AON failure (42A design)",
+      "frequency": "Common pattern across all M-series boards",
+      "symptoms": {"dcps_5v": "0.01-0.04A", "dcps_20v": "0.05-0.3A"},
+      "affected_rail": "PP3V8_AON",
+      "component": "U5700 (SVR AON, 42A -- higher current than A2442's 30A)",
+      "root_cause": "SVR AON controller dead, Iceman gate driver phase fault, or downstream short on PP3V8_AON.",
+      "test_point": "PP3V8_AON output desense caps (pages 34-35)",
+      "fault_signal": "PPVAON_FAULT_L",
+      "fix": "If output = 0V -> check PPVAON_PWR_EN. If enable asserted but no output -> U5700 dead. If output shorted -> thermal cam PP3V8_AON branches. Note: 3 Iceman gate driver phases (page 140 desense caps)."
+    },
+    {
+      "id": "F006",
+      "name": "MPMU (U8100) failure",
+      "frequency": "Common across M-series",
+      "symptoms": {"dcps_5v": "0.01-0.04A", "dcps_20v": "0.05-0.5A"},
+      "affected_rail": "All MPMU buck and LDO outputs (BUCK0-10, LDO0-4)",
+      "component": "U8100 (MPMU)",
+      "root_cause": "Dead MPMU, liquid damage on BGA, or downstream short loading outputs.",
+      "test_points": "MPMU output caps (page 41), PMU test points (page 137)",
+      "fix": "If multiple outputs dead -> replace U8100. If single output dead -> find downstream short on that rail. Note: MPMU BUCK 2 is UNUSED on this board."
+    },
+    {
+      "id": "F007",
+      "name": "Dual SSD / Ocarina fault",
+      "frequency": "Schematic analysis",
+      "symptoms": {"dcps_20v": "0.5-1.5A (boot loop)"},
+      "affected_rail": "PP0V9_NAND0/1, PP1V2_NAND0/1, PPBUS_NAND0/1",
+      "component": "Ocarina controllers (pages 107, 112)",
+      "root_cause": "SSD0 or SSD1 NAND failure, Ocarina controller dead.",
+      "fix": "Check both SSD power rails independently. NAND CLK test points on page 113. Try DFU restore.",
+      "note": "Dual SSD with 4 NAND S5E packages each."
+    },
+    {
+      "id": "F008",
+      "name": "HDMI Cobra controller fault",
+      "frequency": "Schematic analysis",
+      "symptoms": {"dcps_20v": "2-4A (normal current but no HDMI)"},
+      "affected_rail": "PP1V2_DP2HDMI_DIG, PP3V3_DP2HDMI_RX_TX",
+      "component": "Cobra IC (page 94) -- NOT Madea (A2442)",
+      "fix": "Board boots normally. HDMI dead. Check Cobra power rails (pages 95-96), HDMI DDC I2C, HPD."
+    },
+    {
+      "id": "F009",
+      "name": "Display power sequencer fault (UP710)",
+      "frequency": "Schematic analysis",
+      "symptoms": {"dcps_20v": "2-4A (normal boot, no display)"},
+      "affected_rail": "PPMDB_AWAKESW_TCON, PPBCON_AWAKESW_BKLTCONN_VIN",
+      "component": "UP710 (SLGAP5157V display power sequencer, page 117), UP800 (Luxe backlight, page 118)",
+      "fix": "Check LCD_PWR_EN from SoC. Check UP710 output to UP701 (3V8 MDB feed) and UP730 (3V29 backlight feed). If sequencer outputs dead -> replace UP710."
+    },
+    {
+      "id": "F010",
+      "name": "Willamette WiFi/BT module fault",
+      "frequency": "Schematic analysis",
+      "symptoms": {"dcps_20v": "Normal (no WiFi or BT)"},
+      "affected_rail": "PPVBAT_AON_WLBT, PP3V8_AON_WLBT",
+      "component": "Willamette module (page 101)",
+      "fix": "Check PPVBAT_AON_WLBT and PP3V8_AON_WLBT supply rails. Check antenna connectors (page 102). Willamette is WiFi 6E."
+    }
+  ]
+}

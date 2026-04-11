@@ -183,7 +183,7 @@ The `/webhook/icloud-check/slack-interact` endpoint (lines 769–838) handles `c
 
 ### 4. Hardcoded paths to VPS filesystem
 ```
-/home/ricky/builds/agent-rebuild/data/bm-listings-clean.json
+/home/ricky/builds/icloud-checker/data/bm-listings-clean.json
 /home/ricky/builds/buyback-monitor/data/sell-prices-latest.json
 /home/ricky/builds/icloud-checker/data/counter-offer-log.json
 ```

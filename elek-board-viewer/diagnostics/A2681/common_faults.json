@@ -1,0 +1,212 @@
+{
+  "WARNING": "These test points are for A2681 (820-02536) ONLY. For other boards, use that board's diagnostic files. Component designators (C5704, C8450, C8440, etc.) are board-specific — the same rail appears at DIFFERENT components on other boards.",
+  "board": "A2681",
+  "board_name": "MacBook Air 13\" M2 (2022)",
+  "schematic": "820-02536",
+  "internal_name": "X2203/MLB",
+  "description": "Known fault patterns from Safan diagnostic data (672 ammeter readings, 155 component records, 42 rail-specific fault notes). Mapped to specific circuits and rails from Phase 1/2 extraction.",
+  "data_source": "safan_diagnostics_parsed.json",
+  "faults": [
+    {
+      "id": "F001",
+      "name": "CD3217 (UF400/UF500) failure",
+      "frequency": "17 records (UF400: 10, UF500: 7)",
+      "symptoms": {
+        "dcps_5v": "0A or 0.001-0.01A",
+        "dcps_20v": "0.001A or normal (if only one port affected)"
+      },
+      "affected_rail": "PPVBUS_USBC0 / PPVBUS_USBC1",
+      "root_causes": [
+        "Liquid damage under CD3217",
+        "SPI ROM short → kills CD3217",
+        "CD3217 internal failure (only 5V, no PD negotiation)",
+        "Previous repair attempt with wrong CD3217 variant"
+      ],
+      "test_points": ["CF400 (port 0)", "CF501 (port 1)"],
+      "fix": "Replace CD3217 (UF400 or UF500). Ensure matching ROM.",
+      "data_examples": [
+        "5V/0.004A → UF400 + ROM short → replaced CD + ROM → fixed",
+        "5V/0.0A → UF400, UF500, CF400, CF408 liquid damage → cleaned + replaced",
+        "20V/0.001A → UF400 charging not working (only one side)"
+      ]
+    },
+    {
+      "id": "F002",
+      "name": "PP3V8_AON short (VDDMAIN / SPMU_ISNS)",
+      "frequency": "8 records (C7705: 3, C7714: 2, C7701: 1, C7702: 1, CT610: 1)",
+      "symptoms": {
+        "dcps_5v": "0.05-0.5A (draws moderate current but board doesn't boot)",
+        "dcps_20v": "0.1-0.5A"
+      },
+      "affected_rail": "PP3V8_AON / PP3V8_AON_VDDMAIN / PP3V8_AON_SPMU_ISNS",
+      "root_causes": [
+        "Capacitor short on PP3V8_AON distribution",
+        "Liquid damage corroding PP3V8_AON trace/vias",
+        "Component under PP3V8_AON line pulling it to ground"
+      ],
+      "test_points": ["C8450 (PP3V8_AON main)", "C7705 (VDDMAIN)", "C7714 (SPMU_ISNS)", "C7701", "C7702"],
+      "fix": "Identify shorted cap via diode mode or thermal cam. Remove shorted cap. If short clears, replace cap. If short persists, trace to IC pulling the line down.",
+      "data_examples": [
+        "5V/0.12A → C7714 (PP3V8_AON_SPMU_ISNS) short → removed → fixed",
+        "5V/0.14A → C7702 short → removed",
+        "5V/0.23A → PP3V8_AON + PP3V8_AON_SPMU_ISNS dual short → C7701",
+        "5V/0.443A → CT610 on PP3V8_AON short"
+      ]
+    },
+    {
+      "id": "F003",
+      "name": "PPBUS_AON short",
+      "frequency": "5 records (CR765: 1, CR734: 1, C5804: 1, others)",
+      "symptoms": {
+        "dcps_5v": "0.01-0.02A",
+        "dcps_20v": "0.05-0.3A"
+      },
+      "affected_rail": "PPBUS_AON",
+      "root_causes": [
+        "Capacitor short on PPBUS_AON distribution",
+        "Liquid damage on main bus trace",
+        "Shorted component pulling bus to ground"
+      ],
+      "test_points": ["C5704 (PPBUS_AON main)", "CR765", "CR734", "C5804"],
+      "fix": "Diode mode on PPBUS_AON. Find shorted cap. Remove and retest.",
+      "data_examples": [
+        "5V/0.012A → CR765 (PPBUS_AON) short → removed → fixed",
+        "5V/0.014A → CR734 (PPBUS_AON) short → replaced → fixed",
+        "5V/0.014A → C5804 (PPBUS_AON) short"
+      ]
+    },
+    {
+      "id": "F004",
+      "name": "PP3V3_S2 / PP3V3_S2_LDO short",
+      "frequency": "4 records",
+      "symptoms": {
+        "dcps_5v": "0.2-0.3A",
+        "dcps_20v": "0.2-0.5A"
+      },
+      "affected_rail": "PP3V3_S2 / PP3V3_S2_LDO / PP3V3_UPC0_LDO / PP3V3_UPC1_LDO",
+      "root_causes": [
+        "Cap short on PP3V3_S2 LDO output",
+        "CD3217 internal LDO short pulling PP3V3_UPC down",
+        "UC710 output shorted"
+      ],
+      "test_points": ["CF660 (PP3V3_S2_LDO)"],
+      "fix": "Diode mode on PP3V3_S2 line. If CF660 shorted → remove and retest. If PP3V3_UPC0/1_LDO shorted → CD3217 internal fault.",
+      "data_examples": [
+        "5V/0.22A → CF660 (PP3V3_S2_LDO) short → removed → fixed",
+        "5V/0.223A → PP3V3_UPC1_LDO + PP3V3_S2 short → CD chip fault"
+      ]
+    },
+    {
+      "id": "F005",
+      "name": "U8100 (MPMU) failure",
+      "frequency": "6 records",
+      "symptoms": {
+        "dcps_5v": "0.01-0.04A (PMU not generating downstream rails)",
+        "dcps_20v": "0.05-0.3A"
+      },
+      "affected_rail": "All MPMU outputs (PP1V8_AON_MPMU, PP1V2_AON_MPMU, PP3V3_S2M_SNR, etc.)",
+      "root_causes": [
+        "Dead MPMU IC",
+        "Liquid damage on MPMU BGA pads",
+        "Downstream short loading MPMU outputs → MPMU shuts down"
+      ],
+      "test_points": ["C8320 (1.8V)", "C8330 (3.3V)", "C83A0 (3.3V)", "C8360 (1.2V)", "C8380 (1.5V)"],
+      "fix": "If multiple LDO outputs missing → replace U8100. If single output missing → find downstream short on that rail, thermal cam.",
+      "diagnostic_workflow": "Ricky's step-by-step: C5704→C8450→C8440→U8100 LDOs→thermal cam"
+    },
+    {
+      "id": "F006",
+      "name": "SSD / NAND power fault",
+      "frequency": "3 records",
+      "symptoms": {
+        "dcps_20v": "0.5-0.8A (boot loop or stalled boot)"
+      },
+      "affected_rail": "PP1V25_MAME_NAND_VCC / PP3V8_MAME_NAND_VDDL / PPVDS_MAME_NAND_VCC",
+      "root_causes": [
+        "SSD power IC short",
+        "NAND flash failure",
+        "FL4000/FL4001 fuse blown"
+      ],
+      "test_points": ["C9586 (SSD power area)"],
+      "fix": "Check NAND power rails. Check fuses FL4000/FL4001. If SSD power IC shorted → replace.",
+      "data_examples": [
+        "20V/0.7A → C9586 SSD power IC short → capacitor short found"
+      ]
+    },
+    {
+      "id": "F007",
+      "name": "PP5V_S2 (UC300) path fault",
+      "frequency": "3 records (C8440, C8430, L8430)",
+      "symptoms": {
+        "dcps_5v": "0.01-0.04A (5V rail not coming up, downstream not powered)",
+        "dcps_20v": "0.05-0.5A"
+      },
+      "affected_rail": "PP5V_S2",
+      "root_causes": [
+        "C8430 shorted (diode failure)",
+        "L8430 open (inductor failure)",
+        "UC300 dead",
+        "P5VS2_PWR_EN not asserted (PMU not requesting 5V)"
+      ],
+      "test_points": ["C8440 (PP5V_S2 output)", "C8430 (diode check)", "L8430 (continuity check)"],
+      "fix": "Check C8430 diode mode. Check L8430 for open. Replace faulty component. If both OK → UC300 or enable signal fault.",
+      "diagnostic_workflow": "Ricky's step 3: C8440→5V? NO → check C8430 (diode, shorted?) and L8430 (diode, OL/open?)"
+    },
+    {
+      "id": "F008",
+      "name": "Liquid damage — multiple component failure",
+      "frequency": "~40% of all fault records mention liquid damage",
+      "symptoms": {
+        "dcps_5v": "Variable (0A to 0.5A depending on extent)",
+        "dcps_20v": "Variable"
+      },
+      "affected_rail": "Multiple — depends on liquid ingress location",
+      "root_causes": [
+        "Water/liquid ingress through keyboard",
+        "Corrosion on BGA pads",
+        "Multiple shorts across different rails"
+      ],
+      "common_components": ["UF400", "UF500", "CF400", "CF408", "UF260", "UP800", "UR760", "CR764", "CR765"],
+      "fix": "Clean logic board thoroughly (IPA + ultrasonic if available). Identify all shorts. Fix one at a time, retesting after each repair. Multiple component replacement often needed.",
+      "data_examples": [
+        "5V/0.01A → liquid damage, hall sensor damage, both CD chips, multiple caps",
+        "5V/0.019A → UR760, UR730, UR700, CR765, CR764, CR753 — extensive liquid damage repair",
+        "5V/0.035A → UP800, QP801, UP900 — multiple IC replacement needed"
+      ]
+    },
+    {
+      "id": "F009",
+      "name": "PP1V8_AON short → UC870 suspect",
+      "frequency": "1 confirmed record (Ricky's workflow)",
+      "symptoms": {
+        "dcps_5v": "0.01-0.05A"
+      },
+      "affected_rail": "PP1V8_AON",
+      "root_causes": [
+        "UC870 internal short pulling PP1V8_AON to ground"
+      ],
+      "test_points": ["C8320 (PP1V8_AON_MPMU)"],
+      "fix": "Thermal cam on PP1V8_AON rail → if UC870 is hot, replace UC870.",
+      "diagnostic_workflow": "Ricky's step 5: 'PP1V8_AON shorted → suspect UC870'"
+    },
+    {
+      "id": "F010",
+      "name": "I2C bus fault → peripheral not responding",
+      "frequency": "2 records",
+      "symptoms": {
+        "dcps_20v": "0.2-0.5A (board partially boots but peripheral missing)"
+      },
+      "affected_rail": "I2C_SMC bus / I2C_KBD / I2C_UPC",
+      "root_causes": [
+        "I2C line shorted to ground by faulty peripheral",
+        "Pull-up resistor fault",
+        "Peripheral IC holding bus low"
+      ],
+      "test_points": ["Check pull-up resistors on affected I2C bus"],
+      "fix": "Isolate which I2C device is pulling bus low. Remove suspect IC, check if bus recovers.",
+      "data_examples": [
+        "20V/0.3A → U5150 fault, I2C_SMC_SCL line short → battery showing 'service'"
+      ]
+    }
+  ]
+}

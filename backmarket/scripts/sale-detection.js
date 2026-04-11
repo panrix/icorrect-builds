@@ -182,8 +182,8 @@ async function acceptOrder(orderId, orderLineSku) {
 }
 
 // ─── Step 5a: Update BM Devices Board ─────────────────────────────
-async function updateBmDevices(bmDeviceId, buyer, orderId, salePrice) {
-  const values = JSON.stringify({ text4: buyer, text_mkye7p1c: String(orderId), numeric5: salePrice });
+async function updateBmDevices(bmDeviceId, visibleIdentity, orderId, salePrice) {
+  const values = JSON.stringify({ text4: visibleIdentity, text_mkye7p1c: String(orderId), numeric5: salePrice });
   const q = `mutation { change_multiple_column_values(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId}, column_values: ${JSON.stringify(values)}) { id } }`;
   const d = await mondayApi(q);
   return !!d.data;
@@ -202,7 +202,7 @@ async function updateMainBoard(mainItemId, dateSold) {
 
 // ─── Step 5d: Rename Main Board item ──────────────────────────────
 // Format: "BM XXXX (Buyer Name)" — preserve BM number, replace seller name with buyer name
-async function renameMainBoardItem(mainItemId, buyerName) {
+async function renameMainBoardItem(mainItemId, visibleIdentity) {
   // Fetch current item name to extract BM prefix
   const fetchQ = `{ items(ids: [${mainItemId}]) { name } }`;
   const fetchD = await mondayApi(fetchQ);
@@ -212,7 +212,7 @@ async function renameMainBoardItem(mainItemId, buyerName) {
   const bmMatch = currentName.match(/^(BM\s+\d+)/i);
   const bmPrefix = bmMatch ? bmMatch[1] : currentName.split('(')[0].trim();
 
-  const newName = `${bmPrefix} (${buyerName})`;
+  const newName = `${bmPrefix} (${visibleIdentity})`;
   const q = `mutation { change_simple_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "name", value: ${JSON.stringify(newName)}) { id } }`;
   console.log(`  Renaming: "${currentName}" → "${newName}"`);
   const d = await mondayApi(q);
@@ -268,6 +268,14 @@ async function renameMainBoardItem(mainItemId, buyerName) {
       const price = parseFloat(line.price) || 0;
       const product = line.product || 'Unknown';
       const lineId = line.id;
+      const billingName = order.billing_address
+        ? `${order.billing_address.first_name || ''} ${order.billing_address.last_name || ''}`.trim()
+        : '';
+      const shippingName = buyer;
+      const namesDiffer = billingName && shippingName && billingName.toLowerCase() !== shippingName.toLowerCase();
+      const visibleIdentity = namesDiffer
+        ? `Buyer: ${billingName} / Ship to: ${shippingName}`
+        : (shippingName || billingName || buyer || 'Unknown');
 
       console.log(`\n  Product: ${product}`);
       console.log(`  Listing ID: ${listingId}`);
@@ -346,7 +354,7 @@ async function renameMainBoardItem(mainItemId, buyerName) {
 
       // Step 5a: Update BM Devices
       console.log(`\n  [Step 5a] Updating BM Devices...`);
-      const devOk = await updateBmDevices(availableItem.id, buyer, orderId, price);
+      const devOk = await updateBmDevices(availableItem.id, visibleIdentity, orderId, price);
       console.log(`  BM Devices (buyer, order, price): ${devOk ? '✅' : '❌'}`);
 
       // Step 5b+5c: Update Main Board
@@ -357,8 +365,8 @@ async function renameMainBoardItem(mainItemId, buyerName) {
         console.log(`  Main Board: ${mainOk ? '✅' : '❌'}`);
 
         // Step 5d: Rename
-        console.log(`  [Step 5d] Renaming Main Board item to "${buyer}"...`);
-        const renameOk = await renameMainBoardItem(mainItemId, buyer);
+        console.log(`  [Step 5d] Renaming Main Board item to "${visibleIdentity}"...`);
+        const renameOk = await renameMainBoardItem(mainItemId, visibleIdentity);
         console.log(`  Rename: ${renameOk ? '✅' : '❌'}`);
       } else {
         console.log(`  ⚠️ No Main Board link. Cannot update status/name. MANUAL FIX NEEDED.`);

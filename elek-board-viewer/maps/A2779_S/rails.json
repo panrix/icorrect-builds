@@ -1,0 +1,665 @@
+{
+  "WARNING": "These rails are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY. The C/CTO/Max variant (820-02655) has different component designators and additional power phases. Do NOT use these test points on the C variant.",
+  "board": "A2779",
+  "variant": "S (Standard / M2 Pro only)",
+  "schematic": "820-02841",
+  "extraction_notes": "Extracted from 159-page schematic including power alias pages 139-143. Every rail includes exact source page. NC LDOs marked. CLVR rails from pages 51-54, 141.",
+  "rails": [
+    {"section": "=== USB-C / CHARGER INPUT ==="},
+    {
+      "name": "PPVBUS_USBC0",
+      "voltage": "5V (initial) / 20V (after PD)",
+      "state": "G3H",
+      "source": "UF400 (CD3217 ATC0)",
+      "description": "USB-C VBUS port 0 — left side, main power input",
+      "page": 74
+    },
+    {
+      "name": "PPVBUS_USBC1",
+      "voltage": "5V / 20V",
+      "state": "G3H",
+      "source": "UF500 (CD3217 ATC1)",
+      "description": "USB-C VBUS port 1 — left side",
+      "page": 75
+    },
+    {
+      "name": "PPVBUS_USBC23",
+      "voltage": "5V / 20V",
+      "state": "G3H",
+      "source": "UF600 (CD3217 ATC2)",
+      "description": "USB-C VBUS port 2/3 — right side",
+      "page": 83
+    },
+    {
+      "name": "PPSC26_ADR_CHSR",
+      "voltage": "~5V-20V",
+      "state": "G3H",
+      "source": "Fuse F5601 from PPVN_INTS_ADRIM",
+      "description": "Charger alias rail — fused VBUS path to MagSafe UPC controller",
+      "page": [29, 33]
+    },
+    {
+      "name": "PPCON_ACNSW",
+      "voltage": "~5V-20V",
+      "state": "G3H",
+      "source": "Charger input switching",
+      "description": "Charger input from USB-C/MagSafe, feeds charger IC",
+      "page": 29
+    },
+
+    {"section": "=== MAIN BUS ==="},
+    {
+      "name": "PPBUS_AON",
+      "voltage": "12.6V (battery) / ~20V (adapter)",
+      "state": "AON",
+      "source": "Charger IC / Battery",
+      "description": "Main system power bus — feeds SVR AON, Austringer, UC259 (5V), load switches, backlight",
+      "page": [29, 139]
+    },
+
+    {"section": "=== 3V8 AON (SVR AON — 30A ICC MAX) ==="},
+    {
+      "name": "PP3V8_AON",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "U5700 (SVR AON, 30A ICC MAX, 3 phases)",
+      "enable": "PPVAON_PWR_EN",
+      "fault": "PPVAON_FAULT_L",
+      "description": "3.8V always-on master rail — input to SPMU (U7700) and MPMU (U8100)",
+      "page": [34, 35]
+    },
+    {
+      "name": "PP3V8_AON_VDDMAIN",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "Branch of PP3V8_AON",
+      "description": "PP3V8_AON VDDMAIN distribution — DIAGNOSTICALLY CRITICAL for shorts",
+      "page": 139
+    },
+    {
+      "name": "PP3V8_AON_WLBT",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "Branch of PP3V8_AON",
+      "description": "PP3V8_AON to Willamette WiFi/BT module",
+      "page": [98, 139]
+    },
+    {
+      "name": "PP3V8_AON_DPG_F",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "Branch of PP3V8_AON (filtered)",
+      "description": "PP3V8_AON filtered for keyboard/display peripherals",
+      "page": 139
+    },
+    {
+      "name": "PP3V8_MAME",
+      "voltage": "3.8V",
+      "state": "S0 (AWAKE)",
+      "source": "Branch of PP3V8_AON (gated)",
+      "description": "3.8V awake-state rail for audio amplifiers and misc",
+      "page": 139
+    },
+
+    {"section": "=== PPVAON DISTRIBUTION (U5700 phase outputs) ==="},
+    {
+      "name": "PPVAON_B0T7",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "U5700 phase output",
+      "page": 34
+    },
+    {
+      "name": "PPVAON_SPA0",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "U5700 phase output",
+      "page": 34
+    },
+
+    {"section": "=== 5V AND 3V3 RAILS ==="},
+    {
+      "name": "PP5V_S2",
+      "voltage": "5.15V",
+      "state": "S2",
+      "source": "UC259 (5V S2 buck)",
+      "enable": "P5V2TPS_PWR_EN",
+      "description": "5V S2-state rail. VOUT=15V, ESR=0.8R, F=2.2MHz. Start up time typ=0.4ms, max=0.81ms. Decay time to 0.1V. Input from PPBUS_AON via PBUS pack options",
+      "page": 55
+    },
+    {
+      "name": "PP5V_S2_MAIN",
+      "voltage": "5V",
+      "state": "S2",
+      "source": "UC259 output distribution",
+      "page": 55
+    },
+    {
+      "name": "PP3V3_S2",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "MPMU LDO output or standalone",
+      "description": "3.3V S2-state rail",
+      "page": 139
+    },
+    {
+      "name": "PP3V_S2",
+      "voltage": "3.0V",
+      "state": "S2",
+      "source": "MPMU LDO 5",
+      "description": "3.0V S2 rail — I2C pull-ups, camera, peripherals",
+      "page": 139
+    },
+    {
+      "name": "PP3V_AON",
+      "voltage": "3.0V",
+      "state": "AON",
+      "source": "MPMU LDO 5 alias",
+      "description": "3.0V always-on rail — PBUS sense, charger support",
+      "page": 139
+    },
+
+    {"section": "=== MPMU BUCK OUTPUTS (U8100) ==="},
+    {
+      "name": "PPVDD_SRAM_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "MPMU Buck0 (PGr1)",
+      "description": "SoC SRAM S1 retention",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "MPMU Buck1 (PGr7)",
+      "description": "SoC GPU SRAM S1",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD_AMPH1_S2SM",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU Buck3 (PHz3)",
+      "description": "Memory controller AMPH1",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD2HS_S2SM",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU Buck4 (PHz4)",
+      "description": "VDD2H S2 domain",
+      "page": [43, 142]
+    },
+    {
+      "name": "PP1V2_MAME_PLL",
+      "note": "Also aliased as PPVDD_AMPH1_S2SM per MPMU Buck5 (PHr5)",
+      "voltage": "1.2V",
+      "state": "AWAKE",
+      "source": "MPMU Buck5",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD_DISP_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "MPMU Buck6 (PGr6)",
+      "description": "Display MAME power",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD_JUSTBR_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "MPMU Buck7 (PGr4)",
+      "description": "Austringer/Viper MAME domain",
+      "page": [43, 142]
+    },
+    {
+      "name": "PP1V25_S2",
+      "voltage": "1.25V",
+      "state": "S2",
+      "source": "MPMU Buck8 (PGr8)",
+      "description": "1.25V S2 — USB-C controllers, level shifters",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD_FIXED_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "MPMU Buck9 (PGr9)",
+      "description": "SoC VDD_FIXED domain",
+      "page": [43, 142]
+    },
+    {
+      "name": "PPVDD1_S2",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU Buck10 (PSw8)",
+      "description": "VDD1 S2 domain — feeds SoC VDD1 pins (page 17)",
+      "page": [43, 142]
+    },
+
+    {"section": "=== MPMU LDO OUTPUTS (U8100) ==="},
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO5",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU LDO0",
+      "description": "CLVR VDDIO5",
+      "page": 142
+    },
+    {
+      "name": "PP3V3_S2",
+      "note": "MPMU LDO1",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "MPMU LDO1",
+      "page": 142
+    },
+    {
+      "name": "PP1V8_S2_CLVR_VDDIO16",
+      "voltage": "1.8V",
+      "state": "S2",
+      "source": "MPMU LDO2",
+      "description": "CLVR VDDIO16",
+      "page": 142
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO5_LDO3",
+      "note": "MPMU LDO3 duplicate/alias of CLVR VDDIO5",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU LDO3",
+      "page": 142
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO5_LDO4",
+      "note": "MPMU LDO4",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU LDO4",
+      "page": 142
+    },
+    {
+      "name": "PP3V_AON_ldo5",
+      "note": "MPMU LDO5",
+      "voltage": "3.0V",
+      "state": "AON",
+      "source": "MPMU LDO5",
+      "description": "3V AON system load",
+      "page": 142
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO6",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "MPMU LDO6",
+      "description": "CLVR VDDIO6",
+      "page": 142
+    },
+    {
+      "name": "PP1V8_AON_MPMU",
+      "voltage": "1.8V",
+      "state": "AON",
+      "source": "MPMU LDO9",
+      "description": "Always-on 1.8V from MPMU — load switch enables, GPIO LVCMOS",
+      "page": [42, 142]
+    },
+    {
+      "name": "PP1V2_AON_MPMU",
+      "voltage": "1.2V",
+      "state": "AON",
+      "source": "MPMU LDO9B (LDOIV2)",
+      "description": "Always-on 1.2V from MPMU",
+      "page": [42, 142]
+    },
+    {
+      "name": "PP1V05_LDOINT_MPMU",
+      "voltage": "1.05V",
+      "state": "AON",
+      "source": "MPMU LDOINT",
+      "description": "MPMU internal LDO + RTC",
+      "page": [42, 142]
+    },
+
+    {"section": "=== SPMU BUCK OUTPUTS (U7700) ==="},
+    {
+      "name": "PPVDD_DCS_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "SPMU Buck0 (PSr1)",
+      "description": "SoC DCS S1 domain",
+      "page": [39, 143]
+    },
+    {
+      "name": "PPVDD0E_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "SPMU Buck1 (PGr11)",
+      "description": "SoC 0E S1 domain",
+      "page": [39, 143]
+    },
+    {
+      "name": "PPVDD_ECPU_SRAM_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "SPMU Buck2 (PGr2)",
+      "description": "ECPU SRAM awake",
+      "page": [39, 143]
+    },
+    {
+      "name": "PPVDD2HS_S2SM",
+      "note": "SPMU Buck3 (PHz3)",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "SPMU Buck3",
+      "page": [39, 143]
+    },
+    {
+      "name": "PPVDD_SOC_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "SPMU Buck4 (PSr4)",
+      "description": "SoC main S1 rail",
+      "page": [39, 143]
+    },
+    {
+      "name": "PPVDD_CIO_S2SM",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "SPMU Buck5 (PHr5)",
+      "description": "CIO S2 domain",
+      "page": [39, 143]
+    },
+    {
+      "name": "PP0V5_DISP7_MAMEISM_NC",
+      "note": "Not used on S designs",
+      "voltage": "N/A",
+      "state": "NC",
+      "source": "SPMU Buck7 (PGr1) — NC on S variant",
+      "description": "SPMU Buck7 is NOT USED on S (Standard) designs. Used on C/Max variant only.",
+      "page": [39, 143]
+    },
+    {
+      "name": "PP1V2_MAME",
+      "voltage": "1.2V",
+      "state": "AWAKE",
+      "source": "SPMU Buck8 (PSr1)",
+      "description": "1.2V awake — PP1V2 MAME",
+      "page": [39, 143]
+    },
+    {
+      "name": "PPVDD_ECPU_MAMEISM",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "SPMU Buck10 (PSw4)",
+      "description": "SoC Efficiency CPU core power",
+      "page": [39, 143]
+    },
+
+    {"section": "=== SPMU LDO OUTPUTS (U7700) ==="},
+    {
+      "name": "PPVDD_LDM_S2",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "SPMU LDO0",
+      "description": "LDM S2 domain — PP1V08_LDM_S2 alias",
+      "page": 143
+    },
+    {
+      "name": "PPVDD_LDM_S2_ldo1",
+      "note": "SPMU LDO1",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "SPMU LDO1",
+      "page": 143
+    },
+    {
+      "name": "PPVDD_SOC_S1_ldo4",
+      "note": "SPMU LDO4",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "SPMU LDO4",
+      "page": 143
+    },
+    {
+      "name": "PPVDD_CIO_S2SM_ldo5",
+      "note": "SPMU LDO5",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "SPMU LDO5",
+      "page": 143
+    },
+    {
+      "name": "PP0V5_DISP7_MAMEISM_LDO6_NC",
+      "note": "SPMU LDO6/a — Not used on S designs. Internal only.",
+      "voltage": "N/A",
+      "state": "NC",
+      "source": "SPMU LDO6/a — NC on S variant",
+      "page": 143
+    },
+    {
+      "name": "PP1V8_AON_SPMU",
+      "voltage": "1.8V",
+      "state": "AON",
+      "source": "SPMU LDO9",
+      "description": "Always-on 1.8V from SPMU",
+      "page": [38, 143]
+    },
+    {
+      "name": "PP1V2_AON_SPMU",
+      "voltage": "1.2V",
+      "state": "AON",
+      "source": "SPMU LDO9B (LDOIV2)",
+      "description": "Always-on 1.2V from SPMU",
+      "page": [38, 143]
+    },
+    {
+      "name": "PP1V8_AWAKE",
+      "voltage": "1.8V",
+      "state": "AWAKE",
+      "source": "SPMU SN6",
+      "description": "1.8V awake rail",
+      "page": 143
+    },
+
+    {"section": "=== CLVR OUTPUTS (UA100/UA200/UA600) ==="},
+    {
+      "name": "PPVDD_PCPU1_MAMEISM",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "CLVR0 (UA100) Buck0/HP0",
+      "description": "SoC Performance CPU cluster 1 — CLVR instance C0, CFG=D (12+2+12+2)",
+      "page": [51, 141]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAM_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR0 (UA100) Buck1/LP0",
+      "page": [51, 141]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAM4_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR0 (UA100) Buck2/HP1",
+      "page": [51, 141]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAM5_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR0 (UA100) Buck3/LP1",
+      "page": [51, 141]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM_MAMEISM",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "CLVR1 (UA200) Buck0/HP0",
+      "description": "SoC GPU SRAM — CLVR instance C1, CFG=A (13+1+13+1)",
+      "page": [52, 141]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM3_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR1 (UA200) Buck1/LP0",
+      "page": [52, 141]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM_MAMEISM_HP1",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR1 (UA200) Buck2/HP1",
+      "page": [52, 141]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM5_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR1 (UA200) Buck3/LP1",
+      "page": [52, 141]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR2 (UA600) Buck0/HP0",
+      "description": "SoC ANE/SRAM — CLVR instance C2, CFG=C (6+1+13+6), S variant only",
+      "page": [53, 141]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM_LP0",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR2 (UA600) Buck1/LP0",
+      "page": [53, 141]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM_HP1",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR2 (UA600) Buck2/HP1",
+      "page": [53, 141]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM_LP1",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "CLVR2 (UA600) Buck3/LP1",
+      "page": [53, 141]
+    },
+    {
+      "name": "PP1V8_S1_CLVR_VDDH",
+      "voltage": "1.8V",
+      "state": "S1",
+      "source": "CLVR VDDH rail",
+      "description": "CLVR 1.8V S1 domain — shared across all CLVR instances",
+      "page": 141
+    },
+
+    {"section": "=== AUSTRINGER OUTPUTS (U9300) ==="},
+    {
+      "name": "PPVDD_SRAM_MAMEISM",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "Austringer (U9300)",
+      "description": "SoC SRAM power via Austringer VR — 5 phases (PH1-PH5)",
+      "page": [47, 48, 49, 50]
+    },
+
+    {"section": "=== LOAD SWITCHES ==="},
+    {
+      "name": "PPBUS_AONSW_LCD",
+      "voltage": "12.6V / ~20V",
+      "state": "AON (switched)",
+      "source": "Load switch from PPBUS_AON",
+      "description": "Switched PPBUS for LCD backlight Luxe driver (UP800)",
+      "page": [114, 115]
+    },
+
+    {"section": "=== DISPLAY POWER ==="},
+    {
+      "name": "PPCON_MAMEISM_BD_DCONN_YYK",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "Display power sequencer UP710/UP730/UP701",
+      "description": "Display panel sequenced power",
+      "page": 114
+    },
+    {
+      "name": "PP3V8_MAME_TCON",
+      "voltage": "3.8V",
+      "state": "AWAKE",
+      "source": "3V8 feed to MDB (display board)",
+      "description": "3.8V to TCON on display board",
+      "page": 114
+    },
+
+    {"section": "=== PP5V AON / DISTRIBUTION ==="},
+    {
+      "name": "PP5V_AON_FIVSDAOS",
+      "voltage": "5V",
+      "state": "AON",
+      "source": "PP5V_AON distribution",
+      "description": "5V AON subsystem loads",
+      "page": 139
+    },
+    {
+      "name": "PP5V6_AON",
+      "voltage": "5.6V",
+      "state": "AON",
+      "source": "MPMU LDO (via PP5V6_AON_FIVSDAON)",
+      "description": "5.6V AON system loads",
+      "page": 139
+    },
+
+    {"section": "=== PP1V2 DISTRIBUTION ==="},
+    {
+      "name": "PP1V2_S2",
+      "voltage": "1.2V",
+      "state": "S2",
+      "source": "MPMU Buck (via alias)",
+      "description": "1.2V S2 system loads",
+      "page": 139
+    },
+    {
+      "name": "PP1V2_SPMU_LDO3_AWAKE",
+      "voltage": "1.2V",
+      "state": "AWAKE",
+      "source": "SPMU LDO3",
+      "description": "1.2V SPMU LDO3 awake loads — PP1V2_MANETAL_B1 alias",
+      "page": 139
+    },
+    {
+      "name": "PP1V8_SPMU_IM3_S2",
+      "voltage": "1.8V",
+      "state": "S2",
+      "source": "SPMU IM3 S2",
+      "description": "1.8V SPMU IM3 S2 system loads — PP1V8_SPMU_IM3_S2 alias, SPMU SN3",
+      "page": 139
+    },
+
+    {"section": "=== NAND / SSD POWER ==="},
+    {
+      "name": "PPVDS_MAME_NAND_VCC",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "SSD power IC",
+      "description": "NAND VCC power — 4 NAND packages per SSD (SSD0 and SSD1)",
+      "page": [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
+    },
+    {
+      "name": "PP1V2_MAME_NAND_VCCQ",
+      "voltage": "1.2V",
+      "state": "AWAKE",
+      "source": "NAND power distribution",
+      "description": "NAND VCCQ power",
+      "page": [100, 101]
+    }
+  ]
+}

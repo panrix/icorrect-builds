@@ -29,9 +29,9 @@ Two interfaces with shared data contracts:
      - Diagnostic intake
      - BM trade-in intake
 
-Back-end architecture direction (from source plans):
+Back-end architecture direction:
 - React + TypeScript front-end.
-- FastAPI integration service for Monday/Intercom/iCloud endpoints.
+- Node.js + Express integration service for Monday/Intercom endpoints. *(Changed from FastAPI, 2026-04-08 — all VPS services are Node.js, enables code reuse.)*
 - Supabase for operational data and media storage.
 - Nginx reverse proxy for service routing.
 
@@ -53,11 +53,11 @@ Non-negotiables:
 Required baseline prompts:
 - Has this device been repaired before?
 - Has the Apple Store seen this device?
-- New or refurbished?
-- How did the fault occur?
+- ~~New or refurbished?~~ *(Deferred from v1 — rarely actionable at intake. See `plan.md`.)*
+- ~~How did the fault occur?~~ *(Deferred from v1 — captured in free-text fault description. See `plan.md`.)*
 - Passcode/password collection and validation status.
-- Secondary-fault authorization.
-- Battery upsell authorization for relevant screen repairs.
+- ~~Secondary-fault authorization.~~ *(Deferred from v1 — currently handled verbally. See `plan.md`.)*
+- ~~Battery upsell authorization for relevant screen repairs.~~ *(Deferred from v1 — currently offered during repair. See `plan.md`.)*
 
 ## 5) Device-Specific Flows
 
@@ -75,19 +75,23 @@ Operator flows authored for this registry:
 
 ## 6) Supabase Schema (consolidated minimum)
 
-Core entities:
-- `intake_sessions`: one per device drop-off.
-- `intake_responses`: normalized question/answer records.
-- `intake_checks`: pre-check and validation events.
-- `intake_photos`: intake condition media links.
-- `turnaround_times`: repair-type SLA table.
-- `corporate_profiles`: account-level operating rules and passcode arrangements.
+> **Revised 2026-04-08.** The authoritative schema is now in `plan.md` section 0C. Key changes: `intake_responses` dropped (form answers live in `form_data` JSONB on sessions), photos and turnaround tables deferred from v1.
 
-Data requirements:
-- Must link session to Monday item IDs and integration correlation IDs.
-- Must capture `service_type` and `intake_type` for branching logic.
-- Must persist passcode verification outcome explicitly.
-- Must preserve operator identity and timestamps for accountability.
+v1 core entities:
+- `intake_sessions`: one per form submission. Contains `form_data` JSONB (authoritative snapshot of all answers), status enum, version column for optimistic concurrency, idempotency key, Monday item correlation.
+- `intake_checks`: operator verification events (passcode verified, parts available, turnaround confirmed, fields complete).
+
+Deferred from v1:
+- ~~`intake_responses`~~: dropped — normalised answers add complexity without value at current scale. `form_data` JSONB is the single source of truth.
+- `intake_photos`: deferred until photo capture feature is built.
+- `turnaround_times`: deferred until dynamic turnaround engine is built.
+- `corporate_profiles`: deferred until corporate intake path is built.
+
+Data requirements (unchanged):
+- Must link session to Monday item IDs via `monday_item_id` column.
+- Must capture `flow_type` for branching logic.
+- Must persist passcode verification outcome explicitly (via `intake_checks`).
+- Must preserve operator identity and timestamps for accountability (via `claimed_by`, `intake_checks.operator_name`).
 
 ## 7) Monday.com Mapping (intake-relevant)
 
@@ -107,37 +111,30 @@ Critical fields:
 
 Proposed implementation shape:
 - Front-end: Vite React TypeScript app optimized for iPad.
-- API layer: FastAPI service for server-side credentialed integrations (Monday, Intercom, iCloud checks).
+- API layer: Node.js + Express service for server-side credentialed integrations (Monday, Intercom). *(Changed from FastAPI, 2026-04-08.)*
 - Data/storage: Supabase Postgres + Supabase Storage for intake photos and optional recordings.
 - Notifications: event triggers for customer updates and staff handoff prompts.
 - Deployment: systemd-managed backend service behind Nginx.
 
 ## 9) MVP Scope (build first)
 
-MVP target: **MacBook screen repair intake, end-to-end**.
+> **Superseded 2026-04-08.** The canonical MVP scope is now defined in `plan.md` (v2).
+> The original MacBook-only MVP below is preserved for reference but is no longer the build target.
 
-MVP must include:
-- Client iPad route with model/fault capture and readiness decisioning.
-- Team flow with universal questions and MacBook-specific intake gates.
-- Passcode verification workflow.
-- Parts check and reservation signaling.
-- Photo capture and queue handoff package creation.
-- Monday writes and customer receipt notification.
+**Current MVP (from plan.md v2):** Four client-facing intake flows (appointment, walk-in, collection, enquiry) with a backend service, Supabase data layer, and iPad team intake view. Walk-in flow is built first because it exercises the most complexity (pricing gate, branching, Monday write-back).
 
-MVP excludes:
-- Full AI chat escalation layer.
-- Ambient conversation recording/transcription.
-- Full BM trade-in branch.
-- Full diagnostic branch.
-- Dynamic turnaround engine.
+**Deferred from original MVP to later phases:**
+- Intake photos (needs camera API + Supabase Storage)
+- Parts reservation signaling (needs parts service integration)
+- Corporate passcode profiles (low volume, manual process works)
+- Diagnostic and BM trade-in branching (separate systems)
+
+See `plan.md` for full phasing, acceptance criteria, and QA resolution matrix.
 
 ## 10) Full Phasing
 
-Phased rollout:
-1. **Foundation**: schema, integrations, scaffolding.
-2. **Repair flow MVP**: MacBook screen path validated with intake operator.
-3. **Flow expansion**: iPhone/iPad/Watch + mail-in/courier adaptations.
-4. **Advanced intelligence**: richer context pull, reconciliation analytics, dynamic decisioning.
+> **Superseded 2026-04-08.** See `plan.md` for the current phasing:
+> Phase 0 (Foundation) → Phase 1 (Walk-in flow) → Phase 2 (Remaining flows + backend) → Phase 3 (Team view) → Phase 4 (Pilot + cutover).
 
 ## 11) Operational Context
 

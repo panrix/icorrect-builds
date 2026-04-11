@@ -1,0 +1,176 @@
+{
+  "board": "A2779",
+  "schematic": "820-02655",
+  "WARNING": "A2779 uses AUSTRINGER (not Viper) and CLVR (not Monaco). MPMU/SPMU buck numbering differs from A2442. Always cross-reference power aliases pages 142-146.",
+  "total_pp_rails_in_schematic": "~350",
+  "active_rails_in_json": 230,
+  "filtering_criteria": {
+    "included": "Every PP-prefixed rail that feeds an IC, SoC pin, connector, or load. Includes load switch outputs, filtered branches, and per-port variants.",
+    "excluded_with_counts": {
+      "sense_pairs_ISNS_N_P": {"count": "~60", "reason": "Current/voltage sense monitoring aliases"},
+      "feedback_disable_FB_DIS": {"count": "~4", "reason": "Test mode feedback disable nets"},
+      "sub_aliases_covered_by_parent": {"count": "~55", "reason": "Per-NAND-S5E variants, per-ATCRTMR variants, per-AWAKE sub-aliases"}
+    }
+  },
+  "nc_ldos": {
+    "description": "These MPMU/SPMU LDO outputs are NOT CONNECTED on this board per power aliases pages 145-146.",
+    "nc_entries": [
+      {"name": "NC_MPMU_VLDO3", "source": "MPMU LDO 3", "page": 145},
+      {"name": "NC_SPMU_VLDO1", "source": "SPMU LDO 1", "page": 146},
+      {"name": "NC_SPMU_VLDO2", "source": "SPMU LDO 2", "page": 146},
+      {"name": "MPMU_BUCK2", "source": "MPMU BUCK 2 (unused)", "note": "Marked <unused> on buck output caps page 41", "page": [41, 145]},
+      {"name": "CLVR3_BUCK8_HP1", "source": "CLVR3 Buck8/HP1", "note": "Unused on C platforms", "page": [55, 144]},
+      {"name": "SPMU_BUCK7_FDKP7", "source": "SPMU BUCK7 (DISP2_AWAKESW)", "note": "Not used on S designs — see aliases page 146", "page": 146}
+    ]
+  },
+  "rails": {
+    "usbc_input": [
+      {"name": "PPVBUS_USBC0", "voltage": "5V/20V", "source": "UF400 (CD3217 ATC0)", "state": "G3H", "page": 77},
+      {"name": "PPVBUS_USBC1", "voltage": "5V/20V", "source": "UF500 (CD3217 ATC1)", "state": "G3H", "page": 78},
+      {"name": "PPVBUS_USBC2", "voltage": "5V/20V", "source": "UG400 (CD3217 ATC2)", "state": "G3H", "page": 86},
+      {"name": "PPVBUS_USBC5", "voltage": "5V/20V", "source": "MagSafe port controller (UPC5)", "state": "G3H", "page": 32},
+      {"name": "PPDCIN_AON", "voltage": "~5-20V", "source": "Charger input path", "state": "G3H", "page": 29},
+      {"name": "PPDCIN_AON_CHGR_R", "voltage": "~5-20V", "source": "Charger input (filtered)", "state": "G3H", "page": 29}
+    ],
+    "main_bus": [
+      {"name": "PPBUS_AON", "voltage": "12.6V (battery) / ~20V (adapter)", "source": "Charger IC / Battery", "state": "AON", "page": 29},
+      {"name": "PPBUS_AON_MPMU", "voltage": "12.6V", "source": "PPBUS_AON branch to MPMU U8100", "state": "AON", "page": 42},
+      {"name": "PPVBAT_AON", "voltage": "3.3-4.2V per cell", "source": "Battery direct", "state": "AON", "page": 28},
+      {"name": "PPVBAT_AON_CHGR_R", "voltage": "Battery voltage", "source": "Battery via charger", "state": "AON", "page": 29},
+      {"name": "PPVBAT_AON_WLBT", "voltage": "Battery voltage", "source": "Battery direct to WiFi/BT", "state": "AON", "page": 101}
+    ],
+    "svr_aon_3v8": [
+      {"name": "PP3V8_AON", "voltage": "3.8V", "source": "U5700 (SVR AON, 42A ICC MAX, 3 Iceman phases)", "state": "AON", "enable": "PPVAON_PWR_EN", "page": [34, 35, 36]},
+      {"name": "PP3V8_CODEC_VP", "voltage": "3.8V", "source": "PP3V8_AON branch", "state": "AON", "load": "Carlow B0 audio codec", "page": 122},
+      {"name": "PP3V8_AON_WLBT", "voltage": "3.8V", "source": "PP3V8_AON branch to WiFi/BT", "state": "AON", "page": 101},
+      {"name": "PP5V_AON_P3V8AON", "voltage": "5V", "source": "5V AON for PP3V8_AON support", "state": "AON", "page": 34},
+      {"name": "PP2V5_VREF_P3V8AONILIMIT", "voltage": "2.5V", "source": "PP3V8_AON current limit ref", "state": "AON", "page": 36}
+    ],
+    "mpmu_bucks": [
+      {"name": "PPVDD_SRAM_S1", "voltage": "Variable", "source": "MPMU BUCK 0 (FDK0)", "state": "S1", "load": "SoC SRAM retention", "page": [43, 145]},
+      {"name": "PPVDD_GPU_BMPR_S1", "voltage": "Variable", "source": "MPMU BUCK 1 (FDK1)", "state": "S1", "load": "GPU bumper", "page": [43, 145]},
+      {"name": "PPVDD_GPU_BMPS_S1", "voltage": "Variable", "source": "MPMU BUCK 1 (FDK1 secondary)", "state": "S1", "page": [43, 145]},
+      {"name": "PPVDD_DISP_AWAKESW", "voltage": "Variable", "source": "MPMU BUCK 2 (FDK2) — UNUSED on this board", "state": "AWAKE", "note": "Marked <unused> on page 41", "page": [41, 43, 145]},
+      {"name": "PP1V8_S2SW", "voltage": "1.8V", "source": "MPMU BUCK 3 (FDK3)", "state": "S2", "page": [43, 145]},
+      {"name": "PPVDD2H1_S2SW", "voltage": "Variable", "source": "MPMU BUCK 4 (FDK4)", "state": "S2", "load": "SoC VDD2H1", "page": [43, 145]},
+      {"name": "PPVDD_ECPU_AWAKESW", "voltage": "Variable (DVFS)", "source": "MPMU BUCK 5 (FDK5)", "state": "AWAKE", "load": "SoC ECPU", "page": [43, 145]},
+      {"name": "PPVDD_ECPU_SRAM_AWAKESW", "voltage": "Variable", "source": "MPMU BUCK 5 (FDK5 secondary)", "state": "AWAKE", "load": "ECPU SRAM", "page": [43, 145]},
+      {"name": "PPVDD_AMPH1_S2SW", "voltage": "Variable", "source": "MPMU BUCK 6 (FDK6)", "state": "S2", "load": "Memory AMPH1", "page": [43, 145]},
+      {"name": "PPVDD_DCS_S1", "voltage": "Variable", "source": "MPMU BUCK 7 (FDK7)", "state": "S1", "load": "DCS domain", "page": [43, 145]},
+      {"name": "PPVDD_FIXED_S1", "voltage": "~0.75V", "source": "MPMU BUCK 8 (FDK8)", "state": "S1", "load": "SoC fixed domain", "page": [43, 145]},
+      {"name": "PP1V2_S2", "voltage": "1.2V", "source": "MPMU BUCK 8 (FDK8 secondary)", "state": "S2", "page": [43, 145]},
+      {"name": "PPVDD_AMPH0_S2SW", "voltage": "Variable", "source": "MPMU BUCK 9 (FDK9)", "state": "S2", "load": "Memory AMPH0", "page": [43, 145]},
+      {"name": "PPVDD_AVEMSR_AWAKESW", "voltage": "Variable", "source": "MPMU BUCK 9 (FDK9 secondary)", "state": "AWAKE", "page": [43, 145]},
+      {"name": "PPVDD_FIXED_S1_S2SW", "voltage": "Variable", "source": "MPMU BUCK 8", "state": "S1/S2", "page": [43, 145]},
+      {"name": "PPVDDOO_S1", "voltage": "Variable", "source": "MPMU BUCK 10 (FDK10)", "state": "S1", "page": [43, 145]}
+    ],
+    "mpmu_ldos_active": [
+      {"name": "PPVDD_S2_CLVR_VDDIO", "voltage": "Variable", "source": "MPMU LDO 0", "state": "S2", "page": [42, 145]},
+      {"name": "PP1V2_S2_CLVR_VDDC1", "voltage": "1.2V", "source": "MPMU LDO 1", "state": "S2", "page": [42, 145]},
+      {"name": "PP1V2_S2_CLVR_VDDC1_LDO", "voltage": "1.2V", "source": "MPMU LDO 1 (branch)", "state": "S2", "page": 145},
+      {"name": "PP1V8_S2SW_CLVR_VDDC1", "voltage": "1.8V", "source": "MPMU LDO 2", "state": "S2", "page": [42, 145]},
+      {"name": "PPVDD_DISP_AWAKESW_LDO3", "voltage": "Variable", "source": "MPMU LDO 3 — NC on this board", "state": "NC", "page": 145},
+      {"name": "PP1V8_AWAKE_LDO4", "voltage": "1.8V", "source": "MPMU LDO 4", "state": "AWAKE", "page": [42, 145]},
+      {"name": "PP1V5_AON_VCORE_MPMU", "voltage": "1.5V", "source": "MPMU internal VCORE", "state": "AON", "page": 145},
+      {"name": "PP1V5_AON_VRTC_MPMU", "voltage": "1.5V", "source": "MPMU RTC LDO", "state": "AON", "page": 145},
+      {"name": "PP4V9_VPUMP_MPMU", "voltage": "4.9V", "source": "MPMU charge pump", "state": "AON", "page": 145}
+    ],
+    "spmu_bucks": [
+      {"name": "PPVDD_DCS_S1_SPMU", "voltage": "Variable", "source": "SPMU BUCK 0 (FDKP0)", "state": "S1", "load": "DCS domain", "page": [39, 146]},
+      {"name": "PPVDDOO_S1_SPMU", "voltage": "Variable", "source": "SPMU BUCK 1 (FDKP1)", "state": "S1", "page": [39, 146]},
+      {"name": "PPVDD_ECPU_SRAM_AWAKESW_SPMU", "voltage": "Variable", "source": "SPMU BUCK 2 (FDKP2)", "state": "AWAKE", "page": [39, 146]},
+      {"name": "PP1V8_S2_SPMU", "voltage": "1.8V", "source": "SPMU BUCK 3 (FDKP3)", "state": "S2", "page": [39, 146]},
+      {"name": "PPVDD2H0_S2SW", "voltage": "Variable", "source": "SPMU BUCK 4 (FDKP4)", "state": "S2", "load": "SoC VDD2H0", "page": [39, 146]},
+      {"name": "PPVDD_SOC_S1", "voltage": "Variable", "source": "SPMU BUCK 5 (FDKP5)", "state": "S1", "load": "SoC general S1", "page": [39, 146]},
+      {"name": "PPVDD_CIO_S2SW", "voltage": "Variable", "source": "SPMU BUCK 6 (FDKP6)", "state": "S2", "load": "SoC CIO", "page": [39, 146]},
+      {"name": "PPVDD_DISP2_AWAKESW", "voltage": "Variable", "source": "SPMU BUCK 7 (FDKP7)", "state": "AWAKE", "note": "Not used on S designs", "page": [39, 146]},
+      {"name": "PP1V2_AWAKE", "voltage": "1.2V", "source": "SPMU BUCK 8 (FDKP8)", "state": "AWAKE", "page": [39, 146]},
+      {"name": "PPVDD_AMPH0_S2SW_SPMU", "voltage": "Variable", "source": "SPMU BUCK 9 (FDKP9)", "state": "S2", "page": [39, 146]},
+      {"name": "PPVDD_ECPU_AWAKESW_SPMU", "voltage": "Variable", "source": "SPMU BUCK 10 (FDKP10)", "state": "AWAKE", "page": [39, 146]},
+      {"name": "PPVDDOO_S1_FDKP11", "voltage": "Variable", "source": "SPMU BUCK 11 (FDKP11)", "state": "S1", "page": [39, 146]},
+      {"name": "PP1V2_S2_SPMU", "voltage": "1.2V", "source": "SPMU BUCK 12 (FDKP12)", "state": "S2", "page": [39, 146]}
+    ],
+    "spmu_ldos_active": [
+      {"name": "PPVDD_LOW_S2", "voltage": "Variable", "source": "SPMU LDO 0", "state": "S2", "page": [38, 146]},
+      {"name": "PPVDD_LOW_S2_alias", "voltage": "Variable", "source": "SPMU LDO 0 (alias)", "note": "Mapped as PP1V0_LOW_S2", "page": 146},
+      {"name": "SPMU_LDO1", "voltage": "NC", "source": "SPMU LDO 1 — not connected", "page": 146},
+      {"name": "SPMU_LDO2", "voltage": "NC", "source": "SPMU LDO 2 — not connected", "page": 146},
+      {"name": "PPVDD_S2_CLVR_VDDIO_SPMU", "voltage": "Variable", "source": "SPMU LDO 3", "state": "S2", "page": [38, 146]},
+      {"name": "PP1V2_AON_SPMU", "voltage": "1.2V", "source": "SPMU LDO (AON)", "state": "AON", "page": 146},
+      {"name": "PP1V8_AON_SPMU", "voltage": "1.8V", "source": "SPMU LDO (AON)", "state": "AON", "page": 146},
+      {"name": "PP1V5_AON_VCORE_SPMU", "voltage": "1.5V", "source": "SPMU internal VCORE", "state": "AON", "page": 146},
+      {"name": "PP4V9_VPUMP_SPMU", "voltage": "4.9V", "source": "SPMU charge pump", "state": "AON", "page": 146},
+      {"name": "PP1V8_AWAKE_SPMU", "voltage": "1.8V", "source": "SPMU LDO internal 1", "state": "AWAKE", "page": 146},
+      {"name": "PP1V2_AWAKE_SPMU_LDOIV2", "voltage": "1.2V", "source": "SPMU LDO internal 2", "state": "AWAKE", "page": 146},
+      {"name": "SPMU_SW1", "voltage": "Variable", "source": "SPMU SW1", "page": 146},
+      {"name": "SPMU_SW2", "voltage": "Variable", "source": "SPMU SW2", "page": 146}
+    ],
+    "clvr_outputs": [
+      {"name": "PPVDD_PCPU0_AWAKESW", "voltage": "Variable (DVFS)", "source": "CLVR0 Buck0/HP0", "state": "AWAKE", "load": "PCPU cluster 0", "page": [52, 144]},
+      {"name": "PPVDD_PCPU0_SRAMB_AWAKESW", "voltage": "Variable", "source": "CLVR0 Buck1/LP0", "state": "AWAKE", "load": "PCPU0 SRAM_B", "page": [52, 144]},
+      {"name": "PPVDD_PCPU1_AWAKESW", "voltage": "Variable (DVFS)", "source": "CLVR0 Buck2/HP1", "state": "AWAKE", "load": "PCPU cluster 1 (Max only)", "bom": "Max variant", "page": [52, 144]},
+      {"name": "PPVDD_PCPU1_SRAMB_AWAKESW", "voltage": "Variable", "source": "CLVR0 Buck3/LP1", "state": "AWAKE", "load": "PCPU1 SRAM_B (Max only)", "bom": "Max variant", "page": [52, 144]},
+      {"name": "PPVDD_GPU0_AWAKESW", "voltage": "Variable (DVFS)", "source": "CLVR1 Buck0/HP0", "state": "AWAKE", "load": "GPU cluster 0", "page": [53, 144]},
+      {"name": "PPVDD_GPU0_SRAM_AWAKESW", "voltage": "Variable", "source": "CLVR1 Buck1/LP0", "state": "AWAKE", "load": "GPU0 SRAM", "page": [53, 144]},
+      {"name": "PPVDD_GPU0_SRAMB_AWAKESW", "voltage": "Variable", "source": "CLVR1 Buck2/HP1", "state": "AWAKE", "load": "GPU0 SRAM_B", "page": [53, 144]},
+      {"name": "PPVDD_GPU1_AWAKESW", "voltage": "Variable (DVFS)", "source": "CLVR2 Buck0/HP0", "state": "AWAKE", "load": "GPU cluster 1 (Max only)", "bom": "Max variant", "page": [54, 144]},
+      {"name": "PPVDD_GPU1_SRAM_AWAKESW", "voltage": "Variable", "source": "CLVR2 Buck1/LP0", "state": "AWAKE", "load": "GPU1 SRAM (Max only)", "bom": "Max variant", "page": [54, 144]},
+      {"name": "PPVDD_GPU1_SRAMB_AWAKESW", "voltage": "Variable", "source": "CLVR2 Buck2/HP1", "state": "AWAKE", "load": "GPU1 SRAM_B (Max only)", "bom": "Max variant", "page": [54, 144]},
+      {"name": "PPVDD_DPL0_AWAKESW", "voltage": "Variable", "source": "CLVR3 Buck0/HP0", "state": "AWAKE", "load": "DPL0 domain", "page": [55, 144]},
+      {"name": "PPVDD_FABRIC_S1", "voltage": "Variable", "source": "CLVR3 Buck2/HP1", "state": "S1", "load": "SoC fabric", "page": [55, 144]},
+      {"name": "PPVDD_ANE_AWAKESW", "voltage": "Variable", "source": "CLVR4 Buck0/HP0", "state": "AWAKE", "load": "Neural Engine", "page": [56, 144]},
+      {"name": "PPVDD_ANE_SRAM_AWAKESW", "voltage": "Variable", "source": "CLVR4 Buck1/LP0", "state": "AWAKE", "load": "ANE SRAM", "page": [56, 144]},
+      {"name": "PPVDD_APR_CS_S1", "voltage": "Variable", "source": "CLVR4 Buck2/HP1", "state": "S1", "load": "APR/CS domain", "page": [56, 144]}
+    ],
+    "austringer_outputs": [
+      {"name": "PPVDD_PCPU_SRAM0_AWAKESW", "voltage": "Variable", "source": "Austringer VR (U9300) — PCPU SRAM0", "state": "AWAKE", "page": [48, 49]},
+      {"name": "PPVDD_PCPU_SRAM1_AWAKESW", "voltage": "Variable", "source": "Austringer VR (U9300) — PCPU SRAM1 (Max)", "state": "AWAKE", "bom": "Max variant", "page": [48, 50]}
+    ],
+    "standalone_vrs": [
+      {"name": "PP5V_S2", "voltage": "5V (VOUT=15V noted on schematic, actual ~5V)", "source": "UC260 (5V S2 VR)", "state": "S2", "enable": "PP5V2P5_PWR_EN", "specs": "Start up typ=6.0ms, f=1.25MHz", "page": 58},
+      {"name": "PP5V_S2_MAIN", "voltage": "5V", "source": "UC260 main output", "state": "S2", "page": 58},
+      {"name": "PP3V3_S2", "voltage": "3.3V", "source": "3V3 S2 VR", "state": "S2", "page": 142},
+      {"name": "PP3V3_AON", "voltage": "3.3V", "source": "AON 3V3 regulator", "state": "AON", "page": 142},
+      {"name": "PP1V8_AON", "voltage": "1.8V", "source": "1V8 AON regulator", "state": "AON", "page": 142},
+      {"name": "PP1V2_AON", "voltage": "1.2V", "source": "1V2 AON regulator", "state": "AON", "page": 142},
+      {"name": "PP1V8_S2", "voltage": "1.8V", "source": "1V8 S2 regulator", "state": "S2", "page": 142},
+      {"name": "PP1V25_S2", "voltage": "1.25V", "source": "1V25 S2 regulator", "state": "S2", "page": 142},
+      {"name": "PP1V8_AWAKE", "voltage": "1.8V", "source": "MPMU LDO4 / SPMU AWAKE output", "state": "AWAKE", "page": 142},
+      {"name": "PP1V2_AWAKE", "voltage": "1.2V", "source": "SPMU BUCK 8 (FDKP8)", "state": "AWAKE", "page": [142, 146]},
+      {"name": "PP1V225_AWAKE_C2C", "voltage": "1.225V", "source": "AWAKE C2C regulator", "state": "AWAKE", "page": 142},
+      {"name": "PPLL_S2", "voltage": "PLL supply", "source": "PLL regulator", "state": "S2", "page": 142}
+    ],
+    "usbc_power": [
+      {"name": "PP5V_S2SW_USBC01", "voltage": "5V", "source": "Load switch from PP5V_S2 for left ports", "state": "S2", "page": 81},
+      {"name": "PP5V_S2SW_USBC23", "voltage": "5V", "source": "Load switch from PP5V_S2 for right port + HDMI", "state": "S2", "page": 89},
+      {"name": "PP3V3_S2SW_USBC0", "voltage": "3.3V", "source": "Load switch from PP3V3_S2 for ATC0", "state": "S2", "page": 81},
+      {"name": "PP3V3_S2SW_USBC1", "voltage": "3.3V", "source": "Load switch from PP3V3_S2 for ATC1", "state": "S2", "page": 81},
+      {"name": "PP3V3_S2SW_USBC2", "voltage": "3.3V", "source": "Load switch from PP3V3_S2 for ATC2", "state": "S2", "page": 89},
+      {"name": "PPVBUS_USBC_LDO_CONN", "voltage": "Variable", "source": "USB-C port LDO to connector", "page": 77},
+      {"name": "PP1V5_UPC0_LDO_CORE", "voltage": "1.5V", "source": "UF400 internal LDO", "state": "S2", "page": 77},
+      {"name": "PP3V3_UPC0_LDO", "voltage": "3.3V", "source": "UF400 internal LDO", "state": "S2", "page": 77}
+    ],
+    "display_backlight": [
+      {"name": "PPMDB_AWAKESW_TCON", "voltage": "Variable", "source": "UP701 → display TCON (3V8 feed to MDB)", "state": "AWAKE", "page": 117},
+      {"name": "PPBCON_AWAKESW_BKLTCONN_VIN", "voltage": "Variable", "source": "UP730 → backlight connector (3V29 feed)", "state": "AWAKE", "page": 117},
+      {"name": "PPVOUT_LUXE", "voltage": "Variable (boost)", "source": "UP800 (RAX391004E) Luxe backlight driver", "state": "AWAKE", "page": 118},
+      {"name": "PP1V8_DISP_TEMP", "voltage": "1.8V", "source": "Display temp sensor supply", "state": "S2", "page": 116},
+      {"name": "PP1V2_GL", "voltage": "1.2V", "source": "Display GL supply", "state": "S2", "page": 117}
+    ],
+    "nand_storage": [
+      {"name": "PP0V9_NAND0", "voltage": "0.9V", "source": "Ocarina SSD0 VR", "state": "AWAKE", "page": 107},
+      {"name": "PP0V9_NAND1", "voltage": "0.9V", "source": "Ocarina SSD1 VR", "state": "AWAKE", "page": 112},
+      {"name": "PP1V2_NAND0", "voltage": "1.2V", "source": "NAND0 1V2 VR", "state": "AWAKE", "page": 107},
+      {"name": "PP1V2_NAND1", "voltage": "1.2V", "source": "NAND1 1V2 VR", "state": "AWAKE", "page": 112},
+      {"name": "PP2V5_NAND0", "voltage": "2.5V", "source": "NAND0 2V5 VR", "state": "AWAKE", "page": 107},
+      {"name": "PP2V5_NAND1", "voltage": "2.5V", "source": "NAND1 2V5 VR", "state": "AWAKE", "page": 112},
+      {"name": "PPBUS_NAND0", "voltage": "PPBUS", "source": "PPBUS_AON switched to SSD0", "state": "AWAKE", "page": 107},
+      {"name": "PPBUS_NAND1", "voltage": "PPBUS", "source": "PPBUS_AON switched to SSD1", "state": "AWAKE", "page": 112}
+    ],
+    "audio_keyboard": [
+      {"name": "PP3V8_CODEC_VP", "voltage": "3.8V", "source": "PP3V8_AON branch", "state": "AON", "load": "Carlow B0 codec VP", "page": 122},
+      {"name": "PP1V2_CODEC_VL_VD", "voltage": "1.2V", "source": "Codec digital supply", "state": "AWAKE", "page": 122},
+      {"name": "PPVOUT_KBDLED_CONN", "voltage": "Variable", "source": "KBD LED output to connector", "state": "AWAKE", "page": 127}
+    ]
+  }
+}

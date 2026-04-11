@@ -1,0 +1,4417 @@
+{
+  "source": "sumup",
+  "parsed_at": "2026-03-16T08:02:10.915565+00:00",
+  "total_devices": 96,
+  "total_repairs": 748,
+  "devices": [
+    {
+      "device": "Apple Watch SE 40MM",
+      "item_id": "048864ca-ce8e-44ea-980c-b39196e70b38",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "e0379a52-2a8a-4802-bea9-a459e5aa45ad"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 199.0,
+          "variant_id": "957d6143-6dbd-401d-943a-75b6fc6299c3"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 149.0,
+          "variant_id": "ba351f7a-c782-467e-bd31-39b060ec51ab"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 159.0,
+          "variant_id": "9146ceb0-2c90-4a91-88f3-db231047fa34"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "728a8668-11fc-486c-8100-bcab2da7a4b4"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 139.0,
+          "variant_id": "30b977e3-6f34-445b-9d15-c4a976a7021b"
+        },
+        {
+          "name": "Crown",
+          "price": 119.0,
+          "variant_id": "bc97f38e-e558-49bc-98ca-0676929a98fd"
+        },
+        {
+          "name": "Side Button",
+          "price": 119.0,
+          "variant_id": "1e744734-08e0-4ecc-97c9-e667fbb7fbaf"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch SE 44MM",
+      "item_id": "16645e49-4591-4183-8460-8e5c108a5c48",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "d87fb9f8-19a5-4a41-af12-9b5c7dc16425"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 159.0,
+          "variant_id": "dc18c274-920d-401d-8e26-0d474491c927"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 89.0,
+          "variant_id": "e837d311-f629-46ed-9c41-3323375e7c6f"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 149.0,
+          "variant_id": "9e1ddcdd-b11d-472f-9e89-ddab60b75bcd"
+        },
+        {
+          "name": "Battery",
+          "price": 99.0,
+          "variant_id": "fb004b0f-1af5-4955-9d44-a788f41283ca"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 129.0,
+          "variant_id": "f9473ba9-15ab-41f5-9c17-a1093b630543"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "d54c6fcb-23b7-4e75-9cde-0d8c57ac8c42"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "c81dfea6-ae13-4326-b4d1-86c56b96117e"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch SE2 40MM",
+      "item_id": "e7829cf7-3046-4daf-9312-b546018b758f",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "e31719e4-4a26-4af1-9beb-e58e2a740658"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 219.0,
+          "variant_id": "4ec3f12f-6a0d-43aa-ad4e-83897a46d8f4"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 119.0,
+          "variant_id": "87de3774-64f5-4179-acff-2bd65073470b"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "9768213d-1a8a-45c8-a9de-b830c7feca76"
+        },
+        {
+          "name": "Battery",
+          "price": 99.0,
+          "variant_id": "4c2374d5-80f5-414f-855a-49f611123565"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 179.0,
+          "variant_id": "b037ec5d-fc4d-4cea-a875-ac8aee1d9f9d"
+        },
+        {
+          "name": "Crown",
+          "price": 139.0,
+          "variant_id": "4715e8e8-547c-4b36-92a1-d9e73a1e3784"
+        },
+        {
+          "name": "Side Button",
+          "price": 149.0,
+          "variant_id": "acb8c1ce-e290-4d60-9771-83aa819af97e"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch SE2 44MM",
+      "item_id": "ba1d149b-4645-437b-b48e-34632a4535fe",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "b5c1ea19-e74d-4e73-8db4-2293561cc754"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 219.0,
+          "variant_id": "32289a5f-2372-4992-a5c0-ea0d7ee4d52e"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 119.0,
+          "variant_id": "0bd2cb37-bd00-4ea5-97bc-84e2707e6d8f"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "f8364cdf-19af-49c3-9b03-e6b7dafac862"
+        },
+        {
+          "name": "Battery",
+          "price": 99.0,
+          "variant_id": "4abae519-5f0a-454a-8038-24129ef6c806"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 179.0,
+          "variant_id": "c93aa2e4-c9f9-4472-986e-502bb60f528f"
+        },
+        {
+          "name": "Crown",
+          "price": 139.0,
+          "variant_id": "0340399c-aacf-492b-bebd-077e6993ef92"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "84139482-4066-4ff0-a999-cc2430708452"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 4 40MM",
+      "item_id": "ca218267-1fd7-432b-8757-3909f36658ea",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "63345f62-3db4-4f4d-b1ed-8d10258f650b"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 179.0,
+          "variant_id": "c108ed55-7ac1-4453-b3ce-a76d3627f067"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 129.0,
+          "variant_id": "b16d4250-088d-4076-97a2-7b229f19b555"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "1a09181b-4467-4813-b4ac-52a224ca00dc"
+        },
+        {
+          "name": "Battery",
+          "price": 129.0,
+          "variant_id": "a6df46c6-d3ed-4822-a6cb-1bec64dad2f0"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 129.0,
+          "variant_id": "06fe40c2-a9ea-4672-8241-5083c37fbaf7"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "34e3011b-fc5d-4c8a-81cd-c61ed1eed149"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "7e18ef03-e2eb-4fa3-b437-9ea441a313dc"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 4 44MM",
+      "item_id": "9da755a8-448b-4aea-a8e4-d5cfc749d111",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "7498ebc0-1e77-465d-a40e-4c8d11287813"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 179.0,
+          "variant_id": "ee05669d-71a4-460e-99d4-357ae99f3e74"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 129.0,
+          "variant_id": "1f2096d7-f32e-45ca-bcb8-412d18afca2d"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "ee8a0338-e4c5-4a35-9307-2e1775c3c6c1"
+        },
+        {
+          "name": "Battery",
+          "price": 129.0,
+          "variant_id": "95f25eb6-3c7d-4efc-83fd-6da16b2acb12"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 129.0,
+          "variant_id": "72f9c9ed-752e-4848-8e22-e27aad0a9598"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "e669515d-f94e-43e1-8c1f-14d2d1ee667c"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "c23eb05f-9848-4314-89ab-4f33688edf7e"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 5 40MM",
+      "item_id": "8a8b250a-36ce-4568-87e1-8185e1d15791",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "9533b065-b09f-437e-968f-4e5dbd1cf8e9"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 179.0,
+          "variant_id": "6d9cd27e-5998-4cf0-9d79-162e4bfa9220"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 139.0,
+          "variant_id": "4f242334-2614-46b6-af65-4eafc93ad897"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "050489e9-8006-403a-88f1-a25fc940e5f3"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "c592d4f3-2098-4ad6-8963-2991ca7751a0"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 139.0,
+          "variant_id": "2606422a-fe07-4522-a2ac-777a8bb788b4"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "9caee578-c695-472c-8c5d-6b1b4c14a95a"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "a4165f40-98dc-4fa7-8d76-b3b4c840e499"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 5 44MM",
+      "item_id": "6d0be2cb-4beb-4db6-8cad-392f7b3c32a4",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "8bc7f74c-7150-4ef4-9627-4b211f9649ee"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 179.0,
+          "variant_id": "65dbff17-2a6c-490a-98cb-e01eea22d4fc"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 139.0,
+          "variant_id": "8598a745-5827-4142-a410-500ed07d4f3a"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "f09e9f2f-d7e8-458e-b7f8-d6abb92ca7ce"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "29e9e5c6-0d62-430b-a6cd-16796b6127c4"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 139.0,
+          "variant_id": "d87296a1-376e-4a9c-b8af-f673394b87b2"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "6a68e0da-8479-4536-8511-37f4dd7e946e"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "58d196af-8e20-45c0-8be3-b07cd7b1ec80"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 6 40MM",
+      "item_id": "d0c492d0-577a-4917-869f-c64db1c60e59",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "afe1842e-f737-4372-a32a-88566da96157"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 179.0,
+          "variant_id": "e392f15f-1f99-4869-acfe-daad5034bb96"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 139.0,
+          "variant_id": "75d54861-c818-4414-b1fb-e05ca12ce138"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "249fe661-42ef-4950-9b43-cc38daba6117"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "4045e7a8-d62b-47f7-9544-75d34efa718a"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 179.0,
+          "variant_id": "eea8148b-4a14-495a-9354-1dd6816f8dff"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "e5abfbfd-982d-4238-a7fb-ddf80dddd1be"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "229f3a2f-d1b9-4e8c-948e-76552cae01c4"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 6 44MM",
+      "item_id": "4154591f-a4af-4a53-9f08-e21ef4e8bc48",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "c998ef61-e0f1-4fa3-8eb5-846f029aa4d3"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 179.0,
+          "variant_id": "8f6778e5-900d-4a7a-81c2-580ed505eea5"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 139.0,
+          "variant_id": "bd38bfd2-7203-4775-a504-dcae4195183e"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 179.0,
+          "variant_id": "d4a08ede-3986-41d7-b663-aaf93fd0d3f9"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "b1cf7266-4daa-4093-9327-83a0a0dbd068"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 139.0,
+          "variant_id": "264302ff-0f9d-4c19-8c9d-37fcafbcf007"
+        },
+        {
+          "name": "Crown",
+          "price": 99.0,
+          "variant_id": "76d9d779-7d50-4c60-b939-d8f74b80e2ee"
+        },
+        {
+          "name": "Side Button",
+          "price": 99.0,
+          "variant_id": "817bb03e-5766-4675-bbfc-245bac031b5f"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 7 41MM",
+      "item_id": "c4c1aaf1-3ab0-4dd7-af74-940cd42c4448",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "428fa2f4-6e17-4264-a633-994ef8698ab2"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 199.0,
+          "variant_id": "afbab81f-8801-4d06-a100-a5760b128d1f"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 139.0,
+          "variant_id": "88697afe-acc0-45e0-88f4-f45fba2bbffa"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 199.0,
+          "variant_id": "9d64103a-1232-4f42-9f65-27af3318de58"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "8a1951f9-1d27-4e07-b677-30596397a569"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 139.0,
+          "variant_id": "c93304ae-0102-46c2-9e8a-dc5bd89080b4"
+        },
+        {
+          "name": "Crown",
+          "price": 119.0,
+          "variant_id": "8991455d-b937-46b5-9d5a-9fa4153dda58"
+        },
+        {
+          "name": "Side Button",
+          "price": 119.0,
+          "variant_id": "25dc5eeb-9aab-4551-83bf-81ad6a832cae"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 7 45MM",
+      "item_id": "7d20c19d-9be8-4598-aa23-ccfb6ce1e48a",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "715706d7-48aa-4b5a-9116-5be8a279b01b"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 199.0,
+          "variant_id": "28e994b1-e8ff-45ae-a3cd-fd6d2ec7476d"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 139.0,
+          "variant_id": "fbb11ad8-a5af-4d0a-8816-55dd9bd46462"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 199.0,
+          "variant_id": "df967a19-e8f0-40cd-9060-3472795f73e0"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "a983789d-390e-49da-8685-0f46563d5cba"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 139.0,
+          "variant_id": "d95c5d66-7770-4d09-8c05-faf36740caee"
+        },
+        {
+          "name": "Crown",
+          "price": 119.0,
+          "variant_id": "e450a81b-8562-4ad7-9ea5-dc82ff6048f4"
+        },
+        {
+          "name": "Side Button",
+          "price": 119.0,
+          "variant_id": "b73cb169-4df9-4a08-8248-c49c8364a127"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 8 41MM",
+      "item_id": "0c770cff-79ab-4db8-8036-7ee9a358f2e4",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "ccf7a501-4923-45a3-8257-5b32e16ee918"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 219.0,
+          "variant_id": "b12f61ae-07e4-4ad1-af52-b9bd872510d7"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 159.0,
+          "variant_id": "94db3da7-f0ed-4e9f-b9d8-58373fb375ea"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 219.0,
+          "variant_id": "ff597e01-1050-43a8-a4ed-69edb117d2cb"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "c91aba28-c915-4376-ba48-088c991a37ef"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 159.0,
+          "variant_id": "191eaa22-8940-4cbf-b048-08f00479e386"
+        },
+        {
+          "name": "Crown",
+          "price": 119.0,
+          "variant_id": "23a4ad3e-67d0-413b-ad4f-2d3ba51efed2"
+        },
+        {
+          "name": "Side Button",
+          "price": 119.0,
+          "variant_id": "29f57172-2723-47ce-b61c-b798dd509540"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 8 45MM",
+      "item_id": "e297ba82-1b0f-468c-91d0-3155a989d55f",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "74867e4c-5638-4360-81aa-8dde3e3f5bb2"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 219.0,
+          "variant_id": "f69c78c6-912f-478b-bec1-c45414038710"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 159.0,
+          "variant_id": "ea9a5f04-992a-4bb6-8875-5c7fb35fcb0c"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 219.0,
+          "variant_id": "008cbc48-afae-40a4-a831-ccde7182c445"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "9d261291-80a6-4c8f-b0b8-f6e330f77515"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 159.0,
+          "variant_id": "fc52d5f6-05ce-4cf3-a1c9-1c30f141acf7"
+        },
+        {
+          "name": "Crown",
+          "price": 119.0,
+          "variant_id": "662121d5-5666-4620-8013-7dcb016af8f5"
+        },
+        {
+          "name": "Side Button",
+          "price": 119.0,
+          "variant_id": "e81ff538-ce85-4c90-be97-efec523094a3"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 9 41MM",
+      "item_id": "fc4329fe-7c34-4ef2-be85-9d709f5b72b1",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "cae4be7a-3f50-441e-a40e-61540fcace8c"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 249.0,
+          "variant_id": "a1290d35-3b46-40d3-9a83-a834a253c061"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 179.0,
+          "variant_id": "0f1167c9-3de0-4648-a02a-975790c36d5f"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 249.0,
+          "variant_id": "5c79ba7e-4b2e-42f4-9c5a-eef9dbfbc9c1"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "a68b4315-99ce-422b-a85a-fb22f0da5081"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 179.0,
+          "variant_id": "8d50cd99-e883-4bd5-b0e1-bee358f56ea6"
+        },
+        {
+          "name": "Crown",
+          "price": 149.0,
+          "variant_id": "e455d431-d863-45b1-aa10-5cbb8cb799a3"
+        },
+        {
+          "name": "Side Button",
+          "price": 149.0,
+          "variant_id": "2f2a4f00-4fd5-4ec0-8f10-17fc2b1e7ee7"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Series 9 45MM",
+      "item_id": "bb2b8516-9aba-4e0d-9214-5dcedad6273f",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "e533128d-68ca-4de4-bfd8-6ddf9728cb95"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 249.0,
+          "variant_id": "97103890-05bd-4aaa-9598-dc273c6bfb36"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 249.0,
+          "variant_id": "d25240ee-6eb8-46de-bbbd-5c8a51b6241e"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "6e253757-c831-455e-a31d-ae6c65324ef0"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 179.0,
+          "variant_id": "5bac719a-8bb6-4a48-8385-f03f8a28d253"
+        },
+        {
+          "name": "Side Button",
+          "price": 149.0,
+          "variant_id": "4b0c705d-d216-412d-98c0-9bdb35746991"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 179.0,
+          "variant_id": "c2fd82f2-317d-48af-83b0-d6d37b486c8b"
+        }
+      ]
+    },
+    {
+      "device": "Apple Watch Ultra",
+      "item_id": "278f45b5-c784-46fd-9f7d-279b8f4ff0c1",
+      "category": "Apple Watch",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "0c5912b6-ef90-4e65-9e7f-2ce28edca072"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 399.0,
+          "variant_id": "7fbb81dc-f5c5-45ef-9f91-b7bd46a04af8"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 329.0,
+          "variant_id": "f66cd667-958c-45b7-b1e0-42c81f9a4d91"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 349.0,
+          "variant_id": "f9a61695-55cc-4680-a1f4-af1c867bf377"
+        },
+        {
+          "name": "Battery",
+          "price": 279.0,
+          "variant_id": "f0a38291-1305-475d-83c2-ad5608cc0af3"
+        },
+        {
+          "name": "Heart Rate Monitor",
+          "price": 299.0,
+          "variant_id": "e82cd156-9c07-4441-9f63-a62c095d9809"
+        },
+        {
+          "name": "Side Button",
+          "price": 229.0,
+          "variant_id": "afa24d9d-bf25-4182-bfdf-f5ca2b46acb9"
+        }
+      ]
+    },
+    {
+      "device": "Courier Service (E3 4FT)",
+      "item_id": "c0d3cb2e-eb42-4536-95cc-b776be9a1f2e",
+      "category": "Additional Services",
+      "repairs": []
+    },
+    {
+      "device": "Diagnostic Express Service",
+      "item_id": "346047D8-86D0-4FC9-B46D-C2CD6E70B212",
+      "category": "Additional Services",
+      "repairs": [
+        {
+          "name": "iPhone",
+          "price": 59.0,
+          "variant_id": "D32F0243-7AE5-4672-82D7-8A2609F32FE5"
+        },
+        {
+          "name": "iPad",
+          "price": 59.0,
+          "variant_id": "B1DC33F5-8408-4E1F-B855-1DD934E958D3"
+        },
+        {
+          "name": "MacBook",
+          "price": 59.0,
+          "variant_id": "23BAD823-96E1-43FE-AED6-670E9F573BC7"
+        },
+        {
+          "name": "Apple Watch",
+          "price": 39.0,
+          "variant_id": "f644868e-ef38-444f-8984-5d0e2990715b"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 13\u201d A1466 (2012/17)",
+      "item_id": "2D316A25-5F55-4BF9-A16C-4BCC82BDDD69",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "BD2AEC03-B580-42FE-A21E-20987683A53D"
+        },
+        {
+          "name": "Screen",
+          "price": 299.0,
+          "variant_id": "69D356A5-59D2-4CF8-A22A-BC99BFCC5F05"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "7FF10631-BB9A-4FBB-A5C8-BD784AC07FD5"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "EDB1CE80-4670-462F-9080-1518362A90A0"
+        },
+        {
+          "name": "Keyboard",
+          "price": 199.0,
+          "variant_id": "C93A8730-C298-4F3E-9AD6-E4C8DA9B07B8"
+        },
+        {
+          "name": "Trackpad",
+          "price": 149.0,
+          "variant_id": "F1B275E5-D0E1-4092-B3DB-5217424050B3"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 13\u201d A1932 (2018/19)",
+      "item_id": "649063BB-F4D8-4329-BD55-41478A566DF1",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "BA535029-BD78-459C-A533-AF26F386BF3A"
+        },
+        {
+          "name": "Screen",
+          "price": 299.0,
+          "variant_id": "A4C7FCAE-2516-41A8-A3F1-CDDA0452813E"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "B0667DD4-68B9-49AA-B7D8-4B78E0389585"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "B4F5508B-61BE-4673-A0A5-22A02B4E9FC7"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "D53D385D-CCC0-4845-AC18-3C32E390E640"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "4D80EE8A-2CB4-4CC8-A2FF-ED86352576A2"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 13\u201d A2179 (2020)",
+      "item_id": "E3E2FAC4-C8A9-4320-A0F1-D82DD4FAF2D7",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "90FFAE23-A604-45C5-BD5F-4F59ABAB63FF"
+        },
+        {
+          "name": "Screen",
+          "price": 299.0,
+          "variant_id": "F10AC3AE-9B53-4576-942F-39DB084605DA"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "59E5CE8A-72DF-4756-94B1-32CFE9AA4BED"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "9B7BFB7F-72D2-42EC-98B1-B1B2611C205D"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "9E41FA99-51E1-403A-AA9D-031E9E7C1676"
+        },
+        {
+          "name": "Trackpad",
+          "price": 149.0,
+          "variant_id": "C6FCFDC7-AF3C-43DD-88DE-6BFCCED50BE0"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 13\u201d M1 A2337 (2020)",
+      "item_id": "6D1392B4-952C-4B30-AA22-6148129C0F2D",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "C60548D1-9D49-4A26-A867-95A3DF55A223"
+        },
+        {
+          "name": "Screen",
+          "price": 339.0,
+          "variant_id": "1E4F6F70-B756-4F82-8804-3481A24B482C"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "C44896A1-B64E-4FCB-B68D-0C5375FC4296"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "3C0FCD9B-EE3D-4956-991B-0C254EDB1887"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "85D5B239-20D3-419B-801A-0983E6B773D0"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "127CF1AF-9829-435E-84D1-935D80C358E2"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 13\u201d M2 A2681 (2022)",
+      "item_id": "875BB7A5-0F81-44B7-88CD-32BFBD0054D9",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "8145112E-F8E4-4A1A-96D5-DE8F13C42BF1"
+        },
+        {
+          "name": "Screen",
+          "price": 399.0,
+          "variant_id": "D9B1A531-4818-400F-959B-B46587FCF4E7"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "16075B9D-DD13-4A91-93B8-25A46DF646D6"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "371CEA29-F053-4D26-8033-7EF0756050A0"
+        },
+        {
+          "name": "Keyboard",
+          "price": 279.0,
+          "variant_id": "737D872B-B9C8-4E81-9ED0-C5EAB2AEC805"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "5862408E-2F7F-4EBF-8138-B9AD8B23D8C4"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 13\u201d M3 A3113 (2024)",
+      "item_id": "53405B7E-4803-44DB-88A5-F866AD2B6CF4",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "68224059-967C-40C2-AC31-4A5CD5DB5F1C"
+        },
+        {
+          "name": "Screen",
+          "price": 429.0,
+          "variant_id": "50E52C1D-4DAA-4826-97D9-AB4A6CF94459"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "F871CBCE-849F-4899-BCEA-6B595792AD89"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "72C7B5F8-DE06-4D35-BF9C-DF33718D7576"
+        },
+        {
+          "name": "Keyboard",
+          "price": 299.0,
+          "variant_id": "C3BDDF23-329B-412B-9452-F8C0D57A6104"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "9C54B65A-460F-458E-9321-5C454CB033A9"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 15\u201d M2 A2941 (2023)",
+      "item_id": "A76778F7-E147-4423-8D5D-5424E314B2AB",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "C0BA662E-35F8-4FBA-91CC-FD5B83604D21"
+        },
+        {
+          "name": "Screen",
+          "price": 449.0,
+          "variant_id": "5D4C8E2B-1498-4855-AC7B-496800C5A255"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "16D82A4F-74F9-415C-A56F-5C42A0E36212"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "B3EEF5FD-0C17-4D5D-AC41-9DC41728E8FE"
+        },
+        {
+          "name": "Keyboard",
+          "price": 289.0,
+          "variant_id": "F181A6E8-59B2-4E00-8424-B2731544874D"
+        },
+        {
+          "name": "Trackpad",
+          "price": 299.0,
+          "variant_id": "586E1062-4551-450E-9CFA-061950024A98"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Air 15\u201d M3 A3114 (2024)",
+      "item_id": "2314A6E9-36F1-4AEC-BF35-9C124E08E17D",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "FC737F15-9F45-4188-B8EB-20B52E912470"
+        },
+        {
+          "name": "Screen",
+          "price": 469.0,
+          "variant_id": "2BF47328-7382-4728-A438-F03E1B0E0FC7"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "85BE25A2-C0FB-46DB-8A9C-2BC770BF8FB5"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "A5A10AC1-B990-4DA9-B7AB-64F62B74A944"
+        },
+        {
+          "name": "Keyboard",
+          "price": 299.0,
+          "variant_id": "E92D288A-8101-49DA-8A8F-54815092D9E0"
+        },
+        {
+          "name": "Trackpad",
+          "price": 299.0,
+          "variant_id": "2A41208B-C001-42F2-AEF2-A622B5E054C5"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d 2TB A2159 (2019)",
+      "item_id": "D6163EDD-B99F-47EB-B49E-E2A58AB530BF",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "1C9E28A3-0054-4A7A-A7C5-2A3BA0DE1E39"
+        },
+        {
+          "name": "Screen",
+          "price": 329.0,
+          "variant_id": "6AAC8B49-229A-4E7E-AE4F-6F40B9ACE806"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "A4DE861C-3ECC-41B4-86AC-78BBC45B0BBB"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "61FD9D51-707F-4D97-841D-6C891E8B29BF"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "05660CAF-A7C4-4B36-ADEE-5DF91541A7C6"
+        },
+        {
+          "name": "Touch Bar",
+          "price": 249.0,
+          "variant_id": "C22E8908-453B-488B-98AC-99B79306BEEE"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "818D9807-28A2-48F4-B721-0941E967EB45"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "EBA48667-B2E2-4A9E-86F5-3F8ACBD75E78"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d 2TB A2289 (2020)",
+      "item_id": "4B65F814-F069-4448-B2CE-C674112919DF",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "36443E40-FB56-482F-90DE-5969AD42FC13"
+        },
+        {
+          "name": "Screen",
+          "price": 329.0,
+          "variant_id": "2F1DB1CC-D414-44CF-B013-02295BAA6956"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "B8445D66-9E1B-4215-887E-09974FA5FEBA"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "9126CCF3-6F0F-449F-9E89-3DA37CF1B9C1"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "68003F39-F253-4633-92DE-C07DAB2A2891"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "BBF900FD-2DFE-43F8-A44A-8507ED4A4F38"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "F2783362-5E6F-44B5-AD09-7DBB8B62CCB9"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d 4TB A2251 (2020)",
+      "item_id": "FB2860AE-929A-41C8-BD84-BF4D0BB09311",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "A540809F-07D8-4405-B97B-3F3A92B337B6"
+        },
+        {
+          "name": "Screen",
+          "price": 329.0,
+          "variant_id": "5B5BF188-00F5-4106-A8D6-ED86D3DD1E15"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "5CFAB2E2-D328-463C-A098-CE47237F721B"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "F7BE5DDF-3B76-493F-9965-3F6BC92876FA"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "B5451A02-4983-4469-944B-C8A6628381A3"
+        },
+        {
+          "name": "Touch Bar",
+          "price": 249.0,
+          "variant_id": "2AB0109D-320E-484F-8A72-92AECE73C6C3"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "76174A55-C7AA-4423-A4C0-3998F1D146D4"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "E465EC45-D0C3-46B4-8AA1-8363BA8CCEAC"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d A1706 (2016/18)",
+      "item_id": "C8BD522E-8A4B-413C-A5B4-80F4E996C668",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "C39C77E5-26B8-4702-B1B6-335ABF056ADF"
+        },
+        {
+          "name": "Screen",
+          "price": 399.0,
+          "variant_id": "BCB17B8C-67B5-4560-96DF-0B7E4365D6A8"
+        },
+        {
+          "name": "DustGate",
+          "price": 299.0,
+          "variant_id": "DA9AB2FE-3E7F-4119-9E36-9C282FB9C9AF"
+        },
+        {
+          "name": "FlexGate",
+          "price": 299.0,
+          "variant_id": "3E6B30EE-EE02-47F2-AA40-60CBC98F1CC9"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "0FB64C10-C440-4B64-8898-96644968E4A0"
+        },
+        {
+          "name": "Charging Port",
+          "price": 99.0,
+          "variant_id": "D264593C-E8BB-44DF-933B-5C7A2DFE7AA0"
+        },
+        {
+          "name": "Touch Bar",
+          "price": 199.0,
+          "variant_id": "AD3D300F-7E8F-484C-BD02-D4204291C0E6"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "1D32E009-A503-4DC5-9F2B-878F4F2AA6C8"
+        },
+        {
+          "name": "Trackpad",
+          "price": 149.0,
+          "variant_id": "7ECC64AD-026F-439F-82CD-6B4E0D61C626"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d A1708 (2016/17)",
+      "item_id": "0752FC6C-7065-4E92-9AB8-A0D84BDE0F61",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "8F50C64E-8FFC-4A61-8BF8-FAEBD4A59294"
+        },
+        {
+          "name": "Screen",
+          "price": 399.0,
+          "variant_id": "61A04784-9433-4050-8391-0533B96B94A8"
+        },
+        {
+          "name": "DustGate",
+          "price": 299.0,
+          "variant_id": "C5CD424B-CBE8-4362-9ADA-00D377320924"
+        },
+        {
+          "name": "FlexGate",
+          "price": 299.0,
+          "variant_id": "90A05469-40AE-4912-A236-4A3D5713A2BA"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "E2C4CB91-5906-4462-A877-95F50C5178B8"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "B7C74555-C56E-4063-AE5D-09F871E8100E"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "F0481537-AC88-4D5C-B796-54CB1FF007D5"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "CE7899E2-2E05-4447-AB7E-F83F7B59AA0B"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d A1989 (2018/19)",
+      "item_id": "04F63E42-9DC2-49E7-872B-B415EDEED254",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "D0BADB86-B2FA-4B42-8301-322C0E27760C"
+        },
+        {
+          "name": "Screen",
+          "price": 299.0,
+          "variant_id": "0AC968D6-60D5-4575-B725-28F895170969"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "140B2E17-68CC-435D-91AC-955EB7E54069"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "2CF2C1F8-6027-4EAA-B777-AF7F373CC35B"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "F965ABC9-76BA-408D-95B3-12C998833BF0"
+        },
+        {
+          "name": "Touch Bar",
+          "price": 249.0,
+          "variant_id": "AE5D20AB-C982-499B-A759-E345BA12D136"
+        },
+        {
+          "name": "Keyboard",
+          "price": 299.0,
+          "variant_id": "0E2BCBFC-0FA8-4F82-AD3A-67144A1F146E"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "7CACA96B-5D38-43A9-A468-7A437FB643C5"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d M1 A2338 (2020)",
+      "item_id": "E4DC4770-5774-4161-8D5F-26544ABA5D1C",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "55F12A3F-25F4-46CC-ACEC-8B6F47B811C1"
+        },
+        {
+          "name": "Screen",
+          "price": 399.0,
+          "variant_id": "78ADB438-30F9-4F07-B914-562D021F4B32"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "447C758E-E241-45C0-9CF6-03DC201D0AEE"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "538D9AF5-B878-41AE-B224-682C99DCC527"
+        },
+        {
+          "name": "Charging Port",
+          "price": 159.0,
+          "variant_id": "87A8B6C8-82D3-4BE3-95BA-C58D9CFF7498"
+        },
+        {
+          "name": "Touch Bar",
+          "price": 249.0,
+          "variant_id": "ACA54F32-8EEF-4202-9785-8F2519667DFC"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "6A3A6444-B1A8-4E6D-97A1-90E33CCFB806"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "8B4141CC-5709-4552-B34B-5A2C56E01B51"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 13\u201d M2 A2338 (2022)",
+      "item_id": "86EBF7C3-1A84-4147-A1F3-40BD2AFB6524",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "81DE6532-38E2-44CB-8DFD-E7FAE51CF84A"
+        },
+        {
+          "name": "Screen",
+          "price": 429.0,
+          "variant_id": "049431C2-6DA1-4AA1-ABEB-C85574B3DCBA"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "7C991D2E-F41C-462C-B8A8-0D0E45C95754"
+        },
+        {
+          "name": "Charging Port",
+          "price": 159.0,
+          "variant_id": "6BE82B67-68D0-440F-87C5-8CD1E31BD389"
+        },
+        {
+          "name": "Touch Bar",
+          "price": 249.0,
+          "variant_id": "DAA8652E-13CB-4B18-8B84-4692841AE49C"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "18EDBD17-FECF-4DB1-89A1-7F39B687D305"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "6D06BF03-492F-4985-BBD5-9655B0626EB9"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 14\u201d M1 Pro/Max A2442 (2021)",
+      "item_id": "2F08AE6C-28DB-4ED8-A836-AA004653EDF7",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "F1C90C89-2FA7-4016-A7B8-A5D62DDA99B2"
+        },
+        {
+          "name": "Screen",
+          "price": 549.0,
+          "variant_id": "7F65B281-0277-40C3-9DFC-992B1B44C069"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "E49CADB2-1B17-4E59-A65E-1AE80613F835"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "F4232FFF-DBEE-4BE4-977A-972814C37216"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "BE9B0CF5-94CF-4458-A80B-45B6EEF758F3"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "3FCF18AA-C9CE-405C-A734-258E53339318"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 14\u201d M2 Pro/Max A2779 (2023)",
+      "item_id": "6396e1ef-7a73-4632-acab-d9cdb6e89d8b",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "90a57f6e-cc0e-47c8-b7eb-b109bc8e291e"
+        },
+        {
+          "name": "Screen",
+          "price": 599.0,
+          "variant_id": "dbe0aa89-af3d-4c30-8163-cc396682e89e"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "0207A2C3-F95D-48E0-9F0D-3A42577704DA"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "5B7C08E9-F2AA-400C-A603-378215935C2C"
+        },
+        {
+          "name": "Keyboard",
+          "price": 279.0,
+          "variant_id": "B6CC1C02-992D-4CCA-A38D-A99758EAA484"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "FE41A634-E09C-48E3-823F-2429155E82C5"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 14\u201d M3 A2918 / M3 Pro/Max A2992 (2023)",
+      "item_id": "10C4E369-CCDD-4E1C-81A7-6354C78BB8F5",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "72F65C9F-2E8F-4CFF-A948-94C1559F8513"
+        },
+        {
+          "name": "Screen",
+          "price": 649.0,
+          "variant_id": "A8375FB2-B977-494B-9055-33DBFA81C06B"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "A9A49450-B9BF-414E-A772-012E37DAAAF6"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "9F777545-2F5C-4B5F-8D5D-A121B9DE4849"
+        },
+        {
+          "name": "Keyboard",
+          "price": 329.0,
+          "variant_id": "DA7004B0-E7EB-48E1-8061-956DFC4F6219"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "CCC50AE6-DD31-4FEE-AD84-A7D05FD96131"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 15\u201d A1990 (2018/19)",
+      "item_id": "911205DF-F164-4F05-8EE1-9A281BE4FF7E",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "83E9B079-4D74-4B35-8189-D765A0F40BE0"
+        },
+        {
+          "name": "Screen",
+          "price": 499.0,
+          "variant_id": "92157430-8AA7-4E60-9E48-F2DEED521E74"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "BC42206A-E4C1-4F3F-A6FC-C294EC721586"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "73EF6D41-994F-4176-BFE8-1A0E321FC566"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "E0082F6E-257F-412A-8956-2DA0981F3E72"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "4766C673-D961-41CA-B984-066875155F77"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "19CF7358-8D58-4374-AA2B-0EF3D912AA62"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 15\u201d Retina A1398 (2012/15)",
+      "item_id": "555590B9-7BB8-46E4-89C4-6094FBB905E8",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "9E0CE185-4A02-4809-9318-61407EBF340C"
+        },
+        {
+          "name": "Screen",
+          "price": 499.0,
+          "variant_id": "A247470F-F18B-4C53-ADF0-DD53E9108387"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "39846CB6-7DC3-4462-96E9-B39993EE8699"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "8D3BFD20-B31F-4067-A3F4-DE0402DF9A1D"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "11FF82BA-F7F0-4C09-8772-7DCAFAD9950D"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "813119B4-5455-4EF5-8D90-E19199BDAFCA"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 15\u201d Retina A1707 (2016/17)",
+      "item_id": "F54FAFEB-9E2A-4450-9687-C6EDB07770E8",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "FB63FED7-FAF7-4675-BF4D-AA1C8ED4727C"
+        },
+        {
+          "name": "Screen",
+          "price": 499.0,
+          "variant_id": "5B0CA4FC-93B2-4307-8C84-9E4DC4B98926"
+        },
+        {
+          "name": "DustGate",
+          "price": 299.0,
+          "variant_id": "93708841-5E7A-4CE5-BB91-5F2C2C345B74"
+        },
+        {
+          "name": "FlexGate",
+          "price": 299.0,
+          "variant_id": "81DD950C-32EB-49A9-A6AC-3EED7C220B74"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "469D6EE6-0F57-4D40-8370-7C5108511100"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "FED4B532-EB72-411F-9614-CC3D2C320A99"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "2D285F99-2A3B-4E96-83B7-4095F8B85FDA"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "DDE88997-DC43-4361-B64F-E9A270289504"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 16\u201d A2141 (2019)",
+      "item_id": "5D884A80-57B4-431C-922A-E74421989762",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "07D323EF-D48F-40B5-AA12-12F32E6424D1"
+        },
+        {
+          "name": "Screen",
+          "price": 499.0,
+          "variant_id": "1A389261-E190-425D-BC05-61BA8A598503"
+        },
+        {
+          "name": "DustGate",
+          "price": 249.0,
+          "variant_id": "9F8E4A22-6C0D-45D8-A248-E6454DB5B213"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "BEB83885-6986-4EBA-A75F-AC8D499A87E4"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "54C55446-7F7E-4FF5-B13C-36B509B45F19"
+        },
+        {
+          "name": "Keyboard",
+          "price": 249.0,
+          "variant_id": "EFDA3635-72F4-40BC-A3A5-30DFE5E84447"
+        },
+        {
+          "name": "Trackpad",
+          "price": 199.0,
+          "variant_id": "8D0F0F7E-7A88-4A58-8B9E-D01332086DC2"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 16\u201d M1 Pro/Max A2485 (2021)",
+      "item_id": "8678A76F-BBDC-45C9-90AC-26C449A442B5",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "46C28217-7B69-429A-9EA0-DDA9BAD18D08"
+        },
+        {
+          "name": "Screen",
+          "price": 599.0,
+          "variant_id": "01E4FC73-0A9C-4932-9BAF-36E32F5A887E"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "B5FA899F-E219-42CC-BBC6-805813C1E858"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "0E11B61F-6621-48AA-AB19-C958F6353213"
+        },
+        {
+          "name": "Keyboard",
+          "price": 289.0,
+          "variant_id": "E6C97937-CDD6-4899-B57F-0854602D008B"
+        },
+        {
+          "name": "Trackpad",
+          "price": 249.0,
+          "variant_id": "92838A9A-9E61-48F5-8A1F-AF89D3FBC0D3"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 16\u201d M2 Pro/Max A2780 (2023)",
+      "item_id": "8BB8284D-B2A5-4EAA-9349-712754D86C2A",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "69473B4F-19C9-4796-B386-DC090FC3A268"
+        },
+        {
+          "name": "Screen",
+          "price": 639.0,
+          "variant_id": "8FF99A8E-F7B4-45C7-A564-976EB2BC2B32"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "4AF53E6E-FF7E-4670-9655-6F5D52BDDC20"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "8ABCBEE5-7EAD-4AEA-ADB5-AD8E91B5F322"
+        },
+        {
+          "name": "Keyboard",
+          "price": 289.0,
+          "variant_id": "103C0E99-E06B-4B5C-BCE5-A930C8FA51B0"
+        },
+        {
+          "name": "Trackpad",
+          "price": 299.0,
+          "variant_id": "7D7888C0-8721-4C65-8540-C068B6CA3461"
+        }
+      ]
+    },
+    {
+      "device": "MacBook Pro 16\u201d M3Pro/Max A2991 (2023)",
+      "item_id": "A4ABDC6D-6AFF-4A9C-AC23-7A59C080D971",
+      "category": "MacBook",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "CA0ED9CB-B45F-4EBD-A8F0-9C54D6F54666"
+        },
+        {
+          "name": "Screen",
+          "price": 699.0,
+          "variant_id": "23B6ED9A-D8DB-4911-B6D8-746B4EAEB1E7"
+        },
+        {
+          "name": "Battery",
+          "price": 249.0,
+          "variant_id": "E631BEE9-5BFE-4E7B-9CCA-A0B1530AC677"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "0E4FE88A-E8FA-403E-B5DB-CDE6147CD8C2"
+        },
+        {
+          "name": "Keyboard",
+          "price": 329.0,
+          "variant_id": "D980F9A2-64E4-4496-BDC0-CBA9B531F209"
+        },
+        {
+          "name": "Trackpad",
+          "price": 299.0,
+          "variant_id": "1214B2D0-36FA-4846-9DD3-FCA3B93AF5F2"
+        }
+      ]
+    },
+    {
+      "device": "Repair Express Service",
+      "item_id": "A8D301EF-FE80-457C-A3D4-EE7D1486E1AB",
+      "category": "Additional Services",
+      "repairs": [
+        {
+          "name": "iPhone",
+          "price": 59.0,
+          "variant_id": "4030A538-0376-4D77-BF12-947BF230F00A"
+        },
+        {
+          "name": "iPad",
+          "price": 99.0,
+          "variant_id": "388C9287-A682-4024-98E6-B0D76B0246F0"
+        },
+        {
+          "name": "MacBook",
+          "price": 99.0,
+          "variant_id": "AD9CD853-8FE5-479E-9B26-C51B1B8EE026"
+        }
+      ]
+    },
+    {
+      "device": "iPad 10th Gen A2696 / A2757 (2022)",
+      "item_id": "5140c111-10cd-4a80-8e9d-684477282d7b",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "c009e154-8e05-4fcd-87bb-4992494dcf7f"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 199.0,
+          "variant_id": "8a66f2b5-7be3-4be4-aa56-7e9b9089b137"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 149.0,
+          "variant_id": "b94b7894-53d5-4dff-8258-1e7c005d397e"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "b5480d25-a3da-4857-b0a9-57cd195f7cb8"
+        },
+        {
+          "name": "Charging Port",
+          "price": 99.0,
+          "variant_id": "9df6fefc-d5e8-459d-b8bf-e7b920d1ae2a"
+        }
+      ]
+    },
+    {
+      "device": "iPad 4th Gen A1458 / A1459 (2012)",
+      "item_id": "952170a9-9509-49ac-afe1-8933e10a1842",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "f64ef5a4-23d1-4172-8a9c-452a9c43770a"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 99.0,
+          "variant_id": "9ff8b92a-e581-4cc9-b118-3ba18bc88c4b"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "890b5bc8-80d5-4d8f-b924-974a278c1f89"
+        },
+        {
+          "name": "Charging Port",
+          "price": 69.0,
+          "variant_id": "494addb8-2d38-4ed7-8851-7419fef2caf6"
+        }
+      ]
+    },
+    {
+      "device": "iPad 5th Gen A1822 / A1823 (2017)",
+      "item_id": "7313054b-8fa5-4520-9274-2b7dae970b2a",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "9d98b48e-896c-41a6-b86a-1cef373be3f6"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 99.0,
+          "variant_id": "365230e3-c3a2-452a-b026-b570a0dc77e4"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 99.0,
+          "variant_id": "aebae937-f8bf-4e96-852f-4f2690c208ab"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "359fbc51-7966-4f52-96df-fe115874b641"
+        },
+        {
+          "name": "Charging Port",
+          "price": 79.0,
+          "variant_id": "fbe3b052-5b29-4299-9020-4e7247eb8a8a"
+        },
+        {
+          "name": "ERROR 4013",
+          "price": 180.0,
+          "variant_id": "3c1a94be-8842-41af-bdeb-b0a494f5f714"
+        }
+      ]
+    },
+    {
+      "device": "iPad 6th Gen A1893 / A1954 (2018)",
+      "item_id": "6787eaba-a82f-47d0-8e66-21531a979afb",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "46cf332c-76bc-47d0-811c-1e31909485c8"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 109.0,
+          "variant_id": "5b37b326-a979-4650-ac09-42a9244b81ed"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 99.0,
+          "variant_id": "bfa2a4a8-a827-4400-b89e-ba173535ed85"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "8fdcb0db-b0bd-4fef-b2a1-839b7daa0bba"
+        },
+        {
+          "name": "Charging Port",
+          "price": 79.0,
+          "variant_id": "e73c6db9-fa30-49ac-b965-be24ad365cec"
+        },
+        {
+          "name": "ERROR 4013",
+          "price": 180.0,
+          "variant_id": "1b2f9992-094c-41a6-acb7-a344839d5eae"
+        }
+      ]
+    },
+    {
+      "device": "iPad 7th Gen A2197 / A2200 / A2198 (2019)",
+      "item_id": "32fa5aeb-c3c5-4ed1-88c5-b611cd41d33c",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "16021308-5150-49df-890a-4f5105d463e6"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 149.0,
+          "variant_id": "c8369175-c984-4e29-a202-5ef80aa73a1d"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 99.0,
+          "variant_id": "48e339e8-d69b-440b-a6c6-54d6d2724708"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "edd34082-d777-4b9b-93a0-25bfc7bb2992"
+        },
+        {
+          "name": "Charging Port",
+          "price": 79.0,
+          "variant_id": "fb14a47e-eab9-4fbd-9bd9-2a89a2c165b8"
+        },
+        {
+          "name": "ERROR 4013",
+          "price": 180.0,
+          "variant_id": "6e2b4658-56c6-448e-8477-d4d04a55bb04"
+        }
+      ]
+    },
+    {
+      "device": "iPad 8th Gen A2270 / A2428 / A2429 / A2430 (2020)",
+      "item_id": "d64b3228-069e-4b01-8a3f-97742ae904f3",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "f053dc58-36dc-41f8-afe3-1787cacb668c"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 149.0,
+          "variant_id": "86230cc5-bcda-4f0f-b7f7-125b8a0fc171"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 119.0,
+          "variant_id": "7f0874f4-74b4-4f98-a149-a01aa39dac9f"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "66245860-67a7-4669-8521-840cad4be648"
+        },
+        {
+          "name": "Charging Port",
+          "price": 99.0,
+          "variant_id": "9a959742-ee13-4efd-b00f-9bf94aded167"
+        },
+        {
+          "name": "ERROR 4013",
+          "price": 180.0,
+          "variant_id": "744baef9-7d62-4923-90d3-907392fa8e6f"
+        }
+      ]
+    },
+    {
+      "device": "iPad 9th Gen A2602 / A2604 (2021)",
+      "item_id": "6e194fb7-2683-4bf6-b36e-c4e9b21c4d4b",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "8aed4a9c-8e21-47c1-a12d-af2dcfd00234"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 149.0,
+          "variant_id": "16797ccb-5a04-4363-9e59-145bfe2fc848"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 119.0,
+          "variant_id": "8d90a7a4-a589-4ec2-8593-d533bf27cdf8"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "d107b495-0b9d-4227-9ea4-985292c19967"
+        },
+        {
+          "name": "Charging Port",
+          "price": 99.0,
+          "variant_id": "9a6e440f-23b7-4208-8e99-a29c0dd06ef4"
+        },
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "18baa8ba-68a6-4677-ae0a-9f10db7840a9"
+        },
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "c0a19782-3b0e-4de0-8987-48bdf55d0aa6"
+        }
+      ]
+    },
+    {
+      "device": "iPad Air 3rd Gen A2152 / A2123 / A2153 (2019)",
+      "item_id": "dd7d2990-8013-43f3-9ee6-befb4535800b",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "f1b705b7-ca4c-43ff-a431-2aca76caced9"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 199.0,
+          "variant_id": "a02578f9-0239-442d-b910-68ce32bf1113"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "95fba1ec-18d5-4ddb-a0b3-483217012a61"
+        },
+        {
+          "name": "Charging Port",
+          "price": 79.0,
+          "variant_id": "17a4499c-2047-4f61-b5dd-707adf0d2e82"
+        }
+      ]
+    },
+    {
+      "device": "iPad Air 4th Gen A2316 / A2324 / A2325 / A2072 (2020)",
+      "item_id": "683c8a47-09d4-45e2-8f1a-22f95cb99aa9",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "728c372f-b215-4a89-a1ca-5e0b8b74526d"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 249.0,
+          "variant_id": "5db09d7e-9729-48b1-8219-302bd9082119"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "b126ee42-e7c1-41a6-aa21-69ba875d9a25"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "dedb7c5c-a102-40b0-a408-7c8237dd7d7d"
+        }
+      ]
+    },
+    {
+      "device": "iPad Air 5th Gen A2588 / A2589 / A2591 (2022)",
+      "item_id": "c0f69aad-d737-455d-a2cc-03b8b6bc6585",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "9b8ce203-479e-4a11-bcd8-e520a9c2433f"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 249.0,
+          "variant_id": "bf75f7c7-826a-4922-a133-17c97acfd39a"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "fe695a6b-8cb8-4cd2-8609-c7f88f54a54c"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "060c494d-b6d4-4d70-9458-ca5b58863e89"
+        }
+      ]
+    },
+    {
+      "device": "iPad Air A1474 / A1475 (2013)",
+      "item_id": "a484692f-57e3-4668-91c0-68acf6f03cbd",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "6e89ebe2-2155-411d-b53f-56ded690d27b"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 109.0,
+          "variant_id": "ddef445d-9b24-4238-aea5-938b662ac0ad"
+        },
+        {
+          "name": "Glass Screen",
+          "price": 89.0,
+          "variant_id": "1c723311-3e3b-4455-9802-5f61705e47ab"
+        },
+        {
+          "name": "Battery",
+          "price": 139.0,
+          "variant_id": "128af09e-467f-4482-aef9-d9e8cb1ca2f2"
+        },
+        {
+          "name": "Charging Port",
+          "price": 79.0,
+          "variant_id": "26f482bb-d0d9-4ceb-9a5c-c6cc5a3aca3f"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 10.5\" A1701 / A1709 (2017)",
+      "item_id": "9697c28e-9ce4-4410-a4b0-9f2f932d21ef",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnsotic",
+          "price": 49.0,
+          "variant_id": "05aa3f77-e827-4800-ac65-a73081d2e37f"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 199.0,
+          "variant_id": "6d49e288-ca65-46e6-9fe2-e4a982d9ddfe"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "5f91e253-2b21-41a2-afbd-56ec500003de"
+        },
+        {
+          "name": "Charging Port",
+          "price": 99.0,
+          "variant_id": "cdf2e3a2-78cf-4ac1-b155-66fe7b9ec409"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 11\" 1st Gen  A1980 / A2013 / A1934 (2019)",
+      "item_id": "82e70bd2-e3c4-4fac-ac85-c365370dab20",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "3cb72d1f-c64e-487b-bdcb-c7c636836063"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 249.0,
+          "variant_id": "607bfaaa-db5d-4d90-8d9b-9da2c02d7da4"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "03845239-858e-4e8c-b503-cdc2cf94bee9"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "b1e161f7-fbb8-4175-849a-ad60e982cc88"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 11\" 2nd Gen A2228 / A2068 / A2230 (2020)",
+      "item_id": "f568c1bf-adf9-4d33-864d-d5194d6b5931",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "deae64f1-e454-4e80-9c7a-7c58c876d7bc"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 249.0,
+          "variant_id": "9fff5cd1-75b6-4b1a-b443-4ed5a2b0006a"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "e8c6a259-498f-45f8-bc39-4b8e8979c0fd"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "cf8621b7-12ba-4e51-8630-aea8d8b00457"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 11\" 3rd Gen M1 A2377 / A2459 (2021)",
+      "item_id": "d5fba701-3e8e-41f0-ac84-64524c44f580",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "7139e1c3-bdbd-4675-809f-b32ce5a5d6a5"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 299.0,
+          "variant_id": "4250d15b-e695-47f6-ab4e-bb607edd3075"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "0427c0eb-9ef8-4d80-b063-330aceb5823a"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "a8cc5134-8934-41a0-b78a-119ea7e9d60d"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 11\" 4th Gen M2 A2759 / A2435 (2022)",
+      "item_id": "c2520674-bbdd-4a30-be21-86ea95efddac",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "e5854675-c9b3-40d5-843f-29da61026440"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 349.0,
+          "variant_id": "3da8802e-341e-4946-b604-a7afe9454556"
+        },
+        {
+          "name": "Battery",
+          "price": 169.0,
+          "variant_id": "b1e9fc43-605b-40f4-90f7-78c47521bef4"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "c14cb5ef-96e6-4bc3-9005-aa350d4a6763"
+        },
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "9645abf9-60be-4f63-af7f-6430b073b0af"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 12.9 (4G) Battery",
+      "item_id": "a7775a84-2954-41e2-ba36-a4e17b976184",
+      "category": "Additional Services",
+      "repairs": []
+    },
+    {
+      "device": "iPad Pro 12.9\" 1st Gen A1584 / A1652 (2015)",
+      "item_id": "9b43ac62-b9f9-446f-a5d2-ea5558b875f4",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "ac589847-f480-495a-8560-352568289631"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 349.0,
+          "variant_id": "69195a9d-33d3-4705-ab26-524f3661a96b"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "beb6a9dc-23f4-452f-97a6-e80b682c6bbe"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "d74809a6-352f-4ee8-9929-2dc4a81e37f3"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 12.9\" 2nd Gen A1670 / A1671 (2017)",
+      "item_id": "958b7e7c-b3e8-4a75-9e46-9a6be87a7d6a",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "a7c6facd-6b9a-40c4-9ba4-64727a7e9c3a"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 399.0,
+          "variant_id": "5a0984af-3e27-416c-8ebd-c691988803e7"
+        },
+        {
+          "name": "Battery",
+          "price": 179.0,
+          "variant_id": "33225c63-5275-4f9b-89dc-de4de8969bda"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "11e6ac1c-7fca-4b9e-9ad1-a9aa667d49a8"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 12.9\" 3rd Gen A1876 / A2014 / A1895 (2018)",
+      "item_id": "7cea05a1-cb32-4e38-a27f-96861546f7b2",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "f0f3b009-4bb7-447d-b35c-82090cc4c452"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 249.0,
+          "variant_id": "c92df9c5-70a3-411c-b35e-040f4db3d4f7"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "3e9a1993-3aa3-4d86-b807-9ffd87c029a4"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "676cc197-457c-47dd-956d-0e828a86c92e"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 12.9\" 4th Gen M1 A2229 / A2069 / A2232 (2020)",
+      "item_id": "307e32e7-9040-4b8e-b7c2-6e38a384883b",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "b4a76768-e994-40c8-afe7-dddc3e8fd25a"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 249.0,
+          "variant_id": "8a535bfd-c69b-466e-bcc6-8acdebbaaa64"
+        },
+        {
+          "name": "Battery",
+          "price": 159.0,
+          "variant_id": "27f6a324-429a-485c-83a7-1e2e065ff8a1"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "2b4849cc-5ed2-4862-a7b6-3974f909c4e7"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 12.9\" 5th Gen M1 A2378 / A2461 (2021)",
+      "item_id": "f7dbc591-ef46-426c-a7c0-53c17a53c11e",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "a44f6f54-2d48-4c5d-b6e2-8b5183e12020"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 399.0,
+          "variant_id": "31f79fc3-8476-4ad9-85a3-215454786cb4"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "e65b3646-5aaf-46d0-87db-c56ceef406b2"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "591a0eb1-4ae6-4b4b-8253-7e352d5ef414"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 12.9\" 6th Gen M2 A2436 / A2764 (2022)",
+      "item_id": "cc7aa94e-1e51-465e-9dce-3c1cc4f6ed15",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "444663d8-5128-4570-8195-e922fb917304"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 449.0,
+          "variant_id": "845a0361-3fa2-4d37-afce-6b5fed3e6172"
+        },
+        {
+          "name": "Battery",
+          "price": 199.0,
+          "variant_id": "980d82d6-e412-42ce-bc66-f502c155765f"
+        },
+        {
+          "name": "Charging Port",
+          "price": 149.0,
+          "variant_id": "3c8df614-5772-44f4-99c7-ddf858ef5c5d"
+        },
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "044ba416-d21d-41ea-b79b-e82c37f15d9d"
+        }
+      ]
+    },
+    {
+      "device": "iPad Pro 9.7\" A1673 / A1674 / A1675 (2016)",
+      "item_id": "e0167385-af84-413f-9cbf-2824e0d1a051",
+      "category": "iPad",
+      "repairs": [
+        {
+          "name": "Diagnostic",
+          "price": 49.0,
+          "variant_id": "a199ae74-60b4-42e8-9fc4-6af5b554ac67"
+        },
+        {
+          "name": "Original LCD Display",
+          "price": 189.0,
+          "variant_id": "75fa8466-a7d1-433e-a3f3-df716b1f1ae7"
+        },
+        {
+          "name": "Battery",
+          "price": 149.0,
+          "variant_id": "19e5db1e-14f9-4972-ab00-8fccc47f4fa3"
+        },
+        {
+          "name": "Charging Port",
+          "price": 99.0,
+          "variant_id": "cd6fba3c-9940-48c3-96a9-d757952fb17e"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 11",
+      "item_id": "d54d2815-3a79-4aa7-bd4d-3bf7797ffe0a",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "898e7a3c-e15f-4f5b-811d-9f103ee20ce9"
+        },
+        {
+          "name": "Screen",
+          "price": 159.0,
+          "variant_id": "6f35798b-811b-4de2-8c90-d5832892a8ff"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 139.0,
+          "variant_id": "7308d715-0616-48f1-bd01-c5659d6be2ed"
+        },
+        {
+          "name": "Battery",
+          "price": 89.0,
+          "variant_id": "e6426ab0-cde5-437e-96bc-ad4eac6a154f"
+        },
+        {
+          "name": "Charging Port",
+          "price": 69.0,
+          "variant_id": "e9bacc26-4c23-414e-830d-9a948020a0a7"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 11 Pro",
+      "item_id": "5e28d6cc-8fbe-46a8-a55b-8ebe773a6bdc",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Screen",
+          "price": 189.0,
+          "variant_id": "211a68e7-c801-41a0-be3b-461e056ef35e"
+        },
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "05878301-1128-426b-933f-5ad492638a41"
+        },
+        {
+          "name": "Battery",
+          "price": 89.0,
+          "variant_id": "6a3f3722-bc44-4d70-b8b5-a0d7f5efd136"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 139.0,
+          "variant_id": "91d63346-9fb4-4800-8c21-59e86dc3b2bc"
+        },
+        {
+          "name": "Charging Port",
+          "price": 69.0,
+          "variant_id": "bc3c80f4-1bf3-42f6-a27a-8e4acb0169a4"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 11 Pro Max",
+      "item_id": "0ae2696d-5ec6-418d-9428-8960bfa215a4",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "7a867914-fd5b-4d67-a5ac-3b3fb924ebc8"
+        },
+        {
+          "name": "Screen",
+          "price": 189.0,
+          "variant_id": "7a4470d0-7a29-4175-a3f3-7938090b893d"
+        },
+        {
+          "name": "Rear Housing",
+          "price": 139.0,
+          "variant_id": "3a5c651d-c694-4927-9e70-5f56cfabae0f"
+        },
+        {
+          "name": "Battery",
+          "price": 89.0,
+          "variant_id": "a96ddc54-bf90-4302-9ec6-c04cf9b372e8"
+        },
+        {
+          "name": "Charging Port",
+          "price": 69.0,
+          "variant_id": "f60cc352-f20e-466f-b490-f55b37e547d1"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 12",
+      "item_id": "138D6B7D-0BB8-43EA-B137-563174E35D9A",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "74857B9F-5775-4781-A8E3-BA1FAE7060CF"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 199.0,
+          "variant_id": "FC7633CE-E7EC-4F68-8D0C-6235F6C402DE"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 179.0,
+          "variant_id": "5BE378B7-FF89-45CD-9074-8B845CA23652"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 79.0,
+          "variant_id": "02584B2D-0367-4B8E-A25E-E10ACDF10B0F"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "AC9FEA37-B249-4DE2-BE43-ED7549A3F444"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "ECB6A98A-F701-4BCF-89AB-4DCEBA749C49"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 59.0,
+          "variant_id": "600C9654-B01E-429C-B198-8AC35D566F19"
+        },
+        {
+          "name": "Earpiece Speaker",
+          "price": 59.0,
+          "variant_id": "73A09A40-4056-4AA5-B2EF-85B55DFAF85C"
+        },
+        {
+          "name": "Face ID (Including TrueDepth Error)",
+          "price": 179.0,
+          "variant_id": "C7D18721-B9B6-42E5-9518-D75F38C3CC1F"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 99.0,
+          "variant_id": "5CCFF08B-C17F-4FA2-8E43-59867504FB66"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "3E8BE7F4-DF69-4F0A-B9FB-C2D47185B090"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 79.0,
+          "variant_id": "7CB0DFA3-F09A-4EE2-9B68-FB51BA57B6B2"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "AD0A5B51-1963-4879-9D71-55501485466A"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "39C0C449-F370-4C26-882C-39E5AB6ED963"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "B7600904-85E7-4931-9499-D120CF13B2DD"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 12 Mini",
+      "item_id": "6836CBD0-F65F-497E-B94C-862B6F10D8E4",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "98026EE5-4BE7-457E-BF00-1FB4973DB6A6"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 199.0,
+          "variant_id": "A620F1C1-4469-410E-AE04-F2703D4D6FBB"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 179.0,
+          "variant_id": "22147E2E-DFB1-46CD-9AC5-8078BBEA7A91"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 79.0,
+          "variant_id": "1B5CBDA7-A674-4B9E-9877-78B32A48E5A6"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "E61ABDC6-315B-4F14-BD56-0A258A82F108"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "2C5A0D86-3275-4BAC-A5F2-3E79EC9CF670"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 59.0,
+          "variant_id": "1E8BFADE-24DB-476B-A339-860CF2BE549D"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "8E11220F-A4CE-4FA0-BC18-142A95497150"
+        },
+        {
+          "name": "Face ID (Including TrueDepth Error)",
+          "price": 179.0,
+          "variant_id": "42A51961-4E73-4CA3-BCFC-B6B97FCE7D10"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 99.0,
+          "variant_id": "64F5DE35-46B5-4CBB-9D9E-944A48DBC7DC"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "778B75A7-8649-4C78-856B-0A084B0801F8"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 79.0,
+          "variant_id": "E6C79552-43F0-443F-AD6C-8D7645D13C65"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "D37D717A-D9BF-43B3-BCF2-D415D0691BA8"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "0D8736B8-DD8F-43CB-9BEF-74C717D8EBB6"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "31C738EA-F78B-444A-92E8-0C6E1BD062A9"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 12 Pro",
+      "item_id": "EF6C618E-E24C-4D49-BB1E-55B59DEF48A2",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "FF27F397-4814-411E-A797-16716FFFEC02"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 199.0,
+          "variant_id": "D53B376A-7C3A-4DC5-AE13-CDB1A2D19DEB"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 189.0,
+          "variant_id": "7606A5FD-FF90-4617-B436-65D9CCB292DC"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 79.0,
+          "variant_id": "988EA432-A599-4F4E-9E62-C3B20661ABA3"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "4F3DFA68-AA30-4A8D-B6FE-C3504A8A75E6"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 129.0,
+          "variant_id": "1CA6BFB9-429D-4D29-B170-E651488D9B8F"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 59.0,
+          "variant_id": "6BDE69AC-2013-401B-83D1-F4BE50611611"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "9F0C9527-FEBD-4415-9B8A-C0D37BFD604F"
+        },
+        {
+          "name": "Face ID (Including TrueDepth Error)",
+          "price": 179.0,
+          "variant_id": "108D001C-6803-4948-AA97-66E2C77812E4"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 99.0,
+          "variant_id": "797D91DF-DFB6-4E48-8C8F-B1B370220E8A"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "75F5D7AF-221B-4FC1-8F3E-0E1F97C4FE50"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 79.0,
+          "variant_id": "9C0059D5-556B-4675-A8F4-6662232F23DD"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "543F1EF4-FDF2-480E-80CB-1BEE4232CB2A"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "C981EE46-FE48-49BE-B744-4CF3F0BDDC8A"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "91875D2F-4984-4285-BEB0-25FF7D15CE77"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 12 Pro Max",
+      "item_id": "E9496BB3-F122-47C9-AAF7-F6981232E4A4",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "3FF46117-94B6-42E8-B53B-103717C76B4E"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 229.0,
+          "variant_id": "14B361FD-4FDB-4950-9E72-0AFC70793324"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 189.0,
+          "variant_id": "593E5EEB-DFCB-4C51-B7B2-B4BF6E7C5BC6"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 79.0,
+          "variant_id": "181902F3-A3B0-4DA9-A0E8-FEADB1EB09AE"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "6852B5EB-AFA7-4F42-86EF-CEE5C4DD3E6B"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 129.0,
+          "variant_id": "CBA37F47-76F9-4769-B271-C9D27D2657DD"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 59.0,
+          "variant_id": "17A4EB8E-85D5-4CA6-9CC3-4BCA22F85A45"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "361FC4F6-A471-431B-9CCD-713AE1D8DEE4"
+        },
+        {
+          "name": "Face ID (Including TrueDepth Error)",
+          "price": 179.0,
+          "variant_id": "50CA6D33-D9E3-45EF-871C-890154D105B2"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 99.0,
+          "variant_id": "13ECE490-5AC5-4039-BCFB-47FD3861E1B1"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "491E6D64-7789-4488-A8A8-6E3CEB1533DB"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 79.0,
+          "variant_id": "666CC751-40A6-4ACD-A00F-90CEBB075025"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "2946A12F-CA9A-49C6-98D4-CC54F1988420"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "5BA8F98F-3AC0-4CFA-8931-F80CDAFA3E85"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 79.0,
+          "variant_id": "83A643FE-6FB6-432C-BE3E-1CF126C00B70"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 13",
+      "item_id": "1B189514-B3A8-421D-9856-66B5D864A8AB",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "44923AB2-830C-45B2-BEC5-1501CFC5E048"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 239.0,
+          "variant_id": "E33C3FA7-9517-446D-B472-5148482493D6"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 189.0,
+          "variant_id": "418FF1D2-563A-43DC-B308-1C4FBCD87235"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "EDA24D56-70D4-4155-B9B6-BBAAE09EF7FE"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 79.0,
+          "variant_id": "D6275065-9383-458C-B37C-D48D4FA6686D"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "9D1F9A33-682D-4BA6-B39D-52DABFB20B1B"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 89.0,
+          "variant_id": "E1991A90-784B-4EAF-A3CF-062F3C49728E"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "6AAAD200-3450-402D-9707-380265B788AF"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "6650DB45-209C-49CB-8415-0D56A586CF56"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 89.0,
+          "variant_id": "F921BA31-35DC-4EB6-BAF8-99B0C5CDC922"
+        },
+        {
+          "name": "Power Button",
+          "price": 89.0,
+          "variant_id": "7790C25C-0298-44DF-83E4-4644BD5C3ACD"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "8D65DE6F-810E-4BDA-A8AB-A7BD9165DC6F"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "7F4337A8-B49F-4CC9-93A5-7DD916EA6289"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 13 Mini",
+      "item_id": "8E45629C-141E-4C73-8625-CE45C9E9494F",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "D7A250A3-0923-417A-9022-E3DBC2826736"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 279.0,
+          "variant_id": "397FA376-2E40-4C8F-BD85-F1855C618B88"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 199.0,
+          "variant_id": "F9B815A1-656F-4776-8979-04040E83CD73"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "5BD59C10-D536-4FF0-95E4-6C5244F9D834"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "BB657839-DD8F-46DD-AB65-22B1B31ECDF9"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "1C82406F-4161-4E32-AE93-CA9243539B28"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 89.0,
+          "variant_id": "1729824A-7BDD-4109-B503-B45E7ABDF584"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "6AE3D75D-4AAC-453C-BDCD-91E3D12687C3"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "EFB1449A-B5BA-4D80-8E26-566721541E2B"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 89.0,
+          "variant_id": "3D0E834A-94BF-41E1-8A64-06C5E8AFBB96"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "BA40DB48-B5B8-41C2-B231-4F418A0A35E8"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "A9B58606-3D79-4E42-9EDB-FF79BA2F5162"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "FDB6CB78-04B6-4AC9-9921-0BD3335C3734"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 13 Pro",
+      "item_id": "263a129d-08c7-45cc-8c3a-8e81ce98f6c7",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "6076376e-0e25-41ee-99be-7f7d44263ee2"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 289.0,
+          "variant_id": "f69430b7-85e1-4284-8816-c56f99eeacf8"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 199.0,
+          "variant_id": "f2783813-a71a-4899-8c2a-0f7f1e3ecaea"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "5c4f984c-65a3-46df-a1ec-893b978a3bfd"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 79.0,
+          "variant_id": "a67f608d-4751-4649-a79e-ea057a68a490"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "5e00256a-b741-46e1-9ed7-2f6814439bcf"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 89.0,
+          "variant_id": "01f7ef91-d8f8-46a9-b328-7b198a4be512"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "261a3864-3661-4800-8f7b-4659d101efeb"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "5bd6034f-7ea0-459a-8fcd-742a80ff03bf"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 89.0,
+          "variant_id": "048ad174-febe-4c0e-baad-08d7c1a6de7a"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "d7103d17-5f33-4aa5-86e8-117a04a55be9"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "df3c3bff-a33e-4156-ae99-e42b91c786c9"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "5d3ae5a2-3a81-440c-bbaa-8ae932ab1f69"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 13 Pro Max",
+      "item_id": "7417c8e6-5ad3-4bac-98ec-4d378c3220bc",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "e7995324-bbf0-43a0-b3cd-fac335ea8f96"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 299.0,
+          "variant_id": "ef5be6e3-a734-45c9-bd4d-5059ab084440"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 199.0,
+          "variant_id": "ac0f46f0-acbd-4c7c-997a-30f510a9770a"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "8849d3ef-c1d8-42b4-b92e-51968fc7d48b"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 79.0,
+          "variant_id": "1e39754a-7b9e-4857-aadd-e7d71714d9d6"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "d5b8ddd2-5020-45a5-ac73-1d1853186975"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 89.0,
+          "variant_id": "8543ba64-a9c8-439c-af70-36a7b3898b6f"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "f35f1024-4e75-4606-96dc-615ed8c5dc41"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 89.0,
+          "variant_id": "34b60529-9d14-4d66-bfee-1b8bf829fddc"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 89.0,
+          "variant_id": "32ba5306-086a-46e1-9301-0d4a9e562727"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "82a47113-556b-4135-8270-8e445e426a90"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "9d98a6dc-1fa8-488a-a1a5-cbd2d231cef6"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 89.0,
+          "variant_id": "80507bd1-40c0-432c-9a8a-b642ed255022"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 14",
+      "item_id": "81fdea4e-cee5-4c6f-810a-7d6742fb5eb0",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "37706d6b-408a-42cf-9624-9a8b94be0cc5"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 239.0,
+          "variant_id": "04b19829-48ff-4fec-a709-f2450ccb8974"
+        },
+        {
+          "name": "Housing (Genuine)",
+          "price": 239.0,
+          "variant_id": "50160d6d-f204-413d-a041-bed82b9366ef"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "c5736f56-4022-43a6-ba1c-d02f8c0ebe6a"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 79.0,
+          "variant_id": "7f1f2216-9d99-4421-b320-153cb7eeb972"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "9cd39965-acc6-4793-a2f4-d2ee2c8a23b0"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 79.0,
+          "variant_id": "e84e252c-b294-442f-9e9e-c92a86b06558"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 79.0,
+          "variant_id": "d079a92a-e510-4e9a-8b67-faec96c30bfd"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "653977ba-0dc4-4a7d-b1ed-5983a099dbc0"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 99.0,
+          "variant_id": "6470ea6e-0827-4577-968e-212eab3aa794"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "73aba831-ffc4-495d-b4ea-8babddebe5f7"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "6ec966a5-4327-4f8c-861f-89744c82698f"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "8ec93f40-19e5-4915-9431-a94db4021406"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 14 Plus",
+      "item_id": "b682276a-29f4-4f15-a7bf-cd8badb7c80a",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "b914a44b-afb1-42cd-b374-0d007d4fdbac"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 249.0,
+          "variant_id": "96d442ed-d8ca-47c9-a7ce-818d76ca5f00"
+        },
+        {
+          "name": "Housing (Genuine)",
+          "price": 249.0,
+          "variant_id": "edf012e3-b2a0-45ef-95d0-79b8797c60e1"
+        },
+        {
+          "name": "Rear Glass (Genuine)",
+          "price": 149.0,
+          "variant_id": "340e786b-422f-4425-a43e-137d644db1c2"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "b458a248-ce83-41b7-8615-8d0612bf9551"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 79.0,
+          "variant_id": "9e9c2730-c80e-4272-8c35-7a9f286cee66"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "5e1e3824-4a10-498b-94cf-754deb070422"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 79.0,
+          "variant_id": "4078bb22-2444-441b-9eb6-c88945845614"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 79.0,
+          "variant_id": "ab30e610-5e19-490c-912d-5e0d37808e91"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 149.0,
+          "variant_id": "691571d7-a1ab-49f5-bfde-412054a3b8fb"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "46669041-95df-4730-bc1d-4c13f25f2b9c"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 99.0,
+          "variant_id": "6fe297d1-2907-4bf1-8892-3550bd927c2a"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "78c25c95-33cb-4b6b-9dab-ddeda150830f"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "50302a31-a2a9-48c9-8a1f-f4760eeddc06"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "ca4e0ecc-37de-4aeb-8114-eb3ddec2ed82"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 14 Pro",
+      "item_id": "7e8b05ec-0b27-4950-8c74-4e13b4d48368",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "f1197c20-3c05-4ee0-9f7e-8a23947b1162"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 299.0,
+          "variant_id": "a93b1dfc-7cad-4a62-92f6-d9c1de595708"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 209.0,
+          "variant_id": "ee4db20e-d49c-4e2b-be5f-86413ce0666e"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "a82f42a0-cdea-4561-9d1a-f4e0f2a47761"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 79.0,
+          "variant_id": "3dd1806e-720b-4550-881c-39ecfbf7fd23"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "3adf0fd7-c504-4707-9643-c21f5c63219d"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 99.0,
+          "variant_id": "b8131166-3c92-455d-ab29-7309296bae37"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "deebbfb7-15ff-4d7d-9f54-7130df5ced52"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 149.0,
+          "variant_id": "461eeecc-1e9d-4e7c-950d-8e223cd21549"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "3f5119e5-de3c-43da-b2c7-42d90b2cf177"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 99.0,
+          "variant_id": "dc3a2a80-b875-41fb-8f36-9b9073925a1f"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "29a0ad3b-f629-4efe-9921-fa9ed2cdf683"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "17bda9d1-df86-47c4-8b96-a900fd26f124"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "e32ecd5c-b97b-45d1-85e4-8c370f026d33"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 14 Pro Max",
+      "item_id": "88467d9c-2e0e-49bc-9d45-16a25ee024dc",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "4c176238-0ac3-4de6-ab2d-0751d17c9e12"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 299.0,
+          "variant_id": "e9299353-9614-4876-b62b-1621626c560e"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 209.0,
+          "variant_id": "3ad756e8-7085-436b-8279-1fa6dc0dd8cd"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "df41587a-ab86-45f7-9094-9d0882194737"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "de85e427-47f6-453a-84f5-b3712e4f0f3f"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 119.0,
+          "variant_id": "eba0a6ab-13d9-447f-b372-f22ebf476b3c"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 99.0,
+          "variant_id": "7f3597b0-f465-476e-bb9e-9d94b1bfd6e3"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "f0b2ca16-6b24-402b-800f-6e723477cc25"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 149.0,
+          "variant_id": "b78174b2-1e2d-491f-87cd-4d78221e65b9"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "7aa37ab1-f9a4-4f61-9167-29c227ebd741"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 99.0,
+          "variant_id": "25d7508e-ba5d-4fbf-8e3a-113c80bdecab"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "b0464049-8224-4df2-98c6-4d14600afb7d"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "aa53e17e-6fd3-4483-986d-0364c378d29e"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "bfafae9e-c7b4-4f84-a1ce-948248c7b85c"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 15",
+      "item_id": "3b430616-e019-43b8-983e-ea1399755067",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "5a9c02fd-118f-44ad-9520-7943e4af841d"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 289.0,
+          "variant_id": "f7ea6ade-aa79-4688-83af-86eda480e6dd"
+        },
+        {
+          "name": "Housing (Genuine)",
+          "price": 259.0,
+          "variant_id": "8b4835fd-5642-432a-9b4f-92175682bac2"
+        },
+        {
+          "name": "Rear Glass (Genuine)",
+          "price": 159.0,
+          "variant_id": "e5d21fd4-dc06-44de-b6de-d039337ed0ff"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 149.0,
+          "variant_id": "9e8d05da-e86c-48ac-9165-3698199d1f08"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 129.0,
+          "variant_id": "8ed99946-94ed-4b25-a7ab-31da1de8f2e8"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 79.0,
+          "variant_id": "c5741937-47c8-44a3-8471-67e064fb0c73"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 99.0,
+          "variant_id": "45a3655c-6532-4d01-88e3-fed2a79e397f"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "94094dd9-40e9-4b2a-a901-baabe3ff9eb7"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 129.0,
+          "variant_id": "d16abbde-5b4d-4c18-adc1-133517bea092"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 129.0,
+          "variant_id": "11f438ed-b1d1-464c-9412-530b16f09f9f"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "231242db-9ac0-47c4-9946-a0e60907392d"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "b6470f61-13ef-4a14-a021-d0974afc8764"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 15 Plus",
+      "item_id": "b88ab8b7-943d-4ef2-ad16-d3419ea902df",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "2698a288-b3bc-467e-9ed7-fbc44e58c1dd"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 289.0,
+          "variant_id": "66e699c3-5355-4231-be2e-4e2321437a9e"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 149.0,
+          "variant_id": "7fc210f9-2c1a-4d32-8c4b-f85864cd539e"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 99.0,
+          "variant_id": "e87ccd58-ea6a-49ec-8832-60bfeca0267f"
+        },
+        {
+          "name": "Housing (Genuine)",
+          "price": 259.0,
+          "variant_id": "16e707ee-ccdc-4ee7-a8f1-f4d63e1f0fed"
+        },
+        {
+          "name": "Rear Glass (Genuine)",
+          "price": 159.0,
+          "variant_id": "e86342ce-0096-4543-877c-13fe1596b3ad"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 129.0,
+          "variant_id": "b1452ca5-b890-4d7f-b65e-3019dd898a86"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 79.0,
+          "variant_id": "118f911f-ac2f-42bc-98e4-fa6a6d57d136"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "a9df3391-45a1-40b6-9c65-dcb3f05e8b94"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 129.0,
+          "variant_id": "feedcefb-5fa0-4955-9043-53b308725328"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 129.0,
+          "variant_id": "59353004-8b20-4169-b312-e2a6b8dbca2c"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "dfd04b8b-71f5-4e32-9d7a-10de525491ac"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "f4437a93-c86f-4d7b-8317-abf4b41cf2ba"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 15 Pro",
+      "item_id": "0c553e22-5e81-496a-a7a8-6f69a38c9586",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "52fe2ae6-77f2-4667-934d-4f725374753b"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 339.0,
+          "variant_id": "51f9baa3-fe7d-449e-805a-8fa61dfd5107"
+        },
+        {
+          "name": "Housing (Genuine)",
+          "price": 279.0,
+          "variant_id": "d5650374-40ac-40f2-b1c5-1d96d802739e"
+        },
+        {
+          "name": "Rear Glass (Genuine)",
+          "price": 179.0,
+          "variant_id": "4707b47d-64c0-48ea-8a09-955b50f48910"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 149.0,
+          "variant_id": "bd2f15dc-3bfb-4697-897f-8739c6e7a470"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 129.0,
+          "variant_id": "156c28be-9357-41d0-a5dc-8da6bd57707e"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 79.0,
+          "variant_id": "db7fcce5-5781-4bc8-b6ce-bc858f66c415"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 99.0,
+          "variant_id": "f3215f24-9c26-4844-8d71-50f35f0342df"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "2ccd6015-1b98-4740-a9da-01ed0f3efd85"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 129.0,
+          "variant_id": "43bbc794-375c-4fa4-ad2c-1e17ae001d7f"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 129.0,
+          "variant_id": "5a5d88f8-3107-42f3-bf66-09d704e9933d"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "b8b10fc6-7371-487f-87c5-aceb91336bee"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "f53e802f-c736-493e-b613-e68b80111ffe"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 15 Pro Max",
+      "item_id": "d791c04d-cf5e-4280-9fb0-d441feb56635",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "03d552c0-1237-4467-bbaf-7524a59e9e6a"
+        },
+        {
+          "name": "Genuine OLED Screen",
+          "price": 359.0,
+          "variant_id": "3dbdfa09-45dd-4015-962a-dafec74c9b33"
+        },
+        {
+          "name": "Housing (Genuine)",
+          "price": 279.0,
+          "variant_id": "00e36c91-2a59-4e00-8b40-c862ae0e60eb"
+        },
+        {
+          "name": "Rear Glass (Genuine)",
+          "price": 179.0,
+          "variant_id": "51c5aac0-e2c8-43c1-9cc6-cdde4363d42c"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 89.0,
+          "variant_id": "7e6ee9ec-9052-4695-9b47-b819c1fa8ea4"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 129.0,
+          "variant_id": "44ce6179-228c-4b62-9d18-49cb4e56c690"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 79.0,
+          "variant_id": "bd19f197-94a3-41fb-9930-8b807cd7adc7"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 99.0,
+          "variant_id": "9793ec36-0516-4d7f-9fae-a41fc6c85db9"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 99.0,
+          "variant_id": "554bc463-a0ce-494d-baf1-bfa1b485a115"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 129.0,
+          "variant_id": "a1f00782-157b-4526-897a-912dad86b134"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 129.0,
+          "variant_id": "b968205d-befa-4b53-a636-9fe1f51d6ef8"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "8ba2640e-be37-4dbe-ab4d-045850d3f4c8"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 99.0,
+          "variant_id": "5803bee9-2d6e-4aad-81be-5a89ed0e07ad"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 16",
+      "item_id": "63a32ffc-a20c-46ae-b212-55a2f1330df6",
+      "category": "Additional Services",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "1a8af710-4c23-4e18-b494-d5cfcf0d3ae8"
+        },
+        {
+          "name": "Screen (Genuine Apple)",
+          "price": 279.0,
+          "variant_id": "90ac06e3-08fd-465b-b902-d57c7de09061"
+        },
+        {
+          "name": "Rear Glass (Genuine Apple)",
+          "price": 199.0,
+          "variant_id": "1f49c2f2-896f-4f2f-9336-69d3068271eb"
+        },
+        {
+          "name": "Rear Housing (Genuine Apple)",
+          "price": 289.0,
+          "variant_id": "cf969ebf-98d0-4585-9808-fbf3daf4302c"
+        },
+        {
+          "name": "Charging Port",
+          "price": 179.0,
+          "variant_id": "e6024531-dae6-41ef-9c35-d2e1d1bca8e4"
+        },
+        {
+          "name": "Rear Camera (Genuine Apple)",
+          "price": 179.0,
+          "variant_id": "3f1f8dbc-453d-43a9-92cd-5c8fd6a60281"
+        },
+        {
+          "name": "Rear Camera Lens",
+          "price": 99.0,
+          "variant_id": "e0195a2b-5756-443d-8e65-8473ea5fce9c"
+        },
+        {
+          "name": "Earpiece Speaker",
+          "price": 129.0,
+          "variant_id": "d8cc00ae-9d60-40a3-85a9-4d164fe81857"
+        },
+        {
+          "name": "Front Camera",
+          "price": 299.0,
+          "variant_id": "075be8e0-67dd-4e95-be9c-a0bdad2603b6"
+        },
+        {
+          "name": "Loudspeaker",
+          "price": 159.0,
+          "variant_id": "6bcee72e-b869-4b5c-8d5c-b9a3cb097e27"
+        },
+        {
+          "name": "Microphone",
+          "price": 159.0,
+          "variant_id": "efa9b66d-5212-4e79-a649-ff30bbc06e96"
+        },
+        {
+          "name": "Power Button",
+          "price": 159.0,
+          "variant_id": "35e59396-5606-489a-bbc3-6f859a8eb41b"
+        },
+        {
+          "name": "Volume Button",
+          "price": 159.0,
+          "variant_id": "1fd611e0-467c-42fa-a066-68e87715dda1"
+        },
+        {
+          "name": "Battery (Genuine Apple)",
+          "price": 119.0,
+          "variant_id": "2c6370c4-942c-4170-aef2-62c7c7e58507"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 16 Plus",
+      "item_id": "d03297f6-fd2a-4b3d-b7a0-24989f9c2632",
+      "category": "Additional Services",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "3da4521f-e30e-44cc-b183-c6dfe826e728"
+        },
+        {
+          "name": "Screen (Genuine Apple)",
+          "price": 299.0,
+          "variant_id": "9781937a-0ee7-44da-b70b-f3ea854d194f"
+        },
+        {
+          "name": "Rear Glass (Genuine Apple)",
+          "price": 199.0,
+          "variant_id": "676162a7-cd42-497d-a1ce-b66007b3154a"
+        },
+        {
+          "name": "Rear Housing (Genuine Apple)",
+          "price": 319.0,
+          "variant_id": "c5b25308-4dc1-40e7-ab57-f974e5470931"
+        },
+        {
+          "name": "Charging Port",
+          "price": 179.0,
+          "variant_id": "05404dc2-1164-448a-9ee4-7bef6d3cafe0"
+        },
+        {
+          "name": "Rear Camera (Genuine Apple)",
+          "price": 179.0,
+          "variant_id": "e6d77b50-ca97-4ce0-ab8f-01e4751683f9"
+        },
+        {
+          "name": "Rear Camera Lens",
+          "price": 99.0,
+          "variant_id": "1d63f0b0-ee46-4c02-8589-b1ca86b9f31e"
+        },
+        {
+          "name": "Earpiece Speaker",
+          "price": 129.0,
+          "variant_id": "abf5724a-dd02-498f-ab69-ea8a3a9cab7d"
+        },
+        {
+          "name": "Front Camera",
+          "price": 299.0,
+          "variant_id": "9a9a810f-4350-4bc0-acfc-bf55dcaab0c6"
+        },
+        {
+          "name": "Loudspeaker",
+          "price": 159.0,
+          "variant_id": "0ef8d172-fb14-4f94-a388-dfc1bdbf2e78"
+        },
+        {
+          "name": "Microphone",
+          "price": 159.0,
+          "variant_id": "a0b69466-60cd-4b6f-a3cb-63be4fe43886"
+        },
+        {
+          "name": "Power Button",
+          "price": 159.0,
+          "variant_id": "635fc44c-4f3a-4502-b408-2f69489819d7"
+        },
+        {
+          "name": "Volume Button",
+          "price": 159.0,
+          "variant_id": "33dbff7b-d1fd-48ab-9f73-d4d0705463e4"
+        },
+        {
+          "name": "Battery (Genuine Apple)",
+          "price": 119.0,
+          "variant_id": "bc19640a-d0ff-4c9a-a85b-28d742e5834a"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 16 Pro",
+      "item_id": "6514a270-809a-4c13-931e-f1ba7cd67127",
+      "category": "Additional Services",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "6dd9398c-d283-4d6a-b035-418c8eaf5dab"
+        },
+        {
+          "name": "Screen (Genuine Apple)",
+          "price": 349.0,
+          "variant_id": "31676861-ff98-4467-9dd5-20bf2dc4759d"
+        },
+        {
+          "name": "Rear Glass (Genuine Apple)",
+          "price": 249.0,
+          "variant_id": "9262b91c-d87a-40c3-b898-d3afe3f47806"
+        },
+        {
+          "name": "Rear Housing (Genuine Apple)",
+          "price": 349.0,
+          "variant_id": "6fabec78-e56b-4e06-9480-6b68de97dce6"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "a0db3ae9-56e3-4d75-8dd9-a03b35639950"
+        },
+        {
+          "name": "Rear Camera (Genuine Apple)",
+          "price": 249.0,
+          "variant_id": "67db2fee-9fd9-4022-8df0-e8525efeebfc"
+        },
+        {
+          "name": "Rear Camera Lens",
+          "price": 119.0,
+          "variant_id": "7d7194f1-b1cb-46f4-a6a5-c9547fbb1109"
+        },
+        {
+          "name": "Earpiece Speaker",
+          "price": 129.0,
+          "variant_id": "c823c0bc-71e3-428d-b407-83147ef6288f"
+        },
+        {
+          "name": "Front Camera",
+          "price": 299.0,
+          "variant_id": "f02ba342-64ec-416e-99ef-ecbf071974aa"
+        },
+        {
+          "name": "Loudspeaker",
+          "price": 179.0,
+          "variant_id": "20231416-2a2e-46c6-828b-8f0bd24449dc"
+        },
+        {
+          "name": "Microphone",
+          "price": 179.0,
+          "variant_id": "4405bf99-6373-4c41-bd69-8351b18ecb7e"
+        },
+        {
+          "name": "Power Button",
+          "price": 179.0,
+          "variant_id": "cf18717d-773d-40f8-9364-8f8ef8d5347e"
+        },
+        {
+          "name": "Volume Button",
+          "price": 179.0,
+          "variant_id": "de9701b6-3ffe-45ba-a85e-ba5a36e16758"
+        },
+        {
+          "name": "Battery (Genuine Apple)",
+          "price": 119.0,
+          "variant_id": "cdec492c-6630-4c39-9df9-5984ab4b1d92"
+        }
+      ]
+    },
+    {
+      "device": "iPhone 16 Pro Max",
+      "item_id": "6cb92660-bc3b-476d-b1f8-f300b6a6d612",
+      "category": "Additional Services",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "af9509cf-3f2f-4dd0-9dd3-793a1c5b7f8d"
+        },
+        {
+          "name": "Screen (Genuine Apple)",
+          "price": 379.0,
+          "variant_id": "6f15ef9e-990a-487d-822c-b91a383be2ad"
+        },
+        {
+          "name": "Rear Glass (Genuine Apple)",
+          "price": 279.0,
+          "variant_id": "34c4f677-630b-4147-ae3c-236472871c77"
+        },
+        {
+          "name": "Rear Housing (Genuine Apple)",
+          "price": 379.0,
+          "variant_id": "be95840b-2de2-45f8-8dab-6106afefb6b8"
+        },
+        {
+          "name": "Charging Port",
+          "price": 199.0,
+          "variant_id": "fcd0f922-a84a-48cc-b529-57c99888a786"
+        },
+        {
+          "name": "Rear Camera (Genuine Apple)",
+          "price": 249.0,
+          "variant_id": "3cf38ec0-6265-4fde-9154-d5a65475cbd9"
+        },
+        {
+          "name": "Rear Camera Lens",
+          "price": 119.0,
+          "variant_id": "2081f919-f29c-46b3-a7c3-b1b087b434e1"
+        },
+        {
+          "name": "Earpiece Speaker",
+          "price": 129.0,
+          "variant_id": "df3f1759-d2eb-4616-be7f-d820f1521d3d"
+        },
+        {
+          "name": "Front Camera",
+          "price": 299.0,
+          "variant_id": "f9242c10-8db9-4902-8e8f-8c6564da3555"
+        },
+        {
+          "name": "Loudspeaker",
+          "price": 179.0,
+          "variant_id": "591db79b-2f1e-4a83-9cc5-6166d95b69a7"
+        },
+        {
+          "name": "Microphone",
+          "price": 179.0,
+          "variant_id": "2fd06571-132c-49af-bccc-57b6a2c93947"
+        },
+        {
+          "name": "Power Button",
+          "price": 179.0,
+          "variant_id": "09d60e95-ce07-454b-8e72-a1e18a33a544"
+        },
+        {
+          "name": "Volume Button",
+          "price": 179.0,
+          "variant_id": "ff10927f-8146-491b-b6ea-cb19dde362d5"
+        },
+        {
+          "name": "Battery (Genuine Apple)",
+          "price": 119.0,
+          "variant_id": "a12db91f-30cd-480f-b30b-adacb0790456"
+        }
+      ]
+    },
+    {
+      "device": "iPhone SE2",
+      "item_id": "744679AD-61DF-4954-972E-0B3408EB6157",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "77CAAA55-1E46-464F-9B2D-ABF19BB860F4"
+        },
+        {
+          "name": "Original LCD Screen",
+          "price": 149.0,
+          "variant_id": "A619F312-D80A-45C3-ABC6-4CA43BD24569"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 79.0,
+          "variant_id": "F4F6524F-E53A-4A84-A7B7-9C2560E980EA"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 59.0,
+          "variant_id": "DE575C2C-A843-42D4-B98C-98FF22E482F4"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "65F1DFA2-8559-44ED-8DF8-2B5D9A096E82"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 79.0,
+          "variant_id": "097884AC-744A-4190-8988-792155C11F1D"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 49.0,
+          "variant_id": "6CF8C042-41C8-42BF-9BCA-049B94A03771"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 49.0,
+          "variant_id": "C37EB1B2-5730-49A6-9A7E-D011F89798D5"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 49.0,
+          "variant_id": "352C9091-82AE-4992-97DA-D0E54F96E322"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 59.0,
+          "variant_id": "BAB44509-D651-4701-84FB-F0DFC5DCA43B"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 49.0,
+          "variant_id": "EB105BBF-A115-42E8-A3FD-7C71210FD510"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 49.0,
+          "variant_id": "65FA8A46-FA7F-4C55-B07B-D14A0749AB18"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 49.0,
+          "variant_id": "57F85C34-0EC8-4362-BB9E-5D32C8B008D4"
+        },
+        {
+          "name": "Home Button (Genuine)",
+          "price": 60.0,
+          "variant_id": "7B69AEDB-EDEE-46DE-A4FA-ABD3506A9EAE"
+        },
+        {
+          "name": "WiFi Module",
+          "price": 50.0,
+          "variant_id": "652407FF-8B24-4C15-9955-4DCAC12878F8"
+        },
+        {
+          "name": "Proximity Sensor",
+          "price": 49.0,
+          "variant_id": "E20F8825-9D87-4329-82FB-9C82C351E7BC"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 49.0,
+          "variant_id": "C0C41462-8FE5-4696-97F7-D7EAB9422694"
+        }
+      ]
+    },
+    {
+      "device": "iPhone SE3",
+      "item_id": "C21EBDCB-309D-4FF9-BB0C-1EF9F7E7593B",
+      "category": "iPhone",
+      "repairs": [
+        {
+          "name": "Diagnostic (Data Recovery)",
+          "price": 99.0,
+          "variant_id": "22364635-8C56-4904-93D8-B7E74518CAA1"
+        },
+        {
+          "name": "Original LCD Screen",
+          "price": 149.0,
+          "variant_id": "03EB9A6D-E12B-407D-8F26-9DE7371C2C85"
+        },
+        {
+          "name": "Rear Housing (Genuine)",
+          "price": 129.0,
+          "variant_id": "745265BD-0DE8-4C68-9423-7FE210E93B21"
+        },
+        {
+          "name": "Charging Port (Genuine)",
+          "price": 69.0,
+          "variant_id": "3CBF4CA0-589C-4C7B-8C8A-41EE0AD3FA11"
+        },
+        {
+          "name": "Battery (Genuine)",
+          "price": 89.0,
+          "variant_id": "0745FDC0-9941-497D-8A31-59103496936A"
+        },
+        {
+          "name": "Rear Camera (Genuine)",
+          "price": 99.0,
+          "variant_id": "92C7930C-9F16-4957-9EE3-7023B68380BE"
+        },
+        {
+          "name": "Rear Camera Lens (Genuine)",
+          "price": 59.0,
+          "variant_id": "793BB627-5CD3-458A-92FD-05BE4C5EFD51"
+        },
+        {
+          "name": "Front Camera (Genuine)",
+          "price": 49.0,
+          "variant_id": "FCC809A8-C018-443F-B08B-017DCEBF389E"
+        },
+        {
+          "name": "Earpiece Speaker (Genuine)",
+          "price": 59.0,
+          "variant_id": "8BFCB133-E332-4D2B-A04C-1B6E50A48DF0"
+        },
+        {
+          "name": "Loudspeaker (Genuine)",
+          "price": 49.0,
+          "variant_id": "B8C377D4-FF5D-448B-95D3-C7A890A7F7D8"
+        },
+        {
+          "name": "Microphone (Genuine)",
+          "price": 69.0,
+          "variant_id": "522C4CF0-051E-4DB0-B0A6-3BE3BA839C36"
+        },
+        {
+          "name": "Power Button (Genuine)",
+          "price": 59.0,
+          "variant_id": "59A2E235-82FE-4F71-8D41-754BD45181EA"
+        },
+        {
+          "name": "Volume Button (Genuine)",
+          "price": 59.0,
+          "variant_id": "DDD307A8-3953-4C0C-B2E0-8BAC43FB8422"
+        },
+        {
+          "name": "Mute Button (Genuine)",
+          "price": 59.0,
+          "variant_id": "2284CAE0-C4D7-4C4F-B6C4-696A99ABC69A"
+        },
+        {
+          "name": "Home Button (Genuine)",
+          "price": 60.0,
+          "variant_id": "8FC93D02-1B9E-4D4C-83F4-BDBB81C21D08"
+        },
+        {
+          "name": "WiFi Module",
+          "price": 50.0,
+          "variant_id": "88622505-948C-4D8A-B694-EEA53DF614AF"
+        },
+        {
+          "name": "Proximity Sensor",
+          "price": 50.0,
+          "variant_id": "C51091C0-EADC-45D4-AD7E-1A6C6D21E2E8"
+        }
+      ]
+    },
+    {
+      "device": "iPhone XS Max Battery",
+      "item_id": "334f4948-2a2d-4b76-89e2-6ea006dc46dc",
+      "category": "Additional Services",
+      "repairs": []
+    }
+  ]
+}

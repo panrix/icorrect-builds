@@ -1,0 +1,112 @@
+{
+  "board": "A2779",
+  "schematic": "820-02655",
+  "connectors": [
+    {
+      "designator": "USB-C Left Port 0",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UF400 (CD3217 ATC0)",
+      "position": "Left, rear",
+      "signals": {"vbus": "PPVBUS_USBC0", "cc1": "USBC0_CC1", "cc2": "USBC0_CC2", "sbu1": "USBC0_SBU1", "sbu2": "USBC0_SBU2"},
+      "page": [77, 79]
+    },
+    {
+      "designator": "USB-C Left Port 1",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UF500 (CD3217 ATC1)",
+      "position": "Left, front",
+      "signals": {"vbus": "PPVBUS_USBC1", "cc1": "USBC1_CC1", "cc2": "USBC1_CC2"},
+      "page": [78, 79]
+    },
+    {
+      "designator": "USB-C Right Port",
+      "type": "USB-C / Thunderbolt 4",
+      "controller": "UG400 (CD3217 ATC2)",
+      "position": "Right",
+      "signals": {"vbus": "PPVBUS_USBC2", "cc1": "USBC2_CC1", "cc2": "USBC2_CC2"},
+      "page": [86, 87]
+    },
+    {
+      "designator": "J5401",
+      "type": "MagSafe 3",
+      "controller": "MagSafe Port Controller (UPC5 area, page 32)",
+      "position": "Left side",
+      "apn": {"mlb": "516S00787", "flex": "516S00788"},
+      "page": [31, 32, 33]
+    },
+    {
+      "designator": "JH500",
+      "type": "HDMI 2.1",
+      "controller": "Cobra retimer IC (page 94)",
+      "part_number": "RCPT-HDMI-C-BLK-X1502",
+      "position": "Right side",
+      "page": [92, 93]
+    },
+    {
+      "designator": "SD Card Slot",
+      "type": "SD / SDXC",
+      "controller": "SD Card Controller IC",
+      "position": "Right side",
+      "page": [97, 98]
+    },
+    {
+      "designator": "Battery Connector",
+      "type": "Internal battery",
+      "apn": "518S0818",
+      "debug_connector": "J5150 (ARKANOID debug)",
+      "page": 28
+    },
+    {
+      "designator": "JP600 (Display Connector)",
+      "type": "Internal display flex (Mini-LED Liquid Retina XDR)",
+      "apn": "516S00682",
+      "page": [116, 117]
+    },
+    {
+      "designator": "Camera Flex Connector",
+      "type": "Internal camera (516S06694)",
+      "page": [114, 115]
+    },
+    {
+      "designator": "BCON Connector",
+      "type": "Board connector",
+      "page": 119
+    },
+    {
+      "designator": "Keyboard Connector",
+      "type": "Internal keyboard + backlight",
+      "page": [128, 129]
+    },
+    {
+      "designator": "Trackpad Connector",
+      "type": "Internal Force Touch trackpad",
+      "page": [130, 131]
+    },
+    {
+      "designator": "TouchID Connector",
+      "type": "Touch ID / Power button",
+      "page": [132, 133, 134]
+    },
+    {
+      "designator": "Audio Jack Connector",
+      "type": "3.5mm headphone/mic combo",
+      "codec": "Carlow B0",
+      "page": [122]
+    },
+    {
+      "designator": "Audio Flex Connectors",
+      "type": "Speaker + amplifier flex",
+      "page": [125, 126]
+    },
+    {
+      "designator": "Fan Connector",
+      "type": "Internal cooling fan",
+      "page": 68
+    },
+    {
+      "designator": "J5150",
+      "type": "ARKANOID battery debug connector",
+      "page": 28
+    }
+  ]
+}

@@ -1,0 +1,193 @@
+{
+  "board": "A2337",
+  "schematic": "820-02016",
+  "extraction_notes": "Complete extraction from 92-page Rev4 schematic. U-designators confirmed from schematic pages. PMU naming: SERA = Master PMU (U8100), SIMETRA = Slave PMU (U7700) per power aliases page 78.",
+  "WARNING": "M1 (T8103) board. Different SoC and PMU configuration from M2 (A2681). USB-C port controllers are CD3217 (same as M2). Charger IC is U5200 area. SVR AON controller is on pages 25-26, NOT the same U-designator range as M2.",
+  "ics": [
+    {
+      "designator": "U6000",
+      "function": "SoC - Apple M1 (T8103)",
+      "description": "Main System on Chip. PCPU, ECPU, GPU, Neural Engine, memory controller, I/O. BGA package with integrated LPDDR4X.",
+      "pages": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18]
+    },
+    {
+      "designator": "U5700",
+      "function": "SVR AON - 3V8 always-on switching voltage regulator",
+      "description": "Multi-phase buck converter producing PP3V8_AON from PPBUS_AON. 30A ICC MAX design, 1MHz. Phase drivers on page 26. Main power IC feeding both PMUs.",
+      "pages": [25, 26, 27]
+    },
+    {
+      "designator": "U7700",
+      "part_number": "SIMETRA",
+      "function": "SPMU (Slave PMU)",
+      "description": "Slave Power Management Unit. Bucks: 0-14 (see aliases page 78 for SIMETRA BUCK assignments). LDOs: 1-20 plus switches SW1-7. Input: PP3V8_AON. SIMETRA naming from power aliases.",
+      "pages": [28, 29, 30, 31]
+    },
+    {
+      "designator": "U8100",
+      "part_number": "SERA",
+      "function": "MPMU (Master PMU)",
+      "description": "Master Power Management Unit. Bucks: 0-14 (see aliases page 78 for SERA BUCK assignments). LDOs, GPIO, ADC, 32K clock, charger reset. Input: PP3V8_AON. SERA naming from power aliases.",
+      "pages": [32, 33, 34, 35]
+    },
+    {
+      "designator": "U5200",
+      "function": "Battery charger IC",
+      "description": "Main charger IC converting USB-C input to PPBUS_AON and managing battery charging. CD3217-compatible input. Schematic symbol on page 23.",
+      "pages": [23]
+    },
+    {
+      "designator": "UC320",
+      "function": "5V S2 buck converter",
+      "description": "Produces PP5V_S2 (5.15V) from PPBUS_AON. Vout=5.15V, F=1.5MHz, startup <15ms. Page 38.",
+      "pages": [38, 37]
+    },
+    {
+      "designator": "XMC710",
+      "function": "3V3 S2 buck converter",
+      "description": "Produces PP3V3_S2 (3.3V) from PPBUS_AON. Vout=3.12V, F=2.25MHz, startup <5ms. Page 39.",
+      "pages": [39, 37]
+    },
+    {
+      "designator": "UC100",
+      "function": "3.3V AON LDO",
+      "description": "Produces PP3V3_AON from PP3V8_AON_VODMAN. 3.3V always-on LDO. Page 36.",
+      "pages": [36]
+    },
+    {
+      "designator": "UC200",
+      "function": "1.8V AON LDO",
+      "description": "Produces PP1V8_AON from PP3V8_AON_VODMAN. 1.8V always-on LDO. Page 36.",
+      "pages": [36]
+    },
+    {
+      "designator": "UF400",
+      "function": "CD3217 USB-C PD port controller ATC0",
+      "description": "Port controller for ATC0 (left rear). PD negotiation, CC signaling, VBUS control. Internal LDO. SPI ROM for firmware.",
+      "pages": [55]
+    },
+    {
+      "designator": "UF500",
+      "function": "CD3217 USB-C PD port controller ATC1",
+      "description": "Port controller for ATC1 (left front). Same as UF400 for second port.",
+      "pages": [56]
+    },
+    {
+      "designator": "UF700",
+      "function": "TBT LS RX/TX level shifter (ATC0 I2C)",
+      "description": "Level shifter for ATC0 re-timer I2C and reset signals. Parrot 0 ICRESET level shifters.",
+      "pages": [58]
+    },
+    {
+      "designator": "UF750",
+      "function": "eUSB level shifter",
+      "description": "eUSB LS BB DFPN level shifter for USB 2.0 signaling.",
+      "pages": [58]
+    },
+    {
+      "designator": "UF710",
+      "function": "ATC0 re-timer I2C level shifter",
+      "description": "Parrot 0 I2C/reset level shifter. High side on PP3V_S2, low side on PP1V25_S2.",
+      "pages": [58]
+    },
+    {
+      "designator": "UF720",
+      "function": "ATC1 re-timer I2C level shifter",
+      "description": "Parrot 1 I2C/reset level shifter.",
+      "pages": [58]
+    },
+    {
+      "designator": "U5000",
+      "part_number": "Ceres",
+      "function": "Secure Element",
+      "description": "Ceres SE (DK3219A). Powered by VDDPL1_SE, PP3V8_AON. I2C interface, SEP EEPROM at U0500 (STOCT).",
+      "pages": [21]
+    },
+    {
+      "designator": "U0500",
+      "part_number": "STOCT",
+      "function": "SEP EEPROM",
+      "description": "SEP EEPROM IC. I2C interface. Connected to Ceres secure element.",
+      "pages": [21]
+    },
+    {
+      "designator": "U0600",
+      "function": "Pin delay mapping file IC",
+      "description": "TGA_PINDELAY_20X2_R9_2E_C5V. Connected to SoC.",
+      "pages": [5]
+    },
+    {
+      "designator": "UF200",
+      "function": "TBT ROM (SPI flash)",
+      "description": "TBT ROM BLANK. SPI serial flash for Thunderbolt firmware.",
+      "pages": [2]
+    },
+    {
+      "designator": "U1S75",
+      "function": "SOC ROM",
+      "description": "SoC SPI NOR flash. SOC_ROM_BLANK / SOC_ROM_BLANK_DRZL options.",
+      "pages": [19]
+    },
+    {
+      "designator": "UP700",
+      "function": "Display power sequencer",
+      "description": "SLGA... part. Controls display panel power rails. Page 68.",
+      "pages": [68]
+    },
+    {
+      "designator": "UP705",
+      "function": "Display power sequencer (secondary)",
+      "description": "Secondary display power sequencer IC.",
+      "pages": [68]
+    },
+    {
+      "designator": "UP715",
+      "function": "Display power controller",
+      "description": "Display power control IC. Connects to PANEL_PWR_EN and BL_PWR_EN.",
+      "pages": [68]
+    },
+    {
+      "designator": "DP600",
+      "function": "BEN - Display/KBD backlight boost converter",
+      "description": "Boost converter for LCD backlight LED strings and keyboard backlight. SYMBOL 35000160. Input: PPBUS_AONSW_LCD. Page 69.",
+      "pages": [69, 70]
+    },
+    {
+      "designator": "Rasputin Module",
+      "part_number": "Rasputin",
+      "function": "WiFi 6 / Bluetooth module",
+      "description": "Integrated WiFi/BT module (LAMASURI18 STO). Powered by PP3V8_AON, PPBUS. 2GFEM + 5GFEM front-ends.",
+      "pages": [60, 61]
+    },
+    {
+      "designator": "U5910",
+      "function": "PP3V8_AON current sense amplifier",
+      "description": "Monitors PP3V8_AON current via sense resistor. Used for current limit and fault detection.",
+      "pages": [27]
+    },
+    {
+      "designator": "UF000",
+      "function": "TBT Burnside Bridge",
+      "description": "Thunderbolt/USB4 Burnside Bridge retimer. 2x ICs (UF000, UF100). Critical module parts.",
+      "pages": [2, 52, 53]
+    },
+    {
+      "designator": "UF100",
+      "function": "TBT Burnside Bridge (second)",
+      "description": "Second Burnside Bridge retimer IC.",
+      "pages": [2, 52, 53]
+    },
+    {
+      "designator": "UF500",
+      "function": "Ace2 USB-C controller",
+      "description": "Ace2 82 BGA USB-C/USB4 controller IC. ACE2_82_BGA.",
+      "pages": [2]
+    },
+    {
+      "designator": "XMF100",
+      "function": "3.3V LDO for USB-C ATC0",
+      "description": "3.3V LDO on USB-C High Speed ATC0 page. Provides filtered 3.3V for retimer.",
+      "pages": [52]
+    }
+  ]
+}

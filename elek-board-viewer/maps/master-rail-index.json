@@ -1,0 +1,8007 @@
+{
+  "description": "Master rail index across all boards",
+  "total_unique_rails": 520,
+  "total_boards": 14,
+  "boards": [
+    "A2337",
+    "A2338",
+    "A2338_M2",
+    "A2442",
+    "A2442_CTO",
+    "A2485",
+    "A2485_EVTc",
+    "A2681",
+    "A2779",
+    "A2779_S",
+    "A2780",
+    "A2918",
+    "A3113",
+    "A3114"
+  ],
+  "rails": [
+    {
+      "name": "PP0V51_S1",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.51V"
+      ],
+      "sources": [
+        "SPMU LDO"
+      ]
+    },
+    {
+      "name": "PP0V51_S2",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.51V"
+      ],
+      "sources": [
+        "SPMU LDO"
+      ]
+    },
+    {
+      "name": "PP0V575_S1_VDDQ0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "0.575V"
+      ],
+      "sources": [
+        "MPMU BUCK 8 (secondary)"
+      ]
+    },
+    {
+      "name": "PP0V575_S1_VDDQ1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "0.575V"
+      ],
+      "sources": [
+        "MPMU BUCK 8 (secondary)"
+      ]
+    },
+    {
+      "name": "PP0V5_DISP7_MAMEISM_LDO6_NC",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "N/A"
+      ],
+      "sources": [
+        "SPMU LDO6/a \u2014 NC on S variant"
+      ]
+    },
+    {
+      "name": "PP0V5_DISP7_MAMEISM_NC",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "N/A"
+      ],
+      "sources": [
+        "SPMU Buck7 (PGr1) \u2014 NC on S variant"
+      ]
+    },
+    {
+      "name": "PP0V5_MAME_VDCK",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.5V"
+      ],
+      "sources": [
+        "MPMU/SPMU"
+      ]
+    },
+    {
+      "name": "PP0V5_S1_DCS",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "0.5V"
+      ],
+      "sources": [
+        "MPMU BUCK 9",
+        "MPMU BUCK 9 (U8100)"
+      ]
+    },
+    {
+      "name": "PP0V5_S1_ESTP",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "0.5V"
+      ],
+      "sources": [
+        "SPMU BUCK 8",
+        "SPMU BUCK 8 (U7700)"
+      ]
+    },
+    {
+      "name": "PP0V5_S1_SOC",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "0.5V"
+      ],
+      "sources": [
+        "MPMU BUCK 2",
+        "MPMU BUCK 2 (U8100)"
+      ]
+    },
+    {
+      "name": "PP0V5_S1_VDDOL",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "0.5V"
+      ],
+      "sources": [
+        "SPMU BUCK 10",
+        "SPMU BUCK 10 (U7700)"
+      ]
+    },
+    {
+      "name": "PP0V72_S1_MOPASS",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "0.72V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 (secondary)"
+      ]
+    },
+    {
+      "name": "PP0V72_S2_SOC_FIXED",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.72V"
+      ],
+      "sources": [
+        "PMU LDO"
+      ]
+    },
+    {
+      "name": "PP0V72_S2_VDDLOW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "0.72V"
+      ],
+      "sources": [
+        "SPMU BUCK 13",
+        "SPMU BUCK 13 (LDON)",
+        "SPMU BUCK 5 (alias)"
+      ]
+    },
+    {
+      "name": "PP0V72_S2_VDD_LOW",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "0.72V"
+      ],
+      "sources": [
+        "SPMU LDO 4",
+        "SPMU LDO 4 (U7700)",
+        "SPMU LDO 4 (U7700), 300mA MAX"
+      ]
+    },
+    {
+      "name": "PP0V75_S1_SOC",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.75V"
+      ],
+      "sources": [
+        "SPMU BUCK 5 (alias of PP0V75_S1_SRAM)"
+      ]
+    },
+    {
+      "name": "PP0V75_S1_SRAM",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "0.75V"
+      ],
+      "sources": [
+        "PMU Buck (SERA or SIMETRA)",
+        "SPMU BUCK 5",
+        "SPMU BUCK 5 (U7700)"
+      ]
+    },
+    {
+      "name": "PP0V75_S1_VDD_FIXED",
+      "boards": [
+        "A2338_M2",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "0.75V"
+      ],
+      "sources": [
+        "SPMU LDO 12",
+        "SPMU LDO 12 (U7700)"
+      ]
+    },
+    {
+      "name": "PP0V75_S2_VDD_FIXED",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.75V"
+      ],
+      "sources": [
+        "SPMU LDO 12"
+      ]
+    },
+    {
+      "name": "PP0V78_S1_VDD_FIXED",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "0.78V"
+      ],
+      "sources": [
+        "SPMU LDO 12 (U7700), 850mA MAX"
+      ]
+    },
+    {
+      "name": "PP0V805_USBC_FIXED",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "0.805V"
+      ],
+      "sources": [
+        "Derived from PP0V75_S1_VDD_FIXED",
+        "Derived from VDD_FIXED"
+      ]
+    },
+    {
+      "name": "PP0V81_S1_SRAM",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "0.81V"
+      ],
+      "sources": [
+        "MPMU BUCK 7",
+        "SPMU BUCK 0"
+      ]
+    },
+    {
+      "name": "PP0V83_S1_STOP",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "0.83V"
+      ],
+      "sources": [
+        "MPMU LDO 11",
+        "MPMU LDO 11 (U8100)"
+      ]
+    },
+    {
+      "name": "PP0V855_S2SW_VDDCIO",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "0.855V"
+      ],
+      "sources": [
+        "SPMU BUCK 18"
+      ]
+    },
+    {
+      "name": "PP0V855_USBC_CIO",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.855V"
+      ],
+      "sources": [
+        "MPMU LDO 10 alias (PPVDS5_S2SM_CIO)"
+      ]
+    },
+    {
+      "name": "PP0V855_USBC_VDD_CIO",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "0.855V"
+      ],
+      "sources": [
+        "Derived from PPVDS5_S2SM_CIO"
+      ]
+    },
+    {
+      "name": "PP0V88_AWAKE_NAND_VDD",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.88V"
+      ],
+      "sources": [
+        "MPMU/SPMU"
+      ]
+    },
+    {
+      "name": "PP0V8_S2_CLVR_VDDDIG",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "0.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 14"
+      ]
+    },
+    {
+      "name": "PP0V95_MAME2W_DFCHM1",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.95V"
+      ],
+      "sources": [
+        "UH908 (0.95V buck on HDMI Project Support 2)"
+      ]
+    },
+    {
+      "name": "PP0V95_S2SW_VDD2L",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "0.95V"
+      ],
+      "sources": [
+        "SPMU BUCK 19"
+      ]
+    },
+    {
+      "name": "PP0V9_NAND0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "0.9V"
+      ],
+      "sources": [
+        "Ocarina LN400",
+        "Ocarina SSD0 VR"
+      ]
+    },
+    {
+      "name": "PP0V9_NAND1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "0.9V"
+      ],
+      "sources": [
+        "Ocarina LN900",
+        "Ocarina SSD1 VR"
+      ]
+    },
+    {
+      "name": "PP16V0_TOUCHID",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "16V"
+      ],
+      "sources": [
+        "TouchID boost converter",
+        "TouchID boost driver",
+        "TouchID high voltage"
+      ]
+    },
+    {
+      "name": "PP16V0_TOUCHID_FILT_CONN",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "16V"
+      ],
+      "sources": [
+        "TouchID filtered to connector"
+      ]
+    },
+    {
+      "name": "PP16V0_TOUCHID_SW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "16V"
+      ],
+      "sources": [
+        "TouchID switched",
+        "TouchID switched HV"
+      ]
+    },
+    {
+      "name": "PP17V0_LDOIN",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "17V"
+      ],
+      "sources": [
+        "High-voltage LDO input (VDDH circuit)"
+      ]
+    },
+    {
+      "name": "PP1V05_DISP",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.05V"
+      ],
+      "sources": [
+        "U6600 (Display PMU SAS G1ECO)"
+      ]
+    },
+    {
+      "name": "PP1V05_LDOINT_MPMU",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.05V"
+      ],
+      "sources": [
+        "MPMU LDOINT",
+        "MPMU LDOINT (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V05_LDOINT_SPMU",
+      "boards": [
+        "A2338_M2",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.05V"
+      ],
+      "sources": [
+        "SPMU LDOINT",
+        "SPMU LDOINT (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V05_S2M_VDDQ",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.05V"
+      ],
+      "sources": [
+        "MPMU Buck"
+      ]
+    },
+    {
+      "name": "PP1V05_UPC0_LDO_CORE",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.05V"
+      ],
+      "sources": [
+        "UF400 internal LDO"
+      ]
+    },
+    {
+      "name": "PP1V05_UPC1_LDO_CORE",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.05V"
+      ],
+      "sources": [
+        "UF500 internal LDO"
+      ]
+    },
+    {
+      "name": "PP1V08_S2M",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.08V"
+      ],
+      "sources": [
+        "MPMU Buck"
+      ]
+    },
+    {
+      "name": "PP1V10_AON_MPMU",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.1V"
+      ],
+      "sources": [
+        "MPMU LDO1V2"
+      ]
+    },
+    {
+      "name": "PP1V10_AWAKE_SPMU_FET",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.1V"
+      ],
+      "sources": [
+        "SPMU AWAKE FET output"
+      ]
+    },
+    {
+      "name": "PP1V12_AON_MPMU",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.12V"
+      ],
+      "sources": [
+        "MPMU AON LDO"
+      ]
+    },
+    {
+      "name": "PP1V12_MAME_PLL",
+      "boards": [
+        "A2338_M2",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.12V"
+      ],
+      "sources": [
+        "MPMU LDO 8",
+        "MPMU LDO 8 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V12_S2M_AMPH",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.12V"
+      ],
+      "sources": [
+        "SPMU BUCK 14",
+        "SPMU BUCK 14 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V12_S2M_AMPL",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.12V"
+      ],
+      "sources": [
+        "SPMU BUCK 14 alias"
+      ]
+    },
+    {
+      "name": "PP1V12_S2SM_AMPH",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.12V"
+      ],
+      "sources": [
+        "SPMU BUCK 14 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V1_PCPU_AWAKE",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "SERA BUCK 0 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V21_MAME_3D",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.21V"
+      ],
+      "sources": [
+        "Filtered from PP1V21_S2"
+      ]
+    },
+    {
+      "name": "PP1V21_S2",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.21V"
+      ],
+      "sources": [
+        "MPMU BUCK 3",
+        "MPMU BUCK 3 (U8100)",
+        "MPMU BUCK 3 (main output)"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "SPMU BUCK 12"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_C2C",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE C2C regulator"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_FMON",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE FMON branch"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_GRP0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE GRP0 branch"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_GRP1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE GRP1 branch"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_PCIE_PLL_GP",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE PCIe PLL GP"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_PCIE_PLL_ST",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE PCIe PLL ST"
+      ]
+    },
+    {
+      "name": "PP1V225_AWAKE_XTAL",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.225V"
+      ],
+      "sources": [
+        "AWAKE crystal ref"
+      ]
+    },
+    {
+      "name": "PP1V25_AWAKE_3D",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "MPMU BUCK 13 SW3 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V25_AWAKE_NAND_VCC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "SPMU BUCK 6 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V25_AWAKE_NAND_VCC5",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "SPMU BUCK 13 SW5 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V25_MAME_3D",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "MPMU BUCK 13 SW 3",
+        "MPMU BUCK 13 SW3 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V25_MAME_NAND_VCC",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "SPMU BUCK 6",
+        "SPMU BUCK 6 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V25_MAME_NAND_VCC2",
+      "boards": [
+        "A2338_M2",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "SPMU BUCK 13 SW5 (U7700)",
+        "SPMU BUCK 6 / BUCK 13 SW5"
+      ]
+    },
+    {
+      "name": "PP1V25_MAME_NAND_VCC5",
+      "boards": [
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "SPMU BUCK 13 SW 5"
+      ]
+    },
+    {
+      "name": "PP1V25_S2",
+      "boards": [
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 11,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "1V25 S2 regulator",
+        "MPMU BUCK 13",
+        "MPMU BUCK 13 (U8100)",
+        "MPMU BUCK 13 (main output)",
+        "MPMU Buck8 (PGr8)"
+      ]
+    },
+    {
+      "name": "PP1V25_S2_WLBT_1MS",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.25V"
+      ],
+      "sources": [
+        "Load switch from PP1V25_S2"
+      ]
+    },
+    {
+      "name": "PP1V2_AON",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "1V2 AON regulator",
+        "MPMU LDO1V (PP1V2_AON via alias)"
+      ]
+    },
+    {
+      "name": "PP1V2_AON_MPMU",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU LDO 9B",
+        "MPMU LDO 9B (U8100)",
+        "MPMU LDO 9B (U8100), 10mA MAX",
+        "MPMU LDO9B (LDOIV2)"
+      ]
+    },
+    {
+      "name": "PP1V2_AON_SPMU",
+      "boards": [
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 12,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "SPMU LDO (AON)",
+        "SPMU LDO 9B",
+        "SPMU LDO 9B (U7700)",
+        "SPMU LDO 9B (U7700), 10mA MAX",
+        "SPMU LDO AON",
+        "SPMU LDO9B (LDOIV2)"
+      ]
+    },
+    {
+      "name": "PP1V2_AWAKE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU AWAKE output",
+        "SPMU BUCK 8 (FDKP8)"
+      ]
+    },
+    {
+      "name": "PP1V2_AWAKESW_BLC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "AWAKE switched BLC"
+      ]
+    },
+    {
+      "name": "PP1V2_AWAKE_CODEC",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "PP1V2_AWAKE branch"
+      ]
+    },
+    {
+      "name": "PP1V2_AWAKE_PLL",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU LDO 8 (U8100), 730mA MAX"
+      ]
+    },
+    {
+      "name": "PP1V2_AWAKE_SPKRAMP",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "PP1V2_AWAKE branch"
+      ]
+    },
+    {
+      "name": "PP1V2_AWAKE_SPMU_LDOIV2",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "SPMU LDO internal 2"
+      ]
+    },
+    {
+      "name": "PP1V2_CODEC_VL_VD",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "Codec digital",
+        "Codec digital supply",
+        "Codec logic/digital"
+      ]
+    },
+    {
+      "name": "PP1V2_DP2HDMI_DIG",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "Madea digital supply"
+      ]
+    },
+    {
+      "name": "PP1V2_DP2HDMI_TX_RX_PLL_OSC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "Madea PLL/oscillator",
+        "Madea TX/RX/PLL/OSC"
+      ]
+    },
+    {
+      "name": "PP1V2_GL",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "Display GL supply",
+        "Display path",
+        "Gate line driver"
+      ]
+    },
+    {
+      "name": "PP1V2_GL_LOOP",
+      "boards": [
+        "A2442",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "GL loop feedback",
+        "SD card controller internal"
+      ]
+    },
+    {
+      "name": "PP1V2_MAME",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "SPMU Buck8 (PSr1)"
+      ]
+    },
+    {
+      "name": "PP1V2_MAME_2D",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU Buck/LDO"
+      ]
+    },
+    {
+      "name": "PP1V2_MAME_3D",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU Buck/LDO"
+      ]
+    },
+    {
+      "name": "PP1V2_MAME_NAND_VCCQ",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "NAND power distribution"
+      ]
+    },
+    {
+      "name": "PP1V2_MAME_PLL",
+      "boards": [
+        "A2681",
+        "A2779_S",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU Buck5",
+        "MPMU LDO 8",
+        "MPMU LDO 8 alias"
+      ]
+    },
+    {
+      "name": "PP1V2_NAND0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "NAND0 1V2 VR",
+        "Ocarina LN400"
+      ]
+    },
+    {
+      "name": "PP1V2_NAND1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "NAND1 1V2 VR",
+        "Ocarina LN900"
+      ]
+    },
+    {
+      "name": "PP1V2_S2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "1.225V",
+        "1.2V"
+      ],
+      "sources": [
+        "1V2 S2 regulator",
+        "MPMU BUCK 8",
+        "MPMU BUCK 8 (FDK8 secondary)",
+        "MPMU Buck (via alias)"
+      ]
+    },
+    {
+      "name": "PP1V2_S2M_AMPH",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU Buck"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_AOP0_S2",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "AOP0 domain"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_AOP1_S2",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "AOP1 domain"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_C10",
+      "boards": [
+        "A2338_M2",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU LDO 20 (U8100)",
+        "MPMU LDO 20 alias"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_CIO",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU LDO 20 (U8100), 400mA MAX"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_CLVR_VDDC1",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU LDO 1"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_CLVR_VDDC1_LDO",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "MPMU LDO 1 (branch)"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_CLVR_VDDIO",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "CLVR VDDIO"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_DP2HDMI",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "From PP1V2_S2",
+        "Switched for Madea",
+        "UH001 (HDMI 1V2 VR)"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_DP2HDMI_REG",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "UH001 LDO output"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_HDMI",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "Derived from PP1V2_S2",
+        "PP1V2_S2 branch"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_SPMU",
+      "boards": [
+        "A2485_EVTc",
+        "A2779"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "SPMU BUCK 12 (FDKP12)",
+        "SPMU BUCK 3"
+      ]
+    },
+    {
+      "name": "PP1V2_S2_ULPPLL",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "ULP PLL"
+      ]
+    },
+    {
+      "name": "PP1V2_SPMU_LDO3_AWAKE",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "SPMU LDO3"
+      ]
+    },
+    {
+      "name": "PP1V2_UPCPMURESET",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "UPC PMU reset circuit"
+      ]
+    },
+    {
+      "name": "PP1V2_USBC_VDDIO",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.2V"
+      ],
+      "sources": [
+        "Derived from PP1V25_S2",
+        "UF900 (ATC01 regulator, Vout=1.119V)",
+        "UF900 (ATC01 regulator, from PP1V2_USBC_VDDIO)"
+      ]
+    },
+    {
+      "name": "PP1V5_AON_MPMU",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MPMU LDO4 (VCORE)"
+      ]
+    },
+    {
+      "name": "PP1V5_AON_VCORE_MPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MPMU internal VCORE",
+        "MPMU internal VCORE LDO"
+      ]
+    },
+    {
+      "name": "PP1V5_AON_VCORE_SPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "SPMU internal VCORE",
+        "SPMU internal VCORE LDO"
+      ]
+    },
+    {
+      "name": "PP1V5_AON_VRTC_MPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MPMU RTC LDO",
+        "MPMU internal VRTC"
+      ]
+    },
+    {
+      "name": "PP1V5_AON_VRTC_SPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "SPMU RTC LDO",
+        "SPMU internal VRTC"
+      ]
+    },
+    {
+      "name": "PP1V5_LDOINT_MPMU",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MPMU LDOINT (U8100), 150mA MAX"
+      ]
+    },
+    {
+      "name": "PP1V5_LDOINT_MPMU_RTC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MPMU LDO RTC (shorted to LDOINT for portables)"
+      ]
+    },
+    {
+      "name": "PP1V5_LDOINT_SPMU",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "SPMU LDOINT (U7700), 150mA MAX"
+      ]
+    },
+    {
+      "name": "PP1V5_P1V8VDDH_LDO15",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "LDO15 from VDDH circuit"
+      ]
+    },
+    {
+      "name": "PP1V5_S2SW_CLVR_VDDC1_MPMU",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MPMU LDO2"
+      ]
+    },
+    {
+      "name": "PP1V5_UPC0_LDO_CORE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "UF400 internal LDO"
+      ]
+    },
+    {
+      "name": "PP1V5_UPC1_LDO_CORE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "UF500 internal LDO"
+      ]
+    },
+    {
+      "name": "PP1V5_UPC2_LDO_CORE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "UG400 internal LDO"
+      ]
+    },
+    {
+      "name": "PP1V5_UPC5_LDO_CORE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.5V"
+      ],
+      "sources": [
+        "MagSafe controller LDO"
+      ]
+    },
+    {
+      "name": "PP1V825_S2_HOLD_KBD_LDO",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.825V"
+      ],
+      "sources": [
+        "KBD 1V825 LDO"
+      ]
+    },
+    {
+      "name": "PP1V85_S2M_ODOG",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.85V"
+      ],
+      "sources": [
+        "MPMU Buck"
+      ]
+    },
+    {
+      "name": "PP1V85_S2M_VDDQ5",
+      "boards": [
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.85V"
+      ],
+      "sources": [
+        "MPMU BUCK 4"
+      ]
+    },
+    {
+      "name": "PP1V85_S2SM_VDDQ5",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.85V"
+      ],
+      "sources": [
+        "MPMU BUCK 4 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V85_S2_IPD",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.85V"
+      ],
+      "sources": [
+        "1V85 for IPD"
+      ]
+    },
+    {
+      "name": "PP1V8_AON",
+      "boards": [
+        "A2337",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "1V8 AON regulator",
+        "MPMU LDO0 (via PPVDD_LDO0_MPMU_REG)",
+        "UC200 (1.8V AON LDO from PP3V8_AON_VODMAN)"
+      ]
+    },
+    {
+      "name": "PP1V8_AONSW_KBDLO",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "KBD 1V8 S2 LDO (from PP3V8_AON)"
+      ]
+    },
+    {
+      "name": "PP1V8_AON_DPG_F",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "PP1V8_AON filtered"
+      ]
+    },
+    {
+      "name": "PP1V8_AON_MPMU",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU LDO 9",
+        "MPMU LDO 9 (U8100)",
+        "MPMU LDO 9 (U8100), 10mA MAX",
+        "MPMU LDO9"
+      ]
+    },
+    {
+      "name": "PP1V8_AON_RTC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU RTC output"
+      ]
+    },
+    {
+      "name": "PP1V8_AON_SPMU",
+      "boards": [
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 12,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU LDO (AON)",
+        "SPMU LDO 9",
+        "SPMU LDO 9 (U7700)",
+        "SPMU LDO 9 (U7700), 10mA MAX",
+        "SPMU LDO AON",
+        "SPMU LDO9"
+      ]
+    },
+    {
+      "name": "PP1V8_AWAKE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 9,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU BUCK 3 SW1 (U8100)",
+        "MPMU BUCK 3 SW1 alias (PP1V8_MAME)",
+        "MPMU LDO4 / SPMU AWAKE output",
+        "SPMU AWAKE output",
+        "SPMU SN6"
+      ]
+    },
+    {
+      "name": "PP1V8_AWAKE_LDO4",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU LDO 4"
+      ]
+    },
+    {
+      "name": "PP1V8_AWAKE_SPMU",
+      "boards": [
+        "A2485",
+        "A2779"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU AWAKE output",
+        "SPMU LDO internal 1"
+      ]
+    },
+    {
+      "name": "PP1V8_AWAKE_SPMU_FET",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU SW1 (switch)"
+      ]
+    },
+    {
+      "name": "PP1V8_AWAKE_SPMU_GP10",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 3 SW4 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V8_CODEC_VA",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Codec analog",
+        "Codec analog VDD"
+      ]
+    },
+    {
+      "name": "PP1V8_CODEC_VCP",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Codec charge pump"
+      ]
+    },
+    {
+      "name": "PP1V8_DFR",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "UT700 (DFR 1.8V LDO from PP3V8_AON)"
+      ]
+    },
+    {
+      "name": "PP1V8_DISP",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Derived rail"
+      ]
+    },
+    {
+      "name": "PP1V8_DISP_TEMP",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Display temp sensor",
+        "Display temp sensor supply"
+      ]
+    },
+    {
+      "name": "PP1V8_DMIC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Digital mic supply",
+        "Digital microphone supply",
+        "PP1V8_S2_DMIC via LR940 ferrite"
+      ]
+    },
+    {
+      "name": "PP1V8_GL_SDCONN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SD card 1.8V mode",
+        "SD card 1V8 I/O"
+      ]
+    },
+    {
+      "name": "PP1V8_MAME",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU BUCK 3 SW 1",
+        "MPMU BUCK 3 SW1 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V8_MAME_SPMU_GFS5",
+      "boards": [
+        "A2338_M2",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 3 SW 4",
+        "SPMU BUCK 3 SW4 (U7700)"
+      ]
+    },
+    {
+      "name": "PP1V8_MIXEDIO_VDD",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Mixed I/O VDD"
+      ]
+    },
+    {
+      "name": "PP1V8_S1_CLVR_VDDH",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "CLVR VDDH rail",
+        "SPMU BUCK 17"
+      ]
+    },
+    {
+      "name": "PP1V8_S2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2681",
+        "A2779",
+        "A2780",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 8,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "1V8 S2 regulator",
+        "MPMU BUCK 3 (U8100)",
+        "MPMU BUCK 3 SW 1 (external net name for PP1V8_MAME)"
+      ]
+    },
+    {
+      "name": "PP1V8_S2M",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "UC820 (VDD1 1V8 switch, from PP3V8_AON via VDDSW 1445)"
+      ]
+    },
+    {
+      "name": "PP1V8_S2M_2",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "UC840 (VDD1 1V8 switch secondary, from PP1V8_S2 via VDDSW 17"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SM_DPG",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU BUCK 3 SW2 (U8100)"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 9,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "1V8 S2 switched",
+        "Load switch",
+        "MPMU BUCK 2",
+        "MPMU BUCK 3 (FDK3)",
+        "UC820 (SN74AUP1T17) from PP1V8_S2",
+        "UC840 (SLG04057TT) load switch from PP1V8_S2"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SW_CLVR_VDDC1",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU LDO 2"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SW_CLVR_VDDC1_LDO",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "CLVR VDDC1 LDO"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SW_DP2HDMI",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Switched 1V8 for Madea",
+        "Switched for HDMI",
+        "UH902 (SLG5AP1443V load switch)"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SW_SNS",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.8V sense"
+      ],
+      "sources": [
+        "1V8 S2 switched sense"
+      ]
+    },
+    {
+      "name": "PP1V8_S2SW_VDD1",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "Load switch"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_CLVR_VDDIO16",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "MPMU LDO2"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_HDMI_ISNS",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V sense"
+      ],
+      "sources": [
+        "HDMI current sense"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_IMU_FILT",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "IMU filtered"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_P1V2_IN_R",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "1V2 regulator input"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_SPMU",
+      "boards": [
+        "A2485_EVTc",
+        "A2779"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 3 (FDKP3)",
+        "SPMU LDO (S2)"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_WLBT_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "PP1V8_S2 with current sense"
+      ]
+    },
+    {
+      "name": "PP1V8_S2_WLBT_R",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "WiFi/BT 1V8 filtered"
+      ]
+    },
+    {
+      "name": "PP1V8_SPMU_IM3_S2",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "SPMU IM3 S2"
+      ]
+    },
+    {
+      "name": "PP1V8_TOUCHID",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "TouchID 1V8 supply",
+        "TouchID I/O supply",
+        "TouchID LDO"
+      ]
+    },
+    {
+      "name": "PP1V8_TOUCHID_FILT_CONN",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "1.8V"
+      ],
+      "sources": [
+        "TouchID filtered to connector"
+      ]
+    },
+    {
+      "name": "PP2V5_NAND0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "NAND0 2V5 VR",
+        "Ocarina LN400"
+      ]
+    },
+    {
+      "name": "PP2V5_NAND0_INTVCC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "NAND0 internal VCC"
+      ]
+    },
+    {
+      "name": "PP2V5_NAND1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "NAND1 2V5 VR",
+        "Ocarina LN900"
+      ]
+    },
+    {
+      "name": "PP2V5_NAND1_INTVCC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "NAND1 internal VCC"
+      ]
+    },
+    {
+      "name": "PP2V5_P5VNAND0",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "LN480 inductor from PP5V"
+      ]
+    },
+    {
+      "name": "PP2V5_P5VNAND1",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "LN980 inductor from PP5V"
+      ]
+    },
+    {
+      "name": "PP2V5_VREF_P3V8AONILIMIT",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "PP3V8_AON current limit ref"
+      ]
+    },
+    {
+      "name": "PP3V0_TOUCHID",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "TouchID 3V supply",
+        "TouchID LDO",
+        "TouchID logic supply"
+      ]
+    },
+    {
+      "name": "PP3V0_TOUCHID_FILT_CONN",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "TouchID filtered to connector"
+      ]
+    },
+    {
+      "name": "PP3V25_S2_100",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.25V"
+      ],
+      "sources": [
+        "Regulator"
+      ]
+    },
+    {
+      "name": "PP3V29_BCKN_MAME2W",
+      "boards": [
+        "A2918",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.29V"
+      ],
+      "sources": [
+        "3V29 backlight feed",
+        "Backlight 3.29V regulator"
+      ]
+    },
+    {
+      "name": "PP3V3_AON",
+      "boards": [
+        "A2337",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "AON 3V3 regulator",
+        "SPMU LDO (AON)",
+        "UC100 (3.3V AON LDO from PP3V8_AON_VODMAN)"
+      ]
+    },
+    {
+      "name": "PP3V3_AONSW_IPD",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "IPD 3V3 S2 load switch from PP3V3_S2"
+      ]
+    },
+    {
+      "name": "PP3V3_AON_DBGMUX",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Debug mux supply"
+      ]
+    },
+    {
+      "name": "PP3V3_AON_DFUMUX",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "DFU mux supply"
+      ]
+    },
+    {
+      "name": "PP3V3_AON_KBD_CONN",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "PP3V3_AON to keyboard connector"
+      ]
+    },
+    {
+      "name": "PP3V3_AWAKE_SW_SD",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "PP3V3 switched for SD card",
+        "SD card power switch",
+        "UK830 (TPS62135)"
+      ]
+    },
+    {
+      "name": "PP3V3_AWAKE_SW_SD_FL",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SD card filtered"
+      ]
+    },
+    {
+      "name": "PP3V3_AWPEK_DIIS",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Derived rail"
+      ]
+    },
+    {
+      "name": "PP3V3_DFR",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "UT710 (DFR 3.3V LDO from PP3V8_AON)"
+      ]
+    },
+    {
+      "name": "PP3V3_DP2HDMI_AUX_IO",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Madea AUX I/O",
+        "Madea AUX/IO"
+      ]
+    },
+    {
+      "name": "PP3V3_DP2HDMI_RX_TX",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Madea RX/TX",
+        "Madea TX/RX"
+      ]
+    },
+    {
+      "name": "PP3V3_GL_SDCONN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SD card connector 3V3",
+        "SD card connector power",
+        "SD card controller GL9755"
+      ]
+    },
+    {
+      "name": "PP3V3_KBD_LEDDRIVER",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "KBD LED driver"
+      ]
+    },
+    {
+      "name": "PP3V3_MAME_S60",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SD card power regulator (page 86)"
+      ]
+    },
+    {
+      "name": "PP3V3_S0MWLF",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SPMU BUCK 12"
+      ]
+    },
+    {
+      "name": "PP3V3_S0MWLF_S1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Monaco (alias)",
+        "Monaco BUCK 9",
+        "Monaco0 BUCK 9"
+      ]
+    },
+    {
+      "name": "PP3V3_S2",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2779_S",
+        "A2780",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 12,
+      "voltages": [
+        "3.12V",
+        "3.3V"
+      ],
+      "sources": [
+        "3V3 S2 VR",
+        "3V3 S2 VR (from PPBUS_AON)",
+        "MPMU LDO output or standalone",
+        "MPMU LDO1",
+        "UC710 (3V3 S2 VR, XMC710 inductor)",
+        "UC710 (3V3 S2 buck)",
+        "XMC710"
+      ]
+    },
+    {
+      "name": "PP3V3_S2M_DPG",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SPMU LDO 17"
+      ]
+    },
+    {
+      "name": "PP3V3_S2M_S60",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU LDO 14"
+      ]
+    },
+    {
+      "name": "PP3V3_S2M_SNR",
+      "boards": [
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU LDO 13"
+      ]
+    },
+    {
+      "name": "PP3V3_S2M_SNS",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU LDO 13 (U8100)"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SM_270",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SPMU LDO 18"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SM_CIO",
+      "boards": [
+        "A2338_M2",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU LDO 14",
+        "MPMU LDO 14 (U8100)"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SM_DPG_F",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "PP3V3_S2 filtered for trackpad"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SW_DP2HDMI",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Switched 3V3 for Madea",
+        "Switched for Madea",
+        "UH901 (LP5907SNX-3.3)"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SW_IPD",
+      "boards": [
+        "A2337",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Load switch from PP3V3_S2"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SW_SNS",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Load switch from PP3V3_S2"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SW_USBC0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Load switch from PP3V3_S2 for ATC0"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SW_USBC1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Load switch from PP3V3_S2 for ATC1"
+      ]
+    },
+    {
+      "name": "PP3V3_S2SW_USBC2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Load switch from PP3V3_S2 for ATC2"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_CLVR_VDDD10",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU LDO3"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_HDMI_LDO",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "HDMI 3.3V LDO (page 82)"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_HOLD_IPD",
+      "boards": [
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Load switch from PP3V3_S2",
+        "UC630 LDO (3V/0.15500N) from PP1V8_AON"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_IPD",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "PP3V3_S2 for IPD subsystem"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_LDO",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU LDO 7",
+        "MPMU LDO 7 (U8100)",
+        "MPMU LDO 7 (U8100), 250mA MAX"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_UPC_MPMU",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MPMU S2 UPC output"
+      ]
+    },
+    {
+      "name": "PP3V3_S2_WLBT_1MS",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "3V3 S2 WLANBT load switch from PP3V3_S2"
+      ]
+    },
+    {
+      "name": "PP3V3_SW_LCD",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "Derived from PP3V3_S2",
+        "Derived from PP3V3_S2 via UC710"
+      ]
+    },
+    {
+      "name": "PP3V3_UPC0_LDO",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "UF400 internal LDO"
+      ]
+    },
+    {
+      "name": "PP3V3_UPC1_LDO",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "UF500 internal LDO"
+      ]
+    },
+    {
+      "name": "PP3V3_UPC2_LDO",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "UG400 internal LDO"
+      ]
+    },
+    {
+      "name": "PP3V3_UPC5_LDO",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "MagSafe controller LDO"
+      ]
+    },
+    {
+      "name": "PP3V3_VREF_SD_CLKREQ_LS",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.3V"
+      ],
+      "sources": [
+        "SD CLKREQ level shifter ref"
+      ]
+    },
+    {
+      "name": "PP3V8_AON",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 13,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "SVR AON controller (36A ICC MAX, pages 28-29)",
+        "U5700 (SVR AON, 30A ICC MAX)",
+        "U5700 (SVR AON, 30A ICC MAX, 3 phases)",
+        "U5700 (SVR AON, 30A ICC MAX, APN 351002645)",
+        "U5700 (SVR AON, 42A ICC MAX)",
+        "U5700 (SVR AON, 42A ICC MAX, 3 Iceman phases)",
+        "U5700 (SVR AON, 42A design CTO)"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_CODEC",
+      "boards": [
+        "A2485_EVTc",
+        "A2485_EVTc"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch",
+        "PP3V8_AON branch (VP)"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_C_SPKRAMP",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_DPG_F",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON (filtered)"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_HDMI_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON via sense resistor"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_HDMI_LDO",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_ISENSE",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON current sense node"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_LCD_SW_VIN",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_MPMU",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch (ISENSE)"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_SE",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_SPKAMP_LEFT_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON via sense resistor"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_SPKAMP_RIGHT_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON via sense resistor"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_SPMU",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch (ISENSE)"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_VDDMAIN",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_VODMAN",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_WLBT",
+      "boards": [
+        "A2338_M2",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON",
+        "PP3V8_AON branch (ISENSE)",
+        "PP3V8_AON branch to WiFi/BT"
+      ]
+    },
+    {
+      "name": "PP3V8_AON_WLBT_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON via sense resistor"
+      ]
+    },
+    {
+      "name": "PP3V8_AWAKE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 21 (switched from PP3V8_AON)",
+        "SPMU BUCK 21 (switched from PP3V8_AON). Base Net Voltage tru"
+      ]
+    },
+    {
+      "name": "PP3V8_AWAKE_NAND_VDD",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 12 SW6/7 (U7700)"
+      ]
+    },
+    {
+      "name": "PP3V8_AWAKE_PCC",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "MPMU LDO5"
+      ]
+    },
+    {
+      "name": "PP3V8_AWRME_F",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8 filtered for keyboard"
+      ]
+    },
+    {
+      "name": "PP3V8_CODEC_VP",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON branch"
+      ]
+    },
+    {
+      "name": "PP3V8_MAME",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Branch of PP3V8_AON (gated)"
+      ]
+    },
+    {
+      "name": "PP3V8_MAME2W_TCON",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "PP3V8_AON gated for TCON"
+      ]
+    },
+    {
+      "name": "PP3V8_MAME_BSTLQ",
+      "boards": [
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.8V",
+        "3.8V (boosted)"
+      ],
+      "sources": [
+        "MPMU VDD BOOST"
+      ]
+    },
+    {
+      "name": "PP3V8_MAME_NAND_VDDL",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "SPMU BUCK 12 SW 6/7",
+        "SPMU BUCK 12 SW6/7 (U7700)"
+      ]
+    },
+    {
+      "name": "PP3V8_MAME_TCON",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "3V8 feed to MDB (display board)"
+      ]
+    },
+    {
+      "name": "PP3V8_S2_CLVR_VDDD10_FET",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "MPMU LDO6 (alias)"
+      ]
+    },
+    {
+      "name": "PP3V8_SPMU_BSTLQ",
+      "boards": [
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.8V",
+        "3.8V (boosted)"
+      ],
+      "sources": [
+        "SPMU VDD BOOST"
+      ]
+    },
+    {
+      "name": "PP3V8_SW_LCD",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "Switched from PP3V8_AON"
+      ]
+    },
+    {
+      "name": "PP3V_AON",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "MPMU LDO 2 (U8100)",
+        "MPMU LDO 5 alias",
+        "MPMU LDO 5 alias (PP3V_S2_LDO)",
+        "SPMU LDO 5 (PP3V_S2_LDO alias)"
+      ]
+    },
+    {
+      "name": "PP3V_AON_ldo5",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "MPMU LDO5"
+      ]
+    },
+    {
+      "name": "PP3V_ATCSL_PHDDS",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "ATCSL regulator YWC500 area"
+      ]
+    },
+    {
+      "name": "PP3V_S2",
+      "boards": [
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "MPMU LDO 5",
+        "MPMU LDO 5 (PP3V_S2_LDO)"
+      ]
+    },
+    {
+      "name": "PP3V_S2_CAMERA_FILT",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "PP3V_S2 via LP410 filter"
+      ]
+    },
+    {
+      "name": "PP3V_S2_LDO",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "MPMU LDO 5"
+      ]
+    },
+    {
+      "name": "PP3V_SA_POWER2",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "UP700 (Display power sequencer)"
+      ]
+    },
+    {
+      "name": "PP3V_SA_POWER3",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.0V"
+      ],
+      "sources": [
+        "UP700 (Display power sequencer)"
+      ]
+    },
+    {
+      "name": "PP4V9_VPUMP_MPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "4.9V"
+      ],
+      "sources": [
+        "MPMU charge pump",
+        "MPMU internal charge pump"
+      ]
+    },
+    {
+      "name": "PP4V9_VPUMP_SPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "4.9V"
+      ],
+      "sources": [
+        "SPMU charge pump",
+        "SPMU internal charge pump"
+      ]
+    },
+    {
+      "name": "PP5V0_HDMI_DDC_CONN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "HDMI DDC at connector",
+        "HDMI DDC connector pull-up"
+      ]
+    },
+    {
+      "name": "PP5V0_HDMI_DDC_LDSW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "HDMI DDC load switch"
+      ]
+    },
+    {
+      "name": "PP5V0_S2SW_HDMI_D",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "5V switched for HDMI"
+      ]
+    },
+    {
+      "name": "PP5V6_AON",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5.6V"
+      ],
+      "sources": [
+        "MPMU LDO (via PP5V6_AON_FIVSDAON)"
+      ]
+    },
+    {
+      "name": "PP5V_AON",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5.0V"
+      ],
+      "sources": [
+        "P5V LDO5 (page 101)"
+      ]
+    },
+    {
+      "name": "PP5V_AON_FIVSDAOS",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "PP5V_AON distribution"
+      ]
+    },
+    {
+      "name": "PP5V_AON_P3V8AON",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "5V AON for PP3V8_AON support"
+      ]
+    },
+    {
+      "name": "PP5V_KBDBKLT_BEN_A",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "KBD backlight BEN analog"
+      ]
+    },
+    {
+      "name": "PP5V_KBDBKLT_BEN_D",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "KBD backlight BEN digital"
+      ]
+    },
+    {
+      "name": "PP5V_MPMU_BSTLQ",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5.0V"
+      ],
+      "sources": [
+        "MPMU VDD BOOST (U8100)"
+      ]
+    },
+    {
+      "name": "PP5V_S2",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 13,
+      "voltages": [
+        "5.14V",
+        "5.14V / 5.232V",
+        "5.15V",
+        "5V (VOUT=15V noted on schematic, actual ~5V)"
+      ],
+      "sources": [
+        "TPS62130 (5V S2 VR)",
+        "TPS62130 (page 122)",
+        "UC259 (5V S2 buck)",
+        "UC260 (5V S2 VR)",
+        "UC260 (TPS62130, 5V S2 buck)",
+        "UC300 (5V S2 buck)",
+        "UC300 (5V S2 buck, LN84243-1)",
+        "UC300 (TPS62130 5V S2 VR)",
+        "UC320"
+      ]
+    },
+    {
+      "name": "PP5V_S2SW_IPD",
+      "boards": [
+        "A2337",
+        "A2681"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Load switch from PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_S2SW_USBC01",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Load switch from PP5V_S2 for left ports"
+      ]
+    },
+    {
+      "name": "PP5V_S2SW_USBC23",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Load switch from PP5V_S2 for right port + HDMI"
+      ]
+    },
+    {
+      "name": "PP5V_S2_ALSCAM",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "5V ALSCAM load side sense from PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_S2_BIAS_HDMI",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Bias for HDMI",
+        "HDMI bias"
+      ]
+    },
+    {
+      "name": "PP5V_S2_CAMERA_ISNS",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Camera current sense"
+      ]
+    },
+    {
+      "name": "PP5V_S2_CLVR_VDDD10",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "MPMU LDO5V path"
+      ]
+    },
+    {
+      "name": "PP5V_S2_HDMI",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "PP5V_S2 branch for HDMI",
+        "PP5V_S2 for HDMI",
+        "PP5V_S2 via load switch XWH901"
+      ]
+    },
+    {
+      "name": "PP5V_S2_HDMI_LDO",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "HDMI LDO"
+      ]
+    },
+    {
+      "name": "PP5V_S2_HOLD",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Branch of PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_S2_HOLD_ALSCAM_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Load switch from PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_S2_HOLD_IPD",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "UC840 load switch (TPG2300570) from PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_S2_HOLD_KBLED_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Load switch from PP5V_S2 with sense resistor"
+      ]
+    },
+    {
+      "name": "PP5V_S2_KBD_GS",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "PP5V_S2 filtered"
+      ]
+    },
+    {
+      "name": "PP5V_S2_LUXE_VDDA",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Luxe analog supply",
+        "Luxe analog supply from PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_S2_MAIN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "5.14V",
+        "5V"
+      ],
+      "sources": [
+        "TPS62130 main output",
+        "UC259 output distribution",
+        "UC260 main output"
+      ]
+    },
+    {
+      "name": "PP5V_S2_TPAD_CONN",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Trackpad connector"
+      ]
+    },
+    {
+      "name": "PP5V_S2_UPC",
+      "boards": [
+        "A2338_M2",
+        "A2918"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5.23V"
+      ],
+      "sources": [
+        "LF800 (USB-C 5V regulator, F=1.5MHz)",
+        "UF800 (USB-C 5V Regulator, XMF820 inductor)"
+      ]
+    },
+    {
+      "name": "PP5V_SM_LCD",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V"
+      ],
+      "sources": [
+        "Display connector power from PP5V_S2"
+      ]
+    },
+    {
+      "name": "PP5V_SPMU_BSTLQ",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "5.0V"
+      ],
+      "sources": [
+        "SPMU VDD BOOST (U7700)"
+      ]
+    },
+    {
+      "name": "PP5V_USBC01",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5.23V"
+      ],
+      "sources": [
+        "UF800 (LT8640)"
+      ]
+    },
+    {
+      "name": "PP5V_USBC23",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5.23V"
+      ],
+      "sources": [
+        "UG800 (TPS62180)"
+      ]
+    },
+    {
+      "name": "PPBCON_AWAKESW_BKLTCONN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Backlight connector (switched)",
+        "Backlight connector power"
+      ]
+    },
+    {
+      "name": "PPBCON_AWAKESW_BKLTCONN_VIN",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "UP730 \u2192 backlight connector (3V29 feed)"
+      ]
+    },
+    {
+      "name": "PPBCON_SW_REG",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.29V"
+      ],
+      "sources": [
+        "UP730 (TLV758P)"
+      ]
+    },
+    {
+      "name": "PPBUS_AON",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 13,
+      "voltages": [
+        "12.6V (battery) / ~20V (adapter)"
+      ],
+      "sources": [
+        "Charger IC (U5200 area) / Battery",
+        "Charger IC (U5200) / Battery",
+        "Charger IC / Battery",
+        "Charger IC / Battery (page 30)",
+        "Charger IC U5200 (XMC260) / Battery"
+      ]
+    },
+    {
+      "name": "PPBUS_AONRM_DPG_F",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "12.6V / ~20V"
+      ],
+      "sources": [
+        "Filtered PPBUS for trackpad"
+      ]
+    },
+    {
+      "name": "PPBUS_AONSW_IPD",
+      "boards": [
+        "A2337",
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "12.6V / ~20V",
+        "12.6V/20V"
+      ],
+      "sources": [
+        "Load switch from PPBUS_AON",
+        "UC850 load switch (TPG2300550) from PPBUS_AON"
+      ]
+    },
+    {
+      "name": "PPBUS_AONSW_LCD",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "12.6V / ~20V",
+        "12.6V/20V"
+      ],
+      "sources": [
+        "Load switch from PPBUS_AON",
+        "Load switch from PPBUS_AON (LCD panel backlight path)",
+        "UP950 load switch from PPBUS_AON"
+      ]
+    },
+    {
+      "name": "PPBUS_AON_BKLT_1SNS",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "12.6V"
+      ],
+      "sources": [
+        "Load switch from PPBUS_AON"
+      ]
+    },
+    {
+      "name": "PPBUS_AON_FAN_LEFT",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "12.6V"
+      ],
+      "sources": [
+        "PPBUS_AON branch for left fan"
+      ]
+    },
+    {
+      "name": "PPBUS_AON_FAN_LEFT_ISNS_A",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "12.6V"
+      ],
+      "sources": [
+        "PPBUS fan left current sense"
+      ]
+    },
+    {
+      "name": "PPBUS_AON_MPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "12.6V"
+      ],
+      "sources": [
+        "PPBUS_AON branch to MPMU U8100",
+        "PPBUS_AON branch to MPMU U8100 via XWB170"
+      ]
+    },
+    {
+      "name": "PPBUS_AON_REG",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Regulated bus"
+      ],
+      "sources": [
+        "Charger IC"
+      ]
+    },
+    {
+      "name": "PPBUS_AON_SPKRAMP_ADC",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Bus voltage"
+      ],
+      "sources": [
+        "PPBUS_AON branch"
+      ]
+    },
+    {
+      "name": "PPBUS_NAND0",
+      "boards": [
+        "A2485_EVTc",
+        "A2779"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Bus voltage",
+        "PPBUS"
+      ],
+      "sources": [
+        "PPBUS_AON switched to SSD0",
+        "PPBUS_AON via load switch"
+      ]
+    },
+    {
+      "name": "PPBUS_NAND1",
+      "boards": [
+        "A2485_EVTc",
+        "A2779"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Bus voltage",
+        "PPBUS"
+      ],
+      "sources": [
+        "PPBUS_AON switched to SSD1",
+        "PPBUS_AON via load switch"
+      ]
+    },
+    {
+      "name": "PPCHGR_VDDA",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Charger analog"
+      ],
+      "sources": [
+        "Charger IC internal"
+      ]
+    },
+    {
+      "name": "PPCHGR_VDDP",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Charger power"
+      ],
+      "sources": [
+        "Charger IC internal"
+      ]
+    },
+    {
+      "name": "PPCIE3_DEV",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "PCIe device power"
+      ],
+      "sources": [
+        "PCIe power rail"
+      ]
+    },
+    {
+      "name": "PPCON_ACNSW",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "~5V-20V"
+      ],
+      "sources": [
+        "Charger input switching",
+        "Charger input switching from USB-C"
+      ]
+    },
+    {
+      "name": "PPCON_MAMEISM_BD_DCONN_YYK",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Display power sequencer UP710/UP730/UP701"
+      ]
+    },
+    {
+      "name": "PPDCIN_AON",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "~5-20V"
+      ],
+      "sources": [
+        "Charger input path"
+      ]
+    },
+    {
+      "name": "PPDCIN_AON_CHGR",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "~5-20V"
+      ],
+      "sources": [
+        "Charger input (from USB-C source)"
+      ]
+    },
+    {
+      "name": "PPDCIN_AON_CHGR_R",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "~5-20V"
+      ],
+      "sources": [
+        "Charger input (filtered)"
+      ]
+    },
+    {
+      "name": "PPDCIN_DEBUG",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Debug DC input"
+      ],
+      "sources": [
+        "Debug connector"
+      ]
+    },
+    {
+      "name": "PPDCIN_USBC_AON",
+      "boards": [
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "5V-20V",
+        "~5V-20V (follows VBUS)"
+      ],
+      "sources": [
+        "USB-C DCIN alias",
+        "USB-C DCIN path"
+      ]
+    },
+    {
+      "name": "PPHV_INT0_AONSW",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "High voltage"
+      ],
+      "sources": [
+        "HV interrupt 0 (AON switched)"
+      ]
+    },
+    {
+      "name": "PPHV_INT1_AONSW",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "High voltage"
+      ],
+      "sources": [
+        "HV interrupt 1 (AON switched)"
+      ]
+    },
+    {
+      "name": "PPHV_INT2_AONSW",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "High voltage"
+      ],
+      "sources": [
+        "HV interrupt 2 (AON switched)"
+      ]
+    },
+    {
+      "name": "PPHV_INT5_AONSW",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "High voltage"
+      ],
+      "sources": [
+        "HV interrupt 5 (AON switched)"
+      ]
+    },
+    {
+      "name": "PPLL_S2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "PLL supply"
+      ],
+      "sources": [
+        "PLL regulator"
+      ]
+    },
+    {
+      "name": "PPMDB_AWAKESW_TCON",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Display TCON (switched)",
+        "Display TCON switched power",
+        "UP701 \u2192 display TCON (3V8 feed to MDB)"
+      ]
+    },
+    {
+      "name": "PPMDB_SW_FET",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "UP701 (SLG5AP1564V)"
+      ]
+    },
+    {
+      "name": "PPPANEL_PANEL_DISCHARGE",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Discharge"
+      ],
+      "sources": [
+        "Panel discharge circuit"
+      ]
+    },
+    {
+      "name": "PPSC26_ADR_CHSR",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "~5-20V (follows VBUS)",
+        "~5V-20V",
+        "~5V-20V (follows VBUS)"
+      ],
+      "sources": [
+        "Fuse F5601 from PPVN_INTS_ADRIM",
+        "Fuse F5601 from PPVN_S5T1_ADRIM",
+        "Fused VBUS path"
+      ]
+    },
+    {
+      "name": "PPVAON_B0T7",
+      "boards": [
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "U5700 phase output"
+      ]
+    },
+    {
+      "name": "PPVAON_ISGATE",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "U5700 phase output"
+      ]
+    },
+    {
+      "name": "PPVAON_SPA0",
+      "boards": [
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "U5700 phase output"
+      ]
+    },
+    {
+      "name": "PPVAON_T44",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "3.8V"
+      ],
+      "sources": [
+        "U5700 phase output"
+      ]
+    },
+    {
+      "name": "PPVBAT_AON",
+      "boards": [
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780",
+        "A2918"
+      ],
+      "board_count": 8,
+      "voltages": [
+        "12.6V",
+        "3.3-4.2V per cell",
+        "~12.6V (battery voltage)"
+      ],
+      "sources": [
+        "Battery direct",
+        "Battery direct (99.6 Wh)",
+        "Battery via J5150 BMU connector / solder pads J5150A",
+        "Battery via charger CHGR_RES"
+      ]
+    },
+    {
+      "name": "PPVBAT_AON_CHGR_R",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Battery voltage"
+      ],
+      "sources": [
+        "Battery via charger"
+      ]
+    },
+    {
+      "name": "PPVBAT_AON_CHGR_REG",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Battery voltage (regulated)"
+      ],
+      "sources": [
+        "Charger IC"
+      ]
+    },
+    {
+      "name": "PPVBAT_AON_CONN",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Battery voltage"
+      ],
+      "sources": [
+        "Battery connector J5150"
+      ]
+    },
+    {
+      "name": "PPVBAT_AON_WLBT",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Battery voltage"
+      ],
+      "sources": [
+        "Battery direct to WiFi/BT"
+      ]
+    },
+    {
+      "name": "PPVBS5_S2SM_CIO",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "variable"
+      ],
+      "sources": [
+        "MPMU LDO 11 (U8100), 1000mA MAX"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC0",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 13,
+      "voltages": [
+        "5V (initial) / 20V (after PD)",
+        "5V/20V"
+      ],
+      "sources": [
+        "UF400 (CD3217 ATC0)",
+        "UF400 (USB-C PD Port Controller ATC0)"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC1",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 13,
+      "voltages": [
+        "5V / 20V",
+        "5V/20V"
+      ],
+      "sources": [
+        "UF500 (CD3217 ATC1)",
+        "UF500 (CD3218 ATC1)",
+        "UF500 (USB-C PD Port Controller ATC1)"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "5V/20V"
+      ],
+      "sources": [
+        "UG400 (CD3217 ATC2)"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC23",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "5V / 20V"
+      ],
+      "sources": [
+        "UF600 (CD3217 ATC2)"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC5",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2485_EVTc",
+        "A2779",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 10,
+      "voltages": [
+        "5V-20V",
+        "5V/20V",
+        "~5V-20V"
+      ],
+      "sources": [
+        "MagSafe ACE3 controller (U5900)",
+        "MagSafe UPC5 port controller",
+        "MagSafe connector J5401 via port controller U5500",
+        "MagSafe port controller (U5500/UPC5)",
+        "MagSafe port controller (UPC5)"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC5_OPT",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Charger option"
+      ],
+      "sources": [
+        "MagSafe charger path"
+      ]
+    },
+    {
+      "name": "PPVBUS_USBC_LDO_CONN",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "USB-C port LDO to connector"
+      ]
+    },
+    {
+      "name": "PPVD055_USBC_CIO",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.855V"
+      ],
+      "sources": [
+        "UF939 (ATC01 CIO regulator)"
+      ]
+    },
+    {
+      "name": "PPVD055_USBC_FIXED",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.805V"
+      ],
+      "sources": [
+        "UF960 (ATC01 FIXED regulator)"
+      ]
+    },
+    {
+      "name": "PPVD55_S2_VDDCIO",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "~0.855V"
+      ],
+      "sources": [
+        "SPMU BUCK 6"
+      ]
+    },
+    {
+      "name": "PPVD5_MAME_DFR",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "DFR power rail"
+      ]
+    },
+    {
+      "name": "PPVD75_S1_VDDQ0",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.575V"
+      ],
+      "sources": [
+        "SPMU BUCK 1"
+      ]
+    },
+    {
+      "name": "PPVD75_S1_VDDQ1",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.575V"
+      ],
+      "sources": [
+        "MPMU BUCK 10"
+      ]
+    },
+    {
+      "name": "PPVDD0E_S1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU Buck1 (PGr11)"
+      ]
+    },
+    {
+      "name": "PPVDD0H1_S2SW",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 3"
+      ]
+    },
+    {
+      "name": "PPVDD0H2_S2SW",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 4"
+      ]
+    },
+    {
+      "name": "PPVDD1_S2",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck10 (PSw8)"
+      ]
+    },
+    {
+      "name": "PPVDD2H0_S2SW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 9 (secondary)",
+        "SPMU BUCK 4 (FDKP4)"
+      ]
+    },
+    {
+      "name": "PPVDD2H1_S2SW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 4 (FDK4)",
+        "MPMU BUCK 9 (secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD2HS_S2SM",
+      "boards": [
+        "A2779_S",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck4 (PHz4)",
+        "SPMU Buck3"
+      ]
+    },
+    {
+      "name": "PPVDD5_S2SW_VDDQ1",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 2"
+      ]
+    },
+    {
+      "name": "PPVDDOO_S1",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 10 (FDK10)"
+      ]
+    },
+    {
+      "name": "PPVDDOO_S1_FDKP11",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 11 (FDKP11)"
+      ]
+    },
+    {
+      "name": "PPVDDOO_S1_SPMU",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 1 (FDKP1)"
+      ]
+    },
+    {
+      "name": "PPVDD_AFR_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 3 (secondary)",
+        "Monaco3 BUCK 0"
+      ]
+    },
+    {
+      "name": "PPVDD_AGXS_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 6",
+        "Monaco1 BUCK (alias)",
+        "Monaco1 BUCK 6"
+      ]
+    },
+    {
+      "name": "PPVDD_AMPH0_S2SW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 6",
+        "MPMU BUCK 6 (secondary)",
+        "MPMU BUCK 9 (FDK9)"
+      ]
+    },
+    {
+      "name": "PPVDD_AMPH0_S2SW_SPMU",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 9 (FDKP9)"
+      ]
+    },
+    {
+      "name": "PPVDD_AMPH1_S2SM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck3 (PHz3)"
+      ]
+    },
+    {
+      "name": "PPVDD_AMPH1_S2SW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 5",
+        "MPMU BUCK 6 (FDK6)",
+        "MPMU BUCK 6 (secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE0_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 4"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE0_SRAM_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 4 (secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE1_SRAM_AWAKESW",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Monaco3 BUCK 1"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE_AWAKESW",
+      "boards": [
+        "A2485_EVTc",
+        "A2779"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR4 Buck0/HP0",
+        "SPMU BUCK (alias)"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR4 Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR2 (UA600) Buck0/HP0"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM_HP1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR2 (UA600) Buck2/HP1"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM_LP0",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR2 (UA600) Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_ANE_SRAM_MAMEISM_LP1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR2 (UA600) Buck3/LP1"
+      ]
+    },
+    {
+      "name": "PPVDD_APR_CS_S1",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR4 Buck2/HP1"
+      ]
+    },
+    {
+      "name": "PPVDD_ATCSL",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "ATCSL regulators"
+      ]
+    },
+    {
+      "name": "PPVDD_AVEMSR_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 2 (secondary)",
+        "MPMU BUCK 4",
+        "MPMU BUCK 9 (FDK9 secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD_AWAKE_CPU_SRAM",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 7 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_AWAKE_ECPU",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 11 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_AWAKE_GPU",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 1 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_AWAKE_PCPU",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 0 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_AWAKE_PCPU_2",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "SPMU BUCK 12 (U7700)"
+      ]
+    },
+    {
+      "name": "PPVDD_CHGRRST",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU charger reset circuit"
+      ]
+    },
+    {
+      "name": "PPVDD_CIO_S2SM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU Buck5 (PHr5)"
+      ]
+    },
+    {
+      "name": "PPVDD_CIO_S2SM_ldo5",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO5"
+      ]
+    },
+    {
+      "name": "PPVDD_CIO_S2SW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 6 (FDKP6)"
+      ]
+    },
+    {
+      "name": "PPVDD_D1SP2_AWAKESW",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 13 (Not used on sC)"
+      ]
+    },
+    {
+      "name": "PPVDD_D1SP_AWAKESW",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 9"
+      ]
+    },
+    {
+      "name": "PPVDD_DCS_S1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 7 (FDK7)",
+        "MPMU BUCK 8",
+        "SPMU BUCK 0",
+        "SPMU Buck0 (PSr1)"
+      ]
+    },
+    {
+      "name": "PPVDD_DCS_S1_RES",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 16 (D)"
+      ]
+    },
+    {
+      "name": "PPVDD_DCS_S1_SPMU",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 0 (FDKP0)"
+      ]
+    },
+    {
+      "name": "PPVDD_DISP2_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 3",
+        "SPMU BUCK 7 (FDKP7)"
+      ]
+    },
+    {
+      "name": "PPVDD_DISP_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 2",
+        "MPMU BUCK 2 (FDK2) \u2014 UNUSED on this board",
+        "SPMU BUCK 20"
+      ]
+    },
+    {
+      "name": "PPVDD_DISP_AWAKESW_LDO3",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO 3 \u2014 NC on this board"
+      ]
+    },
+    {
+      "name": "PPVDD_DISP_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck6 (PGr6)"
+      ]
+    },
+    {
+      "name": "PPVDD_DPL0_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR3 Buck0/HP0"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_AWAKE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "MPMU BUCK 0",
+        "MPMU BUCK 5"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "MPMU BUCK 5 (FDK5)"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_AWAKESW_SPMU",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 10 (FDKP10)"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "SPMU Buck10 (PSw4)"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_SRAM_AWAKE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 1 (secondary)",
+        "MPMU BUCK 5 (secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_SRAM_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 5 (FDK5 secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_SRAM_AWAKESW_SPMU",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 2 (FDKP2)"
+      ]
+    },
+    {
+      "name": "PPVDD_ECPU_SRAM_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU Buck2 (PGr2)"
+      ]
+    },
+    {
+      "name": "PPVDD_FABRIC_S1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR3 Buck2/HP1",
+        "MPMU BUCK 9",
+        "SPMU BUCK (alias)"
+      ]
+    },
+    {
+      "name": "PPVDD_FABRIC_S1_MONACO3",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Monaco3 BUCK 2"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "0.806V",
+        "Variable",
+        "~0.75V",
+        "~0.84002V"
+      ],
+      "sources": [
+        "MPMU BUCK 10",
+        "MPMU BUCK 8 (FDK8)",
+        "MPMU BUCK 9",
+        "MPMU Buck9 (PGr9)"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_DCS_0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_DCS_2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_DDR_0",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_DDR_2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_PCIE_PLL_GP",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_PCIE_PLL_ST",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_S2SW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 8"
+      ]
+    },
+    {
+      "name": "PPVDD_FIXED_S1_XTAL",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "~0.75V"
+      ],
+      "sources": [
+        "MPMU BUCK 10 branch"
+      ]
+    },
+    {
+      "name": "PPVDD_GACS_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 4"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU0_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "CLVR1 Buck0/HP0",
+        "MPMU BUCK 1 (feeding Monaco)"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU0_SRAMB_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR1 Buck2/HP1"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU0_SRAM_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR1 Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU1_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "CLVR2 Buck0/HP0",
+        "MPMU BUCK 1 (feeding Monaco)"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU1_SRAMB_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR2 Buck2/HP1"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU1_SRAM_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR2 Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_BMPR_S1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 1",
+        "MPMU BUCK 1 (FDK1)",
+        "MPMU BUCK 6"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_BMPS_S1",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 1 (FDK1 secondary)"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM0_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 1 via Monaco"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM1_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 1 via Monaco"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM3_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR1 (UA200) Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM5_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR1 (UA200) Buck3/LP1"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "CLVR1 (UA200) Buck0/HP0"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM_MAMEISM_HP1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR1 (UA200) Buck2/HP1"
+      ]
+    },
+    {
+      "name": "PPVDD_GPU_SRAM_S1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck1 (PGr7)"
+      ]
+    },
+    {
+      "name": "PPVDD_JUSTBR_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck7 (PGr4)"
+      ]
+    },
+    {
+      "name": "PPVDD_LDM_S2",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO0"
+      ]
+    },
+    {
+      "name": "PPVDD_LDM_S2_ldo1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO1"
+      ]
+    },
+    {
+      "name": "PPVDD_LDO_NAND0_OCARINA",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Ocarina LDO SSD0"
+      ]
+    },
+    {
+      "name": "PPVDD_LDO_NAND1_OCARINA",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Ocarina LDO SSD1"
+      ]
+    },
+    {
+      "name": "PPVDD_LOW_S2",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO 0"
+      ]
+    },
+    {
+      "name": "PPVDD_LOW_S2_alias",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO 0 (alias)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_CPU_SRAM",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable (DVFS)",
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 7",
+        "MPMU BUCK 7 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_CPU_SRAM_2",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 7"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_ECPU",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable (DVFS)",
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 11",
+        "MPMU BUCK 11 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_GPU",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable (DVFS)",
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 1",
+        "MPMU BUCK 1 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_NAND_VCC_SW4",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU SW 4 (VDD_SM4)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_NAND_VSW5",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU SW 5 (VDD_SM5 / VSM5)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_PCPU",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable (DVFS)",
+        "Variable DVFS"
+      ],
+      "sources": [
+        "MPMU BUCK 0",
+        "MPMU BUCK 0 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_MAME_PCPU_2",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable (DVFS)",
+        "Variable DVFS"
+      ],
+      "sources": [
+        "SPMU BUCK 12",
+        "SPMU BUCK 12 (U7700)",
+        "SPMU BUCK 12 (main output)"
+      ]
+    },
+    {
+      "name": "PPVDD_MCPW_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 2"
+      ]
+    },
+    {
+      "name": "PPVDD_P2V5VREF",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "2.5V"
+      ],
+      "sources": [
+        "2.5V reference"
+      ]
+    },
+    {
+      "name": "PPVDD_P3V8AONISEN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Sense"
+      ],
+      "sources": [
+        "PP3V8_AON current sense IC"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU0_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "CLVR0 Buck0/HP0",
+        "Viper VR (U9300) phase output",
+        "Viper VR (U9300) power stages 1"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU0_SRAMB_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR0 Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU1_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "CLVR0 Buck2/HP1",
+        "Viper VR (U9300) phase output",
+        "Viper VR (U9300) power stages 2"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU1_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "CLVR0 (UA100) Buck0/HP0"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAM4_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR0 (UA100) Buck2/HP1"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAM5_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR0 (UA100) Buck3/LP1"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAMB_AWAKESW",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR0 Buck3/LP1"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU1_SRAM_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "CLVR0 (UA100) Buck1/LP0"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU_SRAM0_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Austringer VR (U9300) \u2014 PCPU SRAM0",
+        "Viper VR (U9300)"
+      ]
+    },
+    {
+      "name": "PPVDD_PCPU_SRAM1_AWAKESW",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Austringer VR (U9300) \u2014 PCPU SRAM1 (Max)",
+        "Viper VR (U9300)"
+      ]
+    },
+    {
+      "name": "PPVDD_S0CL_CAMU_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 3"
+      ]
+    },
+    {
+      "name": "PPVDD_S0DL_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 5",
+        "Monaco1 BUCK (alias)",
+        "Monaco1 BUCK 5"
+      ]
+    },
+    {
+      "name": "PPVDD_S0KE_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 7",
+        "Monaco1 BUCK 7",
+        "Monaco2 BUCK (alias)"
+      ]
+    },
+    {
+      "name": "PPVDD_S0PE_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 8",
+        "Monaco1 BUCK 8",
+        "Monaco2 BUCK (alias)"
+      ]
+    },
+    {
+      "name": "PPVDD_S0VE_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 0"
+      ]
+    },
+    {
+      "name": "PPVDD_S0VS_ABMCCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2780"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "Variable (DVFS)"
+      ],
+      "sources": [
+        "Monaco0 BUCK 1"
+      ]
+    },
+    {
+      "name": "PPVDD_S1AF_ABMRCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 0"
+      ]
+    },
+    {
+      "name": "PPVDD_S1CF_ABMRCN",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 20"
+      ]
+    },
+    {
+      "name": "PPVDD_S1CF_AWAKESW",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 15"
+      ]
+    },
+    {
+      "name": "PPVDD_S1VF_ABMRC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 11"
+      ]
+    },
+    {
+      "name": "PPVDD_S1_DCS",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 9 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_S1_ESTP",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 8 (U7700)"
+      ]
+    },
+    {
+      "name": "PPVDD_S1_SOC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 2 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_S2M_VDDQ",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 10"
+      ]
+    },
+    {
+      "name": "PPVDD_S2M_VDDQ20",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO 20"
+      ]
+    },
+    {
+      "name": "PPVDD_S2M_VDDQ5",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "1.85V"
+      ],
+      "sources": [
+        "MPMU BUCK 4 (U8100)"
+      ]
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO 0"
+      ]
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO5",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO0"
+      ]
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO5_LDO3",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO3"
+      ]
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO5_LDO4",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO4"
+      ]
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO6",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO6"
+      ]
+    },
+    {
+      "name": "PPVDD_S2_CLVR_VDDIO_SPMU",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO 3"
+      ]
+    },
+    {
+      "name": "PPVDD_SOC_S1",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 7,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 7",
+        "SPMU BUCK 5",
+        "SPMU BUCK 5 (FDKP5)",
+        "SPMU Buck4 (PSr4)"
+      ]
+    },
+    {
+      "name": "PPVDD_SOC_S1_REG",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU BUCK 11"
+      ]
+    },
+    {
+      "name": "PPVDD_SOC_S1_ldo4",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO4"
+      ]
+    },
+    {
+      "name": "PPVDD_SRAM_MAMEISM",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable DVFS"
+      ],
+      "sources": [
+        "Austringer (U9300)"
+      ]
+    },
+    {
+      "name": "PPVDD_SRAM_S1",
+      "boards": [
+        "A2779",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU BUCK 0 (FDK0)",
+        "MPMU Buck0 (PGr1)"
+      ]
+    },
+    {
+      "name": "PPVDD_USBC_FIXED",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.805V"
+      ],
+      "sources": [
+        "UF930 (ATC01 regulator, Vout=0.8074V)"
+      ]
+    },
+    {
+      "name": "PPVDD_USBC_VDDIO",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "0.855V"
+      ],
+      "sources": [
+        "UF960 (ATC01 regulator, Vout=0.8622V)"
+      ]
+    },
+    {
+      "name": "PPVDS5_S2SM_CIO",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "voltages": [
+        "0.855V"
+      ],
+      "sources": [
+        "MPMU LDO 10",
+        "MPMU LDO 10 (U8100)",
+        "MPMU LDO 10 (U8100), 250mA MAX"
+      ]
+    },
+    {
+      "name": "PPVDS_MAME",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU/SPMU"
+      ]
+    },
+    {
+      "name": "PPVDS_MAME_NAND_VCC",
+      "boards": [
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU Buck",
+        "SSD power IC"
+      ]
+    },
+    {
+      "name": "PPVDS_S2_DDR",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "PMU Buck"
+      ]
+    },
+    {
+      "name": "PPVDT_LCDBKL_1",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable (boost)"
+      ],
+      "sources": [
+        "U6560 (BEN backlight boost)"
+      ]
+    },
+    {
+      "name": "PPVOUT_KBDLED",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Keyboard backlight driver"
+      ]
+    },
+    {
+      "name": "PPVOUT_KBDLED_CONN",
+      "boards": [
+        "A2442",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "KBD LED output to connector"
+      ]
+    },
+    {
+      "name": "PPVOUT_LCDBKLT",
+      "boards": [
+        "A2338_M2",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "BEN IC LP800 (display/KBD backlight boost, page 83)",
+        "LCD Backlight boost from PPBUS_AONSW_LCD"
+      ]
+    },
+    {
+      "name": "PPVOUT_LDO0_MPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU LDO 0"
+      ]
+    },
+    {
+      "name": "PPVOUT_LDO4_SPMU",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO 4"
+      ]
+    },
+    {
+      "name": "PPVOUT_LDOG_SPMU",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SPMU LDO G"
+      ]
+    },
+    {
+      "name": "PPVOUT_LUXE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "voltages": [
+        "Variable",
+        "Variable (boost)"
+      ],
+      "sources": [
+        "Luxe backlight driver",
+        "Luxe backlight driver output",
+        "UP800 (Luxe backlight driver KAAC01908)",
+        "UP800 (RAX391004E) Luxe backlight driver"
+      ]
+    },
+    {
+      "name": "PPVV2_S2_CLVR_VODC1",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "MPMU S2 CLVR"
+      ]
+    },
+    {
+      "name": "PPVV2_S2_FAN_PU",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Fan pull-up supply"
+      ]
+    },
+    {
+      "name": "PPVV2_S2_SOC",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SoC VDDIO domain S2"
+      ]
+    },
+    {
+      "name": "PPVV2_S2_USBC01",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "USB-C left port power"
+      ]
+    },
+    {
+      "name": "PPVV2_S2_USBC23",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "USB-C right port power"
+      ]
+    },
+    {
+      "name": "PPVV_EXTS_AONSW",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "External supply"
+      ],
+      "sources": [
+        "MagSafe fuses F5601"
+      ]
+    },
+    {
+      "name": "PPVV_INT2_AONSW_OPT",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Internal supply"
+      ],
+      "sources": [
+        "MagSafe internal path"
+      ]
+    },
+    {
+      "name": "PPVV_PVDDVDN_DRMQS",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "Viper VR output domain"
+      ]
+    },
+    {
+      "name": "PP_AVDD_DISP",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "voltages": [
+        "~4.85V",
+        "~5.5V (positive)"
+      ],
+      "sources": [
+        "San Diego Display PMU (page 85)",
+        "U6600 (Display PMU)"
+      ]
+    },
+    {
+      "name": "PP_CABLE",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "voltages": [
+        "Cable detect"
+      ],
+      "sources": [
+        "USB-C cable presence"
+      ]
+    },
+    {
+      "name": "PP_HV_OPT",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "High voltage option"
+      ],
+      "sources": [
+        "HV optional rail"
+      ]
+    },
+    {
+      "name": "PP_OTP2",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "OTP power"
+      ],
+      "sources": [
+        "OTP fuse programming"
+      ]
+    },
+    {
+      "name": "PP_SDCARD_VUHI",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "voltages": [
+        "Variable"
+      ],
+      "sources": [
+        "SD card VHI"
+      ]
+    },
+    {
+      "name": "PP_VGH_DISP",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Positive (panel dependent)"
+      ],
+      "sources": [
+        "U6600 (Display PMU)"
+      ]
+    },
+    {
+      "name": "PP_VGL_DISP",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "voltages": [
+        "Negative"
+      ],
+      "sources": [
+        "U6600 (Display PMU)"
+      ]
+    }
+  ]
+}

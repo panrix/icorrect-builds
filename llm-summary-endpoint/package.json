@@ -1,0 +1,12 @@
+{
+  "name": "llm-summary-endpoint",
+  "version": "1.0.0",
+  "description": "LLM-powered summarization of Monday.com repair updates",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}

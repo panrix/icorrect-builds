@@ -1,0 +1,91 @@
+✅ Winning: MBA.A2179.8GB.512GB.Gold.Fair
+BM#: 6716978 | Price: £320 | Net: £-105.77 (-34.01%)
+Market:  Fair £270 | Good £318 | Excellent £371
+         ⚠️ VARIANT ALERT: unmanaged listing: catalog colour missing → ALERT ONLY
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2991.M3PRO.36GB.1TB.SpaceBlack.Good
+BM#: 6716633 | Price: £2580 | Net: N/A (N/A)
+Market:  Fair £N/A | Good £2667 | Excellent £2001
+         ⚠️ VARIANT ALERT: unmanaged listing: product_id 7321f8b6-c3f9-4141-b562-c1f6e426bf0e not found in bm-catalog.json → ALERT ONLY
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2992.M3PRO.18GB.512GB.Silver.Good
+BM#: 6716615 | Price: £1189 | Net: £661.57 (57.33%)
+Market:  Fair £1113 | Good £1167 | Excellent £1399
+         ⚠️ VARIANT ALERT: unmanaged listing: product_id 593a231b-91e5-4d8e-b370-03780eb0cc3b not found in bm-catalog.json → ALERT ONLY
+
+────────────────────────────────────────
+
+🚫 Cannot win profitably: MBA.A2337.M1.7C.8GB.256GB.Grey.Good
+BM#: 6710313 | Listed: 3 days
+Our price: £407 | Buy box: £378
+
+Market:  Fair £373 | Good £413 | Excellent £460
+Net@win: £-49.77 (-13.56%)
+Break-even price: £435
+
+Action: No change. Monitor.
+
+────────────────────────────────────────
+
+✅ Winning: MBA.A2681.M2.8C.8GB.256GB.Silver.Fair
+BM#: 6709049 | Price: £525 | Net: £28.31 (5.55%)
+Market:  Fair £525 | Good £597 | Excellent £590
+         ⛔ QTY MISMATCH: BM listing active (qty=1) but Monday status="Sold" (not Listed). Oversell risk! → AUTO-OFFLINED
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2338.M1.8GB.256GB.Silver.Fair
+BM#: 6709048 | Price: £458 | Net: £65.63 (14.75%)
+Market:  Fair £458 | Good £524 | Excellent £461
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2338.M1.16GB.2TB.Grey.Fair
+BM#: 6558670 | Price: £689 | Net: £12.64 (1.89%)
+Market:  Fair £689 | Good £524 | Excellent £461
+
+────────────────────────────────────────
+
+✅ Winning: MBP.A2289.i5.8GB.1TB.Grey.Fair
+BM#: 6505341 | Price: £450 | Net: £-46.49 (-10.64%)
+Market:  Fair £450 | Good £397 | Excellent £422
+
+────────────────────────────────────────
+
+⚠️ Not winning: MBA.A2337.8GB.256GB.Grey.Fair
+BM#: 5606597 | Listed: 0 days
+Our price: £373 | Buy box: £354
+
+Market:  Fair £373 | Good £413 | Excellent £460
+Net@win: £70.71 (20.56%) | Net@current: £83.91 (23.18%)
+
+Action: Bump eligible (15-30% tier) — flagged for review
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBA.A2337.8GB.256GB.Grey.Fair" vs resolver="MBA.A2337.M1.7C.8GB.256GB.GREY.FAIR" → ALERT ONLY
+
+────────────────────────────────────────
+
+⚠️ Not winning: MBP.A2251.i5.16GB.512GB.Grey.Good
+BM#: 5570963 | Listed: 0 days
+Our price: £385 | Buy box: £359
+
+Market:  Fair £388 | Good £397 | Excellent £422
+Net@win: £178.01 (51.01%) | Net@current: £196.34 (52.5%)
+
+Action: Bump eligible (30%+ tier) — flagged for review
+
+────────────────────────────────────────
+
+🚫 Cannot win profitably: MBP14.A2442.16GB.512GB.Silver.Vgood
+BM#: 4952313 | Listed: 0 days
+Our price: £1050 | Buy box: £774
+
+Market:  Fair £689 | Good £729 | Excellent £800
+Net@win: £-42.72 (-5.69%)
+Break-even price: £810
+
+Action: No change. Monitor.
+         ⚠️ VARIANT ALERT: resolver SKU format difference (non-critical): live="MBP14.A2442.16GB.512GB.Silver.Vgood" vs resolver="MBP.A2442.M1PRO.16GB.512GB.SILVER.VERY_GOOD" → ALERT ONLY

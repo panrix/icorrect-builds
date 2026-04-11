@@ -1,0 +1,127 @@
+{
+  "board": "A2337",
+  "schematic": "820-02016",
+  "triage_type": "DCPS 20V (Direct 20V input, simulating post-PD charger)",
+  "description": "Diagnostic triage when board is powered at 20V via DCPS (bypassing PD negotiation). Tests full power chain at operating voltage.",
+  "WARNING": "M1 board. Direct 20V input bypasses CD3217 PD negotiation. Use current-limited supply. If board draws >3A at 20V immediately, there is a short - DO NOT continue.",
+  "initial_conditions": {
+    "power_supply": "20V via USB-C (DCPS mode, current limited to 3A)",
+    "expected_current_draw_standby": "0.02-0.08A at 20V (standby, no battery)",
+    "expected_current_draw_booting": "0.3-1.5A at 20V (booting with display)",
+    "overcurrent_threshold": "3A - indicates short circuit, stop immediately"
+  },
+  "steps": [
+    {
+      "step": 1,
+      "check": "Initial current draw at 20V",
+      "expected": "<0.1A (standby) or 0.3-1.5A (booting)",
+      "if_overcurrent": {
+        "diagnosis": "Short circuit on input or PPBUS_AON",
+        "actions": [
+          "Disconnect immediately",
+          "Check diode mode on PPVBUS caps",
+          "Check for short on PPBUS_AON bulk caps",
+          "Check charger IC U5200 for dead short",
+          "Use thermal imaging at low voltage (5V, current limited) to find hot component"
+        ]
+      },
+      "if_normal": "Go to step 2"
+    },
+    {
+      "step": 2,
+      "check": "PPBUS_AON",
+      "expected": "~12.6V (with battery) or ~20V (no battery, unregulated)",
+      "probe": "PPBUS_AON bulk capacitor",
+      "if_missing": {
+        "diagnosis": "Charger IC not passing 20V through",
+        "actions": [
+          "Check U5200 charger IC",
+          "Check CHGR_AUX_OK (page 24)",
+          "At 20V, charger should pass through even without full PD sequence",
+          "Check for open MOSFETs in charger path"
+        ]
+      },
+      "if_present": "Go to step 3"
+    },
+    {
+      "step": 3,
+      "check": "PP3V8_AON",
+      "expected": "3.8V",
+      "probe": "PP3V8_AON output capacitor",
+      "if_missing": {
+        "diagnosis": "U5700 SVR AON fault",
+        "actions": [
+          "Check PPVAON_PWR_EN",
+          "Check PPVAON_FAULT_L",
+          "Check for short on PP3V8_AON_VDDMAIN (common fault on M1 boards)",
+          "Thermal imaging on PP3V8_AON distribution",
+          "If PP3V8_AON is shorted: systematically lift caps to isolate fault"
+        ]
+      },
+      "if_present": "Go to step 4"
+    },
+    {
+      "step": 4,
+      "check": "All AON rails",
+      "expected": {
+        "PP3V3_AON": "3.3V (UC100)",
+        "PP1V8_AON": "1.8V (UC200)",
+        "SERA_LDO9": "~1.8V",
+        "SIMETRA_LDO9": "~1.8V"
+      },
+      "if_any_missing": {
+        "diagnosis": "AON LDO or PMU LDO fault",
+        "actions": [
+          "Check specific missing rail's source IC",
+          "Thermal imaging on faulty rail",
+          "If UC100/UC200 output missing: check input PP3V8_AON_VODMAN"
+        ]
+      },
+      "if_all_present": "Go to step 5"
+    },
+    {
+      "step": 5,
+      "check": "PP5V_S2 and PP3V3_S2",
+      "expected": {
+        "PP5V_S2": "5.15V",
+        "PP3V3_S2": "3.12V"
+      },
+      "probe": "UC320 and XMC710 output capacitors",
+      "if_missing": {
+        "diagnosis": "Standalone VR enable or IC fault",
+        "actions": [
+          "Check P5VS2_PWR_EN (should be asserted by PMU GPIO after PMU startup)",
+          "Check P3V3S2_PWR_EN",
+          "If enable present: VR IC fault or output short",
+          "Diode mode on output caps to check for short"
+        ]
+      },
+      "if_present": "Go to step 6"
+    },
+    {
+      "step": 6,
+      "check": "SoC power domains",
+      "expected": "Multiple voltage domains present at SoC pins (pages 11-15)",
+      "actions": [
+        "Check SERA BUCK 0 output (PCPU DVFS) - should be present if SoC is awake",
+        "Check SERA BUCK 11 output (ECPU DVFS)",
+        "Check PMU_ACTIVE_READY signal",
+        "If all power present but no boot: SoC fault, SPI ROM fault, or NAND fault"
+      ]
+    },
+    {
+      "step": 7,
+      "check": "Display output",
+      "expected": "Apple logo on external display or panel",
+      "if_no_display": {
+        "actions": [
+          "Check display connector (page 67)",
+          "Check UP700/UP705/UP715 sequencer outputs (page 68)",
+          "Check DP600 (BEN) backlight boost (page 69)",
+          "Check eDP data lanes",
+          "Try external display via USB-C (if Thunderbolt is functional)"
+        ]
+      }
+    }
+  ]
+}

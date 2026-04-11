@@ -5,6 +5,10 @@ const fs = require('fs');
 const path = require('path');
 const { BM_API_HEADERS, fetchAllListings } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
+const {
+  normalizeResolverSku,
+  upgradeRegistrySchema,
+} = require('./lib/resolver-truth');
 
 const BM_BASE = 'https://www.backmarket.co.uk';
 const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
@@ -304,7 +308,7 @@ function buildPlan(variants) {
     const grades = gradeFilter ? [gradeFilter] : GRADES;
     for (const grade of grades) {
       try {
-        const sku = constructSkuFromCatalog(variant, grade);
+        const sku = normalizeResolverSku(constructSkuFromCatalog(variant, grade));
         if (seenSkus.has(sku)) {
           collisions.push({
             sku,
@@ -446,10 +450,16 @@ function writeJson(filePath, data) {
   fs.writeFileSync(filePath, JSON.stringify(data, null, 2) + '\n');
 }
 
+function writeCanonicalRegistry(registry) {
+  const upgraded = upgradeRegistrySchema(registry).registry;
+  writeJson(REGISTRY_PATH, upgraded);
+  return upgraded;
+}
+
 function loadExistingRegistry() {
   if (!fs.existsSync(REGISTRY_PATH)) return null;
   try {
-    return JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+    return upgradeRegistrySchema(JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'))).registry;
   } catch {
     return null;
   }
@@ -519,6 +529,8 @@ async function main() {
 
   const registry = {
     created_at: new Date().toISOString(),
+    canonical_store: 'listings-registry',
+    resolver_schema_version: 1,
     total_slots: 0,
     total_processed: 0,
     verified: 0,
@@ -614,6 +626,7 @@ async function main() {
           });
         }
 
+        const verifiedAt = new Date().toISOString();
         registry.slots[slot.sku] = {
           listing_id: listingId,
           backmarket_id: listingRecord.backmarket_id || null,
@@ -628,9 +641,13 @@ async function main() {
           title: listingRecord.title || '',
           verified_title: comparison.actual,
           verified: comparison.verified,
+          trust_class: comparison.verified ? 'registry_verified' : 'needs_probe',
+          source: 'build-listings-registry',
+          last_verified_at: verifiedAt,
+          contradiction_flags: [],
           issues: comparison.issues,
           created_now: created,
-          created_at: new Date().toISOString(),
+          created_at: verifiedAt,
         };
       } catch (error) {
         const failedEntry = {
@@ -650,7 +667,7 @@ async function main() {
       }
     }
 
-    writeJson(REGISTRY_PATH, registry);
+    writeCanonicalRegistry(registry);
     writeJson(CORRECTIONS_PATH, corrections);
     writeJson(DUPLICATES_PATH, duplicatesReport);
 
@@ -660,7 +677,7 @@ async function main() {
     }
   }
 
-  writeJson(REGISTRY_PATH, registry);
+  writeCanonicalRegistry(registry);
   writeJson(CORRECTIONS_PATH, corrections);
   writeJson(DUPLICATES_PATH, duplicatesReport);
 
@@ -670,7 +687,7 @@ async function main() {
   registry.total_slots = Object.keys(registry.slots).length;
   registry.total_processed = registry.total_slots + registry.blocked + registry.failed;
 
-  writeJson(REGISTRY_PATH, registry);
+  writeCanonicalRegistry(registry);
 
   console.log(`Done. Verified ${registry.verified}/${plan.length}, blocked ${blocked.length}, failed ${registry.failed_slots.length - (existingRegistry?.failed_slots || []).length}.`);
   if (existingRegistry) {

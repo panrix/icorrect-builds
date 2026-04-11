@@ -1,0 +1,11 @@
+{
+  "name": "@icorrect-intake/shared",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "exports": {
+    "./types": "./types.ts"
+  },
+  "types": "./types.ts",
+  "sideEffects": false
+}

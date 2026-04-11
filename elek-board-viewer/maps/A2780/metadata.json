@@ -1,0 +1,32 @@
+{
+  "board_number": "A2780",
+  "schematic_number": "820-02652",
+  "internal_name": "X2293 MLB",
+  "model_identifier": "J416",
+  "apple_part_number": "051-07398",
+  "chip": "M2 Pro/Max",
+  "form_factor": "MacBook Pro",
+  "screen_size": "16.2\"",
+  "year": 2023,
+  "revision": "5.12.0",
+  "last_modification": "2022-05-17",
+  "total_pages": 163,
+  "schematic_variants": "C (163 pages) + S (159 pages). J416-C = MLB-C, J416-S = MLB-S.",
+  "template": "A2442 (Pro/Max structure with dual PMU, Viper VR, Monaco VR)",
+  "pro_max_variants": "BOM options for Pro vs Max configurations. Max has additional GPU power phases via Monaco VR.",
+  "key_differences_from_a2442": [
+    "M2 Pro/Max instead of M1 Pro/Max — same power topology, updated silicon",
+    "16-inch display vs 14-inch (A2442) — larger backlight, potentially higher current",
+    "3 USB-C ports (ATC0, ATC1 left; ATC2 right)",
+    "HDMI port with retimer",
+    "SD card reader",
+    "Viper VR for high-current SoC domains",
+    "Monaco VR for GPU/fabric domains",
+    "Dual SSD support",
+    "TouchID",
+    "Fan controller"
+  ],
+  "sections": {
+    "note": "Page layout follows A2442 Pro/Max structure. Section numbers may vary slightly between C and S variants. Refer to A2442 metadata for detailed section mapping."
+  }
+}

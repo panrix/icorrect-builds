@@ -1,0 +1,2373 @@
+{
+  "description": "Master IC index across all boards",
+  "total_unique_ics": 213,
+  "total_boards": 14,
+  "boards": [
+    "A2337",
+    "A2338",
+    "A2338_M2",
+    "A2442",
+    "A2442_CTO",
+    "A2485",
+    "A2485_EVTc",
+    "A2681",
+    "A2779",
+    "A2779_S",
+    "A2780",
+    "A2918",
+    "A3113",
+    "A3114"
+  ],
+  "ics": [
+    {
+      "designator": "Ace ATC0/ATC1",
+      "function": "USB-C port controller ACE",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "CLVR0 (UA100/UA200, Instance C0)",
+      "function": "CLVR VR \u2014 PCPU power (replaces part of Monaco on A2442)",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "CLVR1 (UA100/UA200, Instance C1)",
+      "function": "CLVR VR \u2014 GPU0 power",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "CLVR2 (UA300/UA300, Instance C2, C/D)",
+      "function": "CLVR VR \u2014 GPU1 power (Max variant)",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "CLVR3 (UA100/UA600, Instance C3, C/D)",
+      "function": "CLVR VR \u2014 DPL/Fabric power",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "CLVR4 (UA500/UA600, Instance C4)",
+      "function": "CLVR VR \u2014 ANE/APR power",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Carlow B0 (area U-designator near page 122)",
+      "function": "Audio Jack Codec",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Charger IC",
+      "function": "Battery charger IC",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Charger IC (U5200 area)",
+      "function": "Battery charger IC",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Charger IC (page 30 area)",
+      "function": "Battery charger IC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "Cobra IC",
+      "function": "HDMI retimer/controller (replaces Madea on A2442)",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Codec IC (Carlow B0 Silicon, CS42LM8-80)",
+      "function": "Audio jack codec",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "DP600",
+      "function": "BEN - Display/KBD backlight boost converter",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "DZE500",
+      "function": "Fan controller MOSFET/driver",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "EADC1 (U0918)",
+      "function": "External ADC 1",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "EADC2 (U0920)",
+      "function": "External ADC 2",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "J5150",
+      "function": "BMU (Battery Management Unit) connector",
+      "boards": [
+        "A2681",
+        "A2779_S",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 4,
+      "part_numbers": [
+        "887540-2611-1A"
+      ]
+    },
+    {
+      "designator": "J5151",
+      "function": "Battery connector",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "J5401",
+      "function": "MagSafe 3 connector",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 11,
+      "part_numbers": [
+        "24713E04(18)19"
+      ]
+    },
+    {
+      "designator": "JE500/JE510",
+      "function": "Fan connectors (left/right)",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "JE501",
+      "function": "Fan connector (J223)",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "518S0818 / FF14A-6C-R11DL-B-3H"
+      ]
+    },
+    {
+      "designator": "JG200",
+      "function": "USB-C / MagSafe debug connector",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "BRC890-6-1413/24-0.15V"
+      ]
+    },
+    {
+      "designator": "JH500",
+      "function": "HDMI connector",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "JM8170",
+      "function": "MPMU companion IC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "part_numbers": []
+    },
+    {
+      "designator": "JP600",
+      "function": "Display connector interface IC",
+      "boards": [
+        "A2338_M2",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SLG5586006"
+      ]
+    },
+    {
+      "designator": "LF800",
+      "function": "USB-C 5V regulator",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "LN000",
+      "function": "NAND0 SSD controller (S5E0)",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "LN100",
+      "function": "NAND0 SSD controller (S5E1)",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "LN400 (Ocarina SSD0, D24V94PLAYLAVC2)",
+      "function": "NAND controller / SSD0 power management",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "LN900 (Ocarina SSD1, D24V94PLAYLAVC2)",
+      "function": "NAND controller / SSD1 power management",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "LP410",
+      "function": "Camera power filter (CRITICAL)",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "LP800",
+      "function": "BEN - Display/KBD backlight boost converter",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "OPA71A1"
+      ]
+    },
+    {
+      "designator": "MACAW 0/1/2/3 (UF700/UF710/UF750/UG700/UG710/UG750)",
+      "function": "USB-C high-speed level shifters / retimers",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Madea IC",
+      "function": "HDMI retimer/controller",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "part_numbers": []
+    },
+    {
+      "designator": "MagSafe Port Controller",
+      "function": "MagSafe port controller",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "AAROVARKS/CD96"
+      ]
+    },
+    {
+      "designator": "MagSafe Port Controller (UPC5 area)",
+      "function": "MagSafe port controller",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "AAROXA9PA0830 (APN: 516S00610)"
+      ]
+    },
+    {
+      "designator": "Monaco VR (5 instances: C0, C1, C2, C3, C4)",
+      "function": "Monaco multi-output VR \u2014 GPU/fabric/SoC dynamic domains",
+      "boards": [
+        "A2442_CTO"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Monaco VR (Instance C0 + others)",
+      "function": "Monaco multi-output VR \u2014 GPU/fabric/SoC dynamic domains",
+      "boards": [
+        "A2442",
+        "A2780"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "Monaco VR (Instance C0)",
+      "function": "Monaco multi-output VR \u2014 GPU/fabric/SoC dynamic domains",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Monaco VR (Instance C1)",
+      "function": "Monaco multi-output VR \u2014 additional SoC domains",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Monaco VR (Instance C2/C4)",
+      "function": "Monaco multi-output VR \u2014 SC/1C/2C instances",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "NAND0 S5E0",
+      "function": "SSD NAND flash package 0",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "part_numbers": []
+    },
+    {
+      "designator": "NAND0 S5E0-S5E3",
+      "function": "SSD NAND flash packages (SSD0)",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "NAND0 S5E1",
+      "function": "SSD NAND flash package 1",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "part_numbers": []
+    },
+    {
+      "designator": "NAND1 S5E0-S5E3",
+      "function": "SSD NAND flash packages (SSD1)",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Ocarina (SSD0/SSD1)",
+      "function": "NAND controller / SSD power management",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "part_numbers": []
+    },
+    {
+      "designator": "QE500",
+      "function": "Fan PWM MOSFET driver",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "NTS4C569N (376S00282)"
+      ]
+    },
+    {
+      "designator": "Rasputin Module",
+      "function": "WiFi 6 / Bluetooth module",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2338_M2"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "LBRECAUV1-506",
+        "Rasputin"
+      ]
+    },
+    {
+      "designator": "SD Card Controller",
+      "function": "SD card reader controller",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 5,
+      "part_numbers": []
+    },
+    {
+      "designator": "San Diego Display PMU (page 85)",
+      "function": "Display PMU IC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "Sovereign IMU",
+      "function": "6-axis accelerometer and gyroscope",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "Bosch BMI270AA (APN: S5680BBMA)",
+        "Bosch BMI2xx (APN: 398010116)",
+        "Bosch BMI2xxAA (APN: 338S01615)"
+      ]
+    },
+    {
+      "designator": "Sovereign IMU (CE400 area)",
+      "function": "6-axis accelerometer and gyroscope",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "Bosch BMI2xxA (APN: 338S00915)"
+      ]
+    },
+    {
+      "designator": "TPS62130",
+      "function": "5V S2 buck converter (Texas Instruments TPS62130)",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "TPS62130 (5V S2 VR)",
+      "function": "5V S2 buck converter (Texas Instruments TPS62130)",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2780"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "TPS62130 (5V S2 VR, page 122)",
+      "function": "5V S2 buck converter (Texas Instruments TPS62130)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "Typhoon Module",
+      "function": "WiFi 6E / Bluetooth module",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "Typhoon ES2.X"
+      ]
+    },
+    {
+      "designator": "U0500",
+      "function": "SEP EEPROM",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "STOCT"
+      ]
+    },
+    {
+      "designator": "U0600",
+      "function": "Pin delay mapping file IC",
+      "boards": [
+        "A2337",
+        "A2338"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "U1950",
+      "function": "SEP EEPROM",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U1970",
+      "function": "SPI NOR flash",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "W25Q64JWUIQ (64MB, 1.8V)"
+      ]
+    },
+    {
+      "designator": "U1974",
+      "function": "SPI NOR MOSI/CLK level shifter",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "SN74AXC1T45"
+      ]
+    },
+    {
+      "designator": "U1S75",
+      "function": "SOC ROM",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U2000",
+      "function": "SEP EEPROM (16KBIT)",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U2010",
+      "function": "SPI NOR Flash (1.8V 64MBIT)",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5000",
+      "function": "Secure Element",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2779_S"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "Ceres",
+        "SN210V0K/B101V7 (WLCSP)",
+        "SN300V (Eos)"
+      ]
+    },
+    {
+      "designator": "U5000 (Secure Element, SN210VUK/B101V7)",
+      "function": "Ceres Secure Element",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5050",
+      "function": "Secure Element (Ceres)",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "part_numbers": [
+        "DK3219A (Ceres)",
+        "SAGT80060SBOOST"
+      ]
+    },
+    {
+      "designator": "U5050 (SMC)",
+      "function": "System Management Controller (embedded in SoC M2)",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5050 (likely)",
+      "function": "Secure Element",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2780"
+      ],
+      "board_count": 4,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5150",
+      "function": "Battery connector ESD/protection",
+      "boards": [
+        "A2338",
+        "A2779_S"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "RCLAMP3552T (CRITICAL)"
+      ]
+    },
+    {
+      "designator": "U5150 (RCLAMP3552T, battery system detect)",
+      "function": "Battery system detect clamp",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5200",
+      "function": "Battery charger IC",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2338_M2"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "1S41091 (353S01525)"
+      ]
+    },
+    {
+      "designator": "U5200 (area)",
+      "function": "Battery charger IC",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 7,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5320",
+      "function": "CHGR_INT_L level translator",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "SN74AUP1G17"
+      ]
+    },
+    {
+      "designator": "U5340",
+      "function": "3V8 AON VR enable delay",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "74LVC1G17"
+      ]
+    },
+    {
+      "designator": "U5349",
+      "function": "3.8V VR enable delay circuit",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5383",
+      "function": "Switchover to external 5V (SLG04P157V MABOLA LDO)",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5384",
+      "function": "5V from Mabola to PP5V_S2 switchover",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5500",
+      "function": "MagSafe port controller (CD3218I2AKZ2, configured as UPC5)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5700",
+      "function": "SVR AON - 3V8 always-on switching voltage regulator",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 13,
+      "part_numbers": [
+        "APN 351002645"
+      ]
+    },
+    {
+      "designator": "U5900",
+      "function": "ACE3 - MagSafe port controller",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "338S01614"
+      ]
+    },
+    {
+      "designator": "U5910",
+      "function": "PP3V8_AON current sense amplifier",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "part_numbers": [
+        "MAX41033ANT+"
+      ]
+    },
+    {
+      "designator": "U5910 / U6040",
+      "function": "3V8 AON current sense / throttle summing amp",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5940",
+      "function": "PP3V8_AON ILIMIT3 comparator",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "U5950",
+      "function": "PP3V8_AON current sense (secondary)",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "U6000",
+      "function": "SoC - Apple M1 (T8103)",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 12,
+      "part_numbers": []
+    },
+    {
+      "designator": "U6560",
+      "function": "BEN \u2014 Display/KBD backlight boost converter",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U6600",
+      "function": "SoC -- Apple M1 Pro/Max",
+      "boards": [
+        "A2485_EVTc",
+        "A2681"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "U7700",
+      "function": "SPMU (Slave PMU)",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 14,
+      "part_numbers": [
+        "998-22526 / TNL T4741-JPE",
+        "OMIT_TABLE 998-23585",
+        "SIMETRA"
+      ]
+    },
+    {
+      "designator": "U8100",
+      "function": "MPMU (Master PMU)",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 14,
+      "part_numbers": [
+        "998-22608 / TNL T4600-JPE",
+        "JM8165",
+        "OMIT_TABLE 998-23524",
+        "SBN 13024",
+        "SBN 23024",
+        "SERA"
+      ]
+    },
+    {
+      "designator": "U8430",
+      "function": "PBUS Sense opamp",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "TLV0S1DPW (possible smaller footprint)"
+      ]
+    },
+    {
+      "designator": "U8440",
+      "function": "MPMU charger reset circuit",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "343S00307 (APN)"
+      ]
+    },
+    {
+      "designator": "U8450",
+      "function": "PBUS PMU DEV (secondary sense)",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "TLV9351"
+      ]
+    },
+    {
+      "designator": "U8720",
+      "function": "Early crash PMU signal buffer",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SN74LV1L1T"
+      ]
+    },
+    {
+      "designator": "U8740",
+      "function": "MPMU charger reset circuit",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "U8744",
+      "function": "MPMU charger reset support",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "U8780",
+      "function": "32kHz clock buffer to trackpad",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "U9300",
+      "function": "Viper VR controller",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2779_S",
+        "A2780"
+      ],
+      "board_count": 7,
+      "part_numbers": [
+        "Austringer",
+        "MAAZ1552A-SW-GPR-A0-1"
+      ]
+    },
+    {
+      "designator": "UA100",
+      "function": "CLVR0 \u2014 SoC multi-buck regulator instance C0",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "CLVR0"
+      ]
+    },
+    {
+      "designator": "UA100 (Monaco 0, Instance C0)",
+      "function": "Monaco multi-output VR -- GPU/fabric/SoC dynamic domains",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UA200",
+      "function": "CLVR1 \u2014 SoC multi-buck regulator instance C1",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "CLVR1"
+      ]
+    },
+    {
+      "designator": "UA200 (Monaco 1, Instance C1)",
+      "function": "Monaco VR Instance 1 -- additional GPU/fabric domains",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UA300 (Monaco 2, Instance C2)",
+      "function": "Monaco VR Instance 2 -- additional domains",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UA400 (Monaco 3, Instance C3)",
+      "function": "Monaco VR Instance 3 -- additional domains",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UA500 (Monaco 4, Instances sC/1C/2C)",
+      "function": "Monaco VR Instance 4 -- multi-config",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UA600",
+      "function": "CLVR2 \u2014 SoC multi-buck regulator instance C2 (S variant)",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "CLVR2 (S)"
+      ]
+    },
+    {
+      "designator": "UC000",
+      "function": "CLVR fabric throttle gate (74AP1G06)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UC000/UC001",
+      "function": "Monaco Project Support",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UC100",
+      "function": "3.3V AON LDO",
+      "boards": [
+        "A2337",
+        "A2338"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "353S3698 / LP5907UVX-3.3V"
+      ]
+    },
+    {
+      "designator": "UC120",
+      "function": "1.8V AON external LDO",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "353S4262 / LP5907UVX-1.8"
+      ]
+    },
+    {
+      "designator": "UC200",
+      "function": "1.8V AON LDO",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UC259",
+      "function": "5V S2 buck converter",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UC260",
+      "function": "5V S2 VR",
+      "boards": [
+        "A2779",
+        "A2918"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "TPS62130"
+      ]
+    },
+    {
+      "designator": "UC300",
+      "function": "5V S2 buck converter",
+      "boards": [
+        "A2338",
+        "A2338_M2",
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "part_numbers": [
+        "LN84243-1",
+        "LT8642S (CRITICAL)"
+      ]
+    },
+    {
+      "designator": "UC320",
+      "function": "5V S2 buck converter",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UC630",
+      "function": "LDO for PP3V3_S2_HOLD_IPD",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "3V/0.15500N (QSFN040316R)"
+      ]
+    },
+    {
+      "designator": "UC630 (page 52)",
+      "function": "P5VS2_PWR_EN control logic (stage 2)",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SN74AUP1G08DR"
+      ]
+    },
+    {
+      "designator": "UC637",
+      "function": "P5VS2_PWR_EN control logic (stage 1)",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SN74AUP1G04DR1"
+      ]
+    },
+    {
+      "designator": "UC710",
+      "function": "3V3 S2 buck converter",
+      "boards": [
+        "A2338",
+        "A2338_M2",
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "part_numbers": [
+        "SN621371 (353S02228, CRITICAL)"
+      ]
+    },
+    {
+      "designator": "UC810",
+      "function": "3.3V sensor power switch",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "SLG5AP1445V (CRITICAL)"
+      ]
+    },
+    {
+      "designator": "UC820",
+      "function": "1.8V S2 power switch",
+      "boards": [
+        "A2338",
+        "A2338_M2",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 4,
+      "part_numbers": [
+        "SLG5AP1445V (CRITICAL)",
+        "SN74AUP1T17"
+      ]
+    },
+    {
+      "designator": "UC840",
+      "function": "VDD1 1V8 external load switch (secondary)",
+      "boards": [
+        "A2338_M2",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 4,
+      "part_numbers": [
+        "SLG04057TT",
+        "TPG2300570"
+      ]
+    },
+    {
+      "designator": "UC850",
+      "function": "PPBUS_AONSW_IPD load switch",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "TPG2300550"
+      ]
+    },
+    {
+      "designator": "UC860",
+      "function": "IPD OCP FLT logic IC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SN74AUP1L200"
+      ]
+    },
+    {
+      "designator": "UC870",
+      "function": "IPD_PWR_EN gating logic",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SN74AUP2G08DR"
+      ]
+    },
+    {
+      "designator": "UE200",
+      "function": "I/O Proximity thermal sensor (TIOP)",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "TMP468"
+      ]
+    },
+    {
+      "designator": "UE300",
+      "function": "Lid SECDIS logic IC (SAK)",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "SLG4AP897V"
+      ]
+    },
+    {
+      "designator": "UE400",
+      "function": "6-axis accelerometer and gyroscope (IMU)",
+      "boards": [
+        "A2338",
+        "A2485"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "BRT20AA (Kobol)"
+      ]
+    },
+    {
+      "designator": "UE400 (Sovereign)",
+      "function": "6-axis accelerometer and gyroscope",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "BMI284A (Bosch, APN 338300716)"
+      ]
+    },
+    {
+      "designator": "UE500",
+      "function": "Audio codec (Carlow B0)",
+      "boards": [
+        "A2338_M2",
+        "A2681"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SLG04V05417"
+      ]
+    },
+    {
+      "designator": "UE500/UE510",
+      "function": "Fan controllers (FAN0/FAN1)",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UE501",
+      "function": "Fan PWM level shifter",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "SN74A4C1T45"
+      ]
+    },
+    {
+      "designator": "UE510",
+      "function": "Fan PWM level shifter",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "LGS04P1540H/D500"
+      ]
+    },
+    {
+      "designator": "UF000",
+      "function": "TBT Burnside Bridge",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2485"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF100",
+      "function": "TBT Burnside Bridge (second)",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2485"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF200",
+      "function": "TBT ROM (SPI flash)",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF400",
+      "function": "CD3217 USB-C PD port controller ATC0",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 14,
+      "part_numbers": [
+        "CD3217B12KE (CRITICAL)"
+      ]
+    },
+    {
+      "designator": "UF500",
+      "function": "CD3217 USB-C PD port controller ATC1",
+      "boards": [
+        "A2337",
+        "A2337",
+        "A2338",
+        "A2338_M2",
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2681",
+        "A2779",
+        "A2779_S",
+        "A2780",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 15,
+      "part_numbers": [
+        "CD3217B12KE (CRITICAL)"
+      ]
+    },
+    {
+      "designator": "UF600",
+      "function": "USB2 repeater (eUSB)",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A2779_S",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "part_numbers": [
+        "CYG40442"
+      ]
+    },
+    {
+      "designator": "UF605",
+      "function": "USB2 repeater secondary",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF650",
+      "function": "MACAW 1 USB2 retimer",
+      "boards": [
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "CYG1A1142"
+      ]
+    },
+    {
+      "designator": "UF690",
+      "function": "USB2 repeater power/control",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF690/UF650/UF658",
+      "function": "MACAW 0, MACAW 1, MACAW 2 \u2014 USB2 repeaters",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF700",
+      "function": "TBT LS RX/TX level shifter (ATC0 I2C)",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2918"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF710",
+      "function": "ATC0 re-timer I2C level shifter",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 5,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF720",
+      "function": "ATC1 re-timer I2C level shifter",
+      "boards": [
+        "A2337",
+        "A2338_M2",
+        "A2681",
+        "A2918"
+      ],
+      "board_count": 4,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF725",
+      "function": "ATCRTMR0 reset level shifter",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF725/UG725",
+      "function": "IBS SPPREISE_PARTS (SN74AUP1G07)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF750",
+      "function": "eUSB level shifter",
+      "boards": [
+        "A2337",
+        "A2338"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF750 area",
+      "function": "ATC1 I2C eUSBL1 level shifter",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF790",
+      "function": "ATC0/1 and eUSB0/1 reset level shifter",
+      "boards": [
+        "A2338_M2",
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 4,
+      "part_numbers": [
+        "SLG04V00111"
+      ]
+    },
+    {
+      "designator": "UF800",
+      "function": "USB-C 5V regulator",
+      "boards": [
+        "A2338_M2",
+        "A2485_EVTc"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF900",
+      "function": "ATC01 VDDIO regulator (1.2V)",
+      "boards": [
+        "A2338_M2",
+        "A2918"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF900/UF930 (page 73)",
+      "function": "ATC01 voltage regulators",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF910",
+      "function": "ATC01 VDD3V3 regulator",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF920",
+      "function": "ATC01 VDDCIO regulator",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF930",
+      "function": "ATC01 additional CIO regulator",
+      "boards": [
+        "A2338_M2",
+        "A2918"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF939",
+      "function": "ATC01 CIO regulator",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF960",
+      "function": "ATC01 VDD FIXED regulator",
+      "boards": [
+        "A2338_M2",
+        "A2918"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UF960 (page 73)",
+      "function": "ATC01 additional regulator",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UG000",
+      "function": "USB-C High Speed ATC2 retimer/controller",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UG400",
+      "function": "CD3217 USB-C PD port controller ATC2",
+      "boards": [
+        "A2442",
+        "A2442_CTO",
+        "A2485",
+        "A2485_EVTc",
+        "A2779",
+        "A2780"
+      ],
+      "board_count": 6,
+      "part_numbers": []
+    },
+    {
+      "designator": "UG700",
+      "function": "USB-C HS Level Shifter (Left)",
+      "boards": [
+        "A2485"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UG800",
+      "function": "USB-C 5V regulator right (TPS62180)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UH001 (HDMI 1V2 VR)",
+      "function": "HDMI 1.2V voltage regulator",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UH700",
+      "function": "HDMI Cobra controller",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UH901 (LP5907SNX-3.3, 3.3V LDO for HDMI)",
+      "function": "3.3V LDO for HDMI",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UH902 (SLG5AP1443V, 1.8V LOAD SW for HDMI)",
+      "function": "1.8V load switch for HDMI",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UH903 (NCP160AMXS00, LDO HDMI 5V option)",
+      "function": "5V LDO for HDMI (optional)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UH908",
+      "function": "HDMI 0.95V buck converter",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UK150",
+      "function": "SD Card controller",
+      "boards": [
+        "A2779_S"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "GL9755S/GL9FE22Y708"
+      ]
+    },
+    {
+      "designator": "UK500 (GL9755, SD card controller)",
+      "function": "SD card reader controller",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UK550",
+      "function": "SD card controller",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "GL9755 (Genesys Logic)"
+      ]
+    },
+    {
+      "designator": "UK700 (Madea, MCR50MA4)",
+      "function": "HDMI retimer/controller",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UK830 (TPS62135, SD card power VR)",
+      "function": "3V3 SD card power regulator",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UL000 (WiFi/BT, Typhoon)",
+      "function": "WiFi/BT module (Typhoon)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UL000 (Willamette)",
+      "function": "WiFi 6E / Bluetooth module",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UP420",
+      "function": "Camera reset level shifter",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "SN74AO01945"
+      ]
+    },
+    {
+      "designator": "UP620",
+      "function": "TCON UART level shifter",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UP700",
+      "function": "Display power sequencer",
+      "boards": [
+        "A2337",
+        "A2338",
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 5,
+      "part_numbers": [
+        "SLG04P2541Q",
+        "SLG4AP4365V (STOPR)",
+        "SLG5AP312A"
+      ]
+    },
+    {
+      "designator": "UP701",
+      "function": "Display power sequencer (5V/3V3 switching)",
+      "boards": [
+        "A2338",
+        "A2485_EVTc",
+        "A2779_S",
+        "A2918"
+      ],
+      "board_count": 4,
+      "part_numbers": [
+        "SLG5AP1564V (STOPR)"
+      ]
+    },
+    {
+      "designator": "UP705",
+      "function": "Display power sequencer (secondary)",
+      "boards": [
+        "A2337",
+        "A2681"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SLG5AP312A"
+      ]
+    },
+    {
+      "designator": "UP710",
+      "function": "Display power sequencer (SLG4AP44015, STQFN)",
+      "boards": [
+        "A2485_EVTc",
+        "A2779",
+        "A2779_S",
+        "A2918",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 6,
+      "part_numbers": [
+        "SLG04P207F",
+        "SLG0A241G51Y",
+        "SLG5AP312A"
+      ]
+    },
+    {
+      "designator": "UP715",
+      "function": "Display power controller",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UP720",
+      "function": "Display power controller",
+      "boards": [
+        "A2681"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "SLG04P207F"
+      ]
+    },
+    {
+      "designator": "UP730",
+      "function": "3V29 LDO for backlight (TLV758P, STQFN)",
+      "boards": [
+        "A2485_EVTc",
+        "A2779_S",
+        "A2918"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "UP800",
+      "function": "BEN \u2014 Display/KBD backlight boost converter",
+      "boards": [
+        "A2338",
+        "A2779",
+        "A2779_S"
+      ],
+      "board_count": 3,
+      "part_numbers": [
+        "CK1714 (353S4185)",
+        "RAX2915GKE",
+        "RAX391004E"
+      ]
+    },
+    {
+      "designator": "UP800 (Luxe backlight driver, KAAC01908)",
+      "function": "Luxe LCD Backlight Driver",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UP950",
+      "function": "PPBUS_AONSW_LCD load switch / e-Fuse",
+      "boards": [
+        "A2681",
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 3,
+      "part_numbers": []
+    },
+    {
+      "designator": "UPC5",
+      "function": "MagSafe port controller",
+      "boards": [
+        "A2918"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UR000/UR030/UR060",
+      "function": "Audio amplifiers A/B/C (TAWANG B98)",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UR300",
+      "function": "SECDIS SAK IC",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "SGA0P1531V"
+      ]
+    },
+    {
+      "designator": "UR330",
+      "function": "SECDIS DMIC logic",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UR500",
+      "function": "Audio jack codec",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "CS42L83"
+      ]
+    },
+    {
+      "designator": "UR600/UR630/UR660/UR700/UR730/UR760",
+      "function": "Speaker amplifiers A-F (SN377780RTW / TAAWNG)",
+      "boards": [
+        "A2485_EVTc"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UR600/UR700",
+      "function": "Speaker amplifier ICs (Left: A, B, C)",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UR700/UR730/UR760",
+      "function": "Audio amplifiers D/E/F (TAWANG B98)",
+      "boards": [
+        "A3113",
+        "A3114"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "UR700/UR760",
+      "function": "Speaker amplifier ICs (Right: D, E, F)",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "URS00/URS30/URS60",
+      "function": "Audio amplifiers (AMP A/B/C)",
+      "boards": [
+        "A2338_M2"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UT101",
+      "function": "Keyboard IOX1 \u2014 I/O expander",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "PCA6416A"
+      ]
+    },
+    {
+      "designator": "UT102",
+      "function": "Keyboard IOX2 \u2014 I/O expander",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "PCA6416A"
+      ]
+    },
+    {
+      "designator": "UT103",
+      "function": "3.3V RSLOC isolation \u2014 keys/ASIC reset",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "BUMQU03V (343S00973)"
+      ]
+    },
+    {
+      "designator": "UT300",
+      "function": "IPD LDO \u2014 1.85V for trackpad and keyboard IOX",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": [
+        "353S01393"
+      ]
+    },
+    {
+      "designator": "UT305",
+      "function": "3.3V S2 LDO for trackpad",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UT600",
+      "function": "TouchID 16V boost converter",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UT610",
+      "function": "TouchID 3.0V LDO",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UT620",
+      "function": "TouchID 1.85V LDO",
+      "boards": [
+        "A2338"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "UT700",
+      "function": "DFR (Touch Bar) power controller",
+      "boards": [
+        "A2338",
+        "A2338_M2"
+      ],
+      "board_count": 2,
+      "part_numbers": [
+        "V3D2H (CRITICAL)"
+      ]
+    },
+    {
+      "designator": "UT710",
+      "function": "DFR 3.3V LDO",
+      "boards": [
+        "A2338",
+        "A2338_M2"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "Willamette Module",
+      "function": "WiFi 6E / Bluetooth module",
+      "boards": [
+        "A2779_S",
+        "A2918"
+      ],
+      "board_count": 2,
+      "part_numbers": []
+    },
+    {
+      "designator": "Willamette module",
+      "function": "WiFi/BT Module (replaces A2442 WiFi/BT)",
+      "boards": [
+        "A2779"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "XMC710",
+      "function": "3V3 S2 buck converter",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    },
+    {
+      "designator": "XMF100",
+      "function": "3.3V LDO for USB-C ATC0",
+      "boards": [
+        "A2337"
+      ],
+      "board_count": 1,
+      "part_numbers": []
+    }
+  ]
+}

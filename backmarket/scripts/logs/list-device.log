@@ -1,0 +1,100 @@
+[2026-03-27T17:41:16.955Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:335:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1818:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2211:22)
+[2026-03-27T17:45:32.418Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:335:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1818:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2211:22)
+[2026-03-27T17:49:43.326Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:335:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1818:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2211:22)
+[2026-03-27T17:54:02.367Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:335:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1818:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2211:22)
+[2026-03-27T17:58:44.993Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:335:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1818:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2211:22)
+[2026-03-27T18:06:22.001Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:335:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1818:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2211:22)
+[2026-03-27T18:14:26.757Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:356:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1853:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2246:22)
+[2026-03-27T18:15:57.846Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:356:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1853:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2246:22)
+[2026-03-27T18:59:37.901Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:356:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1853:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2246:22)
+[2026-03-27T23:52:33.513Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:361:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1757:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:2149:22)
+[2026-03-28T01:45:08.947Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:366:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1192:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1608:22)
+[2026-03-28T06:36:30.503Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:372:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1448:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1946:22)
+[2026-03-28T08:43:32.314Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:372:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1448:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1946:22)
+[2026-03-28T13:51:57.059Z] [ERROR] Item 11568991248: Error: No BM Device found linked to Main item 11568991248 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:372:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1448:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1946:22)
+[2026-03-29T07:58:08.468Z] [ERROR] Item 11535526352: Error: No BM Device found linked to Main item 11535526352 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:374:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1270:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1791:22)
+[2026-03-30T11:36:45.903Z] [ERROR] Item 11535526352: Error: No BM Device found linked to Main item 11535526352 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:391:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1379:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1981:22)
+[2026-03-30T11:39:05.568Z] [ERROR] Item 11535526352: Error: No BM Device found linked to Main item 11535526352 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:391:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1379:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1981:22)
+[2026-03-31T04:47:14.138Z] [ERROR] Item 11515763923: Error: No BM Device found linked to Main item 11515763923 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:391:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1379:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1981:22)
+[2026-04-02T11:41:02.518Z] [ERROR] Item 11515763923: Error: No BM Device found linked to Main item 11515763923 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:391:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1379:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1981:22)
+[2026-04-02T12:25:24.814Z] [ERROR] Item 11515763923: Error: No BM Device found linked to Main item 11515763923 on BM Devices Board
+    at readDeviceSpecs (/home/ricky/builds/backmarket/scripts/list-device.js:391:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async processItem (/home/ricky/builds/backmarket/scripts/list-device.js:1379:17)
+    at async main (/home/ricky/builds/backmarket/scripts/list-device.js:1981:22)

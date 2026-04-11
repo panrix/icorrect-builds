@@ -1,0 +1,111 @@
+{
+  "board": "A2337",
+  "schematic": "820-02016",
+  "description": "All rails grouped by power state (sleep domain). PMU naming: SERA=Master (U8100), SIMETRA=Slave (U7700).",
+  "WARNING": "M1 board. Power domain structure differs from M2 A2681. No MagSafe. SERA/SIMETRA PMU naming convention. External AON LDOs (UC100/UC200) are separate from PMU LDOs.",
+  "domains": {
+    "G3H": {
+      "description": "Present whenever AC power is connected (pre-charger, pre-battery)",
+      "wake_condition": "USB-C cable inserted (no MagSafe on this model)",
+      "rails": [
+        {"name": "PPVBUS_USBC0", "voltage": "5V/20V", "source": "UF400 (CD3217)"},
+        {"name": "PPVBUS_USBC1", "voltage": "5V/20V", "source": "UF500 (CD3217)"}
+      ]
+    },
+    "AON": {
+      "description": "Always on when battery or charger connected. Stays up in all sleep states.",
+      "wake_condition": "PPBUS_AON present (battery connected or charger active)",
+      "enable_signals": ["PPVAON_PWR_EN (for U5700, delayed by D5340/D5345)", "BMU SYS_DETECT (J5100 gasket)"],
+      "rails": [
+        {"name": "PPBUS_AON", "voltage": "12.6V", "source": "Charger IC (U5200) / Battery"},
+        {"name": "PP3V8_AON", "voltage": "3.8V", "source": "U5700 (SVR AON, 30A)"},
+        {"name": "PP3V8_AON_VDDMAIN", "voltage": "3.8V", "source": "PP3V8_AON branch (to PMUs)"},
+        {"name": "PP3V8_AON_VODMAN", "voltage": "3.8V", "source": "PP3V8_AON branch (to LDOs)"},
+        {"name": "PP3V3_AON", "voltage": "3.3V", "source": "UC100 (LDO from PP3V8_AON_VODMAN)"},
+        {"name": "PP1V8_AON", "voltage": "1.8V", "source": "UC200 (LDO from PP3V8_AON_VODMAN)"},
+        {"name": "SERA LDO 9", "voltage": "~1.8V", "source": "U8100 MPMU (ACTIVE state, always-on equivalent)"},
+        {"name": "SIMETRA LDO 9", "voltage": "~1.8V", "source": "U7700 SPMU (ACTIVE state, always-on equivalent)"},
+        {"name": "PPBUS_AONSW_IPD", "voltage": "12.6V", "source": "Load switch (3A, Self Controlled)"}
+      ]
+    },
+    "SLEEP3": {
+      "description": "Deep sleep retention. Minimal power.",
+      "rails": [
+        {"name": "SERA BUCK 3", "voltage": "Variable", "source": "U8100 (SLEEP3)"},
+        {"name": "SERA BUCK 4", "voltage": "Variable", "source": "U8100 (SLEEP3)"}
+      ]
+    },
+    "SLEEP2": {
+      "description": "Light sleep. Memory retention active. Most peripherals off.",
+      "rails": [
+        {"name": "SERA LDO 1", "voltage": "Variable", "source": "U8100 (SLEEP2)"},
+        {"name": "SERA LDO 2", "voltage": "Variable", "source": "U8100 (SLEEP2)"},
+        {"name": "SIMETRA LDO 8", "voltage": "Variable", "source": "U7700 (SLEEP2)"},
+        {"name": "SIMETRA LDO 11", "voltage": "Variable", "source": "U7700 (SLEEP2)"},
+        {"name": "SIMETRA LDO 12", "voltage": "Variable", "source": "U7700 (SLEEP2)"},
+        {"name": "SIMETRA SW4", "voltage": "Variable", "source": "U7700 (SLEEP2)"},
+        {"name": "SIMETRA SW5/SW7", "voltage": "Variable", "source": "U7700 (SLEEP2 PARALLEL)"}
+      ]
+    },
+    "SLEEP1": {
+      "description": "Lighter sleep. Core SoC domains retained.",
+      "rails": [
+        {"name": "SERA BUCK 2", "voltage": "Variable", "source": "U8100 (SLEEP1)"},
+        {"name": "SERA BUCK 5", "voltage": "Variable", "source": "U8100 (SLEEP1)"},
+        {"name": "SERA BUCK 9", "voltage": "Variable", "source": "U8100 (SLEEP1)"},
+        {"name": "SERA BUCK 10", "voltage": "Variable", "source": "U8100 (SLEEP1)"}
+      ]
+    },
+    "S2": {
+      "description": "System standby. Standalone VRs active.",
+      "enable_signals": ["P5VS2_PWR_EN (PMU GPIO)", "P3V3S2_PWR_EN (PMU GPIO)", "IPD_PWR_EN (MPMU GPIO)"],
+      "rails": [
+        {"name": "PP5V_S2", "voltage": "5.15V", "source": "UC320"},
+        {"name": "PP3V3_S2", "voltage": "3.12V", "source": "XMC710"},
+        {"name": "PP3V3_S2SW_IPD", "voltage": "3.3V", "source": "Load switch (400mA)"},
+        {"name": "PP5V_S2SW_IPD", "voltage": "5V", "source": "Load switch (1.35A)"},
+        {"name": "PP3V3_S2SW_SNS", "voltage": "3.3V", "source": "Sensor load switch"},
+        {"name": "PP1V8_S2SW_VDD1", "voltage": "1.8V", "source": "Load switch"},
+        {"name": "SERA LDO 3 (SLP_S2R)", "voltage": "Variable", "source": "U8100 S2 retention"}
+      ]
+    },
+    "SW_CTRL": {
+      "description": "Software controlled rails. Enabled/disabled by SoC firmware.",
+      "rails": [
+        {"name": "SERA BUCK 1", "voltage": "Variable", "source": "U8100 (SW CTRL)"},
+        {"name": "SERA BUCK 8", "voltage": "Variable", "source": "U8100 (SW CTRL)"},
+        {"name": "SERA LDO 4", "voltage": "Variable", "source": "U8100 (SW CTRL)"},
+        {"name": "SERA LDO 7", "voltage": "Variable", "source": "U8100 (SW CTRL)"},
+        {"name": "SERA LDO 13", "voltage": "Variable", "source": "U8100 (SW CTRL)"},
+        {"name": "SERA LDO 16", "voltage": "Variable", "source": "U8100 (SW CTRL)"},
+        {"name": "SERA LDO 20", "voltage": "Variable", "source": "U8100 (SW CTRL)"}
+      ]
+    },
+    "S0_AWAKE": {
+      "description": "Fully awake. SoC running, display on, all dynamic domains active.",
+      "wake_condition": "PMU_ACTIVE_READY asserted. All sleep domain rails stable.",
+      "signal": "PMU_ACTIVE_READY",
+      "rails": [
+        {"name": "SERA BUCK 0 (PCPU)", "voltage": "Variable DVFS", "source": "U8100 (ACTIVE)"},
+        {"name": "SERA BUCK 6", "voltage": "Variable", "source": "U8100 (ACTIVE)"},
+        {"name": "SERA BUCK 7", "voltage": "Variable", "source": "U8100 (ACTIVE)"},
+        {"name": "SERA BUCK 11 (ECPU)", "voltage": "Variable DVFS", "source": "U8100 (ACTIVE)"},
+        {"name": "SERA BUCK 12", "voltage": "Variable", "source": "U8100 (ACTIVE)"},
+        {"name": "SIMETRA BUCK 13", "voltage": "Variable", "source": "U7700 (ACTIVE)"},
+        {"name": "SIMETRA BUCK 14", "voltage": "Variable", "source": "U7700 (ACTIVE)"},
+        {"name": "SERA LDO 9", "voltage": "~1.8V", "source": "U8100 (ACTIVE)"},
+        {"name": "SERA LDO 10", "voltage": "Variable", "source": "U8100 (ACTIVE)"},
+        {"name": "SIMETRA LDO 9", "voltage": "~1.8V", "source": "U7700 (ACTIVE)"},
+        {"name": "SIMETRA LDO 10", "voltage": "Variable", "source": "U7700 (ACTIVE)"},
+        {"name": "SERA SW1", "voltage": "Variable", "source": "U8100 (ACTIVE)"},
+        {"name": "SEPA SW0", "voltage": "Variable", "source": "SEPA (ACTIVE)"}
+      ]
+    },
+    "NC_SPARE": {
+      "description": "Not connected or spare PMU outputs.",
+      "rails": [
+        {"name": "SERA LDO 19", "voltage": "NC", "source": "U8100 - SPARE, NOT CONNECTED"}
+      ]
+    }
+  }
+}

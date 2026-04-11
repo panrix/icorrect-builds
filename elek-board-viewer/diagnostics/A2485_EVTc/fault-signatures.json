@@ -1,0 +1,131 @@
+{
+  "board": "A2485_EVTc",
+  "schematic": "820-02382",
+  "WARNING": "EVTc variant (820-02382). Component designators and page numbers differ from EVTs (820-02100). Cross-reference with EVTc schematic before probing.",
+  "fault_signatures": [
+    {
+      "symptom": "No power at all -- no LED, no fan",
+      "likely_rail": "PPBUS_AON",
+      "likely_cause": "Charger IC (U5200) or input path failure",
+      "check": [
+        "PPDCIN_AON on page 52",
+        "SYS_DETECT from battery connector (U5150/Q5155, page 51)",
+        "Battery connector J5150 (page 51) -- check PPVBAT_AON_CONN",
+        "CD3217/CD3218 port controllers for liquid damage",
+        "MagSafe connector J5401 (page 54) and U5500 (page 55)"
+      ]
+    },
+    {
+      "symptom": "PPBUS_AON present but no PP3V8_AON",
+      "likely_rail": "PP3V8_AON",
+      "likely_cause": "U5700 SVR AON failure (42A design)",
+      "check": [
+        "P3V8AON_PWR_EN signal -- is it asserted? (page 57)",
+        "P3V8AON_FAULT_L -- is it low (fault)? (page 57)",
+        "3-phase ISENSE/ILIMIT summing amp (page 60)",
+        "Thermal cam on U5700 controller and phase FETs",
+        "Check for cap short on PP3V8_AON decoupling (C57xx/C58xx)"
+      ]
+    },
+    {
+      "symptom": "PP3V8_AON present, no S2 rails",
+      "likely_rail": "MPMU/SPMU outputs",
+      "likely_cause": "PMU failure or missing enable",
+      "check": [
+        "PMU_ACTIVE_READY from MPMU (page 83)",
+        "PMU_FAULT_INT_L from MPMU (page 83) -- should be high",
+        "SPMU_READY from SPMU (page 79)",
+        "Check both PMU input power: PP3V8_AON_MPMU, PP3V8_AON_SPMU (ISENSE branches)",
+        "PPBUS_AON_MPMU via XWB170 companion (page 81)"
+      ]
+    },
+    {
+      "symptom": "No CPU power -- Viper VR dead",
+      "likely_rail": "PPVDD_PCPU0/1_AWAKESW",
+      "likely_cause": "U9300 Viper VR controller or power stage failure",
+      "check": [
+        "PVDDVDN_FAULT_L (page 93) -- should be high",
+        "PVDDVDN_BOOT1 signal (page 93)",
+        "All 3 power stages: page 94 (stage 1), page 95 (stage 2), page 96 (stage 3)",
+        "5 phase input cap banks PH1-PH5 (page 92)",
+        "Max variant: stage 2 is Max-only PCPU1 -- failure here means Max GPU/CPU cluster issue"
+      ]
+    },
+    {
+      "symptom": "No GPU power -- Monaco VR dead",
+      "likely_rail": "PPVDD_AGXS/S0VE/S0VS_ABMCCN",
+      "likely_cause": "Monaco VR instance failure",
+      "check": [
+        "Identify which Monaco instance (UA100-UA500, pages 101-105)",
+        "CLVR GPIO connections for ALERT signals on each instance",
+        "Monaco input caps (11uF APN 138500328)",
+        "CLVR fabric throttle UC000 (page 120)",
+        "Reference Design Overrides: Monaco 3/4 need MAKE_BASE fix"
+      ]
+    },
+    {
+      "symptom": "No display -- backlight dead",
+      "likely_rail": "PPVOUT_LUXE or display power",
+      "likely_cause": "Display power sequencer or Luxe driver failure",
+      "check": [
+        "LCD_PWR_EN input to UP710 sequencer (page 113)",
+        "EDP_PANEL_PWR_EN output from UP710",
+        "EDP_BKLT_1V29_EN output from UP710",
+        "Luxe driver UP800 (KAAC01908, page 114) -- PPBUS_AON input",
+        "3V29 LDO UP730 (page 113) -- PPBCON_SW_REG output",
+        "3V8 load switch UP701 (page 113) -- PPMDB_SW_FET output",
+        "BCON connector JP900 (page 115)"
+      ]
+    },
+    {
+      "symptom": "USB-C port not working -- left side",
+      "likely_rail": "PP5V_USBC01",
+      "likely_cause": "UF800 (LT8640) 5V regulator failure or CD3217 fault",
+      "check": [
+        "PP5V_USBC01 from UF800 (page 79) -- expect 5.23V",
+        "PSVUSBC01_EN enable signal",
+        "PSVUSBC01_PGOOD power good",
+        "LF800 inductor (CRITICAL)",
+        "UF400 (ATC0, page 74) or UF500 (ATC1, page 76) port controller",
+        "MACAW 0/1 retimers UF700/UF750 (page 78)"
+      ]
+    },
+    {
+      "symptom": "USB-C port not working -- right side",
+      "likely_rail": "PP5V_USBC23",
+      "likely_cause": "UG800 (TPS62180) 5V regulator failure or CD3217 fault",
+      "check": [
+        "PP5V_USBC23 from UG800 (page 86) -- expect 5.23V",
+        "PSVUSBC23_EN_R enable signal",
+        "PSVUSBC23_PGOOD power good",
+        "UG400 (ATC2, page 83) port controller",
+        "MACAW 2/3 retimers UG700/UG750 (page 85)"
+      ]
+    },
+    {
+      "symptom": "No SSD detected",
+      "likely_rail": "PP0V9/PP1V2/PP2V5_NAND0 or NAND1",
+      "likely_cause": "Ocarina controller or NAND power failure",
+      "check": [
+        "PPBUS_NAND0/1 (load switch from PPBUS_AON)",
+        "Ocarina LN400 (SSD0, page 104) -- APN 338S00600 CRITICAL",
+        "Ocarina LN900 (SSD1, page 109) -- APN 338S00600 CRITICAL",
+        "NAND0/1_RESET_L signals",
+        "NAND0/1_FORCE_EN signals",
+        "PP2V5_P5VNAND0/1 via inductors LN480/LN980"
+      ]
+    },
+    {
+      "symptom": "No audio from speakers",
+      "likely_rail": "PP1V2_AWAKE_SPKRAMP or PPBUS_AON_SPKRAMP_ADC",
+      "likely_cause": "Speaker amp IC failure or missing power",
+      "check": [
+        "All 6 amps: UR600(A), UR630(B), UR660(C), UR700(D), UR730(E), UR760(F) -- pages 119-120",
+        "SPKRAMP_RESET_L signal (common to all 6)",
+        "PP3V8_AON_C_SPKRAMP (PVDD SAS supply)",
+        "I2C communication: AP_I2C1 (amps A/B/C), AP_I2C3 (amps D/E/F)",
+        "Speaker connectors (page 121) -- left APN 516S00787, right APN 516S00787"
+      ]
+    }
+  ]
+}

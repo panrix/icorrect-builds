@@ -1,0 +1,394 @@
+{
+  "board": "A2338",
+  "schematic": "820-02773",
+  "signals": {
+    "power_enables": [
+      {
+        "name": "PPVAON_PWR_EN",
+        "type": "enable",
+        "description": "3V8 AON VR enable — gates the main PP3V8_AON rail via SVR AON controller",
+        "source": "U5349 delay circuit (CHGR_EN_RVR → D5342 → D5349 delay)",
+        "destination": "SVR AON controller",
+        "page": [26, 28]
+      },
+      {
+        "name": "P5VS2_PWR_EN",
+        "type": "enable",
+        "description": "5V S2 VR enable — gates PP5V_S2 from UC300",
+        "source": "SPMU GPIO (via MPMU GPIO)",
+        "destination": "UC300",
+        "page": [40, 43, 44]
+      },
+      {
+        "name": "P3V3S2_PWR_EN",
+        "type": "enable",
+        "description": "3V3 S2 VR enable — gates PP3V3_S2 from UC710",
+        "source": "SPMU GPIO",
+        "destination": "UC710",
+        "page": [40, 44, 45]
+      },
+      {
+        "name": "PVDDL_PWR_EN_1445",
+        "type": "enable",
+        "description": "VDD1 1V8 load switch primary enable",
+        "source": "MPMU GPIO",
+        "destination": "UC820",
+        "page": 46
+      },
+      {
+        "name": "PVDDL_PWR_EN_1777",
+        "type": "enable",
+        "description": "VDD1 1V8 load switch secondary enable",
+        "source": "MPMU GPIO",
+        "destination": "UC840",
+        "page": 46
+      },
+      {
+        "name": "WLBT_PWR_EN",
+        "type": "enable",
+        "description": "WiFi/BT module power enable",
+        "source": "MPMU GPIO",
+        "destination": "Rasputin WiFi/BT module",
+        "page": 73
+      },
+      {
+        "name": "DFR_PWR_EN",
+        "type": "enable",
+        "description": "Touch Bar (DFR) power enable",
+        "source": "MPMU GPIO",
+        "destination": "UT700/UT710 DFR LDOs",
+        "page": 95
+      },
+      {
+        "name": "CHGR_AUX_OK",
+        "type": "enable",
+        "description": "Charger AUX OK — indicates charger is ready. Pull-up on page 26.",
+        "source": "Charger IC U5200",
+        "page": 26
+      }
+    ],
+    "power_good_fault": [
+      {
+        "name": "PPVAON_FAULT_L",
+        "type": "fault (active low)",
+        "description": "3V8 AON fault indicator — NOT SET UNTIL SLOW OR EVEN ONCE CONVERGENT TABLE IS OK",
+        "source": "SVR AON controller",
+        "page": 28
+      },
+      {
+        "name": "PMU_FAULT_OUT_L",
+        "type": "fault (active low)",
+        "description": "PMU fault output — indicates PMU error condition",
+        "source": "MPMU (U8100)",
+        "destination": "SoC / debug",
+        "page": [40, 41]
+      },
+      {
+        "name": "PMU_ACTIVE_READY",
+        "type": "power good",
+        "description": "PMU active ready — indicates PMU has completed startup",
+        "source": "MPMU (U8100)",
+        "destination": "SoC",
+        "page": [39, 41]
+      },
+      {
+        "name": "SPMU_VDDMALTA_UVARN0_L",
+        "type": "power good",
+        "description": "SPMU voltage under-voltage warning",
+        "source": "SPMU (U7700)",
+        "page": 33
+      },
+      {
+        "name": "PMU_SGP10_READY_REG",
+        "type": "power good",
+        "description": "S0P10 domain ready from PMU",
+        "source": "SPMU (U7700) via SPMU_READY_ANS",
+        "page": [33, 34]
+      },
+      {
+        "name": "P5VS2TPS_PGOOD",
+        "type": "power good",
+        "description": "5V S2 TPS regulator power good output",
+        "source": "UC300 (TPS62130)",
+        "page": 43
+      },
+      {
+        "name": "P3V3S2_PGOOD",
+        "type": "power good",
+        "description": "3V3 S2 regulator power good output",
+        "source": "UC710",
+        "page": 45
+      }
+    ],
+    "resets": [
+      {
+        "name": "PMU_RESET_L",
+        "type": "reset (active low)",
+        "description": "PMU reset line — master reset for MPMU",
+        "page": [6, 39, 41]
+      },
+      {
+        "name": "PMU_RSL0C_RST_L",
+        "type": "reset (active low)",
+        "description": "PMU RSLOC reset — secondary reset path",
+        "page": [41, 100]
+      },
+      {
+        "name": "SPMU_RESET_1N",
+        "type": "reset (active low)",
+        "description": "SPMU reset input",
+        "page": [33, 34]
+      },
+      {
+        "name": "SOC_FORCE_DFU",
+        "type": "control",
+        "description": "Force DFU mode — puts SoC into Device Firmware Update mode",
+        "page": [39, 40, 100]
+      },
+      {
+        "name": "CHGR_RST_2N_R",
+        "type": "reset",
+        "description": "Charger reset signal from U8740 charger reset circuit",
+        "source": "U8740",
+        "destination": "UPC_PMU_RESET_DLO",
+        "page": 41
+      },
+      {
+        "name": "ATCRTMR0_RESET_1V2_L",
+        "type": "reset (active low)",
+        "description": "ATC0 re-timer reset — sequenced with power-up",
+        "page": [68, 69]
+      },
+      {
+        "name": "ATCRTMR1_RESET_1V2_L",
+        "type": "reset (active low)",
+        "description": "ATC1 re-timer reset — sequenced with power-up",
+        "page": [68, 69]
+      }
+    ],
+    "i2c_buses": [
+      {
+        "name": "AP_I2C0",
+        "description": "AP I2C bus 0 — UPC I2C",
+        "pull_up_rail": "PP1V25_S2",
+        "devices": "UPC0/UPC1",
+        "page": 47
+      },
+      {
+        "name": "AP_I2C1",
+        "description": "AP I2C bus 1 — SPKAWP I2C",
+        "pull_up_rail": "PP1V25_MAME_ID",
+        "devices": "SPKAMP A/B",
+        "page": 47
+      },
+      {
+        "name": "AP_I2C2",
+        "description": "AP I2C bus 2 — ATCRTMR I2C",
+        "pull_up_rail": "PP1V25_S2",
+        "devices": "ATC retimers",
+        "page": 47
+      },
+      {
+        "name": "AOP_I2C0",
+        "description": "AOP I2C bus 0 — ALS I2C",
+        "pull_up_rail": "PP1V25_S2",
+        "page": 51
+      },
+      {
+        "name": "ISP_I2C0",
+        "description": "ISP I2C bus 0 — Camera I2C",
+        "pull_up_rail": "PP1V25_S2",
+        "page": 51
+      },
+      {
+        "name": "DISP_I2C",
+        "description": "Display I2C — MLBJRBRY display I2C",
+        "pull_up_rail": "PP1V25_MAME_ID",
+        "page": 51
+      },
+      {
+        "name": "SMC_I2C0",
+        "description": "SMC I2C bus 0 — SRG PWR 3V3 (battery/charger)",
+        "pull_up_rail": "PP3V3_S2",
+        "devices": "Battery charger, BMU",
+        "page": 49
+      },
+      {
+        "name": "SMC_I2C1",
+        "description": "SMC I2C bus 1 — SMC UPC I2C",
+        "pull_up_rail": "PP3V3_S2",
+        "page": 49
+      },
+      {
+        "name": "I2C_UPC0_ATCRTMR0_SDA/SCL",
+        "description": "USB-C ATC0 port controller I2C to retimer",
+        "pull_up_rail": "PP3V3_S2",
+        "page": 72
+      },
+      {
+        "name": "I2C_UPC1_ATCRTMR1_SDA/SCL",
+        "description": "USB-C ATC1 port controller I2C to retimer",
+        "pull_up_rail": "PP3V3_S2",
+        "page": 72
+      }
+    ],
+    "spi_buses": [
+      {
+        "name": "SPI_UPC0",
+        "description": "SPI to UF400 (CD3217 ATC0) firmware ROM — Master Ace or SPI Ace selectable",
+        "page": [64, 66]
+      },
+      {
+        "name": "SPI_UPC1",
+        "description": "SPI to UF500 (CD3217 ATC1) firmware ROM — Secondary Ace",
+        "page": [64, 67]
+      },
+      {
+        "name": "SOC_SPI_ROM",
+        "description": "SoC SPI ROM interface",
+        "page": 10
+      }
+    ],
+    "usb_c_signals": [
+      {
+        "name": "USBC0_CC1",
+        "type": "CC",
+        "description": "USB-C port 0 Configuration Channel 1",
+        "page": 66
+      },
+      {
+        "name": "USBC0_CC2",
+        "type": "CC",
+        "description": "USB-C port 0 Configuration Channel 2",
+        "page": 66
+      },
+      {
+        "name": "USBC1_CC1",
+        "type": "CC",
+        "description": "USB-C port 1 Configuration Channel 1",
+        "page": 67
+      },
+      {
+        "name": "USBC1_CC2",
+        "type": "CC",
+        "description": "USB-C port 1 Configuration Channel 2",
+        "page": 67
+      },
+      {
+        "name": "USBC0_SBU1",
+        "type": "SBU",
+        "description": "USB-C port 0 Sideband Use 1 (Alt mode/debug)",
+        "page": 66
+      },
+      {
+        "name": "USBC0_SBU2",
+        "type": "SBU",
+        "description": "USB-C port 0 Sideband Use 2",
+        "page": 66
+      }
+    ],
+    "clock_signals": [
+      {
+        "name": "PMU_32K768_OUT",
+        "type": "clock",
+        "description": "32.768kHz clock output from MPMU — reference clock for SoC RTC. XO or MEMS options.",
+        "source": "MPMU 32K XO (CA_AG) or MEMS (CA395) oscillator",
+        "page": [38]
+      }
+    ],
+    "sensor_adc": [
+      {
+        "name": "PPBUS_VSENSE (VP0R)",
+        "type": "voltage sense",
+        "description": "PPBUS voltage sensor via PPVAON_VSENSE",
+        "page": [57]
+      },
+      {
+        "name": "DCIN_VSENSE (VD0R)",
+        "type": "voltage sense",
+        "description": "DC input voltage sensor — monitors PPSC26_ADR_CHSR",
+        "page": [57]
+      },
+      {
+        "name": "DCIN_ISENSE (ID0R)",
+        "type": "current sense",
+        "description": "DC input current sensor — monitors charger input current",
+        "page": [57]
+      },
+      {
+        "name": "BMON_ISENSE (IPBR)",
+        "type": "current sense",
+        "description": "Battery monitor current sensor",
+        "page": [57]
+      },
+      {
+        "name": "PP3V8_AON_VMAIN_VIN_ISNS",
+        "type": "current sense",
+        "description": "3V8 AON high-side current sense via U5910 amplifier",
+        "page": [30, 112]
+      },
+      {
+        "name": "PP3V8_AON_MPMU_ISNS_VIN",
+        "type": "current sense",
+        "description": "Main PMU high-side current sense",
+        "page": [112]
+      },
+      {
+        "name": "PP3V8_AON_SPMU_ISNS_VIN",
+        "type": "current sense",
+        "description": "Secondary PMU high-side current sense",
+        "page": [112]
+      }
+    ],
+    "thermal_sensors": [
+      {
+        "name": "MAIN PMU TDEV1 [TMVR]",
+        "type": "temperature",
+        "description": "Location: 3.8V AON VR between phase 2 and phases MOSFETs",
+        "page": 58
+      },
+      {
+        "name": "MAIN PMU TDEV2 [TSCD]",
+        "type": "temperature",
+        "description": "Location: SoC core area, backside (top)",
+        "page": 58
+      },
+      {
+        "name": "MAIN PMU TDEV3 [Tw0P]",
+        "type": "temperature",
+        "description": "Location: Finstack proximity, top side",
+        "page": 58
+      },
+      {
+        "name": "MAIN PMU TDEV6 [TIOP]",
+        "type": "temperature",
+        "description": "Location: IO port proximity",
+        "page": 58
+      },
+      {
+        "name": "MAIN PMU TDEV7 [TPMP]",
+        "type": "temperature",
+        "description": "Location: Main PMU, between buck0 and buck3 inductors",
+        "page": 58
+      },
+      {
+        "name": "MAIN PMU TDEV8 [TCHP]",
+        "type": "temperature",
+        "description": "Location: Charger, between inductor and MOSFETs",
+        "page": 58
+      },
+      {
+        "name": "SECONDARY PMU TDEV1 [TPSP]",
+        "type": "temperature",
+        "description": "Location: Secondary PMU, buck5 inductor proximity",
+        "page": 58
+      },
+      {
+        "name": "SECONDARY PMU TDEV5 [TAMP]",
+        "type": "temperature",
+        "description": "Location: Fan inlet (ambient), lower right, bottom side",
+        "page": 58
+      }
+    ]
+  }
+}

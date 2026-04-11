@@ -1,0 +1,19 @@
+date,day,start_time,meeting_mins,adjusted_start,lunch_start,lunch_over,lunch_mins,finish_time,gross_hours,available_hours,completions,items_touched,paused_count,pause_reasons,revenue,net_profit,shared_items,qc_reworks,tracked_mins,utilisation_pct,max_capacity
+2026-02-09,Mon,11:54,25,09:24,14:14,,43,18:44,6.84,7.59,3,6,2,Repair Paused -> Part Repaired; Repair Paused -> Repaired,1156.0,579.87,0,0,265,58.1,4
+2026-02-10,Tue,00:51,96,10:36,13:51,,43,18:31,17.67,6.4,3,10,3,Repair Paused -> Diagnostic Complete; Repair Paused -> Part Repaired; Repair Paused -> Pay-Out,319.0,265.83,1,0,306,79.7,4
+2026-02-11,Wed,10:11,49,09:48,14:27,,35,18:28,8.29,7.19,3,7,4,Repair Paused -> Client To Contact; Repair Paused -> Diagnostics; Repair Paused -> Repaired; Repair Paused -> Under Refurb,885.0,611.47,0,0,341,79.0,4
+2026-02-12,Thu,09:15,0,09:00,15:34,,29,19:18,10.05,8.0,4,9,2,Repair Paused -> Software Install; Repair Paused -> Under Refurb,660.5,78.36,1,0,724,150.8,4
+2026-02-13,Fri,10:44,105,10:45,15:00,,31,20:17,9.55,6.25,3,5,2,Repair Paused -> Under Refurb; Repair Paused -> Diagnostic Complete,739.0,499.4,0,0,510,136.1,4
+2026-02-14,Sat,10:15,0,09:00,15:40,,31,18:11,7.93,8.0,3,4,0,,756.0,534.9,2,0,503,104.8,4
+2026-02-16,Mon,09:04,101,10:40,14:27,,26,22:21,13.28,6.32,3,5,3,Repair Paused -> Under Refurb; Repair Paused -> Repaired; Repair Paused -> Client To Contact,554.5,429.7,1,0,416,109.8,4
+2026-02-17,Tue,10:34,76,10:16,11:50,,25,19:23,8.82,6.73,4,5,3,Repair Paused -> Software Install; Repair Paused -> Diagnostic Complete; Repair Paused -> Repaired,228.5,190.42,2,0,680,168.4,4
+2026-02-18,Wed,09:03,95,10:35,13:05,,35,17:58,8.92,6.41,0,12,2,Repair Paused; Repair Paused,0,0,0,0,0,0.0,4
+2026-02-19,Thu,09:09,101,10:40,17:00,,53,18:10,9.02,6.32,0,31,1,Repair Paused -> Internal,0,0,0,0,0,0.0,4
+2026-02-20,Fri,09:33,0,09:00,15:26,,53,18:05,8.52,8.0,1,18,1,Repair Paused -> Under Refurb,0.0,0.0,0,0,282,58.7,4
+2026-02-21,Sat,,0,,,,0,,0,0,0,0,0,,0,0,0,0,0,0,0
+2026-02-23,Mon,09:56,60,10:00,15:13,,44,18:07,8.17,7.0,2,15,0,,408.0,250.08,0,0,185,44.1,4
+2026-02-24,Tue,09:54,137,11:17,19:28,+1,61,20:29,10.58,5.71,4,7,2,Repair Paused -> Client To Contact; Repair Paused -> Under Refurb,809.0,387.04,1,0,524,152.9,4
+2026-02-25,Wed,09:41,35,09:34,13:00,,33,18:21,8.68,7.42,4,5,1,Repair Paused -> Under Refurb,983.72,527.37,1,0,474,106.4,4
+2026-02-26,Thu,10:50,0,09:00,18:09,,34,20:53,10.04,8.0,4,8,3,Repair Paused -> Under Refurb; Repair Paused -> Diagnostics; Repair Paused -> No Stock,905.0,647.75,0,1,533,111.0,4
+2026-02-27,Fri,10:04,56,09:55,14:43,+4,64,19:36,9.54,7.07,3,8,3,Repair Paused -> Under Refurb; Repair Paused -> Under Refurb; Repair Paused -> Under Refurb,277.0,26.42,0,0,288,67.8,4
+2026-02-28,Sat,10:23,0,09:00,17:19,,44,18:03,7.67,8.0,2,4,2,Repair Paused -> Diagnostics; Repair Paused,0.0,-134.46,0,0,306,63.7,4

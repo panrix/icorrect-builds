@@ -1,0 +1,115 @@
+{
+  "board": "A2442",
+  "schematic": "820-02098",
+  "signals": {
+    "power_enables": [
+      {"name": "PPVAON_PWR_EN", "description": "3V8 AON VR (U5700) enable", "source": "PMU/SMC", "destination": "U5700", "page": 33},
+      {"name": "P5VS2_PWR_EN", "description": "5V S2 VR (TPS62130) enable", "source": "SPMU GPIO", "destination": "TPS62130", "page": 55},
+      {"name": "P3V3S2_PWR_EN", "description": "3V3 S2 VR enable", "source": "SPMU GPIO", "page": 137},
+      {"name": "IPD_PWR_EN", "description": "IPD subsystem power enable", "source": "MPMU GPIO", "page": 138},
+      {"name": "CHGR_AUX_OK", "description": "Charger AUX OK — charger ready indicator", "page": 29}
+    ],
+    "power_good_fault": [
+      {"name": "PPVAON_FAULT_L", "type": "fault (active low)", "source": "U5700 SVR AON", "page": 33},
+      {"name": "PMU_ACTIVE_READY", "type": "power good", "source": "MPMU U8100", "destination": "SoC", "page": 43},
+      {"name": "PMU_FAULT_INT_L", "type": "fault (active low)", "source": "MPMU U8100", "destination": "SoC", "page": 43},
+      {"name": "SPMU_READY", "type": "power good", "source": "SPMU U7700", "page": 39},
+      {"name": "VIPER_ALERT_L", "type": "fault (active low)", "source": "U9300 Viper VR", "page": 47},
+      {"name": "MONACO_ALERT_L", "type": "fault (active low)", "source": "Monaco VR", "page": 54}
+    ],
+    "resets": [
+      {"name": "PMU_RESET_L", "type": "reset (active low)", "description": "Master PMU reset", "page": 5},
+      {"name": "PMU_RESET_2ND", "type": "reset", "description": "PMU secondary reset", "page": 43},
+      {"name": "SOC_FORCE_DFU", "type": "force DFU mode", "page": 5},
+      {"name": "ATCRTMR0_RESET", "type": "ATC0 retimer reset", "page": 75},
+      {"name": "ATCRTMR1_RESET", "type": "ATC1 retimer reset", "page": 75},
+      {"name": "ATCRTMR2_RESET", "type": "ATC2 retimer reset", "page": 83},
+      {"name": "CHGR_RST_2N_R", "type": "Charger reset from PMU", "page": 44},
+      {"name": "SPMU_RESET_1N", "type": "SPMU reset (active low)", "page": 39}
+    ],
+    "i2c_buses": [
+      {"name": "AP_I2C0", "description": "AP I2C bus 0", "pull_up_rail": "PP1V25_S2", "devices": "SoC internal pull-up", "page": 56},
+      {"name": "AP_I2C1", "description": "AP I2C bus 1 — speaker amp", "pull_up_rail": "PP1V25_S2", "devices": "SPKAWP", "page": 56},
+      {"name": "AP_I2C2", "description": "AP I2C bus 2 — ATC retimers", "pull_up_rail": "PP1V225_AWAKE", "devices": "ATCRTMR0, ATCRTMR1, ATCRTMR2", "page": 56},
+      {"name": "AP_I2C3", "description": "AP I2C bus 3 — codec", "pull_up_rail": "PP1V225_AWAKE", "devices": "Audio codec, SPKAWP_R", "page": 56},
+      {"name": "SMC_I2C0", "description": "SMC I2C bus 0 — charger, battery gauge, PMU", "pull_up_rail": "PP3V3_AON", "devices": "Charger IC, Battery gauge, PMU I2C", "page": 57},
+      {"name": "SMC_I2C1", "description": "SMC I2C bus 1 — UPC I2C", "pull_up_rail": "PP3V3_AON", "devices": "UPC0, UPC1, UPC2, UPC5 port controllers", "page": 57},
+      {"name": "SMC_I2C2", "description": "SMC I2C bus 2 — temperature sensors", "pull_up_rail": "PP3V3_AON", "devices": "NDB temp, board temp sensors", "page": 57},
+      {"name": "SMC_I2C3", "description": "SMC I2C bus 3 — fan, misc", "pull_up_rail": "PP1V8_S2", "devices": "Fan controller, ambient light", "page": 57},
+      {"name": "I2C_UPC0_ATCRTMR0", "description": "UPC0 to ATC0 retimer I2C", "pull_up_rail": "PP3V3_S2SW_USBC0", "page": 72},
+      {"name": "I2C_UPC1_ATCRTMR1", "description": "UPC1 to ATC1 retimer I2C", "pull_up_rail": "PP3V3_S2SW_USBC1", "page": 73},
+      {"name": "I2C_UPC2_ATCRTMR2", "description": "UPC2 to ATC2 retimer I2C", "pull_up_rail": "PP3V3_S2SW_USBC2", "page": 81},
+      {"name": "DISP_I2C", "description": "Display I2C", "pull_up_rail": "PP1V8_DISP_TEMP", "devices": "Display controller, temp sensor", "page": 110},
+      {"name": "HDMI_DDC_I2C", "description": "HDMI DDC I2C", "pull_up_rail": "PP5V0_HDMI_DDC_CONN", "devices": "HDMI sink EDID", "page": 87}
+    ],
+    "spi_buses": [
+      {"name": "SPI_UPC0", "description": "CD3217 ATC0 firmware ROM", "page": 72},
+      {"name": "SPI_UPC1", "description": "CD3217 ATC1 firmware ROM", "page": 73},
+      {"name": "SPI_UPC2", "description": "CD3217 ATC2 firmware ROM", "page": 81},
+      {"name": "SPI_UPC5", "description": "MagSafe controller ROM", "page": 31},
+      {"name": "SOC_SPI_ROM", "description": "SoC SPI NOR flash", "page": 12}
+    ],
+    "usb_c_signals": [
+      {"name": "USBC0_CC1", "type": "CC", "controller": "UF400", "port": "Left rear", "page": 72},
+      {"name": "USBC0_CC2", "type": "CC", "controller": "UF400", "port": "Left rear", "page": 72},
+      {"name": "USBC1_CC1", "type": "CC", "controller": "UF500", "port": "Left front", "page": 73},
+      {"name": "USBC1_CC2", "type": "CC", "controller": "UF500", "port": "Left front", "page": 73},
+      {"name": "USBC2_CC1", "type": "CC", "controller": "UG400", "port": "Right", "page": 81},
+      {"name": "USBC2_CC2", "type": "CC", "controller": "UG400", "port": "Right", "page": 81},
+      {"name": "USBC0_SBU1", "type": "SBU", "controller": "UF400", "page": 72},
+      {"name": "USBC0_SBU2", "type": "SBU", "controller": "UF400", "page": 72},
+      {"name": "USBC1_SBU1", "type": "SBU", "controller": "UF500", "page": 73},
+      {"name": "USBC1_SBU2", "type": "SBU", "controller": "UF500", "page": 73},
+      {"name": "USBC2_SBU1", "type": "SBU", "controller": "UG400", "page": 81},
+      {"name": "USBC2_SBU2", "type": "SBU", "controller": "UG400", "page": 81}
+    ],
+    "hdmi_signals": [
+      {"name": "HDMI_DDC_SCL", "type": "I2C DDC clock", "page": 87},
+      {"name": "HDMI_DDC_SDA", "type": "I2C DDC data", "page": 87},
+      {"name": "HDMI_HPD", "type": "Hot Plug Detect", "page": 87},
+      {"name": "HDMI_CEC", "type": "Consumer Electronics Control", "page": 87},
+      {"name": "HDMI_5V_DETECT", "type": "5V detect from sink", "page": 87}
+    ],
+    "sd_card_signals": [
+      {"name": "SD_CMD", "type": "Command line", "page": 93},
+      {"name": "SD_CLK", "type": "Clock", "page": 93},
+      {"name": "SD_DATA0", "type": "Data bit 0", "page": 93},
+      {"name": "SD_DATA1", "type": "Data bit 1", "page": 93},
+      {"name": "SD_DATA2", "type": "Data bit 2", "page": 93},
+      {"name": "SD_DATA3", "type": "Data bit 3", "page": 93},
+      {"name": "SD_CD_L", "type": "Card detect (active low)", "page": 93},
+      {"name": "SD_WP", "type": "Write protect", "page": 93}
+    ],
+    "clock_signals": [
+      {"name": "PMU_32K768_OUT", "type": "32.768kHz clock", "source": "MPMU crystal/MEMS", "description": "RTC reference clock", "page": [43, 44]},
+      {"name": "VIPER_CLK", "type": "Viper VR clock", "source": "U9300", "page": 47},
+      {"name": "MONACO_CLK", "type": "Monaco VR clock", "source": "Monaco VR", "page": 50}
+    ],
+    "thermal_sensors": [
+      {"name": "MPMU TDEV1-8", "type": "temperature", "description": "Master PMU thermal sensors (8 channels). Page 65.", "page": 65},
+      {"name": "SPMU TDEV1-5", "type": "temperature", "description": "Slave PMU thermal sensors (5 channels). Page 65.", "page": 65},
+      {"name": "SOC_DIE_TEMP", "type": "temperature", "description": "SoC die temperature sensor", "page": 10},
+      {"name": "DISP_TEMP", "type": "temperature", "description": "Display panel temperature (PP1V8_DISP_TEMP)", "page": 110}
+    ],
+    "sensor_adc": [
+      {"name": "PPBUS_AON_P3V8AONISEN", "type": "current sense", "description": "PP3V8_AON input current from PPBUS", "page": 33},
+      {"name": "PP3V8_AON_MPMU_ISNS", "type": "current sense", "description": "PP3V8_AON current to MPMU", "page": 33},
+      {"name": "PP3V8_AON_SPMU_ISNS", "type": "current sense", "description": "PP3V8_AON current to SPMU", "page": 33},
+      {"name": "PP3V8_AON_WLBT_ISNS", "type": "current sense", "description": "PP3V8_AON current to WiFi/BT", "page": 33},
+      {"name": "PPBUS_AON_LUXE_ISNS", "type": "current sense", "description": "PPBUS_AON current to Luxe backlight", "page": 112},
+      {"name": "PPBUS_NAND0_ISNS", "type": "current sense", "description": "PPBUS current to SSD0 NAND", "page": 102},
+      {"name": "PPBUS_NAND1_ISNS", "type": "current sense", "description": "PPBUS current to SSD1 NAND", "page": 107},
+      {"name": "PP5V_S2_CAMERA_ISNS", "type": "current sense", "description": "5V camera current sense", "page": 109},
+      {"name": "PP5V_KBDBKLT_ISNS", "type": "current sense", "description": "KBD backlight current sense", "page": 121},
+      {"name": "PP3V8_IPDLDO_VIN_ISNS", "type": "current sense", "description": "IPD LDO input current", "page": 37},
+      {"name": "PP3V8_ATC01_LDO_ISNS", "type": "current sense", "description": "ATC0/1 LDO current", "page": 72},
+      {"name": "PP3V8_ATC2_LDO_ISNS", "type": "current sense", "description": "ATC2 LDO current", "page": 81},
+      {"name": "PP3V8_AWAKESW_TCON_ISNS", "type": "current sense", "description": "TCON power current", "page": 111},
+      {"name": "PPBCON_AWAKESW_BKLTCONN_ISNS", "type": "current sense", "description": "Backlight connector current", "page": 113}
+    ],
+    "fan_control": [
+      {"name": "FAN_TACH", "type": "fan tachometer", "description": "Fan speed feedback", "page": 67},
+      {"name": "FAN_PWM", "type": "fan PWM control", "description": "Fan speed control", "page": 67}
+    ]
+  }
+}

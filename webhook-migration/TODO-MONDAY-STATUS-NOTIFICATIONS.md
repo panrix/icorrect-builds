@@ -29,8 +29,8 @@ Completed:
 Reference docs:
 
 - `plan-status-notifications.md`
-- `status-notifications-shadow-verification-2026-03-31.md`
-- `status-notifications-live-cutover-2026-04-01.md`
+- `verification/status-notifications-shadow-verification-2026-03-31.md`
+- `verification/status-notifications-live-cutover-2026-04-01.md`
 - `cutover-checklist-status-notifications.md`
 
 ## Remaining After Cutover
@@ -38,7 +38,7 @@ Reference docs:
 1. Monitor logs and Slack alerts for 48 hours.
 2. Watch for duplicate or missed notifications on real production events.
 3. Confirm whether the disposable Intercom smoke-test conversation should be manually closed.
-4. Review Monday automation destinations in the UI before disabling token-burner automations.
+4. Review only the remaining legacy catch-all webhooks in the Monday UI.
 
 ## Cutover Record
 
@@ -79,7 +79,13 @@ Reference docs:
 After Monday is stable:
 
 1. Review Monday automation destinations in the Monday UI.
-2. Only then disable token-burner automations:
-   - `537444955`
-   - `530471762`
-3. Confirm automation usage drops.
+2. Status notification token-burners were remapped on 2026-04-08:
+   - `530471762` removed
+   - exact `status4` hooks now handle only the six live notification statuses
+3. Parts token-burner `537444955` was also replaced on 2026-04-08 by a `Parts Used`-only hook:
+   - see `verification/parts-webhook-remap-2026-04-08.md`
+4. Confirm automation usage drops.
+5. Review the remaining legacy catch-all webhooks:
+   - `349863361`
+   - `349863952`
+   - `350113039`

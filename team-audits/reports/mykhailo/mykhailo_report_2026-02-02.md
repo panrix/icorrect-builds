@@ -1,0 +1,160 @@
+# Mykhailo Weekly Performance Report
+## Week: 26 Jan - 01 Feb 2026
+
+Generated: 2026-02-02 15:30
+
+**Role:** Head of Refurbishment (Parts & MacBooks)
+**Expected Output:** 5 repairs/refurbs per day
+
+---
+
+## Executive Summary
+
+| Metric | Value | Status |
+|--------|-------|--------|
+| **Items Completed** | 30 items (4.3/day) | 🟢 On target |
+| **Time Utilisation** | 117% | 🟢 Good |
+| **Interruption Level** | 0% short gaps | 🟢 Low |
+
+**Target:** 35 items/week (5/day)
+**Actual:** 30 items/week (4.3/day)
+**Completion Rate:** 86%
+
+---
+
+## Time Breakdown
+
+### Weekly Totals
+| Time Type | Hours | Minutes |
+|-----------|-------|---------|
+| Refurb Time | 45.4 hrs | 2724 min |
+| Repair Time | 5.9 hrs | 352 min |
+| Diagnostic Time | 12.5 hrs | 749 min |
+| Cleaning Time | 1.6 hrs | 95 min |
+| **TOTAL LOGGED** | **65.3 hrs** | **3921 min** |
+
+### Capacity Analysis
+| Metric | Value |
+|--------|-------|
+| Available per day | 8 hrs (480 min) |
+| Logged per day (avg) | 9.3 hrs (560 min) |
+| Utilisation | 117% |
+| Unaccounted time | -80 min/day |
+
+---
+
+## Daily Breakdown
+
+| Day | Items | Refurb Time | Repair Time | Diag Time |
+|-----|-------|-------------|-------------|-----------|
+| Monday 26 Jan | 4 | 426 min | 0 min | 78 min |
+| Tuesday 27 Jan | 2 | 117 min | 73 min | 71 min |
+| Wednesday 28 Jan | 4 | 436 min | 69 min | 133 min |
+| Thursday 29 Jan | 4 | 315 min | 0 min | 61 min |
+| Friday 30 Jan | 10 | 1009 min | 78 min | 235 min |
+| Saturday 31 Jan | 5 | 319 min | 132 min | 149 min |
+| Sunday 01 Feb | 1 | 103 min | 0 min | 22 min |
+
+---
+
+## Items Worked On
+
+### Monday 26 Jan (4 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| Harry McAllister (Freuds) [FC0920]  | Returned | 01:14:30 | - | 00:09:00 |
+| BM 1316 (Joseph Coyte) | Returned | 01:30:44 | - | 00:15:40 |
+| BM 1301 (Barney Gillett Coles) | Returned | 02:55:23 | - | 00:29:40 |
+| BM 1322 (Cara Jones) | Returned | 01:24:59 | - | 00:23:59 |
+
+### Tuesday 27 Jan (2 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| BM 1271 ( Furkan Cigerlioglu ) | BMs Awaiting Sale | 00:37:40 | 01:13:04 | 00:30:36 |
+| BM 1245 ( Kojo Adjaye ) | Returned | 01:18:52 | - | 00:40:41 |
+
+### Wednesday 28 Jan (4 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| Kanni Dumbuya | Awaiting Collection | 02:42:54 | - | 00:35:52 |
+| BM 1314 ( Dean Adenmosun ) | Returned | 00:50:53 | - | 00:28:39 |
+| BM 1236 (Maddison Anderson ) | Returned | 01:31:21 | 01:08:56 | 00:43:07 |
+| BM 1237 ( Rayan Khan ) | Returned | 02:10:37 | - | 00:25:23 |
+
+### Thursday 29 Jan (4 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| BM 1337 *For Dan Fry | Mykhailo | 01:02:28 | - | 00:20:19 |
+| BM 1340 ( Gillian Bart-Plange ) | Awaiting Parts | 01:49:41 | - | 00:09:43 |
+| Mari Kydd | Returned | 01:30:55 | - | 00:15:15 |
+| Bradley Eagle | Returned | 00:52:20 | - | 00:15:32 |
+
+### Friday 30 Jan (10 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| Adrian Wilson (The Computer Clinic) | Mykhailo | - | - | - |
+| Alexander Dobb | Mykhailo | - | - | - |
+| BM 1328 ( Matilda Jonss ) | BMs Awaiting Sale | 00:29:17 | 00:37:25 | 00:30:23 |
+| BM 1311 (unlisted as we used the sc | BMs Awaiting Sale | 02:12:27 | - | 00:51:45 |
+| Nathan Coyte *invoiced | Awaiting Collection | 03:49:27 | - | 00:26:08 |
+| Alexander Dobb | Returned | 00:09:06 | - | - |
+| Paul Veer | Returned | 03:32:48 | 00:09:07 | 00:43:02 |
+| BM 1343 (Rosebud Fletcher) | Returned | 00:59:39 | - | 00:15:42 |
+| BM 1355 (Millie Monico) | Returned | 01:40:07 | - | 00:26:00 |
+| BM 1281 (Zainab Rodemade) | Returned | 03:56:31 | 00:31:22 | 00:41:34 |
+
+### Saturday 31 Jan (5 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| BM 1137 (Bal Cooke) | Mykhailo | 00:20:53 | - | 00:28:14 |
+| BM 1356 ( Ruby Denning ) | Mykhailo | - | - | 00:29:53 |
+| BM 1261 ( Holly Morrison ) | Mykhailo | - | 02:00:02 | 00:24:21 |
+| BM 1353 ( Danielle Mensah ) | BMs Awaiting Sale | 03:11:00 | - | 00:46:02 |
+| BM 1348 ( Leah Ward ) | BMs Awaiting Sale | 01:47:13 | 00:12:27 | 00:20:59 |
+
+### Sunday 01 Feb (1 items)
+
+| Item | Group | Refurb | Repair | Diag |
+|------|-------|--------|--------|------|
+| BM 1358 (Olivia Dunscombe) | Outbound Shipping | 01:42:33 | - | 00:21:58 |
+
+---
+
+## Interruption Analysis
+
+| Metric | Value |
+|--------|-------|
+| Total work sessions | 0 |
+| Fragmented items (>1 session) | 0/30 |
+| Gaps between sessions | 0 |
+| Average gap | 0 min |
+| Short gaps (<15 min) | 0 (0%) |
+
+---
+
+## Updates Written
+
+Mykhailo wrote **1** updates last week.
+
+| Time | Content |
+|------|--------|
+| 28 Jan 12:22 | <p>8 black 5</p> <p>13 2x</p> <p>13 mini</p> <p>13 pro</p> <... |
+
+---
+
+## Recommendations
+
+### Strong Performance
+Both utilisation and output are on target. Continue current approach.
+
+
+---
+
+*Report generated by mykhailo_weekly_report.py*
+*Data source: Monday.com Main Board*

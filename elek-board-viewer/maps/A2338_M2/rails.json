@@ -1,0 +1,573 @@
+{
+  "board": "A2338",
+  "schematic": "820-02773",
+  "extraction_notes": "Complete extraction from all 128 pages including POWER ALIASES pages 108-112. Every PP-prefixed rail traced to exact PMU buck/LDO. Cross-referenced with A2681 M2 Air (shared M2 PMU topology).",
+  "rails": [
+    {"section": "=== USB-C / CHARGER INPUT ==="},
+    {
+      "name": "PPVBUS_USBC0",
+      "voltage": "5V (initial) / 20V (after PD)",
+      "state": "G3H",
+      "source": "UF400 (CD3217 ATC0)",
+      "description": "USB-C VBUS port 0 (left rear / debug port) — main power input",
+      "page": [61, 66]
+    },
+    {
+      "name": "PPVBUS_USBC1",
+      "voltage": "5V / 20V",
+      "state": "G3H",
+      "source": "UF500 (CD3217 ATC1)",
+      "description": "USB-C VBUS port 1 (left front port)",
+      "page": [61, 67]
+    },
+    {
+      "name": "PPCON_ACNSW",
+      "voltage": "~5V-20V",
+      "state": "G3H",
+      "source": "Charger input switching from USB-C",
+      "description": "Charger input from USB-C, feeds charger IC U5200",
+      "page": 25
+    },
+    {
+      "name": "PPSC26_ADR_CHSR",
+      "voltage": "~5-20V (follows VBUS)",
+      "state": "G3H",
+      "source": "Fused VBUS path",
+      "description": "Charger alias rail — fused VBUS to charger support",
+      "page": [25, 108]
+    },
+
+    {"section": "=== MAIN BUS ==="},
+    {
+      "name": "PPBUS_AON",
+      "voltage": "12.6V (battery) / ~20V (adapter)",
+      "state": "AON",
+      "source": "Charger IC U5200 (XMC260) / Battery",
+      "description": "Main system power bus — feeds SVR AON, UC300 (5V), UC710 (3V3), load switches, backlight",
+      "page": [25, 108]
+    },
+    {
+      "name": "PPVBAT_AON",
+      "voltage": "~12.6V (battery voltage)",
+      "state": "AON",
+      "source": "Battery via J5150 BMU connector / solder pads J5150A",
+      "description": "Battery voltage rail from BMU flex",
+      "page": [24, 108]
+    },
+
+    {"section": "=== 3V8 AON (SVR AON) ==="},
+    {
+      "name": "PP3V8_AON",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "SVR AON controller (36A ICC MAX, pages 28-29)",
+      "enable": "PPVAON_PWR_EN",
+      "description": "3.8V always-on master rail — input to SPMU (U7700) and MPMU (U8100). 36A ICC MAX controller on page 28, 30A ICCMAX on page 29 output stage",
+      "page": [28, 29, 108]
+    },
+    {
+      "name": "PP3V8_AON_VDDMAIN",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "Branch of PP3V8_AON",
+      "description": "PP3V8_AON VDDMAIN distribution — known short target",
+      "page": [108]
+    },
+    {
+      "name": "PP3V8_AON_WLBT",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "Branch of PP3V8_AON",
+      "description": "PP3V8_AON to WiFi/BT Rasputin module",
+      "page": [73, 108]
+    },
+    {
+      "name": "PP3V8_AON_DPG_F",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "Branch of PP3V8_AON (filtered)",
+      "description": "PP3V8_AON filtered for keyboard/display peripherals",
+      "page": [108]
+    },
+    {
+      "name": "PP3V8_MAME",
+      "voltage": "3.8V",
+      "state": "S0 (AWAKE)",
+      "source": "Branch of PP3V8_AON (gated)",
+      "description": "3.8V awake-state rail for audio amplifiers",
+      "page": [85, 108]
+    },
+
+    {"section": "=== SPMU (U7700) BUCK OUTPUTS ==="},
+    {
+      "name": "PP0V75_S1_SRAM",
+      "voltage": "0.75V",
+      "state": "S1",
+      "source": "SPMU BUCK 5 (U7700)",
+      "description": "SoC SRAM retention + PP0V75_S1_SOC alias",
+      "page": [31, 34, 108]
+    },
+    {
+      "name": "PP1V25_MAME_NAND_VCC",
+      "voltage": "1.25V",
+      "state": "AWAKE",
+      "source": "SPMU BUCK 6 (U7700)",
+      "description": "NAND flash VCC — storage power",
+      "page": [31, 34, 108]
+    },
+    {
+      "name": "PP0V5_S1_ESTP",
+      "voltage": "0.5V",
+      "state": "S1",
+      "source": "SPMU BUCK 8 (U7700)",
+      "description": "SoC ESTP domain",
+      "page": [31, 108]
+    },
+    {
+      "name": "PP0V5_S1_VDDOL",
+      "voltage": "0.5V",
+      "state": "S1",
+      "source": "SPMU BUCK 10 (U7700)",
+      "description": "SoC VDDOL domain",
+      "page": [31, 108]
+    },
+    {
+      "name": "PPVDD_MAME_PCPU_2",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "SPMU BUCK 12 (U7700)",
+      "description": "SoC PCPU secondary phase",
+      "page": [31, 108]
+    },
+    {
+      "name": "PP3V8_MAME_NAND_VDDL",
+      "voltage": "3.8V",
+      "state": "AWAKE",
+      "source": "SPMU BUCK 12 SW6/7 (U7700)",
+      "description": "NAND VDDL — storage logic power",
+      "page": [32, 109]
+    },
+    {
+      "name": "PP1V25_MAME_NAND_VCC2",
+      "voltage": "1.25V",
+      "state": "AWAKE",
+      "source": "SPMU BUCK 13 SW5 (U7700)",
+      "description": "NAND VCC2 — additional storage power",
+      "page": [32, 109]
+    },
+    {
+      "name": "PP1V8_MAME_SPMU_GFS5",
+      "voltage": "1.8V",
+      "state": "AWAKE",
+      "source": "SPMU BUCK 3 SW4 (U7700)",
+      "description": "SPMU GFS5 output",
+      "page": [32, 109]
+    },
+    {
+      "name": "PP1V12_S2M_AMPH",
+      "voltage": "1.12V",
+      "state": "S2",
+      "source": "SPMU BUCK 14 (U7700)",
+      "description": "Memory controller AMPH power",
+      "page": [31, 109]
+    },
+
+    {"section": "=== SPMU (U7700) LDO OUTPUTS ==="},
+    {
+      "name": "PP0V72_S2_VDD_LOW",
+      "voltage": "0.72V",
+      "state": "S2",
+      "source": "SPMU LDO 4 (U7700)",
+      "description": "SoC VDD_LOW domain",
+      "page": [32, 109]
+    },
+    {
+      "name": "PP1V8_AON_SPMU",
+      "voltage": "1.8V",
+      "state": "AON",
+      "source": "SPMU LDO 9 (U7700)",
+      "description": "Always-on 1.8V from SPMU",
+      "page": [32, 110]
+    },
+    {
+      "name": "PP1V2_AON_SPMU",
+      "voltage": "1.2V",
+      "state": "AON",
+      "source": "SPMU LDO 9B (U7700)",
+      "description": "Always-on 1.2V from SPMU",
+      "page": [32, 110]
+    },
+    {
+      "name": "PP0V75_S1_VDD_FIXED",
+      "voltage": "0.75V",
+      "state": "S1",
+      "source": "SPMU LDO 12 (U7700)",
+      "description": "SoC VDD_FIXED domain",
+      "page": [32, 110]
+    },
+    {
+      "name": "PP1V05_LDOINT_SPMU",
+      "voltage": "1.05V",
+      "state": "AON",
+      "source": "SPMU LDOINT (U7700)",
+      "description": "SPMU internal LDO",
+      "page": [32, 110]
+    },
+
+    {"section": "=== MPMU (U8100) BUCK OUTPUTS ==="},
+    {
+      "name": "PPVDD_MAME_PCPU",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "MPMU BUCK 0 (U8100)",
+      "description": "SoC Performance CPU primary phase",
+      "page": [35, 108]
+    },
+    {
+      "name": "PPVDD_MAME_GPU",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "MPMU BUCK 1 (U8100)",
+      "description": "SoC GPU power",
+      "page": [35, 108]
+    },
+    {
+      "name": "PP0V5_S1_SOC",
+      "voltage": "0.5V",
+      "state": "S1",
+      "source": "MPMU BUCK 2 (U8100)",
+      "description": "SoC 0.5V domain",
+      "page": [35, 108]
+    },
+    {
+      "name": "PP1V21_S2",
+      "voltage": "1.21V",
+      "state": "S2",
+      "source": "MPMU BUCK 3 (U8100)",
+      "description": "SoC VDD10/VDD_LOW input rail",
+      "page": [36, 108]
+    },
+    {
+      "name": "PP1V8_MAME",
+      "voltage": "1.8V",
+      "state": "S2/AWAKE",
+      "source": "MPMU BUCK 3 SW1 (U8100)",
+      "description": "1.8V awake rail — motion sensor, display sequencer, level shifters. Also aliased as PP1V8_S2",
+      "page": [36, 109]
+    },
+    {
+      "name": "PPVDD_S2M_VDDQ5",
+      "voltage": "1.85V",
+      "state": "S2",
+      "source": "MPMU BUCK 4 (U8100)",
+      "description": "Memory VDDQ5",
+      "page": [36, 108]
+    },
+    {
+      "name": "PPVDD_MAME_CPU_SRAM",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "MPMU BUCK 7 (U8100)",
+      "description": "SoC CPU SRAM",
+      "page": [36, 108]
+    },
+    {
+      "name": "PP0V5_S1_DCS",
+      "voltage": "0.5V",
+      "state": "S1",
+      "source": "MPMU BUCK 9 (U8100)",
+      "description": "SoC DCS power",
+      "page": [36, 108]
+    },
+    {
+      "name": "PPVDD_MAME_ECPU",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "MPMU BUCK 11 (U8100)",
+      "description": "SoC Efficiency CPU",
+      "page": [36, 108]
+    },
+    {
+      "name": "PP1V25_S2",
+      "voltage": "1.25V",
+      "state": "S2",
+      "source": "MPMU BUCK 13 (U8100)",
+      "description": "USB-C controllers, level shifters, general S2 peripherals",
+      "page": [36, 109]
+    },
+    {
+      "name": "PP1V25_MAME_3D",
+      "voltage": "1.25V",
+      "state": "AWAKE",
+      "source": "MPMU BUCK 13 SW3 (U8100)",
+      "description": "SoC 3D domain, SPI ROM",
+      "page": [36, 109]
+    },
+
+    {"section": "=== MPMU (U8100) LDO OUTPUTS ==="},
+    {
+      "name": "PP1V8_AON_MPMU",
+      "voltage": "1.8V",
+      "state": "AON",
+      "source": "MPMU LDO 9 (U8100)",
+      "description": "Load switch enables, GPIO LVCMOS. Test point available.",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP1V2_AON_MPMU",
+      "voltage": "1.2V",
+      "state": "AON",
+      "source": "MPMU LDO 9B (U8100)",
+      "description": "Always-on 1.2V from MPMU",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP3V_AON",
+      "voltage": "3.0V",
+      "state": "AON",
+      "source": "MPMU LDO 2 (U8100)",
+      "description": "3V always-on for charger support, I2C pull-ups",
+      "page": [37, 109]
+    },
+    {
+      "name": "PP1V12_MAME_PLL",
+      "voltage": "1.12V",
+      "state": "AWAKE",
+      "source": "MPMU LDO 8 (U8100)",
+      "description": "SoC PLL power",
+      "page": [37, 110]
+    },
+    {
+      "name": "PPVDS5_S2SM_CIO",
+      "voltage": "0.855V",
+      "state": "S2",
+      "source": "MPMU LDO 10 (U8100)",
+      "description": "SoC CIO / USB-C CIO domain",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP0V83_S1_STOP",
+      "voltage": "0.83V",
+      "state": "S1",
+      "source": "MPMU LDO 11 (U8100)",
+      "description": "SoC STOP domain",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP3V3_S2M_SNS",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "MPMU LDO 13 (U8100)",
+      "description": "Sensor 3.3V rail",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP3V3_S2SM_CIO",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "MPMU LDO 14 (U8100)",
+      "description": "CIO 3.3V domain",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP1V05_LDOINT_MPMU",
+      "voltage": "1.05V",
+      "state": "AON",
+      "source": "MPMU LDOINT (U8100)",
+      "description": "MPMU internal + LDO RTC (shorted for portables)",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP1V2_S2_C10",
+      "voltage": "1.2V",
+      "state": "S2",
+      "source": "MPMU LDO 20 (U8100)",
+      "description": "C10 1.2V S2 rail",
+      "page": [37, 110]
+    },
+    {
+      "name": "PP3V3_S2_LDO",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "MPMU LDO 7 (U8100)",
+      "description": "3.3V LDO output for peripherals",
+      "page": [37, 110]
+    },
+
+    {"section": "=== STANDALONE REGULATORS ==="},
+    {
+      "name": "PP5V_S2",
+      "voltage": "5.14V",
+      "state": "S2",
+      "source": "UC300 (TPS62130 5V S2 VR)",
+      "enable": "P5VS2_PWR_EN (from SPMU GPIO)",
+      "description": "5V S2 buck converter. Vout=5.14V, f=1.25MHz, startup 4.7/7.5/10.5ms. XMC260 inductor.",
+      "page": [43, 111]
+    },
+    {
+      "name": "PP3V3_S2",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "UC710 (3V3 S2 VR, XMC710 inductor)",
+      "enable": "P3V3S2_PWR_EN (from SPMU GPIO)",
+      "description": "3.3V S2 buck converter. Startup <5ms. Vout=3.3V, f=1.5MHz.",
+      "page": [45, 111]
+    },
+    {
+      "name": "PP5V_S2_UPC",
+      "voltage": "5.23V",
+      "state": "S2",
+      "source": "UF800 (USB-C 5V Regulator, XMF820 inductor)",
+      "description": "USB-C port 5V. Vout=5.23V, f=1.5MHz, startup <15ms.",
+      "page": [70, 111]
+    },
+
+    {"section": "=== LOAD SWITCHES / EXTERNAL SWITCHES ==="},
+    {
+      "name": "PP1V8_S2M",
+      "voltage": "1.8V",
+      "state": "S2",
+      "source": "UC820 (VDD1 1V8 switch, from PP3V8_AON via VDDSW 1445)",
+      "enable": "PVDDL_PWR_EN_1445",
+      "description": "1.8V external load switch output, feeds PP1V8_S2",
+      "page": [46, 111]
+    },
+    {
+      "name": "PP1V8_S2M_2",
+      "voltage": "1.8V",
+      "state": "S2",
+      "source": "UC840 (VDD1 1V8 switch secondary, from PP1V8_S2 via VDDSW 1777)",
+      "enable": "PVDDL_PWR_EN_1777",
+      "description": "1.8V secondary external load switch output, feeds PP1V8_S2M4",
+      "page": [46, 111]
+    },
+    {
+      "name": "PPBUS_AONSW_LCD",
+      "voltage": "12.6V/20V",
+      "state": "AON",
+      "source": "Load switch from PPBUS_AON (LCD panel backlight path)",
+      "description": "Backlight boost input power",
+      "page": [79, 106]
+    },
+
+    {"section": "=== USB-C ATC REGULATORS ==="},
+    {
+      "name": "PP1V2_USBC_VDDIO",
+      "voltage": "1.2V",
+      "state": "S2",
+      "source": "UF900 (ATC01 regulator, from PP1V2_USBC_VDDIO)",
+      "description": "USB-C VDDIO for ATC re-timers",
+      "page": [71, 111]
+    },
+    {
+      "name": "PPVD055_USBC_CIO",
+      "voltage": "0.855V",
+      "state": "S2",
+      "source": "UF939 (ATC01 CIO regulator)",
+      "description": "USB-C CIO 0.855V rail",
+      "page": [71, 111]
+    },
+    {
+      "name": "PPVD055_USBC_FIXED",
+      "voltage": "0.805V",
+      "state": "S1",
+      "source": "UF960 (ATC01 FIXED regulator)",
+      "description": "USB-C VDD FIXED",
+      "page": [71, 111]
+    },
+
+    {"section": "=== DISPLAY POWER ==="},
+    {
+      "name": "PPVOUT_LCDBKLT",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "LCD Backlight boost from PPBUS_AONSW_LCD",
+      "description": "LCD backlight LED drive",
+      "page": [79, 80]
+    },
+    {
+      "name": "PP5V_SM_LCD",
+      "voltage": "5V",
+      "state": "S2/AWAKE",
+      "source": "Display connector power from PP5V_S2",
+      "description": "5V to display connector and panel",
+      "page": [78]
+    },
+
+    {"section": "=== KEYBOARD / TRACKPAD / DFR POWER ==="},
+    {
+      "name": "PPVOUT_KBDLED",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "Keyboard backlight driver",
+      "description": "Keyboard LED backlight power",
+      "page": [88, 111]
+    },
+    {
+      "name": "PP1V8_AONSW_KBDLO",
+      "voltage": "1.8V",
+      "state": "AON/S2",
+      "source": "KBD 1V8 S2 LDO (from PP3V8_AON)",
+      "description": "Keyboard 1.8V power for logic",
+      "page": [111]
+    },
+    {
+      "name": "PP3V3_AONSW_IPD",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "IPD 3V3 S2 load switch from PP3V3_S2",
+      "description": "Internal peripheral device 3.3V switched",
+      "page": [111]
+    },
+    {
+      "name": "PP5V_S2_ALSCAM",
+      "voltage": "5V",
+      "state": "S2",
+      "source": "5V ALSCAM load side sense from PP5V_S2",
+      "description": "ALS and Camera 5V supply",
+      "page": [55, 112]
+    },
+    {
+      "name": "PPVD5_MAME_DFR",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "DFR power rail",
+      "description": "Touch Bar (DFR) power",
+      "page": [95, 96]
+    },
+    {
+      "name": "PP1V8_DFR",
+      "voltage": "1.8V",
+      "state": "S2",
+      "source": "UT700 (DFR 1.8V LDO from PP3V8_AON)",
+      "description": "Touch Bar 1.8V LDO",
+      "page": [95]
+    },
+    {
+      "name": "PP3V3_DFR",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "UT710 (DFR 3.3V LDO from PP3V8_AON)",
+      "description": "Touch Bar 3.3V LDO",
+      "page": [95]
+    },
+
+    {"section": "=== WIFI/BT ==="},
+    {
+      "name": "PP3V3_S2_WLBT_1MS",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "3V3 S2 WLANBT load switch from PP3V3_S2",
+      "description": "WiFi/BT 3.3V with 1ms startup delay",
+      "page": [73, 112]
+    },
+    {
+      "name": "PP1V25_S2_WLBT_1MS",
+      "voltage": "1.25V",
+      "state": "S2",
+      "source": "Load switch from PP1V25_S2",
+      "description": "WiFi/BT 1.25V",
+      "page": [73, 112]
+    }
+  ]
+}

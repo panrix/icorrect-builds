@@ -1,0 +1,65 @@
+{
+  "WARNING": "These test points are for A2442 CTO (820-02443) ONLY. Page numbers differ from base A2442 (820-02098). SVR AON is 42A design. Component designators (CR765, CZ4xx, CZ6xx, PPU8xx, etc.) are board-specific — the same rail appears at DIFFERENT components on other boards.",
+  "board": "A2442_CTO",
+  "board_name": "MacBook Pro 14\" M1 Pro/Max CTO (2021)",
+  "schematic": "820-02443",
+  "internal_name": "X2719/MLB-C",
+  "dcps_voltage": "5V",
+  "description": "Decision trees for all 5V DCPS scenarios on A2442 CTO (Pro/Max). CTO draws more idle current than base due to 42A SVR AON design and extended Monaco/Viper phases. Pro/Max draws more than Air due to additional VRs.",
+  "scenarios": [
+    {
+      "range": "0A (dead — no current draw)",
+      "meaning": "CD3217 not loading VBUS. Connector, cable, or CD3217 fault.",
+      "steps": [
+        {"step": 1, "action": "Check USB-C connector", "measure": "Visual inspection", "expected": "Clean pins, no damage", "if_wrong": "Replace connector flex", "next_if_ok": 2},
+        {"step": 2, "action": "Check PPVBUS at connector", "measure": "Probe CF400 (left ATC0) or CG401 (right ATC2)", "component": "CF400 / CG401", "expected": "5V from DCPS", "if_wrong": "Cable or connector fault. Try other port.", "next_if_ok": 3},
+        {"step": 3, "action": "Check CD3217 for short", "measure": "Diode mode on UF400 (left) or UG400 (right) VDD pins", "component": "UF400 / UG400", "expected": "Normal diode (~0.4-0.6V)", "if_wrong": "CD3217 dead or ROM short -> replace", "next_if_ok": 4},
+        {"step": 4, "action": "Try all 3 ports", "measure": "Move DCPS to each port in turn", "expected": "At least one port draws current", "if_all_dead": "Upstream flex or all 3 CD3217s dead (rare — usually liquid damage)"}
+      ]
+    },
+    {
+      "range": "0.001-0.05A (trickle — not booting)",
+      "meaning": "CD3217 drawing some current but board not progressing. PPBUS_AON likely not coming up.",
+      "steps": [
+        {"step": 1, "action": "Check PPBUS_AON", "measure": "Probe CR765 area (PPBUS_AON decoupling)", "component": "CR765", "expected": "12V (battery) or rising", "if_missing": "PPBUS_AON fault -> step 2", "if_present": "Go to step 3"},
+        {"step": 2, "action": "Check PPBUS_AON for short", "measure": "Diode mode on CR765", "component": "CR765", "expected": ">0.3V", "if_wrong": "PPBUS_AON shorted. Remove CR765, retest.", "next_if_ok": "Check charger IC (U5200), CHGR_AUX_OK signal"},
+        {"step": 3, "action": "Check PP3V8_AON", "measure": "Probe PP3V8_AON output desense cap (CZ400 area, page 36)", "component": "CZ400", "expected": "3.8V", "if_missing": "U5700 fault (42A CTO design). Check PPVAON_PWR_EN enable.", "if_present": "Go to step 4"},
+        {"step": 4, "action": "Check PP5V_S2", "measure": "Probe TPS62130 output cap (MC6xx area, page 59)", "component": "MC600 area", "expected": "5.14V", "if_missing": "TPS62130 fault or P5VS2_PWR_EN not asserted", "if_present": "Go to step 5"},
+        {"step": 5, "action": "Check MPMU LDO outputs (U8100)", "measure": "Probe MPMU output caps (CR8xx, page 41)", "sub_checks": [
+            {"component": "CR8x1 (BUCK 0 area)", "expected": "Output voltage present", "rail": "MPMU BUCK output"},
+            {"component": "PPU815-PPU836 (PMU test points, page 135)", "expected": "Voltages present per rail"}
+          ], "if_all_present": "PMU OK, fault downstream -> step 6", "if_any_missing": "Thermal cam that rail -> step 7"},
+        {"step": 6, "action": "Check Viper VR (U9300) — 3 stage pages CTO", "measure": "Probe Viper output caps (CZ610-CZ618 area, page 47)", "component": "CZ610", "expected": "DVFS voltage present (~0.7-1.1V)", "if_missing": "Viper VR fault. Check VIPER_ALERT_L. Check power stages (pages 49-51 CTO).", "if_present": "Check Monaco VR -> step 6b"},
+        {"step": "6b", "action": "Check Monaco VR — 5 instances CTO", "measure": "Probe Monaco output caps (CA1xx area, page 52)", "component": "CA100 area", "expected": "DVFS voltage present", "if_missing": "Monaco VR fault. Check MONACO_ALERT_L. CTO has 5 instances (C0-C4) — check each.", "if_present": "SoC domain fault. Thermal cam."},
+        {"step": 7, "action": "Thermal camera on shorted rail", "measure": "Thermal cam", "expected": "Hot component visible", "if_found": "Replace hot chip", "if_not_found": "U8100 (MPMU) dead -> replace"}
+      ]
+    },
+    {
+      "range": "0.05-0.2A (partial boot attempt)",
+      "meaning": "Moderate current. PP3V8_AON likely present but downstream short holding board down.",
+      "steps": [
+        {"step": 1, "action": "Run full diagnostic chain", "measure": "CR765 (PPBUS) -> CZ400 (3V8) -> MC600 (5V) -> MPMU outputs -> Viper (CZ610) -> Monaco (CA100)", "if_all_ok": "Check PP3V3_S2 and USB-C LDOs for shorts"},
+        {"step": 2, "action": "Check PP3V3 lines for short", "measure": "Diode mode on PP3V3_UPC0_LDO, PP3V3_UPC1_LDO, PP3V3_UPC2_LDO", "expected": "Normal readings", "if_wrong": "CD3217 LDO short -> replace affected CD3217"},
+        {"step": 3, "action": "Check PP3V8_AON distribution for shorts", "measure": "Diode mode on PP3V8_AON_MPMU, PP3V8_AON_SPMU, PP3V8_AON_WLBT branches (page 34)", "expected": "Normal readings", "if_wrong": "Identify which branch is shorted. Thermal cam that area."}
+      ]
+    },
+    {
+      "range": "0.2-0.5A (significant current, stalled or shorted)",
+      "meaning": "Board drawing significant current at 5V. Either boot attempt stalling at PD negotiation, or downstream short.",
+      "steps": [
+        {"step": 1, "action": "Check for signs of boot", "measure": "Fan spin, keyboard backlight, display flash", "if_signs": "Board trying to boot at 5V. CD3217 PD negotiation issue. Check ROM.", "if_no_signs": "Short. Run full chain -> step 2"},
+        {"step": 2, "action": "Full diagnostic chain + thermal cam", "measure": "CR765->CZ400->MC600->MPMU->Viper(CZ610)->Monaco(CA100)", "sub_checks": "Identify which stage is drawing excess current"},
+        {"step": 3, "action": "Try 20V DCPS", "measure": "Switch to 20V, observe current", "expected": "1.5-3A normal boot", "if_boots": "PD negotiation issue. Replace CD3217 ROM.", "if_same": "Genuine short. Thermal cam all power stages."}
+      ]
+    },
+    {
+      "range": "0.5A+ (high current at 5V)",
+      "meaning": "Very high current at 5V. Major short or boot attempt. CTO Pro/Max can draw more than base due to 42A SVR AON and more VRs.",
+      "steps": [
+        {"step": 1, "action": "Disconnect battery", "measure": "Remove battery flex", "note": "Prevent heating damage"},
+        {"step": 2, "action": "Diode mode major rails", "measure": "CR765 (PPBUS) -> CZ400 (3V8) -> MC600 (5V)", "expected": "Normal readings", "if_any_short": "Dead short on that rail. Thermal cam immediately."},
+        {"step": 3, "action": "Check if board actually boots at 20V", "measure": "Switch to 20V DCPS", "if_boots": "Normal. CTO Pro/Max draws more current at 5V during boot attempt due to 42A SVR design.", "if_same": "Genuine short. Systematic thermal cam sweep."}
+      ]
+    }
+  ]
+}

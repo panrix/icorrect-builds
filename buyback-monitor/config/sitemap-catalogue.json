@@ -1,0 +1,666 @@
+{
+  "generated": "2026-03-15",
+  "source": "sitemap_products.xml",
+  "total_urls": 63,
+  "filtered_urls": 47,
+  "urls": [
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-16gb-ram-ssd-1tb-qwerty-english-us/6fa6e8b9-e40e-4f53-8522-714029c7117f",
+      "uuid": "6fa6e8b9-e40e-4f53-8522-714029c7117f",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-16gb-ram-ssd-1tb-qwerty-english-us",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "16GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-133-inch-2020-m1-8-core-and-7-core-gpu-16gb-ram-ssd-256gb-qwerty-canadian/248fb5ca-688d-41a1-8f10-517478812b3b",
+      "uuid": "248fb5ca-688d-41a1-8f10-517478812b3b",
+      "slug": "macbook-air-133-inch-2020-m1-8-core-and-7-core-gpu-16gb-ram-ssd-256gb-qwerty-canadian",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "16GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY Canadian"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/5fb4ca57-372d-42a1-876a-1b2a28624849",
+      "uuid": "5fb4ca57-372d-42a1-876a-1b2a28624849",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "16GB",
+        "storage": "2TB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk/b8f27582-8d02-4fee-b4c2-8f6233d0da29",
+      "uuid": "b8f27582-8d02-4fee-b4c2-8f6233d0da29",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-133-inch-2020-m1-8-core-and-7-core-gpu-8gb-ram-ssd-128gb-qwerty-english/a6275570-4760-49dc-940d-106419f11402",
+      "uuid": "a6275570-4760-49dc-940d-106419f11402",
+      "slug": "macbook-air-133-inch-2020-m1-8-core-and-7-core-gpu-8gb-ram-ssd-128gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "8GB",
+        "storage": "128GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-uk/b8f6f0c1-d4f4-4693-8150-b112d5371b64",
+      "uuid": "b8f6f0c1-d4f4-4693-8150-b112d5371b64",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-uk",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "8GB",
+        "storage": "2TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-512gb-qwerty-english-uk/d89122d4-f4f3-42ae-b463-b3f133f9a2cc",
+      "uuid": "d89122d4-f4f3-42ae-b463-b3f133f9a2cc",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-512gb-qwerty-english-uk",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 7-core GPU",
+        "ram": "8GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-512gb-qwerty-english/cc7fee53-ccd4-4610-a74a-93abd4b9b716",
+      "uuid": "cc7fee53-ccd4-4610-a74a-93abd4b9b716",
+      "slug": "macbook-air-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-1tb-qwerty-english-uk/8f880cdd-ad3d-42cd-9864-7d4ef47abe9c",
+      "uuid": "8f880cdd-ad3d-42cd-9864-7d4ef47abe9c",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-1tb-qwerty-english-uk",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "8GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-512gb-qwerty-english-uk/1b212f6d-aa05-4b8d-802d-c633845d7f9d",
+      "uuid": "1b212f6d-aa05-4b8d-802d-c633845d7f9d",
+      "slug": "macbook-air-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-512gb-qwerty-english-uk",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "8GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-10-core-gpu-16gb-ram-ssd-1000gb-qwerty-spanish/b19bdc6d-88ee-4f78-9ab0-773123466c04",
+      "uuid": "b19bdc6d-88ee-4f78-9ab0-773123466c04",
+      "slug": "macbook-air-13-inch-2022-m2-8-core-and-10-core-gpu-16gb-ram-ssd-1000gb-qwerty-spanish",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "16GB",
+        "storage": "1000GB",
+        "keyboard": "QWERTY Spanish"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-10-core-gpu-24gb-ram-ssd-256gb-qwerty/787e6ba4-b0ac-40ad-b758-db335e29551b",
+      "uuid": "787e6ba4-b0ac-40ad-b758-db335e29551b",
+      "slug": "macbook-air-13-inch-2022-m2-8-core-and-10-core-gpu-24gb-ram-ssd-256gb-qwerty",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "24GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty/dc7c5f9c-d079-4b49-82a9-93c44bc14962",
+      "uuid": "dc7c5f9c-d079-4b49-82a9-93c44bc14962",
+      "slug": "macbook-air-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty/f4dfd9c4-b0fc-4832-98bd-e6fb74c8b5f8",
+      "uuid": "f4dfd9c4-b0fc-4832-98bd-e6fb74c8b5f8",
+      "slug": "macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 8-core GPU",
+        "ram": "16GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/9b1ef69f-c204-4a9f-8b06-a4ec8e37b231",
+      "uuid": "9b1ef69f-c204-4a9f-8b06-a4ec8e37b231",
+      "slug": "macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 8-core GPU",
+        "ram": "8GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-512gb-qwerty/597fb9d5-0ae5-4fd0-9e4c-a64f9a405cce",
+      "uuid": "597fb9d5-0ae5-4fd0-9e4c-a64f9a405cce",
+      "slug": "macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-512gb-qwerty",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 8-core GPU",
+        "ram": "8GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-136-inch-2024-m3-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty-english/989d881f-06bc-4e49-a085-7873cdaa8849",
+      "uuid": "989d881f-06bc-4e49-a085-7873cdaa8849",
+      "slug": "macbook-air-136-inch-2024-m3-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2024",
+        "chip": "M3 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2025-m4-10-core-and-10-core-gpu-16gb-ram-ssd-512gb-qwerty-english/67d3b13a-d231-47f4-8569-b7685e038938",
+      "uuid": "67d3b13a-d231-47f4-8569-b7685e038938",
+      "slug": "macbook-air-13-inch-2025-m4-10-core-and-10-core-gpu-16gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2025",
+        "chip": "M4 10-core 10-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2025-m4-10-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/6d717c9e-40b9-4d36-acb4-1f162c69eeee",
+      "uuid": "6d717c9e-40b9-4d36-acb4-1f162c69eeee",
+      "slug": "macbook-air-13-inch-2025-m4-10-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "13",
+        "year": "2025",
+        "chip": "M4 10-core 8-core GPU",
+        "ram": "16GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-153-inch-2023-m2-8-core-and-10-core-gpu-16gb-ram-ssd-1000gb-qwerty-english/50c9e0dd-966c-47bf-9548-f2d620874186",
+      "uuid": "50c9e0dd-966c-47bf-9548-f2d620874186",
+      "slug": "macbook-air-153-inch-2023-m2-8-core-and-10-core-gpu-16gb-ram-ssd-1000gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "15",
+        "year": "2023",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "16GB",
+        "storage": "1000GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-153-inch-2023-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty-english/27245406-a2e7-4095-ad7d-fd1ffd74e536",
+      "uuid": "27245406-a2e7-4095-ad7d-fd1ffd74e536",
+      "slug": "macbook-air-153-inch-2023-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "15",
+        "year": "2023",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-153-inch-2024-m3-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty-english/c64f4479-d8cf-4b32-ab65-807ca7a21c73",
+      "uuid": "c64f4479-d8cf-4b32-ab65-807ca7a21c73",
+      "slug": "macbook-air-153-inch-2024-m3-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "15",
+        "year": "2024",
+        "chip": "M3 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-153-inch-2024-m3-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty-english/228bd1fd-5e19-46cf-9f23-02df23fe281f",
+      "uuid": "228bd1fd-5e19-46cf-9f23-02df23fe281f",
+      "slug": "macbook-air-153-inch-2024-m3-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "15",
+        "year": "2024",
+        "chip": "M3 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-15-inch-2025-m4-10-core-and-10-core-gpu-16gb-ram-ssd-256gb-qwerty-english/3936eaff-8a8d-4385-a2db-4e8d66f7eef9",
+      "uuid": "3936eaff-8a8d-4385-a2db-4e8d66f7eef9",
+      "slug": "macbook-air-15-inch-2025-m4-10-core-and-10-core-gpu-16gb-ram-ssd-256gb-qwerty-english",
+      "parsed": {
+        "type": "air",
+        "size": "15",
+        "year": "2025",
+        "chip": "M4 10-core 10-core GPU",
+        "ram": "16GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-1tb-qwerty-english-us/313b776d-eab9-438a-bffd-c139a86f67b4",
+      "uuid": "313b776d-eab9-438a-bffd-c139a86f67b4",
+      "slug": "macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-1tb-qwerty-english-us",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "16GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-uk/1fb9d5b7-e237-4712-8613-7655ab2654b6",
+      "uuid": "1fb9d5b7-e237-4712-8613-7655ab2654b6",
+      "slug": "macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "16GB",
+        "storage": "2TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-512gb-qwerty-english/2627a4a6-b9d8-4c13-aee9-3e0ec33ee273",
+      "uuid": "2627a4a6-b9d8-4c13-aee9-3e0ec33ee273",
+      "slug": "macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-2tb-qwerty-english-uk/8948b82c-f746-4be0-a8b0-0758b1dc4acc",
+      "uuid": "8948b82c-f746-4be0-a8b0-0758b1dc4acc",
+      "slug": "macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-2tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2020",
+        "chip": "M1 8-core 8-core GPU",
+        "ram": "8GB",
+        "storage": "2TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-16gb-ram-ssd-512gb-qwerty/2a101131-a627-4830-8385-eba155ef9e18",
+      "uuid": "2a101131-a627-4830-8385-eba155ef9e18",
+      "slug": "macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-16gb-ram-ssd-512gb-qwerty",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-24gb-ram-ssd-1000gb-qwerty/21dd5052-a1e5-4440-b7e2-e09af1936f5e",
+      "uuid": "21dd5052-a1e5-4440-b7e2-e09af1936f5e",
+      "slug": "macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-24gb-ram-ssd-1000gb-qwerty",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "24GB",
+        "storage": "1000GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "uuid": "ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "slug": "macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty",
+      "parsed": {
+        "type": "pro",
+        "size": "13",
+        "year": "2022",
+        "chip": "M2 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "256GB",
+        "keyboard": "QWERTY"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-1tb-qwerty-english-uk/4ba6d96c-566d-4af8-9780-c0567a9c29ca",
+      "uuid": "4ba6d96c-566d-4af8-9780-c0567a9c29ca",
+      "slug": "macbook-pro-2021-14-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-1tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "14",
+        "year": "2021",
+        "chip": "M1 Pro 10-core 16-core GPU",
+        "ram": "16GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk/43221f93-0d9a-45ec-870b-02d1613c7471",
+      "uuid": "43221f93-0d9a-45ec-870b-02d1613c7471",
+      "slug": "macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "14",
+        "year": "2021",
+        "chip": "M1 Pro 8-core 14-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-32gb-ram-ssd-512gb-qwerty-english-us/b223cd84-efe0-4092-a0da-728b2f73c5fc",
+      "uuid": "b223cd84-efe0-4092-a0da-728b2f73c5fc",
+      "slug": "macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-32gb-ram-ssd-512gb-qwerty-english-us",
+      "parsed": {
+        "type": "pro",
+        "size": "14",
+        "year": "2021",
+        "chip": "M1 Pro 8-core 14-core GPU",
+        "ram": "32GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-142-inch-2023-m3-8-core-and-10-core-gpu-8gb-ram-ssd-1000gb-qwerty-english/d127981d-6d36-4574-b56d-8dae62077f4a",
+      "uuid": "d127981d-6d36-4574-b56d-8dae62077f4a",
+      "slug": "macbook-pro-142-inch-2023-m3-8-core-and-10-core-gpu-8gb-ram-ssd-1000gb-qwerty-english",
+      "parsed": {
+        "type": "pro",
+        "size": "14",
+        "year": "2023",
+        "chip": "M3 8-core 10-core GPU",
+        "ram": "8GB",
+        "storage": "1000GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-142-inch-2023-m3-pro-11-core-and-14-core-gpu-18gb-ram-ssd-512gb-qwerty-english/946234a9-c96f-417e-a926-51e88c732b47",
+      "uuid": "946234a9-c96f-417e-a926-51e88c732b47",
+      "slug": "macbook-pro-142-inch-2023-m3-pro-11-core-and-14-core-gpu-18gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "pro",
+        "size": "14",
+        "year": "2023",
+        "chip": "M3 Pro 11-core 14-core GPU",
+        "ram": "18GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-14-inch-2024-m4-10-core-and-10-core-gpu-16gb-ram-ssd-512gb-qwerty-english/69899910-7dab-4428-b033-c41337eb9533",
+      "uuid": "69899910-7dab-4428-b033-c41337eb9533",
+      "slug": "macbook-pro-14-inch-2024-m4-10-core-and-10-core-gpu-16gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "pro",
+        "size": "14",
+        "year": "2024",
+        "chip": "M4 10-core 10-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-24-core-gpu-64gb-ram-ssd-1tb-qwerty-english-uk/602790b6-5f4b-4a1b-9369-182336680a77",
+      "uuid": "602790b6-5f4b-4a1b-9369-182336680a77",
+      "slug": "macbook-pro-2021-16-inch-with-m1-max-10-core-and-24-core-gpu-64gb-ram-ssd-1tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Max 10-core 24-core GPU",
+        "ram": "64GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-32gb-ram-ssd-1tb-qwerty-english-us/7cb19749-13a9-4cb4-9ee3-191e9961cf68",
+      "uuid": "7cb19749-13a9-4cb4-9ee3-191e9961cf68",
+      "slug": "macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-32gb-ram-ssd-1tb-qwerty-english-us",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Max 10-core 32-core GPU",
+        "ram": "32GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-1tb-qwerty-english-uk/ae31be9d-795f-41d9-913f-91dc7e10bab3",
+      "uuid": "ae31be9d-795f-41d9-913f-91dc7e10bab3",
+      "slug": "macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-1tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Max 10-core 32-core GPU",
+        "ram": "64GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-2tb-qwerty-english-uk/a6f733b3-bc9f-4d4c-afb7-229d0ed257e7",
+      "uuid": "a6f733b3-bc9f-4d4c-afb7-229d0ed257e7",
+      "slug": "macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-2tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Max 10-core 32-core GPU",
+        "ram": "64GB",
+        "storage": "2TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-4tb-qwerty-english-uk/45b50f1c-7697-4a4a-83ae-2711885fa3d8",
+      "uuid": "45b50f1c-7697-4a4a-83ae-2711885fa3d8",
+      "slug": "macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-4tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Max 10-core 32-core GPU",
+        "ram": "64GB",
+        "storage": "4TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-1tb-qwerty-english-uk/a568a334-bc60-42a4-bc12-1f4298ead6de",
+      "uuid": "a568a334-bc60-42a4-bc12-1f4298ead6de",
+      "slug": "macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-1tb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Pro 10-core 16-core GPU",
+        "ram": "16GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk/34eca29e-4561-47ea-b437-0447e0d9bfc9",
+      "uuid": "34eca29e-4561-47ea-b437-0447e0d9bfc9",
+      "slug": "macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Pro 10-core 16-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Uk"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-32gb-ram-ssd-1tb-qwerty-english-us/fd952460-3579-4891-9d9a-e4302041000c",
+      "uuid": "fd952460-3579-4891-9d9a-e4302041000c",
+      "slug": "macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-32gb-ram-ssd-1tb-qwerty-english-us",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Pro 10-core 16-core GPU",
+        "ram": "32GB",
+        "storage": "1TB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-32gb-ram-ssd-512gb-qwerty-english-us/b81650d3-ace0-4e3d-a8b2-7627b21f2b83",
+      "uuid": "b81650d3-ace0-4e3d-a8b2-7627b21f2b83",
+      "slug": "macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-32gb-ram-ssd-512gb-qwerty-english-us",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2021",
+        "chip": "M1 Pro 10-core 16-core GPU",
+        "ram": "32GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English Us"
+      }
+    },
+    {
+      "url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-162-inch-2023-m2-pro-12-core-and-19-core-gpu-16gb-ram-ssd-512gb-qwerty-english/937c5a73-b367-4bc7-a817-c05f66c84572",
+      "uuid": "937c5a73-b367-4bc7-a817-c05f66c84572",
+      "slug": "macbook-pro-162-inch-2023-m2-pro-12-core-and-19-core-gpu-16gb-ram-ssd-512gb-qwerty-english",
+      "parsed": {
+        "type": "pro",
+        "size": "16",
+        "year": "2023",
+        "chip": "M2 Pro 12-core 19-core GPU",
+        "ram": "16GB",
+        "storage": "512GB",
+        "keyboard": "QWERTY English"
+      }
+    }
+  ]
+}

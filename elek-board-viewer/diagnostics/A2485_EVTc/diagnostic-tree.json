@@ -1,0 +1,170 @@
+{
+  "board": "A2485_EVTc",
+  "schematic": "820-02382",
+  "description": "Diagnostic decision tree for A2485 EVTc (MacBook Pro 16\" M1 Pro/Max). Follow sequentially from Step 1.",
+  "WARNING": "This is the EVTc variant (820-02382). Page numbers differ from EVTs (820-02100). PP3V8_AON is 42A design. 5 Monaco instances. 3 Viper power stages. USB-C 5V uses UF800 (LT8640) left and UG800 (TPS62180) right -- NOT load switches.",
+  "tree": [
+    {
+      "step": 1,
+      "check": "PPBUS_AON",
+      "probe": "C52xx area decoupling caps (page 52)",
+      "expect": "~12.6V (battery) or ~20V (adapter)",
+      "yes": "Go to Step 2",
+      "no": {
+        "diagnosis": "Charger path fault",
+        "check_sequence": [
+          "Check PPDCIN_AON (charger input, page 52)",
+          "Check SYS_DETECT signal from battery connector (U5150/Q5155, page 51)",
+          "Check CD3217/CD3218 port controllers (UF400 page 74, UF500 page 76, UG400 page 83)",
+          "Check charger IC U5200 area gate drives G1-G6 (page 52)",
+          "Check dual inductors LS230/LS231 (page 52)",
+          "Check MagSafe path: U5500 UPC5 (page 55), J5401 connector (page 54)",
+          "Thermal cam on charger area for shorted FETs"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "check": "PP3V8_AON",
+      "probe": "C57xx/C58xx area (pages 57-58), test point TP5700",
+      "expect": "3.8V",
+      "yes": "Go to Step 3",
+      "no": {
+        "diagnosis": "SVR AON (U5700) fault -- 42A design",
+        "check_sequence": [
+          "Check P3V8AON_PWR_EN (derived from SYS_DETECT, page 57)",
+          "Check P3V8AON_FAULT_L (active low fault, page 57)",
+          "Check 3-phase output and ISENSE summing amp (page 60)",
+          "Check phase 1 VSENSE gain 0.7%, phase 2/3 VSENSE gain 2%, 4:1 weight for phase 1 ATREE (page 60)",
+          "Thermal cam on U5700 and phase drivers",
+          "Check nominal thresholds BOM table (page 60): BOM1 0V=3.6/1.20, 3V8=32.7/1.20"
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "check": "PP5V_S2",
+      "probe": "TPS62130 output (CC2xx/RC2xx area, page 122)",
+      "expect": "5.14V",
+      "yes": "Go to Step 4",
+      "no": {
+        "diagnosis": "TPS62130 fault",
+        "check_sequence": [
+          "Check P5V2TPS_PWR_EN (page 122)",
+          "Check PPVZN_P5VS2TPS input",
+          "Verify SET ONE OPTION FOR PBUS CAPS selected (PACK_OPTION=5VS2TPS_PBUS-B12/D2/D12)",
+          "Startup time 4.7/7.5/10.5ms -- may need to wait"
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "check": "MPMU AON/S2 Outputs (U8100)",
+      "probe": "PMU output caps area (page 80)",
+      "expect": "PP1V8_AON, PP1V2_AON, PP1V5_AON present",
+      "yes": "Go to Step 5",
+      "no": {
+        "diagnosis": "MPMU U8100 fault",
+        "check_sequence": [
+          "Check PP3V8_AON_MPMU (ISENSE branch to U8100)",
+          "Check PPBUS_AON_MPMU (via XWB170, page 81)",
+          "Check PMU_ACTIVE_READY (page 83)",
+          "Check PMU_FAULT_INT_L (page 83)",
+          "Check MPMU BUCK output caps (page 80 left side: MASTER columns 0-10)",
+          "Thermal cam on U8100"
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "check": "SPMU S1/S2 Outputs (U7700)",
+      "probe": "SPMU output caps area (page 80 right side: SLAVE columns)",
+      "expect": "PPVDD_SOC_S1, PPVDD_DCS_S1 present",
+      "yes": "Go to Step 6",
+      "no": {
+        "diagnosis": "SPMU U7700 fault",
+        "check_sequence": [
+          "Check PP3V8_AON_SPMU (ISENSE branch to U7700)",
+          "Check SPMU_READY / SPMU_INDF (page 79)",
+          "Check SPMU BUCK output caps (page 80 right side)",
+          "Check SPMU_RESET_1N (page 79)",
+          "Note: BUCK15 is NC on sC designs (page 78)"
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "check": "Viper VR (U9300) -- PCPU domains",
+      "probe": "PPVDD_PCPU0_AWAKESW area (power stages 1, page 94)",
+      "expect": "Variable voltage present (DVFS)",
+      "yes": "Go to Step 7",
+      "no": {
+        "diagnosis": "Viper VR (U9300) fault",
+        "check_sequence": [
+          "Check PVDDVDN_FAULT_L (page 93)",
+          "Check PVDDVDN_BOOT1 signal (page 93)",
+          "Check 5 phase input cap banks PH1-PH5 (Viper support, page 92)",
+          "Check all 3 power stages: Stage 1 (page 94), Stage 2 (page 95), Stage 3 (page 96)",
+          "Check PP1V8_S1_MON_REG (Viper monitoring, page 96)",
+          "Thermal cam on Viper controller U9300 and power stage MOSFETs",
+          "Max variant: Stage 2 powers PCPU1 -- check if only Max-specific stage fails"
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "check": "Monaco VR -- GPU/Fabric domains (5 instances)",
+      "probe": "Monaco0 (UA100) output area (page 101)",
+      "expect": "Variable voltage present (DVFS)",
+      "yes": "SoC domains powered. Fault is downstream. Go to Step 8.",
+      "no": {
+        "diagnosis": "Monaco VR fault",
+        "check_sequence": [
+          "Check which Monaco instance is failing (UA100-UA500, pages 101-105)",
+          "Check CLVR GPIO connections on each instance for ALERT signals",
+          "Check CLVR fabric throttle UC000 (74AP1G06, page 120)",
+          "Check Monaco input caps (11uF APN 138500328 on each instance)",
+          "Max variant: Monaco 3 (UA400) and 4 (UA500) are Max-specific additions",
+          "Check Reference Design Overrides: Monaco 3 and 4 need MAKE_BASE fix"
+        ]
+      }
+    },
+    {
+      "step": 8,
+      "check": "Peripheral subsystems",
+      "substeps": [
+        {
+          "check": "Display",
+          "probe": "Display power sequencer UP710 (page 113), Luxe backlight UP800 (page 114)",
+          "signals": "LCD_PWR_EN, EDP_PANEL_PWR_EN, EDP_BKLT_1V29_EN, PPVOUT_LUXE"
+        },
+        {
+          "check": "USB-C 5V output",
+          "probe_left": "PP5V_USBC01 from UF800 LT8640 (page 79) -- 5.23V/6.6A",
+          "probe_right": "PP5V_USBC23 from UG800 TPS62180 (page 86) -- 5.23V/3.3A",
+          "note": "EVTc uses dedicated buck regulators, NOT load switches"
+        },
+        {
+          "check": "Storage (SSD0 + SSD1)",
+          "probe": "Ocarina LN400 (SSD0, page 104), LN900 (SSD1, page 109)",
+          "rails": "PP0V9/PP1V2/PP2V5_NAND0 and PP0V9/PP1V2/PP2V5_NAND1"
+        },
+        {
+          "check": "HDMI",
+          "probe": "Madea UK700 (page 91), UH901 3.3V LDO (page 93), UH001 1.2V VR (page 92)",
+          "rails": "PP3V3_S2SW_DP2HDMI, PP1V8_S2SW_DP2HDMI, PP1V2_S2_DP2HDMI"
+        },
+        {
+          "check": "SD Card",
+          "probe": "UK500 GL9755 (page 94), UK830 TPS62135 3.3V (page 97)",
+          "rails": "PP3V3_AWAKE_SW_SD, PP1V2_GL_LOOP"
+        },
+        {
+          "check": "Audio",
+          "probe": "6 speaker amps UR600-UR760 (pages 119-120), codec (page 118)",
+          "rails": "PP1V2_AWAKE_SPKRAMP, PP3V8_AON_C_SPKRAMP, PPBUS_AON_SPKRAMP_ADC"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "board": "A2442_CTO",
+  "schematic": "820-02443",
+  "WARNING": "CTO variant (820-02443). SVR AON is 42A design. Viper has 3 stage pages. Monaco has 5 instances (C0-C4). Page numbers differ from base.",
+  "description": "Boot power-on sequence for M1 Pro/Max CTO. Key CTO differences: 42A SVR AON, 3 Viper stage pages, 5 Monaco instances for extended Max GPU phases.",
+  "sequence": [
+    {
+      "step": 1,
+      "name": "USB-C Cable Insertion — 5V Default",
+      "action": "USB-C cable inserted. Charger provides default 5V. CD3217 (UF400/UF500/UG400) internal MOSFET passes 5V.",
+      "rail": "PPVBUS_USBC0/1/2",
+      "voltage": "5V",
+      "page": [76, 77, 85]
+    },
+    {
+      "step": 2,
+      "name": "Charger Input Active — PPDCIN_AON",
+      "action": "Charger input path enabled. Multi-FET gate drive active. CHGR_AUX_OK asserted.",
+      "rail": "PPDCIN_AON",
+      "voltage": "~5V",
+      "page": [29, 30]
+    },
+    {
+      "step": 3,
+      "name": "PPBUS_AON Established",
+      "action": "Main power bus comes up from battery (12.6V) or adapter input.",
+      "rail": "PPBUS_AON",
+      "voltage": "12.6V (battery)",
+      "test_point": "CR765 area (PPBUS_AON decoupling)",
+      "page": [28, 29]
+    },
+    {
+      "step": 4,
+      "name": "PP3V8_AON Powers Up — U5700 SVR AON (42A CTO)",
+      "action": "U5700 converts PPBUS_AON -> PP3V8_AON (3.8V, 42A max CTO). Multi-phase output with 3-phase summing amp ISENSE/ILIMIT. Feeds both PMUs + WiFi + display + USB-C.",
+      "rail": "PP3V8_AON",
+      "voltage": "3.8V",
+      "enable": "PPVAON_PWR_EN",
+      "fault": "PPVAON_FAULT_L",
+      "cto_difference": "42A design (base: 30A). BOM options: BOM0=30A, BOM1=35A, BOM2=42A",
+      "page": [34, 35, 36]
+    },
+    {
+      "step": 5,
+      "name": "SPMU & MPMU Startup — AON and S2 Rails Cascade",
+      "action": "Both PMUs receive PP3V8_AON and generate output rails in hardware-defined sequence. AON rails first, then S2, then S1.",
+      "rails_aon_first": [
+        "PP1V8_AON_SPMU (SPMU LDO AON)",
+        "PP1V2_AON_SPMU (SPMU LDO AON)",
+        "PP1V5_AON_VCORE_MPMU (MPMU internal)",
+        "PP1V5_AON_VCORE_SPMU (SPMU internal)",
+        "PP3V3_AON",
+        "PP1V8_AON",
+        "PP1V2_AON"
+      ],
+      "rails_s2_next": [
+        "PP1V2_S2 (S2 regulator)",
+        "PP1V25_S2",
+        "PP1V8_S2",
+        "PP0V72_S2_VDDLOW (SPMU BUCK 13)",
+        "PP0V855_S2SW_VDDCIO (SPMU BUCK 18)"
+      ],
+      "rails_s1_then": [
+        "PP0V81_S1_SRAM (SPMU BUCK 0)",
+        "PPVDD_SOC_S1 (MPMU BUCK 7)",
+        "PPVDD_DCS_S1 (MPMU BUCK 8)",
+        "PPVDD_FABRIC_S1 (MPMU BUCK 9)",
+        "PPVDD_FIXED_S1 (MPMU BUCK 10)"
+      ],
+      "page": [38, 39, 40, 42, 43, 44]
+    },
+    {
+      "step": 6,
+      "name": "Standalone VRs Power Up — 5V and 3V3",
+      "action": "TPS62130 generates PP5V_S2, separate VR generates PP3V3_S2. Load switches enabled for USB-C ports and HDMI.",
+      "rails": [
+        {"rail": "PP5V_S2", "voltage": "5.14V", "ic": "TPS62130", "enable": "P5VS2_PWR_EN"},
+        {"rail": "PP3V3_S2", "voltage": "3.3V", "enable": "P3V3S2_PWR_EN"},
+        {"rail": "PP5V_S2SW_USBC01", "voltage": "5V", "load": "Left USB-C ports"},
+        {"rail": "PP5V_S2SW_USBC23", "voltage": "5V", "load": "Right USB-C + HDMI"}
+      ],
+      "page": [59, 80, 88]
+    },
+    {
+      "step": 7,
+      "name": "Viper VR Powers Up — PCPU Domains (3 Stage Pages CTO)",
+      "action": "U9300 Viper VR controller starts multi-phase power stages. CTO has 3 stage pages (49-51) vs base 2. PCPU clusters receive DVFS voltage.",
+      "rails": [
+        "PPVDD_PCPU0_AWAKESW (cluster 0)",
+        "PPVDD_PCPU1_AWAKESW (cluster 1, Max only)",
+        "PPVDD_PCPU_SRAM0_AWAKESW",
+        "PPVDD_PCPU_SRAM1_AWAKESW (Max only)"
+      ],
+      "fault": "VIPER_ALERT_L",
+      "cto_difference": "3 power stage pages for additional Max CPU phases",
+      "page": [47, 48, 49, 50, 51]
+    },
+    {
+      "step": 8,
+      "name": "Monaco VR Powers Up — GPU/Fabric Domains (5 Instances CTO)",
+      "action": "Monaco VR instances start. CTO has 5 instances (C0-C4) vs base 3 (C0, C1, C4). Monaco 2 (C2) and Monaco 3 (C3) are CTO-only for extended Max GPU phases. 10 bucks per instance.",
+      "rails": [
+        "PPVDD_GPU0_AWAKESW (GPU cluster 0)",
+        "PPVDD_GPU1_AWAKESW (GPU cluster 1, Max only)",
+        "PPVDD_AGXS_ABMCCN (Monaco0 BUCK 6)",
+        "PPVDD_ECPU_AWAKE (MPMU BUCK 5)",
+        "PPVDD_ANE0_AWAKESW (MPMU BUCK 4)",
+        "PPVDD_DISP_AWAKESW (MPMU BUCK 2)",
+        "PP1V8_AWAKE (SPMU)"
+      ],
+      "signal": "PMU_ACTIVE_READY -> SoC begins hard start",
+      "cto_difference": "5 Monaco instances (C0-C4). C2 and C3 add Max GPU power phases.",
+      "page": [52, 53, 54, 55, 56, 58, 143]
+    },
+    {
+      "step": 9,
+      "name": "M1 Pro/Max Hard Start Complete — SoC Commands CD3217",
+      "action": "SoC completed OTP and hard start. Commands CD3217 to negotiate PD.",
+      "signal": "SoC -> CD3217 via CC lines",
+      "page": [76, 77, 85]
+    },
+    {
+      "step": 10,
+      "name": "PD Negotiation -> 20V Boost",
+      "action": "CD3217 negotiates 20V from charger. PPVBUS transitions 5V -> 20V. Protection isolation passes. PPBUS_AON stabilises.",
+      "rail": "PPVBUS_USBCx -> 20V",
+      "page": [76, 77, 85]
+    },
+    {
+      "step": 11,
+      "name": "Soft Start — SSD, BIOS, Display",
+      "action": "SoC reads dual SSDs (SSD0 + SSD1 via Ocarina), loads firmware, display power sequencer enables Mini-LED Liquid Retina XDR panel, Luxe backlight driver activates. Apple LOGO appears.",
+      "subsystems": [
+        "Dual SSD (Ocarina controllers, pages 106, 111)",
+        "Display power sequencer (page 115)",
+        "Luxe backlight (page 116)",
+        "HDMI (Madea, page 93) — if external display connected",
+        "SD card (page 96) — if card inserted"
+      ],
+      "page": [102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 114, 115, 116]
+    }
+  ]
+}

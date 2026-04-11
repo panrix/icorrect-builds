@@ -1,0 +1,124 @@
+{
+  "WARNING": "These test points are for A2338 M2 (820-02773) ONLY. For other boards, use that board's diagnostic files.",
+  "board": "A2338",
+  "schematic": "820-02773",
+  "title": "5V DCPS Triage — No Power / Dead Board",
+  "description": "Step-by-step diagnostic for A2338 M2 MacBook Pro 13\" presenting with no power. Uses 5V DCPS (DC Power Supply) on USB-C port. Board has NO MagSafe — USB-C only.",
+  "prerequisites": [
+    "DCPS set to 5V, current limit 3A",
+    "Multimeter with diode mode",
+    "USB-C breakout or known-good cable",
+    "Thermal camera (optional but recommended)"
+  ],
+  "steps": [
+    {
+      "step": 1,
+      "name": "Check PPVBUS_USBC0 (USB-C VBUS Port 0)",
+      "action": "Connect DCPS via USB-C to left rear port (debug port). Measure VBUS at CF400/CF401 decoupling caps.",
+      "expected": "5V on PPVBUS_USBC0",
+      "ic": "UF400 (CD3217 ATC0)",
+      "page": [61, 66],
+      "if_missing": {
+        "cause": "USB-C connector damage, open trace, or CD3217 (UF400) MOSFET failure",
+        "checks": [
+          "Inspect USB-C connector for bent/broken pins",
+          "Check continuity from USB-C VBUS pins to CF400",
+          "Check CC lines (USBC0_CC1, USBC0_CC2) for shorts to ground",
+          "Try left front port (UF500 / ATC1) instead"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "name": "Check PPBUS_AON",
+      "action": "Measure PPBUS_AON at PBUS capacitors (page 27 shows C5800-C5807 PBUS caps for SPF compliance).",
+      "expected": "Should rise toward battery voltage (~4-5V from DCPS at 5V, or 12.6V if battery connected)",
+      "ic": "U5200 (Charger IC, XMC260 inductor)",
+      "page": [25, 27],
+      "if_missing": {
+        "cause": "Charger IC U5200 fault, or input not reaching charger",
+        "checks": [
+          "Check SYS_DETECT at TP5100/TP5101 (page 24) — should be high when battery flex connected",
+          "Check CHGR_AUX_OK signal (page 26) — should be pulled up",
+          "Check for short on PPBUS_AON (diode mode on PBUS caps)",
+          "Check PPCON_ACNSW — is VBUS reaching charger input?",
+          "Measure current draw: >2A at 5V = short on PPBUS_AON"
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "name": "Check PP3V8_AON",
+      "action": "Measure PP3V8_AON at decoupling capacitors on output side of SVR AON.",
+      "expected": "3.8V",
+      "ic": "SVR AON controller (36A ICC MAX, pages 28-29)",
+      "page": [28, 29, 30],
+      "if_missing": {
+        "cause": "SVR AON controller failure, enable not asserted, or downstream short pulling rail down",
+        "checks": [
+          "Check PPVAON_PWR_EN — is the enable asserted? (U5349 delay circuit, page 26)",
+          "Check PPVAON_FAULT_L — is fault signal active low? (page 28)",
+          "Diode mode check PP3V8_AON_VDDMAIN caps — common short target",
+          "Check U5910 current sense amplifier output (page 30)",
+          "If PP3V8_AON is shorted: disconnect WiFi module (PP3V8_AON_WLBT) to isolate"
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "name": "Check MPMU AON LDOs",
+      "action": "Measure MPMU always-on LDO outputs. These should come up immediately after PP3V8_AON.",
+      "expected": {
+        "PP1V8_AON_MPMU": "1.8V (MPMU LDO 9)",
+        "PP1V2_AON_MPMU": "1.2V (MPMU LDO 9B)",
+        "PP1V05_LDOINT_MPMU": "1.05V (MPMU LDOINT)",
+        "PP3V_AON": "3.0V (MPMU LDO 2)"
+      },
+      "ic": "U8100 (MPMU)",
+      "page": [37, 110],
+      "if_missing": {
+        "cause": "MPMU U8100 failure, or short on AON LDO output",
+        "checks": [
+          "Diode mode each rail for shorts",
+          "If PP1V8_AON shorted — check for short to ground on PP1V8_AON_MPMU net",
+          "If all AON LDOs missing — U8100 itself is likely dead",
+          "Thermal camera to find hot component pulling rail down"
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "name": "Check PP5V_S2",
+      "action": "Measure PP5V_S2 at output capacitors of UC300.",
+      "expected": "5.14V",
+      "ic": "UC300 (TPS62130)",
+      "page": [43],
+      "if_missing": {
+        "cause": "UC300 failure, enable not asserted, or downstream short",
+        "checks": [
+          "Check P5VS2_PWR_EN — should be asserted after PMU startup (MPMU GPIO, page 40)",
+          "Check P5VS2TPS_PGOOD output (page 43)",
+          "Diode mode PP5V_S2 output for short",
+          "Check 5VS2_EN turn off delay (DC401/RC401, page 44)"
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "name": "Check PP3V3_S2",
+      "action": "Measure PP3V3_S2 at output capacitors of UC710.",
+      "expected": "3.3V",
+      "ic": "UC710",
+      "page": [45],
+      "if_missing": {
+        "cause": "UC710 failure, enable not asserted, or downstream short",
+        "checks": [
+          "Check P3V3S2_PWR_EN — should be asserted after PMU startup",
+          "Check P3V3S2_PGOOD output (page 45)",
+          "Diode mode PP3V3_S2 output for short",
+          "Check PP3V3_S2 discharge circuit (QC410/QC419, page 44)"
+        ]
+      }
+    }
+  ]
+}

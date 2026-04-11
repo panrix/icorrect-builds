@@ -24,6 +24,14 @@ require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const path = require('path');
 const {
+  findResolverSlot,
+  isResolverSlotLiveSafe,
+  normalizeResolverColour,
+  normalizeResolverGrade,
+  normalizeResolverSku,
+  upgradeRegistrySchema,
+} = require('./lib/resolver-truth');
+const {
   launchBatchBrowser, closeBatchBrowser, scrapeWithContext,
 } = require('./lib/v7-scraper');
 
@@ -44,6 +52,7 @@ const BM_TELEGRAM_CHAT = '-1003888456344';
 
 const PROFITABILITY_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'buyback-profitability-lookup.json');
 const BM_CATALOG_PATH = path.join(__dirname, '..', 'data', 'bm-catalog.json');
+const REGISTRY_PATH = path.join(__dirname, '..', 'data', 'listings-registry.json');
 
 const autoBump = process.argv.includes('--auto-bump');
 const dryRun = process.argv.includes('--dry-run');
@@ -59,6 +68,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 // ─── Profitability lookup (real data) ────────────────────────────
 let _profLookup = null;
 let _bmCatalog = null;
+let _resolverRegistry = null;
 function loadProfitabilityLookup() {
   if (_profLookup !== null) return _profLookup;
   try {
@@ -83,6 +93,19 @@ function loadBmCatalog() {
     console.log('  No BM catalog found — live variant verification disabled');
   }
   return _bmCatalog;
+}
+
+function loadResolverRegistry() {
+  if (_resolverRegistry !== null) return _resolverRegistry;
+  try {
+    const raw = JSON.parse(fs.readFileSync(REGISTRY_PATH, 'utf8'));
+    _resolverRegistry = upgradeRegistrySchema(raw).registry;
+    console.log(`  Loaded resolver registry: ${Object.keys(_resolverRegistry.slots || {}).length} slots`);
+  } catch {
+    _resolverRegistry = { slots: {} };
+    console.log('  No resolver registry found — managed variant verification disabled');
+  }
+  return _resolverRegistry;
 }
 
 function normalizeColour(colour) {
@@ -367,21 +390,22 @@ async function getMainItemContext(mainItemId) {
   };
 }
 
-function assessVariantIntegrity(listing, mainContext) {
+function assessRawCatalogIntegrity(listing, mainContext) {
   const productId = String(listing.product_id || listing.product || listing.uuid || '').trim();
   const catalog = loadBmCatalog();
   const variant = catalog[productId];
   if (!productId) {
-    return { ok: false, reason: 'live listing missing product_id', severity: 'critical' };
+    return { ok: false, reason: 'live listing missing product_id', severity: 'warning', autoOffline: false };
   }
   if (!variant) {
-    return { ok: false, reason: `product_id ${productId} not found in bm-catalog.json`, severity: 'critical', productId };
+    return { ok: false, reason: `product_id ${productId} not found in bm-catalog.json`, severity: 'warning', autoOffline: false, productId };
   }
   if (variant.verification_status !== 'verified') {
     return {
       ok: false,
       reason: `catalog variant not verified (${variant.verification_status || 'unknown'})`,
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -393,7 +417,8 @@ function assessVariantIntegrity(listing, mainContext) {
     return {
       ok: false,
       reason: `main-board colour missing; catalog says ${variant.colour || 'blank'}`,
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -402,7 +427,8 @@ function assessVariantIntegrity(listing, mainContext) {
     return {
       ok: false,
       reason: 'catalog colour missing',
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -411,7 +437,8 @@ function assessVariantIntegrity(listing, mainContext) {
     return {
       ok: false,
       reason: `colour mismatch: Monday="${mainContext.colour}" vs catalog="${variant.colour}"`,
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -423,7 +450,8 @@ function assessVariantIntegrity(listing, mainContext) {
     return {
       ok: false,
       reason: `main-board final grade missing/unmapped (${mainContext?.finalGrade || 'blank'})`,
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -432,7 +460,8 @@ function assessVariantIntegrity(listing, mainContext) {
     return {
       ok: false,
       reason: 'live listing grade missing/unmapped',
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -441,7 +470,8 @@ function assessVariantIntegrity(listing, mainContext) {
     return {
       ok: false,
       reason: `grade mismatch: Monday="${mainContext.finalGrade}" -> ${expectedGrade} vs live="${liveGrade}"`,
-      severity: 'critical',
+      severity: 'warning',
+      autoOffline: false,
       productId,
       variant,
     };
@@ -449,11 +479,213 @@ function assessVariantIntegrity(listing, mainContext) {
 
   return {
     ok: true,
+    autoOffline: false,
+    managed: false,
+    authoritativeSource: 'bm-catalog-advisory',
     productId,
     variant,
     expectedColour: mainContext.colour,
     expectedGrade: expectedGrade,
     liveGrade,
+  };
+}
+
+function assessResolverManagedIntegrity(listing, mainContext, resolverSlot) {
+  const productId = String(listing.product_id || listing.product || listing.uuid || '').trim();
+  const resolverProductId = String(resolverSlot?.product_id || '').trim();
+  const resolverSku = normalizeResolverSku(resolverSlot?.sku || '');
+  const listingSku = normalizeResolverSku(listing.sku || '');
+  const expectedColour = normalizeResolverColour(mainContext?.colour);
+  const resolverColour = normalizeResolverColour(resolverSlot?.colour);
+  const expectedGrade = mapFinalGradeToBmGrade(mainContext?.finalGrade);
+  const liveGrade = normaliseGrade(listing.grade);
+  const resolverGrade = normalizeResolverGrade(resolverSlot?.grade);
+
+  if (!productId) {
+    return { ok: false, reason: 'resolver-managed listing missing product_id', severity: 'critical', autoOffline: true, managed: true, authoritativeSource: 'resolver', resolverSlot };
+  }
+  if (!resolverProductId) {
+    return { ok: false, reason: 'resolver entry missing product_id', severity: 'critical', autoOffline: true, managed: true, authoritativeSource: 'resolver', resolverSlot };
+  }
+  if (productId !== resolverProductId) {
+    return {
+      ok: false,
+      reason: `resolver product_id mismatch: live="${productId}" vs resolver="${resolverProductId}"`,
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (resolverSku && listingSku && resolverSku !== listingSku) {
+    // Determine if the mismatch is semantic (different device) or cosmetic (format/chip tokens added)
+    // Extract critical fields: model number, RAM, storage, colour, grade
+    function extractSkuCritical(sku) {
+      const parts = sku.toUpperCase().split('.');
+      const model = parts.find(p => /^A\d{4}$/.test(p)) || '';
+      const ram = parts.find(p => /^\d+(GB|TB)$/.test(p) && parseInt(p) <= 128) || '';
+      const storage = parts.find(p => /^\d+(GB|TB)$/.test(p) && parseInt(p) > 128) || '';
+      const gradeRaw = parts.find(p => ['FAIR','GOOD','EXCELLENT','VERYGOOD','VERY_GOOD','VGOOD','VERY'].includes(p) || p.startsWith('VERY')) || '';
+      const gradeMap = { 'VGOOD': 'VERYGOOD', 'VERY_GOOD': 'VERYGOOD', 'VERYGOOD': 'VERYGOOD', 'EXCELLENT': 'EXCELLENT', 'GOOD': 'GOOD', 'FAIR': 'FAIR' };
+      const grade = gradeMap[gradeRaw] || gradeRaw;
+      const colour = parts.find(p => ['GREY','GRAY','SILVER','GOLD','MIDNIGHT','STARLIGHT','SPACEBLACK','SPACEGREY','SPACEGRAY','BLACK','WHITE','BLUE','GREEN','PURPLE','PINK','RED'].includes(p)) || '';
+      return { model, ram, storage, grade, colour };
+    }
+    const liveCritical = extractSkuCritical(listingSku);
+    const resolverCritical = extractSkuCritical(resolverSku);
+    const semanticMismatch =
+      (liveCritical.model && resolverCritical.model && liveCritical.model !== resolverCritical.model) ||
+      (liveCritical.colour && resolverCritical.colour && liveCritical.colour !== resolverCritical.colour) ||
+      (liveCritical.grade && resolverCritical.grade && liveCritical.grade !== resolverCritical.grade) ||
+      (liveCritical.ram && resolverCritical.ram && liveCritical.ram !== resolverCritical.ram) ||
+      (liveCritical.storage && resolverCritical.storage && liveCritical.storage !== resolverCritical.storage);
+
+    if (semanticMismatch) {
+      return {
+        ok: false,
+        reason: `resolver SKU mismatch: live="${listing.sku}" vs resolver="${resolverSlot.sku}"`,
+        severity: 'critical',
+        autoOffline: true,
+        managed: true,
+        authoritativeSource: 'resolver',
+        resolverSlot,
+      };
+    } else {
+      // Format-only difference (chip/GPU tokens, capitalisation, prefix style) — warn, do not offline
+      return {
+        ok: false,
+        reason: `resolver SKU format difference (non-critical): live="${listing.sku}" vs resolver="${resolverSlot.sku}"`,
+        severity: 'warning',
+        autoOffline: false,
+        managed: true,
+        authoritativeSource: 'resolver',
+        resolverSlot,
+      };
+    }
+  }
+  if (!expectedColour) {
+    return {
+      ok: false,
+      reason: `main-board colour missing; resolver says ${resolverSlot?.colour || 'blank'}`,
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (!resolverColour) {
+    return {
+      ok: false,
+      reason: 'resolver colour missing',
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (expectedColour !== resolverColour) {
+    return {
+      ok: false,
+      reason: `colour mismatch: Monday="${mainContext?.colour || ''}" vs resolver="${resolverSlot?.colour || ''}"`,
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (!expectedGrade) {
+    return {
+      ok: false,
+      reason: `main-board final grade missing/unmapped (${mainContext?.finalGrade || 'blank'})`,
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (!liveGrade) {
+    return {
+      ok: false,
+      reason: 'live listing grade missing/unmapped',
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (expectedGrade !== liveGrade) {
+    return {
+      ok: false,
+      reason: `grade mismatch: Monday="${mainContext?.finalGrade || ''}" -> ${expectedGrade} vs live="${liveGrade}"`,
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+  if (resolverGrade && liveGrade !== resolverGrade) {
+    return {
+      ok: false,
+      reason: `resolver grade mismatch: live="${liveGrade}" vs resolver="${resolverGrade}"`,
+      severity: 'critical',
+      autoOffline: true,
+      managed: true,
+      authoritativeSource: 'resolver',
+      resolverSlot,
+    };
+  }
+
+  return {
+    ok: true,
+    autoOffline: false,
+    managed: true,
+    authoritativeSource: 'resolver',
+    resolverSlot,
+    productId,
+    expectedColour: mainContext?.colour || '',
+    expectedGrade,
+    liveGrade,
+  };
+}
+
+function assessVariantIntegrity(listing, mainContext) {
+  const productId = String(listing.product_id || listing.product || listing.uuid || '').trim();
+  const resolverRegistry = loadResolverRegistry();
+  const resolverSlot = findResolverSlot(resolverRegistry, {
+    listingId: listing.listing_id,
+    sku: listing.sku,
+    productId,
+    grade: listing.grade,
+  });
+
+  if (resolverSlot && isResolverSlotLiveSafe(resolverSlot)) {
+    return assessResolverManagedIntegrity(listing, mainContext, resolverSlot);
+  }
+
+  const advisory = assessRawCatalogIntegrity(listing, mainContext);
+  if (!advisory.ok) {
+    return {
+      ...advisory,
+      alertOnly: true,
+      managed: false,
+      authoritativeSource: 'unmanaged',
+      reason: `unmanaged listing: ${advisory.reason}`,
+    };
+  }
+
+  return {
+    ...advisory,
+    alertOnly: false,
+    managed: false,
+    authoritativeSource: 'unmanaged',
+    advisoryReason: 'no canonical resolver truth; raw catalog check is advisory only',
   };
 }
 
@@ -570,7 +802,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       netStr = `£${r(atCurrent.net)}`;
       marginStr = `${atCurrent.margin}%`;
     }
-    lines.push(`✅ Winning: ${listing.title}`);
+    lines.push(`✅ Winning: ${listing.sku || listing.title}`);
     lines.push(`BM#: ${listing.listing_id} | Price: £${currentPrice.toFixed(0)} | Net: ${netStr} (${marginStr})`);
     lines.push(marketLine);
 
@@ -591,10 +823,10 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
       // Bump eligible
       const tier = parseFloat(atWin.margin) >= 30 ? '30%+' : '15-30%';
       action = `Bump eligible (${tier} tier) — flagged for review`;
-      lines.push(`⚠️ Not winning: ${listing.title}`);
+      lines.push(`⚠️ Not winning: ${listing.sku || listing.title}`);
     } else {
       // Cannot win profitably
-      lines.push(`🚫 Cannot win profitably: ${listing.title}`);
+      lines.push(`🚫 Cannot win profitably: ${listing.sku || listing.title}`);
     }
 
     lines.push(`BM#: ${listing.listing_id} | Listed: ${daysListed != null ? `${daysListed} days` : 'N/A'}`);
@@ -626,7 +858,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
 
   // ─── Card type: Error / no price-to-win ───
   } else {
-    lines.push(`⚠️ ${listing.title}`);
+    lines.push(`⚠️ ${listing.sku || listing.title}`);
     lines.push(`BM#: ${listing.listing_id} | Price: £${currentPrice.toFixed(0)}`);
     if (buyBox.error) {
       lines.push(`Buy box: Error — ${buyBox.error}`);
@@ -640,7 +872,9 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   const statuses = [];
 
   if (variantCheck && !variantCheck.ok) {
-    statuses.push(`⛔ Variant mismatch: ${variantCheck.reason}`);
+    statuses.push(`${variantCheck.autoOffline ? '⛔' : '⚠️'} Variant ${variantCheck.autoOffline ? 'mismatch' : 'alert'}: ${variantCheck.reason}`);
+  } else if (variantCheck && !variantCheck.managed && variantCheck.advisoryReason) {
+    statuses.push(`⚠️ Unmanaged listing: ${variantCheck.advisoryReason}`);
   }
 
   if (buyBox.error) {
@@ -694,7 +928,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
 }
 
 // ─── Main ─────────────────────────────────────────────────────────
-(async () => {
+async function main() {
   console.log('═'.repeat(60));
   console.log(`  Buy Box Check — ${dryRun ? 'DRY RUN' : (autoBump ? 'AUTO-BUMP' : 'CHECK ONLY')}`);
   console.log(`  ${new Date().toISOString()}`);
@@ -722,6 +956,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     unprofitable: 0,
     inversions: 0,
     variantMismatch: 0,
+    variantAlert: 0,
     missingCost: 0,
     stale: 0,
     errors: 0,
@@ -820,12 +1055,18 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     let variantIssue = null;
     let offlinedForVariant = false;
     if (!variantCheck.ok) {
-      variantIssue = `⛔ VARIANT MISMATCH: ${variantCheck.reason}`;
-      summary.variantMismatch++;
-      if (dryRun) {
+      const issuePrefix = variantCheck.autoOffline ? '⛔ VARIANT MISMATCH' : '⚠️ VARIANT ALERT';
+      variantIssue = `${issuePrefix}: ${variantCheck.reason}`;
+      if (variantCheck.autoOffline) {
+        summary.variantMismatch++;
+      } else {
+        summary.variantAlert++;
+      }
+
+      if (dryRun && variantCheck.autoOffline) {
         variantIssue += ' → WOULD AUTO-OFFLINE';
         alerts.push(`⛔ WOULD AUTO-OFFLINE ${listing.sku}: ${variantCheck.reason}`);
-      } else {
+      } else if (variantCheck.autoOffline) {
         try {
           await bmApi(`/ws/listings/${lid}`, { method: 'POST', body: { quantity: 0 } });
           offlinedForVariant = true;
@@ -835,6 +1076,9 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
           console.error(`  ❌ Failed to offline variant-mismatch listing ${lid}: ${e.message}`);
           alerts.push(`⛔ VARIANT MISMATCH ${listing.sku}: ${variantCheck.reason} (offline failed)`);
         }
+      } else {
+        variantIssue += ' → ALERT ONLY';
+        alerts.push(`⚠️ ALERT ONLY ${listing.sku}: ${variantCheck.reason}`);
       }
     }
 
@@ -886,7 +1130,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     console.log('\n' + card.lines + '\n');
 
     // Step 6: Auto-bump if enabled
-    if (!dryRun && autoBump && variantCheck.ok && !buyBox.isWinning && buyBox.priceToWin) {
+    if (!dryRun && autoBump && variantCheck.ok && variantCheck.managed && !buyBox.isWinning && buyBox.priceToWin) {
       // Use real profitability data when available (more accurate than Monday's single-item costs)
       let marginOk = false;
       let marginSource = '';
@@ -958,6 +1202,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   console.log(`  Unprofitable:${summary.unprofitable}`);
   console.log(`  Inversions:  ${summary.inversions}`);
   console.log(`  Variant mm:  ${summary.variantMismatch}`);
+  console.log(`  Variant alt: ${summary.variantAlert}`);
   console.log(`  Missing cost:${summary.missingCost}`);
   console.log(`  Stale (21d+):${summary.stale}`);
   console.log(`  Qty mismatch:${summary.qtyMismatch || 0}`);
@@ -998,6 +1243,7 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   if (summary.unprofitable > 0) tgLines.push(`⛔ Unprofitable: ${summary.unprofitable}`);
   if (summary.inversions > 0) tgLines.push(`⛔ Grade inversions: ${summary.inversions}`);
   if (summary.variantMismatch > 0) tgLines.push(`⛔ Variant mismatches: ${summary.variantMismatch}`);
+  if (summary.variantAlert > 0) tgLines.push(`⚠️ Variant alerts (unmanaged): ${summary.variantAlert}`);
   if (summary.missingCost > 0) tgLines.push(`⚠️ Missing cost data: ${summary.missingCost}`);
   if ((summary.qtyMismatch || 0) > 0) tgLines.push(`⛔ Qty mismatch (offlined): ${summary.qtyMismatch}`);
   if (summary.stale > 0) tgLines.push(`🔴 Stale 21d+: ${summary.stale}`);
@@ -1017,4 +1263,17 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   const fullReport = allCards.map(c => c.lines).join('\n\n' + '─'.repeat(40) + '\n\n');
   fs.writeFileSync(outFile, fullReport);
   console.log(`\nFull report saved to ${outFile}`);
-})();
+}
+
+if (require.main === module) {
+  main().catch(error => {
+    console.error(error);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  assessVariantIntegrity,
+  loadResolverRegistry,
+  main,
+};
