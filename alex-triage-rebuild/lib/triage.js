@@ -391,7 +391,7 @@ export function isActionableConversation(conversation, messages) {
   }
 
   // Hard spam: always blocked, even if repair keywords are present.
-  // These are suppliers selling TO iCorrect, phishing, reputation scams.
+  // These are suppliers selling TO iCorrect, phishing, reputation scams, manufacturing spam.
   const hardSpamPatterns = [
     () => combinedText.includes("moq requested"),
     () => combinedText.includes("moq") && senderEmail.includes(".cn"),
@@ -409,6 +409,11 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("trustpilot") && combinedText.includes("reputation"),
     () => combinedText.includes("reviews being removed"),
     () => combinedText.includes("hard-earned reputation"),
+    // Chinese manufacturing / PCB / component spam (non-repair supplier)
+    () => getEmailDomain(senderEmail).endsWith(".cn") && !repairIntent,
+    // Platform/contribution phishing/scam
+    () => combinedText.includes("contributing to our platform"),
+    () => combinedText.includes("your account has been") && combinedText.includes("platform"),
   ];
 
   if (hardSpamPatterns.some((check) => check())) {

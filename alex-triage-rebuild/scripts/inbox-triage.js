@@ -124,6 +124,9 @@ async function main() {
         existingConversation: existing
       });
       if (!decision.include) {
+        const excludeSender = conversation.source?.author?.email || "unknown";
+        const excludeSubject = (conversation.source?.subject || conversation.title || "").slice(0, 50);
+        console.log(`[excluded] ${conversation.id} reason=${decision.reason} sender=${excludeSender} subject=${excludeSubject}`);
         continue;
       }
 
