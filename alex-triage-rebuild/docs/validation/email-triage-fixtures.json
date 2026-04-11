@@ -253,8 +253,8 @@
     }
   },
   {
-    "id": "contact-form-forward-excluded",
-    "description": "Internal michael.f Contact Form forward must be excluded as noise",
+    "id": "contact-form-forward-included",
+    "description": "michael.f Contact Form forward is a real customer enquiry (mis-attributed) and must be included",
     "checkpoint": "2026-04-09T00:00:00.000Z",
     "conversation": {
       "id": "900010",
@@ -275,7 +275,8 @@
     "price": null,
     "existingConversation": null,
     "expected": {
-      "decision": "exclude_noise"
+      "decision": "post",
+      "type": "new_enquiry"
     }
   },
   {

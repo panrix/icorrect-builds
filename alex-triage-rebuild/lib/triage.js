@@ -97,9 +97,12 @@ function isNoiseConversation(conversation, messages = []) {
   const senderDomain = getEmailDomain(senderEmail);
   const senderLocalPart = senderEmail.includes("@") ? senderEmail.split("@")[0] : "";
 
+  // Quote Request notifications are "quote already sent" confirmations — always noise.
+  // Contact Form forwards are real customer enquiries mis-attributed to michael.f
+  // due to the n8n SMTP hack. Keep them until the webhook migration ships.
   if (
     senderEmail === "michael.f@icorrect.co.uk" &&
-    (subject.startsWith("contact form:") || subject.startsWith("quote request:"))
+    subject.startsWith("quote request:")
   ) {
     return true;
   }
@@ -479,7 +482,14 @@ export function isActionableConversation(conversation, messages) {
   }
 
   if (lastMessage.author_type === "admin") {
-    return false;
+    // michael.f Contact Form forwards are customer enquiries mis-attributed as admin.
+    // Treat them as actionable until the webhook migration fixes attribution.
+    const isMichaelFContactForm =
+      senderEmail === "michael.f@icorrect.co.uk" &&
+      subject.startsWith("contact form:");
+    if (!isMichaelFContactForm) {
+      return false;
+    }
   }
 
   return true;
