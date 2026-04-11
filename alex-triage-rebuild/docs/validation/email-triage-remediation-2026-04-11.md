@@ -10,8 +10,9 @@
 ## Runtime Evidence Before Restart
 
 - SQLite checkpoints are still stale in the live repo data: `last_successful_check_at=2026-04-08T07:46:02.522Z`, `last_successful_morning_at=2026-04-09T08:50:43.530Z`.
-- SQLite currently has `63` pending conversations, with `25` pending rows still missing Telegram message ids.
+- SQLite currently has `65` pending conversations, with `27` pending rows still missing Telegram message ids.
 - Existing Telegram-posted evidence is present in SQLite: conversations `215473526683969`, `215473828667086`, `215473838643895`, and `215472862153240` have Telegram ids `1945`, `1944`, `1943`, and `1942` in chat `-1003822970061`, thread `774`.
+- Existing thread `774` rows prove historical posting happened, but they do not prove a fresh end-to-end post-fix live run or checkpoint advancement.
 - Pricing operational state is now refreshed: `data/pricing.json` contains `879` entries, and `data/cron-pricing-sync.log` shows the old `250` count on 2026-04-09/10 and `879` on 2026-04-11 05:00 UTC.
 
 ## Validation Cases
@@ -48,8 +49,8 @@
 
 ### 7. Card posts to Telegram with message id recorded
 - Expected outcome: post into the email topic and persist `telegram_message_id`/chat/thread ids.
-- Actual outcome: PASS on existing runtime evidence in SQLite; multiple rows already persist Telegram ids in thread `774`.
-- Notes: Code is now stricter and will throw if Telegram returns HTTP 200 without `ok=true` and `result.message_id`.
+- Actual outcome: NOT YET PROVEN from current QA evidence. SQLite shows older thread `774` rows with persisted Telegram ids, but this pack does not prove a fresh live post after deploy.
+- Notes: Acceptance remains open until one controlled live run lands a new card in thread `774`, persists a new `telegram_message_id` in SQLite, and advances the relevant checkpoint beyond the stale values above. Code is now stricter and will throw if Telegram returns HTTP 200 without `ok=true` and `result.message_id`.
 
 ### 8. Approve / Edit / Escalate / Snooze behaviour
 - Expected outcome: approve once, retry Monday sync without double-send, edit refreshes card, escalate tags/note, snooze reposts once due.
@@ -71,9 +72,12 @@
 ## Blockers / Caution
 
 - I did not execute a fresh live Telegram post from this sandbox, so the post-fix checkpoint advance has not been re-proven against the real Telegram API from this environment.
-- Because the live repo data still shows stale checkpoints, the operational cutover step remains: reinstall the updated cron and observe one successful live run that writes a new checkpoint and Telegram message id.
+- Because the live repo data still shows stale checkpoints, QA acceptance criteria are not yet met.
+- The missing proof points are still: a new Telegram card lands in thread `774`, a new `telegram_message_id` persists in SQLite, and the relevant checkpoint advances beyond the stale values above.
+- The operational cutover step remains: reinstall the updated cron and observe one successful controlled live run that proves those three points.
 
 ## Go / No-Go
 
-- Recommendation: `NO-GO` for immediate uncontrolled restart.
-- Condition to move to `GO`: deploy the updated cron/runtime, run one controlled live check, and confirm in SQLite that a newly posted conversation records `telegram_message_id` and advances the relevant checkpoint beyond 2026-04-09/2026-04-08.
+- Recommendation: `NO-GO` for any immediate ready-for-restart claim.
+- `GO` is limited to one controlled live verification run after deploy.
+- Acceptance does not move to `GO` until that run lands a new card in thread `774`, persists a new `telegram_message_id` in SQLite, and advances the relevant checkpoint beyond `2026-04-08T07:46:02.522Z` / `2026-04-09T08:50:43.530Z`.

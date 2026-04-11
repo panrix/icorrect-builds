@@ -3,6 +3,7 @@
 ## Scope
 
 Email triage only. Quote triage excluded from live validation. Live posting remains disabled unless `ALEX_ENABLE_LIVE_POSTING=1`.
+This fixture pack does not prove a fresh live Telegram post, SQLite `telegram_message_id` persistence for a newly posted card, or checkpoint advancement in the real runtime.
 
 ## Hard Guards
 
@@ -83,4 +84,5 @@ Email triage only. Quote triage excluded from live validation. Live posting rema
 
 - Passed: 6/6
 - Failed: 0/6
-- Go/No-Go: GO only when all tests pass and live posting remains gated behind `ALEX_ENABLE_LIVE_POSTING=1`.
+- Go/No-Go: `NO-GO` for any immediate ready-for-restart claim. These fixture cases passed, but QA acceptance for end-to-end live posting is still unproven.
+- Required for `GO`: one controlled live run after deploy must land a new Telegram card in thread `774`, persist a new `telegram_message_id` in SQLite, and advance the relevant checkpoint beyond the stale values in SQLite.
