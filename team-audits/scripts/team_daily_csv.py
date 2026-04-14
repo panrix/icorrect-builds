@@ -41,6 +41,32 @@ BM_SHIPPING_COST = 15      # £15 flat
 COMPLETED_STATUSES = ["Repaired", "Part Repaired", "Refurbed", "Collected", "Delivered"]
 PAUSED_STATUSES = ["Repair Paused", "Awaiting Part", "Awaiting Info"]
 
+# ============================================================
+# CS TRACKING CONFIG (client_services role)
+# ============================================================
+#
+# Attribution methodology (Intercom):
+#   Ferrari uses a shared admin account (ID 9702337, "Support"). All non-automated
+#   replies from this account are attributed to Ferrari. Two exclusion rules:
+#     1. Messages with app_package_code == "n8n-automations-nkor" are n8n
+#        workflow automations (device received, repair complete, etc.) — excluded.
+#     2. Bot ID 9702338 ("Alex") is already a different author — excluded by ID.
+#   Signature matching ("Kind regards, Michael") is available as backup but
+#   unnecessary given the above filter is sufficient per the Feb 2026 audit.
+#   Cross-referencing with Monday active hours adds noise without improving accuracy.
+#
+# Phone (TeleSphere CDR): No live CDR feed exists. The telephone-inbound server
+#   (port 8003) is a Slack slash command logger, not a CDR source. Phone metrics
+#   return N/A pending a live TeleSphere API integration.
+#
+# Leads conversion (to_quote / to_job): Requires Intercom conversation →
+#   Monday job cross-reference (no reliable join key exists). Returned as N/A.
+#
+INTERCOM_API_URL_BASE = "https://api.intercom.io"
+INTERCOM_ADMIN_ID = "9702337"          # Shared "Support" account (Ferrari + automations)
+INTERCOM_N8N_APP_CODE = "n8n-automations-nkor"  # Exclude these automated messages
+CS_WORKING_HOURS = 8                   # Ferrari's contracted hours for utilisation calc
+
 # Columns to fetch for item details
 ITEM_COLUMNS = [
     'time_tracking93',       # Refurb Time
@@ -124,9 +150,26 @@ def load_token():
         env_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), '.env')
     with open(env_path) as f:
         for line in f:
-            if line.startswith('MONDAY_APP_TOKEN='):
+            if line.startswith('MONDAY_APP_TOKEN=') or line.startswith('MONDAY_API_TOKEN='):
                 return line.strip().split('=', 1)[1]
-    raise ValueError("MONDAY_APP_TOKEN not found in .env")
+    raise ValueError("MONDAY_APP_TOKEN or MONDAY_API_TOKEN not found in .env")
+
+
+def load_intercom_token():
+    """Load Intercom API token from /home/ricky/config/.env or api-keys/.env"""
+    for env_path in ["/home/ricky/config/.env", "/home/ricky/config/api-keys/.env"]:
+        if not os.path.exists(env_path):
+            continue
+        try:
+            with open(env_path) as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith("INTERCOM_API_TOKEN="):
+                        return line.split("=", 1)[1].strip()
+        except Exception:
+            pass
+    print("  WARNING: INTERCOM_API_TOKEN not found in config — Intercom metrics will be N/A")
+    return None
 
 
 # ============================================================
@@ -743,6 +786,278 @@ def calc_max_capacity(rows):
 
 
 # ============================================================
+# CS METRICS HELPERS (client_services role only)
+# ============================================================
+
+def intercom_request(method, path, token, payload=None):
+    """Make Intercom API request; return parsed JSON or None on failure."""
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Intercom-Version": "2.11",
+    }
+    url = f"{INTERCOM_API_URL_BASE}{path}"
+    try:
+        if method == "GET":
+            resp = requests.get(url, headers=headers, timeout=30)
+        else:
+            resp = requests.post(url, headers=headers, json=payload, timeout=30)
+        if resp.status_code in (200, 201):
+            return resp.json()
+        print(f"  WARNING: Intercom {method} {path} → {resp.status_code}: {resp.text[:200]}")
+        return None
+    except Exception as e:
+        print(f"  WARNING: Intercom request failed: {e}")
+        return None
+
+
+def _intercom_search_conversations(day_start, day_end, token):
+    """Search Intercom for conversations where admin last replied within [day_start, day_end].
+
+    Returns list of conversation objects (lightweight, from search endpoint).
+    Caps at 300 to avoid excessive API usage.
+    """
+    payload = {
+        "query": {
+            "operator": "AND",
+            "value": [
+                {"field": "statistics.last_admin_reply_at", "operator": ">", "value": day_start - 1},
+                {"field": "statistics.last_admin_reply_at", "operator": "<", "value": day_end + 1},
+            ],
+        },
+        "pagination": {"per_page": 150},
+    }
+    result = intercom_request("POST", "/conversations/search", token, payload)
+    if not result:
+        return None
+
+    conversations = list(result.get("conversations", []))
+    cursor = (result.get("pages") or {}).get("next", {})
+    cursor_val = cursor.get("starting_after") if isinstance(cursor, dict) else None
+
+    while cursor_val and len(conversations) < 300:
+        paged = dict(payload)
+        paged["pagination"] = {"per_page": 150, "starting_after": cursor_val}
+        paged_result = intercom_request("POST", "/conversations/search", token, paged)
+        if not paged_result:
+            break
+        conversations.extend(paged_result.get("conversations", []))
+        next_page = (paged_result.get("pages") or {}).get("next", {})
+        cursor_val = next_page.get("starting_after") if isinstance(next_page, dict) else None
+
+    return conversations
+
+
+def fetch_intercom_cs_metrics(date_str, token):
+    """
+    Fetch Ferrari's Intercom CS metrics for a single day.
+
+    Returns a dict with keys:
+      intercom_conversations_handled, intercom_avg_response_time_hrs,
+      intercom_median_response_time_hrs, intercom_under_2h_pct,
+      intercom_over_24h_count
+
+    On API failure: all values return "N/A" (script does not crash).
+    """
+    na_row = {
+        "intercom_conversations_handled": "N/A",
+        "intercom_avg_response_time_hrs": "N/A",
+        "intercom_median_response_time_hrs": "N/A",
+        "intercom_under_2h_pct": "N/A",
+        "intercom_over_24h_count": "N/A",
+    }
+    if not token:
+        return na_row
+
+    day_start = int(datetime.strptime(date_str, "%Y-%m-%d").timestamp())
+    day_end = day_start + 86399
+
+    conv_list = _intercom_search_conversations(day_start, day_end, token)
+    if conv_list is None:
+        return na_row
+
+    if not conv_list:
+        return {
+            "intercom_conversations_handled": 0,
+            "intercom_avg_response_time_hrs": "N/A",
+            "intercom_median_response_time_hrs": "N/A",
+            "intercom_under_2h_pct": "N/A",
+            "intercom_over_24h_count": 0,
+        }
+
+    response_times_hrs = []
+    conversations_handled = set()
+    over_24h_count = 0
+
+    for conv in conv_list:
+        conv_id = conv.get("id")
+        if not conv_id:
+            continue
+
+        # Fetch full conversation to access parts
+        detail = intercom_request("GET", f"/conversations/{conv_id}?display_as=plaintext", token)
+        if not detail:
+            continue
+
+        parts = detail.get("conversation_parts", {}).get("conversation_parts", [])
+
+        # Find Ferrari's manual replies on this day (exclude n8n automation)
+        ferrari_replies_today = [
+            p for p in parts
+            if (
+                (p.get("author") or {}).get("type") == "admin"
+                and (p.get("author") or {}).get("id") == INTERCOM_ADMIN_ID
+                and p.get("app_package_code", "") != INTERCOM_N8N_APP_CODE
+                and p.get("part_type") not in ("away_mode_assignment", "assignment", "note", "")
+                and day_start <= (p.get("created_at") or 0) <= day_end
+            )
+        ]
+
+        if not ferrari_replies_today:
+            time_module.sleep(0.05)
+            continue
+
+        conversations_handled.add(conv_id)
+        first_reply_ts = ferrari_replies_today[0]["created_at"]
+
+        # Response time = last customer message before Ferrari's first reply today
+        all_parts_sorted = sorted(
+            [p for p in parts if p.get("created_at")],
+            key=lambda x: x["created_at"],
+        )
+        last_customer_ts = None
+        for p in all_parts_sorted:
+            if p["created_at"] >= first_reply_ts:
+                break
+            if (p.get("author") or {}).get("type") in ("user", "lead", "contact"):
+                last_customer_ts = p["created_at"]
+
+        # Fallback: use conversation created_at as proxy for customer message time
+        if not last_customer_ts:
+            created_at = detail.get("created_at")
+            if created_at and created_at < first_reply_ts:
+                last_customer_ts = created_at
+
+        if last_customer_ts:
+            hrs = (first_reply_ts - last_customer_ts) / 3600
+            response_times_hrs.append(hrs)
+            if hrs > 24:
+                over_24h_count += 1
+
+        time_module.sleep(0.08)  # Intercom rate limit: ~83 req/10s
+
+    handled_count = len(conversations_handled)
+
+    if not response_times_hrs:
+        return {
+            "intercom_conversations_handled": handled_count,
+            "intercom_avg_response_time_hrs": "N/A",
+            "intercom_median_response_time_hrs": "N/A",
+            "intercom_under_2h_pct": "N/A",
+            "intercom_over_24h_count": over_24h_count,
+        }
+
+    avg_hrs = round(sum(response_times_hrs) / len(response_times_hrs), 2)
+    s = sorted(response_times_hrs)
+    n = len(s)
+    median_hrs = round(s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2, 2)
+    under_2h_pct = round(sum(1 for t in response_times_hrs if t <= 2) / n * 100, 1)
+
+    return {
+        "intercom_conversations_handled": handled_count,
+        "intercom_avg_response_time_hrs": avg_hrs,
+        "intercom_median_response_time_hrs": median_hrs,
+        "intercom_under_2h_pct": under_2h_pct,
+        "intercom_over_24h_count": over_24h_count,
+    }
+
+
+def fetch_leads_cs_metrics(date_str, token):
+    """
+    Fetch inbound lead metrics from Intercom for a single day.
+
+    contact_form_leads_received: conversations created today (new inbound enquiries).
+    leads_replied_personally: those where Ferrari (not Fin AI / bot) sent a reply.
+    leads_converted_to_quote / leads_converted_to_job: N/A — requires Monday board
+      cross-reference (no reliable join key between Intercom conv IDs and Monday items).
+
+    Returns dict with the 4 lead metric keys.
+    """
+    na_row = {
+        "contact_form_leads_received": "N/A",
+        "leads_replied_personally": "N/A",
+        "leads_converted_to_quote": "N/A",
+        "leads_converted_to_job": "N/A",
+    }
+    if not token:
+        return na_row
+
+    day_start = int(datetime.strptime(date_str, "%Y-%m-%d").timestamp())
+    day_end = day_start + 86399
+
+    # Search for conversations CREATED today (new inbound leads)
+    payload = {
+        "query": {
+            "operator": "AND",
+            "value": [
+                {"field": "created_at", "operator": ">", "value": day_start - 1},
+                {"field": "created_at", "operator": "<", "value": day_end + 1},
+                {"field": "source.type", "operator": "=", "value": "email"},
+            ],
+        },
+        "pagination": {"per_page": 150},
+    }
+    result = intercom_request("POST", "/conversations/search", token, payload)
+    if not result:
+        return na_row
+
+    conversations = result.get("conversations", [])
+    # Paginate if needed
+    cursor = (result.get("pages") or {}).get("next", {})
+    cursor_val = cursor.get("starting_after") if isinstance(cursor, dict) else None
+    while cursor_val:
+        paged = dict(payload)
+        paged["pagination"] = {"per_page": 150, "starting_after": cursor_val}
+        paged_result = intercom_request("POST", "/conversations/search", token, paged)
+        if not paged_result:
+            break
+        conversations.extend(paged_result.get("conversations", []))
+        nxt = (paged_result.get("pages") or {}).get("next", {})
+        cursor_val = nxt.get("starting_after") if isinstance(nxt, dict) else None
+
+    leads_received = len(conversations)
+
+    # Count how many were replied to by Ferrari (human admin, not automation/bot)
+    replied_personally = 0
+    for conv in conversations:
+        conv_id = conv.get("id")
+        if not conv_id:
+            continue
+        detail = intercom_request("GET", f"/conversations/{conv_id}?display_as=plaintext", token)
+        if not detail:
+            continue
+        parts = detail.get("conversation_parts", {}).get("conversation_parts", [])
+        human_reply = any(
+            (p.get("author") or {}).get("type") == "admin"
+            and (p.get("author") or {}).get("id") == INTERCOM_ADMIN_ID
+            and p.get("app_package_code", "") != INTERCOM_N8N_APP_CODE
+            and p.get("part_type") not in ("away_mode_assignment", "assignment", "note", "")
+            for p in parts
+        )
+        if human_reply:
+            replied_personally += 1
+        time_module.sleep(0.08)
+
+    return {
+        "contact_form_leads_received": leads_received,
+        "leads_replied_personally": replied_personally,
+        "leads_converted_to_quote": "N/A",  # Requires Intercom↔Monday join — not implemented
+        "leads_converted_to_job": "N/A",    # Requires Intercom↔Monday join — not implemented
+    }
+
+
+# ============================================================
 # MAIN
 # ============================================================
 
@@ -755,12 +1070,16 @@ def generate_csv(person_key, from_date, to_date):
         return
 
     person = PERSONS[person_key]
+    is_cs = person.get("role") == "client_services"
     token = load_token()
     headers = {"Authorization": token, "Content-Type": "application/json"}
+    intercom_token = load_intercom_token() if is_cs else None
 
     print(f"=" * 60)
     print(f"TEAM DAILY CSV: {person['name']}")
     print(f"Period: {from_date} to {to_date}")
+    if is_cs:
+        print(f"Mode: CS (client_services) — Intercom metrics enabled")
     print(f"=" * 60)
 
     # ---- Phase 1: Activity logs ----
@@ -845,7 +1164,7 @@ def generate_csv(person_key, from_date, to_date):
 
         if not day_entries:
             # No activity — leave/sick/off
-            rows.append({
+            base_empty = {
                 "date": date_str,
                 "day": day_name,
                 "start_time": "",
@@ -868,7 +1187,25 @@ def generate_csv(person_key, from_date, to_date):
                 "tracked_mins": 0,
                 "utilisation_pct": 0,
                 "max_capacity": 0,
-            })
+            }
+            if is_cs:
+                print(f"  {date_str} (no Monday activity) — querying Intercom...")
+                ic = fetch_intercom_cs_metrics(date_str, intercom_token)
+                leads = fetch_leads_cs_metrics(date_str, intercom_token)
+                base_empty.update({
+                    "completions": "N/A",
+                    "revenue": "N/A",
+                    "net_profit": "N/A",
+                    "max_capacity": "N/A",
+                    **ic,
+                    **leads,
+                    "calls_answered_count": "N/A",
+                    "calls_missed_count": "N/A",
+                    "answer_rate_pct": "N/A",
+                    "cs_utilisation_pct": 0,
+                    "revenue_attributed": "N/A",
+                })
+            rows.append(base_empty)
             continue
 
         # Start / finish
@@ -947,7 +1284,7 @@ def generate_csv(person_key, from_date, to_date):
         if completions > 0:
             totals["days_with_completions"] += 1
 
-        rows.append({
+        row = {
             "date": date_str,
             "day": day_name,
             "start_time": start_time,
@@ -970,29 +1307,73 @@ def generate_csv(person_key, from_date, to_date):
             "tracked_mins": tracked_mins,
             "utilisation_pct": utilisation_pct,
             "max_capacity": 0,  # Filled in below
-        })
+        }
 
-    # Max capacity = peak day completions observed
-    max_cap = calc_max_capacity(rows)
-    for row in rows:
-        if row["available_hours"] > 0:
-            row["max_capacity"] = max_cap
+        # CS-specific metrics (replaces/supplements tech metrics for client_services role)
+        if is_cs:
+            print(f"  {date_str} — querying Intercom...")
+            ic = fetch_intercom_cs_metrics(date_str, intercom_token)
+            leads = fetch_leads_cs_metrics(date_str, intercom_token)
+            cs_util = round(gross_hours / CS_WORKING_HOURS * 100, 1) if gross_hours > 0 else 0
+            row.update({
+                "completions": "N/A",
+                "revenue": "N/A",
+                "net_profit": "N/A",
+                "max_capacity": "N/A",
+                **ic,
+                **leads,
+                "calls_answered_count": "N/A",
+                "calls_missed_count": "N/A",
+                "answer_rate_pct": "N/A",
+                "cs_utilisation_pct": cs_util,
+                "revenue_attributed": "N/A",
+            })
+
+        rows.append(row)
+
+    # Max capacity = peak day completions observed (tech roles only)
+    max_cap = calc_max_capacity(rows) if not is_cs else 0
+    if not is_cs:
+        for row in rows:
+            if row["available_hours"] > 0:
+                row["max_capacity"] = max_cap
 
     # ---- Write CSV ----
     report_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'reports', person_key)
     os.makedirs(report_dir, exist_ok=True)
-    csv_filename = f"{person_key}_daily_{from_date}_{to_date}.csv"
+    if is_cs:
+        csv_filename = f"{person_key}_daily_{from_date}_{to_date}_with_cs_metrics.csv"
+    else:
+        csv_filename = f"{person_key}_daily_{from_date}_{to_date}.csv"
     csv_path = os.path.join(report_dir, csv_filename)
 
-    fieldnames = [
-        "date", "day", "start_time", "meeting_mins", "adjusted_start",
-        "lunch_start", "lunch_over", "lunch_mins", "finish_time", "gross_hours", "available_hours",
-        "completions", "items_touched", "paused_count", "pause_reasons",
-        "revenue", "net_profit", "shared_items", "qc_reworks", "tracked_mins", "utilisation_pct", "max_capacity"
-    ]
+    if is_cs:
+        fieldnames = [
+            "date", "day", "start_time", "meeting_mins", "adjusted_start",
+            "lunch_start", "lunch_over", "lunch_mins", "finish_time", "gross_hours",
+            "items_touched",
+            # Intercom
+            "intercom_conversations_handled", "intercom_avg_response_time_hrs",
+            "intercom_median_response_time_hrs", "intercom_under_2h_pct",
+            "intercom_over_24h_count",
+            # Phone
+            "calls_answered_count", "calls_missed_count", "answer_rate_pct",
+            # Leads
+            "contact_form_leads_received", "leads_replied_personally",
+            "leads_converted_to_quote", "leads_converted_to_job",
+            # Derived
+            "cs_utilisation_pct", "revenue_attributed",
+        ]
+    else:
+        fieldnames = [
+            "date", "day", "start_time", "meeting_mins", "adjusted_start",
+            "lunch_start", "lunch_over", "lunch_mins", "finish_time", "gross_hours", "available_hours",
+            "completions", "items_touched", "paused_count", "pause_reasons",
+            "revenue", "net_profit", "shared_items", "qc_reworks", "tracked_mins", "utilisation_pct", "max_capacity"
+        ]
 
     with open(csv_path, "w", newline="") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
+        writer = csv.DictWriter(f, fieldnames=fieldnames, extrasaction="ignore")
         writer.writeheader()
         writer.writerows(rows)
 
@@ -1007,21 +1388,44 @@ def generate_csv(person_key, from_date, to_date):
     print(f"  Total days (excl Sun): {len(rows)}")
     print(f"  Active days: {active_days}")
     print(f"  Days off/no activity: {len(rows) - active_days}")
-    print(f"  Total completions: {totals['completions']}")
-    if active_days > 0:
-        print(f"  Avg completions/day: {totals['completions'] / active_days:.1f}")
-    print(f"  Total revenue: £{totals['revenue']:.2f}")
-    print(f"  Total net profit: £{totals['profit']:.2f}")
-    if totals["net_work_mins"] > 0:
-        avg_util = sum(r["utilisation_pct"] for r in rows if r["utilisation_pct"] > 0) / max(1, active_days)
-        print(f"  Avg utilisation: {avg_util:.1f}%")
-    print(f"  Max capacity estimate: {max_cap} items/day")
-    qc_total = totals.get("qc_reworks", 0)
-    if totals["completions"] > 0:
-        qc_rate = (qc_total / totals["completions"]) * 100
-        print(f"  QC reworks: {qc_total} ({qc_rate:.1f}% of completions)")
+    if is_cs:
+        total_handled = sum(
+            r["intercom_conversations_handled"] for r in rows
+            if isinstance(r.get("intercom_conversations_handled"), int)
+        )
+        total_leads = sum(
+            r["contact_form_leads_received"] for r in rows
+            if isinstance(r.get("contact_form_leads_received"), int)
+        )
+        total_replied = sum(
+            r["leads_replied_personally"] for r in rows
+            if isinstance(r.get("leads_replied_personally"), int)
+        )
+        print(f"  Total Intercom conversations handled: {total_handled}")
+        print(f"  Total inbound leads: {total_leads}")
+        print(f"  Leads replied personally: {total_replied}")
+        if active_days > 0:
+            avg_util = sum(
+                r["cs_utilisation_pct"] for r in rows
+                if isinstance(r.get("cs_utilisation_pct"), (int, float)) and r["cs_utilisation_pct"] > 0
+            ) / active_days
+            print(f"  Avg CS utilisation (Monday-derived): {avg_util:.1f}%")
     else:
-        print(f"  QC reworks: {qc_total}")
+        print(f"  Total completions: {totals['completions']}")
+        if active_days > 0:
+            print(f"  Avg completions/day: {totals['completions'] / active_days:.1f}")
+        print(f"  Total revenue: £{totals['revenue']:.2f}")
+        print(f"  Total net profit: £{totals['profit']:.2f}")
+        if totals["net_work_mins"] > 0:
+            avg_util = sum(r["utilisation_pct"] for r in rows if r["utilisation_pct"] > 0) / max(1, active_days)
+            print(f"  Avg utilisation: {avg_util:.1f}%")
+        print(f"  Max capacity estimate: {max_cap} items/day")
+        qc_total = totals.get("qc_reworks", 0)
+        if totals["completions"] > 0:
+            qc_rate = (qc_total / totals["completions"]) * 100
+            print(f"  QC reworks: {qc_total} ({qc_rate:.1f}% of completions)")
+        else:
+            print(f"  QC reworks: {qc_total}")
 
     return csv_path
 

@@ -1,0 +1,7 @@
+date,day,start_time,meeting_mins,adjusted_start,lunch_start,lunch_over,lunch_mins,finish_time,gross_hours,items_touched,intercom_conversations_handled,intercom_avg_response_time_hrs,intercom_median_response_time_hrs,intercom_under_2h_pct,intercom_over_24h_count,calls_answered_count,calls_missed_count,answer_rate_pct,contact_form_leads_received,leads_replied_personally,leads_converted_to_quote,leads_converted_to_job,cs_utilisation_pct,revenue_attributed
+2026-04-07,Tue,09:07,56,09:56,,,0,19:03,9.94,37,23,52.39,42.32,21.7,13,N/A,N/A,N/A,14,14,N/A,N/A,124.2,N/A
+2026-04-08,Wed,07:45,47,09:47,14:18,,26,22:17,14.52,62,15,88.06,18.31,26.7,5,N/A,N/A,N/A,5,5,N/A,N/A,181.5,N/A
+2026-04-09,Thu,07:42,54,09:54,13:11,,30,16:19,8.61,38,17,69.23,16.46,11.8,6,N/A,N/A,N/A,5,5,N/A,N/A,107.6,N/A
+2026-04-10,Fri,10:04,99,10:38,14:56,+17,77,17:28,7.41,40,15,73.19,26.29,20.0,8,N/A,N/A,N/A,9,9,N/A,N/A,92.6,N/A
+2026-04-11,Sat,,0,,,,0,,0,0,0,N/A,N/A,N/A,0,N/A,N/A,N/A,2,2,N/A,N/A,0,N/A
+2026-04-13,Mon,07:37,87,10:27,14:04,,22,22:26,14.82,40,27,76.89,47.25,29.6,16,N/A,N/A,N/A,13,10,N/A,N/A,185.2,N/A
