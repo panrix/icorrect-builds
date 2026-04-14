@@ -131,10 +131,11 @@ async function main() {
 
         if (decision.reason === "flag_new_activity" && existing?.card_json) {
           const intercomTs = decision.intercomUpdatedAtMs || Date.now();
-          // Check if an admin has already replied since the card was posted — if so, skip re-post
-          const lastAdminReply = messages.filter((m) => m.author_type === "admin").pop();
-          const cardPostedAt = existing.updated_at ? Date.parse(existing.updated_at) : 0;
-          if (lastAdminReply && (lastAdminReply.created_at * 1000) > cardPostedAt) {
+          // Only re-post if the latest meaningful message is from the customer.
+          // If the last message is from an admin, the customer hasn't replied
+          // since our response, so any Intercom updated_at bump is noise.
+          const lastMessage = messages.filter((m) => m.author_type === "admin" || m.author_type === "user").pop();
+          if (lastMessage && lastMessage.author_type === "admin") {
             console.log(`[excluded] ${conversation.id} reason=admin_already_replied sender=${excludeSender} subject=${excludeSubject}`);
             updateConversationIntercomActivity(db, String(conversation.id), intercomTs);
             continue;
