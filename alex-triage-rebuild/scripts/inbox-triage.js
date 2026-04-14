@@ -131,12 +131,11 @@ async function main() {
 
         if (decision.reason === "flag_new_activity" && existing?.card_json) {
           const intercomTs = decision.intercomUpdatedAtMs || Date.now();
-          // Only re-post if the latest meaningful message is from the customer.
-          // If the last message is from an admin, the customer hasn't replied
-          // since our response, so any Intercom updated_at bump is noise.
-          const lastMessage = messages.filter((m) => m.author_type === "admin" || m.author_type === "user").pop();
-          if (lastMessage && lastMessage.author_type === "admin") {
-            console.log(`[excluded] ${conversation.id} reason=admin_already_replied sender=${excludeSender} subject=${excludeSubject}`);
+          // If any admin has ever replied in this conversation, it's being
+          // actively handled in Intercom. Don't re-surface it in triage.
+          const adminHasEngaged = messages.some((m) => m.author_type === "admin");
+          if (adminHasEngaged) {
+            console.log(`[excluded] ${conversation.id} reason=admin_engaged sender=${excludeSender} subject=${excludeSubject}`);
             updateConversationIntercomActivity(db, String(conversation.id), intercomTs);
             continue;
           }
