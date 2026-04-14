@@ -244,13 +244,15 @@ export function evaluateEmailTriageCandidate({
   }
 
   if (hasProcessedState(existingConversation)) {
-    // If the card is still in active review (not yet sent/skipped) and Intercom
-    // shows new activity after the last acknowledged Intercom timestamp, flag for re-post
+    const existingStatus = lower(existingConversation.status || "");
+    // Only flag new activity for conversations still in active review (pending/edited/sync_failed).
+    // Finalized conversations (sent, skipped, snoozed, escalated) should stay closed.
     if (
       existingConversation?.telegram_message_id &&
       existingConversation?.updated_at &&
       !existingConversation.sent_at &&
-      !existingConversation.intercom_sent_at
+      !existingConversation.intercom_sent_at &&
+      !FINALIZED_CONVERSATION_STATUSES.has(existingStatus)
     ) {
       const lastAcked = existingConversation.intercom_activity_at || existingConversation.updated_at;
       if (updatedAtMs > Date.parse(lastAcked)) {
