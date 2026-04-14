@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Sync V6 Scraper Data to Google Sheet (Restructured)
+Sync V7 scraper data to Google Sheet (Restructured)
 
 Two product tabs (MacBook Air, MacBook Pro) + Dashboard summary.
 Columns: Model | Model No(s) | Year | Screen | Chip | RAM | SSD | Colour | Grade |
@@ -52,7 +52,7 @@ BM_GRADE_MAP = {
 
 GRADE_ORDER = {"Fair": 0, "Good": 1, "Excellent": 2, "Premium": 3}
 
-# Model mapping: V6 key -> structured fields
+# Model mapping: model key -> structured fields
 MODEL_MAP = {
     'Air 13" 2020 M1':       {"model": "Air 13",  "model_nos": "A2337/A2179", "year": "2020", "screen": '13"', "chip": "M1",     "tab": "MacBook Air"},
     'Air 13" 2022 M2':       {"model": "Air 13",  "model_nos": "A2681",       "year": "2022", "screen": '13"', "chip": "M2",     "tab": "MacBook Air"},
@@ -250,9 +250,28 @@ def build_listing_lookup(listings):
 # ---------------------------------------------------------------------------
 # Row generation
 # ---------------------------------------------------------------------------
-def generate_rows(v6_data, listing_lookup):
-    """Generate all rows from V6 data, split by tab."""
-    scraped_at = v6_data.get("scraped_at", "")
+def parse_model_fields(model_key):
+    if model_key in MODEL_MAP:
+        return MODEL_MAP[model_key]
+    m = re.match(r'^(Air|Pro)\s+(\d+(?:\.\d+)?)"\s+(\d{4})\s+(.+)$', model_key)
+    if not m:
+        return None
+    kind = m.group(1)
+    size = str(int(float(m.group(2)))) if m.group(2).replace('.', '', 1).isdigit() else m.group(2)
+    chip = m.group(4).strip()
+    return {
+        "model": f"{kind} {size}",
+        "model_nos": "",
+        "year": m.group(3),
+        "screen": f'{size}"',
+        "chip": chip,
+        "tab": "MacBook Air" if kind == "Air" else "MacBook Pro",
+    }
+
+
+def generate_rows(v7_data, listing_lookup):
+    """Generate all rows from V7 data, split by tab."""
+    scraped_at = v7_data.get("scraped_at", "")
     last_scraped = scraped_at[:10] if scraped_at else ""
 
     air_rows = []
@@ -268,17 +287,17 @@ def generate_rows(v6_data, listing_lookup):
         "missing_data_models": [],
     }
 
-    models = v6_data.get("models", {})
+    models = v7_data.get("models", {})
     stats["total_models"] = len(models)
 
-    for v6_key, model_data in models.items():
-        mapping = MODEL_MAP.get(v6_key)
+    for v7_key, model_data in models.items():
+        mapping = parse_model_fields(v7_key)
         if not mapping:
-            log.warning(f"No mapping for model: {v6_key}")
+            log.warning(f"No mapping for model: {v7_key}")
             continue
 
         if not model_data.get("scraped"):
-            stats["missing_data_models"].append(f"{v6_key} (not scraped)")
+            stats["missing_data_models"].append(f"{v7_key} (not scraped)")
             continue
 
         grades = model_data.get("grades", {})
@@ -288,7 +307,7 @@ def generate_rows(v6_data, listing_lookup):
 
         # If no picker data at all, note it
         if not rams and not ssds and not grades:
-            stats["missing_data_models"].append(f"{v6_key} (no picker data)")
+            stats["missing_data_models"].append(f"{v7_key} (no picker data)")
             continue
 
         stats["scraped_models"] += 1
@@ -425,7 +444,7 @@ def build_dashboard(stats):
 # Main
 # ---------------------------------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser(description="Sync V6 sell prices to Google Sheet")
+    parser = argparse.ArgumentParser(description="Sync V7 sell prices to Google Sheet")
     parser.add_argument("--dry-run", action="store_true", help="Show plan without writing")
     args = parser.parse_args()
 
@@ -440,23 +459,27 @@ def main():
         log.error("Missing Google OAuth credentials")
         sys.exit(1)
 
-    # Load V6 scraper data
+    # Load V7 scraper data
     if not SCRAPER_FILE.exists():
-        log.error(f"V6 scraper output not found: {SCRAPER_FILE}")
+        log.error(f"V7 scraper output not found: {SCRAPER_FILE}")
         sys.exit(1)
     with open(SCRAPER_FILE) as f:
-        v6_data = json.load(f)
-    log.info(f"V6 data: {len(v6_data.get('models', {}))} models, scraped {v6_data.get('scraped_at', 'unknown')}")
+        v7_data = json.load(f)
+    log.info(f"V7 data: {len(v7_data.get('models', {}))} models, scraped {v7_data.get('scraped_at', 'unknown')}")
 
-    # Fetch BM listings
-    log.info("Fetching BM listings...")
-    bm_listings = fetch_all_bm_listings(dict(os.environ))
-    listing_lookup = build_listing_lookup(bm_listings)
-    log.info(f"Listing lookup: {len(listing_lookup)} product+grade combos")
+    # Fetch BM listings unless dry-run
+    if args.dry_run:
+        log.info("Dry run: skipping BM listing fetch")
+        listing_lookup = {}
+    else:
+        log.info("Fetching BM listings...")
+        bm_listings = fetch_all_bm_listings(dict(os.environ))
+        listing_lookup = build_listing_lookup(bm_listings)
+        log.info(f"Listing lookup: {len(listing_lookup)} product+grade combos")
 
     # Generate rows
     log.info("Generating rows...")
-    air_rows, pro_rows, stats = generate_rows(v6_data, listing_lookup)
+    air_rows, pro_rows, stats = generate_rows(v7_data, listing_lookup)
 
     log.info(f"MacBook Air: {len(air_rows)} rows")
     log.info(f"MacBook Pro: {len(pro_rows)} rows")
@@ -620,7 +643,7 @@ def main():
     print(f"\n{'='*50}")
     print(f"SYNC COMPLETE")
     print(f"Sheet: {sheet_url}")
-    print(f"Scraped: {v6_data.get('scraped_at', 'unknown')}")
+    print(f"Scraped: {v7_data.get('scraped_at', 'unknown')}")
     print(f"MacBook Air: {len(air_rows)} rows")
     print(f"MacBook Pro: {len(pro_rows)} rows")
     print(f"Total SKUs: {stats['total_skus']}")

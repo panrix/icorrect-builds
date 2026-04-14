@@ -80,7 +80,7 @@ GRADE_LABOUR_HOURS = {
 }
 DEFAULT_LABOUR_HOURS = 2.0
 
-# SKU model family to V6 scraper model key mapping
+# SKU model family to V7 scraper model key mapping
 SKU_TO_SCRAPER_MODEL = {
     "MBA13.2020": "Air 13\" 2020 M1",
     "MBA13.2022": "Air 13\" 2022 M2",
@@ -100,7 +100,7 @@ SKU_TO_SCRAPER_MODEL = {
     "MBP16.2023.M3PRO": "Pro 16\" 2023 M3 Pro",
 }
 
-# BM aesthetic grades to V6 scraper grade keys
+# BM aesthetic grades to V7 scraper grade keys
 BM_GRADE_TO_SCRAPER = {
     "STALLONE": "Fair",      # NFC
     "BRONZE": "Fair",        # NFU
@@ -219,88 +219,89 @@ def fetch_competitors(listing_id: str) -> Optional[list]:
 
 
 def load_sell_price_lookup() -> Optional[dict]:
-    """Load sell prices from V6 scraper output.
-    
-    Returns the full V6 data dict with 'scraped_at' and 'models' keys,
-    or None if the file doesn't exist.
-    """
-    path = Path("/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json")
-    if not path.exists():
-        log.warning("No V6 sell prices file found")
-        return None
-    try:
-        data = json.loads(path.read_text())
-        age_hrs = (datetime.now(timezone.utc) - datetime.fromisoformat(
-            data.get("scraped_at", "2000-01-01T00:00:00+00:00").replace("Z", "+00:00")
-        )).total_seconds() / 3600
-        if age_hrs > 48:
-            log.warning(f"Sell prices are {age_hrs:.0f}h old (stale but using anyway)")
-        model_count = len(data.get("models", {}))
-        log.info(f"Loaded V6 sell prices: {model_count} models (age: {age_hrs:.1f}h)")
-        return data
-    except Exception as e:
-        log.error(f"Failed to load sell prices: {e}")
-        return None
+    """Load generated sell-price-lookup.json first, with raw V7 fallback."""
+    candidate_paths = [
+        Path("/home/ricky/builds/buyback-monitor/data/sell-price-lookup.json"),
+        OUTPUT_DIR / "sell-price-lookup.json",
+        Path("/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json"),
+    ]
+    for path in candidate_paths:
+        if not path.exists():
+            continue
+        try:
+            data = json.loads(path.read_text())
+            timestamp = data.get("generated_at") or data.get("scraped_at") or "2000-01-01T00:00:00+00:00"
+            age_hrs = (datetime.now(timezone.utc) - datetime.fromisoformat(timestamp.replace("Z", "+00:00"))).total_seconds() / 3600
+            if age_hrs > 48:
+                log.warning(f"Sell prices are {age_hrs:.0f}h old (stale but using anyway)")
+            if "by_spec" in data:
+                log.info(f"Loaded sell-price lookup: {len(data.get('by_spec', {}))} spec entries from {path}")
+            else:
+                log.info(f"Loaded raw V7 sell prices: {len(data.get('models', {}))} models from {path}")
+            return data
+        except Exception as e:
+            log.error(f"Failed to load sell prices from {path}: {e}")
+    return None
 
 
 def resolve_sell_price_from_lookup(lookup: dict, sku: str, grade: str = "") -> Optional[float]:
-    """Resolve a sell price from V6 scraper data for a given buyback SKU.
-    
-    V6 format: { "models": { "Air 13\" 2020 M1": { "grades": { "Fair": {"price": 450}, ... } } } }
-    
-    Fallback chain:
-    1. Match SKU model+year to scraper model key, then grade price
-    2. Match SKU model+year to scraper model key, use "Fair" as fallback grade
-    3. None (caller falls back to DEFAULT_SELL_PRICE)
-    """
+    """Resolve from generated lookup first, raw V7 fallback second."""
     if not sku or not lookup:
         return None
 
+    # Preferred: generated sell-price-lookup.json schema
+    if "by_spec" in lookup:
+        parts = sku.upper().split('.')
+        if len(parts) >= 6:
+            model, year, chip = parts[0], parts[1], parts[2]
+            ram = parts[4] if len(parts) > 4 else ''
+            storage = parts[5] if len(parts) > 5 else ''
+            spec_key = f"{model}.{year}.{chip}.{ram}.{storage}"
+            grade_key = "fair"
+            grade_upper = grade.upper().replace('.', '_')
+            if "FUNC_USED" in grade_upper:
+                grade_key = "good"
+            elif "FUNC_GOOD" in grade_upper:
+                grade_key = "excellent"
+            entry = lookup.get("by_spec", {}).get(spec_key)
+            if entry:
+                return entry.get(grade_key) or entry.get("fair")
+            prefix = f"{model}.{year}.{chip}"
+            by_family = lookup.get("by_family", {})
+            if prefix in by_family:
+                return by_family[prefix]
+            if model in by_family:
+                return by_family[model]
+        return None
+
+    # Legacy/raw V7 fallback
     models = lookup.get("models", {})
     if not models:
         return None
-
     parts = sku.upper().split('.')
     if len(parts) < 3:
         return None
-
-    # Build candidate keys from SKU to match against SKU_TO_SCRAPER_MODEL
-    # e.g. "MBP14.2023.M3PRO.APPLECORE.16GB.512GB.FUNC.CRACK"
-    # Try longest prefix first: "MBP14.2023.M3PRO", "MBP14.2023", "MBP14"
     scraper_model = None
     candidates = []
     if len(parts) >= 3:
         candidates.append(f"{parts[0]}.{parts[1]}.{parts[2]}")
     if len(parts) >= 2:
         candidates.append(f"{parts[0]}.{parts[1]}")
-
     for candidate in candidates:
         if candidate in SKU_TO_SCRAPER_MODEL:
             scraper_model = SKU_TO_SCRAPER_MODEL[candidate]
             break
-
     if not scraper_model or scraper_model not in models:
         return None
-
-    model_data = models[scraper_model]
-    grades = model_data.get("grades", {})
-    if not grades:
-        return None
-
-    # Map BM aesthetic grade to scraper grade
+    grades = models[scraper_model].get("grades", {})
     scraper_grade = BM_GRADE_TO_SCRAPER.get(grade.upper(), "Fair")
-
-    # Try exact grade match, then fall back to Fair, then any available
     for try_grade in [scraper_grade, "Fair", "Good"]:
         entry = grades.get(try_grade)
         if entry and isinstance(entry, dict) and entry.get("price"):
             return float(entry["price"])
-
-    # Last resort: first available grade price
     for entry in grades.values():
         if isinstance(entry, dict) and entry.get("price"):
             return float(entry["price"])
-
     return None
 
 

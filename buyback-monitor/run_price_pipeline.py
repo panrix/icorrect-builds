@@ -2,7 +2,7 @@
 """
 Price Pipeline Orchestrator
 Runs the full sell-price scraping pipeline in order:
-1. Scrape BackMarket product pages for sell prices
+1. Scrape BackMarket product pages for sell prices with v7 JS scraper
 2. Generate sell-price lookup for buy box monitor
 3. Sync to Google Sheet
 
@@ -63,16 +63,17 @@ def main():
 
     log.info(f"=== Price Pipeline starting at {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')} ===")
 
-    # Step 1: Scrape sell prices
-    scrape_cmd = [sys.executable, str(SCRIPTS_DIR / "sell_price_scraper.py")]
+    # Step 1: Scrape sell prices (v7 JS scraper)
+    scrape_cmd = ["node", str(SCRIPTS_DIR / "sell_price_scraper_v7.js")]
     if args.dry_run:
         scrape_cmd.append("--dry-run")
-    if args.force:
-        scrape_cmd.append("--force")
-    if args.no_variants:
-        scrape_cmd.append("--no-variants")
     if args.model:
         scrape_cmd.extend(["--model", args.model])
+
+    if args.force:
+        log.warning("--force requested, but sell_price_scraper_v7.js has no --force flag; continuing with normal scrape")
+    if args.no_variants:
+        log.warning("--no-variants requested, but sell_price_scraper_v7.js has no --no-variants flag; continuing with normal scrape")
 
     if not run_step("Scrape Sell Prices", scrape_cmd):
         log.error("Scraping failed. Aborting pipeline.")
