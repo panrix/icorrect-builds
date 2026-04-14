@@ -10,6 +10,8 @@ import {
   setCheckpoint,
   startRun,
   updateConversationAfterTelegramPost,
+  updateConversationIntercomActivity,
+  updateConversationStatus,
   upsertConversation,
   writeJson
 } from "../lib/db.js";
@@ -126,7 +128,41 @@ async function main() {
       if (!decision.include) {
         const excludeSender = conversation.source?.author?.email || "unknown";
         const excludeSubject = (conversation.source?.subject || conversation.title || "").slice(0, 50);
-        console.log(`[excluded] ${conversation.id} reason=${decision.reason} sender=${excludeSender} subject=${excludeSubject}`);
+
+        if (decision.reason === "flag_new_activity" && existing?.card_json) {
+          const intercomTs = decision.intercomUpdatedAtMs || Date.now();
+          // Check if an admin has already replied since the card was posted — if so, skip re-post
+          const lastAdminReply = messages.filter((m) => m.author_type === "admin").pop();
+          const cardPostedAt = existing.updated_at ? Date.parse(existing.updated_at) : 0;
+          if (lastAdminReply && (lastAdminReply.created_at * 1000) > cardPostedAt) {
+            console.log(`[excluded] ${conversation.id} reason=admin_already_replied sender=${excludeSender} subject=${excludeSubject}`);
+            updateConversationIntercomActivity(db, String(conversation.id), intercomTs);
+            continue;
+          }
+          console.log(`[new_activity] ${conversation.id} sender=${excludeSender} subject=${excludeSubject}`);
+          if (!args.dryRun && config.service.enableLivePosting) {
+            const telegramText = formatTelegramCard(existing.card_json, existing.draft_text, "💬 Customer replied");
+            const sentMessage = await telegramClient.sendEmailTriageCard({
+              text: telegramText,
+              conversationId: conversation.id,
+              card: existing.card_json
+            });
+            if (sentMessage?.result?.message_id) {
+              updateConversationAfterTelegramPost(db, String(conversation.id), {
+                telegramMessageId: String(sentMessage.result.message_id),
+                telegramChatId: String(sentMessage.result?.chat?.id || config.telegram.chatId),
+                telegramThreadId: sentMessage.result?.message_thread_id
+                  ? String(sentMessage.result.message_thread_id)
+                  : null
+              });
+              updateConversationIntercomActivity(db, String(conversation.id), intercomTs);
+              updateConversationStatus(db, String(conversation.id), "pending");
+              postedCount += 1;
+            }
+          }
+        } else {
+          console.log(`[excluded] ${conversation.id} reason=${decision.reason} sender=${excludeSender} subject=${excludeSubject}`);
+        }
         continue;
       }
 

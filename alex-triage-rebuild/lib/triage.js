@@ -244,6 +244,19 @@ export function evaluateEmailTriageCandidate({
   }
 
   if (hasProcessedState(existingConversation)) {
+    // If the card is still in active review (not yet sent/skipped) and Intercom
+    // shows new activity after the last acknowledged Intercom timestamp, flag for re-post
+    if (
+      existingConversation?.telegram_message_id &&
+      existingConversation?.updated_at &&
+      !existingConversation.sent_at &&
+      !existingConversation.intercom_sent_at
+    ) {
+      const lastAcked = existingConversation.intercom_activity_at || existingConversation.updated_at;
+      if (updatedAtMs > Date.parse(lastAcked)) {
+        return { include: false, reason: "flag_new_activity", intercomUpdatedAtMs: updatedAtMs };
+      }
+    }
     return { include: false, reason: "exclude_already_processed" };
   }
 
@@ -385,7 +398,7 @@ export function isActionableConversation(conversation, messages) {
   const subject = lower(conversation.source?.subject || conversation.title || "");
   const senderEmail = lower(conversation.source?.author?.email || "");
   const senderName = lower(conversation.source?.author?.name || "");
-  const combinedText = messages.map((message) => message.text).join(" ").toLowerCase();
+  const combinedText = `${subject} ${messages.map((message) => message.text).join(" ")}`.toLowerCase();
   const repairIntent = hasRepairIntent(messages);
   const noiseConversation = isNoiseConversation(conversation, messages);
 
@@ -417,6 +430,25 @@ export function isActionableConversation(conversation, messages) {
     // Platform/contribution phishing/scam
     () => combinedText.includes("contributing to our platform"),
     () => combinedText.includes("your account has been") && combinedText.includes("platform"),
+    // Telecom / ISP vendor pitches
+    () => combinedText.includes("o2 business"),
+    () => combinedText.includes("vodafone business"),
+    () => combinedText.includes("ee business"),
+    () => combinedText.includes("virgin media business"),
+    () => combinedText.includes("bt business"),
+    () => combinedText.includes("plusnet business"),
+    () => combinedText.includes("sky business"),
+    () => combinedText.includes("telecom partner"),
+    () => combinedText.includes("network provider"),
+    () => combinedText.includes("broadband deal"),
+    () => combinedText.includes("connectivity solution"),
+    // Vendor / partner recruitment spam
+    () => combinedText.includes("become a partner"),
+    () => combinedText.includes("join our platform"),
+    () => combinedText.includes("partner network"),
+    () => combinedText.includes("expand your reach"),
+    () => combinedText.includes("join our ecosystem"),
+    () => combinedText.includes("invite you to join"),
   ];
 
   if (hardSpamPatterns.some((check) => check())) {
@@ -472,10 +504,35 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("hire developers"),
     () => combinedText.includes("managed services"),
     () => combinedText.includes("cloud migration"),
+    // Enterprise / corporate pitches
+    () => combinedText.includes("corporate package"),
+    () => combinedText.includes("enterprise plan"),
+    () => combinedText.includes("enterprise deal"),
+    () => combinedText.includes("enterprise rate"),
+    // Content / marketing services
+    () => combinedText.includes("video production"),
+    () => combinedText.includes("promotional content"),
+    () => combinedText.includes("content creation service"),
+    // Third-party service pitches that leaked through
+    () => combinedText.includes("diagnostic review service"),
+    () => combinedText.includes("external review service"),
   ];
 
   if (softSpamPatterns.some((check) => check())) {
     if (repairIntent && !noiseConversation) {
+      // Vendor signals indicate a B2B pitch, not a genuine customer repair enquiry.
+      // Block even if repair keywords are present alongside these signals.
+      const vendorSignals = [
+        "wholesale", "bulk order", "supplier", "distributor",
+        "enterprise rate", "corporate rate", "partner with us",
+        "our platform", "our service", "our company offers",
+        "we provide", "we offer", "we specialize", "we specialise",
+        "contact us for", "visit our website", "check out our"
+      ];
+      const hasVendorSignal = vendorSignals.some((signal) => combinedText.includes(signal));
+      if (hasVendorSignal) {
+        return false;
+      }
       return true;
     }
     return false;
@@ -681,7 +738,7 @@ export function buildCard({
     price: priceLabel,
     confidence,
     thread_summary: threadSummary,
-    latest_message: (lastVisibleMessage?.text || "No recent message found").slice(0, 280),
+    latest_message: lastVisibleMessage?.text || "No recent message found",
     customer_type: buildCustomerTypeLabel(pastRepairs),
     last_repair: pastRepairs[0] || null,
     what_matters: summarizeWhyItMatters({ category, priceLabel, mondayMatch, pastRepairs }),
@@ -711,8 +768,8 @@ export function buildCard({
   };
 }
 
-export function formatRecentMessages(messages, limit = 5) {
-  return messages.slice(-limit).map((message) => {
+export function formatRecentMessages(messages) {
+  return messages.map((message) => {
     const label = message.author_type === "admin" ? "Us" : message.author_name || "Customer";
     return `${label}: ${message.text}`;
   });
@@ -751,8 +808,10 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
   const latestCustomerLines = [
     escapeHtml(cleanDisplayValue(card.latest_message, "No recent message found."))
   ];
-  const threadLines = sanitizeThreadSummary(card.thread_summary);
-  const lines = [
+  let threadLines = sanitizeThreadSummary(card.thread_summary);
+
+  // Build the card with protected sections (latest message + draft never truncated)
+  const protectedLines = [
     `<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>`,
     `Type: ${escapeHtml(titleize(card.type))}`,
     `Channel: ${escapeHtml(titleize(card.channel || "email"))}`,
@@ -772,14 +831,7 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     "",
     `<b>━ LATEST CUSTOMER MESSAGE ━</b>`,
     ...latestCustomerLines,
-    ""
-  ];
-
-  if (threadLines.length) {
-    lines.push(`<b>━ THREAD ━</b>`, ...threadLines, "");
-  }
-
-  lines.push(
+    "",
     `<b>━━ DRAFT REPLY ━</b>`,
     escapeHtml(cleanDisplayValue(draftText, "Draft pending")),
     "",
@@ -788,13 +840,48 @@ export function formatTelegramCard(card, draftText, stateLabel = null) {
     ...optionalLine("What matters", cleanDisplayValue(card.what_matters)),
     "",
     `<a href="${card.context.intercom_url}">Open Intercom</a>`
-  );
+  ];
 
   if (stateLabel) {
-    lines.push("", `<b>${escapeHtml(stateLabel)}</b>`);
+    protectedLines.push("", `<b>${escapeHtml(stateLabel)}</b>`);
   }
 
-  return lines.join("\n");
+  const protectedLen = protectedLines.join("\n").length;
+  const threadHeader = `<b>━ THREAD ━</b>`;
+  // Budget for thread: 4096 minus protected content, minus header + separators
+  const threadBudget = 4096 - protectedLen - threadHeader.length - 4;
+
+  if (threadLines.length && threadBudget > 80) {
+    // Trim thread lines from the top (oldest) until it fits
+    let threadText = threadLines.join("\n");
+    if (threadText.length > threadBudget) {
+      const trimmed = [];
+      let remaining = threadBudget - 30; // reserve space for "[... earlier messages trimmed]"
+      for (let i = threadLines.length - 1; i >= 0 && remaining > 0; i--) {
+        if (threadLines[i].length <= remaining) {
+          trimmed.unshift(threadLines[i]);
+          remaining -= threadLines[i].length + 1;
+        } else {
+          break;
+        }
+      }
+      if (trimmed.length < threadLines.length) {
+        trimmed.unshift("[... earlier messages trimmed]");
+      }
+      threadLines = trimmed;
+    }
+  } else if (threadBudget <= 80) {
+    threadLines = [];
+  }
+
+  // Assemble final card: insert thread before DRAFT REPLY
+  const draftIdx = protectedLines.indexOf(`<b>━━ DRAFT REPLY ━</b>`);
+  const finalLines = [...protectedLines];
+  if (threadLines.length) {
+    finalLines.splice(draftIdx, 0, threadHeader, ...threadLines, "");
+  }
+
+  return finalLines.join("\n");
 }
 
 function determineConfidenceTier({ category, mondayMatch }) {
@@ -847,18 +934,10 @@ function buildKbSources({ price, pastRepairs }) {
 }
 
 function buildThreadSummary(messages) {
-  if (messages.length <= 3) {
-    return messages.map((message) => `${message.author_type === "admin" ? "Us" : message.author_name || "Customer"}: ${message.text.slice(0, 220)}`);
-  }
-
-  const first = messages[0]?.text || "";
-  const lastCustomer = getLastCustomerMessage(messages)?.text || "";
-  const lastAdmin = getLastAdminMessage(messages)?.text || "";
-  return [
-    `Thread summary: ${first.slice(0, 160)}`,
-    lastAdmin ? `Last from us: ${lastAdmin.slice(0, 160)}` : "Last from us: none",
-    `Latest customer: ${lastCustomer.slice(0, 220)}`
-  ];
+  return messages.map((message) => {
+    const label = message.author_type === "admin" ? "Us" : message.author_name || "Customer";
+    return `${label}: ${message.text}`;
+  });
 }
 
 function formatLastRepairLines(lastRepair) {
@@ -886,9 +965,43 @@ function ageDays(createdAtSeconds) {
 
 export function detectDeviceFromMessages(messages) {
   const haystack = messages.map((message) => message.text).join(" ");
-  const match = haystack.match(
-    /\b(iPhone\s+[A-Za-z0-9+\- ]+|iPad\s+[A-Za-z0-9" ]+|MacBook\s+[A-Za-z0-9" ]+|Apple Watch\s+[A-Za-z0-9" ]+|Watch\s+[A-Za-z0-9" ]+)/i
+
+  // Model-token pattern: only capture words that are valid model identifiers.
+  // This avoids the old regex's greedy space-inclusive character class which
+  // consumed trailing sentence fragments like "as I didn" or "Hi Giulia".
+  //
+  // Valid tokens after a device keyword:
+  //   Numbers (with optional decimal/inch mark): 14, 12.9, 12.9", 14-inch
+  //   Size/variant words: Pro, Max, Mini, Plus, Air, Ultra, SE, Gen
+  //   Chip identifiers: M1, M2, M3, M4
+  //   Ordinals: 1st, 2nd, 3rd, 4th, 5th, 6th, 7th, 8th, 9th
+  //   Year in parens: (2021), (2024)
+  //   Model numbers: A2442, A2485
+  //   Quoted chip combos: 'M1 Pro/Max'
+  const MODEL_TOKEN =
+    "(?:" +
+      "\\d+(?:st|nd|rd|th)" +                         // ordinals first: 1st, 2nd, 3rd, 4th …
+      "|\\d+(?:\\.\\d+)?(?:\"|″|‟|-inch)?" +          // numbers, optional decimal, optional inch mark
+      "|Pro(?:\\s*/\\s*Max)?" +                        // Pro, Pro/Max
+      "|Max|Mini|Plus|Air|Ultra|SE|Gen" +              // variant words
+      "|M[1-9]" +                                     // chip identifiers M1-M9
+      "|\\(\\d{4}\\)" +                               // year in parens: (2021)
+      "|A\\d{4,5}" +                                  // Apple model numbers: A2442
+      "|'[^']*'" +                                    // single-quoted strings: 'M1 Pro/Max'
+    ")";
+  const SUFFIX = "(?:\\s+" + MODEL_TOKEN + ")*";
+
+  const regex = new RegExp(
+    "\\b(iPhone" + SUFFIX +
+    "|iPad" + SUFFIX +
+    "|MacBook" + SUFFIX +
+    "|Apple\\s+Watch" + SUFFIX +
+    "|Watch" + SUFFIX +
+    ")",
+    "i"
   );
+
+  const match = haystack.match(regex);
   return match ? match[1].trim() : null;
 }
 

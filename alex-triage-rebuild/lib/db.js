@@ -109,6 +109,7 @@ export function initializeDb(db) {
   ensureColumn(db, "conversations", "intercom_sent_at", "DATETIME");
   ensureColumn(db, "conversations", "monday_synced_at", "DATETIME");
   ensureColumn(db, "conversations", "send_error_text", "TEXT");
+  ensureColumn(db, "conversations", "intercom_activity_at", "DATETIME");
 }
 
 export function withDb(fn) {
@@ -239,6 +240,16 @@ export function updateConversationAfterTelegramPost(db, id, fields) {
         updated_at = CURRENT_TIMESTAMP
     WHERE id = ?
   `).run(fields.telegramMessageId, fields.telegramChatId, fields.telegramThreadId, id);
+}
+
+export function updateConversationIntercomActivity(db, id, intercomUpdatedAtMs) {
+  const isoValue = new Date(intercomUpdatedAtMs).toISOString();
+  db.prepare(`
+    UPDATE conversations
+    SET intercom_activity_at = ?,
+        updated_at = CURRENT_TIMESTAMP
+    WHERE id = ?
+  `).run(isoValue, id);
 }
 
 export function updateConversationMondayItem(db, id, mondayItemId) {
