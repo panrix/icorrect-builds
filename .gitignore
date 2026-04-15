@@ -57,3 +57,12 @@ team-audits/reports/**/*.csv
 
 # node_modules anywhere
 **/node_modules/
+
+# Large data files — not source, too big for git
+agent-rebuild/data/repair-history-full.json
+agent-rebuild/data/repair-history-raw.json
+backmarket/data/vetted-listings-audit.json
+
+# elek-board-viewer runtime/cache/schematics — not source
+elek-board-viewer/data/
+elek-board-viewer/schematics/
