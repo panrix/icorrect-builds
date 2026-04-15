@@ -19,8 +19,8 @@ import os
 # ============================================================
 # CONFIGURATION
 # ============================================================
-MONDAY_APP_TOKEN = "MONDAY_TOKEN_REDACTED"
-TYPEFORM_API_TOKEN = "TYPEFORM_TOKEN_REDACTED"
+MONDAY_APP_TOKEN = os.environ.get("MONDAY_API_TOKEN", "")
+TYPEFORM_API_TOKEN = os.environ.get("TYPEFORM_API_TOKEN", "")
 
 MONDAY_API_URL = "https://api.monday.com/v2"
 TYPEFORM_API_URL = "https://api.typeform.com"

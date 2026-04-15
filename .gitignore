@@ -58,6 +58,9 @@ team-audits/reports/**/*.csv
 # node_modules anywhere
 **/node_modules/
 
+# n8n flow exports (contain Slack webhook URLs)
+backmarket/data/n8n-*.json
+
 # Large data files — not source, too big for git
 agent-rebuild/data/repair-history-full.json
 agent-rebuild/data/repair-history-raw.json
