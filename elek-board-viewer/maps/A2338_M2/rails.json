@@ -1,5 +1,5 @@
 {
-  "board": "A2338",
+  "board": "A2338_M2",
   "schematic": "820-02773",
   "extraction_notes": "Complete extraction from all 128 pages including POWER ALIASES pages 108-112. Every PP-prefixed rail traced to exact PMU buck/LDO. Cross-referenced with A2681 M2 Air (shared M2 PMU topology).",
   "rails": [
@@ -43,7 +43,7 @@
       "voltage": "12.6V (battery) / ~20V (adapter)",
       "state": "AON",
       "source": "Charger IC U5200 (XMC260) / Battery",
-      "description": "Main system power bus — feeds SVR AON, UC300 (5V), UC710 (3V3), load switches, backlight",
+      "description": "Main system power bus — feeds SVR AON, UC260 (5V), UC710 (3V3), load switches, backlight",
       "page": [25, 108]
     },
     {
@@ -60,9 +60,9 @@
       "name": "PP3V8_AON",
       "voltage": "3.8V",
       "state": "AON",
-      "source": "SVR AON controller (36A ICC MAX, pages 28-29)",
+      "source": "U5709 (RAA235645C SVR AON, 30A ICC MAX, pages 28-29)",
       "enable": "PPVAON_PWR_EN",
-      "description": "3.8V always-on master rail — input to SPMU (U7700) and MPMU (U8100). 36A ICC MAX controller on page 28, 30A ICCMAX on page 29 output stage",
+      "description": "3.8V always-on master rail — input to SPMU (U7700) and MPMU (U8100). 30A ICC MAX controller U5709 (RAA235645C) on pages 28-29",
       "page": [28, 29, 108]
     },
     {
@@ -399,16 +399,16 @@
       "name": "PP5V_S2",
       "voltage": "5.14V",
       "state": "S2",
-      "source": "UC300 (TPS62130 5V S2 VR)",
+      "source": "UC260 (TPS62130 5V S2 VR)",
       "enable": "P5VS2_PWR_EN (from SPMU GPIO)",
-      "description": "5V S2 buck converter. Vout=5.14V, f=1.25MHz, startup 4.7/7.5/10.5ms. XMC260 inductor.",
+      "description": "5V S2 buck converter. Vout=5.14V, Iout Max=2.1A, f=1.25MHz, startup 4.7/7.5/10.5ms. XWC260 inductor.",
       "page": [43, 111]
     },
     {
       "name": "PP3V3_S2",
       "voltage": "3.3V",
       "state": "S2",
-      "source": "UC710 (3V3 S2 VR, XMC710 inductor)",
+      "source": "UC710 (3V3 S2 VR, XWC710 inductor)",
       "enable": "P3V3S2_PWR_EN (from SPMU GPIO)",
       "description": "3.3V S2 buck converter. Startup <5ms. Vout=3.3V, f=1.5MHz.",
       "page": [45, 111]

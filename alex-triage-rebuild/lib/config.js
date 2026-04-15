@@ -131,7 +131,11 @@ export function getConfig(options = {}) {
     intercom: {
       baseUrl: "https://api.intercom.io",
       token: required("INTERCOM_API_TOKEN", strict),
-      adminId: valueOrRequired("INTERCOM_ADMIN_ID", strict, "9702338"),
+      adminId: (() => {
+        const id = valueOrRequired("INTERCOM_ADMIN_ID", strict, "9702337");
+        if (id !== "9702337") throw new Error(`INTERCOM_ADMIN_ID must be 9702337 (Support). Got: ${id}. Using any other admin ID is forbidden.`);
+        return id;
+      })(),
       workspaceId: process.env.INTERCOM_WORKSPACE_ID || "pt6lwaq6",
       needsFerrariTagId: process.env.INTERCOM_TAG_NEEDS_FERRARI_ID || null,
       needsRickyTagId: process.env.INTERCOM_TAG_NEEDS_RICKY_ID || null
@@ -160,7 +164,7 @@ export function getConfig(options = {}) {
     openrouter: {
       baseUrl: process.env.OPENROUTER_BASE_URL || "https://openrouter.ai/api/v1",
       apiKey: required("OPENROUTER_API_KEY", strict),
-      model: process.env.OPENROUTER_MODEL || "qwen/qwen3.6-plus"
+      model: process.env.OPENROUTER_MODEL || "anthropic/claude-sonnet-4-6"
     },
     service: {
       port: optionalNumber("ALEX_TRIAGE_PORT", 8020),

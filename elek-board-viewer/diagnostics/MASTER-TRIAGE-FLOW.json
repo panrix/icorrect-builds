@@ -1,0 +1,297 @@
+{
+  "title": "Apple Silicon MacBook Master Diagnostic Triage Flow",
+  "version": "1.0",
+  "date": "2026-04-11",
+  "source": "Cross-referenced from 17 board schematics + Eason (iphone_cpu_fix) M1 reference + SAF diagnostic data",
+  "applicability": {
+    "works_on": [
+      "A2337 (MacBook Air 13\" M1)",
+      "A2338 (MacBook Pro 13\" M1)",
+      "A2442 (MacBook Pro 14\" M1 Pro/Max)",
+      "A2485 (MacBook Pro 16\" M1 Pro/Max)",
+      "A2681 (MacBook Air M2)",
+      "A2338 M2 (MacBook Pro 13\" M2)",
+      "A2779 (MacBook Pro 14\" M2 Pro/Max)",
+      "A2780 (MacBook Pro 16\" M2 Pro/Max)",
+      "A2918 (MacBook Pro 14\" M3)",
+      "A3113 (MacBook Air 13\" M3)",
+      "A3114 (MacBook Air 15\" M3)"
+    ],
+    "does_NOT_work_on": [
+      "A2179 (MacBook Air 13\" 2020 Intel) — IMVP9 architecture, no SVR AON",
+      "A2251 (MacBook Pro 13\" 2020 Intel 4TB3) — IMVP9 architecture",
+      "A2289 (MacBook Pro 13\" 2020 Intel 2TB3) — IMVP9 architecture"
+    ],
+    "reason_intel_excluded": "Intel boards use IMVP9 VR + discrete PMIC, no PP3V8_AON_VDDMAIN rail, no comparator gating circuit, no SVR AON. Completely different power architecture requiring different diagnostic methodology."
+  },
+  "required_equipment": {
+    "essential": ["DCPS (20V capable, current readout)", "Multimeter (diode mode)", "Fine probe tips or tweezers"],
+    "recommended": ["Oscilloscope (for 32.768kHz crystal check)", "Thermal camera (for short detection)", "Soldering iron with fine tip (for comparator jumper)"],
+    "consumables": ["External 3.8V supply (for forced start bypass)", "Fine wire for jumper"]
+  },
+  "comparator_lookup": {
+    "description": "The comparator IC that gates PMU_VDD_HI varies by generation. This is the IC you need to jumper for the forced start bypass.",
+    "by_board": {
+      "A2337": {"ic": "U8110", "type": "Simple comparator", "pins_to_jumper": "4 and 5", "svr_current": "30A"},
+      "A2338": {"ic": "U8110", "type": "Simple comparator", "pins_to_jumper": "4 and 5", "svr_current": "36A"},
+      "A2442": {"ic": "Summing amplifier", "type": "BOM-selectable threshold (30A/42A)", "location": "AON Output Throttle page", "svr_current": "42A"},
+      "A2442_CTO": {"ic": "Summing amplifier", "type": "BOM-selectable threshold (30A/42A)", "location": "AON Output Throttle page", "svr_current": "42A"},
+      "A2485": {"ic": "Summing amplifier", "type": "BOM-selectable threshold", "location": "AON Output Throttle page", "svr_current": "~42A"},
+      "A2485_EVTc": {"ic": "Summing amplifier", "type": "BOM-selectable threshold", "location": "AON Output Throttle page", "svr_current": "~42A"},
+      "A2681": {"ic": "U9810", "type": "Comparator with current sense", "location": "3V8 AON Support page 32", "svr_current": "30A"},
+      "A2338_M2": {"ic": "Similar to U9810", "type": "Comparator", "location": "3V8 AON Support page 59", "svr_current": "~30A"},
+      "A2779": {"ic": "Summing amplifier", "type": "AON throttle circuit", "location": "AON Output Throttle page 60", "svr_current": "Higher"},
+      "A2779_S": {"ic": "Summing amplifier", "type": "AON throttle circuit", "location": "AON Output Throttle page", "svr_current": "Higher"},
+      "A2780": {"ic": "Summing amplifier", "type": "AON throttle circuit", "location": "AON Output Throttle page 60", "svr_current": "Higher"},
+      "A2918": {"ic": "Similar to U5950", "type": "Comparator + throttle", "location": "3V8 AON Support page 59", "svr_current": "~30A"},
+      "A3113": {"ic": "U5950 + Q5960", "type": "Comparator + active throttle MOSFET", "location": "Page 37", "svr_current": "30A"},
+      "A3114": {"ic": "U5950 + Q5960", "type": "Comparator + active throttle MOSFET", "location": "Page 37", "svr_current": "30A"}
+    }
+  },
+  "forced_start_bypass": {
+    "source": "Eason @ iphone_cpu_fix — 'How to bypass protective isolation and forced start of 20V boost circuit'",
+    "universal_procedure": {
+      "step_1": "Connect PP3V8_AON_VDDMAIN to 3.8V externally (use 4.3V if display is connected — display draws enough to sag 3.8V)",
+      "step_2": "Force PMU_VDD_HI high — method varies by board (see comparator_lookup above)",
+      "step_3": "Press start button OR connect charger for 3 seconds",
+      "safety_check": "Before injecting 3.8V, measure PP3V8_AON_VDDMAIN resistance to ground. If near-zero, there is a dead short — find and fix it first before injecting power."
+    },
+    "interpretation": {
+      "board_boots": {
+        "diagnosis": "FRONT END fault",
+        "fault_range": "CD3217 port controllers, charger IC (U5200), fuses, SPI ROM, 20V boost circuit, MagSafe path",
+        "next_step": "Check Steps 1-2 of board-specific diagnostic tree"
+      },
+      "board_does_not_boot": {
+        "diagnosis": "BACK END fault",
+        "fault_range": "PMU (SPMU/MPMU), SoC, clocks (24MHz + 32.768kHz), ROM, NAND",
+        "next_step": "Check Steps 3+ of board-specific diagnostic tree"
+      }
+    }
+  },
+  "diagnostic_shortcuts": [
+    {
+      "shortcut": "PPVAON_FAULT_L",
+      "type": "Single-pin SVR fault check",
+      "description": "Active-low fault flag from SVR AON controller (U5700). LOW = SVR has fault (overcurrent/overvoltage/thermal). HIGH = SVR healthy.",
+      "eliminates": "Entire SVR AON section",
+      "time": "5 seconds",
+      "tool": "Multimeter",
+      "present_on": "All Apple Silicon boards"
+    },
+    {
+      "shortcut": "PMU_ACTIVE_READY",
+      "type": "PMU startup confirmation",
+      "description": "Goes HIGH only after MPMU completes full startup sequence. If PP3V8_AON is present but this stays low, fault is inside PMU, clocks, or SoC handshake.",
+      "eliminates": "Jumps past power section to compute section",
+      "time": "5 seconds",
+      "tool": "Multimeter",
+      "present_on": "All Apple Silicon boards"
+    },
+    {
+      "shortcut": "32.768kHz crystal check",
+      "type": "Clock heartbeat verification",
+      "description": "PMU_REFCLK32K_OUT — MPMU cannot start without this clock. No oscillation = dead crystal = board won't start.",
+      "eliminates": "Entire clock failure category",
+      "time": "10 seconds",
+      "tool": "Oscilloscope",
+      "component_by_board": {
+        "M1": "Y8301",
+        "M2": "Check PMU support page",
+        "M3": "Check PMU support page"
+      },
+      "present_on": "All Apple Silicon boards"
+    },
+    {
+      "shortcut": "SOC_FORCE_DFU",
+      "type": "Hardware vs software separator",
+      "description": "Forces DFU mode bypassing macOS boot entirely. If DFU works but won't boot normally, power delivery and SoC hardware are fine — problem is NAND/firmware.",
+      "eliminates": "All hardware faults if DFU succeeds",
+      "time": "30 seconds",
+      "tool": "Apple Configurator + USB-C cable",
+      "present_on": "All Apple Silicon boards"
+    },
+    {
+      "shortcut": "Phase current balance",
+      "type": "Dead phase identification",
+      "description": "Measure voltage drop across RS710/RS711/RS712 sense resistors while SVR runs. Zero on one while others read equal = dead phase.",
+      "eliminates": "Identifies exact failed phase without IC removal",
+      "time": "30 seconds",
+      "tool": "Millivolt meter",
+      "present_on": "All Apple Silicon boards (3-phase SVR AON)"
+    },
+    {
+      "shortcut": "CD3217 SYS_DETECT",
+      "type": "Charger input path split",
+      "description": "Goes high when charger IC recognizes valid power source. 5V at USB-C but SYS_DETECT low = CD3217 fault. No 5V = cable/connector/port controller.",
+      "eliminates": "Splits entire charger input path in one probe",
+      "time": "5 seconds",
+      "tool": "Multimeter",
+      "present_on": "All Apple Silicon boards"
+    },
+    {
+      "shortcut": "PP5V_S2 bootstrap (R5900)",
+      "type": "Bootstrap path verification",
+      "description": "PP5V_S2 feeds back to PP3V8_AON VDRV after hard start. If board starts then dies after ~1 second, bootstrap path is broken. Check R5900 continuity.",
+      "eliminates": "Explains start-then-die symptoms",
+      "time": "10 seconds",
+      "tool": "Multimeter continuity",
+      "present_on": "All Apple Silicon boards"
+    },
+    {
+      "shortcut": "PBUS E-Fuse",
+      "type": "One-time protection check",
+      "description": "PBUS E-Fuse is a one-time overcurrent protection device. If blown, no power gets through regardless of charger health. Continuity check across 2 pads.",
+      "eliminates": "Instant diagnosis of blown protection",
+      "time": "5 seconds",
+      "tool": "Multimeter continuity",
+      "present_on": "M2+ boards (A2681, A2338_M2, A2779, A2780, A2918, A3113, A3114)"
+    },
+    {
+      "shortcut": "BOM threshold check (Pro/Max only)",
+      "type": "SVR current limit verification",
+      "description": "Pro/Max boards have BOM-selectable SVR AON current limits (e.g., 30A vs 42A). Wrong BOM resistors = premature OCP under load. Check BOM resistor values against board variant.",
+      "eliminates": "Explains intermittent crashes under heavy GPU/CPU load",
+      "time": "30 seconds",
+      "tool": "Multimeter resistance",
+      "present_on": "Pro/Max boards only (A2442, A2485, A2779, A2780)"
+    },
+    {
+      "shortcut": "Q5960 throttle check (M3 only)",
+      "type": "Active throttle MOSFET verification",
+      "description": "M3 added Q5960 MOSFET for active throttling (M1/M2 don't have this). If board throttles severely but doesn't crash, Q5960 may be partially failed or mis-biased.",
+      "eliminates": "M3-specific throttling issues",
+      "time": "30 seconds",
+      "tool": "Multimeter/oscilloscope",
+      "present_on": "M3 boards only (A2918, A3113, A3114)"
+    }
+  ],
+  "master_triage_flow": {
+    "description": "Follow this flow for ANY no-power/no-boot Apple Silicon MacBook. Covers ~90% of fault scenarios in under 5 minutes.",
+    "flow": [
+      {
+        "step": "A",
+        "action": "Board on DCPS at 20V — note ammeter reading",
+        "branches": {
+          "0A": "Go to B",
+          "0.01-0.1A": "Go to D",
+          "0.1-0.5A": "Go to E",
+          "0.5-2.0A": "Go to F",
+          "2.0A+_no_display": "Go to G",
+          "normal_boot": "Board works — test peripherals (Step 8 of board tree)"
+        }
+      },
+      {
+        "step": "B",
+        "symptom": "0A — Dead board",
+        "action": "Check CD3217 SYS_DETECT",
+        "branches": {
+          "sys_detect_low": "Port/cable/CD3217 fault — check PPVBUS_USBC, USB-C connectors, SPI ROM",
+          "sys_detect_high": "Go to C"
+        }
+      },
+      {
+        "step": "C",
+        "symptom": "SYS_DETECT high but 0A",
+        "action": "Check PPVAON_FAULT_L",
+        "branches": {
+          "fault_l_low": "SVR AON fault — check phase balance (RS710/711/712), thermal cam on U5700 area",
+          "fault_l_high": "Do FORCED START BYPASS — see comparator_lookup for your board",
+          "bypass_boots": "FRONT END fault — CD3217, charger IC, fuses, boost circuit",
+          "bypass_no_boot": "Check 32.768kHz crystal, then PMU_ACTIVE_READY, then SoC/ROM"
+        }
+      },
+      {
+        "step": "D",
+        "symptom": "0.01-0.1A (very low draw)",
+        "action": "Check PP3V8_AON",
+        "branches": {
+          "pp3v8_missing": "SVR AON fault — same as C/FAULT_L check",
+          "pp3v8_present": "Check PMU_ACTIVE_READY",
+          "pmu_ready_low": "PMU not starting — check 32.768kHz clock, PMU_VDD_HI (comparator), PMU_ONOFF_L",
+          "pmu_ready_high": "PMU alive — check downstream: PP5V_S2, PP3V3_S2, NAND power"
+        }
+      },
+      {
+        "step": "E",
+        "symptom": "0.1-0.5A (partial boot attempt)",
+        "action": "Check PP5V_S2",
+        "branches": {
+          "pp5v_s2_missing": "PMU alive but PP5V_S2 regulator fault — check P5VS2_PWR_EN, UC300/equivalent",
+          "pp5v_s2_present": "Board reaching S2 state — check SoC power domains, SPI NOR flash, try DFU mode"
+        }
+      },
+      {
+        "step": "F",
+        "symptom": "0.5-2.0A (significant draw but no boot)",
+        "action": "Try SOC_FORCE_DFU (Apple Configurator)",
+        "branches": {
+          "dfu_works": "Hardware is fine — NAND/firmware issue. Restore or replace NAND.",
+          "dfu_fails": "SoC or compute path fault — check SoC power domains, ground connections, secure element"
+        }
+      },
+      {
+        "step": "G",
+        "symptom": "2.0A+ but no display",
+        "action": "Board is booting but display path failed",
+        "check": [
+          "Connect external display via HDMI/USB-C to confirm macOS is running",
+          "Check backlight driver (BEN/DP600/Luxe depending on model)",
+          "Check eDP connector and display power sequencer",
+          "Check display flex cable for damage",
+          "If Pro/Max: check HDMI output via Madea/Cobra controller"
+        ]
+      }
+    ]
+  },
+  "power_on_sequence_universal": {
+    "source": "Eason @ iphone_cpu_fix, verified against all Apple Silicon schematics",
+    "note": "This sequence is the SAME for all Apple Silicon MacBooks. Only component designators and current ratings change between models.",
+    "sequence": [
+      "1. USB-C/MagSafe provides 5V → CD3217 MOSFET → PPHV_INT → PPDCIN_AONSW",
+      "2. PPDCIN_AONSW → charger IC (U5200) with SYS_DETECT from battery connector",
+      "3. Charger IC → PPBUS_AON (~12.6V temporary from battery, or direct from adapter)",
+      "4. PPBUS_AON → U5700 SVR AON controller → 3-phase buck (Q5800/Q5820/Q5840 via L5800/L5820/L5840) → PP3V8_AON_VDDMAIN",
+      "5. PP3V8_AON_VDDMAIN → MPMU + comparator circuit. Comparator checks PPBUS_AON via voltage divider. When threshold met → PMU_VDD_HI → MPMU starts",
+      "6. MPMU → all PMU rails (buck converters + LDOs). SPMU → additional rails. PP3V3_S2_UPC/PP1V8_S2 to CD3217.",
+      "7. SoC hard start — needs 24MHz crystal + 32.768kHz crystal + PMU_RESET_L release. SoC reads ROM, initializes I2C to CD3217.",
+      "8. SoC → PMU → P5VS2_PWR_EN → PP5V_S2 regulator starts (AFTER hard start, not during).",
+      "9. CD3217 reads shared SPI ROM, sends PD negotiation via CC1/CC2 → charger boosts to 20V.",
+      "10. 20V → CD3217 MOSFET → charger IC → real PPBUS_AON (12.6V regulated). System now running at full power."
+    ]
+  },
+  "board_specific_notes": {
+    "base_models": {
+      "models": ["A2337", "A2338", "A2681", "A2338_M2", "A3113", "A3114"],
+      "notes": [
+        "Simpler topology — no Viper/Monaco/Austringer/CLVR VRs",
+        "SVR AON is 30A (Air) or 36A (Pro 13\")",
+        "2x USB-C on left side only",
+        "No HDMI, no SD card slot (except A2918)",
+        "Single SSD (no SSD1)"
+      ]
+    },
+    "pro_max_models": {
+      "models": ["A2442", "A2485", "A2779", "A2780"],
+      "notes": [
+        "SVR AON is 42A+ with BOM-selectable thresholds",
+        "Additional VRs for CPU/GPU clusters: Viper+Monaco (M1 Pro/Max) or Austringer+CLVR (M2 Pro/Max)",
+        "3x USB-C (2 left + 1 right)",
+        "HDMI via Madea/Cobra controller",
+        "SD card reader",
+        "Dual SSD (SSD0 + SSD1)",
+        "MagSafe (with separate port controller)"
+      ]
+    },
+    "m3_specific": {
+      "models": ["A2918", "A3113", "A3114"],
+      "notes": [
+        "Enhanced comparator: U5950 + Q5960 active throttle MOSFET",
+        "Active throttling instead of hard shutdown on overcurrent",
+        "PBUS E-Fuse present",
+        "San Diego audio PMU (A3113/A3114)",
+        "PMU AMR Test circuit with R8020"
+      ]
+    }
+  }
+}

@@ -236,7 +236,11 @@ async function main() {
   const intercomClient = new IntercomClient({
     baseUrl: process.env.INTERCOM_BASE_URL || "https://api.intercom.io",
     token: process.env.INTERCOM_API_TOKEN,
-    adminId: process.env.INTERCOM_ADMIN_ID || "9702338"
+    adminId: (() => {
+      const id = process.env.INTERCOM_ADMIN_ID || "9702337";
+      if (id !== "9702337") throw new Error(`INTERCOM_ADMIN_ID must be 9702337 (Support). Got: ${id}. Using any other admin ID is forbidden.`);
+      return id;
+    })()
   });
 
   fs.mkdirSync(path.dirname(OUTPUT_PATH), { recursive: true });

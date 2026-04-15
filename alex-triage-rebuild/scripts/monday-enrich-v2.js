@@ -19,6 +19,11 @@ function firstName(value) {
   return normalize(value).split(/\s+/).filter(Boolean)[0] || null;
 }
 
+function lastName(value) {
+  const parts = normalize(value).split(/\s+/).filter(Boolean);
+  return parts.length >= 2 ? parts[parts.length - 1] : null;
+}
+
 function emailDomain(value) {
   const email = normalize(value);
   return email.includes("@") ? email.split("@")[1] : null;
@@ -104,7 +109,12 @@ function scoreCandidate(input, item) {
     itemFirstName === customerFirstName &&
     (receivedDaysAgo === null || receivedDaysAgo <= 7)
   ) {
-    return { confidence: 0.7, match_reason: "fuzzy_email_domain" };
+    const customerLastName = lastName(input.customerName);
+    const itemLastName = lastName(item.name);
+    if (customerLastName && itemLastName && customerLastName === itemLastName) {
+      return { confidence: 0.7, match_reason: "fuzzy_email_domain" };
+    }
+    return { confidence: 0.5, match_reason: "fuzzy_email_domain_first_only" };
   }
 
   if (
@@ -117,13 +127,13 @@ function scoreCandidate(input, item) {
     return { confidence: 0.65, match_reason: "corporate_company_match" };
   }
 
-  if (
-    customerFirstName &&
-    itemName.includes(customerFirstName) &&
-    deviceHintType &&
-    detectDeviceType(itemDevice) === deviceHintType
-  ) {
-    return { confidence: 0.5, match_reason: "name_device_match" };
+  if (customerFirstName && itemName.includes(customerFirstName) && deviceHintType && detectDeviceType(itemDevice) === deviceHintType) {
+    const customerLastName = lastName(input.customerName);
+    const itemLastName = lastName(item.name);
+    if (customerLastName && itemLastName && customerLastName === itemLastName) {
+      return { confidence: 0.7, match_reason: "name_device_match" };
+    }
+    return { confidence: 0.45, match_reason: "name_device_match_first_only" };
   }
 
   return null;

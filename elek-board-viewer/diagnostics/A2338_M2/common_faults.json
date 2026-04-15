@@ -1,9 +1,9 @@
 {
-  "WARNING": "These test points are for A2338 M2 (820-02773) ONLY. For other boards, use that board's diagnostic files.",
-  "board": "A2338",
+  "WARNING": "These test points are for A2338_M2 (820-02773) ONLY. For other boards, use that board's diagnostic files.",
+  "board": "A2338_M2",
   "schematic": "820-02773",
-  "title": "Common Faults — A2338 M2 MacBook Pro 13\"",
-  "description": "Known common failure modes for the A2338 M2 (820-02773) logic board, compiled from repair experience and schematic analysis. Board features: 2x USB-C, DFR (Touch Bar), fan, Rasputin WiFi module.",
+  "title": "Common Faults — A2338_M2 MacBook Pro 13\"",
+  "description": "Known common failure modes for the A2338_M2 (820-02773) logic board, compiled from repair experience and schematic analysis. Board features: 2x USB-C, DFR (Touch Bar), fan, Rasputin WiFi module.",
   "faults": [
     {
       "id": "CF001",
@@ -134,7 +134,7 @@
           "check": "Inspect U5200 area for corrosion. Measure PPBUS_AON stability.",
           "fix": "Clean board thoroughly. Replace U5200 if corroded. Rebuild surrounding passives (R5275, C5200 area).",
           "page": [25],
-          "note": "From Safan diagnostic records: multiple A2338 liquid damage cases requiring Tier 2 logic board repair (battery distribution/charging circuit rebuild). Typical quote: £329-£399."
+          "note": "From Safan diagnostic records: multiple A2338_M2 liquid damage cases requiring Tier 2 logic board repair (battery distribution/charging circuit rebuild). Typical quote: £329-£399."
         },
         {
           "cause": "CHGR_AUX_OK circuit corrosion (page 26)",
@@ -244,7 +244,7 @@
     }
   ],
   "notes": [
-    "A2338 is used for BOTH M1 and M2 MacBook Pro 13\". This file covers the M2 variant (820-02773). The M1 variant uses a different schematic (820-02020).",
+    "A2338_M2 covers the M2 variant. Note: A2338 model number is used for BOTH M1 and M2 MacBook Pro 13\". This file covers the M2 variant (820-02773). The M1 variant uses a different schematic (820-02020).",
     "DFR (Touch Bar) is unique to this model — not present on MacBook Air or later MacBook Pro models.",
     "Rasputin WiFi module (WiFi 6E) replaces the Typhoon module used in A2681 MacBook Air M2.",
     "Battery flex is SOLDERED to MLB (J5150A solder pads, page 24) — requires desoldering for replacement."

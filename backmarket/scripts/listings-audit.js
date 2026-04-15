@@ -31,7 +31,7 @@ const BM_BASE = 'https://www.backmarket.co.uk';
 const BM_AUTH = process.env.BACKMARKET_API_AUTH;
 const BM_LANG = process.env.BACKMARKET_API_LANG || 'en-gb';
 const BM_UA = process.env.BACKMARKET_API_UA;
-const PRODUCT_ID_LOOKUP_PATH = path.join(__dirname, 'data', 'product-id-lookup.json');
+const PRODUCT_ID_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'product-id-lookup.json');
 
 const args = process.argv.slice(2);
 const limitIdx = args.indexOf('--limit');

@@ -72,7 +72,7 @@
           "step": 3,
           "action": "PP5V_S2 missing - investigate UC300 path",
           "measure": "Check UC300 (LN84243-1) output and enable gating (UC637/UC630, page 52)",
-          "note": "A3113 uses LN84243-1 for UC300 (not same part as A2681). P5VS2_PWR_EN gated by PMU_CRASH logic."
+          "note": "A3113 uses LN84243-1 for UC300. P5VS2_PWR_EN gated by PMU_CRASH logic."
         },
         {
           "step": 4,

@@ -1,12 +1,11 @@
 {
   "board": "A2779",
   "schematic": "820-02655",
-  "description": "Boot power-on sequence for M2 Pro/Max. Key difference from A2442: Austringer VR (not Viper) and CLVR (not Monaco) must power up before SoC dynamic domains are ready. 42A SVR AON design.",
-  "WARNING": "Austringer replaces Viper. CLVR replaces Monaco. MPMU/SPMU buck numbers differ from A2442. Verify all buck assignments against power aliases pages 145-146.",
+  "description": "Boot power-on sequence for M2 Pro/Max. Austringer VR (U9300) produces PP1V8_S1_CLVR_VDDH to feed CLVRs. CLVR0-4 produce dynamic SoC domains. MPMU/SPMU buck numbering per pages 145-146.",
   "sequence": [
     {
       "step": 1,
-      "name": "USB-C Cable Insertion -- 5V Default",
+      "name": "USB-C Cable Insertion — 5V Default",
       "action": "USB-C cable inserted. Charger provides default 5V. CD3217 (UF400/UF500/UG400) internal MOSFET passes 5V.",
       "rail": "PPVBUS_USBC0/1/2",
       "voltage": "5V",
@@ -14,7 +13,7 @@
     },
     {
       "step": 2,
-      "name": "Charger Input Active -- PPDCIN_AON",
+      "name": "Charger Input Active — PPDCIN_AON",
       "action": "Charger input path enabled. CHGR_AUX_OK asserted. I2C level translation active (page 30).",
       "rail": "PPDCIN_AON",
       "voltage": "~5V",
@@ -30,50 +29,51 @@
     },
     {
       "step": 4,
-      "name": "PP3V8_AON Powers Up -- U5700 SVR AON (42A)",
-      "action": "U5700 converts PPBUS_AON to PP3V8_AON (3.8V, 42A max). 3 Iceman gate driver phases. Feeds both PMUs + WiFi + display + USB-C.",
+      "name": "PP3V8_AON Powers Up — U5700 SVR AON (42A)",
+      "action": "U5700 (RAA2255010-RC01) converts PPBUS_AON to PP3V8_AON (3.8V, 42A max). 3 Iceman gate driver phases. Feeds both PMUs + WiFi + display + USB-C.",
       "rail": "PP3V8_AON",
       "voltage": "3.8V",
-      "enable": "PPVAON_PWR_EN",
-      "fault": "PPVAON_FAULT_L",
+      "enable": "P3V8AON_PWR_EN",
+      "fault": "P3V8AON_FAULT_L",
       "page": [34, 35, 36]
     },
     {
       "step": 5,
-      "name": "SPMU & MPMU Startup -- AON and S2 Rails Cascade",
+      "name": "SPMU & MPMU Startup — AON and S2 Rails Cascade",
       "action": "Both PMUs receive PP3V8_AON and generate output rails in hardware-defined sequence.",
       "rails_aon_first": [
-        "PP1V8_AON_SPMU (SPMU LDO AON)",
-        "PP1V2_AON_SPMU (SPMU LDO AON)",
+        "PP1V8_AON_SPMU (SPMU internal AON LDO)",
+        "PP1V2_AON_SPMU (SPMU internal AON LDO)",
         "PP1V5_AON_VCORE_MPMU (MPMU internal)",
         "PP1V5_AON_VCORE_SPMU (SPMU internal)",
-        "PP3V3_AON",
-        "PP1V8_AON",
-        "PP1V2_AON"
+        "PP3V3_AON (MPMU LDO4)",
+        "PP1V8_AON (MPMU LDO1V8)",
+        "PP1V2_AON (MPMU LDO1V2)"
       ],
       "rails_s2_next": [
-        "PP1V2_S2 (MPMU BUCK 8 secondary)",
+        "PP1V2_S2 (MPMU BUCK 8, PD#8)",
         "PP1V25_S2",
-        "PP1V8_S2 (MPMU BUCK 3)",
-        "PP0V72_S2_VDDLOW (SPMU LDO 0)",
-        "PP0V855_S2SW_VDDCIO (SPMU BUCK 6)"
+        "PP1V8_S2 (SPMU BUCK 3, PD#19)",
+        "PPVDD_LOW_S2 (SPMU LDO 0)",
+        "PP0V8_S2_CLVR_VDDDIG (MPMU LDO 5)"
       ],
       "rails_s1_then": [
-        "PPVDD_SRAM_S1 (MPMU BUCK 0)",
-        "PPVDD_SOC_S1 (SPMU BUCK 5)",
-        "PPVDD_DCS_S1 (MPMU BUCK 7 + SPMU BUCK 0)",
-        "PPVDD_FABRIC_S1 (CLVR3 Buck2/HP1)",
-        "PPVDD_FIXED_S1 (MPMU BUCK 8)"
+        "PPVDD_SRAM_S1 (MPMU BUCK 0, PD#7)",
+        "PPVDD_SOC_S1 (SPMU BUCK 5, PD#11)",
+        "PPVDD_DCS_S1 (SPMU BUCK 0, PD#17)",
+        "PPVDD_FIXED_S1 (MPMU BUCK 9, PD#9)",
+        "PPVDDQ0_S1 (SPMU BUCK 1, PD#13)",
+        "PPVDDQ1_S1 (MPMU BUCK 10, PD#10)"
       ],
       "page": [38, 39, 40, 42, 43, 44]
     },
     {
       "step": 6,
-      "name": "Standalone VRs Power Up -- 5V and 3V3",
-      "action": "UC260 generates PP5V_S2. Load switches enabled for USB-C ports and HDMI.",
+      "name": "Standalone VRs Power Up — 5V and 3V3",
+      "action": "UC260 generates PP5V_S2 (5.15V, typ 6.4ms startup, 1.5MHz). Load switches enabled for USB-C ports and HDMI.",
       "rails": [
-        {"rail": "PP5V_S2", "voltage": "5V", "ic": "UC260", "enable": "PP5V2P5_PWR_EN"},
-        {"rail": "PP3V3_S2", "voltage": "3.3V"},
+        {"rail": "PP5V_S2", "voltage": "5.15V", "ic": "UC260", "enable": "P5VS2TPS_PWR_EN"},
+        {"rail": "PP3V3_S2", "voltage": "3.3V", "ic": "MPMU LDO0"},
         {"rail": "PP5V_S2SW_USBC01", "voltage": "5V", "load": "Left USB-C ports"},
         {"rail": "PP5V_S2SW_USBC23", "voltage": "5V", "load": "Right USB-C + HDMI"}
       ],
@@ -81,58 +81,60 @@
     },
     {
       "step": 7,
-      "name": "CLVR Instances Power Up -- CPU/GPU/Fabric/ANE Domains",
-      "action": "5 CLVR instances start generating dynamic SoC domains. This replaces the Viper+Monaco architecture of A2442.",
+      "name": "Austringer VR Powers Up — CLVR VDDH Supply",
+      "action": "U9300 Austringer VR controller starts multi-phase power stages (5 phases). Produces PP1V8_S1_CLVR_VDDH which is the supply rail feeding all 5 CLVR instances.",
+      "rail": "PP1V8_S1_CLVR_VDDH",
+      "voltage": "1.8V",
+      "enable": "P1V8VDDH_PW_EN_R",
+      "fault": "P1V8VDDH_FAULT_L",
+      "page": [47, 48, 49, 50, 51]
+    },
+    {
+      "step": 8,
+      "name": "CLVR Instances Power Up — CPU/GPU/Fabric/ANE Domains",
+      "action": "5 CLVR instances start generating dynamic SoC domains once PP1V8_S1_CLVR_VDDH is stable.",
       "rails": [
-        "PPVDD_PCPU0_AWAKESW (CLVR0 Buck0/HP0)",
-        "PPVDD_PCPU1_AWAKESW (CLVR0 Buck2/HP1, Max only)",
-        "PPVDD_GPU0_AWAKESW (CLVR1 Buck0/HP0)",
-        "PPVDD_GPU1_AWAKESW (CLVR2 Buck0/HP0, Max only)",
-        "PPVDD_DPL0_AWAKESW (CLVR3 Buck0/HP0)",
+        "PPVDD_PCPU0_AWAKESW (CLVR0 Buck2/HP1)",
+        "PPVDD_PCPU1_AWAKESW (CLVR0 Buck0/HP0, Max only)",
+        "PPVDD_PCPU_SRAM0_AWAKESW (CLVR0 Buck3/LP1)",
+        "PPVDD_PCPU_SRAM1_AWAKESW (CLVR0 Buck1/LP0, Max only)",
+        "PPVDD_GPU2_AWAKESW (CLVR1 Buck0/HP0)",
+        "PPVDD_GPU0_AWAKESW (CLVR2 Buck0/HP0, Max only)",
         "PPVDD_FABRIC_S1 (CLVR3 Buck2/HP1)",
         "PPVDD_ANE_AWAKESW (CLVR4 Buck0/HP0)"
       ],
       "page": [52, 53, 54, 55, 56, 144]
     },
     {
-      "step": 8,
-      "name": "Austringer VR Powers Up -- PCPU SRAM Domains",
-      "action": "U9300 Austringer VR controller starts multi-phase power stages (5 phases). PCPU SRAM domains receive power. NOT same as A2442 Viper.",
-      "rails": [
-        "PPVDD_PCPU_SRAM0_AWAKESW",
-        "PPVDD_PCPU_SRAM1_AWAKESW (Max only)"
-      ],
-      "fault": "PVRVD0N_FAULT_L",
-      "page": [47, 48, 49, 50, 51]
-    },
-    {
       "step": 9,
-      "name": "MPMU AWAKE Domains Active",
-      "action": "MPMU AWAKE bucks generate remaining dynamic domains.",
+      "name": "MPMU/SPMU AWAKE Domains Active",
+      "action": "MPMU and SPMU AWAKE bucks generate remaining dynamic domains.",
       "rails": [
-        "PPVDD_ECPU_AWAKESW (MPMU BUCK 5)",
-        "PP1V8_AWAKE (MPMU LDO 4)",
-        "PP1V2_AWAKE (SPMU BUCK 8)"
+        "PPVDD_ECPU_AWAKESW (SPMU BUCK 10, PD#0)",
+        "PPVDD_ECPU_SRAM_AWAKESW (SPMU BUCK 2, PD#2)",
+        "PPVDD_DISP_AWAKESW (MPMU BUCK 5, PD#20)",
+        "PP1V8_AWAKE (SPMU SW0)",
+        "PP1V2_AWAKE (SPMU BUCK 8, PD#12)"
       ],
       "signal": "PMU_ACTIVE_READY -> SoC begins hard start",
-      "page": [43, 44, 145, 146]
+      "page": [39, 43, 44, 145, 146]
     },
     {
       "step": 10,
-      "name": "M2 Pro/Max Hard Start Complete -- SoC Commands CD3217",
-      "action": "SoC completed OTP and hard start. Commands CD3217 to negotiate PD.",
+      "name": "M2 Pro/Max Hard Start Complete — SoC Commands CD3217",
+      "action": "SoC completed OTP and hard start. Commands CD3217 to negotiate PD to 20V.",
       "page": [77, 78, 86]
     },
     {
       "step": 11,
-      "name": "Soft Start -- SSD, BIOS, Display",
+      "name": "Soft Start — SSD, BIOS, Display",
       "action": "SoC reads dual SSDs (SSD0 + SSD1 via Ocarina), loads firmware, display power sequencer (UP710, page 117) enables Mini-LED XDR panel, Luxe backlight (UP800) activates.",
       "subsystems": [
         "Dual SSD (Ocarina controllers, pages 107, 112)",
         "Display power sequencer UP710 (page 117)",
         "Luxe backlight UP800 (page 118)",
-        "HDMI Cobra (page 94) -- if external display",
-        "SD card (page 97) -- if card inserted"
+        "HDMI Cobra (page 94) — if external display",
+        "SD card (page 97) — if card inserted"
       ],
       "page": [103, 104, 105, 106, 107, 108, 109, 110, 111, 112, 116, 117, 118]
     }

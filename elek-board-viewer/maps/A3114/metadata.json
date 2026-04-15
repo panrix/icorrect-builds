@@ -2,11 +2,11 @@
   "board_number": "A3114",
   "schematic_number": "820-03285",
   "internal_name": "X2819/MLB",
-  "model_identifier": "MacBook Air 13\" M3",
+  "model_identifier": "MacBook Air 15\" M3",
   "apple_part_number": "051-09344",
   "chip": "M3",
   "form_factor": "MacBook Air",
-  "screen_size": "13.6\"",
+  "screen_size": "15.3\"",
   "year": 2024,
   "revision": "DVT",
   "schematic_revision": "4.0.1",
@@ -29,7 +29,11 @@
     "soc_pcie": 12,
     "soc_cio": 13,
     "soc_spi_nor_sep_rom": 14,
-    "soc_source_terms": [15, 16, 17],
+    "soc_source_terms": [
+      15,
+      16,
+      17
+    ],
     "soc_power_pcpu": 18,
     "soc_power_ecpu": 19,
     "soc_power_sram": 20,
@@ -38,7 +42,10 @@
     "soc_power_fixed": 23,
     "soc_power_vdd12": 24,
     "soc_power_vddio_low_cio": 25,
-    "soc_gnd": [26, 27],
+    "soc_gnd": [
+      26,
+      27
+    ],
     "secure_element": 28,
     "battery_connector": 29,
     "pbus_supply_battery_charger": 30,

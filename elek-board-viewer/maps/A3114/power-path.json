@@ -8,218 +8,247 @@
       "stage": 1,
       "name": "USB-C Input & Initial 5V",
       "description": "USB-C connector supplies 5V default. Port controllers manage CC signaling and VBUS switching.",
-      "nodes": [
-        {
-          "input": "USB-C cable (5V default)",
-          "output": "PPVBUS_USBC0",
-          "voltage": "5V (initial)",
-          "ic": "UF400 (ATC0 Port Controller)",
-          "port": "Left Rear USB-C",
-          "enable": "Cable insertion detected via CC1/CC2",
-          "fault": "No CC communication -> cable/connector fault",
-          "test_point": "CF400/CF401 (PPVBUS_USBC0 decoupling)",
-          "page": [64, 69]
-        },
-        {
-          "input": "USB-C cable (5V default)",
-          "output": "PPVBUS_USBC1",
-          "voltage": "5V (initial)",
-          "ic": "UF500 (ATC1 Port Controller)",
-          "port": "Left Front USB-C",
-          "enable": "Cable insertion detected via CC1/CC2",
-          "fault": "No CC communication -> cable/connector fault",
-          "test_point": "CF501 (PPVBUS_USBC1 decoupling)",
-          "page": [64, 70]
-        },
-        {
-          "input": "MagSafe cable",
-          "output": "PPVBUS_USBC5",
-          "voltage": "5V -> 20V",
-          "ic": "U5900 (ACE3 MagSafe Port Controller, 338S01614)",
-          "port": "J5401 MagSafe",
-          "enable": "Magnet detection -> D5401/D5402/D5403 ESD circuit",
-          "fuse": "F5600 (CONNECTION TO DCIN, 4A-32V, CRITICAL)",
-          "page": [32, 33, 34]
-        }
+      "components": [
+        "UF400",
+        "UF500",
+        "U5900",
+        "DF400",
+        "DF500",
+        "F5600",
+        "JE700",
+        "JE701",
+        "J5401"
+      ],
+      "input_rails": [
+        "USB-C cable 5V"
+      ],
+      "output_rails": [
+        "PPVBUS_USBC0",
+        "PPVBUS_USBC1",
+        "PPVBUS_USBC5"
+      ],
+      "page": [
+        64,
+        69,
+        70,
+        32,
+        33,
+        34
       ]
     },
     {
       "stage": 2,
       "name": "PD Negotiation & 20V Boost",
       "description": "Port controllers negotiate USB PD to request 20V from charger adapter.",
-      "page": [30, 69, 70]
+      "components": [
+        "UF400",
+        "UF500"
+      ],
+      "input_rails": [
+        "PPVBUS_USBC0",
+        "PPVBUS_USBC1"
+      ],
+      "output_rails": [
+        "PPVBUS_USBC0",
+        "PPVBUS_USBC1"
+      ],
+      "page": [
+        69,
+        70
+      ]
     },
     {
       "stage": 3,
       "name": "Charger -> PPBUS_AON",
-      "description": "Charger IC converts USB-C/MagSafe input to PPBUS_AON. Battery also connects to PPBUS_AON.",
-      "nodes": [
-        {
-          "input": "PPDCIN_USBC_AON / PPCON_ACNSW",
-          "output": "PPBUS_AON",
-          "voltage": "12.6V (battery) / ~20V (adapter)",
-          "ic": "Charger IC (page 30 area)",
-          "enable": "CHGR_AUX_OK (page 31), BMU SYS_DETECT (J5150, page 29)",
-          "fault": "No PPBUS -> charger IC fault, port controller not negotiating, or battery disconnected",
-          "test_point": "C5704 -> expect 12V",
-          "page": [29, 30, 31]
-        }
+      "description": "Charger IC U5200 converts USB-C/MagSafe input to PPBUS_AON. Battery also connects to PPBUS_AON.",
+      "components": [
+        "U5200",
+        "J5150",
+        "J5151",
+        "Q5100",
+        "Q5190",
+        "D5100"
+      ],
+      "input_rails": [
+        "PPDCIN_USBC_AON",
+        "PPCON_ACNSW",
+        "PPVBAT_AON_CONN"
+      ],
+      "output_rails": [
+        "PPBUS_AON"
+      ],
+      "page": [
+        29,
+        30,
+        31
       ]
     },
     {
       "stage": 4,
       "name": "SVR AON -> PP3V8_AON",
       "description": "U5700 multi-phase buck converts PPBUS_AON down to 3.8V always-on rail. Single most important rail.",
-      "nodes": [
-        {
-          "input": "PPBUS_AON",
-          "output": "PP3V8_AON",
-          "voltage": "3.8V",
-          "ic": "U5700 (SVR AON, 30A ICC MAX, APN 351002645)",
-          "enable": "P3V8AON_PWR_EN",
-          "fault": "P3V8AON_FAULT_L (active low)",
-          "current_sense": "U5910 (MAX41033ANT+), U5950",
-          "page": [35, 36, 37]
-        },
-        {
-          "input": "PP3V8_AON",
-          "output": "PP3V8_AON_VDDMAIN",
-          "voltage": "3.8V",
-          "ic": "Distribution (branch of PP3V8_AON)",
-          "page": [101]
-        },
-        {
-          "input": "PP3V8_AON",
-          "output": "PP3V8_AON_WLBT",
-          "voltage": "3.8V",
-          "ic": "Distribution to WiFi/BT Willamette module",
-          "page": [75, 101]
-        }
+      "components": [
+        "U5700",
+        "U5910",
+        "U5940",
+        "U5950"
+      ],
+      "input_rails": [
+        "PPBUS_AON"
+      ],
+      "output_rails": [
+        "PP3V8_AON",
+        "PP3V8_AON_VDDMAIN",
+        "PP3V8_AON_WLBT"
+      ],
+      "page": [
+        35,
+        36,
+        37
       ]
     },
     {
       "stage": 5,
       "name": "PMU Distribution",
       "description": "PP3V8_AON feeds both SPMU (U7700) and MPMU (U8100). Each PMU generates multiple buck and LDO outputs.",
-      "spmu_u7700": {
-        "input": "PP3V8_AON",
-        "omit_table": "998-23585",
-        "bucks": [
-          {"buck": "BUCK 5", "output": "PP0V75_S1_SRAM", "voltage": "0.75V", "state": "S1"},
-          {"buck": "BUCK 6", "output": "PP1V25_AWAKE_NAND_VCC", "voltage": "1.25V", "state": "AWAKE"},
-          {"buck": "BUCK 8", "output": "PPVDD_S1_ESTP", "voltage": "Variable", "state": "S1"},
-          {"buck": "BUCK 10", "output": "PP0V5_S1_VDDOL", "voltage": "0.5V", "state": "S1"},
-          {"buck": "BUCK 12", "output": "PPVDD_AWAKE_PCPU_2", "voltage": "Variable", "state": "AWAKE"},
-          {"buck": "BUCK 12 SW6/7", "output": "PP3V8_AWAKE_NAND_VDD", "voltage": "3.8V", "state": "AWAKE"},
-          {"buck": "BUCK 13 SW5", "output": "PP1V25_AWAKE_NAND_VCC5", "voltage": "1.25V", "state": "AWAKE"},
-          {"buck": "BUCK 3 SW4", "output": "PP1V8_AWAKE_SPMU_GP10", "voltage": "1.8V", "state": "AWAKE"},
-          {"buck": "BUCK 14", "output": "PP1V12_S2SM_AMPH", "voltage": "1.12V", "state": "S2"}
-        ],
-        "ldos": [
-          {"ldo": "LDO 4", "output": "PP0V72_S2_VDD_LOW", "voltage": "0.72V", "state": "S2", "max_ma": 300},
-          {"ldo": "LDO 6", "output": "NC", "state": "NC", "max_ma": 50},
-          {"ldo": "LDO 9", "output": "PP1V8_AON_SPMU", "voltage": "1.8V", "state": "AON", "max_ma": 10},
-          {"ldo": "LDO 9B", "output": "PP1V2_AON_SPMU", "voltage": "1.2V", "state": "AON", "max_ma": 10},
-          {"ldo": "LDO 12", "output": "PP0V78_S1_VDD_FIXED", "voltage": "0.78V", "state": "S1", "max_ma": 850},
-          {"ldo": "LDO 15", "output": "NC", "state": "NC"},
-          {"ldo": "LDO 17", "output": "NC", "state": "NC", "max_ma": 250},
-          {"ldo": "LDO 18", "output": "NC", "state": "NC", "max_ma": 250},
-          {"ldo": "LDOINT", "output": "PP1V5_LDOINT_SPMU", "voltage": "1.5V", "state": "AON", "max_ma": 150}
-        ],
-        "boost": {"output": "PP5V_SPMU_BSTLQ", "voltage": "5.0V", "state": "AON"},
-        "switches": [
-          {"sw": "VSW4", "output": "PP1V8_AWAKE_SPMU_GP10", "max_ma": 200, "mohm": 125},
-          {"sw": "VSW5", "output": "PP1V25_AWAKE_NAND_VCC5", "max_ma": 900, "mohm": 23},
-          {"sw": "VSW6", "output": "PP3V8_AWAKE_NAND_VDD", "max_ma": 150, "mohm": 23},
-          {"sw": "VSW7", "output": "PP3V8_AWAKE_NAND_VDD (tied to SW6)", "max_ma": 920, "mohm": 23}
-        ],
-        "page": [38, 39, 40, 41]
-      },
-      "mpmu_u8100": {
-        "input": "PP3V8_AON (VODMAN)",
-        "omit_table": "998-23524",
-        "bucks": [
-          {"buck": "BUCK 0", "output": "PPVDD_AWAKE_PCPU", "voltage": "Variable DVFS", "state": "AWAKE"},
-          {"buck": "BUCK 1", "output": "PPVDD_AWAKE_GPU", "voltage": "Variable DVFS", "state": "AWAKE"},
-          {"buck": "BUCK 2", "output": "PPVDD_S1_SOC", "voltage": "Variable", "state": "S1"},
-          {"buck": "BUCK 3", "output": "PP1V8_S2", "voltage": "1.8V", "state": "S2"},
-          {"buck": "BUCK 3 SW1", "output": "PP1V8_AWAKE", "voltage": "1.8V", "state": "AWAKE"},
-          {"buck": "BUCK 3 SW2", "output": "PP1V8_S2SM_DPG", "voltage": "1.8V", "state": "S2"},
-          {"buck": "BUCK 4", "output": "PP1V85_S2SM_VDDQ5", "voltage": "1.85V", "state": "S2"},
-          {"buck": "BUCK 7", "output": "PPVDD_AWAKE_CPU_SRAM", "voltage": "Variable DVFS", "state": "AWAKE"},
-          {"buck": "BUCK 9", "output": "PPVDD_S1_DCS", "voltage": "Variable", "state": "S1"},
-          {"buck": "BUCK 11", "output": "PPVDD_AWAKE_ECPU", "voltage": "Variable DVFS", "state": "S1/AWAKE"},
-          {"buck": "BUCK 13", "output": "PP1V25_S2", "voltage": "1.25V", "state": "S2"},
-          {"buck": "BUCK 13 SW3", "output": "PP1V25_AWAKE_3D", "voltage": "1.25V", "state": "AWAKE"}
-        ],
-        "ldos": [
-          {"ldo": "LDO 1", "output": "NC", "state": "NC", "max_ma": 300},
-          {"ldo": "LDO 2", "output": "PP3V_AON", "voltage": "3.0V", "state": "AON", "max_ma": 50},
-          {"ldo": "LDO 3", "output": "NC", "state": "NC", "max_ma": 600},
-          {"ldo": "LDO 5", "output": "NC", "state": "NC", "max_ma": 250},
-          {"ldo": "LDO 7", "output": "PP3V3_S2_LDO", "voltage": "3.3V", "state": "S2", "max_ma": 250},
-          {"ldo": "LDO 8", "output": "PP1V2_AWAKE_PLL", "voltage": "1.2V", "state": "AWAKE", "max_ma": 730},
-          {"ldo": "LDO 9", "output": "PP1V8_AON_MPMU", "voltage": "1.8V", "state": "AON", "max_ma": 10},
-          {"ldo": "LDO 9B", "output": "PP1V2_AON_MPMU", "voltage": "1.2V", "state": "AON", "max_ma": 10},
-          {"ldo": "LDO 10", "output": "PPVDS5_S2SM_CIO", "voltage": "0.855V", "state": "S2", "max_ma": 250},
-          {"ldo": "LDO 11", "output": "PPVBS5_S2SM_CIO", "voltage": "variable", "state": "S2", "max_ma": 1000},
-          {"ldo": "LDO 13", "output": "NC", "state": "NC", "max_ma": 250},
-          {"ldo": "LDO 14", "output": "NC", "state": "NC", "max_ma": 300},
-          {"ldo": "LDO 16", "output": "NC", "state": "NC", "max_ma": 1500},
-          {"ldo": "LDO 20", "output": "PP1V2_S2_CIO", "voltage": "1.2V", "state": "S2", "max_ma": 400},
-          {"ldo": "LDOINT", "output": "PP1V5_LDOINT_MPMU", "voltage": "1.5V", "state": "AON", "max_ma": 150},
-          {"ldo": "LDO RTC", "output": "PP1V5_LDOINT_MPMU_RTC", "voltage": "1.5V", "state": "AON", "note": "Shorted to LDOINT for portables"}
-        ],
-        "boost": {"output": "PP5V_MPMU_BSTLQ", "voltage": "5.0V", "state": "AON"},
-        "control_signals": {
-          "ready": "PMU_ACTIVE_READY",
-          "fault": "MPMU_FAULT_OUT_L",
-          "reset": "PMU_RESET_L",
-          "force_dfu": "SOC_FORCE_DFU",
-          "crash": "MPMU_CRASH_L",
-          "sys_alive": "PMU_SYS_ALIVE"
-        },
-        "page": [42, 43, 44, 45, 46, 47, 48]
-      }
+      "components": [
+        "U7700",
+        "U8100"
+      ],
+      "input_rails": [
+        "PP3V8_AON"
+      ],
+      "output_rails": [
+        "PPVDD_AWAKE_PCPU",
+        "PPVDD_AWAKE_GPU",
+        "PPVDD_S1_SOC",
+        "PP1V8_S2",
+        "PP1V85_S2SM_VDDQ5",
+        "PPVDD_AWAKE_CPU_SRAM",
+        "PPVDD_S1_DCS",
+        "PPVDD_AWAKE_ECPU",
+        "PP1V25_S2",
+        "PP0V75_S1_SRAM",
+        "PP1V25_AWAKE_NAND_VCC",
+        "PPVDD_S1_ESTP",
+        "PP0V5_S1_VDDOL",
+        "PPVDD_AWAKE_PCPU_2",
+        "PP1V12_S2SM_AMPH",
+        "PP1V8_AON_SPMU",
+        "PP1V8_AON_MPMU",
+        "PP1V2_AON_SPMU",
+        "PP1V2_AON_MPMU",
+        "PP0V72_S2_VDD_LOW",
+        "PP0V78_S1_VDD_FIXED",
+        "PP3V_AON",
+        "PP3V3_S2_LDO",
+        "PP1V2_AWAKE_PLL",
+        "PPVDS5_S2SM_CIO",
+        "PPVBS5_S2SM_CIO",
+        "PP1V2_S2_CIO",
+        "PP1V5_LDOINT_MPMU",
+        "PP1V5_LDOINT_SPMU",
+        "PP5V_MPMU_BSTLQ",
+        "PP5V_SPMU_BSTLQ"
+      ],
+      "page": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48
+      ]
     },
     {
       "stage": 6,
       "name": "Standalone Regulators & Load Switches",
       "description": "UC300 and UC710 produce 5V and 3.3V from PPBUS_AON. Load switches gate power to subsystems.",
-      "regulators": [
-        {
-          "input": "PPBUS_AON",
-          "output": "PP5V_S2",
-          "voltage": "5.15V",
-          "ic": "UC300 (LN84243-1)",
-          "enable": "P5VS2_PWR_EN (via UC637/UC630 gating, page 52)",
-          "frequency": "1.5MHz",
-          "page": [51, 52]
-        },
-        {
-          "input": "PPBUS_AON",
-          "output": "PP3V3_S2",
-          "voltage": "3.3V",
-          "ic": "UC710",
-          "enable": "EDP_PANEL_PWR_EN",
-          "frequency": "1.3MHz",
-          "page": [53]
-        }
+      "components": [
+        "UC300",
+        "UC710",
+        "UC630",
+        "UC637",
+        "UC820",
+        "UC840",
+        "UC850",
+        "UC860",
+        "UC870",
+        "UP950"
+      ],
+      "input_rails": [
+        "PPBUS_AON",
+        "PP5V_S2",
+        "PP3V3_S2",
+        "PP1V8_S2",
+        "PP1V8_AON"
+      ],
+      "output_rails": [
+        "PP5V_S2",
+        "PP3V3_S2",
+        "PP3V3_SW_LCD",
+        "PP3V3_S2_HOLD_IPD",
+        "PP5V_S2_HOLD_IPD",
+        "PPBUS_AONSW_IPD",
+        "PP1V8_S2SW",
+        "PPBUS_AONSW_LCD"
+      ],
+      "page": [
+        51,
+        52,
+        53,
+        54,
+        84
       ]
     },
     {
       "stage": 7,
       "name": "SoC Power Domains",
-      "description": "Final rails reaching SoC U6000 pin groups.",
-      "domains": [
-        {"domain": "PCPU", "rail": "PPVDD_AWAKE_PCPU", "source": "MPMU BUCK 0", "page": 18},
-        {"domain": "ECPU", "rail": "PPVDD_AWAKE_ECPU", "source": "MPMU BUCK 11", "page": 19},
-        {"domain": "SRAM", "rail": "PPVDD_AWAKE_CPU_SRAM", "source": "MPMU BUCK 7", "page": 20},
-        {"domain": "GPU", "rail": "PPVDD_AWAKE_GPU", "source": "MPMU BUCK 1", "page": 21},
-        {"domain": "Memory", "rails": ["PP1V12_S2SM_AMPH", "PP1V85_S2SM_VDDQ5"], "page": 22},
-        {"domain": "VDD_FIXED", "rail": "PP0V78_S1_VDD_FIXED", "source": "SPMU LDO 12", "page": 23},
-        {"domain": "VDD_LOW", "rail": "PP0V72_S2_VDD_LOW", "source": "SPMU LDO 4", "page": 25},
-        {"domain": "CIO", "rails": ["PPVDS5_S2SM_CIO", "PPVBS5_S2SM_CIO", "PP1V2_S2_CIO"], "page": 25}
+      "description": "Final rails reaching SoC U6000 pin groups. Display power via BEN and San Diego PMU.",
+      "components": [
+        "U6000",
+        "LP800",
+        "UP950",
+        "UP700",
+        "UP710"
+      ],
+      "input_rails": [
+        "PPVDD_AWAKE_PCPU",
+        "PPVDD_AWAKE_ECPU",
+        "PPVDD_AWAKE_GPU",
+        "PPVDD_AWAKE_CPU_SRAM",
+        "PP1V12_S2SM_AMPH",
+        "PP1V85_S2SM_VDDQ5",
+        "PP0V78_S1_VDD_FIXED",
+        "PP0V72_S2_VDD_LOW",
+        "PPVDS5_S2SM_CIO",
+        "PPVBS5_S2SM_CIO",
+        "PP1V2_S2_CIO",
+        "PPBUS_AONSW_LCD"
+      ],
+      "output_rails": [
+        "PPVOUT_LCDBKLT",
+        "PP_AVDD_DISP",
+        "PP_VGH_DISP",
+        "PP_VGL_DISP"
+      ],
+      "page": [
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        25,
+        82,
+        83,
+        84,
+        85
       ]
     }
   ]

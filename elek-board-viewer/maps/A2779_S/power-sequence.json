@@ -1,59 +1,77 @@
 {
-  "WARNING": "This power sequence is for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY.",
-  "board": "A2779",
-  "variant": "S (Standard / M2 Pro only)",
+  "WARNING": "This power sequence is for A2779_S (820-02841, X2523/MLB_S) ONLY.",
+  "board": "A2779_S",
   "schematic": "820-02841",
   "description": "Boot power-on sequence for M2 Pro MacBook Pro 14-inch. Sequence starts from USB-C cable insertion and ends at display LOGO. More complex than A2681 due to Austringer VR and 3 CLVR instances.",
   "sequence": [
     {
       "step": 1,
-      "name": "USB-C Cable Insertion — 5V Default",
+      "name": "USB-C Cable Insertion \u2014 5V Default",
       "action": "USB-C cable inserted. Charger provides default 5V on VBUS.",
       "rail": "PPVBUS_USBC0 (or USBC1 or USBC23)",
       "voltage": "5V",
       "ic": "UF400 (CD3217 ATC0) or UF500 (ATC1) or UF600 (ATC2)",
       "what_happens": "CD3217 internal MOSFET passes 5V. Output via charger input path.",
-      "next_trigger": "CD3217 detects 5V on VBUS → begins CC communication",
-      "page": [29, 74, 75, 83]
+      "next_trigger": "CD3217 detects 5V on VBUS \u2192 begins CC communication",
+      "page": [
+        29,
+        74,
+        75,
+        83
+      ]
     },
     {
       "step": 2,
-      "name": "PPCON_ACNSW — Charger Input Active",
+      "name": "PPCON_ACNSW \u2014 Charger Input Active",
       "action": "Charger input path enabled. PPCON_ACNSW feeds charger IC.",
       "rail": "PPCON_ACNSW",
       "voltage": "~5V (initially)",
       "ic": "Charger IC (page 29)",
       "enables": "CHGR_AUX_OK pulled up (page 30)",
-      "what_happens": "Charger IC begins regulating input → generates PPBUS_AON",
-      "page": [29, 30]
+      "what_happens": "Charger IC begins regulating input \u2192 generates PPBUS_AON",
+      "page": [
+        29,
+        30
+      ]
     },
     {
       "step": 3,
       "name": "PPBUS_AON Established",
-      "action": "Main power bus comes up. If battery connected, PPBUS_AON ≈ 12.6V.",
+      "action": "Main power bus comes up. If battery connected, PPBUS_AON \u2248 12.6V.",
       "rail": "PPBUS_AON",
       "voltage": "12.6V (battery) / ~5V (adapter, pre-PD)",
       "prerequisite": "BMU SYS_DETECT circuit (J5150/U5150 gasket, BLKAMPMHY CRITICAL) must enable",
-      "next_trigger": "PPBUS_AON present → enables U5700 (SVR AON)",
-      "page": [28, 29]
+      "next_trigger": "PPBUS_AON present \u2192 enables U5700 (SVR AON)",
+      "page": [
+        28,
+        29
+      ]
     },
     {
       "step": 4,
-      "name": "PP3V8_AON — SVR AON Powers Up",
-      "action": "U5700 3-phase buck converts PPBUS_AON → PP3V8_AON (3.8V, 30A max).",
+      "name": "PP3V8_AON \u2014 SVR AON Powers Up",
+      "action": "U5700 3-phase buck converts PPBUS_AON \u2192 PP3V8_AON (3.8V, 30A max).",
       "rail": "PP3V8_AON",
       "voltage": "3.8V",
       "ic": "U5700 (SVR AON, 30A ICC MAX)",
       "enable": "PPVAON_PWR_EN (from battery connector J5150)",
       "fault": "PPVAON_FAULT_L (active low)",
-      "branches": ["PP3V8_AON_VDDMAIN", "PP3V8_AON_WLBT (WiFi/BT)", "PP3V8_AON_DPG_F"],
+      "branches": [
+        "PP3V8_AON_VDDMAIN",
+        "PP3V8_AON_WLBT (WiFi/BT)",
+        "PP3V8_AON_DPG_F"
+      ],
       "delay": "3.8V VR enable delayed by circuit on page 30 (DELAY FOR 3.8V VR ENABLE / BYPASSED option)",
-      "next_trigger": "PP3V8_AON present → SPMU (U7700) and MPMU (U8100) begin startup",
-      "page": [30, 34, 35]
+      "next_trigger": "PP3V8_AON present \u2192 SPMU (U7700) and MPMU (U8100) begin startup",
+      "page": [
+        30,
+        34,
+        35
+      ]
     },
     {
       "step": 5,
-      "name": "SPMU & MPMU Startup — PMU Rails Cascade",
+      "name": "SPMU & MPMU Startup \u2014 PMU Rails Cascade",
       "action": "Both PMUs receive PP3V8_AON and begin generating output rails in hardware-defined sequence.",
       "rails_generated": {
         "aon_first": [
@@ -79,55 +97,87 @@
         ]
       },
       "signal": "PMU_ACTIVE_READY",
-      "next_trigger": "All S2/S1 rails stable → enables standalone VRs and Austringer",
-      "page": [38, 39, 42, 43]
+      "next_trigger": "All S2/S1 rails stable \u2192 enables standalone VRs and Austringer",
+      "page": [
+        38,
+        39,
+        42,
+        43
+      ]
     },
     {
       "step": 6,
       "name": "UC259 (5V) Powers Up + Austringer Starts",
       "action": "5V standalone buck enabled by PMU. Austringer VR begins generating high-current SoC rails.",
       "rails_generated": [
-        {"rail": "PP5V_S2", "voltage": "5.15V", "ic": "UC259", "enable": "P5V2TPS_PWR_EN"},
-        {"rail": "PPVDD_SRAM_MAMEISM", "ic": "U9300 (Austringer)", "phases": 5}
+        {
+          "rail": "PP5V_S2",
+          "voltage": "5.15V",
+          "ic": "UC259",
+          "enable": "P5V2TPS_PWR_EN"
+        },
+        {
+          "rail": "PPVDD_SRAM_MAMEISM",
+          "ic": "U9300 (Austringer)",
+          "phases": 5
+        }
       ],
-      "page": [47, 48, 49, 50, 55]
+      "page": [
+        47,
+        48,
+        49,
+        50,
+        55
+      ]
     },
     {
       "step": 7,
-      "name": "CLVR Rails — Dynamic SoC Domains Power Up",
+      "name": "CLVR Rails \u2014 Dynamic SoC Domains Power Up",
       "action": "3 CLVR instances enable SoC PCPU, GPU SRAM, and ANE SRAM domains.",
       "rails_generated": [
-        "PPVDD_PCPU1_MAMEISM (CLVR0 — UA100)",
-        "PPVDD_GPU_SRAM_MAMEISM (CLVR1 — UA200)",
-        "PPVDD_ANE_SRAM_MAMEISM (CLVR2 — UA600, S variant)",
+        "PPVDD_PCPU1_MAMEISM (CLVR0 \u2014 UA100)",
+        "PPVDD_GPU_SRAM_MAMEISM (CLVR1 \u2014 UA200)",
+        "PPVDD_ANE_SRAM_MAMEISM (CLVR2 \u2014 UA600, S variant)",
         "PPVDD_ECPU_MAMEISM (SPMU BUCK 10)"
       ],
-      "signal": "PMU_ACTIVE_READY → SoC begins hard start",
-      "page": [51, 52, 53]
+      "signal": "PMU_ACTIVE_READY \u2192 SoC begins hard start",
+      "page": [
+        51,
+        52,
+        53
+      ]
     },
     {
       "step": 8,
-      "name": "M2 Pro Hard Start Complete — SoC Commands CD3217",
+      "name": "M2 Pro Hard Start Complete \u2014 SoC Commands CD3217",
       "action": "M2 Pro SoC has completed OTP verification and hard start. SoC sends command to CD3217 via internal bus.",
-      "signal": "SoC → CD3217 command",
+      "signal": "SoC \u2192 CD3217 command",
       "what_happens": "CD3217 reads ROM information from SPI ROM, negotiates PD 20V",
-      "page": [74, 75, 83]
+      "page": [
+        74,
+        75,
+        83
+      ]
     },
     {
       "step": 9,
-      "name": "PD Negotiation — 20V Boost",
+      "name": "PD Negotiation \u2014 20V Boost",
       "action": "CD3217 uses CC line to communicate PD Source_Capabilities with charger. Requests 20V.",
       "what_happens": [
         "CD3217 sends PD request via CC line",
         "Charger transitions output to 20V",
-        "PPVBUS_USBCx goes from 5V → 20V",
+        "PPVBUS_USBCx goes from 5V \u2192 20V",
         "PPBUS_AON stabilises at battery voltage with full power"
       ],
-      "page": [74, 75, 83]
+      "page": [
+        74,
+        75,
+        83
+      ]
     },
     {
       "step": 10,
-      "name": "Soft Start — SSD, BIOS, Display",
+      "name": "Soft Start \u2014 SSD, BIOS, Display",
       "action": "M2 Pro SoC reads SSD NAND, loads iBoot, enables display.",
       "what_happens": [
         "SoC reads dual SSD via NAND interface (pages 100-109)",
@@ -136,7 +186,13 @@
         "Luxe (UP800) drives backlight (page 115)",
         "Apple LOGO appears on screen"
       ],
-      "page": [100, 101, 113, 114, 115]
+      "page": [
+        100,
+        101,
+        113,
+        114,
+        115
+      ]
     }
   ]
 }

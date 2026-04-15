@@ -1,5 +1,5 @@
 {
-  "WARNING": "These test points are for A2442 CTO (820-02443) ONLY. Page numbers differ from base A2442 (820-02098). SVR AON is 42A design. Component designators are board-specific.",
+  "WARNING": "These test points are for A2442_CTO (820-02443) ONLY. Page numbers differ from base A2442 (820-02098). SVR AON is 42A design. Component designators are board-specific.",
   "board": "A2442_CTO",
   "board_name": "MacBook Pro 14\" M1 Pro/Max CTO (2021)",
   "schematic": "820-02443",
@@ -12,65 +12,231 @@
       "range": "0-0.05A (dead at 20V)",
       "meaning": "Board draws nothing. CD3217 or charger circuit completely non-functional.",
       "steps": [
-        {"step": 1, "action": "Verify 20V at connector", "measure": "Probe CF400 (ATC0)", "component": "CF400", "expected": "20V", "if_wrong": "DCPS/cable fault", "next_if_ok": 2},
-        {"step": 2, "action": "Check CD3217 core LDO", "measure": "Probe PP1V5_UPC0_LDO_CORE (UF400 internal)", "component": "UF400", "expected": "~1.5V (CD3217 alive)", "if_wrong": "CD3217 dead -> replace", "next_if_ok": 3},
-        {"step": 3, "action": "Check PPBUS_AON", "measure": "Probe CR765", "component": "CR765", "expected": "12V", "if_wrong": "Charger IC not converting. Check CHGR_AUX_OK, I2C to charger.", "if_present": "Go to step 4"},
-        {"step": 4, "action": "Check PP3V8_AON", "measure": "Probe CZ400 area (page 36)", "component": "CZ400", "expected": "3.8V", "if_wrong": "U5700 (42A CTO) not starting. Check PPVAON_PWR_EN.", "if_present": "PMU not loading -> check U7700/U8100 connections"}
+        {
+          "step": 1,
+          "action": "Verify 20V at connector",
+          "measure": "Probe CF400 (ATC0)",
+          "component": "CF400",
+          "expected": "20V",
+          "if_wrong": "DCPS/cable fault",
+          "next_if_ok": 2
+        },
+        {
+          "step": 2,
+          "action": "Check CD3217 core LDO",
+          "measure": "Probe PP1V5_UPC0_LDO_CORE (UF400 internal)",
+          "component": "UF400",
+          "expected": "~1.5V (CD3217 alive)",
+          "if_wrong": "CD3217 dead -> replace",
+          "next_if_ok": 3
+        },
+        {
+          "step": 3,
+          "action": "Check PPBUS_AON",
+          "measure": "Probe CR765",
+          "component": "CR765",
+          "expected": "12V",
+          "if_wrong": "Charger IC not converting. Check CHGR_AUX_OK, I2C to charger.",
+          "if_present": "Go to step 4"
+        },
+        {
+          "step": 4,
+          "action": "Check PP3V8_AON",
+          "measure": "Probe CZ400 area (page 36)",
+          "component": "CZ400",
+          "expected": "3.8V",
+          "if_wrong": "U5700 (42A CTO) not starting. Check PPVAON_PWR_EN.",
+          "if_present": "PMU not loading -> check U7700/U8100 connections"
+        }
       ]
     },
     {
-      "range": "0.05-0.5A (low current — short holding board down)",
+      "range": "0.05-0.5A (low current \u2014 short holding board down)",
       "meaning": "Board partially active but well below normal 2-5A boot range. A shorted rail is clamping a regulator.",
       "steps": [
-        {"step": 1, "action": "Run full chain: PPBUS -> 3V8 -> 5V -> MPMU -> Viper -> Monaco", "sub_checks": [
-            {"component": "CR765", "expected": "12V", "rail": "PPBUS_AON"},
-            {"component": "CZ400 area", "expected": "3.8V", "rail": "PP3V8_AON"},
-            {"component": "MC600 area", "expected": "5.14V", "rail": "PP5V_S2"},
-            {"component": "PPU815-PPU836", "expected": "MPMU outputs present", "rail": "MPMU bucks"},
-            {"component": "CZ610", "expected": "DVFS voltage", "rail": "Viper PCPU output"},
-            {"component": "CA100 area", "expected": "DVFS voltage", "rail": "Monaco GPU output"}
-          ], "next": "Identify which stage has low/missing output"},
-        {"step": 2, "action": "PP3V8_AON branch short?", "measure": "Diode mode on PP3V8_AON_MPMU, PP3V8_AON_SPMU, PP3V8_AON_WLBT, PP3V8_ATC01_LDO, PP3V8_ATC2_LDO branches", "expected": "Normal readings", "if_wrong": "Identify shorted branch. Thermal cam."},
-        {"step": 3, "action": "Viper or Monaco output short?", "measure": "Diode mode on Viper output (CZ610-CZ618) and Monaco output (CA1xx)", "expected": "Normal", "if_wrong": "VR output shorted. Thermal cam to find hot SoC pin or decoupling cap. CTO has more phases to check (Viper: 3 stage pages, Monaco: 5 instances)."},
-        {"step": 4, "action": "MPMU LDO fault?", "measure": "Check PPU815-PPU836 test points (page 135) for each MPMU output", "if_any_missing": "Thermal cam that rail -> replace hot component or U8100"},
-        {"step": 5, "action": "I2C bus stuck?", "measure": "Check SMC_I2C0 (charger), SMC_I2C1 (UPC) pull-up voltage (PP3V3_AON)", "expected": "3.3V on SCL/SDA at rest", "if_wrong": "Peripheral holding bus low. Isolate."}
+        {
+          "step": 1,
+          "action": "Run full chain: PPBUS -> 3V8 -> 5V -> MPMU -> Viper -> Monaco",
+          "sub_checks": [
+            {
+              "component": "CR765",
+              "expected": "12V",
+              "rail": "PPBUS_AON"
+            },
+            {
+              "component": "CZ400 area",
+              "expected": "3.8V",
+              "rail": "PP3V8_AON"
+            },
+            {
+              "component": "MC600 area",
+              "expected": "5.14V",
+              "rail": "PP5V_S2"
+            },
+            {
+              "component": "PPU815-PPU836",
+              "expected": "MPMU outputs present",
+              "rail": "MPMU bucks"
+            },
+            {
+              "component": "CZ610",
+              "expected": "DVFS voltage",
+              "rail": "Viper PCPU output"
+            },
+            {
+              "component": "CA100 area",
+              "expected": "DVFS voltage",
+              "rail": "Monaco GPU output"
+            }
+          ],
+          "next": "Identify which stage has low/missing output"
+        },
+        {
+          "step": 2,
+          "action": "PP3V8_AON branch short?",
+          "measure": "Diode mode on PP3V8_AON_MPMU, PP3V8_AON_SPMU, PP3V8_AON_WLBT, PP3V8_ATC01_LDO, PP3V8_ATC2_LDO branches",
+          "expected": "Normal readings",
+          "if_wrong": "Identify shorted branch. Thermal cam."
+        },
+        {
+          "step": 3,
+          "action": "Viper or Monaco output short?",
+          "measure": "Diode mode on Viper output (CZ610-CZ618) and Monaco output (CA1xx)",
+          "expected": "Normal",
+          "if_wrong": "VR output shorted. Thermal cam to find hot SoC pin or decoupling cap. CTO has more phases to check (Viper: 3 stage pages, Monaco: 5 instances)."
+        },
+        {
+          "step": 4,
+          "action": "MPMU LDO fault?",
+          "measure": "Check PPU815-PPU836 test points (page 135) for each MPMU output",
+          "if_any_missing": "Thermal cam that rail -> replace hot component or U8100"
+        },
+        {
+          "step": 5,
+          "action": "I2C bus stuck?",
+          "measure": "Check SMC_I2C0 (charger), SMC_I2C1 (UPC) pull-up voltage (PP3V3_AON)",
+          "expected": "3.3V on SCL/SDA at rest",
+          "if_wrong": "Peripheral holding bus low. Isolate."
+        }
       ]
     },
     {
-      "range": "0.5-2.0A (partial boot — board stalling)",
+      "range": "0.5-2.0A (partial boot \u2014 board stalling)",
       "count_note": "Below normal boot range for CTO Pro/Max",
       "meaning": "Board drawing boot-level current for an Air, but insufficient for CTO Pro/Max. SoC partially powered but Viper or Monaco may not be starting.",
       "steps": [
-        {"step": 1, "action": "Observe current pattern", "measure": "Watch DCPS for 30 seconds", "if_cycling": "Boot loop -> check SSD/NAND (Ocarina pages 106/111)", "if_stable": "Stalled -> step 2"},
-        {"step": 2, "action": "Check Viper VR (U9300) — 3 stage pages CTO", "measure": "Probe Viper output at CZ610 (page 47)", "component": "CZ610", "expected": "DVFS voltage (~0.7-1.1V)", "if_missing": "Viper not starting. Check U9300, VIPER_ALERT_L. Check power stages (CZ619-CZ654 area, pages 49-51 CTO). This is the most likely cause of stalled boot on CTO Pro/Max at this current range.", "if_present": "Go to step 3"},
-        {"step": 3, "action": "Check Monaco VR — 5 instances CTO", "measure": "Probe Monaco output at CA100 area (page 52)", "component": "CA100", "expected": "DVFS voltage", "if_missing": "Monaco not starting. MONACO_ALERT_L. CTO Max variant: 5 instances (C0-C4, pages 52-56) -> more failure points than base.", "if_present": "Go to step 4"},
-        {"step": 4, "action": "Check dual SSD", "measure": "Check NAND power: PP0V9_NAND0, PP0V9_NAND1, PP1V2_NAND0, PP1V2_NAND1 (Ocarina areas pages 106/111)", "expected": "All present", "if_ssd0_missing": "Ocarina SSD0 fault", "if_ssd1_missing": "Ocarina SSD1 fault", "if_both_ok": "SSD powered. Try DFU restore."},
-        {"step": 5, "action": "Check display", "measure": "Backlight on? Image on external HDMI?", "if_no_display": "Display power sequencer (page 115) or Luxe backlight (page 116) fault"}
+        {
+          "step": 1,
+          "action": "Observe current pattern",
+          "measure": "Watch DCPS for 30 seconds",
+          "if_cycling": "Boot loop -> check SSD/NAND (Ocarina pages 106/111)",
+          "if_stable": "Stalled -> step 2"
+        },
+        {
+          "step": 2,
+          "action": "Check Viper VR (U9300) \u2014 3 stage pages CTO",
+          "measure": "Probe Viper output at CZ610 (page 47)",
+          "component": "CZ610",
+          "expected": "DVFS voltage (~0.7-1.1V)",
+          "if_missing": "Viper not starting. Check U9300, VIPER_ALERT_L. Check power stages (CZ619-CZ654 area, pages 49-51 CTO). This is the most likely cause of stalled boot on CTO Pro/Max at this current range.",
+          "if_present": "Go to step 3"
+        },
+        {
+          "step": 3,
+          "action": "Check Monaco VR \u2014 5 instances CTO",
+          "measure": "Probe Monaco output at CA100 area (page 52)",
+          "component": "CA100",
+          "expected": "DVFS voltage",
+          "if_missing": "Monaco not starting. MONACO_ALERT_L. CTO Max variant: 5 instances (C0-C4, pages 52-56) -> more failure points than base.",
+          "if_present": "Go to step 4"
+        },
+        {
+          "step": 4,
+          "action": "Check dual SSD",
+          "measure": "Check NAND power: PP0V9_NAND0, PP0V9_NAND1, PP1V2_NAND0, PP1V2_NAND1 (Ocarina areas pages 106/111)",
+          "expected": "All present",
+          "if_ssd0_missing": "Ocarina SSD0 fault",
+          "if_ssd1_missing": "Ocarina SSD1 fault",
+          "if_both_ok": "SSD powered. Try DFU restore."
+        },
+        {
+          "step": 5,
+          "action": "Check display",
+          "measure": "Backlight on? Image on external HDMI?",
+          "if_no_display": "Display power sequencer (page 115) or Luxe backlight (page 116) fault"
+        }
       ]
     },
     {
       "range": "2.0-5.0A (normal boot range)",
       "meaning": "NORMAL for CTO M1 Pro (2-4A) and CTO M1 Max (2.5-5A). CTO Max draws more than base due to extended Monaco/Viper phases. If customer reports a fault, it's peripheral not power.",
       "steps": [
-        {"step": 1, "action": "Board is booting — check peripherals", "measure": "Display, keyboard, trackpad, speakers, USB-C ports, HDMI, SD card", "sub_checks": [
-            {"symptom": "No display", "check": "Luxe backlight (page 116), display power sequencer (page 115), eDP connector (page 114)"},
-            {"symptom": "No HDMI", "check": "Madea IC (page 93), PP1V2_DP2HDMI_DIG, PP3V3_DP2HDMI_RX_TX"},
-            {"symptom": "No SD card", "check": "SD controller (page 96), PP3V3_AWAKE_SW_SD"},
-            {"symptom": "One USB-C port dead", "check": "UF400 (left rear), UF500 (left front), or UG400 (right). Test each."},
-            {"symptom": "No TouchID", "check": "TouchID connector (page 130), PP16V0_TOUCHID, PP3V0_TOUCHID"},
-            {"symptom": "Fan always on/off", "check": "Fan controller (page 71), FAN_TACH, FAN_PWM"},
-            {"symptom": "No audio", "check": "Codec (page 120), PP3V8_CODEC_VP, PP1V8_CODEC_VA"},
-            {"symptom": "Battery not charging", "check": "Charger IC (U5200), CHGR_AUX_OK, battery connector (J5151)"}
-          ]}
+        {
+          "step": 1,
+          "action": "Board is booting \u2014 check peripherals",
+          "measure": "Display, keyboard, trackpad, speakers, USB-C ports, HDMI, SD card",
+          "sub_checks": [
+            {
+              "symptom": "No display",
+              "check": "Luxe backlight (page 116), display power sequencer (page 115), eDP connector (page 114)"
+            },
+            {
+              "symptom": "No HDMI",
+              "check": "Madea IC (page 93), PP1V2_DP2HDMI_DIG, PP3V3_DP2HDMI_RX_TX"
+            },
+            {
+              "symptom": "No SD card",
+              "check": "SD controller (page 96), PP3V3_AWAKE_SW_SD"
+            },
+            {
+              "symptom": "One USB-C port dead",
+              "check": "UF400 (left rear), UF500 (left front), or UG400 (right). Test each."
+            },
+            {
+              "symptom": "No TouchID",
+              "check": "TouchID connector (page 130), PP16V0_TOUCHID, PP3V0_TOUCHID"
+            },
+            {
+              "symptom": "Fan always on/off",
+              "check": "Fan controller (page 71), FAN_TACH, FAN_PWM"
+            },
+            {
+              "symptom": "No audio",
+              "check": "Codec (page 120), PP3V8_CODEC_VP, PP1V8_CODEC_VA"
+            },
+            {
+              "symptom": "Battery not charging",
+              "check": "Charger IC (U5200), CHGR_AUX_OK, battery connector (J5151)"
+            }
+          ]
+        }
       ]
     },
     {
       "range": "5.0A+ (over-current)",
       "meaning": "Excessive even for CTO Max. Major short or GPU under extreme load.",
       "steps": [
-        {"step": 1, "action": "Is board functional?", "measure": "Check boot", "if_functional": "May be charging deeply discharged battery. Monitor — should settle to 2-5A.", "if_not": "Short -> step 2"},
-        {"step": 2, "action": "Thermal camera full sweep", "measure": "Thermal cam across entire board", "expected": "Hot spot visible", "if_found": "Identify component. Common: U5700 42A (regulating into 3V8 short), Viper/Monaco (shorted SoC domain), SoC (dead — BER).", "if_not_found": "Step 3"},
-        {"step": 3, "action": "Systematic rail isolation", "measure": "Diode mode: CR765 (PPBUS) -> CZ400 (3V8) -> MC600 (5V) -> CZ610 (Viper) -> CA100 (Monaco)", "process": "Find shorted rail. Thermal cam that specific area."}
+        {
+          "step": 1,
+          "action": "Is board functional?",
+          "measure": "Check boot",
+          "if_functional": "May be charging deeply discharged battery. Monitor \u2014 should settle to 2-5A.",
+          "if_not": "Short -> step 2"
+        },
+        {
+          "step": 2,
+          "action": "Thermal camera full sweep",
+          "measure": "Thermal cam across entire board",
+          "expected": "Hot spot visible",
+          "if_found": "Identify component. Common: U5700 42A (regulating into 3V8 short), Viper/Monaco (shorted SoC domain), SoC (dead \u2014 BER).",
+          "if_not_found": "Step 3"
+        },
+        {
+          "step": 3,
+          "action": "Systematic rail isolation",
+          "measure": "Diode mode: CR765 (PPBUS) -> CZ400 (3V8) -> MC600 (5V) -> CZ610 (Viper) -> CA100 (Monaco)",
+          "process": "Find shorted rail. Thermal cam that specific area."
+        }
       ]
     }
   ]

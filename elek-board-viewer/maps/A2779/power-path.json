@@ -1,161 +1,98 @@
 {
   "board": "A2779",
   "schematic": "820-02655",
-  "description": "Complete power delivery chain from USB-C/MagSafe input to SoC power pins. 7 stages. Pro/Max variant — uses Austringer (not Viper) and CLVR (not Monaco). 42A SVR AON design.",
-  "WARNING": "A2779 AUSTRINGER replaces A2442 Viper. CLVR replaces Monaco. Different buck numbering on MPMU/SPMU. Always verify against power aliases pages 142-146.",
+  "description": "Complete power delivery chain from USB-C/MagSafe input to SoC power pins. 7 stages. Pro/Max variant with Austringer VR and CLVR instances. 42A SVR AON design.",
   "stages": [
     {
       "stage": 1,
       "name": "USB-C / MagSafe Input & Initial 5V",
       "description": "3 USB-C ports (2 left, 1 right) + MagSafe. CD3217 controllers manage CC signaling and VBUS switching.",
-      "nodes": [
-        {"input": "USB-C cable (5V)", "output": "PPVBUS_USBC0", "voltage": "5V->20V", "ic": "UF400 (CD3217 ATC0)", "port": "Left rear", "page": [77, 79]},
-        {"input": "USB-C cable (5V)", "output": "PPVBUS_USBC1", "voltage": "5V->20V", "ic": "UF500 (CD3217 ATC1)", "port": "Left front", "page": [78, 79]},
-        {"input": "USB-C cable (5V)", "output": "PPVBUS_USBC2", "voltage": "5V->20V", "ic": "UG400 (CD3217 ATC2)", "port": "Right", "page": [86, 87]},
-        {"input": "MagSafe cable", "output": "PPVBUS_USBC5", "voltage": "5V->20V", "ic": "MagSafe Port Controller (UPC5)", "port": "J5401 MagSafe", "page": [31, 32]}
-      ]
+      "components": ["UF400", "UF500", "UG400", "J5401", "CF400", "CF401", "DF400"],
+      "input_rails": ["USB-C cable 5V/20V", "MagSafe cable"],
+      "output_rails": ["PPVBUS_USBC0", "PPVBUS_USBC1", "PPVBUS_USBC2", "PPVBUS_USBC5"],
+      "page": [31, 32, 77, 78, 79, 86, 87]
     },
     {
       "stage": 2,
       "name": "PD Negotiation & 20V Boost",
-      "description": "CD3217 reads firmware ROM, negotiates USB PD to 20V.",
-      "sequence": [
-        "1. CD3217 internal MOSFET passes 5V",
-        "2. SoC powers up at 5V (hard start via PMU cascade)",
-        "3. M2 Pro/Max SoC sends command to CD3217",
-        "4. CD3217 reads ROM via CC lines",
-        "5. PD negotiation -> charger transitions to 20V",
-        "6. PPVBUS transitions 5V -> 20V",
-        "7. Protection isolation passes -> PPBUS_AON at battery voltage"
-      ],
+      "description": "CD3217 reads firmware ROM, negotiates USB PD to 20V. SoC commands CD3217 after hard start.",
+      "components": ["UF400", "UF500", "UG400"],
+      "input_rails": ["PPVBUS_USBC0", "PPVBUS_USBC1", "PPVBUS_USBC2"],
+      "output_rails": ["PPDCIN_AON"],
       "page": [29, 30, 77, 78, 86]
     },
     {
       "stage": 3,
       "name": "Charger -> PPBUS_AON",
-      "description": "Charger IC (U5200 area) converts input to PPBUS_AON. ARKANOID debug connector J5150 available.",
-      "nodes": [
-        {
-          "input": "PPDCIN_AON",
-          "output": "PPBUS_AON",
-          "voltage": "12.6V (battery) / ~20V (adapter)",
-          "ic": "U5200 area (Charger IC)",
-          "enable": "CHGR_AUX_OK",
-          "page": [28, 29, 30]
-        }
-      ]
+      "description": "Charger IC (U5200) converts input to PPBUS_AON. ARKANOID debug connector J5150 available. Multi-FET input stage with Q5216, Q5265, Q5270.",
+      "components": ["U5200", "Q5216", "Q5265", "Q5270", "D5270", "L5230", "F5200", "F5201", "J5150"],
+      "input_rails": ["PPDCIN_AON", "PPVBAT_AON"],
+      "output_rails": ["PPBUS_AON"],
+      "page": [28, 29, 30]
     },
     {
       "stage": 4,
       "name": "SVR AON -> PP3V8_AON (42A Design)",
-      "description": "U5700 multi-phase buck converts PPBUS_AON to 3.8V always-on rail. 42A ICC MAX (higher than A2442's 30A). 3 Iceman gate driver phases. Feeds SPMU, MPMU, WiFi/BT, display, and USB-C.",
-      "nodes": [
-        {
-          "input": "PPBUS_AON",
-          "output": "PP3V8_AON",
-          "voltage": "3.8V",
-          "ic": "U5700 (SVR AON, 42A ICC MAX)",
-          "enable": "PPVAON_PWR_EN",
-          "fault": "PPVAON_FAULT_L (active low)",
-          "phases": ["PH1", "PH2", "PH3", "ICEMAN_PHASE1", "ICEMAN_PHASE2", "ICEMAN_PHASE3"],
-          "branches": {
-            "to_mpmu": "PP3V8_AON -> U8100 (MPMU)",
-            "to_spmu": "PP3V8_AON -> U7700 (SPMU)",
-            "to_wlbt": "PP3V8_AON_WLBT -> Willamette WiFi/BT",
-            "to_atc01": "PP3V8_ATC01_LDO -> left USB-C ports",
-            "to_atc2": "PP3V8_ATC2_LDO -> right USB-C port",
-            "to_codec": "PP3V8_CODEC_VP -> Carlow B0 audio codec",
-            "to_display": "PP3V8_AON -> UP701 display TCON via UP710 sequencer"
-          },
-          "page": [34, 35, 36]
-        }
-      ]
+      "description": "U5700 (RAA2255010-RC01) multi-phase buck converts PPBUS_AON to 3.8V always-on rail. 42A ICC MAX. 3 Iceman gate driver phases. Feeds SPMU, MPMU, WiFi/BT, display, and USB-C.",
+      "components": ["U5700", "R5710", "R5711", "R5712", "C5700", "C5701", "C5702", "C5703", "C5704"],
+      "input_rails": ["PPBUS_AON", "PP5V_S2_MAIN"],
+      "output_rails": ["PP3V8_AON", "PP5V_AON_P3V8AON"],
+      "page": [34, 35, 36]
     },
     {
       "stage": 5,
-      "name": "PMU + CLVR Distribution",
-      "description": "PP3V8_AON feeds SPMU (U7700) and MPMU (U8100). Both generate SoC rails. CLVR instances (0-4) replace Monaco for GPU/fabric/ANE. Austringer (U9300) replaces Viper for CPU SRAM domains.",
-      "topology": {
-        "pp3v8_aon_feeds": ["U7700 (SPMU)", "U8100 (MPMU)"],
-        "mpmu_feeds": ["Direct buck outputs (ECPU, DCS, FIXED, AMPH, VDD2H)", "LDOs (CLVR_VDDIO, CLVR_VDDC1, AWAKE)"],
-        "spmu_feeds": ["Direct buck outputs (SOC_S1, CIO, DCS, DISP2, AWAKE)", "LDOs (VDD_LOW, AON)"],
-        "clvr_instances": {
-          "CLVR0": "PCPU0/1 + SRAM_B (replaces part of Monaco/Viper for CPU)",
-          "CLVR1": "GPU0 + SRAM + SRAM_B",
-          "CLVR2": "GPU1 + SRAM + SRAM_B (Max only)",
-          "CLVR3": "DPL0 + Fabric (Buck8/HP1 unused on C platforms)",
-          "CLVR4": "ANE + ANE_SRAM + APR_CS"
-        }
-      },
-      "austringer_vr": {
-        "controller": "U9300 (MAAZ1552A-SW-GPR-A0-1)",
-        "input": "PPVIN_PVRVD0N + PP5V_S2_MAIN",
-        "outputs": [
-          {"rail": "PPVDD_PCPU_SRAM0_AWAKESW", "voltage": "Variable", "load": "PCPU SRAM 0"},
-          {"rail": "PPVDD_PCPU_SRAM1_AWAKESW", "voltage": "Variable", "load": "PCPU SRAM 1 (Max only)", "bom": "Max"}
-        ],
-        "fault": "PVRVD0N_FAULT_L",
-        "page": [47, 48, 49, 50, 51]
-      },
-      "clvr_vr": {
-        "instances": ["CLVR0 (C0)", "CLVR1 (C1)", "CLVR2 (C2, Max)", "CLVR3 (C3)", "CLVR4 (C4)"],
-        "input": "PP3V8_AON via CLVR supply chain + PP1V8_S1_CLVR_VDDH",
-        "page": [52, 53, 54, 55, 56, 57, 144]
-      },
-      "control_signals": {
-        "pmu_ready": "PMU_ACTIVE_READY",
-        "pmu_fault": "PMU_FAULT_INT_L",
-        "austringer_fault": "PVRVD0N_FAULT_L"
-      },
+      "name": "PMU + Austringer + CLVR Distribution",
+      "description": "PP3V8_AON feeds SPMU (U7700) and MPMU (U8100). Both generate SoC rails via bucks and LDOs. Austringer (U9300) produces PP1V8_S1_CLVR_VDDH which feeds all 5 CLVR instances. CLVR0-4 produce dynamic SoC domains (PCPU, GPU, Fabric, ANE).",
+      "components": ["U7700", "U8100", "U9300", "UA100", "UA200", "UA300", "UA500", "UA600"],
+      "input_rails": ["PP3V8_AON", "PPBUS_AON"],
+      "output_rails": [
+        "PPVDD_SRAM_S1", "PPVDD_GPU_BMPR_S1", "PP1V8_S2SW", "PPVDD2H1_S2SW",
+        "PPVDD_DISP_AWAKESW", "PPVDD_AMPH1_S2SW", "PPVDD_AVEMSR_AWAKESW",
+        "PP1V2_S2", "PPVDD_FIXED_S1", "PPVDDQ1_S1",
+        "PPVDD_DCS_S1", "PPVDDQ0_S1", "PPVDD_ECPU_SRAM_AWAKESW",
+        "PP1V8_S2", "PPVDD2H0_S2SW", "PPVDD_SOC_S1", "PPVDD_CIO_S2SW",
+        "PP1V2_AWAKE", "PPVDD_AMPH0_S2SW", "PPVDD_ECPU_AWAKESW",
+        "PP1V8_S1_CLVR_VDDH",
+        "PPVDD_PCPU0_AWAKESW", "PPVDD_PCPU1_AWAKESW",
+        "PPVDD_PCPU_SRAM0_AWAKESW", "PPVDD_PCPU_SRAM1_AWAKESW",
+        "PPVDD_GPU0_AWAKESW", "PPVDD_GPU1_AWAKESW",
+        "PPVDD_GPU2_AWAKESW", "PPVDD_GPU3_AWAKESW",
+        "PPVDD_FABRIC_S1", "PPVDD_ANE_AWAKESW", "PPVDD_APR_CS_S1"
+      ],
       "page": [38, 39, 40, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57]
     },
     {
       "stage": 6,
       "name": "Standalone Regulators & Load Switches",
-      "description": "UC260 produces PP5V_S2. Separate VRs produce 3V3_S2. Load switches gate power to USB-C ports, HDMI, SD card.",
-      "regulators": [
-        {
-          "input": "PPBUS_AON",
-          "output": "PP5V_S2",
-          "voltage": "5V",
-          "ic": "UC260",
-          "enable": "PP5V2P5_PWR_EN",
-          "specs": "Start up typ=6.0ms, f=1.25MHz",
-          "page": 58
-        }
+      "description": "UC260 produces PP5V_S2 (5.15V, typ 6.4ms startup, 1.5MHz). Load switches gate power to USB-C ports, HDMI, SD card, and NAND.",
+      "components": ["UC260", "LC260", "QC280"],
+      "input_rails": ["PPBUS_AON", "PP5V_S2", "PP3V3_S2"],
+      "output_rails": [
+        "PP5V_S2", "PP5V_S2_MAIN",
+        "PP5V_S2SW_USBC01", "PP5V_S2SW_USBC23",
+        "PP3V3_S2SW_USBC0", "PP3V3_S2SW_USBC1", "PP3V3_S2SW_USBC2",
+        "PPBUS_NAND0", "PPBUS_NAND1"
       ],
-      "load_switches": [
-        {"input": "PP5V_S2", "output": "PP5V_S2SW_USBC01", "load": "Left USB-C ports", "page": 81},
-        {"input": "PP5V_S2", "output": "PP5V_S2SW_USBC23", "load": "Right USB-C + HDMI", "page": 89},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2SW_USBC0", "load": "ATC0", "page": 81},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2SW_USBC1", "load": "ATC1", "page": 81},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2SW_USBC2", "load": "ATC2", "page": 89},
-        {"input": "PPBUS_AON", "output": "PPBUS_NAND0", "load": "SSD0 via Ocarina", "page": 107},
-        {"input": "PPBUS_AON", "output": "PPBUS_NAND1", "load": "SSD1 via Ocarina", "page": 112}
-      ]
+      "page": [58, 81, 89, 107, 112]
     },
     {
       "stage": 7,
       "name": "SoC Power Domains — M2 Pro/Max",
-      "description": "Final rails reaching SoC U6000 (M2 Pro/Max). CPU via CLVR0 + Austringer. GPU via CLVR1/CLVR2. Fabric via CLVR3. ANE via CLVR4.",
-      "domains": [
-        {"domain": "PCPU cluster 0", "rail": "PPVDD_PCPU0_AWAKESW", "source": "CLVR0 Buck0/HP0", "page": [21, 52]},
-        {"domain": "PCPU cluster 1 (Max)", "rail": "PPVDD_PCPU1_AWAKESW", "source": "CLVR0 Buck2/HP1", "bom": "Max only", "page": [21, 52]},
-        {"domain": "PCPU SRAM 0", "rail": "PPVDD_PCPU_SRAM0_AWAKESW", "source": "Austringer VR (U9300)", "page": [22, 49]},
-        {"domain": "ECPU", "rail": "PPVDD_ECPU_AWAKESW", "source": "MPMU BUCK 5 (FDK5)", "page": [21, 43]},
-        {"domain": "GPU cluster 0", "rail": "PPVDD_GPU0_AWAKESW", "source": "CLVR1 Buck0/HP0", "page": [21, 53]},
-        {"domain": "GPU cluster 1 (Max)", "rail": "PPVDD_GPU1_AWAKESW", "source": "CLVR2 Buck0/HP0", "bom": "Max only", "page": [21, 54]},
-        {"domain": "Display", "rail": "PPVDD_DISP_AWAKESW", "source": "MPMU BUCK 2 (FDK2) — unused / SPMU BUCK 7 (FDKP7)", "note": "MPMU BUCK2 marked unused on page 41", "page": [22, 43]},
-        {"domain": "DCS", "rail": "PPVDD_DCS_S1", "source": "MPMU BUCK 7 (FDK7) + SPMU BUCK 0 (FDKP0)", "page": [22, 43, 39]},
-        {"domain": "Neural Engine", "rail": "PPVDD_ANE_AWAKESW", "source": "CLVR4 Buck0/HP0", "page": [25, 56]},
-        {"domain": "Fabric", "rail": "PPVDD_FABRIC_S1", "source": "CLVR3 Buck2/HP1", "page": [26, 55]},
-        {"domain": "Fixed", "rail": "PPVDD_FIXED_S1", "source": "MPMU BUCK 8 (FDK8)", "page": [26, 43]},
-        {"domain": "SOC general", "rail": "PPVDD_SOC_S1", "source": "SPMU BUCK 5 (FDKP5)", "page": [39, 146]},
-        {"domain": "CIO", "rail": "PPVDD_CIO_S2SW", "source": "SPMU BUCK 6 (FDKP6)", "page": [25, 39]},
-        {"domain": "Memory AMPH0/1", "rails": ["PPVDD_AMPH0_S2SW", "PPVDD_AMPH1_S2SW"], "source": "MPMU BUCK 9/6", "page": [43, 145]},
-        {"domain": "VDD2H0/1", "rails": ["PPVDD2H0_S2SW", "PPVDD2H1_S2SW"], "source": "SPMU BUCK 4 / MPMU BUCK 4", "page": [39, 43]},
-        {"domain": "CLVR", "rails": ["PP0V8_S2_CLVR_VDDDIG", "PP1V8_S1_CLVR_VDDH"], "source": "MPMU/SPMU LDOs", "page": [145, 146]}
-      ]
+      "description": "Final rails reaching SoC U6000 (M2 Pro/Max). PCPU via CLVR0, GPU via CLVR1/CLVR2, Fabric via CLVR3, ANE via CLVR4. ECPU and other domains via MPMU/SPMU bucks.",
+      "components": ["U6000"],
+      "input_rails": [
+        "PPVDD_PCPU0_AWAKESW", "PPVDD_PCPU1_AWAKESW",
+        "PPVDD_PCPU_SRAM0_AWAKESW", "PPVDD_PCPU_SRAM1_AWAKESW",
+        "PPVDD_ECPU_AWAKESW", "PPVDD_ECPU_SRAM_AWAKESW",
+        "PPVDD_GPU0_AWAKESW", "PPVDD_GPU1_AWAKESW",
+        "PPVDD_GPU2_AWAKESW", "PPVDD_GPU3_AWAKESW",
+        "PPVDD_DCS_S1", "PPVDD_SOC_S1",
+        "PPVDD_FABRIC_S1", "PPVDD_FIXED_S1",
+        "PPVDD_ANE_AWAKESW", "PPVDD_ANE_SRAM_AWAKESW",
+        "PPVDD_CIO_S2SW", "PPVDD_DISP_AWAKESW"
+      ],
+      "output_rails": [],
+      "page": [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 22, 23, 24, 25, 26]
     }
   ]
 }

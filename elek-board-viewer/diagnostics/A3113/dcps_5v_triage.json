@@ -5,7 +5,7 @@
   "schematic": "820-03286",
   "internal_name": "X2818/MLB",
   "dcps_voltage": "5V",
-  "description": "Decision trees for 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Adapted from A2681 methodology for M3 topology.",
+  "description": "Decision trees for 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Adapted for M3 topology.",
   "scenarios": [
     {
       "range": "0A (dead - no current draw)",

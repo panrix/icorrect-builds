@@ -1,0 +1,57 @@
+{
+  "board": "A2338",
+  "schematic": "820-02020",
+  "WARNING": "A2338 (820-02020) MBP 13\" M1. Test points from schematic. Has Touch Bar, fan, 2x USB-C left side, no MagSafe.",
+  "data_source": "Verified from schematic PNGs pages 21-22, 25, 28, 32, 37, 57-59",
+  "test_points": {
+    "power_rails": [
+      {"tp": "PPBUS_AON bulk cap", "rail": "PPBUS_AON", "voltage": "12.6V (bat) / 20V (adapter)", "location": "U5200 output area, C5254/C5255 (page 22)", "priority": "critical"},
+      {"tp": "PP3V8_AON bulk cap", "rail": "PP3V8_AON", "voltage": "3.8V", "location": "U5700 output area, CS751, B5700/RS750 (page 25)", "priority": "critical"},
+      {"tp": "PP3V3_AON output", "rail": "PP3V3_AON", "voltage": "3.3V", "location": "UC100 output (page 36)", "priority": "high"},
+      {"tp": "PP1V8_AON output", "rail": "PP1V8_AON", "voltage": "1.8V", "location": "UC120 output (page 36)", "priority": "high"},
+      {"tp": "PP5V_S2 output", "rail": "PP5V_S2", "voltage": "5.15V", "location": "UC300 (LT8642S) output, 6.6A EDC, LC329 inductor (page 37)", "priority": "critical"},
+      {"tp": "PP3V3_S2 output", "rail": "PP3V3_S2", "voltage": "3.3V", "location": "UC710 output (page 39)", "priority": "critical"},
+      {"tp": "PPVBUS_USBC0", "rail": "PPVBUS_USBC0", "voltage": "5V / 20V", "location": "USB-C port 0 VBUS, CF4xx area (page 57, 59)", "priority": "critical"},
+      {"tp": "PPVBUS_USBC1", "rail": "PPVBUS_USBC1", "voltage": "5V / 20V", "location": "USB-C port 1 VBUS, CF5xx area (page 58, 59)", "priority": "critical"},
+      {"tp": "PP5V_S2_TO_FAN", "rail": "PP5V_S2_TO_FAN", "voltage": "5V", "location": "JE501 fan connector (page 52)", "priority": "medium"}
+    ],
+    "pmu_outputs": [
+      {"tp": "SPMU BUCK4 output", "rail": "SIMETRA_BUCK4 (PPVDS_S2M_DRAM)", "location": "R770A regulator output, C77xx caps (page 28)", "priority": "high"},
+      {"tp": "SPMU BUCK5 output", "rail": "SIMETRA_BUCK5 (PP0V764_S1_SRAM)", "location": "R770B output, XW7700 sense (page 28)", "priority": "high"},
+      {"tp": "SPMU BUCK6 output", "rail": "SIMETRA_BUCK6 (PP2V5_AWAKE_NAND)", "location": "R770C output (page 28)", "priority": "high"},
+      {"tp": "MPMU BUCK0 output (PCPU)", "rail": "PPVDD_PCPU_AWAKE", "location": "U8100 area (page 32)", "priority": "high"},
+      {"tp": "MPMU BUCK11 output (ECPU)", "rail": "PPVDD_ECPU_AWAKE", "location": "U8100 area (page 32)", "priority": "high"},
+      {"tp": "MPMU BUCK7 output (GPU)", "rail": "PPVDD_GPU_AWAKE", "location": "U8100 area (page 32)", "priority": "high"}
+    ],
+    "control_signals": [
+      {"tp": "PPVAON_PWR_EN", "signal": "SVR AON enable (delayed by U5340)", "page": 23, "priority": "critical"},
+      {"tp": "PPVAON_FAULT_L", "signal": "SVR AON fault (active low)", "page": 25, "priority": "critical"},
+      {"tp": "SYS_DETECT", "signal": "Battery detection from J5150/Q5155", "page": 21, "priority": "critical"},
+      {"tp": "CHGR_AUX_OK", "signal": "Charger aux OK", "page": 23, "priority": "high"},
+      {"tp": "PMU_ACTIVE_READY", "signal": "MPMU ready to SoC", "page": 32, "priority": "critical"},
+      {"tp": "PMU_SYS_ALIVE", "signal": "System alive (feeds display sequencer UP700)", "page": 69, "priority": "high"},
+      {"tp": "P5VS2_PWR_EN", "signal": "5V S2 regulator enable", "page": 37, "priority": "high"},
+      {"tp": "PP5V2_PGOOD", "signal": "5V S2 power good", "page": 37, "priority": "high"},
+      {"tp": "LCD_PWR_EN", "signal": "Display power enable to UP700", "page": 69, "priority": "high"},
+      {"tp": "DER_PWR_EN", "signal": "Touch Bar (DFR) power enable", "page": 86, "priority": "medium"}
+    ],
+    "usbc_signals": [
+      {"tp": "ATC0_CC1/CC2", "signal": "Port 0 CC lines", "page": 57, "priority": "high"},
+      {"tp": "ATC1_CC1/CC2", "signal": "Port 1 CC lines", "page": 58, "priority": "high"},
+      {"tp": "FF200", "signal": "USB-C fuse 0", "page": 55, "priority": "critical"},
+      {"tp": "FF201", "signal": "USB-C fuse 1", "page": 55, "priority": "critical"}
+    ],
+    "a2338_specific": [
+      {"tp": "Touch Bar JT700", "signal": "DFR touch connector", "page": 86, "priority": "medium", "note": "SAF liquid damage hotspot"},
+      {"tp": "Touch Bar JT710", "signal": "DFR display connector", "page": 86, "priority": "medium"},
+      {"tp": "Fan JE501", "signal": "Fan connector", "page": 52, "priority": "medium", "note": "SAF: ICs near fan connector can fail"},
+      {"tp": "Keyboard JT200", "signal": "Keyboard membrane ZIF 30-pin", "page": 82, "priority": "high"},
+      {"tp": "TS5060", "signal": "SVR AON temperature sensor", "page": 25, "priority": "low"}
+    ],
+    "debug_specific": [
+      {"tp": "Debug P3V8AON ISENSE", "signal": "PP3V8_AON current sense debug", "page": 94, "priority": "low"},
+      {"tp": "Debug Vitamin C", "signal": "Debug connector signals", "page": 95, "priority": "low"},
+      {"tp": "Debug LEDs", "signal": "Debug LED indicators", "page": [91, 92, 93], "priority": "low"}
+    ]
+  }
+}

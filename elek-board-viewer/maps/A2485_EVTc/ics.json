@@ -7,248 +7,369 @@
       "designator": "U6600",
       "function": "SoC -- Apple M1 Pro/Max",
       "description": "Main SoC. Pro has 8-core CPU + 14/16-core GPU. Max has 10-core CPU + 24/32-core GPU. SoC pages span config straps through GND (pages 5-43). U6600 appears in SWD (page 6) with CLVR SPI interface and GTRSS TX/RX.",
-      "pages": [5, 6, 8, 10, 12, 14, 16, 19, 20, 23, 24, 25, 26, 27, 28, 29, 30, 31, 39, 41, 42, 43]
+      "pages": [
+        5,
+        6,
+        8,
+        10,
+        12,
+        14,
+        16,
+        19,
+        20,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        39,
+        41,
+        42,
+        43
+      ]
     },
     {
       "designator": "U5700",
       "function": "SVR AON -- 3V8 always-on switching voltage regulator (42A design)",
       "description": "Multi-phase buck producing PP3V8_AON from PPBUS_AON. 42A ICC MAX (vs 30A on A2442). Controller is RAGCFKID_KOPU. Component range: R57xx, C57xx, R58xx, C58xx. 3 power phases with low-side ISENSE and ILIMIT (page 60, summing amp for 3 phases). TP5700 test point for PP3V8AON rail.",
-      "pages": [57, 58, 60]
+      "pages": [
+        57,
+        58,
+        60
+      ]
     },
     {
       "designator": "U7700",
       "function": "SPMU (Slave PMU)",
       "description": "Slave PMU with system bucks (BUCK0-BUCK20, BUCK15 not used on sC designs). VIN/LDO/SW on page 77. Bucks on page 78. GPIO and GND on page 79. Output caps on page 80. Has SPMU_VERF1V2 reference. Buck outputs feed S1/S2 rails including SRAM, VDDLOW, VDDCIO, CLVR domains.",
-      "pages": [77, 78, 79, 80]
+      "pages": [
+        77,
+        78,
+        79,
+        80
+      ]
     },
     {
       "designator": "U8100",
       "function": "MPMU (Master PMU)",
       "description": "Master PMU with 10 system bucks (BUCK0-BUCK10). VIN/LDO/SW on page 81 (companion XWB170/JM8170). Bucks on page 82. GPIO and GND on page 83. Buck outputs feed ECPU, GPU, SRAM, DISP, ANE, SOC, DCS, FABRIC, FIXED domains. Has Pro vs Max BOM variant options.",
       "bom_variants": "Pro and Max have different BOM options for GPU power phases",
-      "pages": [81, 82, 83, 84, 85]
+      "pages": [
+        81,
+        82,
+        83,
+        84,
+        85
+      ]
     },
     {
       "designator": "U9300",
-      "function": "Viper VR controller (MAX2553/26A-OPN-RQES)",
+      "function": "Viper VR controller (RAA225602A-3PN-RDE8)",
       "description": "Multi-phase voltage regulator controller for high-current SoC PCPU domains. 3 power stages (pages 94-96) vs 2 on A2442. Drives PPVDD_PCPU0/1 AWAKESW and PCPU SRAM rails. Has PVDDVDN_BOOT1, PVDDVDN_GDNL, PVDDVDN_CTRL signals. Differential-twisted routing required. Support page 92 has 5 phase input cap banks (PH1-PH5).",
-      "pages": [92, 93, 94, 95, 96]
+      "pages": [
+        92,
+        93,
+        94,
+        95,
+        96
+      ]
     },
     {
       "designator": "UA100 (Monaco 0, Instance C0)",
       "function": "Monaco multi-output VR -- GPU/fabric/SoC dynamic domains",
       "description": "OMIT_TABLE IC. SILICON:CF0=A0:A0, B0:D0. SILICON:OTP=A0:2P_, B0:YP_. APN: 138500328. Has HP0, LP0, HP0, HP1, LP1, HP1 buck phases. 10 buck outputs. Drives PPVDD_S0VE, PPVDD_S0VS, PPVDD_MCPW, PPVDD_S0CL_CAMU, PPVDD_GACS, PPVDD_S0DL, PPVDD_AGXS, PPVDD_S0KE, PPVDD_S0PE, PP3V3_S0MWLF.",
       "component_range": "CA1xx, XNA1xx",
-      "pages": [101]
+      "pages": [
+        101
+      ]
     },
     {
       "designator": "UA200 (Monaco 1, Instance C1)",
       "function": "Monaco VR Instance 1 -- additional GPU/fabric domains",
       "description": "CFG=A1, OTP=BP_. Same APN 138500328. Same buck phase topology as Monaco 0. Drives additional CLVR and SoC domains for Max variant GPU clusters.",
       "component_range": "CA2xx, XNA2xx",
-      "pages": [102]
+      "pages": [
+        102
+      ]
     },
     {
       "designator": "UA300 (Monaco 2, Instance C2)",
       "function": "Monaco VR Instance 2 -- additional domains",
       "description": "CFG=A1, OTP=BP_. Max variant support.",
       "component_range": "CA3xx, XNA3xx",
-      "pages": [103]
+      "pages": [
+        103
+      ]
     },
     {
       "designator": "UA400 (Monaco 3, Instance C3)",
       "function": "Monaco VR Instance 3 -- additional domains",
       "description": "CFG=B0, OTP=IP_. Reference Design Override: fix missing MAKE_BASE.",
       "component_range": "CA4xx, XNA4xx",
-      "pages": [104]
+      "pages": [
+        104
+      ]
     },
     {
       "designator": "UA500 (Monaco 4, Instances sC/1C/2C)",
       "function": "Monaco VR Instance 4 -- multi-config",
       "description": "Three sub-instances: sC (Instance=C2, CFG=D0, OTP=QP_), 1C (Instance=C4, CFG=C1, OTP=RP_), 2C (Instance=C4, CFG=C2, OTP=SP_). PACK_OPTION=CLVR_1C_SC and CLVR_2C_CHIP variants. Reference Design Override: fix missing MAKE_BASE.",
       "component_range": "CA5xx, XNA5xx",
-      "pages": [105]
+      "pages": [
+        105
+      ]
     },
     {
       "designator": "UC000",
       "function": "CLVR fabric throttle gate (74AP1G06)",
       "description": "Inverter on Monaco project support page. Drives CLVR_FABRIC_TLIMIT_THROTTLE_L signal. PP1V2_S2_CLVR_VDD0 and PP1V8_S1_CLVR_VDDH rail connections. Filter cutoff: 15MHz.",
-      "pages": [120]
+      "pages": [
+        120
+      ]
     },
     {
       "designator": "U5200 (area)",
       "function": "Battery charger IC",
       "description": "Main charger IC on PBUS SUPPLY & BATTERY CHARGER page. Multi-FET input stage with PG5xx1-PG5xx9 area MOSFETs. CHGR_GATE G1-G6 phases. LS230/L5231 dual inductors (10H-2A). Converts USB-C/MagSafe PPDCIN_AON input to PPBUS_AON. U5200 is OMIT_TABLE with DFITF0. Connected to charger support via CHGR I2C level translation (page 53).",
-      "pages": [52, 53]
+      "pages": [
+        52,
+        53
+      ]
     },
     {
       "designator": "U5500",
       "function": "MagSafe port controller (CD3218I2AKZ2, configured as UPC5)",
       "description": "CD3217-class port controller configured as the 6th UPC slot. OMIT_TABLE/CRITICAL. Same pinout as USB-C port controllers. Has SPI ROM (ACE5 is SPI ROM ONLY), I2C to charger connection, SWD to SoC. Fuses for UPC (F5601, 5A 32V). PPVBUS_USBC5 via MagSafe connector J5401.",
-      "pages": [55, 56]
+      "pages": [
+        55,
+        56
+      ]
     },
     {
       "designator": "UF400",
       "function": "CD3217B18KE -- USB-C PD port controller ATC0",
       "description": "Left port 0. OMIT_TABLE/CRITICAL. PPVV_INT1_AONSW power. PP5V_S2_ACE01_VDDM. PP3V3_S2_ACE01 and PP1V25_S2_ACE01 support rails. PP1V5_UPC0_LDO_CORE internal LDO. USBC0_CC1/CC2 signaling.",
-      "pages": [74]
+      "pages": [
+        74
+      ]
     },
     {
       "designator": "UF500",
       "function": "CD3218I2AKZ2 -- USB-C PD port controller ATC1",
       "description": "Left port 1. OMIT_TABLE/CRITICAL. Same power rail structure as ATC0. PP1V5_UPC1_LDO_CORE. USBC1_CC1/CC2.",
-      "pages": [76]
+      "pages": [
+        76
+      ]
     },
     {
       "designator": "UG400",
       "function": "CD3217B18KE -- USB-C PD port controller ATC2",
       "description": "Right port. OMIT_TABLE/CRITICAL. PPVV_INT2_AONSW power. PP5V_S2_ACE23_VDDM. PP3V3_S2_ACE23. Note: ICOM pins pulled to 3.3V for P6 only, pull to GND for P5 and forward. PP1V5_UPC2_LDO_CORE. USBC2_CC1/CC2.",
-      "pages": [83]
+      "pages": [
+        83
+      ]
     },
     {
       "designator": "UF800",
       "function": "USB-C 5V regulator left (LT8640S-2#PBF)",
       "description": "LT8640 buck converter producing PP5V_USBC01. Vout=5.23V, EDC=6.6A, F=1.5MHz. Start up time < 15 ms. Input from PPVIN_5VUSBC01. PSVUSBC01_EN enable. PSVUSBC01_PGOOD power good. LF800 critical inductor.",
-      "pages": [79]
+      "pages": [
+        79
+      ]
     },
     {
       "designator": "UG800",
       "function": "USB-C 5V regulator right (TPS62180)",
       "description": "TPS62180 buck converter producing PP5V_USBC23. Vout=5.23V, Freq=1.9-2.0MHz. OCP Max=9A, Nom=7A, Min=4A, Icc Max=3.3A. Input from PPVIN_5VUSBC23. PSVUSBC23_EN_R enable. PSVUSBC23_PGOOD power good.",
-      "pages": [86]
+      "pages": [
+        86
+      ]
     },
     {
       "designator": "TPS62130 (5V S2 VR, page 122)",
       "function": "5V S2 buck converter (Texas Instruments TPS62130)",
       "description": "Produces PP5V_S2 (Vout-nom=5.14V, Iout Max=2.1A, f=1.25MHz). Low power option. Startup 4.7/7.5/10.5ms. SET ONE OPTION FOR PBUS CAPS: PACK_OPTION=5VS2TPS_PBUS-B12, D2, or D12. Vout=0.8*(1+<Rb>/<Ra>). Input from PPVZN_P5VS2TPS. RC267 output filtering.",
       "component_range": "RC2xx, CC2xx, XWC260",
-      "pages": [122]
+      "pages": [
+        122
+      ]
     },
     {
       "designator": "UK700 (Madea, MCR50MA4)",
       "function": "HDMI retimer/controller",
       "description": "Madea HDMI controller. BSA package. PMIC800_VOD = 1.3V. RBR 3.2V I/O, HBR 1.0V I/O. DPHDM3_AUX_IO, DPHDM3_TX_M/P. Supports HDMI 2.0 output: UART (MAX)=115.2KBPS, I2C (MAX)=1MBPS (50kBPS). HDMI TX 3V2 350mA typical. FOCA covers CAAR clock ranges from 25MHz to 600MHz. VERSION 05.15 supports auto HP detection from a DP source or an HFO from an HDMI sink.",
-      "pages": [91]
+      "pages": [
+        91
+      ]
     },
     {
       "designator": "UK500 (GL9755, SD card controller)",
       "function": "SD card reader controller",
       "description": "GL9755 SPB SD card controller. PP3V3_AWAKE_SW_SD and PP1V2_GL_LOOP power. PCIe interface to SoC (PCIE_SD_UHS2_D2R/R2D). I2C debug. SDCONN_D0-D3, SDCONN_CMD, SDCONN_CLK to SD card connector JK600.",
-      "pages": [94]
+      "pages": [
+        94
+      ]
     },
     {
       "designator": "LN400 (Ocarina SSD0, D24V94PLAYLAVC2)",
       "function": "NAND controller / SSD0 power management",
       "description": "Ocarina NAND controller for SSD0. APN: 338S00600. CRITICAL. Manages 4 NAND packages (S5E0-S5E3). Has NAND0_OCARINA_TCAL, TDEV0 thermal signals. PP2V5_NAND0, PP1V2_NAND0, PP0V9_NAND0 power rails. PP2V5_P5VNAND0 via LN480 inductor.",
-      "pages": [104]
+      "pages": [
+        104
+      ]
     },
     {
       "designator": "LN900 (Ocarina SSD1, D24V94PLAYLAVC2)",
       "function": "NAND controller / SSD1 power management",
       "description": "Ocarina NAND controller for SSD1. APN: 338S00600. CRITICAL. Same topology as SSD0 Ocarina. PP2V5_NAND1, PP1V2_NAND1, PP0V9_NAND1 power rails.",
-      "pages": [109]
+      "pages": [
+        109
+      ]
     },
     {
       "designator": "UL000 (WiFi/BT, Typhoon)",
       "function": "WiFi/BT module (Typhoon)",
       "description": "Typhoon WiFi/BT module. 733AF-STYLUS4W-BD package. OMIT_TABLE. BT_DP2D2.0_MINICARD1_TILL. PP3V8_AON_WLBT and PP1V2_S2_WLBT power. 2GFEM and 5GFEM front-end modules. 2G_C0, 5G_C0, BT_C0 antenna chains.",
-      "pages": [98, 99]
+      "pages": [
+        98,
+        99
+      ]
     },
     {
       "designator": "J5401",
       "function": "MagSafe 3 connector",
       "description": "MagSafe MLB connector with CC 0V and External RD. APN: 516500767. PPVBUS_USBC5 (VOLTAGE=20V). Q5420/Q5428/Q5429 MOSFETs for CC handling. D5402 PREGG020ER protection. BAST0-B2V rail with D5410/D5411 for 5V_S2_MAIN path.",
-      "pages": [54]
+      "pages": [
+        54
+      ]
     },
     {
       "designator": "U5000 (Secure Element, SN210VUK/B101V7)",
       "function": "Ceres Secure Element",
       "description": "SN210 wired mode SE. WLCSP. OMIT_TABLE. PP1V8_S2_SE and PP1V25_S2_SE power (based on SPMI only use case, IccMax 100mA). PP3V8_AON_SE (IccMax 100mA). VBAT supply ramp time 20ms. SPMT_SE_CLK/DATA, I2C_SE_SCL/SDA.",
-      "pages": [50]
+      "pages": [
+        50
+      ]
     },
     {
       "designator": "UP800 (Luxe backlight driver, KAAC01908)",
       "function": "Luxe LCD Backlight Driver",
       "description": "KAAC01908 backlight controller. PPBUS_AON input via LP800 inductor (2.2uH-20%-1.8A-0.001OHM). Drives PPVOUT_LUXE for Mini-LED panel. Multiple boost/buck phases. CP800/CP801 must be mirrored. CP834/CP835 must be mirrored.",
-      "pages": [114]
+      "pages": [
+        114
+      ]
     },
     {
       "designator": "UP710",
       "function": "Display power sequencer (SLG4AP44015, STQFN)",
       "description": "Controls EDP_PANEL_1V8_EN, EDP_PANEL_PWR_EN, EDP_BKLT_1V29_EN (controls 1.29V LDO in PMIC), PANEL_DISCHARGE signals. Inputs: LCD_PWR_EN, PMU_SYS_ALIVE, BLC_3V29_EN.",
-      "pages": [113]
+      "pages": [
+        113
+      ]
     },
     {
       "designator": "UP730",
       "function": "3V29 LDO for backlight (TLV758P, STQFN)",
       "description": "Produces PPBCON_SW_REG from PP3V8_AON_LCD_SW_VIN. Vout=VFB*(1+R1/R2)=0.55*(1+49.9K/10)=3.2945V. Feeds backlight connector.",
-      "pages": [113]
+      "pages": [
+        113
+      ]
     },
     {
       "designator": "UP701",
       "function": "3V8 feed to MDB load switch (SLG5AP1564V, STQFN)",
       "description": "Load switch from PP1V8_AON_LCD_SW_VIN. Produces PPMDB_SW_FET rail for Mini-LED driver board.",
-      "pages": [113]
+      "pages": [
+        113
+      ]
     },
     {
       "designator": "UR600/UR630/UR660/UR700/UR730/UR760",
       "function": "Speaker amplifiers A-F (SN377780RTW / TAAWNG)",
       "description": "6 Class-D speaker amplifiers. Left: AMP A (UR600), AMP B (UR630), AMP C (UR660). Right: AMP D (UR700), AMP E (UR730), AMP F (UR760). Each has I2C (I2C_SPKRAMP_x_SCL/SDA), I2S (1SDM_SPKRAMP_x_BCLK/FSYNC/DINx/DOUT), reset (SPKRAMP_RESET_L). Power: PP1V2_AWAKE_SPKRAMP, PP3V8_AON_C_SPKRAMP, PPBUS_AON_SPKRAMP_ADC. Left connector APN 518S00818 (J152 for P0), 516S00690 (J316 for P1), POR COST CONN APN 516S00787 (P1C, P2S).",
-      "pages": [119, 120, 121]
+      "pages": [
+        119,
+        120,
+        121
+      ]
     },
     {
       "designator": "Codec IC (Carlow B0 Silicon, CS42LM8-80)",
       "function": "Audio jack codec",
       "description": "Carlow B0 silicon audio codec. I2C address: ADDR PIN=LOW -> 8R48, 10NN TO GND -> 8R4A, 10NN TO VDDD -> 8R4C, MP TO VDDD -> 8R4E. PP1V2_AWAKE_CODEC (EDC current 20mA, TSC current 10mA). PP3V8_AON_CODEC supply (VP rail, EDC 400mA). Audio jack pinout supports left/right output, GB/CH mic. LR500/LR501/LR502 ferrites (FERR-22-0.3-0.050OH).",
-      "pages": [118]
+      "pages": [
+        118
+      ]
     },
     {
       "designator": "MACAW 0/1/2/3 (UF700/UF710/UF750/UG700/UG710/UG750)",
       "function": "USB-C high-speed level shifters / retimers",
       "description": "MACAW retimers for USB-C high-speed signals. MACAW 0 (page 78): UF700 CY4AM24CA0, UF710. MACAW 1 (page 78): UF750 CY4AM24CA0. MACAW 2 (page 85): UG700 CY4AM24CA0. MACAW 3 (page 85): UG750 CY4AM24CA0. ATCRTMR0/1/2/3 reset signals. PP1V1_MACAW_VCCO power.",
-      "pages": [78, 85]
+      "pages": [
+        78,
+        85
+      ]
     },
     {
       "designator": "UF725/UG725",
       "function": "IBS SPPREISE_PARTS (SN74AUP1G07)",
       "description": "ATC retimer reset level shifters. UF725 for MACAW 0/1 (ATCRTMR0/1_RESET_IVR_R_L). UG725 for MACAW 2/3.",
-      "pages": [78, 85]
+      "pages": [
+        78,
+        85
+      ]
     },
     {
       "designator": "UK830 (TPS62135, SD card power VR)",
       "function": "3V3 SD card power regulator",
       "description": "TPS62135 buck producing PP3V3_AWAKE_SW_SD. Iout Max=2.08A, f=1.25MHz. APN 353S00897 CRITICAL. PP3V3SD_AVIN input. Vout=0.8*(1+<Ra>/<Rb>)=3.299V. LK810 inductor (2.2uH-20%-3.4A-0.066OHM).",
-      "pages": [97]
+      "pages": [
+        97
+      ]
     },
     {
       "designator": "UH901 (LP5907SNX-3.3, 3.3V LDO for HDMI)",
       "function": "3.3V LDO for HDMI",
       "description": "LP5907SNX-3.3 producing PP3V3_S2SW_DP2HDMI from PP3V8_AON_HDMI_LDO input. VOLTAGE=3.3. DP2HDMI_PWR_EN enable.",
-      "pages": [93]
+      "pages": [
+        93
+      ]
     },
     {
       "designator": "UH902 (SLG5AP1443V, 1.8V LOAD SW for HDMI)",
       "function": "1.8V load switch for HDMI",
       "description": "Produces PP1V8_S2SW_DP2HDMI from PP1V8_S2_HDMI input.",
-      "pages": [93]
+      "pages": [
+        93
+      ]
     },
     {
       "designator": "UH903 (NCP160AMXS00, LDO HDMI 5V option)",
       "function": "5V LDO for HDMI (optional)",
       "description": "NCP160AMXS00 LDO. Enable BOMOPTION LDO_HDMI:5V to test HDMI 5V limit to 5.3V. LDO_HDMI:NONE to disable.",
-      "pages": [93]
+      "pages": [
+        93
+      ]
     },
     {
       "designator": "UH001 (HDMI 1V2 VR)",
       "function": "HDMI 1.2V voltage regulator",
       "description": "1V2 S2 @ 0.4A. VR: 0.5A continuous, 0.8A peak. PP1V2_S2_P1V2_IN input. Produces PP1V2_S2_DP2HDMI. LDO: 0.7A MAX for PP1V2_S2_DP2HDMI_REG.",
-      "pages": [92]
+      "pages": [
+        92
+      ]
     },
     {
       "designator": "U5150 (RCLAMP3552T, battery system detect)",
       "function": "Battery system detect clamp",
       "description": "RCLAMP3552T CRITICAL. On battery connector page. SYS_DETECT_L signal with Q5155 (DMN3D02LFB4) MOSFET. P3V8AON_PWR_EN and SYS_DETECT signals.",
-      "pages": [51]
+      "pages": [
+        51
+      ]
     }
   ]
 }

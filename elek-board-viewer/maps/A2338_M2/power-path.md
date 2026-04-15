@@ -1,13 +1,13 @@
-# A2338 M2 Power Path — Human-Readable Diagnostic Reference
+# A2338_M2 Power Path — Human-Readable Diagnostic Reference
 
-Board: A2338 (MacBook Pro 13" M2, 820-02773, X2487/MLB)
+Board: A2338_M2 (MacBook Pro 13" M2, 820-02773, X2487/MLB)
 
 ## Power Chain Overview
 
 ```
 USB-C 5V → CD3217 (UF400/UF500) → Charger IC (U5200) → PPBUS_AON (12.6V)
                                                               |
-                                                    SVR AON (36A/30A)
+                                                    U5709 SVR AON (30A)
                                                               |
                                                         PP3V8_AON (3.8V)
                                                          +----+----+
@@ -24,12 +24,12 @@ USB-C 5V → CD3217 (UF400/UF500) → Charger IC (U5200) → PPBUS_AON (12.6V)
 
 ## Key Differences from A2681 (MacBook Air M2)
 
-- A2338 has DFR (Touch Bar) with UT700/UT710 LDOs — A2681 does not
-- A2338 has a fan with DZE500 controller — A2681 is fanless
-- A2338 has Rasputin WiFi module — A2681 has Typhoon
-- A2338 SVR AON controller is 36A ICC MAX (page 28), 30A output (page 29)
-- A2338 has 3 speaker amplifiers (AMP A/B/C) — A2681 has 2
-- A2338 5V S2 is TPS62130 (Vout=5.14V) — A2681 uses different regulator
+- A2338_M2 has DFR (Touch Bar) with UT700/UT710 LDOs — A2681 does not
+- A2338_M2 has a fan with DZE500 controller — A2681 is fanless
+- A2338_M2 has Rasputin WiFi module — A2681 has Typhoon
+- A2338_M2 SVR AON controller (U5709) is 30A ICC MAX (pages 28-29)
+- A2338_M2 has 3 speaker amplifiers (AMP A/B/C) — A2681 has 2
+- A2338_M2 5V S2 is TPS62130 (Vout=5.14V) — A2681 uses different regulator
 - Same SPMU (U7700) and MPMU (U8100) topology as A2681
 
 ## Diagnostic Test Points
@@ -60,7 +60,7 @@ USB-C 5V → CD3217 (UF400/UF500) → Charger IC (U5200) → PPBUS_AON (12.6V)
 - YES -> go to Step 4
 - NO ->
   - Check P5VS2_PWR_EN enable signal (from MPMU GPIO, page 40)
-  - Check UC300 (TPS62130) switching
+  - Check UC260 (TPS62130) switching
   - Check P5VS2TPS_PGOOD (power good output)
   - Check 5VS2_EN turn off delay circuit (DC401/RC401, page 44)
 
@@ -106,7 +106,7 @@ USB-C 5V → CD3217 (UF400/UF500) → Charger IC (U5200) → PPBUS_AON (12.6V)
 ### Stage 4: SVR AON -> 3V8
 | Node | Voltage | IC | If Missing |
 |------|---------|-----|------------|
-| PP3V8_AON | 3.8V | SVR AON (36A/30A) | SVR AON controller fault |
+| PP3V8_AON | 3.8V | U5709 SVR AON (30A) | SVR AON controller fault |
 | PP3V8_AON_VDDMAIN | 3.8V | Distribution | Short on VDDMAIN (common fault) |
 | PP3V8_AON_WLBT | 3.8V | Distribution | WiFi/BT module short |
 
@@ -156,7 +156,7 @@ USB-C 5V → CD3217 (UF400/UF500) → Charger IC (U5200) → PPBUS_AON (12.6V)
 ### Stage 6: Standalone VRs
 | Node | Voltage | IC | Enable | If Missing |
 |------|---------|-----|--------|------------|
-| PP5V_S2 | 5.14V | UC300 (TPS62130) | P5VS2_PWR_EN | Enable fault / UC300 dead |
+| PP5V_S2 | 5.14V | UC260 (TPS62130) | P5VS2_PWR_EN | Enable fault / UC260 dead |
 | PP3V3_S2 | 3.3V | UC710 | P3V3S2_PWR_EN | UC710 / enable fault |
 | PP5V_S2_UPC | 5.23V | UF800 | P5VUSBC01_EN | UF800 fault |
 | PP1V8_S2M | 1.8V | UC820 | PVDDL_PWR_EN_1445 | UC820 / enable fault |

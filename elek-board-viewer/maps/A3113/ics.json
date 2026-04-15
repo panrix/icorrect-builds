@@ -32,9 +32,10 @@
       "pages": [42, 43, 44, 45, 46, 47, 48]
     },
     {
-      "designator": "Charger IC (page 30 area)",
+      "designator": "U5200",
       "function": "Battery charger IC",
-      "description": "Main charger IC converting USB-C/MagSafe input to PPBUS_AON and managing battery charging. OKINTEGRATE marked. Multiple BOM options.",
+      "part_number": "RAA489901",
+      "description": "Main charger IC converting USB-C/MagSafe input to PPBUS_AON and managing battery charging. Multi-phase with Q5200/Q5240/Q5270 MOSFETs, L5230/L5240/L5250 inductors. OKINTEGRATE marked. Multiple BOM options.",
       "pages": [30, 31]
     },
     {
@@ -66,7 +67,7 @@
       "designator": "UF600",
       "function": "MACAW 0 - USB-C retimer/repeater ATC0",
       "part_number": "CYG40442",
-      "description": "Combined retimer and USB2 repeater for ATC0. Replaces separate re-timer + UF600 repeater from A2681. Powered by PP1V25_S2, PP1V8_S2, PP3V3_S2_100.",
+      "description": "Combined retimer and USB2 repeater for ATC0. M3 combined design replacing separate re-timer + repeater. Powered by PP1V25_S2, PP1V8_S2, PP3V3_S2_100.",
       "pages": [71]
     },
     {
@@ -80,7 +81,7 @@
       "designator": "U5900",
       "function": "ACE3 - MagSafe port controller",
       "part_number": "338S01614",
-      "description": "ACE3 MagSafe/USB-C port controller. Replaces AAROXA9PA0830 from A2681. Has internal LDOs: PP3V3_UPC5_LDO, PP1V5_UPC5_LDO_CORE. Extensive GPIO. OMIT_TABLE. IN PROGRESS marked.",
+      "description": "ACE3 MagSafe/USB-C port controller (338S01614). Has internal LDOs: PP3V3_UPC5_LDO, PP1V5_UPC5_LDO_CORE. Extensive GPIO. OMIT_TABLE. Multiple unused GPIOs terminated with 100R to GND (R5670-R5683).",
       "pages": [33, 34]
     },
     {
@@ -185,10 +186,10 @@
       "pages": [52]
     },
     {
-      "designator": "UC630 (page 52)",
+      "designator": "UC632",
       "function": "P5VS2_PWR_EN control logic (stage 2)",
       "part_number": "SN74AUP1G08DR",
-      "description": "AND gate in P5VS2 enable gating chain.",
+      "description": "AND gate in P5VS2 enable gating chain. (Note: shares UC630 area designation on page 52, distinct from UC630 LDO on page 54.)",
       "pages": [52]
     },
     {
@@ -205,9 +206,9 @@
       "pages": [83]
     },
     {
-      "designator": "San Diego Display PMU (page 85)",
-      "function": "Display PMU IC",
-      "description": "Display power management IC. Outputs: PP_AVDD (default 4.85V), PP_VGH, PP_VGL, PP_VCOM. PMC I2C address 0x74 (0xE8/0xE9). TI vs Intersil BOM options. Has LR001 inductor.",
+      "designator": "UR001",
+      "function": "San Diego Display PMU IC",
+      "description": "Display power management IC (San Diego). Outputs: PP_AVDD (default 4.85V), PP_VGH, PP_VGL, PP_VCOM. PMC I2C address 0x74 (0xE8/0xE9). TI vs Intersil BOM options. Has LR001 inductor.",
       "pages": [85, 86]
     },
     {
@@ -240,7 +241,7 @@
     {
       "designator": "UL000 (Willamette)",
       "function": "WiFi 6E / Bluetooth module",
-      "description": "Willamette WiFi/BT module. Replaces Typhoon from A2681. With 2GFEM + 5GFEM front-ends (CL001-CL035). Powered by VBAT, PP3V8_AON_WLBT, PP1V25_S2.",
+      "description": "Willamette WiFi 6E / BT module. With 2GFEM + 5GFEM front-ends (CL001-CL035). Powered by VBAT, PP3V8_AON_WLBT, PP1V25_S2.",
       "pages": [75, 76]
     },
     {
@@ -332,6 +333,54 @@
       "function": "TCON UART level shifter",
       "description": "Level shifter for display TCON UART interface. Powered by PP1V25_AWAKE_3D.",
       "pages": [81]
+    },
+    {
+      "designator": "CF400",
+      "function": "PPVBUS_USBC0 / PP3V3_S2 decoupling capacitor (ATC0 area)",
+      "description": "100uF capacitor on ATC0 port controller page. Diagnostic probe point for USB-C port 0 power presence.",
+      "pages": [69]
+    },
+    {
+      "designator": "CF501",
+      "function": "PPVBUS_USBC1 decoupling capacitor (ATC1 area)",
+      "description": "Decoupling capacitor on ATC1 port controller page. Diagnostic probe point for USB-C port 1 power presence.",
+      "pages": [70]
+    },
+    {
+      "designator": "C5704",
+      "function": "PPBUS_AON input bypass capacitor (SVR AON area)",
+      "description": "Bypass capacitor on PPBUS_AON input to U5700 SVR AON. Primary diagnostic probe point for main bus voltage. Expect 12V with battery.",
+      "pages": [35]
+    },
+    {
+      "designator": "C8320",
+      "function": "PP1V8_AON_MPMU (MPMU LDO 9) decoupling capacitor",
+      "description": "Decoupling cap for MPMU LDO 9 output. Diagnostic probe point: expect 1.8V.",
+      "pages": [44]
+    },
+    {
+      "designator": "C8330",
+      "function": "PP1V2_AON_MPMU (MPMU LDO 9B) decoupling capacitor",
+      "description": "Decoupling cap for MPMU LDO 9B output. Diagnostic probe point: expect 1.2V. C8331 adjacent.",
+      "pages": [44]
+    },
+    {
+      "designator": "C8360",
+      "function": "PP1V2_AWAKE_PLL (MPMU LDO 8) decoupling capacitor",
+      "description": "Decoupling cap for MPMU LDO 8 output. Diagnostic probe point: expect 1.2V. C8361/C8362 adjacent.",
+      "pages": [44]
+    },
+    {
+      "designator": "C8380",
+      "function": "PP1V5_LDOINT_MPMU (MPMU LDOINT) decoupling capacitor",
+      "description": "Decoupling cap for MPMU LDOINT output. Diagnostic probe point: expect 1.5V. C8381 adjacent.",
+      "pages": [44]
+    },
+    {
+      "designator": "C83A0",
+      "function": "MPMU LDO 20 area decoupling capacitor",
+      "description": "Decoupling cap in MPMU LDO 20 (PP1V2_S2_CIO) area. Diagnostic probe point.",
+      "pages": [44]
     }
   ]
 }

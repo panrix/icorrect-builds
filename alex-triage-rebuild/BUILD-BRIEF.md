@@ -1,9 +1,10 @@
 # Alex Triage Card System — Build Brief
 
-**Date:** 2026-04-07  
-**Owner:** Code  
-**Consolidated:** 2026-04-08  
-**Status:** Ready for Codex implementation  
+**Date:** 2026-04-07
+**Owner:** Code
+**Consolidated:** 2026-04-08
+**Last updated:** 2026-04-13
+**Status:** Batches 0-10 complete. Crons disabled — blocked on Telegram gateway outbound fix.
 
 ---
 
@@ -337,92 +338,106 @@ Draft a reply following the writing rules and learned corrections exactly.
 └── alex-triage-rebuild.service ← systemd service file
 ```
 
-**Already completed by previous Codex runs:**
-- `sql/create-repair-history.sql` — table schema, indexes, search function
-- `lib/supabase.js` — Supabase client (upsert, RPC, count)
-- `lib/repair-history.js` — Lookup + `formatPastRepairs()` function
-- `lib/monday.js` — Monday GraphQL client
-- `lib/config.js` — Config loading
-- `lib/bot-actions.js` — Bot action handlers
-- `scripts/import-repair-history.js` — 376 lines, processes 1,889 items (✅ RUN: 1,889 rows, 95% email, 99% phone coverage)
-- `scripts/monday-enrich-v2.js` — 217 lines, cascade matching
-- `scripts/card-builder.js` — Updated card assembly
-- `scripts/inbox-triage.js` — 238 lines, Intercom + noise filter
-- `scripts/test-repair-history-integration.js` — 100 lines
-- `lib/triage.js` — 13,968 bytes, full orchestration
-- `scripts/learning-run.js` — 120 lines, weekly learning
-- `scripts/shopify-pricing.js` — 88 lines, Shopify pull
-- `data/repair-history-import-summary.json` — Import coverage stats
+**All files implemented (Batches 0-10 complete).** See TODO.md for batch-by-batch tracking.
 
-**Still needs implementation:**
-- Telegram bot service (`telegram-bot.js` or `bot-actions.js` as persistent service)
-- Mini App (`web/edit.html`, `edit.js`, `edit.css`, Express endpoints)
-- Card format update: merge confidence tiers, thread summary logic, past repairs section
-- Snooze handler
-- Escalate handler with target selection
-- Button behavior: hide Approve on 🔴 cards
-- Conditional Shopify: use cached pricing for non-payment emails (no live API)
-- Integration with Cowork's 4 skills (card-review on every draft)
-- systemd service + nginx config + crontab entry
+Additional scripts built during remediation:
+- `scripts/validate-email-triage.js` — fixture-based validation runner (14 test cases)
+- `scripts/qa-send-flow.js` — QA test harness for send path
+- `scripts/quote-triage.js` — quote extraction (scoped separately from email triage)
+- `scripts/spam-audit.js` — spam/noise analysis tooling
+- `lib/http.js` — mini HTTP server helper
+
+**Pending (Batch 11 — Verification):**
+- Controlled live run proving checkpoint advance + Telegram message id persistence
+- Compare morning output against manual Intercom review
+- Manual verification of 10 Monday matches and 10 Shopify price lookups
+- Sample card review with Ferrari
+- Compare 5 Qwen drafts against real Ferrari replies
+- Test cron execution, bot service restart, Mini App over HTTPS
 
 ---
 
-## Build Order
+## Build Order (all complete through Batch 10)
 
-1. **Card builder + confidence tiers** — merge all data sources into card format with 🟢🟡🔴 tiers
-2. **Telegram bot service** — persistent service, post to topic 774, handle Send/Approve callback
-3. **Mini App** — edit.html + Express API endpoints at port 8020
-4. **Draft generation** — integrate LLM with card context, past repairs, pricing logic
-5. **Edit snooze** — snooze persistence, reappear at chosen time
-6. **Snooze** — snooze persistence, reappear at chosen time
-7. **Escalation handler** — quick-select, tag Intercom, add internal note
-8. **Integration tests** — end-to-end with real Intercom conversation, real Monday data, real card output
-9. **Deployment** — systemd + nginx + crontab
-
-**Already done:**
-- Supabase schema + 1,889 items imported
-- Monday cascade matching (monday-enrich-v2.js)
-- Repair history lookup (lib/repair-history.js)
-- Monday GraphQL client (lib/monday.js)
-
-Each step gets committed and tested before moving to the next.
+1. ~~Card builder + confidence tiers~~ ✅
+2. ~~Telegram bot service~~ ✅
+3. ~~Mini App~~ ✅
+4. ~~Draft generation~~ ✅
+5. ~~Snooze~~ ✅
+6. ~~Escalation handler~~ ✅
+7. ~~Integration tests~~ ✅ (fixture-based, 14/14 pass)
+8. ~~Deployment~~ ✅ (systemd + nginx + crontab)
+9. **Verification (Batch 11)** — in progress, blocked on Telegram gateway
 
 ---
 
 ## Deployment
 
 ```cron
-# Morning full triage (06:45 UTC weekdays)
-45 6 * * 1-5 cd /home/ricky/builds/alex-triage-rebuild && node scripts/inbox-triage.js --mode=morning
+# Morning full triage (06:45 UTC daily) — --limit=30 prevents SIGKILL on full pulls
+45 6 * * * cd /home/ricky/builds/alex-triage-rebuild && ALEX_ENABLE_LIVE_POSTING=1 node scripts/inbox-triage.js --mode=morning --limit=30
 
-# 15-min check during working hours (09:00-17:30 UTC weekdays)
-*/15 9-17 * * 1-5 cd /home/ricky/builds/alex-triage-rebuild && node scripts/inbox-triage.js --mode=check
+# 15-min check during working hours (07:00-18:00 UTC Mon-Fri)
+*/15 7-18 * * 1-5 cd /home/ricky/builds/alex-triage-rebuild && ALEX_ENABLE_LIVE_POSTING=1 node scripts/inbox-triage.js --mode=check
 
 # Daily Shopify pricing refresh (05:00 UTC)
 0 5 * * * cd /home/ricky/builds/alex-triage-rebuild && node scripts/shopify-pricing.js
 
-# Weekly learning run (Sunday 22:00 UTC)
-0 22 * * 0 cd /home/ricky/builds/alex-triage-rebuild && node scripts/learning-run.js
+# Weekly learning run (Sunday 07:30 UTC)
+30 7 * * 0 cd /home/ricky/builds/alex-triage-rebuild && node scripts/learning-run.js
 ```
+
+**Current state: ALL CRONS DISABLED** — Telegram outbound delivery broken ("Outbound not configured for channel: telegram"). Suspect gateway version mismatch (gateway 2026.3.24, config 2026.4.9).
 
 **Telegram bot + Mini App runs as systemd user service** on port 8020 (restarts on failure).
 
 **Nginx:** `alex.icorrect.co.uk` → `127.0.0.1:8020` with Let's Encrypt SSL.
 
+### Environment Variables
+
+**Critical (no defaults):**
+- `INTERCOM_API_TOKEN`, `MONDAY_APP_TOKEN`, `TELEGRAM_BOT_TOKEN`, `OPENROUTER_API_KEY`
+- `SHOPIFY_STORE`, `SHOPIFY_ACCESS_TOKEN`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+
+**Important (with defaults — verify these):**
+- `INTERCOM_ADMIN_ID` — must be `9702337` (Support), NOT `9702338` (Alex). Fixed 2026-04-10.
+- `TELEGRAM_CHAT_ID` — default `-1003822970061`
+- `TELEGRAM_EMAILS_THREAD_ID` — default `774`
+- `ALEX_ENABLE_LIVE_POSTING` — must be explicitly `1` in cron. Accepts `1/0`, `true/false`, `yes/no`, `on/off`.
+
 ---
 
 ## Verification
 
-1. **Card generation** — run morning mode, verify cards post to Telegram topic 774 with correct format, confidence tiers, and all sections populated
-2. **Monday matching** — pick 10 conversations, verify correct matches with appropriate confidence scores
-3. **Supabase lookup** — spot-check 5 known customers, verify past repairs return correctly
-4. **Draft quality** — generate 5 drafts, compare against Ferrari's actual replies
-5. **Send flow** — Send → Intercom reply lands → Monday note added → SQLite status → Telegram confirmation
-6. **Edit flow** — Edit → Mini App opens → edit draft → submit → card updates → learn rule stored
-7. **Confidence tiers** — verify 🔴 card has no Approve button, only Escalate + Snooze
-8. **Pricing logic** — active repair shows Monday price, new enquiry shows Shopify, diagnostics shows "pending"
-9. **Snooze flow** — snooze at 2h → card disappears → reappears after 2h
-10. **Service stability** — bot stays up, handles concurrent callbacks, restarts on failure
+### Passed (fixture-based, 2026-04-11)
+
+14/14 email triage fixture tests — see `docs/validation/email-triage-validation-2026-04-11.md`:
+1. ✅ Fresh Monday match with email
+2. ✅ Returning customer with previous repairs visible
+3. ✅ History without Monday match
+4. ✅ Weak/missing pricing flagged correctly
+5. ✅ Stale conversation excluded
+6. ✅ Already-processed conversation excluded
+7. ✅ Contact Form forwards kept triageable
+8. ✅ Spam patterns blocked (hard + soft + repair-intent protection)
+9. ✅ Corporate repair recognised
+10. ✅ Quote noise excluded from email thread
+11-14. ✅ Additional edge cases (see validation doc)
+
+6/6 Telegram review flow tests — see `docs/validation/telegram-review-flow-2026-04-11.md`:
+- ✅ Approve (single + retry), Edit, Escalate, Snooze, Routing
+
+### Still pending (Batch 11 — blocked on gateway)
+
+- [ ] Controlled live run: card → Telegram → message_id persisted → checkpoint advanced
+- [ ] Compare morning output against manual Intercom inbox review
+- [ ] Manual verification of 10 Monday matches
+- [ ] Manual verification of 10 Shopify price lookups
+- [ ] Sample card review with Ferrari
+- [ ] Compare 5 Qwen drafts against real Ferrari replies
+- [ ] Test cron execution end-to-end
+- [ ] Test bot service restart behaviour
+- [ ] Test Mini App over HTTPS
 
 ---
 
@@ -470,28 +485,52 @@ After Phase 1 runs for ~1 week:
 
 ---
 
-## Issues from 2026-04-08 live tests — SLOPPY, NOT ACCEPTABLE
+## Issues Log
 
-### 1. Quote triage pulls ALL historical items with NO date filter
-The script pulls every Monday item with status "Quote Sent" / "Diagnostic Complete" from any date. Amjad's iPhone 5C (item 7070405040) was from months ago — already resolved — and still got posted as a fresh card.
-**Fix required:** Date gate (last 7 days default) + skip items already processed in SQLite.
+### 2026-04-08 live tests — RESOLVED
 
-### 2. Quote cards posted to same topic as email cards
-Quote cards went to thread 774 (Emails), not thread 775 (Quotes). The quote-triage.js doesn't respect the quotesThreadId config.
-**Fix required:** Quote cards → topic 775, email cards → topic 774.
+1. ~~Quote triage pulls ALL historical items with NO date filter~~ — date gate + SQLite dedup added
+2. ~~Quote cards posted to same topic as email cards~~ — quote cards now → topic 775
+3. ~~"Quote pending" drafts are useless~~ — now parses £ amounts from Monday notes free text
+4. ~~Device shows "N/A" when device_model is just the customer name~~ — device extraction from notes
+5. ~~No date filter on inbox-triage.js Intercom calls~~ — checkpoint-based incremental pulls + --limit=30 safety valve
+6. ~~Bot service was left polling when it should have been stopped~~ — explicit ALEX_ENABLE_LIVE_POSTING control
 
-### 3. "Quote pending" drafts are useless
-When no pricing found in structured Monday fields, the draft says "The price for this repair is Quote pending". Monday notes clearly contained "£299 minimum + £29 diagnostic" in free text.
-**Fix required:** Parse £ amounts from Monday notes text, not just structured fields.
+### 2026-04-09/10 — Alex Sender Route (RESOLVED)
 
-### 4. Device shows "N/A" when device_model from Monday is just the customer name
-Notes said "iPhone 5C" but card showed "Device: N/A".
-**Fix required:** Extract device from Monday notes when structured field is unusable.
+**Problem:** Customer quotes sent via Alex admin ID (9702338) instead of Support (9702337), causing delivery failures.
+**Root cause:** `INTERCOM_ADMIN_ID` env var not set; code default was wrong.
+**Fix:** Changed env to `INTERCOM_ADMIN_ID=9702337`, restarted service. 2 affected conversations found and corrected.
 
-### 5. No date filter on inbox-triage.js Intercom calls
-First morning run tried to pull ALL 31K conversations. Intercom's list API doesn't support server-side date filtering.
-**Status:** Intercom cleanup (closing pre-2025 conversations) is running in background. After complete, checkpoint-based incremental pulls will be fast.
+### 2026-04-11 — Remediation (RESOLVED)
 
-### 6. Bot service was left polling when it should have been stopped
-The service kept running during testing and posting unintended cards. Took multiple commands to stop.
-**Fix required:** Clear on/off controls, never poll without explicit enable.
+Full remediation via Codex ACP (commit 30e1e30 + follow-ups):
+- **Env boolean parsing**: accepts `1/0`, `true/false`, `yes/no`, `on/off`
+- **Telegram fail-closed**: client now validates `ok` + `message_id` in response; fails before checkpoint update
+- **Quote-noise exclusion**: historical quote threads no longer leak into email review
+- **Fallback drafts**: category-specific safe drafts when Qwen times out (not just generic fallback)
+- **Card enrichment**: previous repairs, Monday link, latest visible message all present
+- **Pricing pagination**: 879 products synced (was 250)
+
+Live verification passed: card posted to thread 774, telegram_message_id 2170 persisted, checkpoint advanced.
+
+### 2026-04-11 — Spam/Noise Filter (RESOLVED)
+
+53% of email conversations should not become triage cards (12% spam + 42% noise).
+- Noise: Quote Request notifications, admin@icorrect outbound, mailer@shopify.com, BM no-reply, voicemail/telesphere
+- Hard spam: parts suppliers, phishing, reputation management, .cn manufacturing, platform scam
+- Soft spam: SEO/cold outreach (protected by repair-intent signal: device + fault keywords)
+- **Critical correction**: michael.f Contact Form forwards are real customer enquiries (n8n SMTP hack attribution) — kept triageable
+- 14/14 fixture tests pass
+
+### CURRENT BLOCKER — Telegram gateway outbound
+
+**Problem:** All crons disabled. Telegram delivery fails with "Outbound not configured for channel: telegram".
+**Status:** Config looks correct. Suspect gateway version mismatch (gateway 2026.3.24, config 2026.4.9). Awaiting infra fix.
+
+### Known minor issues
+
+- Morning full-pull SIGKILL on memory (mitigated with --limit=30)
+- Wesley Murphy platform spam still slipping through (subject-only pattern)
+- Monday API intermittent 500s (retries handle it)
+- Buyback buy-box monitor: 25 days stale, disabled (separate system)

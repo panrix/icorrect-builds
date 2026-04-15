@@ -1,126 +1,81 @@
 {
-  "WARNING": "These test points are for A2442 (820-02652) ONLY. For other boards, use that board's diagnostic files. Component designators (CR765, CZ4xx, CZ6xx, PPU8xx, etc.) are board-specific — the same rail appears at DIFFERENT components on other boards.",
+  "WARNING": "These fault patterns are for A2780 (820-02652) ONLY. Component designators are board-specific.",
   "board": "A2780",
-  "board_name": "MacBook Pro 16\" M2 Pro/Max (2021)",
+  "board_name": "MacBook Pro 16\" M2 Pro/Max (2023)",
   "schematic": "820-02652",
-  "internal_name": "X2293 MLB",
-  "data_source": "9 A2442 items, 10 ammeter readings, 6 component records from safan_diagnostics_parsed.json + schematic analysis",
+  "internal_name": "X2293/MLB",
   "faults": [
     {
       "id": "F001",
-      "name": "PPBUS_AON cap short (CR765)",
-      "frequency": "1 confirmed A2442 record",
-      "symptoms": {"dcps_5v": "0.012A", "dcps_20v": "~0.1A"},
-      "affected_rail": "PPBUS_AON",
-      "component": "CR765",
-      "root_cause": "Capacitor short on PPBUS_AON distribution. No liquid damage in this case.",
-      "fix": "Remove CR765 (diode mode confirms short). Retest. If short clears, replace cap. If persists, trace downstream.",
-      "test_point": "CR765 (PPBUS_AON decoupling)",
-      "data": "Saf: 5V/0.012A → CR765 PPBUS_AON short → removed → fixed"
+      "name": "Port Controller (UF400/UF500) failure",
+      "affected_rail": "PPVBUS_USBC0 / PPVBUS_USBC1",
+      "symptoms": {
+        "dcps_5v": "0A or trickle",
+        "dcps_20v": "0A or trickle"
+      },
+      "fix": "Replace UF400 or UF500. Check DF400/DF500 fuses.",
+      "a2780_notes": "A2780 uses CD3217 port controllers with PP3V3_UPC0_LDO and PP1V5_UPC0_LDO_CORE internal LDOs."
     },
     {
       "id": "F002",
-      "name": "CD3217 liquid damage (UF400/U5500)",
-      "frequency": "2 confirmed A2442 records",
-      "symptoms": {"dcps_5v": "0.012-0.223A", "dcps_20v": "0.223-0.552A"},
-      "affected_rail": "PPVBUS_USBC0/1/2",
-      "components": ["UF400", "UF500", "UG400", "U5500", "UF260", "UF720"],
-      "root_cause": "Liquid ingress under CD3217 or level shifter ICs. Corrodes BGA pads.",
-      "fix": "Clean board thoroughly. Replace affected CD3217. Check level shifters (UF260, UF720). May need multi-IC replacement.",
-      "data": [
-        "Saf: 5V/0.012A + 20V/0.552A → UD740, RD764 — severe liquid damage",
-        "Saf: 20V/0.223A → U5500 liquid under CD chip → cleaned + new charger chip",
-        "Saf: 5V/0.223A → UF400, UF260, UF720 liquid damage"
-      ]
+      "name": "PP3V8_AON short",
+      "affected_rail": "PP3V8_AON / PP3V8_AON_VDDMAIN",
+      "symptoms": {
+        "dcps_5v": "0.05-0.5A",
+        "dcps_20v": "0.1-0.5A"
+      },
+      "fix": "Diode mode on PP3V8_AON distribution. Thermal cam. Check U5700 SVR AON.",
+      "a2780_notes": "U5700 SVR AON on pages 57-58. Check PPVAON_PWR_EN enable path."
     },
     {
       "id": "F003",
-      "name": "Viper VR (U9300) failure — Pro/Max specific",
-      "frequency": "Schematic analysis (no Saf data yet)",
-      "symptoms": {"dcps_20v": "0.5-2.0A (below normal 2-4A range)"},
-      "affected_rail": "PPVDD_PCPU0_AWAKESW / PPVDD_PCPU1_AWAKESW",
-      "component": "U9300 (Viper VR controller)",
-      "root_cause": "Viper VR controller dead or power stage failure. Board partially boots but PCPU domains don't power up.",
-      "test_point": "CZ610 (Viper output caps, page 46)",
-      "fault_signal": "VIPER_ALERT_L (active low)",
-      "fix": "If VIPER_ALERT_L is low → Viper has detected a fault. Check power stages (pages 48-49). If CZ610 has no output → U9300 dead.",
-      "note": "Max variant has more phases than Pro — more failure points"
+      "name": "Austringer VR failure",
+      "affected_rail": "PP1V8_S1_CLVR_VDDH",
+      "symptoms": {
+        "dcps_20v": "0.3-0.8A (stalled before CLVR startup)"
+      },
+      "fix": "Check Austringer phases U9300-U9620 (pages 94-96). Measure PP1V8_S1_CLVR_VDDH. Check P1V8VDDH_DRMOS_EN and FAULT_L signals.",
+      "a2780_notes": "A2780 uses Austringer VR (NOT Viper). 5-phase DrMOS design. Fed from PP3V8_AON via support on page 92."
     },
     {
       "id": "F004",
-      "name": "Monaco VR failure — Pro/Max specific",
-      "frequency": "Schematic analysis (no Saf data yet)",
-      "symptoms": {"dcps_20v": "0.5-2.0A (below normal)"},
-      "affected_rail": "PPVDD_GPU0_AWAKESW / PPVDD_AGXS_ABMCCN / Monaco Buck outputs",
-      "component": "Monaco VR instances (CA1xx area)",
-      "root_cause": "Monaco VR not starting. GPU/fabric domains not powered.",
-      "test_point": "CA100 area (Monaco output caps, page 50)",
-      "fault_signal": "MONACO_ALERT_L (active low)",
-      "fix": "Check Monaco instances. Max has more GPU phases. If all Monaco outputs dead → controller IC fault.",
-      "note": "Monaco has 3 instances (C0, C1, C4). Failure of one instance may leave partial GPU function."
+      "name": "CLVR module failure",
+      "affected_rail": "PPVDD_PCPU0/GPU0/ANE AWAKE domains",
+      "symptoms": {
+        "dcps_20v": "0.5-1.5A (SoC not fully booting)"
+      },
+      "fix": "Check each CLVR output. UA100 (PCPU), UA200 (GPU1/2), UA300 (GPU0/3), UA500 (ANE/AFR). Pages 101-105.",
+      "a2780_notes": "A2780 uses 5 Mirabeau CLVR modules (NOT Monaco VR). CLVR strap configuration differs between C/D and S variants (page 120)."
     },
     {
       "id": "F005",
-      "name": "U5700 SVR AON failure",
-      "frequency": "Common pattern across all M-series boards",
-      "symptoms": {"dcps_5v": "0.01-0.04A", "dcps_20v": "0.05-0.3A"},
-      "affected_rail": "PP3V8_AON",
-      "component": "U5700 (SVR AON, 30A)",
-      "root_cause": "SVR AON controller dead, phase driver fault, or downstream short on PP3V8_AON pulling current.",
-      "test_point": "CZ400 area (PP3V8_AON output desense, page 36)",
-      "fault_signal": "PPVAON_FAULT_L",
-      "fix": "If CZ400 = 0V → check PPVAON_PWR_EN. If enable asserted but no output → U5700 dead. If output shorted → thermal cam on PP3V8_AON branches."
+      "name": "PP5V_S2 fault",
+      "affected_rail": "PP5V_S2 / PP5V_S2_MAIN",
+      "symptoms": {
+        "dcps_20v": "Peripheral failures, USB-C intermittent"
+      },
+      "fix": "Check UC260 TPS62130 on page 122. Measure output (expected 5.15V). Check P5VS2TPS_PWR_EN.",
+      "a2780_notes": "UC260 on page 122 with QC280 discharge MOSFET."
     },
     {
       "id": "F006",
-      "name": "MPMU (U8100) failure",
-      "frequency": "Common across M-series",
-      "symptoms": {"dcps_5v": "0.01-0.04A", "dcps_20v": "0.05-0.5A"},
-      "affected_rail": "All MPMU buck and LDO outputs",
-      "component": "U8100 (MPMU, JM8165)",
-      "root_cause": "Dead MPMU, liquid damage on BGA, or downstream short loading outputs.",
-      "test_points": "PPU815-PPU836 (PMU test points page 131), MPMU output caps CR8xx (page 40)",
-      "fix": "If multiple outputs dead → replace U8100. If single output dead → find downstream short on that rail."
+      "name": "USB-C 5V regulator fault",
+      "affected_rail": "PP5V_S2SW_USBC01",
+      "symptoms": {
+        "dcps_5v": "No VBUS on ports"
+      },
+      "fix": "Check UF800 (LT8642-1, page 158). Check UPC01_5V_EN and PMU_SYS_ALIVE signals.",
+      "a2780_notes": "A2780 uses LT8642-1 (UF800) for USB-C 5V, with SN74AUP1G08 (UF840) AND gate for enable logic."
     },
     {
       "id": "F007",
-      "name": "Dual SSD / Ocarina fault",
-      "frequency": "Schematic analysis",
-      "symptoms": {"dcps_20v": "0.5-1.5A (boot loop)"},
-      "affected_rail": "PP0V9_NAND0/1, PP1V2_NAND0/1, PPVDD_LDO_NAND0/1_OCARINA",
-      "component": "Ocarina controllers (pages 102, 107)",
-      "root_cause": "SSD0 or SSD1 NAND failure, Ocarina controller dead, or NAND power VR fault.",
-      "fix": "Check both SSD power rails independently. If one SSD's power is shorted → isolate that SSD. Try DFU restore. If NAND VR shorted → replace Ocarina.",
-      "note": "A2442 has dual SSD (SSD0 + SSD1, 8 NAND packages total). Failure of one SSD may still allow partial boot."
-    },
-    {
-      "id": "F008",
-      "name": "HDMI Madea controller fault — Pro specific",
-      "frequency": "Schematic analysis",
-      "symptoms": {"dcps_20v": "2-4A (normal current but no HDMI)"},
-      "affected_rail": "PP1V2_DP2HDMI_DIG, PP3V3_DP2HDMI_RX_TX",
-      "component": "Madea IC (page 89)",
-      "fix": "Board boots normally. HDMI output dead. Check Madea power rails, HDMI DDC I2C, HPD signal."
-    },
-    {
-      "id": "F009",
-      "name": "SD card controller fault — Pro specific",
-      "frequency": "Schematic analysis",
-      "symptoms": {"dcps_20v": "Normal (SD card not recognized)"},
-      "affected_rail": "PP3V3_AWAKE_SW_SD, PP1V8_GL_SDCONN",
-      "component": "SD Card Controller (page 92)",
-      "fix": "Check PP3V3_AWAKE_SW_SD (power switch). Check SD_CD_L (card detect). Check controller IC."
-    },
-    {
-      "id": "F010",
-      "name": "ROM / firmware corruption",
-      "frequency": "1 confirmed A2442 record",
-      "symptoms": {"dcps_5v": "0.01-0.02A", "dcps_20v": "0.05-0.3A"},
-      "affected_rail": "SPI ROM power (PP3V3_UPC0_LDO / PP1V5_UPC0_LDO_CORE)",
-      "components": ["RF293", "RF262", "RF298", "RF291", "RF290A"],
-      "root_cause": "ROM IC not getting 3.3V LDO power. Resistor fault on LDO line.",
-      "fix": "Check ROM LDO power path. Replace damaged resistors in LDO feedback circuit.",
-      "data": "Saf: ROM IC does not get 3.3 LDO → repair line RF293, RF262, RF298, RF291, RF290A"
+      "name": "MACAW retimer failure",
+      "affected_rail": "PP1V1_MACAW0_VCCD / PP1V1_MACAW1_VCCD",
+      "symptoms": {
+        "dcps_20v": "USB data failures, intermittent USB disconnects"
+      },
+      "fix": "Check UF600/UF650 (CYUSB2405A2, page 156). Check I2C buses and reset lines.",
+      "a2780_notes": "A2780 uses MACAW retimers (CYUSB2405A2), not earlier repeater designs."
     }
   ]
 }

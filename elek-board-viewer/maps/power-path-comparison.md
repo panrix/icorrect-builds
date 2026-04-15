@@ -31,7 +31,7 @@
 | LDOINT | 1.05V | 1.05V | 1.5V |
 | VDD_FIXED | 0.75V | 0.75V | 0.78V |
 
-## Pro/Max Boards (A2442, A2442_CTO, A2485, A2485_EVTc, A2779, A2779_S, A2780, A2918)
+## Pro/Max Boards (A2442, A2442_CTO, A2485, A2485_EVTc, A2779, A2779_S, A2780)
 
 ### Power Topology
 - **Input**: 3x USB-C + MagSafe + HDMI + SD card
@@ -74,3 +74,23 @@
 - **Standard (Pro)**: No Monaco VR, fewer GPU power phases
 - **Max**: Full Monaco VR for GPU clusters, additional SRAM power phases
 - **A2779_S**: Explicitly Standard-only variant (no Max BOM options)
+
+## M3 Pro Hybrid Architecture (A2918)
+
+**A2918** (MacBook Pro 14" M3 Pro/Max) is a Pro-class board but does NOT follow the Viper/Monaco VR pattern of M1/M2 Pro boards.
+
+### Power Topology
+- **Input**: 3x USB-C + MagSafe + HDMI + SD card (same I/O as other Pro boards)
+- **Main bus**: PPBUS_AON from charger IC
+- **3V8 rail**: U5700 SVR AON -> PP3V8_AON
+- **PMUs**: SPMU + MPMU from PP3V8_AON
+- **No Viper VR**: PCPU domains fed directly from PMU bucks (closer to Air topology)
+- **No Monaco VR**: GPU/fabric domains fed directly from PMU bucks
+- **Storage**: Dual SSD
+- **Additional**: Fan controller, TouchID, HDMI retimer
+
+### Why This Matters for Diagnostics
+- Do not expect Viper/Monaco fault patterns on A2918
+- PCPU and GPU power faults trace to PMU bucks directly, not to external VR controllers
+- Power sequence is simpler than M1/M2 Pro (no VR startup stage between PMU and SoC)
+- Despite being a Pro board with Pro I/O (3 USB-C, HDMI, SD), the internal power delivery resembles the Air/Base architecture

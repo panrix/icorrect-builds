@@ -2,7 +2,7 @@
   "board": "A2337",
   "schematic": "820-02016",
   "description": "Boot power-on sequence for M1 MacBook Air. Starts from USB-C cable insertion, ends at display LOGO. No MagSafe on this model.",
-  "WARNING": "M1 board - sequence is similar to M2 but with SERA/SIMETRA PMU naming. No MagSafe path. Charger delay circuit uses D5340/D5345 (page 24).",
+  "WARNING": "M1 board (A2337 / 820-02016). Sequence uses SERA/SIMETRA PMU naming. No MagSafe path. Charger delay circuit uses D5340/D5345 (page 24). UC300 = 5V S2, UC710 = 3V3 S2, UC120 = 1.8V AON LDO.",
   "sequence": [
     {
       "step": 1,
@@ -57,7 +57,7 @@
         "aon_first": [
           "SERA LDO 9 (ACTIVE) - PP1V8_AON_MPMU equivalent",
           "SIMETRA LDO 9 (ACTIVE) - PP1V8_AON_SPMU equivalent",
-          "External LDOs: UC100 (PP3V3_AON), UC200 (PP1V8_AON)"
+          "External LDOs: UC100 (PP3V3_AON), UC120 (PP1V8_AON)"
         ],
         "sleep_domains": [
           "SERA BUCK 2 (SLEEP1)",
@@ -85,11 +85,11 @@
     },
     {
       "step": 6,
-      "name": "UC320 (5V) & XMC710 (3V3) Power Up",
-      "action": "Standalone buck converters generate PP5V_S2 and PP3V3_S2 from PPBUS_AON.",
+      "name": "UC300 (5V) & UC710 (3V3) Power Up",
+      "action": "Standalone buck converters UC300 and UC710 generate PP5V_S2 and PP3V3_S2 from PPBUS_AON.",
       "rails_generated": [
-        {"rail": "PP5V_S2", "voltage": "5.15V", "ic": "UC320", "enable": "P5VS2_PWR_EN", "startup": "<15ms"},
-        {"rail": "PP3V3_S2", "voltage": "3.12V", "ic": "XMC710", "enable": "P3V3S2_PWR_EN", "startup": "<5ms"}
+        {"rail": "PP5V_S2", "voltage": "5.15V", "ic": "UC300", "enable": "P5VS2_PWR_EN", "startup": "<15ms"},
+        {"rail": "PP3V3_S2", "voltage": "3.3V", "ic": "UC710", "enable": "P3V3S2_PWR_EN", "startup": "<5ms"}
       ],
       "next_trigger": "PP5V_S2 + PP3V3_S2 present -> load switches enabled -> subsystems powered",
       "page": [37, 38, 39]

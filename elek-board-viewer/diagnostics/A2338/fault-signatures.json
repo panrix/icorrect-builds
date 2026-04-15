@@ -1,0 +1,151 @@
+{
+  "board": "A2338",
+  "schematic": "820-02020",
+  "WARNING": "A2338 (820-02020) MBP 13\" M1 ONLY. Has Touch Bar, fan, 2x USB-C, no MagSafe. SVR AON is 36A.",
+  "data_source": "Schematic PNGs cross-referenced with saf-diagnostics-2026-03-02.json (22 logic board cases). Verified against Eason (iphone_cpu_fix) M1 standby circuit reference.",
+  "forced_start_bypass": {
+    "description": "Eason diagnostic shortcut: bypass protective isolation to isolate fault location",
+    "when_to_use": "Board draws 0A or very low current at 20V. Unsure if fault is pre-SVR (charger/CD3217) or post-SVR (PMU/SoC).",
+    "steps": [
+      "1. Connect PP3V8_AON_VDDMAIN to 3.8V externally (4.3V if display attached)",
+      "2. Jumper U8110 pins 4 and 5 to force PMU_VDD_HI high",
+      "3. Press start button OR connect charger for 3 seconds"
+    ],
+    "if_boots": "Fault is FRONT END — CD3217 (UF400/UF500), charger IC (U5200), fuses (FF200/FF201), SPI ROM, boost circuit",
+    "if_no_boot": "Fault is BACK END — PMU (U8100/U7700), SoC (U0600), clocks (Y0600/Y8301), ROM, NAND"
+  },
+  "fault_signatures": [
+    {
+      "symptom": "No power — 0A at DCPS, no LED, no fan",
+      "dcps_reading": "5V: 0A | 20V: 0-0.01A",
+      "likely_rail": "PPOCIN_USBC_AON / PPVBUS_USBC0/1",
+      "likely_cause": "CD3217 (UF400/UF500) failure, FF200/FF201 blown fuse, or connector damage",
+      "saf_data": "SAF: BM 1016 at 5V/0.023A — heavy liquid damage, CD chips repair + touch bar connector. BM 1234 at 5V — 'not on and working, logic board has liquid damage'. CD3217 failure is a top cause on A2338.",
+      "check": [
+        "CD3217 controllers: UF400 (ATC0 page 57), UF500 (ATC1 page 58)",
+        "FF200/FF201 fuses (page 55) — blown = downstream short",
+        "USB-C connector physical damage (page 59)",
+        "J5150 SOLDERED battery connector (page 21) — can crack",
+        "SYS_DETECT circuit Q5155/S5190/S5191 (page 21)"
+      ]
+    },
+    {
+      "symptom": "Low current at 5V (0.02-0.2A) — board not negotiating PD",
+      "dcps_reading": "5V: 0.02-0.2A | 20V: may not negotiate",
+      "likely_rail": "PPBUS_AON",
+      "likely_cause": "Charger IC (U5200) fault or liquid damage on charger path",
+      "saf_data": "SAF: BM 1016 at 5V/0.023A — liquid damage, 'clan and repair all liquid damage parts touch bar connector CD chips'. BM 1114 at 5V/0.2A — 'very badly liquid damage' requiring CPU swap. Low 5V current on A2338 strongly correlates with liquid damage.",
+      "check": [
+        "U5200 charger IC (353S01525, page 22) — check gate drives PS5211-PS5219",
+        "CHGR_AUX_OK signal (page 23)",
+        "R5275 sense resistor, XW5260 current sense (page 22)",
+        "PPOCIN_USBC_AON input rail",
+        "Board must be CLEANED first if liquid damage suspected — ultrasonic + IPA"
+      ]
+    },
+    {
+      "symptom": "PPBUS_AON present but no PP3V8_AON — 0.3-0.8A at 20V",
+      "dcps_reading": "20V: 0.3-0.8A (current limited into short)",
+      "likely_rail": "PP3V8_AON",
+      "likely_cause": "Short on PP3V8_AON distribution or U5700 SVR AON failure (36A)",
+      "saf_data": "SAF: BM 940 — 'one ic explosion on logic board (u8250)' near PP3V8_AON area. BM 1166 at 20V/0.8A — short circuit detected. Component explosion is a documented A2338 failure mode.",
+      "check": [
+        "Diode mode on PP3V8_AON caps (pages 25-27)",
+        "PP3V8_AON VDDMAIN distribution (page 100)",
+        "PPVAON_PWR_EN via U5340 delay (page 23)",
+        "PPVAON_FAULT_L (page 25)",
+        "Phase driver MOSFETs Q5800 area (page 26)",
+        "TS5060 temperature sensor (page 25)",
+        "Thermal cam at low voltage — 36A design, check for hot spots"
+      ]
+    },
+    {
+      "symptom": "Partial boot — 0.5-0.8A at 20V, no display",
+      "dcps_reading": "20V: 0.5-0.8A",
+      "likely_rail": "PMU outputs or display path",
+      "likely_cause": "PMU not cascading, or EDP display line fault",
+      "saf_data": "SAF: BM 1166 at 20V/0.8A — 'one LCD line short (EDP from CPU) after T2 swap macbook working fine'. Short on EDP line from CPU can present as partial boot with current stuck at 0.8A.",
+      "check": [
+        "Check PMU outputs (SPMU page 28, MPMU page 32)",
+        "Check display connector JP600 (page 68) for damage/corrosion",
+        "Check EDP lines from SoC to display — SAF: LCD line short is a known A2338 fault",
+        "Try external display to isolate board vs panel",
+        "If EDP short confirmed: T2/SoC area rework may be needed"
+      ]
+    },
+    {
+      "symptom": "Board boots normally (2.0-2.5A at 20V) — keyboard dead",
+      "dcps_reading": "20V: 2.0-2.5A (normal)",
+      "likely_rail": "N/A — peripheral",
+      "likely_cause": "Keyboard or keyboard backlight failure",
+      "saf_data": "SAF: 14 of 22 cases (64%) = keyboard fault. BM 1261 at 20V/2.5A — keyboard + backlight. BM 1335 at 20V/2.5A — keyboard + trackpad liquid damage. BM 1144 — Chinese keyboard replacement. Keyboard is the DOMINANT fault on A2338. Shared A2289/A2338 backlight part.",
+      "check": [
+        "Keyboard IOX1 UT101 (PCA6416A) and IOX2 UT102 (page 81)",
+        "UT103 RSLOC isolation IC (page 81)",
+        "JT200 membrane ZIF connector 30-pin (page 82)",
+        "PP3V3_AON_KBD_CONN rail",
+        "PP1V85_S2_KBD_ISNS (keyboard power sense)",
+        "ESD protection DZT201-DZT206 (page 82)"
+      ]
+    },
+    {
+      "symptom": "Touch Bar not working",
+      "dcps_reading": "20V: normal (board boots)",
+      "likely_rail": "PP1V8_AWAKE_DFR / PP3V3_AWAKE_DFR",
+      "likely_cause": "DFR connector liquid damage or DFR power rail failure",
+      "saf_data": "SAF: BM 1016 — 'touch bar connector has liquid damage, we repair new connector'. BM 1209 — 'touch bar connector has liquid damage, we repair new connector and some liquid damage parts change on logic board'. Touch Bar connector is an A2338-specific liquid damage hotspot.",
+      "check": [
+        "DFR connectors JT700/JT710 (page 86) — inspect for liquid damage",
+        "PP1V8_AWAKE_DFR from UT700",
+        "PP3V3_AWAKE_DFR from UT710",
+        "SPI_DFR signals via level shifters UT820/UT830/UT860/UT880/UT890 (page 87)",
+        "DER_PWR_EN signal"
+      ]
+    },
+    {
+      "symptom": "Liquid damage — multiple faults",
+      "dcps_reading": "Varies — typically 5V/0.02-0.2A or 20V/0.5-1.5A",
+      "likely_rail": "Multiple",
+      "likely_cause": "Liquid corrosion across multiple areas",
+      "saf_data": "SAF: 9 of 22 cases (41%) = liquid damage keyword. BM 1114 at 5V/0.2A — 'very badly liquid damage' required CPU swap (the most extreme repair). BM 1173 — 'repair logic board liquid damage all parts and ic, found near fan connector Two ic has issue'. BM 1276 at 20V/2.5A — 'near hall sensor ic has liquid damage, make one jumper'. BM 1350 — 'logic board has liquid damage and repair logic board and replace keys'. Liquid damage is MORE prevalent on A2338 (41%) than A2337 (13%).",
+      "check": [
+        "Visual inspection under microscope — focus on Touch Bar connector area (SAF hotspot)",
+        "Thermal cam at low voltage",
+        "Clean board with IPA + ultrasonic BEFORE diagnosis",
+        "Check charger IC area U5200 (page 22)",
+        "Check fan connector area (page 52) — SAF: ICs near fan connector fail",
+        "Check keyboard connector area (page 82)",
+        "Check hall sensor area — SAF: liquid damage near hall sensor documented"
+      ]
+    },
+    {
+      "symptom": "IC explosion on logic board",
+      "dcps_reading": "Varies — board may still work after repair",
+      "likely_rail": "Depends on IC location",
+      "likely_cause": "Component failure/overstress",
+      "saf_data": "SAF: BM 940 — 'one ic explosion on logic board (u8250) after we replace ic but still same macbook not taking AMM but on and working'. After replacing U8250 + two CD chips, board fixed. IC explosion is a documented failure mode — visual inspection critical.",
+      "check": [
+        "Visual inspection for burnt/exploded components",
+        "Identify the failed IC by location (U8250 is near MPMU area)",
+        "After replacing visible damage: check for secondary damage from the failure",
+        "Check surrounding passives for thermal damage",
+        "Full power-on diagnostic after repair to verify no other failures"
+      ]
+    },
+    {
+      "symptom": "No audio from speakers",
+      "dcps_reading": "20V: normal (board boots)",
+      "likely_rail": "PPBUS_SPKRAMP / audio amp power",
+      "likely_cause": "Audio IC/codec failure",
+      "saf_data": "SAF: BM 1234 — 'try to repair audio ic other parts logic board but still same no improve on sound. No point to spent more time'. Audio IC failure on A2338 can be UNREPAIRABLE — assess cost/benefit before attempting.",
+      "check": [
+        "UR500 CS42L83 audio codec (page 75)",
+        "Speaker amps A/B left (UR600 area), D/E right (UR700 area) — pages 76-77",
+        "PPBUS_SPKRAMP_LEFT_ISNS and RIGHT_ISNS (page 78)",
+        "SPKRAMP_LVS_RESET_L signals",
+        "Speaker connectors JR800 left, JR850 right (page 78)",
+        "NOTE: SAF data shows audio IC repair may not be successful — consider board replacement cost"
+      ]
+    }
+  ]
+}

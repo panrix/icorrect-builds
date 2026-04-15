@@ -3,113 +3,787 @@
   "schematic": "820-02382",
   "signals": {
     "power_enables": [
-      {"name": "P3V8AON_PWR_EN", "description": "3V8 AON VR (U5700) enable -- derived from SYS_DETECT", "source": "U5150/Q5155 system detect circuit", "destination": "U5700", "page": [51, 57]},
-      {"name": "P5V2TPS_PWR_EN", "description": "5V S2 VR (TPS62130) enable", "source": "PMU GPIO", "destination": "TPS62130", "page": 122},
-      {"name": "PSVUSBC01_EN", "description": "USB-C 5V left regulator (UF800) enable", "source": "PMU", "destination": "UF800", "page": 79},
-      {"name": "PSVUSBC23_EN_R", "description": "USB-C 5V right regulator (UG800) enable", "source": "PMU", "destination": "UG800", "page": 86},
-      {"name": "CHGR_AUX_OK", "description": "Charger AUX OK -- charger ready (level translated page 53)", "page": 53},
-      {"name": "LCD_PWR_EN", "description": "Display power enable to UP710 sequencer", "page": 113},
-      {"name": "EDP_PANEL_PWR_EN", "description": "eDP panel power enable from UP710", "page": 113},
-      {"name": "EDP_BKLT_1V29_EN", "description": "eDP backlight 1.29V LDO enable from UP710", "page": 113},
-      {"name": "BLC_3V29_EN", "description": "Backlight 3.29V enable to UP710", "page": 113},
-      {"name": "DP2HDMI_PWR_EN", "description": "HDMI 3.3V LDO (UH901) enable", "page": 93},
-      {"name": "SD_PWR_EN", "description": "SD card 3.3V VR (UK830) enable", "page": 97},
-      {"name": "SE_PWR_EN", "description": "Secure Element (U5000) VEN enable", "page": 50},
-      {"name": "NAND0_FORCE_EN", "description": "NAND0 Ocarina force enable", "page": 104},
-      {"name": "NAND1_FORCE_EN", "description": "NAND1 Ocarina force enable", "page": 109}
+      {
+        "name": "P3V8AON_PWR_EN",
+        "description": "3V8 AON VR (U5700) enable -- derived from SYS_DETECT",
+        "source": "U5150/Q5155 system detect circuit",
+        "destination": "U5700",
+        "page": [
+          51,
+          57
+        ],
+        "type": "enable"
+      },
+      {
+        "name": "P5V2TPS_PWR_EN",
+        "description": "5V S2 VR (TPS62130) enable",
+        "source": "PMU GPIO",
+        "destination": "TPS62130",
+        "page": 122,
+        "type": "enable"
+      },
+      {
+        "name": "PSVUSBC01_EN",
+        "description": "USB-C 5V left regulator (UF800) enable",
+        "source": "PMU",
+        "destination": "UF800",
+        "page": 79,
+        "type": "enable"
+      },
+      {
+        "name": "PSVUSBC23_EN_R",
+        "description": "USB-C 5V right regulator (UG800) enable",
+        "source": "PMU",
+        "destination": "UG800",
+        "page": 86,
+        "type": "enable"
+      },
+      {
+        "name": "CHGR_AUX_OK",
+        "description": "Charger AUX OK -- charger ready (level translated page 53)",
+        "page": 53,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "LCD_PWR_EN",
+        "description": "Display power enable to UP710 sequencer",
+        "page": 113,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "EDP_PANEL_PWR_EN",
+        "description": "eDP panel power enable from UP710",
+        "page": 113,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "EDP_BKLT_1V29_EN",
+        "description": "eDP backlight 1.29V LDO enable from UP710",
+        "page": 113,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "BLC_3V29_EN",
+        "description": "Backlight 3.29V enable to UP710",
+        "page": 113,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "DP2HDMI_PWR_EN",
+        "description": "HDMI 3.3V LDO (UH901) enable",
+        "page": 93,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SD_PWR_EN",
+        "description": "SD card 3.3V VR (UK830) enable",
+        "page": 97,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SE_PWR_EN",
+        "description": "Secure Element (U5000) VEN enable",
+        "page": 50,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND0_FORCE_EN",
+        "description": "NAND0 Ocarina force enable",
+        "page": 104,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND1_FORCE_EN",
+        "description": "NAND1 Ocarina force enable",
+        "page": 109,
+        "type": "enable",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "power_good_fault": [
-      {"name": "P3V8AON_FAULT_L", "type": "fault (active low)", "source": "U5700 SVR AON", "page": 57},
-      {"name": "PMU_ACTIVE_READY", "type": "power good", "source": "MPMU U8100", "destination": "SoC", "page": 83},
-      {"name": "PMU_FAULT_INT_L", "type": "fault (active low)", "source": "MPMU U8100 (SHIFTED_PMU_FAULT_OUT_L)", "destination": "SoC", "page": 83},
-      {"name": "SPMU_READY", "type": "power good", "source": "SPMU U7700 (SPMU_INDF)", "page": 79},
-      {"name": "PVDDVDN_FAULT_L", "type": "fault (active low)", "source": "U9300 Viper VR", "page": 93},
-      {"name": "PSVUSBC01_PGOOD", "type": "power good", "source": "UF800 LT8640", "page": 79},
-      {"name": "PSVUSBC23_PGOOD", "type": "power good", "source": "UG800 TPS62180", "page": 86},
-      {"name": "SYS_DETECT", "type": "system detect", "source": "Battery connector via U5150/Q5155", "page": 51},
-      {"name": "PMU_SYS_ALIVE", "type": "system alive", "source": "PMU", "page": [79, 86, 113]}
+      {
+        "name": "P3V8AON_FAULT_L",
+        "type": "fault (active low)",
+        "source": "U5700 SVR AON",
+        "page": 57,
+        "description": "P3V8AON_FAULT_L",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PMU_ACTIVE_READY",
+        "type": "power good",
+        "source": "MPMU U8100",
+        "destination": "SoC",
+        "page": 83,
+        "description": "PMU_ACTIVE_READY"
+      },
+      {
+        "name": "PMU_FAULT_INT_L",
+        "type": "fault (active low)",
+        "source": "MPMU U8100 (SHIFTED_PMU_FAULT_OUT_L)",
+        "destination": "SoC",
+        "page": 83,
+        "description": "PMU_FAULT_INT_L"
+      },
+      {
+        "name": "SPMU_READY",
+        "type": "power good",
+        "source": "SPMU U7700 (SPMU_INDF)",
+        "page": 79,
+        "description": "SPMU_READY",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PVDDVDN_FAULT_L",
+        "type": "fault (active low)",
+        "source": "U9300 Viper VR",
+        "page": 93,
+        "description": "PVDDVDN_FAULT_L",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PSVUSBC01_PGOOD",
+        "type": "power good",
+        "source": "UF800 LT8640",
+        "page": 79,
+        "description": "PSVUSBC01_PGOOD",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PSVUSBC23_PGOOD",
+        "type": "power good",
+        "source": "UG800 TPS62180",
+        "page": 86,
+        "description": "PSVUSBC23_PGOOD",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SYS_DETECT",
+        "type": "system detect",
+        "source": "Battery connector via U5150/Q5155",
+        "page": 51,
+        "description": "SYS_DETECT",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PMU_SYS_ALIVE",
+        "type": "system alive",
+        "source": "PMU",
+        "page": [
+          79,
+          86,
+          113
+        ],
+        "description": "PMU_SYS_ALIVE",
+        "destination": "UNREADABLE"
+      }
     ],
     "resets": [
-      {"name": "PMU_RESET_L", "type": "reset (active low)", "description": "Master PMU reset", "page": 6},
-      {"name": "PMU_FORCE_DFU", "type": "force DFU mode", "page": 83},
-      {"name": "SOC_FORCE_DFU", "type": "SoC force DFU", "page": 6},
-      {"name": "ATCRTMR0_RESET", "type": "ATC0 retimer reset (MACAW 0)", "page": 78},
-      {"name": "ATCRTMR1_RESET", "type": "ATC1 retimer reset (MACAW 1)", "page": 78},
-      {"name": "ATCRTMR2_RESET", "type": "ATC2 retimer reset (MACAW 2)", "page": 85},
-      {"name": "ATCRTMR3_RESET", "type": "ATC3 retimer reset (MACAW 3)", "page": 85},
-      {"name": "SPKRAMP_RESET_L", "type": "Speaker amp reset (all 6)", "page": [119, 120]},
-      {"name": "NAND0_RESET_L", "type": "NAND0 reset", "page": 104},
-      {"name": "NAND1_RESET_L", "type": "NAND1 reset", "page": 109},
-      {"name": "SPMU_RESET_1N", "type": "SPMU reset (active low)", "page": 79},
-      {"name": "UPC_RESET_L", "type": "MagSafe UPC5 reset", "page": 56},
-      {"name": "HDMI_RESET_L", "type": "HDMI Madea reset", "page": 92}
+      {
+        "name": "PMU_RESET_L",
+        "type": "reset (active low)",
+        "description": "Master PMU reset",
+        "page": 6,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PMU_FORCE_DFU",
+        "type": "force DFU mode",
+        "page": 83,
+        "description": "PMU_FORCE_DFU",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SOC_FORCE_DFU",
+        "type": "SoC force DFU",
+        "page": 6,
+        "description": "SOC_FORCE_DFU",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "ATCRTMR0_RESET",
+        "type": "ATC0 retimer reset (MACAW 0)",
+        "page": 78,
+        "description": "ATCRTMR0_RESET",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "ATCRTMR1_RESET",
+        "type": "ATC1 retimer reset (MACAW 1)",
+        "page": 78,
+        "description": "ATCRTMR1_RESET",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "ATCRTMR2_RESET",
+        "type": "ATC2 retimer reset (MACAW 2)",
+        "page": 85,
+        "description": "ATCRTMR2_RESET",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "ATCRTMR3_RESET",
+        "type": "ATC3 retimer reset (MACAW 3)",
+        "page": 85,
+        "description": "ATCRTMR3_RESET",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPKRAMP_RESET_L",
+        "type": "Speaker amp reset (all 6)",
+        "page": [
+          119,
+          120
+        ],
+        "description": "SPKRAMP_RESET_L",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND0_RESET_L",
+        "type": "NAND0 reset",
+        "page": 104,
+        "description": "NAND0_RESET_L",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND1_RESET_L",
+        "type": "NAND1 reset",
+        "page": 109,
+        "description": "NAND1_RESET_L",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPMU_RESET_1N",
+        "type": "SPMU reset (active low)",
+        "page": 79,
+        "description": "SPMU_RESET_1N",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "UPC_RESET_L",
+        "type": "MagSafe UPC5 reset",
+        "page": 56,
+        "description": "UPC_RESET_L",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "HDMI_RESET_L",
+        "type": "HDMI Madea reset",
+        "page": 92,
+        "description": "HDMI_RESET_L",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "i2c_buses": [
-      {"name": "AP_I2C0", "description": "AP I2C bus 0 -- USB-C debug (ACE2-5 entries)", "pull_up_rail": "PP1V2_S2_I2C_PU", "devices": "USB-C debug via ACE", "page": 59},
-      {"name": "AP_I2C1", "description": "AP I2C bus 1 -- speaker amps", "pull_up_rail": "PP1V2_AWAKE_I2C_PU", "devices": "SPKRAMP_TAAWNG A/B/C (3x)", "page": 59},
-      {"name": "AP_I2C2", "description": "AP I2C bus 2 -- audio codec", "pull_up_rail": "PP1V2_AWAKE_I2C_PU", "devices": "CODEC CS42LM8 + SPICE B CODEC", "page": 59},
-      {"name": "AP_I2C3", "description": "AP I2C bus 3 -- speaker amps D/E/F", "pull_up_rail": "PP1V2_AWAKE_I2C_PU", "devices": "SPKRAMP_TAAWNG D/E/F", "page": 59},
-      {"name": "AP_I2C7", "description": "AP I2C bus 7 -- display TCON backlight", "pull_up_rail": "PP1V8_S2_I2C_PU", "devices": "Avellino PMIC, Display", "page": 59},
-      {"name": "SMC_I2C0", "description": "SMC I2C bus 0 -- charger, battery gauge, BMU", "pull_up_rail": "PP1V8_S2_I2C_PU", "devices": "Charger (SIGMA), WHAMOLA (BATT/CHARGER), BMU (9X58/9X15)", "page": 60},
-      {"name": "SMC_I2C1", "description": "SMC I2C bus 1 -- USB-C port controllers", "pull_up_rail": "PP1V8_S2_I2C_PU", "devices": "ACE2-5 (DEBUG), BMAJ ALL CALL", "page": 60},
-      {"name": "SMC_I2C2", "description": "SMC I2C bus 2 -- NAND proc", "pull_up_rail": "PP5V8_S1_I2C_PU", "devices": "NAND PROC 0 (9X78/0X72), NAND PROC 1 (9X7E/0X7D)", "page": 60},
-      {"name": "SMC_I2C3", "description": "SMC I2C bus 3 -- trackpad temperature", "pull_up_rail": "PP1V8_S2_I2C_PU", "devices": "P3Vs Rext Temp (JP0)", "page": 61},
-      {"name": "SMC_I2C4", "description": "SMC I2C bus 4 -- display temperature sensors", "pull_up_rail": "PP5V8_S1_I2C_PU", "devices": "Temp Sensors (DISPLAY TEMP SNS, 9X48/0X30)", "page": 61},
-      {"name": "AOP_I2C0", "description": "AOP I2C bus 0 -- ALS, camera", "pull_up_rail": "PP1V2_S2_CAM_LS", "devices": "ALS (Camera, 0X29/0X97), ALS Temp (Camera, 0X24/0X48)", "page": 61},
-      {"name": "ISP_I2C2", "description": "ISP I2C bus 2 -- camera", "pull_up_rail": "PP1V2_AWAKE_CAM_LS / PP1V8_AWAKE_CAM_LS", "devices": "TP622 (Camera, 0X10/0X20)", "page": 61},
-      {"name": "SI2C (SEP)", "description": "SEP I2C -- secure element EEPROM", "devices": "SEP EEPROM (U6500, 0XXX/0XX)", "page": 61},
-      {"name": "I2C_UPC0_ATCRTMR0", "description": "UPC0 to ATC0 MACAW I2C", "pull_up_rail": "PP3V3_S2SW_USBC0", "page": 74},
-      {"name": "I2C_UPC1_ATCRTMR1", "description": "UPC1 to ATC1 MACAW I2C", "pull_up_rail": "PP3V3_S2SW_USBC1", "page": 76},
-      {"name": "I2C_UPC2_ATCRTMR2", "description": "UPC2 to ATC2 MACAW I2C", "pull_up_rail": "PP3V3_S2SW_USBC2", "page": 83}
+      {
+        "name": "AP_I2C0",
+        "description": "AP I2C bus 0 -- USB-C debug (ACE2-5 entries)",
+        "pull_up_rail": "PP1V2_S2_I2C_PU",
+        "devices": "USB-C debug via ACE",
+        "page": 59,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "AP_I2C1",
+        "description": "AP I2C bus 1 -- speaker amps",
+        "pull_up_rail": "PP1V2_AWAKE_I2C_PU",
+        "devices": "SPKRAMP_TAAWNG A/B/C (3x)",
+        "page": 59,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "AP_I2C2",
+        "description": "AP I2C bus 2 -- audio codec",
+        "pull_up_rail": "PP1V2_AWAKE_I2C_PU",
+        "devices": "CODEC CS42LM8 + SPICE B CODEC",
+        "page": 59,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "AP_I2C3",
+        "description": "AP I2C bus 3 -- speaker amps D/E/F",
+        "pull_up_rail": "PP1V2_AWAKE_I2C_PU",
+        "devices": "SPKRAMP_TAAWNG D/E/F",
+        "page": 59,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "AP_I2C7",
+        "description": "AP I2C bus 7 -- display TCON backlight",
+        "pull_up_rail": "PP1V8_S2_I2C_PU",
+        "devices": "Avellino PMIC, Display",
+        "page": 59,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SMC_I2C0",
+        "description": "SMC I2C bus 0 -- charger, battery gauge, BMU",
+        "pull_up_rail": "PP1V8_S2_I2C_PU",
+        "devices": "Charger (SIGMA), WHAMOLA (BATT/CHARGER), BMU (9X58/9X15)",
+        "page": 60,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SMC_I2C1",
+        "description": "SMC I2C bus 1 -- USB-C port controllers",
+        "pull_up_rail": "PP1V8_S2_I2C_PU",
+        "devices": "ACE2-5 (DEBUG), BMAJ ALL CALL",
+        "page": 60,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SMC_I2C2",
+        "description": "SMC I2C bus 2 -- NAND proc",
+        "pull_up_rail": "PP5V8_S1_I2C_PU",
+        "devices": "NAND PROC 0 (9X78/0X72), NAND PROC 1 (9X7E/0X7D)",
+        "page": 60,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SMC_I2C3",
+        "description": "SMC I2C bus 3 -- trackpad temperature",
+        "pull_up_rail": "PP1V8_S2_I2C_PU",
+        "devices": "P3Vs Rext Temp (JP0)",
+        "page": 61,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SMC_I2C4",
+        "description": "SMC I2C bus 4 -- display temperature sensors",
+        "pull_up_rail": "PP5V8_S1_I2C_PU",
+        "devices": "Temp Sensors (DISPLAY TEMP SNS, 9X48/0X30)",
+        "page": 61,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "AOP_I2C0",
+        "description": "AOP I2C bus 0 -- ALS, camera",
+        "pull_up_rail": "PP1V2_S2_CAM_LS",
+        "devices": "ALS (Camera, 0X29/0X97), ALS Temp (Camera, 0X24/0X48)",
+        "page": 61,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "ISP_I2C2",
+        "description": "ISP I2C bus 2 -- camera",
+        "pull_up_rail": "PP1V2_AWAKE_CAM_LS / PP1V8_AWAKE_CAM_LS",
+        "devices": "TP622 (Camera, 0X10/0X20)",
+        "page": 61,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SI2C (SEP)",
+        "description": "SEP I2C -- secure element EEPROM",
+        "devices": "SEP EEPROM (U6500, 0XXX/0XX)",
+        "page": 61,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "I2C_UPC0_ATCRTMR0",
+        "description": "UPC0 to ATC0 MACAW I2C",
+        "pull_up_rail": "PP3V3_S2SW_USBC0",
+        "page": 74,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "I2C_UPC1_ATCRTMR1",
+        "description": "UPC1 to ATC1 MACAW I2C",
+        "pull_up_rail": "PP3V3_S2SW_USBC1",
+        "page": 76,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "I2C_UPC2_ATCRTMR2",
+        "description": "UPC2 to ATC2 MACAW I2C",
+        "pull_up_rail": "PP3V3_S2SW_USBC2",
+        "page": 83,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "spi_buses": [
-      {"name": "SPI_UPC0", "description": "CD3217 ATC0 firmware ROM", "page": 74},
-      {"name": "SPI_UPC1", "description": "CD3218 ATC1 firmware ROM", "page": 76},
-      {"name": "SPI_UPC2", "description": "CD3217 ATC2 firmware ROM", "page": 83},
-      {"name": "SPI_UPC5", "description": "MagSafe controller ROM (ACE5 is SPI ROM ONLY)", "page": 56},
-      {"name": "SOC_SPI_ROM", "description": "SoC SPI NOR flash", "page": 20},
-      {"name": "SPI_DISP_BKLT", "description": "Display backlight SPI (CLK/MOSI/MISO/CS)", "page": 115},
-      {"name": "SPI_AOP_LAS", "description": "LAS lid angle sensor SPI", "page": 116}
+      {
+        "name": "SPI_UPC0",
+        "description": "CD3217 ATC0 firmware ROM",
+        "page": 74,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPI_UPC1",
+        "description": "CD3218 ATC1 firmware ROM",
+        "page": 76,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPI_UPC2",
+        "description": "CD3217 ATC2 firmware ROM",
+        "page": 83,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPI_UPC5",
+        "description": "MagSafe controller ROM (ACE5 is SPI ROM ONLY)",
+        "page": 56,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SOC_SPI_ROM",
+        "description": "SoC SPI NOR flash",
+        "page": 20,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPI_DISP_BKLT",
+        "description": "Display backlight SPI (CLK/MOSI/MISO/CS)",
+        "page": 115,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPI_AOP_LAS",
+        "description": "LAS lid angle sensor SPI",
+        "page": 116,
+        "type": "data",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "usb_c_signals": [
-      {"name": "USBC0_CC1", "type": "CC", "controller": "UF400", "port": "Left rear", "page": 74},
-      {"name": "USBC0_CC2", "type": "CC", "controller": "UF400", "port": "Left rear", "page": 74},
-      {"name": "USBC1_CC1", "type": "CC", "controller": "UF500", "port": "Left front", "page": 76},
-      {"name": "USBC1_CC2", "type": "CC", "controller": "UF500", "port": "Left front", "page": 76},
-      {"name": "USBC2_CC1", "type": "CC", "controller": "UG400", "port": "Right", "page": 83},
-      {"name": "USBC2_CC2", "type": "CC", "controller": "UG400", "port": "Right", "page": 83},
-      {"name": "USBC5_CC1", "type": "CC", "controller": "U5500 (MagSafe UPC5)", "page": 55}
+      {
+        "name": "USBC0_CC1",
+        "type": "CC",
+        "controller": "UF400",
+        "port": "Left rear",
+        "page": 74,
+        "description": "USBC0_CC1",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USBC0_CC2",
+        "type": "CC",
+        "controller": "UF400",
+        "port": "Left rear",
+        "page": 74,
+        "description": "USBC0_CC2",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USBC1_CC1",
+        "type": "CC",
+        "controller": "UF500",
+        "port": "Left front",
+        "page": 76,
+        "description": "USBC1_CC1",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USBC1_CC2",
+        "type": "CC",
+        "controller": "UF500",
+        "port": "Left front",
+        "page": 76,
+        "description": "USBC1_CC2",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USBC2_CC1",
+        "type": "CC",
+        "controller": "UG400",
+        "port": "Right",
+        "page": 83,
+        "description": "USBC2_CC1",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USBC2_CC2",
+        "type": "CC",
+        "controller": "UG400",
+        "port": "Right",
+        "page": 83,
+        "description": "USBC2_CC2",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USBC5_CC1",
+        "type": "CC",
+        "controller": "U5500 (MagSafe UPC5)",
+        "page": 55,
+        "description": "USBC5_CC1",
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "clock_signals": [
-      {"name": "PMU_32K768_OUT", "type": "32.768kHz clock", "source": "MPMU crystal/MEMS", "description": "RTC reference clock", "page": 83},
-      {"name": "SOC_XTAL32M_OUT", "type": "32MHz crystal", "source": "SoC U6600 via Y6650 crystal (CRITICAL)", "page": 6}
+      {
+        "name": "PMU_32K768_OUT",
+        "type": "32.768kHz clock",
+        "source": "MPMU crystal/MEMS",
+        "description": "RTC reference clock",
+        "page": 83,
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SOC_XTAL32M_OUT",
+        "type": "32MHz crystal",
+        "source": "SoC U6600 via Y6650 crystal (CRITICAL)",
+        "page": 6,
+        "description": "SOC_XTAL32M_OUT",
+        "destination": "UNREADABLE"
+      }
     ],
     "thermal_sensors": [
-      {"name": "MPMU TDEV1-8", "type": "temperature", "description": "Master PMU thermal sensors (8 channels)", "page": 68},
-      {"name": "SPMU TDEV1-8", "type": "temperature", "description": "Slave PMU thermal sensors (8 channels)", "page": 68},
-      {"name": "NAND0_OCARINA_TCAL/TDEV0", "type": "temperature", "description": "SSD0 Ocarina thermal", "page": 104},
-      {"name": "NAND1_OCARINA_TCAL/TDEV0", "type": "temperature", "description": "SSD1 Ocarina thermal", "page": 109},
-      {"name": "PVDDVDN_DRMQS_TSENSE", "type": "temperature", "description": "Viper/Skyhawk thermal sense (values TBD)", "page": 68}
+      {
+        "name": "MPMU TDEV1-8",
+        "type": "temperature",
+        "description": "Master PMU thermal sensors (8 channels)",
+        "page": 68,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SPMU TDEV1-8",
+        "type": "temperature",
+        "description": "Slave PMU thermal sensors (8 channels)",
+        "page": 68,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND0_OCARINA_TCAL/TDEV0",
+        "type": "temperature",
+        "description": "SSD0 Ocarina thermal",
+        "page": 104,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND1_OCARINA_TCAL/TDEV0",
+        "type": "temperature",
+        "description": "SSD1 Ocarina thermal",
+        "page": 109,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PVDDVDN_DRMQS_TSENSE",
+        "type": "temperature",
+        "description": "Viper/Skyhawk thermal sense (values TBD)",
+        "page": 68,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "sensor_adc": [
-      {"name": "P3V8_AON_HIGH_SIDE_ISENSE", "type": "current sense", "description": "Gain: 100, EDP: 11.515A, Rsense: 0.001 Ohm, Range: 15A. SPMU AMUX_A2, 1ms", "page": 62},
-      {"name": "5V_S2_VR_HIGH_SIDE_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 1.061A, Rsense: 0.005 Ohm, Range: 1.5A. MPMU AMUX_A6, 8ms", "page": 62},
-      {"name": "P1V8VDDH_HIGH_SIDE_ISENSE", "type": "current sense", "description": "Gain: 190 EDP: 37.326A, Vsense: 12.98mV, Range: 20A. SPMU AMUX_A4, 1ms", "page": 62},
-      {"name": "PBUS_VOLTAGE_SENSE", "type": "voltage sense", "description": "MAX PBUS VOLTAGE: 13.09V+5%=13.7V, Divider Gain: 0.190", "page": 62},
-      {"name": "DCIN_VOLTAGE_SENSE", "type": "voltage sense", "description": "MAX ADAPTOR VOLTAGE=20V+5%=30V, Divider Gain: 0.0901", "page": 62},
-      {"name": "BATTERY_ISENSE_BMON", "type": "current sense", "description": "BMON GAIN RSENSE: 5R, 5m. MAX SUPPORTED BATTERY CURRENT SENSE: 37.91A", "page": 62},
-      {"name": "MASTER_PMU_3V8_ISENSE", "type": "current sense", "description": "Gain: 100 EDP: 21.4A, Rsense: 0.00075 Ohm, Range: 20A. MPMU AMUX_B1, 8ms", "page": 63},
-      {"name": "SLAVE_PMU_3V8_ISENSE", "type": "current sense", "description": "Gain: 190 EDP: 17A, Rsense: 0.00075 Ohm, Range: 20A. SPMU AMUX_A5, 8ms", "page": 63},
-      {"name": "NAND_0_PBUS_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 1.985A, Range: 2.5A. SPMU AMUX_B2, 8ms", "page": 63},
-      {"name": "NAND_1_PBUS_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 1.985A, Range: 2.5A. SPMU AMUX_B3, 8ms", "page": 63},
-      {"name": "LEFT_SPKRAMP_PBUS_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 5.88A, Range: 10A. SPMU AMUX_A4, 8ms", "page": 63},
-      {"name": "SD_PBUS_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 0.5A, Range: 0.5A. SPMU AMUX_B5, 8ms", "page": 64},
-      {"name": "LCD_BKLT_LUXE_ISENSE", "type": "current sense", "description": "Gain: 100, EDP: 4.687A, Range: 5A. SPMU AMUX_B4, 8ms", "page": 64},
-      {"name": "USB_5V_OUT_LEFT_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 3.529A, Range: 3.75A. SPMU AMUX_B2, 8m", "page": 64},
-      {"name": "USB_5V_OUT_RIGHT_ISENSE", "type": "current sense", "description": "Gain: 200, EDP: 1.765A, Range: 1.88A. MPMU AMUX_A4, 8ms", "page": 64}
+      {
+        "name": "P3V8_AON_HIGH_SIDE_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 100, EDP: 11.515A, Rsense: 0.001 Ohm, Range: 15A. SPMU AMUX_A2, 1ms",
+        "page": 62,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "5V_S2_VR_HIGH_SIDE_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 1.061A, Rsense: 0.005 Ohm, Range: 1.5A. MPMU AMUX_A6, 8ms",
+        "page": 62,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "P1V8VDDH_HIGH_SIDE_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 190 EDP: 37.326A, Vsense: 12.98mV, Range: 20A. SPMU AMUX_A4, 1ms",
+        "page": 62,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "PBUS_VOLTAGE_SENSE",
+        "type": "voltage sense",
+        "description": "MAX PBUS VOLTAGE: 13.09V+5%=13.7V, Divider Gain: 0.190",
+        "page": 62,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "DCIN_VOLTAGE_SENSE",
+        "type": "voltage sense",
+        "description": "MAX ADAPTOR VOLTAGE=20V+5%=30V, Divider Gain: 0.0901",
+        "page": 62,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "BATTERY_ISENSE_BMON",
+        "type": "current sense",
+        "description": "BMON GAIN RSENSE: 5R, 5m. MAX SUPPORTED BATTERY CURRENT SENSE: 37.91A",
+        "page": 62,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "MASTER_PMU_3V8_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 100 EDP: 21.4A, Rsense: 0.00075 Ohm, Range: 20A. MPMU AMUX_B1, 8ms",
+        "page": 63,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SLAVE_PMU_3V8_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 190 EDP: 17A, Rsense: 0.00075 Ohm, Range: 20A. SPMU AMUX_A5, 8ms",
+        "page": 63,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND_0_PBUS_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 1.985A, Range: 2.5A. SPMU AMUX_B2, 8ms",
+        "page": 63,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "NAND_1_PBUS_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 1.985A, Range: 2.5A. SPMU AMUX_B3, 8ms",
+        "page": 63,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "LEFT_SPKRAMP_PBUS_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 5.88A, Range: 10A. SPMU AMUX_A4, 8ms",
+        "page": 63,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "SD_PBUS_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 0.5A, Range: 0.5A. SPMU AMUX_B5, 8ms",
+        "page": 64,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "LCD_BKLT_LUXE_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 100, EDP: 4.687A, Range: 5A. SPMU AMUX_B4, 8ms",
+        "page": 64,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USB_5V_OUT_LEFT_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 3.529A, Range: 3.75A. SPMU AMUX_B2, 8m",
+        "page": 64,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      },
+      {
+        "name": "USB_5V_OUT_RIGHT_ISENSE",
+        "type": "current sense",
+        "description": "Gain: 200, EDP: 1.765A, Range: 1.88A. MPMU AMUX_A4, 8ms",
+        "page": 64,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ],
     "fan_control": [
-      {"name": "LEFT_FAN_PBUS_ISENSE", "type": "fan current sense", "description": "Gain: 50, EDP: 1A. EPMU AMUX_B1, 8ms", "page": 65}
+      {
+        "name": "LEFT_FAN_PBUS_ISENSE",
+        "type": "fan current sense",
+        "description": "Gain: 50, EDP: 1A. EPMU AMUX_B1, 8ms",
+        "page": 65,
+        "source": "UNREADABLE",
+        "destination": "UNREADABLE"
+      }
     ]
   }
 }

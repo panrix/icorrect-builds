@@ -1,8 +1,7 @@
 {
-  "WARNING": "These fault patterns are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY. Component designators are board-specific. No A2779_S-specific repair data exists yet — these patterns are PREDICTED from A2681/A2442 data and M2 Pro architecture analysis. Update this file as real repair data comes in.",
-  "board": "A2779",
-  "variant": "S (Standard / M2 Pro only)",
-  "board_name": "MacBook Pro 14\" M2 Pro (2023) — Standard",
+  "WARNING": "These fault patterns are for A2779_S (820-02841, X2523/MLB_S) ONLY. Component designators are board-specific. No A2779_S-specific repair data exists yet \u2014 these patterns are PREDICTED from A2681/A2442 data and M2 Pro architecture analysis. Update this file as real repair data comes in.",
+  "board": "A2779_S",
+  "board_name": "MacBook Pro 14\" M2 Pro (2023) \u2014 Standard",
   "schematic": "820-02841",
   "internal_name": "X2523/MLB_S",
   "description": "Predicted fault patterns based on A2681/A2442 diagnostic data adapted for M2 Pro architecture. M2 Pro has more power stages (Austringer, 3 CLVRs), more USB-C ports, and additional peripherals (HDMI, SD card) creating additional fault vectors.",
@@ -11,7 +10,7 @@
     {
       "id": "F001",
       "name": "CD3217 (UF400/UF500/UF600) failure",
-      "predicted_frequency": "High — same CD3217 IC as A2681, 3 instances vs 2",
+      "predicted_frequency": "High \u2014 same CD3217 IC as A2681, 3 instances vs 2",
       "symptoms": {
         "dcps_5v": "0A or trickle (single port), 0A (all ports if liquid damage)",
         "dcps_20v": "Trickle or normal (if only one port affected)"
@@ -19,17 +18,21 @@
       "affected_rail": "PPVBUS_USBC0 / PPVBUS_USBC1 / PPVBUS_USBC23",
       "root_causes": [
         "Liquid damage under CD3217",
-        "SPI ROM short → kills CD3217",
+        "SPI ROM short \u2192 kills CD3217",
         "CD3217 internal failure",
         "Previous repair with wrong CD3217 variant"
       ],
       "fix": "Replace CD3217 (UF400, UF500, or UF600). Ensure matching ROM. 3 ports = test each individually to isolate.",
-      "page": [74, 75, 83]
+      "page": [
+        74,
+        75,
+        83
+      ]
     },
     {
       "id": "F002",
       "name": "PP3V8_AON short (VDDMAIN / distribution)",
-      "predicted_frequency": "High — same U5700 SVR AON architecture as A2681",
+      "predicted_frequency": "High \u2014 same U5700 SVR AON architecture as A2681",
       "symptoms": {
         "dcps_5v": "0.05-0.5A",
         "dcps_20v": "0.1-0.5A"
@@ -41,7 +44,11 @@
         "Willamette WiFi/BT module pulling PP3V8_AON_WLBT to ground"
       ],
       "fix": "Diode mode on PP3V8_AON distribution. Thermal cam to find hot component. Common on VDDMAIN branch.",
-      "page": [34, 35, 139]
+      "page": [
+        34,
+        35,
+        139
+      ]
     },
     {
       "id": "F003",
@@ -58,12 +65,15 @@
         "Battery connector (J5150) fault"
       ],
       "fix": "Diode mode on PPBUS_AON. Find shorted cap. Remove and retest. Check J5150/U5150 SYS_DETECT circuit.",
-      "page": [28, 29]
+      "page": [
+        28,
+        29
+      ]
     },
     {
       "id": "F004",
       "name": "U5700 (SVR AON) failure",
-      "predicted_frequency": "Medium — 30A 3-phase buck, same architecture as A2681",
+      "predicted_frequency": "Medium \u2014 30A 3-phase buck, same architecture as A2681",
       "symptoms": {
         "dcps_5v": "0.01-0.04A (no PP3V8_AON downstream)",
         "dcps_20v": "0.05-0.3A"
@@ -75,8 +85,13 @@
         "3V8 VR enable delay circuit fault (page 30)",
         "Downstream short causing U5700 overcurrent shutdown"
       ],
-      "fix": "Check PPVAON_PWR_EN from J5150. Check 3V8 enable delay circuit (page 30 — DELAY FOR 3.8V VR ENABLE / BYPASSED). If enable present and no output → U5700 dead.",
-      "page": [30, 34, 35, 36]
+      "fix": "Check PPVAON_PWR_EN from J5150. Check 3V8 enable delay circuit (page 30 \u2014 DELAY FOR 3.8V VR ENABLE / BYPASSED). If enable present and no output \u2192 U5700 dead.",
+      "page": [
+        30,
+        34,
+        35,
+        36
+      ]
     },
     {
       "id": "F005",
@@ -92,12 +107,17 @@
         "Liquid damage on MPMU BGA pads",
         "Downstream short loading MPMU outputs"
       ],
-      "fix": "Check AON LDOs (PP1V8_AON_MPMU, PP1V2_AON_MPMU). If multiple outputs missing → replace U8100. If single output → find downstream short.",
-      "page": [42, 43, 44, 142]
+      "fix": "Check AON LDOs (PP1V8_AON_MPMU, PP1V2_AON_MPMU). If multiple outputs missing \u2192 replace U8100. If single output \u2192 find downstream short.",
+      "page": [
+        42,
+        43,
+        44,
+        142
+      ]
     },
     {
       "id": "F006",
-      "name": "U7700 (SPMU) failure — Note BUCK 7 NC on S variant",
+      "name": "U7700 (SPMU) failure \u2014 Note BUCK 7 NC on S variant",
       "predicted_frequency": "Medium",
       "symptoms": {
         "dcps_5v": "0.01-0.04A",
@@ -110,13 +130,18 @@
         "Downstream short"
       ],
       "note": "SPMU Buck 7 is NC on S (Standard) variant. Do NOT expect output. Do NOT confuse with a fault.",
-      "fix": "Check AON LDOs (PP1V8_AON_SPMU, PP1V2_AON_SPMU). If missing → replace U7700.",
-      "page": [38, 39, 40, 143]
+      "fix": "Check AON LDOs (PP1V8_AON_SPMU, PP1V2_AON_SPMU). If missing \u2192 replace U7700.",
+      "page": [
+        38,
+        39,
+        40,
+        143
+      ]
     },
     {
       "id": "F007",
       "name": "Austringer (U9300) failure",
-      "predicted_frequency": "Low-Medium — new IC type not on A2681",
+      "predicted_frequency": "Low-Medium \u2014 new IC type not on A2681",
       "symptoms": {
         "dcps_20v": "0.3-1.0A (partial boot, SoC domains not fully powered)"
       },
@@ -127,13 +152,18 @@
         "Input cap failure on phases",
         "FIVSDOH_FAULT_L triggered"
       ],
-      "fix": "Check FIVSDOH_FAULT_L and FIVSDOH_SMOS_FAULT_L. Check Austringer power stage caps (pages 49-50). If controller dead → replace U9300.",
-      "page": [47, 48, 49, 50]
+      "fix": "Check FIVSDOH_FAULT_L and FIVSDOH_SMOS_FAULT_L. Check Austringer power stage caps (pages 49-50). If controller dead \u2192 replace U9300.",
+      "page": [
+        47,
+        48,
+        49,
+        50
+      ]
     },
     {
       "id": "F008",
       "name": "CLVR instance failure (UA100/UA200/UA600)",
-      "predicted_frequency": "Low-Medium — 3 instances, S variant specific CLVR2 config",
+      "predicted_frequency": "Low-Medium \u2014 3 instances, S variant specific CLVR2 config",
       "symptoms": {
         "dcps_20v": "0.5-1.5A (partial boot, specific SoC domain not powered)"
       },
@@ -146,7 +176,13 @@
       ],
       "note": "CLVR2 (UA600) address straps and CFG are DIFFERENT between S and C/D variants. S=CFG C (6+1+13+6), OTP=IP. Do NOT install C variant CLVR2 on S board.",
       "fix": "Check each CLVR output independently. Verify address straps match S variant (page 54). Check PP1V8_S1_CLVR_VDDH input.",
-      "page": [51, 52, 53, 54, 141]
+      "page": [
+        51,
+        52,
+        53,
+        54,
+        141
+      ]
     },
     {
       "id": "F009",
@@ -161,14 +197,20 @@
         "NAND flash failure",
         "Fuse blown"
       ],
-      "note": "A2779_S has DUAL SSD — SSD0 (pages 100-104) and SSD1 (pages 105-109). Check both. NAND CLK test points on page 110.",
+      "note": "A2779_S has DUAL SSD \u2014 SSD0 (pages 100-104) and SSD1 (pages 105-109). Check both. NAND CLK test points on page 110.",
       "fix": "Check NAND power rails for both SSDs. Check for boot loop pattern.",
-      "page": [100, 101, 105, 106, 110]
+      "page": [
+        100,
+        101,
+        105,
+        106,
+        110
+      ]
     },
     {
       "id": "F010",
-      "name": "Liquid damage — multiple component failure",
-      "predicted_frequency": "High — most common overall fault category",
+      "name": "Liquid damage \u2014 multiple component failure",
+      "predicted_frequency": "High \u2014 most common overall fault category",
       "symptoms": {
         "dcps_5v": "Variable",
         "dcps_20v": "Variable"
@@ -181,8 +223,8 @@
       ],
       "fix": "Clean board thoroughly (IPA + ultrasonic). Fix one short at a time, retest after each. A2779_S has more components than A2681 = more potential liquid damage points.",
       "common_areas": [
-        "CD3217 area (UF400/UF500/UF600) — USB-C controllers near edges",
-        "PP3V8_AON distribution — central board area",
+        "CD3217 area (UF400/UF500/UF600) \u2014 USB-C controllers near edges",
+        "PP3V8_AON distribution \u2014 central board area",
         "Charger IC area (page 29)",
         "Battery connector (J5150) area"
       ]
@@ -190,7 +232,7 @@
     {
       "id": "F011",
       "name": "SYS_DETECT / BMU (J5150/U5150) fault",
-      "predicted_frequency": "Medium — battery flex connector area",
+      "predicted_frequency": "Medium \u2014 battery flex connector area",
       "symptoms": {
         "dcps_5v": "Trickle or no current (PPBUS_AON doesn't come up)",
         "dcps_20v": "Low current"
@@ -198,12 +240,14 @@
       "affected_rail": "PPBUS_AON (prevented from coming up)",
       "root_causes": [
         "Battery flex damage at J5150",
-        "U5150 (BLKAMPMHY) IC failure — marked CRITICAL in schematic",
+        "U5150 (BLKAMPMHY) IC failure \u2014 marked CRITICAL in schematic",
         "SYS_DETECT signal path broken",
         "PPVAON_PWR_EN not reaching U5700"
       ],
       "fix": "Check J5150 connector pins. Check U5150 (BLKAMPMHY CRITICAL). Verify PPVAON_PWR_EN signal path from J5150 to U5700.",
-      "page": [28]
+      "page": [
+        28
+      ]
     },
     {
       "id": "F012",
@@ -219,9 +263,13 @@
         "Display flex connector JP600 (APN: 516S00682) damage",
         "LCD panel fault"
       ],
-      "note": "Luxe UP800 replaces BEN (U6560) from A2681 — different IC, different pinout. CP800/CP801 MUST BE MIRRORED. CP834/CP835 MUST BE MIRRORED.",
+      "note": "Luxe UP800 replaces BEN (U6560) from A2681 \u2014 different IC, different pinout. CP800/CP801 MUST BE MIRRORED. CP834/CP835 MUST BE MIRRORED.",
       "fix": "Check display sequencer (UP710/UP730/UP701). Check Luxe (UP800). Test with external display via HDMI (JH500 page 89) to isolate panel vs GPU.",
-      "page": [113, 114, 115]
+      "page": [
+        113,
+        114,
+        115
+      ]
     }
   ]
 }

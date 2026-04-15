@@ -1,6 +1,6 @@
 {
   "WARNING": "These connectors are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY.",
-  "board": "A2779",
+  "board": "A2779_S",
   "variant": "S (Standard / M2 Pro only)",
   "schematic": "820-02841",
   "connectors": [

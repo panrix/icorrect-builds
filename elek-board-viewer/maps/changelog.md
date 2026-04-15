@@ -1,5 +1,75 @@
 # Maps Changelog
 
+## 2026-04-11 — QA Remediation Pass 2 (Verified)
+
+### Fix 1: A2780 Full Rebuild (CRITICAL)
+- Deleted all prior A2780 outputs and rebuilt from actual 322-page schematic PNGs
+- Read schematic pages via vision: ToC (p1), power stages (p51-58, 92-96), CLVR modules (p101-105), PP5V_S2 (p122), USB-C (p150-160)
+- Key A2780-specific architecture confirmed from schematics:
+  - Austringer VR (U9300-U9620, 5-phase DrMOS) — NOT Viper
+  - 5 CLVR Mirabeau modules (UA100-UA500) — NOT Monaco VR
+  - MACAW retimers (UF600/UF650, CYUSB2405A2)
+  - COBRA HDMI retimer
+  - LT8642-1 (UF800) USB-C 5V regulator
+  - TPS628502 ATC regulators (UF900/UF930/UF960, UG900/UG930/UG960)
+- A2780 stats: 187 active rails, 68 ICs (vs A2442: 229 rails, 17 ICs)
+- Contamination grep: 0 A2442 matches in A2780 outputs
+
+### Fix 2: A3114 Diagnostics Contamination
+- Removed remaining A3113 references from diagnostics/A3114/diagnostic-tree.json
+- Contamination grep: 0 inappropriate A3113 matches
+
+### Fix 3: A2779 PP5V_S2 Voltage
+- Already corrected in prior pass (5.15V per schematic page 58)
+
+### Fix 4: A2918 Classification
+- Already corrected in prior pass (own hybrid architecture section)
+
+### Verification
+- All 173 JSON files parse cleanly
+- Master indexes updated with real A2780 data
+- Zero cross-board contamination in remediated outputs
+
+---
+
+## 2026-04-11 — QA Remediation (Post-Review Fixes)
+
+### Fix 1: A2780 Full Rebuild From Schematics (CRITICAL)
+- Deleted all contaminated A2780 maps/ and diagnostics/ files (were cloned from A2442 with header swaps)
+- Rebuilt all 9 maps files + 3 diagnostics files from actual 322-page schematic PNGs (J416-C/S)
+- Key findings from genuine extraction:
+  - A2780 uses **Austringer VR** (U9300, RAA225050A-3PH-SPM), NOT Viper
+  - A2780 uses **CLVR Mirabeau** (5 instances: UA100-UA300), NOT Monaco VR
+  - HDMI retimer is **Cobra** (UH700, PS190), NOT Madea
+  - WiFi is **Willamette** (UL000), SVR AON is **42A** (RAA225501C)
+  - UC260 TPS62130B-S for 5V S2 (Vout=5.14V, 2.1A)
+  - Architecture matches A2779 (14" sibling), not A2442
+- A2780 stats: 160 active rails, 28 ICs (vs A2442: 204 rails, 17 ICs)
+- Self-verification: grep for "A2442" returns only legitimate cross-references
+
+### Fix 2: A3114 Diagnostics -- A3113 Contamination Removed
+- Replaced all "A3113" references with "A3114" in diagnostics/A3114/ (3 files)
+- Renamed all "a3113_notes" fields to "a3114_notes"
+- Self-verification: grep for "A3113" in A3114 files returns 0 matches
+
+### Fix 3: A2779 PP5V_S2 Voltage Correction
+- Fixed PP5V_S2 voltage in maps/A2779/rails.json
+- Was: "5V (VOUT=15V noted on schematic, actual ~5V)" (contradictory)
+- Now: "5.15V" (correct per schematic page 58, UC260 5V_S2 VR)
+
+### Fix 4: A2918 Classification in power-path-comparison.md
+- Moved A2918 from Pro/Max section to its own "M3 Pro Hybrid Architecture" section
+- A2918 is a Pro board (3 USB-C, HDMI, SD) but does NOT use Viper/Monaco VR
+- Power delivery resembles Air/Base topology (PMU bucks feed SoC directly)
+- Added diagnostic notes: do not expect Viper/Monaco fault patterns on A2918
+
+### Post-Fix Verification
+- All JSON validates (157 files)
+- Contamination greps clean: A2442 in A2780 = cross-refs only, A3113 in A3114 = 0
+- Master indexes rebuilt: 354 unique rails, 226 unique ICs across 14 boards
+
+---
+
 ## 2026-04-11 — Repass: QA Fixes, Remaining Boards, Master Index
 
 ### Block 1: A3113 Audit-and-Rewrite

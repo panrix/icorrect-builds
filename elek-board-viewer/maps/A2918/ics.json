@@ -29,10 +29,11 @@
       "pages": [41, 42, 43, 44, 45, 46, 47]
     },
     {
-      "designator": "Charger IC (U5200 area)",
+      "designator": "U5200",
+      "part_number": "RAA009063-6 (Renesas)",
       "function": "Battery charger IC",
-      "description": "Main charger IC converting USB-C/MagSafe input to PPBUS_AON and managing battery charging. On PBUS SUPPLY page.",
-      "pages": [29]
+      "description": "Main charger IC converting USB-C/MagSafe input (PPDCIN_USBC_AON) to PPBUS_AON and managing battery charging. Dual-phase buck with L5200 inductor. F5200/F5201 critical 12A fuses on output.",
+      "pages": [29, 30]
     },
     {
       "designator": "UC260",
@@ -75,11 +76,13 @@
     {
       "designator": "UF710",
       "function": "ATC0 re-timer I2C level shifter",
+      "description": "Level shifter for ATC0 retimer I2C bus. Translates between PP1V25_S2 and PP3V3_S2_LDO domains.",
       "pages": [74]
     },
     {
       "designator": "UF720",
       "function": "ATC1 re-timer I2C level shifter",
+      "description": "Level shifter for ATC1 retimer I2C bus. Translates between PP1V25_S2 and PP3V3_S2_LDO domains.",
       "pages": [74]
     },
     {
@@ -216,6 +219,36 @@
       "function": "6-axis accelerometer and gyroscope",
       "description": "Sovereign motion sensor. Powered by PP1V8_S2, PP3V3_S2. SPI interface.",
       "pages": [64]
+    },
+    {
+      "designator": "CF401",
+      "function": "PPVBUS_USBC0 decoupling capacitor",
+      "description": "Decoupling capacitor on PPVBUS_USBC0 (USB-C port 0 VBUS). Used as probe point for USB-C port 0 voltage measurement.",
+      "pages": [66]
+    },
+    {
+      "designator": "CF503",
+      "function": "PPVBUS_USBC1 decoupling capacitor",
+      "description": "Decoupling capacitor on PPVBUS_USBC1 (USB-C port 1 VBUS). Used as probe point for USB-C port 1 voltage measurement.",
+      "pages": [66]
+    },
+    {
+      "designator": "TPU651",
+      "function": "PPBUS_AON test point",
+      "description": "Factory test point on PPBUS_AON (main power bus). Use for PPBUS_AON voltage measurement. FCT page.",
+      "pages": [113]
+    },
+    {
+      "designator": "TPU665",
+      "function": "PP3V8_AON test point",
+      "description": "Factory test point on PP3V8_AON (3.8V always-on rail). Use for PP3V8_AON voltage measurement. FCT page.",
+      "pages": [113]
+    },
+    {
+      "designator": "TPU676",
+      "function": "PP5V_S2_HOLD test point",
+      "description": "Factory test point on PP5V_S2_HOLD (5V S2 rail). Use for PP5V_S2 voltage measurement. FCT page.",
+      "pages": [113]
     }
   ]
 }

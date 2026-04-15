@@ -5,7 +5,7 @@
   "schematic": "820-02757",
   "internal_name": "X2482/MLB",
   "dcps_voltage": "5V",
-  "description": "Decision trees for all 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Current draw indicates where in the power chain the fault lies. Note: A2918 has different test points than A2681 — use TPU633/TPU630/TPU636 from FCT pages.",
+  "description": "Decision trees for all 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Current draw indicates where in the power chain the fault lies. Test points verified from FCT page 113: TPU651 (PPBUS_AON), TPU665 (PP3V8_AON), TPU676 (PP5V_S2_HOLD).",
   "scenarios": [
     {
       "range": "0A (dead — no current draw)",
@@ -55,8 +55,8 @@
         {
           "step": 1,
           "action": "Check PPBUS_AON",
-          "measure": "Probe TPU633 (PPBUS_AON test point from FCT page 113)",
-          "component": "TPU633",
+          "measure": "Probe TPU651 (PPBUS_AON test point from FCT page 113)",
+          "component": "TPU651",
           "expected": "12V (battery voltage) or rising toward ~5V (adapter only, pre-PD)",
           "if_missing": "Fault in charging circuit. Go to step 2.",
           "if_present": "Go to step 3."
@@ -72,8 +72,8 @@
         {
           "step": 3,
           "action": "Check PP3V8_AON",
-          "measure": "Probe TPU630 (PP3V8_AON test point from FCT page 113)",
-          "component": "TPU630",
+          "measure": "Probe TPU665 (PP3V8_AON test point from FCT page 113)",
+          "component": "TPU665",
           "expected": "3.8V",
           "if_missing": "Fault in U5700 (SVR AON). Check PPVAON_PWR_EN (delayed enable via D5340/R5340/R5341 on page 30). Check for short on PP3V8_AON line.",
           "if_present": "Go to step 4."
@@ -89,8 +89,8 @@
         {
           "step": 5,
           "action": "Check PP5V_S2",
-          "measure": "Probe TPU636 (PP5V_S2 test point from FCT page 113)",
-          "component": "TPU636",
+          "measure": "Probe TPU676 (PP5V_S2 test point from FCT page 113)",
+          "component": "TPU676",
           "expected": "5V",
           "if_missing": "UC260 (TPS62130) fault or PPV5S2TS_PWR_EN not asserted.",
           "if_present": "Go to step 6."
@@ -102,9 +102,9 @@
           "sub_checks": [
             {"expected": "1.8V", "rail": "PP1V8_AON_MPMU (LDO 9)"},
             {"expected": "1.2V", "rail": "PP1V2_AON_MPMU (LDO 9B)"},
-            {"expected": "3.3V", "rail": "PP3V3_S2M_SNR (LDO 13)"},
+            {"expected": "3.3V", "rail": "PP3V3_S2SW_SNS (LDO 13)"},
             {"expected": "3.3V", "rail": "PP3V3_S2_LDO (LDO 7)"},
-            {"expected": "1.05V", "rail": "PP1V05_LDOINT_MPMU (LDOINT)"}
+            {"expected": "1.05V", "rail": "PP1V5_LDOINT_MPMU (LDOINT)"}
           ],
           "if_all_present": "Fault is downstream of PMU — SoC domain or peripheral. Thermal cam.",
           "if_any_missing": "Go to step 7."
@@ -126,8 +126,8 @@
         {
           "step": 1,
           "action": "Check PPBUS_AON",
-          "measure": "Probe TPU633",
-          "component": "TPU633",
+          "measure": "Probe TPU651",
+          "component": "TPU651",
           "expected": "12V (with battery) or ~5V (adapter only)",
           "if_missing": "Charger path fault. See 0.001-0.05A tree step 2.",
           "if_present": "Go to step 2."
@@ -135,8 +135,8 @@
         {
           "step": 2,
           "action": "Check PP3V8_AON",
-          "measure": "Probe TPU630",
-          "component": "TPU630",
+          "measure": "Probe TPU665",
+          "component": "TPU665",
           "expected": "3.8V",
           "if_missing": "U5700 fault. See 0.001-0.05A tree.",
           "if_present": "Go to step 3."
@@ -144,7 +144,7 @@
         {
           "step": 3,
           "action": "Check PP3V8_AON branches — HDMI and SD card (Pro-specific)",
-          "measure": "Diode mode on PP3V8_AON_HDMI_1SNS and PP3V3_MAME_S60 paths",
+          "measure": "Diode mode on PP3V8_AON_HDMI_ISNS and PP3V3_S2SW_SNS paths",
           "expected": "Normal (not shorted)",
           "if_wrong": "HDMI or SD card circuit pulling PP3V8_AON down. Isolate by removing suspect loads.",
           "next_if_ok": 4,
@@ -153,8 +153,8 @@
         {
           "step": 4,
           "action": "Check PP5V_S2",
-          "measure": "Probe TPU636",
-          "component": "TPU636",
+          "measure": "Probe TPU676",
+          "component": "TPU676",
           "expected": "5V",
           "if_missing": "Check UC260 (TPS62130) and its input/output passives.",
           "if_present": "Run full MPMU LDO check per step 6 in 0.001-0.05A tree."
@@ -175,7 +175,7 @@
         {
           "step": 2,
           "action": "Run full diagnostic chain",
-          "measure": "TPU633→TPU630→TPU636→MPMU LDOs",
+          "measure": "TPU651→TPU665→TPU676→MPMU LDOs",
           "if_all_present": "Go to step 3.",
           "if_any_missing": "Fault identified at the missing rail."
         },

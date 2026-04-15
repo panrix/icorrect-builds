@@ -1,5 +1,5 @@
 {
-  "board": "A2338",
+  "board": "A2338_M2",
   "schematic": "820-02773",
   "extraction_notes": "Complete extraction from all 128 pages. All U-designators verified against schematic pages. X2487 MLB (MacBook Pro 13\" M2).",
   "ics": [
@@ -35,15 +35,15 @@
       "pages": [26]
     },
     {
-      "designator": "UC300",
+      "designator": "UC260",
       "function": "5V S2 buck converter (TPS62130)",
-      "description": "Produces PP5V_S2 (5.14V) from PPBUS_AON via PPVAON dch1 VIN ISNS. f=1.25MHz. XMC260 inductor. Startup 4.7/7.5/10.5ms.",
+      "description": "Produces PP5V_S2 (5.14V) from PPBUS_AON. Vout-nom=5.14V, Iout Max=2.1A, f=1.25MHz. XWC260 inductor. Startup 4.7/7.5/10.5ms.",
       "pages": [43]
     },
     {
       "designator": "UC710",
       "function": "3V3 S2 buck converter",
-      "description": "Produces PP3V3_S2 from PPBUS_AON via XMC710 inductor. f=1.5MHz. Startup <5ms.",
+      "description": "Produces PP3V3_S2 from PPBUS_AON. VOUT=3.3V, EDC=2.5A, TDC=2.0A, f=1.5MHz. XWC710/XWC711 inductors. Startup <5ms.",
       "pages": [45]
     },
     {
@@ -259,6 +259,12 @@
       "function": "Fan controller MOSFET/driver",
       "description": "Fan control circuit. PWM control via SMC_FAN_0_PWM, tachometer feedback FAN_RT_TACH.",
       "pages": [60]
+    },
+    {
+      "designator": "U5709",
+      "function": "3V8 AON SVR controller (RAA235645C)",
+      "description": "30A ICC MAX 3-phase buck controller for PP3V8_AON. Converts PPBUS_AON to 3.8V always-on master rail. Feeds both SPMU (U7700) and MPMU (U8100). Output stages on page 29 with L5800/L5820/L5840 inductors.",
+      "pages": [28, 29, 30]
     }
   ]
 }

@@ -4,9 +4,9 @@ const https = require('https');
 const app = express();
 const PORT = 8004;
 
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY;
 const LLM_SUMMARY_API_KEY = process.env.LLM_SUMMARY_API_KEY;
-const MODEL = 'gpt-4o-mini';
+const MODEL = 'anthropic/claude-sonnet-4-6';
 
 app.use(express.json({ limit: '1mb' }));
 
@@ -97,15 +97,15 @@ function callOpenAI(prompt) {
     });
 
     const req = https.request({
-      hostname: 'api.openai.com',
-      path: '/v1/chat/completions',
+      hostname: 'openrouter.ai',
+      path: '/api/v1/chat/completions',
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
         'Content-Type': 'application/json',
         'Content-Length': Buffer.byteLength(body)
       },
-      timeout: 5000
+      timeout: 15000
     }, (res) => {
       let data = '';
       res.on('data', chunk => data += chunk);

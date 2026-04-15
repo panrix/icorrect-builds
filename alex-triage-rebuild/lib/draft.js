@@ -3,7 +3,8 @@ import { requestJson } from "./http.js";
 
 const ALEX_REQUIRED_DRAFT_FILES = [
   "/home/ricky/.openclaw/agents/alex-cs/workspace/CLAUDE.md",
-  "/home/ricky/.openclaw/agents/alex-cs/workspace/AGENTS.md"
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/AGENTS.md",
+  "/home/ricky/.openclaw/agents/alex-cs/workspace/knowledge/learning.md"
 ];
 
 export class DraftClient {
@@ -36,11 +37,12 @@ export class DraftClient {
       "PAST REPAIRS:",
       JSON.stringify(card?.context?.past_repairs || [], null, 2),
       "",
-      "LAST 5 MESSAGES:",
+      "FULL CONVERSATION THREAD:",
       recentMessages.join("\n\n"),
       "",
       "=== INSTRUCTIONS ===",
       'Draft a reply following the writing rules and learned corrections exactly.',
+      "- Summarize the full conversation history as it relates to the customer's current inquiry. If earlier messages in the thread are about a different topic, note that this appears to be a new inquiry on an existing thread.",
       '- No em dashes. Sign as "Kind regards, Alex".',
       '- Tone: calm, direct, neutral, specialist. Not sales-led.',
       '- Do not guess prices. Use only the price shown on the card.',
@@ -68,7 +70,7 @@ export class DraftClient {
           }
         ]
       }),
-      timeoutMs: 120000
+      timeoutMs: 180000
     });
 
     return payload.choices?.[0]?.message?.content?.trim() || "";
@@ -119,7 +121,7 @@ export class DraftClient {
         temperature: 0.2,
         messages: [{ role: "user", content: prompt }]
       }),
-      timeoutMs: 60000
+      timeoutMs: 180000
     });
 
     return payload.choices?.[0]?.message?.content?.trim() || "";
@@ -151,7 +153,7 @@ export class DraftClient {
         temperature: 0.1,
         messages: [{ role: "user", content: prompt }]
       }),
-      timeoutMs: 60000
+      timeoutMs: 180000
     });
 
     return payload.choices?.[0]?.message?.content?.trim() || "";

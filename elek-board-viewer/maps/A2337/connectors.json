@@ -1,7 +1,7 @@
 {
   "board": "A2337",
   "schematic": "820-02016",
-  "WARNING": "M1 board. Two USB-C ports (left side), no MagSafe. Battery connector on page 22. Display is eDP (not MIPI) on page 67.",
+  "WARNING": "M1 board (A2337 / 820-02016). Two USB-C ports (left side), no MagSafe. Battery connector on page 22. Display is eDP (not MIPI) on page 67.",
   "connectors": [
     {
       "designator": "USB-C Left Rear Port",

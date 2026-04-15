@@ -80,6 +80,15 @@ const EFFECTIVE_PRODUCT_ID_OVERRIDE = PROBE_PRODUCT_ID || PRODUCT_ID_OVERRIDE;
 const priceIdx = args.indexOf('--price');
 const PRICE_OVERRIDE = priceIdx !== -1 ? parseFloat(args[priceIdx + 1]) : null;
 const JSON_OUTPUT = args.includes('--json');
+const CARD_JSON_MODE = args.includes('--card-json');
+
+// In card-json mode suppress all console output — only CARD_JSON: line goes to stdout
+if (CARD_JSON_MODE) {
+  const noop = () => {};
+  console.log = noop;
+  console.info = noop;
+  console.warn = noop;
+}
 
 // ─── Disk Cache ──────────────────────────────────────────────────
 const CACHE_DIR = path.join(__dirname, 'data', 'cache');
@@ -1605,6 +1614,51 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   // Print formatted summary (dry-run output)
   if (isDryRun) {
+    if (CARD_JSON_MODE) {
+      const gp = marketResult?.gradePrices || {};
+      const ladderOk = !!(gp.Fair && gp.Good && gp.Excellent && gp.Fair < gp.Good && gp.Good < gp.Excellent);
+      const cardJson = {
+        itemId: result.mainItemId,
+        name: result.itemName,
+        sku: result.sku,
+        grade: result.bmGrade,
+        specs: {
+          ram: result.specs?.ram || '',
+          ssd: result.specs?.ssd || '',
+          colour: result.specs?.colour || '',
+          deviceName: result.specs?.deviceName || '',
+        },
+        market: {
+          gradePrices: gp,
+          adjacentSsd: result.catalogResult?.adjacentSsd || [],
+          colourPrices: result.catalogResult?.colourPrices || {},
+          ladderOk,
+          ladderNote: ladderOk ? '' : `INVERTED`,
+        },
+        costs: {
+          purchase: result.profitability?.purchasePrice || 0,
+          parts: result.profitability?.partsCost || 0,
+          labourHours: result.profitability?.labourHours || 0,
+          labour: result.profitability?.labourCost || 0,
+          shipping: result.profitability?.shipping || 15,
+          fixed: result.profitability?.totalFixedCost || 0,
+          breakEven: result.profitability?.breakEven || 0,
+        },
+        pricing: {
+          proposed: result.pricing?.proposed || 0,
+          minPrice: result.profitability?.minPrice || 0,
+          net: result.profitability?.net || 0,
+          margin: result.profitability?.margin || 0,
+        },
+        decision: result.decision?.decision || 'BLOCK',
+        decisionReason: result.decision?.reason || '',
+        listingId: result.registrySlot?.listing_id || null,
+        productId: result.catalogResult?.productId || null,
+        priceFlags: result.priceFlags || [],
+      };
+      process.stdout.write('CARD_JSON:' + JSON.stringify(cardJson) + '\n');
+      return result;
+    }
     console.log('\n' + formatSummary(result));
     console.log(`Draft    £${placeholderPrice} (safe placeholder)`);
     const gp = marketResult?.gradePrices || {};
@@ -1747,30 +1801,37 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       await publishListing(newListingId, initialPrice, initialMinPrice);
 
       console.log('[Step 9b] Getting backbox price...');
-      const backbox = await getBackboxPrice(newListingId);
       let finalPrice;
       let finalPriceSource;
-      if (backbox.price > 0 && initialPrice > 0) {
-        const diffRatio = Math.abs(backbox.price - initialPrice) / initialPrice;
-        if (diffRatio > 0.20) {
-          console.warn(`  ⚠️ Backbox differs from live scrape by ${(diffRatio * 100).toFixed(1)}%`);
-        }
-      }
-      if (backbox.price > 0 && backbox.price >= floorPrice) {
-        finalPrice = backbox.price;
-        finalPriceSource = 'backbox price_to_win';
-      } else if (backbox.price > 0 && backbox.price < floorPrice) {
-        finalPrice = floorPrice;
-        finalPriceSource = `floor (backbox £${backbox.price} below floor £${floorPrice})`;
-        console.log(`  ⚠️ Backbox price £${backbox.price} below floor £${floorPrice}. Using floor.`);
-      } else if (marketGradePrice > 0) {
-        finalPrice = marketGradePrice;
-        finalPriceSource = liveMarket.ok ? 'live scrape price (no backbox data)' : 'catalog grade price (no backbox data)';
-        console.log(`  No backbox data. Using fallback market price: £${marketGradePrice}`);
+      if (PRICE_OVERRIDE !== null) {
+        // User explicitly set a price — lock it in, skip backbox cascade
+        finalPrice = PRICE_OVERRIDE;
+        finalPriceSource = `--price override (£${PRICE_OVERRIDE})`;
+        console.log(`  Using --price override: £${finalPrice} (backbox skipped)`);
       } else {
-        finalPrice = Math.round(floorPrice * 1.5);
-        finalPriceSource = 'floor × 1.5 (no backbox or catalog data)';
-        console.log(`  ⚠️ No pricing data. Using conservative placeholder: £${finalPrice}`);
+        const backbox = await getBackboxPrice(newListingId);
+        if (backbox.price > 0 && initialPrice > 0) {
+          const diffRatio = Math.abs(backbox.price - initialPrice) / initialPrice;
+          if (diffRatio > 0.20) {
+            console.warn(`  ⚠️ Backbox differs from live scrape by ${(diffRatio * 100).toFixed(1)}%`);
+          }
+        }
+        if (backbox.price > 0 && backbox.price >= floorPrice) {
+          finalPrice = backbox.price;
+          finalPriceSource = 'backbox price_to_win';
+        } else if (backbox.price > 0 && backbox.price < floorPrice) {
+          finalPrice = floorPrice;
+          finalPriceSource = `floor (backbox £${backbox.price} below floor £${floorPrice})`;
+          console.log(`  ⚠️ Backbox price £${backbox.price} below floor £${floorPrice}. Using floor.`);
+        } else if (marketGradePrice > 0) {
+          finalPrice = marketGradePrice;
+          finalPriceSource = liveMarket.ok ? 'live scrape price (no backbox data)' : 'catalog grade price (no backbox data)';
+          console.log(`  No backbox data. Using fallback market price: £${marketGradePrice}`);
+        } else {
+          finalPrice = Math.round(floorPrice * 1.5);
+          finalPriceSource = 'floor × 1.5 (no backbox or catalog data)';
+          console.log(`  ⚠️ No pricing data. Using conservative placeholder: £${finalPrice}`);
+        }
       }
       const finalMinPrice = Math.ceil(finalPrice * MIN_PRICE_FACTOR);
       console.log(`  Final price: £${finalPrice} (${finalPriceSource}), min: £${finalMinPrice}`);

@@ -36,7 +36,7 @@ Live exports on 2026-04-02 show:
 
 - `Michael Ferrari` (`9660594`) exists as an admin but does not currently have an inbox seat in the export snapshot.
 - `Support` (`9702337`, `admin@icorrect.co.uk`) has the active inbox seat.
-- `Alex` (`9702338`, `operator+pt6lwaq6@intercom.io`) exists as an admin without an inbox seat.
+- `Alex` (`9702338`, `operator+pt6lwaq6@intercom.io`) exists as an admin without an inbox seat. **NEVER use 9702338 as a send route. All outbound emails must go via 9702337 (Support). 9702338 is banned for sending.**
 - There is one live team: `Support` (`9725695`) with `round_robin` distribution and only the `Support` admin attached.
 
 The SOP layer says Ferrari manages the inbox day to day and Alex supports via drafting and triage. The live export therefore suggests an operational split between the named human owner and the actual seat/team configuration.

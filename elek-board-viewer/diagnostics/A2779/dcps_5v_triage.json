@@ -1,5 +1,5 @@
 {
-  "WARNING": "These test points are for A2779 (820-02655) ONLY. This board uses AUSTRINGER (not Viper) and CLVR (not Monaco). Component designators differ from A2442.",
+  "WARNING": "These test points are for A2779 (820-02655) ONLY. This board uses AUSTRINGER and CLVR architecture.",
   "board": "A2779",
   "board_name": "MacBook Pro 14\" M2 Pro/Max (2023)",
   "schematic": "820-02655",
@@ -27,7 +27,7 @@
         {"step": 4, "action": "Check PP5V_S2", "measure": "Probe UC260 output (page 58)", "expected": "~5V", "if_missing": "UC260 fault or PP5V2P5_PWR_EN not asserted", "if_present": "Go to step 5"},
         {"step": 5, "action": "Check MPMU LDO outputs (U8100)", "measure": "Probe MPMU output caps (page 41) and PMU test points (page 137)", "if_all_present": "PMU OK -> step 6", "if_any_missing": "Thermal cam that rail -> step 7"},
         {"step": 6, "action": "Check CLVR0 (PCPU) -- M2 Pro/Max specific", "measure": "Probe CLVR0 output caps (page 52)", "expected": "DVFS voltage present (~0.7-1.1V)", "if_missing": "CLVR0 fault. Check CLVR support (page 57).", "if_present": "Check Austringer -> step 6b"},
-        {"step": "6b", "action": "Check Austringer VR (U9300)", "measure": "Probe Austringer output caps (page 47)", "expected": "Voltage present", "if_missing": "U9300 Austringer fault. Check PVRVD0N_FAULT_L.", "if_present": "Check remaining CLVRs (1-4)"},
+        {"step": "6b", "action": "Check Austringer VR (U9300)", "measure": "Probe Austringer output caps (page 47)", "expected": "Voltage present", "if_missing": "U9300 Austringer fault. Check P1V8VDDH_FAULT_L.", "if_present": "Check remaining CLVRs (1-4)"},
         {"step": 7, "action": "Thermal camera on shorted rail", "measure": "Thermal cam", "expected": "Hot component visible", "if_found": "Replace hot chip", "if_not_found": "U8100 (MPMU) dead -> replace"}
       ]
     },

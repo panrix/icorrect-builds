@@ -1,6 +1,8 @@
 # /home/ricky/builds/ — Index
 
-Last updated: 2026-03-24
+> **Strategic roadmap: [`EXECUTIVE-BUILD-PLAN.md`](EXECUTIVE-BUILD-PLAN.md)** — every build, every phase, every idea. Start there for the big picture. This file is the directory map.
+
+Last updated: 2026-04-13
 
 ## Active Projects
 

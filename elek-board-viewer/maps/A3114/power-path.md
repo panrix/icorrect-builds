@@ -1,4 +1,4 @@
-# A3113 Power Path -- Human-Readable Diagnostic Reference
+# A3114 Power Path -- Human-Readable Diagnostic Reference
 
 Board: A3114 (MacBook Air 13" M3, 820-03285, X2819/MLB)
 

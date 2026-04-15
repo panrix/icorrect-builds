@@ -1,8 +1,8 @@
 {
   "board": "A2337",
   "schematic": "820-02016",
-  "extraction_notes": "Extracted from Rev4 schematic pages 78-79 (Power Aliases 1-2, CSA 260-261), PMU pages 28-35, charger page 23, SVR AON pages 25-26, standalone VR pages 36-39, load switch page 40, and SoC power pages 11-15. SERA = Master PMU (U8100), SIMETRA = Slave PMU (U7700). Rail naming uses PP prefix convention.",
-  "WARNING": "M1 (T8103) board. PMU buck/LDO numbering differs from M2 A2681. SERA/SIMETRA naming convention is unique to this generation. Test points are BOARD-SPECIFIC - do NOT use A2681 test point references on this board.",
+  "extraction_notes": "Extracted from Rev4 schematic. Power aliases pages 78-79 (CSA 260-261) used as primary reference for SERA/SIMETRA assignments. PMU pages 28-35, charger page 23, SVR AON pages 25-26, standalone VR pages 36-39, load switch page 40, SoC power pages 11-15. SERA = Master PMU (U8100, pages 32-35). SIMETRA = Slave PMU (U7700, pages 28-31). Rail naming uses PP prefix convention. IC designators verified against schematic pages.",
+  "WARNING": "M1 (T8103) board (A2337 / 820-02016). SERA/SIMETRA PMU naming convention. Bucks 4,5,6,10,12 are SIMETRA (U7700 Slave), NOT SERA. LDOs 4,20 are SIMETRA. Test points are BOARD-SPECIFIC.",
   "rails": [
     {"section": "=== USB-C / CHARGER INPUT ==="},
     {
@@ -27,8 +27,8 @@
       "name": "PPBUS_AON",
       "voltage": "12.6V (battery) / ~20V (adapter)",
       "state": "AON",
-      "source": "Charger IC (U5200) / Battery",
-      "description": "Main system power bus. Feeds SVR AON (U5700), UC320 (5V), XMC710 (3V3), load switches, BEN backlight.",
+      "source": "U5200 (Charger IC) / Battery",
+      "description": "Main system power bus. Feeds U5700 (SVR AON), UC300 (5V), UC710 (3V3), load switches, BEN backlight.",
       "page": [23, 79]
     },
 
@@ -37,7 +37,7 @@
       "name": "PP3V8_AON",
       "voltage": "3.8V",
       "state": "AON",
-      "source": "U5700 (SVR AON, 30A ICC MAX)",
+      "source": "U5700 (SVR AON, 30A ICC MAX, 1MHz)",
       "enable": "PPVAON_PWR_EN (delayed by D5340/D5345 circuit, page 24)",
       "description": "3.8V always-on master rail. Input to SPMU (U7700) and MPMU (U8100).",
       "page": [25, 26, 27]
@@ -55,7 +55,7 @@
       "voltage": "3.8V",
       "state": "AON",
       "source": "Branch of PP3V8_AON",
-      "description": "PP3V8_AON VODMAN feed to external LDOs (UC100 3.3V AON, UC200 1.8V AON).",
+      "description": "PP3V8_AON VODMAN feed to external LDOs (UC100 3.3V AON, UC120 1.8V AON).",
       "page": [36, 79]
     },
 
@@ -64,16 +64,16 @@
       "name": "PP3V3_AON",
       "voltage": "3.3V",
       "state": "AON",
-      "source": "UC100 (3.3V AON LDO from PP3V8_AON_VODMAN)",
-      "description": "3.3V always-on LDO output. Page 36.",
+      "source": "UC100 (3.3V AON LDO, 250mA max, from PP3V8_AON_VODMAN)",
+      "description": "3.3V always-on LDO output. Enable: P3V3_AON_EN via RC100.",
       "page": 36
     },
     {
       "name": "PP1V8_AON",
       "voltage": "1.8V",
       "state": "AON",
-      "source": "UC200 (1.8V AON LDO from PP3V8_AON_VODMAN)",
-      "description": "1.8V always-on LDO output. Page 36.",
+      "source": "UC120 (1.8V AON LDO, 250mA max, from PP3V8_AON_VODMAN)",
+      "description": "1.8V always-on LDO output. Enable: P1V8_AON_EN via RC120.",
       "page": 36
     },
 
@@ -89,7 +89,7 @@
     {
       "name": "SERA_BUCK1_output",
       "voltage": "Variable",
-      "state": "S2 (SW CTRL)",
+      "state": "SW CTRL",
       "source": "U8100 SERA BUCK 1",
       "description": "SERA BUCK1 (SW CTRL) - software-controlled buck.",
       "page": [32, 78]
@@ -97,7 +97,7 @@
     {
       "name": "SERA_BUCK2_output",
       "voltage": "Variable",
-      "state": "S2 (SLEEP1)",
+      "state": "SLEEP1",
       "source": "U8100 SERA BUCK 2",
       "description": "SERA BUCK2 (SLEEP1) - sleep-1 domain buck.",
       "page": [32, 78]
@@ -105,33 +105,9 @@
     {
       "name": "SERA_BUCK3_output",
       "voltage": "Variable",
-      "state": "S2 (SLEEP3)",
+      "state": "SLEEP3",
       "source": "U8100 SERA BUCK 3",
       "description": "SERA BUCK3 (SLEEP3) - sleep-3 domain buck.",
-      "page": [32, 78]
-    },
-    {
-      "name": "SERA_BUCK4_output",
-      "voltage": "Variable",
-      "state": "SLEEP3",
-      "source": "U8100 SERA BUCK 4",
-      "description": "SERA BUCK4 (SLEEP3).",
-      "page": [32, 78]
-    },
-    {
-      "name": "SERA_BUCK5_output",
-      "voltage": "Variable",
-      "state": "SLEEP1",
-      "source": "U8100 SERA BUCK 5",
-      "description": "SERA BUCK5 (SLEEP1).",
-      "page": [32, 78]
-    },
-    {
-      "name": "SERA_BUCK6_output",
-      "voltage": "Variable",
-      "state": "ACTIVE",
-      "source": "U8100 SERA BUCK 6",
-      "description": "SERA BUCK6 (ACTIVE).",
       "page": [32, 78]
     },
     {
@@ -159,14 +135,6 @@
       "page": [33, 78]
     },
     {
-      "name": "SERA_BUCK10_output",
-      "voltage": "Variable",
-      "state": "SLEEP1",
-      "source": "U8100 SERA BUCK 10",
-      "description": "SERA BUCK10 (SLEEP1).",
-      "page": [33, 78]
-    },
-    {
       "name": "SERA_BUCK11_output",
       "voltage": "Variable",
       "state": "ACTIVE",
@@ -174,16 +142,48 @@
       "description": "SERA BUCK11 (ACTIVE) - ECPU or GPU domain.",
       "page": [33, 78]
     },
-    {
-      "name": "SERA_BUCK12_output",
-      "voltage": "Variable",
-      "state": "ACTIVE",
-      "source": "U8100 SERA BUCK 12",
-      "description": "SERA BUCK12 (ACTIVE).",
-      "page": [33, 78]
-    },
 
     {"section": "=== SIMETRA (SLAVE PMU / U7700) BUCKS ==="},
+    {
+      "name": "SIMETRA_BUCK4_output",
+      "voltage": "Variable",
+      "state": "SLEEP3",
+      "source": "U7700 SIMETRA BUCK 4",
+      "description": "SIMETRA BUCK4 (SLEEP3) - deep sleep retention buck on Slave PMU.",
+      "page": [28, 78]
+    },
+    {
+      "name": "SIMETRA_BUCK5_output",
+      "voltage": "Variable",
+      "state": "SLEEP1",
+      "source": "U7700 SIMETRA BUCK 5",
+      "description": "SIMETRA BUCK5 (SLEEP1) - sleep-1 domain buck on Slave PMU.",
+      "page": [28, 78]
+    },
+    {
+      "name": "SIMETRA_BUCK6_output",
+      "voltage": "Variable",
+      "state": "ACTIVE",
+      "source": "U7700 SIMETRA BUCK 6",
+      "description": "SIMETRA BUCK6 (ACTIVE) - active domain buck on Slave PMU.",
+      "page": [28, 78]
+    },
+    {
+      "name": "SIMETRA_BUCK10_output",
+      "voltage": "Variable",
+      "state": "SLEEP1",
+      "source": "U7700 SIMETRA BUCK 10",
+      "description": "SIMETRA BUCK10 (SLEEP1) - sleep-1 domain buck on Slave PMU.",
+      "page": [28, 78]
+    },
+    {
+      "name": "SIMETRA_BUCK12_output",
+      "voltage": "Variable",
+      "state": "ACTIVE",
+      "source": "U7700 SIMETRA BUCK 12",
+      "description": "SIMETRA BUCK12 (ACTIVE) - active domain buck on Slave PMU.",
+      "page": [28, 78]
+    },
     {
       "name": "SIMETRA_BUCK13_output",
       "voltage": "Variable",
@@ -224,14 +224,6 @@
       "state": "SLP_S2R",
       "source": "U8100 SERA LDO 3",
       "description": "SERA LDO3 (SLP_S2R) - sleep S2 retention.",
-      "page": [34, 78]
-    },
-    {
-      "name": "SERA_LDO4_output",
-      "voltage": "Variable",
-      "state": "SW CTRL",
-      "source": "U8100 SERA LDO 4",
-      "description": "SERA LDO4 (SW CTRL).",
       "page": [34, 78]
     },
     {
@@ -282,16 +274,16 @@
       "description": "SERA LDO19 (SPARE) - NOT CONNECTED / spare.",
       "page": 78
     },
-    {
-      "name": "SERA_LDO20_output",
-      "voltage": "Variable",
-      "state": "SW CTRL",
-      "source": "U8100 SERA LDO 20",
-      "description": "SERA LDO20 (SW CTRL).",
-      "page": [34, 78]
-    },
 
     {"section": "=== SIMETRA (SLAVE PMU / U7700) LDOs ==="},
+    {
+      "name": "SIMETRA_LDO4_output",
+      "voltage": "Variable",
+      "state": "SW CTRL",
+      "source": "U7700 SIMETRA LDO 4",
+      "description": "SIMETRA LDO4 (SW CTRL) - software-controlled LDO on Slave PMU.",
+      "page": [29, 78]
+    },
     {
       "name": "SIMETRA_LDO8_output",
       "voltage": "Variable",
@@ -332,6 +324,14 @@
       "description": "SIMETRA LDO12 (SLEEP2).",
       "page": [29, 78]
     },
+    {
+      "name": "SIMETRA_LDO20_output",
+      "voltage": "Variable",
+      "state": "SW CTRL",
+      "source": "U7700 SIMETRA LDO 20",
+      "description": "SIMETRA LDO20 (SW CTRL) - software-controlled LDO on Slave PMU.",
+      "page": [29, 78]
+    },
 
     {"section": "=== SERA SWITCHES ==="},
     {
@@ -342,6 +342,14 @@
       "description": "SERA SW1 (ACTIVE).",
       "page": 78
     },
+    {
+      "name": "SERA_SW3_output",
+      "voltage": "Variable",
+      "state": "ACTIVE",
+      "source": "U8100 SERA SW3",
+      "description": "SERA SW3 (ACTIVE).",
+      "page": 78
+    },
 
     {"section": "=== SIMETRA SWITCHES ==="},
     {
@@ -350,23 +358,31 @@
       "state": "SLEEP2",
       "source": "U7700 SIMETRA SW4",
       "description": "SIMETRA SW4 (SLEEP2).",
-      "page": 78
+      "page": [29, 78]
     },
     {
       "name": "SIMETRA_SW5_output",
       "voltage": "Variable",
       "state": "SLEEP2 PARALLEL",
       "source": "U7700 SIMETRA SW5",
-      "description": "SIMETRA SW5 (SLEEP2) PARALLEL with SW7.",
-      "page": 78
+      "description": "SIMETRA SW5 (SLEEP2) PARALLEL with SW6 and SW7.",
+      "page": [29, 78]
+    },
+    {
+      "name": "SIMETRA_SW6_output",
+      "voltage": "Variable",
+      "state": "SLEEP2 PARALLEL",
+      "source": "U7700 SIMETRA SW6",
+      "description": "SIMETRA SW6 (SLEEP2) PARALLEL with SW5 and SW7.",
+      "page": [29, 78]
     },
     {
       "name": "SIMETRA_SW7_output",
       "voltage": "Variable",
       "state": "SLEEP2 PARALLEL",
       "source": "U7700 SIMETRA SW7",
-      "description": "SIMETRA SW7 (SLEEP2) PARALLEL with SW5.",
-      "page": 78
+      "description": "SIMETRA SW7 (SLEEP2) PARALLEL with SW5 and SW6.",
+      "page": [29, 78]
     },
 
     {"section": "=== SEPA (AON SWITCHES) ==="},
@@ -384,29 +400,9 @@
       "name": "PP3V8_AON_ISENSE",
       "voltage": "3.8V",
       "state": "AON",
-      "source": "PP3V8_AON current sense node",
+      "source": "PP3V8_AON current sense node (U5910)",
       "description": "Current sense taps from PP3V8_AON for system power monitoring.",
-      "page": 79
-    },
-
-    {"section": "=== U7500 - 5V CDIS (page 79) ==="},
-    {
-      "name": "U7500_5V_CDIS_rails",
-      "voltage": "5V",
-      "state": "S2",
-      "source": "U7500",
-      "description": "U7500 5V CDIS (Downstream PSRe, Enabling PPBUS_EN). Multiple outputs on page 79.",
-      "page": 79
-    },
-
-    {"section": "=== U300X - 3V3 S2 RAILS (page 79) ==="},
-    {
-      "name": "U300X_3V3_outputs",
-      "voltage": "3.3V",
-      "state": "S2",
-      "source": "U300X (Downstream PSRe, Enabling YYYN)",
-      "description": "U300X 3.3V S2 distribution. Multiple outputs including PP3V3_S2 branches.",
-      "page": 79
+      "page": [27, 79]
     },
 
     {"section": "=== STANDALONE VRs ==="},
@@ -414,18 +410,18 @@
       "name": "PP5V_S2",
       "voltage": "5.15V",
       "state": "S2",
-      "source": "UC320",
+      "source": "UC300 (5V S2 buck, EDC=6.6A, F=1.5MHz)",
       "enable": "P5VS2_PWR_EN",
-      "description": "5V S2 rail from UC320. F=1.5MHz, startup <15ms.",
+      "description": "5V S2 rail from UC300. Inductor LC320, sense XMC320. Startup <15ms.",
       "page": [38, 37]
     },
     {
       "name": "PP3V3_S2",
-      "voltage": "3.12V",
+      "voltage": "3.3V",
       "state": "S2",
-      "source": "XMC710",
+      "source": "UC710 (3V3 S2 buck, EDC=2.5A, F=1.5MHz)",
       "enable": "P3V3S2_PWR_EN",
-      "description": "3.3V S2 rail from XMC710. F=2.25MHz, startup <5ms.",
+      "description": "3.3V S2 rail from UC710. Inductor LC710, sense XMC710/XMC711. Startup <5ms.",
       "page": [39, 37]
     },
 
@@ -434,34 +430,35 @@
       "name": "PP3V3_S2SW_IPD",
       "voltage": "3.3V",
       "state": "S2",
-      "source": "Load switch from PP3V3_S2",
+      "source": "UC830 (load switch from PP3V3_S2)",
       "enable": "Host Controlled (EN = MPMU GPIO6, 1.8V LVCMOS PP1V8_AON)",
-      "description": "3.3V IPD load switch with e-Fuse. RC Delay 25.5ms. Current limit 400mA (RLIM=2000*(400mA-0.04)=4.44k).",
+      "description": "3.3V IPD load switch with e-Fuse. RC Delay 25.5ms. Current limit 490mA (RLIM=2000/(490mA-0.04)=4.44k).",
       "page": 40
     },
     {
       "name": "PP5V_S2SW_IPD",
       "voltage": "5V",
       "state": "S2",
-      "source": "Load switch from PP5V_S2",
+      "source": "UC840 (load switch from PP5V_S2)",
       "enable": "Host Controlled (EN = MPMU GPIO6, 1.8V LVCMOS PP1V8_AON)",
-      "description": "5V IPD load switch with e-Fuse. RC Delay 4.7ms. Current limit 1.35A+100mA(R5280LT).",
+      "description": "5V IPD load switch with e-Fuse. RC Delay 4.7ms. Current limit 1.35A (1.25A KBDBKLT + 100mA IPD).",
       "page": 40
     },
     {
       "name": "PPBUS_AONSW_IPD",
       "voltage": "12.6V/20V",
       "state": "AON",
-      "source": "Load switch from PPBUS_AON",
+      "source": "UC850 (load switch from PPBUS_AON)",
       "enable": "Self Controlled (EN = 3.13V to 5.93V)",
-      "description": "PPBUS AON switched IPD. Current limit 3A (RLIM=2000*(3A-0.04)=676 (665)).",
+      "description": "PPBUS AON switched IPD. Current limit 3A (RLIM=2000/(3A-0.04)=676).",
       "page": 40
     },
     {
       "name": "PP3V3_S2SW_SNS",
       "voltage": "3.3V",
       "state": "S2",
-      "source": "Load switch from PP3V3_S2",
+      "source": "UC810 (load switch from PP3V3_S2)",
+      "enable": "SENSOR_PWR_EN",
       "description": "3.3V S2 sensor load switch.",
       "page": 40
     },
@@ -469,8 +466,9 @@
       "name": "PP1V8_S2SW_VDD1",
       "voltage": "1.8V",
       "state": "S2",
-      "source": "Load switch",
-      "description": "1.8V S2 VDD1 load switch.",
+      "source": "UC820 (LDO/switch from PP3V8_AON_STBMAIN)",
+      "enable": "P5V01_PWR_EN",
+      "description": "1.8V S2 VDD1 load switch. Input is PP3V8_AON_STBMAIN through UC820 LDO.",
       "page": 40
     },
 

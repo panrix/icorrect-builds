@@ -1,5 +1,5 @@
 {
-  "board_number": "A2485",
+  "board_number": "A2485_EVTc",
   "schematic_number": "820-02382",
   "internal_name": "X2723/MLB",
   "model_identifier": "J316-EVTc",
@@ -13,7 +13,7 @@
   "total_pages": 156,
   "pro_max_variants": "BOM options on page 151. Max has additional GPU power phases via Monaco VR instances and extra Viper power stages.",
   "evts_vs_evtc_differences": [
-    "EVTc is 820-02382 vs EVTs 820-02100 — nearly identical layout per page_index",
+    "EVTc is 820-02382 vs EVTs 820-02100 \u2014 nearly identical layout per page_index",
     "EVTc title block says SCHEM_MLB_T728 / SCHEM_MLB-C_X2723",
     "42A PP3V8_AON design (same as EVTs)",
     "5 Monaco instances (0-4) with CLVR fabric throttle support",
@@ -25,12 +25,12 @@
     "Reference Design Overrides: Monaco 3 and 4 fix missing MAKE_BASE"
   ],
   "key_differences_from_a2442": [
-    "Same MLB design family (X2723 vs X2724) — 16\" vs 14\" form factor",
+    "Same MLB design family (X2723 vs X2724) \u2014 16\" vs 14\" form factor",
     "Same 3 USB-C ports (ATC0 left=UF400, ATC1 left=UF500, ATC2 right=UG400)",
     "Same HDMI with Madea retimer (UK700, page 91)",
     "Same SD card reader (UK500 GL9755, page 94)",
     "Same Viper VR (U9300) for PCPU domains",
-    "5 Monaco instances (0-4) vs 3 on A2442 — extra instances for Max GPU clusters",
+    "5 Monaco instances (0-4) vs 3 on A2442 \u2014 extra instances for Max GPU clusters",
     "3 Viper power stages vs 2 on A2442",
     "42A PP3V8_AON design (U5700, same controller)",
     "6 speaker amps (A-F) vs 4 on A2442",
@@ -52,7 +52,10 @@
     "soc_aop_smc_nub": 16,
     "soc_shared_support": 19,
     "soc_spi_nor_sep_rom": 20,
-    "project_support": [21, 22],
+    "project_support": [
+      21,
+      22
+    ],
     "soc_power_cpu_gpu": 23,
     "soc_power_sram_disp_dcs": 24,
     "soc_power_vdd1_vdd2": 25,
@@ -63,7 +66,11 @@
     "soc_power_vdd2h0": 30,
     "soc_power_vdd2h1": 31,
     "soc_power_vddohs": 39,
-    "soc_gnd": [41, 42, 43],
+    "soc_gnd": [
+      41,
+      42,
+      43
+    ],
     "secure_element": 50,
     "battery_connector": 51,
     "charger_pbus": 52,
@@ -150,8 +157,16 @@
     "i2c_ap": 59,
     "i2c_smc": 60,
     "i2c_other": 61,
-    "sensors_high_side": [62, 63, 64],
-    "sensors_low_side": [65, 66, 67],
+    "sensors_high_side": [
+      62,
+      63,
+      64
+    ],
+    "sensors_low_side": [
+      65,
+      66,
+      67
+    ],
     "sensors_thermal": 68,
     "sensors_motion": 65,
     "fans": 66,
@@ -166,7 +181,22 @@
     "power_aliases_clvr": 140,
     "power_aliases_mpmu": 141,
     "power_aliases_spmu": 142,
-    "signal_aliases": [143, 144, 145, 146, 147],
-    "rules_bom": [149, 150, 151, 152, 153, 154, 155, 156]
+    "signal_aliases": [
+      143,
+      144,
+      145,
+      146,
+      147
+    ],
+    "rules_bom": [
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156
+    ]
   }
 }

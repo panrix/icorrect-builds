@@ -1,5 +1,5 @@
 {
-  "WARNING": "These test points are for A3113 (820-03285) ONLY. Component designators are board-specific.",
+  "WARNING": "These test points are for A3114 (820-03285) ONLY. Component designators are board-specific.",
   "board": "A3114",
   "board_name": "MacBook Air 13\" M3 (2024)",
   "schematic": "820-03285",
@@ -51,12 +51,36 @@
           "step": 1,
           "action": "Run full diagnostic chain",
           "sub_checks": [
-            {"component": "C5704", "expected": "12V", "rail": "PPBUS_AON"},
-            {"check": "PP3V8_AON output", "expected": "3.8V", "rail": "PP3V8_AON"},
-            {"check": "PP5V_S2 output", "expected": "5.15V", "rail": "PP5V_S2"},
-            {"component": "C8320", "expected": "1.8V", "rail": "PP1V8_AON_MPMU (LDO 9)"},
-            {"component": "C8330/C8331", "expected": "1.2V", "rail": "PP1V2_AON_MPMU (LDO 9B)"},
-            {"component": "C8380/C8381", "expected": "1.5V", "rail": "PP1V5_LDOINT_MPMU"}
+            {
+              "component": "C5704",
+              "expected": "12V",
+              "rail": "PPBUS_AON"
+            },
+            {
+              "check": "PP3V8_AON output",
+              "expected": "3.8V",
+              "rail": "PP3V8_AON"
+            },
+            {
+              "check": "PP5V_S2 output",
+              "expected": "5.15V",
+              "rail": "PP5V_S2"
+            },
+            {
+              "component": "C8320",
+              "expected": "1.8V",
+              "rail": "PP1V8_AON_MPMU (LDO 9)"
+            },
+            {
+              "component": "C8330/C8331",
+              "expected": "1.2V",
+              "rail": "PP1V2_AON_MPMU (LDO 9B)"
+            },
+            {
+              "component": "C8380/C8381",
+              "expected": "1.5V",
+              "rail": "PP1V5_LDOINT_MPMU"
+            }
           ],
           "if_all_present": "All main rails present. Fault in SoC domain or peripheral. Go to step 5.",
           "if_any_missing": "Identify missing rail -> follow specific fault path."
@@ -72,7 +96,7 @@
           "step": 3,
           "action": "PP5V_S2 missing - investigate UC300 path",
           "measure": "Check UC300 (LN84243-1) output and enable gating (UC637/UC630, page 52)",
-          "note": "A3113 uses LN84243-1 for UC300 (not same part as A2681). P5VS2_PWR_EN gated by PMU_CRASH logic."
+          "note": "A3114 uses LN84243-1 for UC300 (LT8642-1 equivalent). P5VS2_PWR_EN gated by PMU_CRASH logic."
         },
         {
           "step": 4,
@@ -111,9 +135,18 @@
           "action": "Stalled boot - check display chain",
           "measure": "Check PPBUS_AONSW_LCD (UP950 output, page 84), San Diego display PMU (page 85)",
           "sub_checks": [
-            {"check": "PPBUS_AONSW_LCD present?", "if_no": "UP950 load switch fault."},
-            {"check": "PP_AVDD_DISP present?", "if_no": "San Diego display PMU fault."},
-            {"check": "Backlight on?", "if_no": "BEN LP800 (page 83) fault."}
+            {
+              "check": "PPBUS_AONSW_LCD present?",
+              "if_no": "UP950 load switch fault."
+            },
+            {
+              "check": "PP_AVDD_DISP present?",
+              "if_no": "San Diego display PMU fault."
+            },
+            {
+              "check": "Backlight on?",
+              "if_no": "BEN LP800 (page 83) fault."
+            }
           ]
         },
         {
@@ -140,9 +173,18 @@
           "action": "No display but normal current",
           "measure": "Check display chain: UP950 -> LP800 (BEN) -> JP600 connector -> San Diego PMU",
           "sub_checks": [
-            {"check": "Backlight present?", "if_no": "UP950, LP800, or FP800 fuse fault."},
-            {"check": "Image on external?", "if_yes": "LCD panel or eDP flex fault."},
-            {"check": "No external either?", "if_yes": "SoC GPU output fault. Check PPVDD_AWAKE_GPU."}
+            {
+              "check": "Backlight present?",
+              "if_no": "UP950, LP800, or FP800 fuse fault."
+            },
+            {
+              "check": "Image on external?",
+              "if_yes": "LCD panel or eDP flex fault."
+            },
+            {
+              "check": "No external either?",
+              "if_yes": "SoC GPU output fault. Check PPVDD_AWAKE_GPU."
+            }
           ]
         }
       ]

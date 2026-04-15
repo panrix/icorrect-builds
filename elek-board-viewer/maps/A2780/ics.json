@@ -1,113 +1,308 @@
 {
   "board": "A2780",
   "schematic": "820-02652",
-  "extraction_notes": "Extracted from 157-page schematic PNGs + pdftotext (204 U-designators found). Pro/Max BOM variants noted where applicable.",
+  "total_ics": 68,
   "ics": [
     {
-      "designator": "U6000",
-      "function": "SoC — Apple M2 Pro/Max",
-      "description": "Main SoC. Pro has 8-core CPU + 14/16-core GPU. Max has 10-core CPU + 24/32-core GPU. More SoC power domains than M2 base (CPU, GPU, SRAM, DISP, DCS, VDD1, VDD2, VDDQ, APR, ANE, CIO, Fabric, Fixed, VDDIO, VDD2H0, VDD2H1).",
-      "pages": [4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25]
-    },
-    {
       "designator": "U5700",
-      "function": "SVR AON — 3V8 always-on switching voltage regulator",
-      "description": "30A ICC MAX multi-phase buck producing PP3V8_AON from PPBUS_AON. Same role as A2681. Component range: R57xx, C57xx, R58xx, C58xx.",
-      "pages": [33, 34]
+      "part": "SVR AON 30A",
+      "function": "PP3V8_AON regulator",
+      "page": [
+        57,
+        58
+      ]
     },
     {
       "designator": "U7700",
-      "function": "SPMU (Slave PMU)",
-      "description": "Slave PMU with 22+ system bucks (BUCK0-BUCK21, BUCK15 not used on p7 designs). Far more outputs than A2681. VODCOM Vout=3.7V shared by SMC.",
-      "pages": [37, 38, 39, 40]
+      "part": "SPMU",
+      "function": "Slave PMU \u2014 S2/S1/AWAKE bucks and LDOs",
+      "page": [
+        77,
+        78,
+        79
+      ]
     },
     {
       "designator": "U8100",
-      "part_number": "JM8165",
-      "function": "MPMU (Master PMU)",
-      "description": "Master PMU with 10+ system bucks (BUCK1-BUCK10). Has Pro vs Max BOM variant table (checkerboard, page 41). JM8170 companion IC nearby.",
-      "bom_variants": "Pro and Max have different BOM options for GPU power phases",
-      "pages": [41, 42, 43, 44, 45]
+      "part": "MPMU",
+      "function": "Master PMU \u2014 SoC domain bucks and LDOs",
+      "page": [
+        81,
+        82,
+        83
+      ]
     },
     {
       "designator": "U9300",
-      "function": "Viper VR controller",
-      "description": "Multi-phase voltage regulator controller for high-current SoC domains. NOT present on A2681. Controls power stages on pages 48-49. Differential-twisted routing required for VIPER_ADDR_1, ALERT_SMEL, VIPER CURRENT signals.",
-      "pages": [46, 47, 48, 49]
+      "part": "Austringer DrMOS Phase 1",
+      "function": "PP1V8_S1_CLVR_VDDH power stage",
+      "page": 94
     },
     {
-      "designator": "Monaco VR (Instance C0 + others)",
-      "function": "Monaco multi-output VR — GPU/fabric/SoC dynamic domains",
-      "description": "Custom Apple ORCT_TABLE IC. Multiple instances (Monaco 0, 1, 4). 10 buck outputs per instance. NOT present on A2681. Handles: PPVDD_S0VE, PPVDD_S0VS, PPVDD_MCPW, PPVDD_S0CL, PPVDD_GACS, PPVDD_S0DL, PPVDD_AGXS, PPVDD_S0KE, PPVDD_S0PE, PP3V3_S0MWLF.",
-      "component_range": "CA1xx, JNB1xx",
-      "pages": [50, 51, 52, 54]
+      "designator": "U9400",
+      "part": "Austringer DrMOS Phase 2",
+      "function": "PP1V8_S1_CLVR_VDDH power stage",
+      "page": 95
     },
     {
-      "designator": "U5200 (area)",
-      "function": "Battery charger IC",
-      "description": "Main charger IC. Multi-FET input stage (PG5x1-PG5x9 area). More complex gate drive than A2681. Converts USB-C/MagSafe input to PPBUS_AON.",
-      "pages": [28, 29]
+      "designator": "U9500",
+      "part": "Austringer DrMOS Phase 3",
+      "function": "PP1V8_S1_CLVR_VDDH power stage",
+      "page": 95
     },
     {
-      "designator": "TPS62130 (5V S2 VR)",
-      "function": "5V S2 buck converter (Texas Instruments TPS62130)",
-      "description": "Produces PP5V_S2 (5.14V, 3.1A max, 1.25MHz). Low power option. Startup 4.7/7.5/10.5ms. Different IC from A2681's UC300.",
-      "component_range": "MC6xx, RC6xx",
-      "pages": [55]
+      "designator": "U9600",
+      "part": "Austringer DrMOS Phase 4",
+      "function": "PP1V8_S1_CLVR_VDDH power stage",
+      "page": 96
+    },
+    {
+      "designator": "U9620",
+      "part": "Austringer DrMOS Phase 5",
+      "function": "PP1V8_S1_CLVR_VDDH power stage",
+      "page": 96
+    },
+    {
+      "designator": "UA100",
+      "part": "Mirabeau CLVR0",
+      "function": "PCPU0/PCPU1 DVFS power",
+      "page": 101
+    },
+    {
+      "designator": "UA200",
+      "part": "Mirabeau CLVR1",
+      "function": "GPU1/GPU2 DVFS power",
+      "page": 102
+    },
+    {
+      "designator": "UA300",
+      "part": "Mirabeau CLVR2",
+      "function": "GPU0/GPU3 DVFS power (C/D variant)",
+      "page": 103
+    },
+    {
+      "designator": "UA400",
+      "part": "Mirabeau CLVR3",
+      "function": "Additional SoC domain power (C/D variant)",
+      "page": 104
+    },
+    {
+      "designator": "UA500",
+      "part": "Mirabeau CLVR4",
+      "function": "ANE/AFR domain power (C/D variant)",
+      "page": 105
+    },
+    {
+      "designator": "UC260",
+      "part": "TPS62130",
+      "function": "PP5V_S2 regulator",
+      "page": 122
+    },
+    {
+      "designator": "UF000",
+      "part": "TMNB2580-C1",
+      "function": "ATC0 high-speed retimer controller",
+      "page": 150
+    },
+    {
+      "designator": "UF090",
+      "part": "64MBIT-1.2V",
+      "function": "ATC0 SPI flash",
+      "page": 150
+    },
+    {
+      "designator": "UF100",
+      "part": "TMNB2580-C1",
+      "function": "ATC1 high-speed retimer controller",
+      "page": 151
+    },
+    {
+      "designator": "UF190",
+      "part": "64MBIT-1.2V",
+      "function": "ATC1 SPI flash",
+      "page": 151
+    },
+    {
+      "designator": "UF250",
+      "part": "MB1T-3.0V",
+      "function": "ATC01 support translator",
+      "page": 152
+    },
+    {
+      "designator": "UF260",
+      "part": "MB1T-3.0V",
+      "function": "ATC01 support translator",
+      "page": 152
+    },
+    {
+      "designator": "UF280",
+      "part": "LSF0102",
+      "function": "ATC01 I2C level shifter",
+      "page": 152
+    },
+    {
+      "designator": "UF281",
+      "part": "LSF0102",
+      "function": "ATC01 I2C level shifter",
+      "page": 152
+    },
+    {
+      "designator": "UF282",
+      "part": "LSF0102",
+      "function": "ATC01 I2C level shifter",
+      "page": 152
     },
     {
       "designator": "UF400",
-      "function": "CD3217 USB-C PD port controller ATC0",
-      "description": "Left port 0. Same role as A2681. ORCT_TABLE IC with SPI ROM.",
-      "pages": [72]
+      "part": "CD3217",
+      "function": "USB-C port controller ATC0",
+      "page": 154
     },
     {
       "designator": "UF500",
-      "function": "CD3217 USB-C PD port controller ATC1",
-      "description": "Left port 1. Inferred from page index — ATC1 port controller page 73.",
-      "pages": [73]
+      "part": "CD3217",
+      "function": "USB-C port controller ATC1",
+      "page": 155
     },
     {
-      "designator": "UG400",
-      "function": "CD3217 USB-C PD port controller ATC2",
-      "description": "RIGHT port. Different designator prefix (UG vs UF) from left ports. NOT present on A2681 (only 2 ports).",
-      "pages": [81]
+      "designator": "UF600",
+      "part": "CYUSB2405A2 (MACAW0)",
+      "function": "USB-C USB2 retimer/repeater 0",
+      "page": 156
     },
     {
-      "designator": "Madea IC",
-      "function": "HDMI retimer/controller",
-      "description": "Handles HDMI output. ORCT_TABLE IC. Component range RKT4x, CK5xx. BOM ALTERNATES table. NOT present on A2681.",
-      "pages": [89, 90, 91]
+      "designator": "UF650",
+      "part": "CYUSB2405A2 (MACAW1)",
+      "function": "USB-C USB2 retimer/repeater 1",
+      "page": 156
     },
     {
-      "designator": "SD Card Controller",
-      "function": "SD card reader controller",
-      "description": "Controls SD card slot. Component range CR5xx, FR5xx. Has LR500 inductor for power. NOT present on A2681.",
-      "pages": [92, 93, 94, 95]
+      "designator": "UF690",
+      "part": "PI3USB102E",
+      "function": "USB switch",
+      "page": 156
     },
     {
-      "designator": "Ocarina (SSD0/SSD1)",
-      "function": "NAND controller / SSD power management",
-      "description": "Dedicated NAND controller. Two instances: SSD0 Ocarina (page 102) and SSD1 Ocarina (page 107). NOT present on A2681 (simpler NAND direct). Component range CN4xx, CN6xx, RN4xx, FL4xx.",
-      "pages": [102, 107]
+      "designator": "UF710",
+      "part": "LSF0102",
+      "function": "ATC01 HS level shifter",
+      "page": 157
     },
     {
-      "designator": "J5401",
-      "function": "MagSafe 3 connector",
-      "description": "MagSafe connector. APN: MLB:516300787, Flex:516300788. Q5401 MOSFET pair.",
-      "pages": [30]
+      "designator": "UF720",
+      "part": "LSF0102",
+      "function": "ATC01 HS level shifter",
+      "page": 157
     },
     {
-      "designator": "U5050 (likely)",
-      "function": "Secure Element",
-      "description": "Secure Element IC. Same function as A2681 Ceres SE.",
-      "pages": [26]
+      "designator": "UF740",
+      "part": "74AVC2T245",
+      "function": "ATC01 HS level shifter",
+      "page": 157
     },
     {
-      "designator": "JM8170",
-      "function": "MPMU companion IC",
-      "description": "Located near U8100 (MPMU). Visible on page 41.",
-      "pages": [41]
+      "designator": "UF745",
+      "part": "74AVC2T245",
+      "function": "ATC01 HS level shifter",
+      "page": 157
+    },
+    {
+      "designator": "UF800",
+      "part": "LT8642-1",
+      "function": "USB-C 5V regulator ATC01",
+      "page": 158
+    },
+    {
+      "designator": "UF900",
+      "part": "TPS628502",
+      "function": "ATC01 VDDIO 1.2V regulator",
+      "page": 159
+    },
+    {
+      "designator": "UF930",
+      "part": "TPS628502",
+      "function": "ATC01 VDD_CIO 0.855V regulator",
+      "page": 159
+    },
+    {
+      "designator": "UF960",
+      "part": "TPS628502",
+      "function": "ATC01 VDD_FIXED 0.855V regulator",
+      "page": 159
+    },
+    {
+      "designator": "UG000",
+      "part": "TMNB2580-C1",
+      "function": "ATC2 high-speed retimer controller",
+      "page": 160
+    },
+    {
+      "designator": "UG090",
+      "part": "64MBIT-1.2V",
+      "function": "ATC2 SPI flash",
+      "page": 160
+    },
+    {
+      "designator": "UG900",
+      "part": "TPS628502",
+      "function": "ATC2 VDDIO 1.2V regulator",
+      "page": 92
+    },
+    {
+      "designator": "UG930",
+      "part": "TPS628502",
+      "function": "ATC2 VDD_CIO 0.855V regulator",
+      "page": 92
+    },
+    {
+      "designator": "UG960",
+      "part": "TPS628502",
+      "function": "ATC2 VDD_FIXED 0.855V regulator",
+      "page": 92
+    },
+    {
+      "designator": "UH000",
+      "part": "QFN-12C80",
+      "function": "USB-C/ATC support level shifter",
+      "page": 93
+    },
+    {
+      "designator": "QC280",
+      "part": "MOSFET",
+      "function": "PP5V_S2 discharge switch",
+      "page": 122
+    },
+    {
+      "designator": "UF840",
+      "part": "SN74AUP1G08",
+      "function": "USB-C 5V enable AND gate",
+      "page": 158
+    },
+    {
+      "designator": "UF850",
+      "part": "SSM6N15AFEAP",
+      "function": "USB-C 5V discharge control",
+      "page": 158
+    },
+    {
+      "designator": "U6060",
+      "part": "DEV-RHO-CGA",
+      "function": "M2 Pro/Max SoC",
+      "page": [
+        23,
+        25,
+        37,
+        39,
+        41,
+        42,
+        43
+      ]
+    },
+    {
+      "designator": "UD010",
+      "part": "I2C MUX",
+      "function": "AP I2C connection hub",
+      "page": 130
     }
   ]
 }

@@ -21,7 +21,7 @@
       "action": "Charger input path enabled. Feeds charger IC.",
       "rail": "PPCON_ACNSW",
       "voltage": "~5V (initially)",
-      "ic": "Charger IC (page 30)",
+      "ic": "U5200 (RAA489901 charger IC)",
       "enables": "CHGR_AUX_OK pulled up (page 31)",
       "page": [30, 31]
     },
@@ -31,7 +31,7 @@
       "action": "Main power bus comes up. If battery connected, PPBUS_AON ~12.6V.",
       "rail": "PPBUS_AON",
       "voltage": "12.6V (battery) / ~5V (adapter, pre-PD)",
-      "ic": "Charger IC (page 30)",
+      "ic": "U5200 (RAA489901 charger IC)",
       "test_point": "C5704 -> 12V",
       "prerequisite": "BMU SYS_DETECT circuit (J5150 connector) must enable VBAT output",
       "next_trigger": "PPBUS_AON present -> enables U5700 (SVR AON)",

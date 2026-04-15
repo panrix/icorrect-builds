@@ -15,7 +15,7 @@ iCorrect migrated from Zendesk to Intercom for customer service. Fin.ai (Interco
 | Field | Value |
 |-------|-------|
 | Workspace ID | xnj51kwx |
-| Admin ID (Alex/Fin) | 9702338 |
+| Admin ID (Alex/Fin) | 9702338 — BANNED FOR SENDING. Use 9702337 (Support) for all outbound. |
 | Credential in n8n | "Intercom Auth" |
 | Fin.ai | Live since ~15 Jan 2026 |
 | Pricing model | $1.99 per resolved ticket |
@@ -82,7 +82,7 @@ When repair status changes in Monday, automated messages sent to customer's Inte
 | Ready To Collect | Collection notice | Warranty vs Standard |
 
 ### Technical Implementation
-- Monday native automation → Cloudflare Worker (routing) → n8n webhook → Intercom API (send message as admin 9702338)
+- Monday native automation → Cloudflare Worker (routing) → n8n webhook → Intercom API (send message as admin 9702337 — Support) [NOTE: Finn/Alex bot 9702338 is BANNED for sending. Always use 9702337.]
 - Messages sent to existing conversation stored in `link1` column
 - Display text: "Fin"
 
@@ -98,6 +98,6 @@ Intercom includes Copilot — an AI assistant for human agents. When Ferrari han
 - [ ] Check Intercom workspace status and admin accounts
 - [ ] Verify Fin.ai is active and which channels it's deployed on
 - [ ] Check what knowledge base content exists in Intercom
-- [ ] Verify admin ID 9702338 is correct for sending automated messages
+- [x] Send route confirmed: use admin ID 9702337 (Support). 9702338 is BANNED for sending — do not use.
 - [ ] Check DNS authentication status for email channel
 - [ ] Test Intercom API connectivity from n8n

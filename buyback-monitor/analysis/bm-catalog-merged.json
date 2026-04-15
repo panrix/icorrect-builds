@@ -1,0 +1,307 @@
+{
+  "scraped_at": "2026-04-13T05:07:59.565Z",
+  "count": 43,
+  "rows": [
+    {
+      "model": "Air 13\" 2020 M1",
+      "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/b5ebc79d-0304-41a6-b1ae-d2a487afa11f?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Air 13\" 2022 M2",
+      "uuid": "6c42ad60-b32e-499d-8cc6-03b18e570202",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/6c42ad60-b32e-499d-8cc6-03b18e570202?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Air 13\" 2024 M3",
+      "uuid": "bd0246b2-5f4d-4481-ab10-72d24dbf5315",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/bd0246b2-5f4d-4481-ab10-72d24dbf5315?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Air 13\" 2025 M4",
+      "uuid": "084d0a9b-7afe-46d5-88b8-9906ab5af155",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/084d0a9b-7afe-46d5-88b8-9906ab5af155?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Air 15\" 2023 M2",
+      "uuid": "c11badcb-0ba1-4071-9769-4ba26de94e98",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/c11badcb-0ba1-4071-9769-4ba26de94e98?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 13\" 2020 M1",
+      "uuid": "8948b82c-f746-4be0-a8b0-0758b1dc4acc",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/8948b82c-f746-4be0-a8b0-0758b1dc4acc?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 13\" 2022 M2",
+      "uuid": "ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/ef20e8dd-bcbf-4d94-8933-15f59560b9b9?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 14\" 2021 M1 Max",
+      "uuid": "ea7314c8-11c0-41e1-920d-c52f01b2a1a3",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/ea7314c8-11c0-41e1-920d-c52f01b2a1a3?l=10",
+      "scraped": false,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 14\" 2021 M1 Pro",
+      "uuid": "64a08696-8c1b-4268-8877-b54703bc146d",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/64a08696-8c1b-4268-8877-b54703bc146d?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 14\" 2023 M2 Pro",
+      "uuid": "971d112f-19a2-434b-982a-e393399d9fd9",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/971d112f-19a2-434b-982a-e393399d9fd9?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 14\" 2023 M3",
+      "uuid": "d127981d-6d36-4574-b56d-8dae62077f4a",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/d127981d-6d36-4574-b56d-8dae62077f4a?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 14\" 2023 M3 Pro",
+      "uuid": "946234a9-c96f-417e-a926-51e88c732b47",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/946234a9-c96f-417e-a926-51e88c732b47?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 16\" 2021 M1 Max",
+      "uuid": "08b02c8b-0aa5-47de-9f46-e1a736244245",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/08b02c8b-0aa5-47de-9f46-e1a736244245?l=10",
+      "scraped": true,
+      "derived_from": "Pro 16\" 2021 M1 Pro"
+    },
+    {
+      "model": "Pro 16\" 2021 M1 Pro",
+      "uuid": "b81650d3-ace0-4e3d-a8b2-7627b21f2b83",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/b81650d3-ace0-4e3d-a8b2-7627b21f2b83?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 16\" 2023 M2 Pro",
+      "uuid": "937c5a73-b367-4bc7-a817-c05f66c84572",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/937c5a73-b367-4bc7-a817-c05f66c84572?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "Pro 16\" 2023 M3 Pro",
+      "uuid": "bb65708b-a0c7-4570-81ee-39b2737f90ee",
+      "url": "https://www.backmarket.co.uk/en-gb/p/placeholder/bb65708b-a0c7-4570-81ee-39b2737f90ee?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad 10.9\" 2022 64GB WiFi Blue",
+      "uuid": "2fd60d82-0348-4944-9734-9fb4fee35d48",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-109-10th-gen-2022-hdd-64-gb-blue-wifi/2fd60d82-0348-4944-9734-9fb4fee35d48?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad 10.9\" 2022 64GB WiFi Silver",
+      "uuid": "cb612e1b-0737-4e4b-9f8c-f85a009a3e62",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-109-10th-gen-2022-hdd-64-gb-silver-wifi/cb612e1b-0737-4e4b-9f8c-f85a009a3e62?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Air 11\" 2024 M2 128GB WiFi Space Gray",
+      "uuid": "0cdd00f6-cecb-4a4f-9440-8d1331203c86",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-m2-11-2024-6th-gen-128-gb-wifi-space-gray/0cdd00f6-cecb-4a4f-9440-8d1331203c86?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Air 13\" 2024 M2 128GB WiFi Space Gray",
+      "uuid": "e4455350-8d0c-475f-aa52-f94f566cdb02",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-m2-13-2024-6th-gen-128-gb-wifi-space-gray/e4455350-8d0c-475f-aa52-f94f566cdb02?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Air 13\" 2024 M2 256GB WiFi Blue",
+      "uuid": "7c40b2eb-7ebe-4feb-a72b-8f6f22bd7b57",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-m2-13-2024-6th-gen-256-gb-wifi-blue/7c40b2eb-7ebe-4feb-a72b-8f6f22bd7b57?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Air 5 2022 M1 64GB WiFi Space Gray",
+      "uuid": "ba8b6c51-5aa3-4507-a065-4b8d5e477198",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-5-2022-hdd-64-gb-space-gray-wi-fi/ba8b6c51-5aa3-4507-a065-4b8d5e477198?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Pro 11\" 2021 M1 128GB WiFi Space Gray",
+      "uuid": "be0fc0ee-15bb-4631-9ad3-a85511e98964",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-11-3rd-gen-2021-hdd-128-gb-space-gray-wifi/be0fc0ee-15bb-4631-9ad3-a85511e98964?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Pro 11\" 2021 M1 128GB WiFi+5G Space Gray",
+      "uuid": "bcf44f99-cf52-4116-9ae3-551f1a0f0719",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-11-3rd-gen-2021-hdd-128-gb-space-gray-wifi-5g/bcf44f99-cf52-4116-9ae3-551f1a0f0719?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Pro 11\" 2022 M2 128GB WiFi Space Gray",
+      "uuid": "840bd0d3-9fb4-44d2-b8d5-b2d23cd08b87",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-11-4th-gen-2022-hdd-128-gb-space-gray-wifi/840bd0d3-9fb4-44d2-b8d5-b2d23cd08b87?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Pro 12.9\" 2021 M1 128GB WiFi Space Gray",
+      "uuid": "37773c1b-fc7d-442c-84ea-3e22a64cad1a",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-129-5th-gen-2021-hdd-128-gb-space-gray-wifi/37773c1b-fc7d-442c-84ea-3e22a64cad1a?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPad Pro 12.9\" 2021 M1 128GB WiFi+5G Space Gray",
+      "uuid": "23506449-4942-4695-8de5-6f145e8ebc4a",
+      "url": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-129-5th-gen-2021-hdd-128-gb-space-gray-wifi-5g/23506449-4942-4695-8de5-6f145e8ebc4a?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 13 128GB Blue",
+      "uuid": "e4d4b68e-9dec-438d-be52-d348924bfe62",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-13-128-gb-blue-unlocked/e4d4b68e-9dec-438d-be52-d348924bfe62?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 13 128GB Green",
+      "uuid": "0d36dce6-d7ce-4356-9763-c4677879cb02",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-13-128-gb-green-unlocked/0d36dce6-d7ce-4356-9763-c4677879cb02?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 13 128GB Midnight",
+      "uuid": "ef5660d2-6883-4b81-b47d-86e5720687ef",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-13-128-gb-unlocked/ef5660d2-6883-4b81-b47d-86e5720687ef?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 13 128GB Pink",
+      "uuid": "d1989098-648d-490e-a719-7c4b6ab8b1ae",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-13-128-gb-pink-unlocked/d1989098-648d-490e-a719-7c4b6ab8b1ae?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 13 128GB Starlight",
+      "uuid": "ec975bb8-df95-43a5-b04d-de63378f4a12",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-13-128-gb-unlocked/ec975bb8-df95-43a5-b04d-de63378f4a12?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 14 128GB Midnight",
+      "uuid": "400b5725-cbcb-4b97-a7b8-0a2c1d4098ef",
+      "url": "https://www.backmarket.co.uk/en-gb/p/gb/400b5725-cbcb-4b97-a7b8-0a2c1d4098ef?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 14 128GB Purple",
+      "uuid": "99165e75-52a8-4442-8f7b-a64778ee6dff",
+      "url": "https://www.backmarket.co.uk/en-gb/p/gb/99165e75-52a8-4442-8f7b-a64778ee6dff?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 128GB Black",
+      "uuid": "8debb43b-94ef-4ec4-8589-9520e9eaa983",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-128-gb-black-unlocked/8debb43b-94ef-4ec4-8589-9520e9eaa983?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 128GB Blue",
+      "uuid": "a8517119-6ed0-4c6f-8799-22f95658bc19",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-128-gb-blue-unlocked/a8517119-6ed0-4c6f-8799-22f95658bc19?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 128GB Green",
+      "uuid": "5d26a585-f68b-42ea-901d-446485986ed6",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-128-gb-green-unlocked/5d26a585-f68b-42ea-901d-446485986ed6?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 128GB Pink",
+      "uuid": "b8d85dd9-b4d2-49c5-8727-834860a70d1f",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-128-gb-pink-unlocked/b8d85dd9-b4d2-49c5-8727-834860a70d1f?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 Pro 128GB Black Titanium",
+      "uuid": "d0fc796e-24da-4ad9-a365-139706087545",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-pro-128-gb-black-titanium-unlocked/d0fc796e-24da-4ad9-a365-139706087545?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 Pro 128GB Blue Titanium",
+      "uuid": "68d59aaf-8b23-4006-aab0-cef9627f535d",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-pro-128-gb-blue-titanium-unlocked/68d59aaf-8b23-4006-aab0-cef9627f535d?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 15 Pro 128GB White Titanium",
+      "uuid": "2b309ac0-b5ac-4596-b754-2a122cf9ea07",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-15-pro-128-gb-white-titanium-unlocked/2b309ac0-b5ac-4596-b754-2a122cf9ea07?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 16 128GB Black",
+      "uuid": "ffa54805-4d46-4fa5-9e55-589604fff2ae",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-16-128-gb-black-unlocked/ffa54805-4d46-4fa5-9e55-589604fff2ae?l=10",
+      "scraped": true,
+      "derived_from": null
+    },
+    {
+      "model": "iPhone 16 128GB Teal",
+      "uuid": "7f5bdd13-8f4b-49ee-a94a-8b578deb328d",
+      "url": "https://www.backmarket.co.uk/en-gb/p/iphone-16-128-gb-teal-unlocked/7f5bdd13-8f4b-49ee-a94a-8b578deb328d?l=10",
+      "scraped": true,
+      "derived_from": null
+    }
+  ]
+}

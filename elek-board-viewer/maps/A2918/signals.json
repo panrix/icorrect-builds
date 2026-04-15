@@ -6,15 +6,18 @@
       {
         "name": "PPVAON_PWR_EN",
         "type": "enable",
-        "description": "3V8 AON VR enable — gates the main PP3V8_AON rail from U5700",
+        "description": "3V8 AON VR enable \u2014 gates the main PP3V8_AON rail from U5700",
         "source": "MPMU/SMC (via delay circuit D5340/R5340/R5341 on page 30)",
         "destination": "U5700 SVR AON controller",
-        "page": [30, 34]
+        "page": [
+          30,
+          34
+        ]
       },
       {
         "name": "PPV5S2TS_PWR_EN",
         "type": "enable",
-        "description": "5V S2 VR enable — gates PP5V_S2 from UC260 (TPS62130)",
+        "description": "5V S2 VR enable \u2014 gates PP5V_S2 from UC260 (TPS62130)",
         "source": "SPMU GPIO",
         "destination": "UC260",
         "page": 49
@@ -30,22 +33,23 @@
       {
         "name": "CHGR_AUX_OK",
         "type": "enable",
-        "description": "Charger AUX OK — indicates charger is ready. Pull-up circuit on page 30.",
-        "page": 30
+        "description": "Charger AUX OK \u2014 indicates charger is ready. Pull-up circuit on page 30.",
+        "page": 30,
+        "source": "Charger circuit (U5200 area, page 30)"
       }
     ],
     "power_good_fault": [
       {
         "name": "PPVAON_FAULT_L",
         "type": "fault (active low)",
-        "description": "3V8 AON fault indicator — FAULT_PULL_0MR_DSVR_COMP (configured on page 34)",
+        "description": "3V8 AON fault indicator \u2014 FAULT_PULL_0MR_DSVR_COMP (configured on page 34)",
         "source": "U5700 SVR AON controller",
         "page": 34
       },
       {
         "name": "PMU_FAULT_OUT_L",
         "type": "fault (active low)",
-        "description": "PMU fault output — indicates PMU error condition",
+        "description": "PMU fault output \u2014 indicates PMU error condition",
         "source": "MPMU (U8100) pin 137",
         "destination": "SoC / debug",
         "page": 45
@@ -53,38 +57,55 @@
       {
         "name": "PMU_ACTIVE_READY",
         "type": "power good",
-        "description": "PMU active ready — indicates PMU has completed startup. Aliased to PMU_ACTIVE_READY on page 48.",
+        "description": "PMU active ready \u2014 indicates PMU has completed startup. Aliased to PMU_ACTIVE_READY on page 48.",
         "source": "MPMU pin 129",
         "destination": "SoC",
-        "page": [45, 48]
+        "page": [
+          45,
+          48
+        ]
       },
       {
         "name": "PMU_SOP10_READY_REG",
         "type": "power good",
         "description": "SPMU S0P10 domain ready signal. Via SPMU UGPIO2_LVAWEN_L on page 39.",
         "source": "SPMU (U7700)",
-        "page": [39, 40]
+        "page": [
+          39,
+          40
+        ]
       },
       {
         "name": "PMU_SYS_ALIVE",
         "type": "power good",
         "description": "PMU system alive indicator. Level shifted via UP750 on page 46.",
         "source": "MPMU",
-        "page": [46, 48]
+        "page": [
+          46,
+          48
+        ]
       }
     ],
     "resets": [
       {
         "name": "PMU_RESET_L",
         "type": "reset (active low)",
-        "description": "PMU reset line — master reset for MPMU. Aliased on page 48.",
-        "page": [45, 48]
+        "description": "PMU reset line \u2014 master reset for MPMU. Aliased on page 48.",
+        "page": [
+          45,
+          48
+        ],
+        "source": "MPMU (U8100)"
       },
       {
         "name": "SOC_FORCE_DFU",
         "type": "control",
-        "description": "Force DFU mode — puts SoC into Device Firmware Update mode. Aliased on page 48.",
-        "page": [45, 48]
+        "description": "Force DFU mode \u2014 puts SoC into Device Firmware Update mode. Aliased on page 48.",
+        "page": [
+          45,
+          48
+        ],
+        "source": "MPMU GPIO / debug circuit"
       },
       {
         "name": "CHGR_RST_2N",
@@ -97,75 +118,97 @@
       {
         "name": "ATCRTMR_RESET",
         "type": "reset",
-        "description": "ATC re-timer reset — via UF700 level shifter. Sequenced with power-up.",
-        "page": 74
+        "description": "ATC re-timer reset \u2014 via UF700 level shifter. Sequenced with power-up.",
+        "page": 74,
+        "source": "UF700 level shifter"
       },
       {
         "name": "PMU_RSLOC_RST_L",
         "type": "reset (active low)",
         "description": "PMU RSLOC reset. Aliased to PMU_RSLOC_RST_1 on page 48.",
-        "page": 48
+        "page": 48,
+        "source": "MPMU (U8100)"
       }
     ],
     "i2c_buses": [
       {
         "name": "AP_I2C0",
-        "description": "AP I2C bus 0 — UPC 0, UPC 1, UPC 5, ALL_CALL devices",
+        "description": "AP I2C bus 0 \u2014 UPC 0, UPC 1, UPC 5, ALL_CALL devices",
         "pull_up_rail": "PP1V25_S2",
-        "page": 52
+        "page": 52,
+        "source": "SoC U6000 (AP I2C master)",
+        "type": "i2c"
       },
       {
         "name": "AP_I2C1",
-        "description": "AP I2C bus 1 — SPKAMP TAWAS A/B, CODEC CAPLOW",
+        "description": "AP I2C bus 1 \u2014 SPKAMP TAWAS A/B, CODEC CAPLOW",
         "pull_up_rail": "PP1V25_MAME_3D",
-        "page": 52
+        "page": 52,
+        "source": "SoC U6000 (AP I2C master)",
+        "type": "i2c"
       },
       {
         "name": "AP_I2C2",
-        "description": "AP I2C bus 2 — ATCRTMR I2C (AT13 S, AT13 I devices)",
+        "description": "AP I2C bus 2 \u2014 ATCRTMR I2C (AT13 S, AT13 I devices)",
         "pull_up_rail": "PP1V25_S2",
-        "page": 52
+        "page": 52,
+        "source": "SoC U6000 (AP I2C master)",
+        "type": "i2c"
       },
       {
         "name": "AOP_I2C0",
-        "description": "AOP I2C bus 0 — ALS, ALS TEMP SENSOR",
+        "description": "AOP I2C bus 0 \u2014 ALS, ALS TEMP SENSOR",
         "pull_up_rail": "PP1V25_S2",
-        "page": 56
+        "page": 56,
+        "source": "SoC U6000 (AOP I2C master)",
+        "type": "i2c"
       },
       {
         "name": "ISP_I2C0",
-        "description": "ISP I2C bus 0 — CAMERA MISC PANEL, CAMERA SENSOR PANEL",
+        "description": "ISP I2C bus 0 \u2014 CAMERA MISC PANEL, CAMERA SENSOR PANEL",
         "pull_up_rail": "PP1V25_MAME_3D",
-        "page": 56
+        "page": 56,
+        "source": "SoC U6000 (ISP I2C master)",
+        "type": "i2c"
       },
       {
         "name": "SMC_I2C3",
-        "description": "SMC I2C bus 3 — PALM_REXT_TEMP (CD300), with level shifter UG300",
+        "description": "SMC I2C bus 3 \u2014 PALM_REXT_TEMP (CD300), with level shifter UG300",
         "pull_up_rail": "PP1V25_S2 / PP3V3_S2_LDO",
-        "page": 55
+        "page": 55,
+        "source": "SoC U6000 (SMC I2C master)",
+        "type": "i2c"
       },
       {
         "name": "SMC_I2C4",
-        "description": "SMC I2C bus 4 — SEV ADC 1, SEV ADC 2 (CD310/CD311)",
+        "description": "SMC I2C bus 4 \u2014 SEV ADC 1, SEV ADC 2 (CD310/CD311)",
         "pull_up_rail": "PP1V25_S2 / PP3V3_S2SM_SNS",
-        "page": 55
+        "page": 55,
+        "source": "SoC U6000 (SMC I2C master)",
+        "type": "i2c"
       }
     ],
     "spi_buses": [
       {
         "name": "SPI_UPC0",
         "description": "SPI to UF400 (CD3217 ATC0) firmware ROM",
-        "page": 71
+        "page": 71,
+        "source": "UF400 (CD3217 ATC0)",
+        "type": "spi"
       },
       {
         "name": "SPI_UPC1",
         "description": "SPI to UF500 (CD3217 ATC1) firmware ROM",
-        "page": 72
+        "page": 72,
+        "source": "UF500 (CD3217 ATC1)",
+        "type": "spi"
       },
       {
         "name": "SPI_UPC5",
         "description": "SPI to UPC5 (MagSafe CD3217) firmware ROM",
-        "page": 32
+        "page": 32,
+        "source": "UPC5 (MagSafe CD3217)",
+        "type": "spi"
       }
     ],
     "usb_c_signals": [
@@ -173,31 +216,36 @@
         "name": "USBC0_CC1",
         "type": "CC",
         "description": "USB-C port 0 Configuration Channel 1",
-        "page": 71
+        "page": 71,
+        "source": "UF400 (CD3217 ATC0)"
       },
       {
         "name": "USBC0_CC2",
         "type": "CC",
         "description": "USB-C port 0 Configuration Channel 2",
-        "page": 71
+        "page": 71,
+        "source": "UF400 (CD3217 ATC0)"
       },
       {
         "name": "USBC1_CC1",
         "type": "CC",
         "description": "USB-C port 1 Configuration Channel 1",
-        "page": 72
+        "page": 72,
+        "source": "UF500 (CD3217 ATC1)"
       },
       {
         "name": "USBC1_CC2",
         "type": "CC",
         "description": "USB-C port 1 Configuration Channel 2",
-        "page": 72
+        "page": 72,
+        "source": "UF500 (CD3217 ATC1)"
       },
       {
         "name": "USBC5_CC1",
         "type": "CC",
         "description": "MagSafe (UPC5) Configuration Channel 1",
-        "page": 32
+        "page": 32,
+        "source": "UPC5 (MagSafe CD3217)"
       }
     ],
     "clock_signals": [
@@ -206,63 +254,75 @@
         "type": "clock",
         "description": "32.768kHz clock from MPMU XO. 32K XO (portables) on page 44.",
         "source": "MPMU 32K XO crystal Y8410",
-        "page": [44, 47]
+        "page": [
+          44,
+          47
+        ]
       }
     ],
     "sensor_adc": [
       {
         "name": "PPBUS_VSENSE (VP0R)",
         "type": "voltage sense",
-        "description": "PPBUS voltage sensor — PBUS Voltage Sense on page 57",
-        "page": 57
+        "description": "PPBUS voltage sensor \u2014 PBUS Voltage Sense on page 57",
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "DCIN_VSENSE (VD0R)",
         "type": "voltage sense",
         "description": "DC input voltage sensor",
-        "page": 57
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "DCIN_ISENSE (AMON) (ID0R)",
         "type": "current sense",
         "description": "DC input current sensor (AMON)",
-        "page": 57
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "BMON_ISENSE (IPBR)",
         "type": "current sense",
         "description": "Battery monitor current sensor (BMON)",
-        "page": 57
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "5V_S2_VR_ISENSE (IO5R)",
         "type": "current sense",
         "description": "5V S2 VR high-side current sensor",
-        "page": 57
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "PP3V8_AON_HIGH_SIDE (IMVR)",
         "type": "current sense",
         "description": "PP3V8_AON high-side current sense",
-        "page": 57
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "MAIN_PMU_HIGH_SIDE (IPMR)",
         "type": "current sense",
-        "description": "Main PMU (MPMU) high-side current sense — PP3V8_AON_MPMU_1SNS",
-        "page": 57
+        "description": "Main PMU (MPMU) high-side current sense \u2014 PP3V8_AON_MPMU_1SNS",
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "SECONDARY_PMU_HIGH_SIDE (IPSR)",
         "type": "current sense",
-        "description": "Secondary PMU (SPMU) high-side current sense — PP3V8_AON_SPMU_1SNS",
-        "page": 57
+        "description": "Secondary PMU (SPMU) high-side current sense \u2014 PP3V8_AON_SPMU_1SNS",
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       },
       {
         "name": "USB_PORT_5V_HIGH_SIDE (IU5R)",
         "type": "current sense",
         "description": "USB port 5V high-side current sense",
-        "page": 57
+        "page": 57,
+        "source": "Sensor circuit (page 57)"
       }
     ],
     "pro_specific_sensors": [
@@ -270,43 +330,50 @@
         "name": "LCD_BACKLIGHT_HIGH_SIDE (IBLR)",
         "type": "current sense",
         "description": "LCD backlight high-side current sense",
-        "page": 58
+        "page": 58,
+        "source": "Sensor circuit (page 58)"
       },
       {
         "name": "MESA_1V8_3V3_16V_HIGH_SIDE (ITDR)",
         "type": "current sense",
         "description": "Mesa (TouchID) 1.8/3.3/16V high-side current sense",
-        "page": 58
+        "page": 58,
+        "source": "Sensor circuit (page 58)"
       },
       {
         "name": "ATC_VR_HIGH_SIDE (IULR)",
         "type": "current sense",
-        "description": "ATC VR high-side current sense — PP3V8_AON_ATC_1SNS",
-        "page": 58
+        "description": "ATC VR high-side current sense \u2014 PP3V8_AON_ATC_1SNS",
+        "page": 58,
+        "source": "Sensor circuit (page 58)"
       },
       {
         "name": "SD_HIGH_SIDE (ISDR)",
         "type": "current sense",
-        "description": "SD card high-side current sense — PP3V3_S2M_SNS",
-        "page": 58
+        "description": "SD card high-side current sense \u2014 PP3V3_S2M_SNS",
+        "page": 58,
+        "source": "Sensor circuit (page 58)"
       },
       {
         "name": "LEFT_SPEAKER_3V8 (N/A)",
         "type": "current sense",
-        "description": "Left speaker 3.8V current sense — PP3V8_AON_SPKAMP_LEFT",
-        "page": 58
+        "description": "Left speaker 3.8V current sense \u2014 PP3V8_AON_SPKAMP_LEFT",
+        "page": 58,
+        "source": "Sensor circuit (page 58)"
       },
       {
         "name": "RIGHT_SPEAKER_3V8 (N/A)",
         "type": "current sense",
-        "description": "Right speaker 3.8V current sense — PP3V8_AON_SPKAMP_RIGHT",
-        "page": 58
+        "description": "Right speaker 3.8V current sense \u2014 PP3V8_AON_SPKAMP_RIGHT",
+        "page": 58,
+        "source": "Sensor circuit (page 58)"
       },
       {
         "name": "HDMI_3V8_HIGH_SIDE (IDHC)",
         "type": "current sense",
-        "description": "HDMI 3.8V high-side current sense — PP3V8_AON_HDMI_1SNS",
-        "page": 59
+        "description": "HDMI 3.8V high-side current sense \u2014 PP3V8_AON_HDMI_1SNS",
+        "page": 59,
+        "source": "Sensor circuit (page 59)"
       }
     ]
   }

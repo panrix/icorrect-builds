@@ -1,0 +1,310 @@
+{
+  "board": "A2779",
+  "schematic": "820-02655",
+  "description": "Diagnostic decision tree for A2779 (MacBook Pro 14\" M2 Pro/Max, J414-C). Follow sequentially from Step 1. Has MagSafe, 3x USB-C (2 left, 1 right), HDMI, SD Card. Uses Austringer VR (replaces Viper) and CLVR VR (replaces Monaco).",
+  "WARNING": "A2779 (820-02655) J414-C is the Pro/Max variant. NOT the standard J414-S (820-02841). Austringer VR replaces Viper for GPU/CPU cluster power. CLVR VR replaces Monaco for additional power domains. SVR AON is 3-phase with U5700 controller (higher current than base M2). MagSafe on pages 54-56.",
+  "data_source": "Schematic PNGs cross-referenced with Eason reference.",
+  "eason_reference": {
+    "source": "M1 series standby circuit and power-on principle, and 20V boost circuit (Eason @ iphone_cpu_fix)",
+    "power_on_sequence": [
+      "1. PPVBUS_USBC 5V → CD3217 MOSFET → PPHV_INT_AONSW → fuse → PPDCIN_AONSW",
+      "2. PPDCIN_AONSW → charger IC U5200 detect and power inputs (page 52)",
+      "3. U5200 → gate drives → PPBUS_AON (12.6V temp). Charger support on page 53",
+      "4. CHGR_EN → P3V8AON_PWR_EN → U5700 SVR AON controller (3-phase)",
+      "5. U5700 → 3-phase output → PP3V8_AON_VDDMAIN (pages 57-58)",
+      "6. PP3V8_AON_VDDMAIN → AON throttle page 60 → U8100 (MPMU) comparator. When voltage detect passes, PMU_VDD_HI → U8100 starts",
+      "7. U8100 MPMU → all MPMU rails (pages 81-83). U7700 SPMU → all SPMU rails (pages 77-79)",
+      "8. M2 Pro/Max hard start: 24MHz crystal + 32.768KHz crystal + PMU_RESET_L. SoC reads ROM, I2C to CD3217",
+      "9. SoC → MPMU → P5VS2_PWR_EN → PP5V_S2 (page 122). Austringer VR enables (pages 92-96). CLVR VR enables (pages 101-105, 120)",
+      "10. CD3217 reads shared ROM, PD negotiation via CC → charger boosts to 20V → real PPBUS_AON"
+    ],
+    "forced_start_bypass": {
+      "description": "Bypass protective isolation to test if fault is pre-SVR (front end) or post-SVR (back end).",
+      "steps": [
+        "1. Connect PP3V8_AON_VDDMAIN to 3.8V externally (4.3V with display)",
+        "2. Force PMU_VDD_HI high at comparator output on AON throttle page (page 60)",
+        "3. Press start button OR connect charger for 3 seconds"
+      ],
+      "interpretation": {
+        "forced_start_works": "Fault is FRONT END — CD3217, charger IC, fuses, MagSafe path, boost circuit. Check Steps 1-2.",
+        "forced_start_fails": "Fault is BACK END — PMU, SoC, clocks, ROM, Austringer/CLVR VR. Check Steps 3+."
+      }
+    }
+  },
+  "diagnostic_shortcuts": {
+    "ppvaon_fault_l": {
+      "description": "Check PPVAON_FAULT_L on SVR AON page (page 57). If low, U5700 reports fault. Check phase drivers and output caps.",
+      "probe": "U5700 fault output, page 57"
+    },
+    "pmu_active_ready": {
+      "description": "Check PMU_ACTIVE_READY from MPMU U8100 (page 83). If never asserts, MPMU did not complete startup.",
+      "probe": "MPMU GPIO area, page 83"
+    },
+    "crystal_32khz": {
+      "description": "Check 32.768KHz crystal for MPMU. If missing or shorted, MPMU will not start.",
+      "probe": "Crystal near U8100"
+    },
+    "soc_force_dfu": {
+      "description": "If all power present but no boot, force DFU mode via USB-C to test SoC/ROM.",
+      "probe": "DFU via left USB-C port"
+    },
+    "phase_balance": {
+      "description": "Check SVR AON 3-phase balance. Thermal cam for uneven heating across phase drivers.",
+      "probe": "U5700 phase outputs, pages 57-58"
+    },
+    "cd3217_sys_detect": {
+      "description": "Check SYS_DETECT from battery connector. If missing, charger IC will not enable.",
+      "probe": "Battery connector area"
+    },
+    "pp5v_s2_bootstrap": {
+      "description": "PP5V_S2 enables AFTER SoC hard start (page 122). If missing, SoC may not have started.",
+      "probe": "TPS62130 output area, page 122"
+    },
+    "austringer_fault": {
+      "description": "Check Austringer VR for GPU/CPU cluster power faults. Replaces Viper on M2 Pro/Max. Multiple power stages.",
+      "probe": "Austringer controller and power stages, pages 92-96"
+    },
+    "clvr_fault": {
+      "description": "Check CLVR VR for additional power domain faults. Replaces Monaco on M2 Pro/Max.",
+      "probe": "CLVR instances, pages 101-105 and throttle page 120"
+    }
+  },
+  "tree": [
+    {
+      "step": 1,
+      "check": "PPBUS_AON",
+      "probe": "Bulk capacitors near U5200 charger IC output (page 52). Charger support page 53.",
+      "expect": "~12.6V (battery) or ~20V (adapter)",
+      "yes": "Go to Step 2",
+      "no": {
+        "diagnosis": "Charger path fault",
+        "check_sequence": [
+          "Check PPDCIN_AON (charger input, page 52)",
+          "Check SYS_DETECT signal from battery connector",
+          "Check CD3217 port controllers for all 3 USB-C ports: Left ATC0 (page 72), ATC1 (page 76), Right ATC2 (page 82)",
+          "Check charger IC U5200 area gate drives (page 52)",
+          "Check charger support components (page 53)",
+          "Check MagSafe path: connector and control (pages 54-56)",
+          "Check dual inductors and sense resistors (page 52)",
+          "Thermal cam on charger area for shorted FETs"
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "check": "PP3V8_AON",
+      "probe": "SVR AON output caps near U5700 (pages 57-58). 3-phase output. AON throttle page 60.",
+      "expect": "3.8V",
+      "yes": "Go to Step 3",
+      "no": {
+        "diagnosis": "SVR AON (U5700) fault — 3-phase, higher current design",
+        "check_sequence": [
+          "Check P3V8AON_PWR_EN enable signal (page 57)",
+          "Check P3V8AON_FAULT_L (active low fault, page 57)",
+          "Check 3-phase output and ISENSE summing (page 58)",
+          "Check AON throttle circuit (page 60) — PMU_VDD_HI comparator",
+          "Check phase drivers and inductors for all 3 phases",
+          "Thermal cam on U5700 and phase drivers — higher current than base M2",
+          "SHORTCUT: Try Eason forced start bypass — inject 3.8V on PP3V8_AON_VDDMAIN + force PMU_VDD_HI high on page 60 + press start. If board boots, fault is upstream of SVR."
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "check": "AON LDOs (PP3V3_AON, PP1V8_AON, PP1V2_AON)",
+      "probe": "External AON LDO outputs. Fed from PP3V8_AON_VDDMAIN.",
+      "expect": "PP3V3_AON=3.3V, PP1V8_AON=1.8V, PP1V2_AON=1.2V",
+      "yes": "Go to Step 4",
+      "no": {
+        "diagnosis": "External AON LDO failure",
+        "check_sequence": [
+          "Check PP3V8_AON input to LDOs — if missing, fault is upstream at U5700",
+          "If PP3V3_AON missing: check LDO regulator input/output, diode mode on output cap",
+          "If PP1V8_AON missing: check LDO regulator input/output, diode mode on output cap",
+          "If PP1V2_AON missing: check LDO regulator input/output, diode mode on output cap",
+          "Thermal cam on LDO area"
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "check": "SPMU (U7700) outputs",
+      "probe": "Slave PMU buck output caps (pages 77-79). VIN page 77, LDO/Bucks page 78, GPIO page 79.",
+      "expect": "Multiple SPMU buck rails present — DRAM, NAND, SoC sleep domains",
+      "yes": "Go to Step 5",
+      "no": {
+        "diagnosis": "SPMU (U7700) fault",
+        "check_sequence": [
+          "Check PP3V8_AON input to U7700 (SPMU VIN, page 77)",
+          "Check PPBUS_AON input to SPMU (page 77)",
+          "Check SPMU LDO outputs (page 78)",
+          "Check SPMU BUCK outputs (page 78)",
+          "Check SPMU GPIO signals including SPMU_READY, SPMU_FAULT (page 79)",
+          "Diode mode across output cap banks for each buck",
+          "Thermal cam on U7700 area for hot component",
+          "If single buck missing: find downstream short on that rail before replacing PMU"
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "check": "MPMU (U8100) outputs",
+      "probe": "Master PMU buck output caps (pages 81-83). VIN page 81, LDO/Bucks page 82, GPIO page 83.",
+      "expect": "Multiple MPMU buck rails present — PCPU, GPU, SOC, fabric domains",
+      "yes": "Go to Step 6",
+      "no": {
+        "diagnosis": "MPMU (U8100) fault",
+        "check_sequence": [
+          "Check PP3V8_AON_MPMU input to U8100 (MPMU VIN, page 81)",
+          "Check PPBUS_AON_MPMU input (page 81)",
+          "CRITICAL: Check comparator on AON throttle page (page 60) — PMU_VDD_HI must go high for U8100 to start",
+          "Check 32.768KHz crystal — MPMU needs this clock",
+          "Check PMU_ONOFF_L signal",
+          "Check PMU_ACTIVE_READY output (page 83)",
+          "Check PMU_FAULT_INT_L (page 83)",
+          "Check MPMU LDO outputs (page 82)",
+          "Check MPMU BUCK outputs (page 82)",
+          "Check MPMU GPIO signals (page 83)",
+          "Check PMU support components (pages 84-85)",
+          "Thermal cam on U8100 and surrounding area"
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "check": "PP5V_S2",
+      "probe": "TPS62130 output (page 122)",
+      "expect": "5.14V",
+      "yes": "Go to Step 7",
+      "no": {
+        "diagnosis": "PP5V_S2 regulator fault — enables AFTER SoC hard start",
+        "check_sequence": [
+          "Check P5V2TPS_PWR_EN enable signal (page 122)",
+          "Check PPBUS_AON input to TPS62130",
+          "Check output inductor and sense resistor",
+          "PP5V_S2 enables AFTER SoC hard start — if missing, SoC may not have started. Verify SoC clocks and ROM first.",
+          "Diode mode on output caps for shorts"
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "check": "Austringer VR — GPU/CPU cluster power (replaces Viper)",
+      "probe": "Austringer controller and power stages (pages 92-96)",
+      "expect": "Variable voltage present (DVFS) on CPU/GPU cluster domains",
+      "yes": "Go to Step 8",
+      "no": {
+        "diagnosis": "Austringer VR fault — GPU/CPU cluster power",
+        "check_sequence": [
+          "Check Austringer controller enable signals (page 92)",
+          "Check Austringer fault output — AUSTRINGER_FAULT_L (page 92)",
+          "Check power stage 1 (page 93) — inductors, sense resistors, FETs",
+          "Check power stage 2 (page 94)",
+          "Check power stage 3 (page 95)",
+          "Check Austringer support / feedback (page 96)",
+          "Check input cap banks on each power stage",
+          "Thermal cam on Austringer controller and power stage MOSFETs",
+          "Max variant: additional stages may be Max-specific — check if only Max-specific stage fails"
+        ]
+      }
+    },
+    {
+      "step": 8,
+      "check": "CLVR VR — additional power domains (replaces Monaco)",
+      "probe": "CLVR VR instances (pages 101-105), CLVR throttle (page 120)",
+      "expect": "Variable voltage present (DVFS) on fabric/additional GPU domains",
+      "yes": "SoC power domains fed. Fault is downstream. Go to Step 9.",
+      "no": {
+        "diagnosis": "CLVR VR fault",
+        "check_sequence": [
+          "Check which CLVR instance is failing (pages 101-105)",
+          "Check CLVR GPIO connections for ALERT signals on each instance",
+          "Check CLVR fabric throttle (page 120)",
+          "Check CLVR input caps on each instance",
+          "Max variant: additional CLVR instances are Max-specific — check if only Max-specific instance fails",
+          "Thermal cam on CLVR controllers"
+        ]
+      }
+    },
+    {
+      "step": 9,
+      "check": "SoC power domains (M2 Pro/Max)",
+      "probe": "SoC power pages 23-39",
+      "expect": "Multiple voltage domains present. Board should attempt boot.",
+      "yes": "Go to Step 10",
+      "no": {
+        "diagnosis": "SoC fault, SPI ROM fault, or clock issue",
+        "check_sequence": [
+          "Check SPI NOR flash",
+          "Check secure element",
+          "Check SoC ground connections",
+          "Check 24MHz crystal oscillator",
+          "Check 32.768KHz crystal",
+          "If all power present but no boot: try DFU mode via USB-C",
+          "PMU output desense check (page 76) — verify desense filtering is not masking a fault"
+        ]
+      }
+    },
+    {
+      "step": 10,
+      "check": "Peripheral subsystems",
+      "substeps": [
+        {
+          "check": "Display",
+          "probe": "Display power sequencer and backlight (pages 113-115)",
+          "signals": "LCD_PWR_EN, EDP_PANEL_PWR_EN, EDP_BKLT_EN, PPVOUT_LUXE"
+        },
+        {
+          "check": "USB-C Left (ATC0 + ATC1)",
+          "probe": "Left USB-C ports: ATC0 (pages 72-76), ATC1 (pages 77-81)",
+          "signals": "CD3217 port controllers, VBUS switches, CC lines, SBU lines"
+        },
+        {
+          "check": "USB-C Right (ATC2)",
+          "probe": "Right USB-C port: ATC2 (pages 82-90)",
+          "signals": "CD3217 port controller, VBUS switch, CC lines, SBU lines"
+        },
+        {
+          "check": "HDMI",
+          "probe": "HDMI controller and support (pages 91-95)",
+          "rails": "PP3V3_S2SW_DP2HDMI, PP1V8_S2SW_DP2HDMI, PP1V2_S2_DP2HDMI"
+        },
+        {
+          "check": "SD Card",
+          "probe": "SD card controller GL9755 and LDOs (pages 96-99)",
+          "rails": "PP3V3_AWAKE_SW_SD, PP1V2_GL_LOOP"
+        },
+        {
+          "check": "MagSafe",
+          "probe": "MagSafe connector, control IC, and protection (pages 54-56)",
+          "signals": "MAGSAFE_CC, MAGSAFE_VBUS, MagSafe detect"
+        },
+        {
+          "check": "Storage (SSD0 + SSD1)",
+          "probe": "SSD0 controller and NAND (pages 102-107), SSD1 controller and NAND (pages 108-112)",
+          "rails": "PP0V9/PP1V2/PP2V5_NAND0 and PP0V9/PP1V2/PP2V5_NAND1"
+        },
+        {
+          "check": "Keyboard",
+          "probe": "Keyboard controller, membrane connector, ESD protection",
+          "signals": "KB_CLK, KB_DATA, backlight enable"
+        },
+        {
+          "check": "Audio",
+          "probe": "Speaker amps and codec",
+          "rails": "PP1V2_AWAKE_SPKRAMP, PP3V8_AON_C_SPKRAMP, PPBUS_AON_SPKRAMP_ADC"
+        },
+        {
+          "check": "WiFi/Bluetooth",
+          "probe": "WiFi module and antenna connections",
+          "note": "Module is soldered — rework requires BGA skills"
+        },
+        {
+          "check": "Trackpad",
+          "probe": "Trackpad LDO, connector, SPI interface",
+          "signals": "TPAD_CLK, TPAD_DATA, TPAD_CS"
+        }
+      ]
+    }
+  ]
+}

@@ -32,8 +32,8 @@
         {
           "step": 3,
           "action": "Check PPBUS_AON",
-          "measure": "Probe TPU633",
-          "component": "TPU633",
+          "measure": "Probe TPU651 (PPBUS_AON)",
+          "component": "TPU651",
           "expected": "12V (battery) or voltage rising from 20V input",
           "if_missing": "Charger IC (U5200 area) not converting input. Check CHGR_AUX_OK signal, I2C communication to charger.",
           "if_present": "PPBUS_AON present but no downstream draw → go to step 4."
@@ -41,8 +41,8 @@
         {
           "step": 4,
           "action": "Check PP3V8_AON",
-          "measure": "Probe TPU630",
-          "component": "TPU630",
+          "measure": "Probe TPU665 (PP3V8_AON)",
+          "component": "TPU665",
           "expected": "3.8V",
           "if_missing": "U5700 not starting. Check PPVAON_PWR_EN. Check delay circuit (D5340/R5340/R5341).",
           "if_present": "PP3V8_AON present but 0A draw → PMU not loading. Check U7700/U8100."
@@ -56,14 +56,14 @@
         {
           "step": 1,
           "action": "Run full diagnostic chain",
-          "measure": "Sequential probe: TPU633 → TPU630 → TPU636 → MPMU LDOs",
+          "measure": "Sequential probe: TPU651 → TPU665 → TPU676 → MPMU LDOs",
           "sub_checks": [
-            {"component": "TPU633", "expected": "12V", "rail": "PPBUS_AON", "if_wrong": "Charger fault"},
-            {"component": "TPU630", "expected": "3.8V", "rail": "PP3V8_AON", "if_wrong": "U5700 fault — go to step 2"},
-            {"component": "TPU636", "expected": "5V", "rail": "PP5V_S2", "if_wrong": "UC260 fault — go to step 3"},
+            {"component": "TPU651", "expected": "12V", "rail": "PPBUS_AON", "if_wrong": "Charger fault"},
+            {"component": "TPU665", "expected": "3.8V", "rail": "PP3V8_AON", "if_wrong": "U5700 fault — go to step 2"},
+            {"component": "TPU676", "expected": "5V", "rail": "PP5V_S2", "if_wrong": "UC260 fault — go to step 3"},
             {"expected": "1.8V", "rail": "PP1V8_AON_MPMU", "if_wrong": "MPMU LDO 9 fault — go to step 4"},
             {"expected": "1.2V", "rail": "PP1V2_AON_MPMU", "if_wrong": "MPMU LDO 9B fault — go to step 4"},
-            {"expected": "3.3V", "rail": "PP3V3_S2M_SNR", "if_wrong": "MPMU LDO 13 fault — go to step 4"}
+            {"expected": "3.3V", "rail": "PP3V3_S2SW_SNS", "if_wrong": "MPMU LDO 13 fault — go to step 4"}
           ],
           "if_all_present": "All main rails present. Fault is in SoC domain or peripheral. Go to step 5."
         },
@@ -116,7 +116,7 @@
         {
           "step": 2,
           "action": "Boot loop — check SSD / NAND",
-          "measure": "Check NAND power rails: PP1V25_MAME_NAND_VCC (SPMU BUCK 6), PP3V8_MAME_NAND_VDDL (SPMU BUCK 12 SW6/7)",
+          "measure": "Check NAND power rails: PP2V58_AWAKE_NAND_VCC (SPMU BUCK 6), PP0V88_AWAKE_NAND_VDD (SPMU BUCK 12 SW6/7)",
           "expected": "Both rails present and stable",
           "if_missing": "NAND power fault. Check SPMU BUCK 6/12 outputs, FL4000/FL4001 fuses.",
           "if_present": "NAND powered but SSD may be dead or firmware corrupted. Try DFU restore."
@@ -124,7 +124,7 @@
         {
           "step": 3,
           "action": "Stalled boot — check display path",
-          "measure": "Check PPBUS_AON_BKLT_1SNS (backlight power), PP3V8_MAME2W_TCON (TCON power)",
+          "measure": "Check PPBUS_AON_BKLT_ISNS (backlight power), PP3V8_AWAKESW_TCON (TCON power)",
           "expected": "Backlight and TCON powered",
           "if_missing": "Display power path fault. Check UP710 sequencer, backlight regulators.",
           "if_present": "Go to step 4."
@@ -132,7 +132,7 @@
         {
           "step": 4,
           "action": "Check SoC DVFS domains",
-          "measure": "Probe PPVDD_MAME_PCPU, PPVDD_MAME_ECPU, PPVDD_MAME_GPU decoupling caps",
+          "measure": "Probe PPVDD_AWAKE_PCPU, PPVDD_AWAKE_ECPU, PPVDD_AWAKE_GPU decoupling caps",
           "expected": "Voltage present on all DVFS domains",
           "if_any_missing": "SoC power domain fault. Cross-reference with power-path.json stage 7.",
           "if_all_present": "SoC powered, display powered, stalled → likely firmware/SSD issue. DFU restore."
@@ -153,11 +153,11 @@
         {
           "step": 2,
           "action": "No display but normal current — check display chain",
-          "measure": "Check PPBUS_AON_BKLT_1SNS, PP3V8_MAME2W_TCON, LDP connector (page 94)",
+          "measure": "Check PPBUS_AON_BKLT_ISNS, PP3V8_AWAKESW_TCON, LDP connector (page 94)",
           "sub_checks": [
             {"check": "Backlight present?", "if_no": "Backlight regulator or UP710 sequencer fault."},
             {"check": "Image on external display (HDMI)?", "if_yes": "LCD panel or LDP flex fault. Replace display."},
-            {"check": "No external either?", "if_yes": "SoC GPU output fault. Check PPVDD_MAME_GPU."}
+            {"check": "No external either?", "if_yes": "SoC GPU output fault. Check PPVDD_AWAKE_GPU."}
           ]
         },
         {
@@ -165,9 +165,9 @@
           "action": "Specific peripheral faults at normal current",
           "common_faults": [
             {"symptom": "One USB-C port not working", "check": "UF400 or UF500 (whichever port). Test both ports individually."},
-            {"symptom": "HDMI not working", "check": "UH700 (Cobra controller), PP0V95_MAME2W_DFCHM1 (UH908 buck), PP3V8_AON_HDMI_1SNS."},
+            {"symptom": "HDMI not working", "check": "UH700 (Cobra controller), PP0V95_MAME2W_DFCHM1 (UH908 buck), PP3V8_AON_HDMI_ISNS."},
             {"symptom": "SD card not reading", "check": "UK550 (GL9755), PP3V3_MAME_S60, SD card connector (JK600)."},
-            {"symptom": "No audio", "check": "Speaker amplifiers, PP3V8_AON_SPKAMP_LEFT/RIGHT_1SNS rails."},
+            {"symptom": "No audio", "check": "Speaker amplifiers, PP3V8_AON_SPKRAMP_LEFT/RIGHT_ISNS rails."},
             {"symptom": "Battery not charging", "check": "Charger IC (U5200), CHGR_AUX_OK signal, battery connector (J5151)."}
           ]
         }

@@ -1,139 +1,64 @@
 {
   "board": "A2780",
   "schematic": "820-02652",
-  "description": "Boot power-on sequence for M2 Pro/Max. Adapted from M1 reference. Key difference from A2681: Viper VR and Monaco VR must power up before SoC dynamic domains are ready.",
   "sequence": [
     {
       "step": 1,
-      "name": "USB-C Cable Insertion — 5V Default",
-      "action": "USB-C cable inserted. Charger provides default 5V. CD3217 (UF400/UF500/UG400) internal MOSFET passes 5V.",
-      "rail": "PPVBUS_USBC0/1/2",
-      "voltage": "5V",
-      "page": [72, 73, 81]
+      "event": "USB-C 5V \u2192 UF400/UF500/UG400 \u2192 Charger IC \u2192 PPBUS_AON",
+      "page": [
+        52,
+        154,
+        155
+      ]
     },
     {
       "step": 2,
-      "name": "Charger Input Active — PPDCIN_AON",
-      "action": "Charger input path enabled. Multi-FET gate drive active. CHGR_AUX_OK asserted.",
-      "rail": "PPDCIN_AON",
-      "voltage": "~5V",
-      "page": [28, 29]
+      "event": "PPBUS_AON \u2192 U5700 SVR AON \u2192 PP3V8_AON",
+      "page": [
+        57,
+        58
+      ]
     },
     {
       "step": 3,
-      "name": "PPBUS_AON Established",
-      "action": "Main power bus comes up from battery (12.6V) or adapter input.",
-      "rail": "PPBUS_AON",
-      "voltage": "12.6V (battery)",
-      "test_point": "CR765 area (Saf: PPBUS_AON short at 5V/0.012A → CR765 cap)",
-      "page": [27, 28]
+      "event": "PP3V8_AON \u2192 SPMU/MPMU \u2192 AON/S2/S1 rails",
+      "page": [
+        77,
+        78,
+        81,
+        82
+      ]
     },
     {
       "step": 4,
-      "name": "PP3V8_AON Powers Up — U5700 SVR AON",
-      "action": "U5700 converts PPBUS_AON → PP3V8_AON (3.8V, 30A max). Multi-phase output. Feeds both PMUs + WiFi + display + USB-C.",
-      "rail": "PP3V8_AON",
-      "voltage": "3.8V",
-      "enable": "PPVAON_PWR_EN",
-      "fault": "PPVAON_FAULT_L",
-      "page": [33, 34, 35]
+      "event": "PP3V8_AON \u2192 Austringer VR (U9300-U9620) \u2192 PP1V8_S1_CLVR_VDDH",
+      "page": [
+        92,
+        94,
+        95,
+        96
+      ]
     },
     {
       "step": 5,
-      "name": "SPMU & MPMU Startup — AON and S2 Rails Cascade",
-      "action": "Both PMUs receive PP3V8_AON and generate output rails in hardware-defined sequence. AON rails first, then S2, then S1.",
-      "rails_aon_first": [
-        "PP1V8_AON_SPMU (SPMU LDO AON)",
-        "PP1V2_AON_SPMU (SPMU LDO AON)",
-        "PP1V5_AON_VCORE_MPMU (MPMU internal)",
-        "PP1V5_AON_VCORE_SPMU (SPMU internal)",
-        "PP3V3_AON",
-        "PP1V8_AON",
-        "PP1V2_AON"
-      ],
-      "rails_s2_next": [
-        "PP1V2_S2 (S2 regulator)",
-        "PP1V25_S2",
-        "PP1V8_S2",
-        "PP0V72_S2_VDDLOW (SPMU BUCK 13)",
-        "PP0V855_S2SW_VDDCIO (SPMU BUCK 18)"
-      ],
-      "rails_s1_then": [
-        "PP0V81_S1_SRAM (SPMU BUCK 0)",
-        "PPVDD_SOC_S1 (MPMU BUCK 7)",
-        "PPVDD_DCS_S1 (MPMU BUCK 8)",
-        "PPVDD_FABRIC_S1 (MPMU BUCK 9)",
-        "PPVDD_FIXED_S1 (MPMU BUCK 10)"
-      ],
-      "page": [37, 38, 39, 41, 42, 43]
+      "event": "PP1V8_S1_CLVR_VDDH \u2192 CLVR0-4 (Mirabeau) \u2192 PCPU/GPU/ANE DVFS domains",
+      "page": [
+        101,
+        102,
+        103,
+        104,
+        105
+      ]
     },
     {
       "step": 6,
-      "name": "Standalone VRs Power Up — 5V and 3V3",
-      "action": "TPS62130 generates PP5V_S2, separate VR generates PP3V3_S2. Load switches enabled for USB-C ports and HDMI.",
-      "rails": [
-        {"rail": "PP5V_S2", "voltage": "5.14V", "ic": "TPS62130", "enable": "P5VS2_PWR_EN"},
-        {"rail": "PP3V3_S2", "voltage": "3.3V", "enable": "P3V3S2_PWR_EN"},
-        {"rail": "PP5V_S2SW_USBC01", "voltage": "5V", "load": "Left USB-C ports"},
-        {"rail": "PP5V_S2SW_USBC23", "voltage": "5V", "load": "Right USB-C + HDMI"}
-      ],
-      "page": [55, 76, 84]
+      "event": "UC260 TPS62130 \u2192 PP5V_S2 \u2192 USB-C 5V, peripherals",
+      "page": 122
     },
     {
       "step": 7,
-      "name": "Viper VR Powers Up — PCPU Domains",
-      "action": "U9300 Viper VR controller starts multi-phase power stages. PCPU clusters receive DVFS voltage. NOT present on A2681.",
-      "rails": [
-        "PPVDD_PCPU0_AWAKESW (cluster 0)",
-        "PPVDD_PCPU1_AWAKESW (cluster 1, Max only)",
-        "PPVDD_PCPU_SRAM0_AWAKESW",
-        "PPVDD_PCPU_SRAM1_AWAKESW (Max only)"
-      ],
-      "fault": "VIPER_ALERT_L",
-      "page": [46, 47, 48, 49]
-    },
-    {
-      "step": 8,
-      "name": "Monaco VR Powers Up — GPU/Fabric Domains",
-      "action": "Monaco VR instances start. 10 bucks per instance generate GPU, fabric, and SoC compute domains. NOT present on A2681.",
-      "rails": [
-        "PPVDD_GPU0_AWAKESW (GPU cluster 0)",
-        "PPVDD_GPU1_AWAKESW (GPU cluster 1, Max only)",
-        "PPVDD_AGXS_ABMCCN (Monaco0 BUCK 6)",
-        "PPVDD_ECPU_AWAKE (MPMU BUCK 5)",
-        "PPVDD_ANE0_AWAKESW (MPMU BUCK 4)",
-        "PPVDD_DISP_AWAKESW (MPMU BUCK 2)",
-        "PP1V8_AWAKE (SPMU)"
-      ],
-      "signal": "PMU_ACTIVE_READY → SoC begins hard start",
-      "page": [50, 51, 52, 54, 139]
-    },
-    {
-      "step": 9,
-      "name": "M2 Pro/Max Hard Start Complete — SoC Commands CD3217",
-      "action": "SoC completed OTP and hard start. Commands CD3217 to negotiate PD.",
-      "signal": "SoC → CD3217 via CC lines",
-      "page": [72, 73, 81]
-    },
-    {
-      "step": 10,
-      "name": "PD Negotiation → 20V Boost",
-      "action": "CD3217 negotiates 20V from charger. PPVBUS transitions 5V → 20V. Protection isolation passes. PPBUS_AON stabilises.",
-      "rail": "PPVBUS_USBCx → 20V",
-      "page": [72, 73, 81]
-    },
-    {
-      "step": 11,
-      "name": "Soft Start — SSD, BIOS, Display",
-      "action": "SoC reads dual SSDs (SSD0 + SSD1 via Ocarina), loads firmware, display power sequencer (page 111) enables Mini-LED Liquid Retina XDR panel, Luxe backlight driver activates. Apple LOGO appears.",
-      "subsystems": [
-        "Dual SSD (Ocarina controllers, pages 102, 107)",
-        "Display power sequencer (page 111)",
-        "Luxe backlight (page 112)",
-        "HDMI (Madea, page 89) — if external display connected",
-        "SD card (page 92) — if card inserted"
-      ],
-      "page": [98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 110, 111, 112]
+      "event": "SoC boot \u2192 PD negotiation \u2192 20V adapter boost",
+      "page": 52
     }
   ]
 }

@@ -8,16 +8,32 @@
       "type": "USB-C / Thunderbolt 4",
       "controller": "UF400 (CD3217 ATC0)",
       "position": "Left, rear",
-      "signals": {"vbus": "PPVBUS_USBC0", "cc1": "USBC0_CC1", "cc2": "USBC0_CC2", "sbu1": "USBC0_SBU1", "sbu2": "USBC0_SBU2"},
-      "page": [67, 73]
+      "signals": {
+        "vbus": "PPVBUS_USBC0",
+        "cc1": "USBC0_CC1",
+        "cc2": "USBC0_CC2",
+        "sbu1": "USBC0_SBU1",
+        "sbu2": "USBC0_SBU2"
+      },
+      "page": [
+        67,
+        73
+      ]
     },
     {
       "designator": "USB-C Left Port 1 (ATC1)",
       "type": "USB-C / Thunderbolt 4",
       "controller": "UF500 (CD3217 ATC1)",
       "position": "Left, front",
-      "signals": {"vbus": "PPVBUS_USBC1", "cc1": "USBC1_CC1", "cc2": "USBC1_CC2"},
-      "page": [68, 73]
+      "signals": {
+        "vbus": "PPVBUS_USBC1",
+        "cc1": "USBC1_CC1",
+        "cc2": "USBC1_CC2"
+      },
+      "page": [
+        68,
+        73
+      ]
     },
     {
       "designator": "USB-C Right Port (ATC2)",
@@ -25,42 +41,59 @@
       "controller": "UG400 (CD3217 ATC2)",
       "position": "Right",
       "note": "Different designator prefix (UG vs UF) from left ports.",
-      "signals": {"vbus": "PPVBUS_USBC2", "cc1": "USBC2_CC1", "cc2": "USBC2_CC2"},
-      "page": [77, 81]
+      "signals": {
+        "vbus": "PPVBUS_USBC2",
+        "cc1": "USBC2_CC1",
+        "cc2": "USBC2_CC2"
+      },
+      "page": [
+        77,
+        81
+      ]
     },
     {
       "designator": "J5401",
       "type": "MagSafe 3",
       "controller": "MagSafe Port Controller (UPC5 area)",
       "position": "Left side",
-      "page": [29, 30, 31, 32]
+      "page": [
+        29,
+        30,
+        31,
+        32
+      ]
     },
     {
       "designator": "HDMI Connector",
       "type": "HDMI 2.0",
       "controller": "Madea retimer IC",
       "position": "Right side",
-      "note": "NOT present on A2681.",
-      "page": [86, 87]
+      "page": [
+        86,
+        87
+      ]
     },
     {
       "designator": "SD Card Slot (514-00175)",
       "type": "SD / SDXC",
       "controller": "SD Card Controller IC",
       "position": "Right side",
-      "note": "NOT present on A2681. Conn for J314 used as ref only.",
-      "page": [92]
+      "page": [
+        92
+      ]
     },
     {
       "designator": "Battery Connector",
       "type": "Internal battery (99.6 Wh, 16\" specific)",
-      "note": "Larger battery than A2442 (70 Wh). Same charger topology.",
       "page": 27
     },
     {
       "designator": "Display Connector",
       "type": "Internal display flex (Mini-LED Liquid Retina XDR, 16.2\")",
-      "page": [109, 110]
+      "page": [
+        109,
+        110
+      ]
     },
     {
       "designator": "Camera Flex",
@@ -75,28 +108,41 @@
     {
       "designator": "Keyboard Connector",
       "type": "Internal keyboard + backlight",
-      "page": [120, 121]
+      "page": [
+        120,
+        121
+      ]
     },
     {
       "designator": "Trackpad Connector",
       "type": "Internal Force Touch trackpad",
-      "page": [122, 123]
+      "page": [
+        122,
+        123
+      ]
     },
     {
       "designator": "TouchID Connector",
       "type": "Touch ID / Power button",
-      "note": "NOT present on A2681. Pro/Max specific.",
-      "page": [124, 125, 126]
+      "page": [
+        124,
+        125,
+        126
+      ]
     },
     {
       "designator": "Audio Flex Connectors",
       "type": "Speaker + headphone jack",
-      "page": [116, 117, 118]
+      "page": [
+        116,
+        117,
+        118
+      ]
     },
     {
       "designator": "JE500 (FAN0 Left)",
       "type": "Internal cooling fan (left)",
-      "note": "A2485-specific: 16\" has dual fans. A2442 has single fan. NOT present on A2681 (fanless).",
+      "note": "16\" has dual fans..",
       "page": 66
     },
     {

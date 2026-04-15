@@ -2,17 +2,82 @@
   "board": "A2442_CTO",
   "schematic": "820-02443",
   "WARNING": "CTO variant (820-02443, X2719 MLB-C). SVR AON is 42A design. Viper has 3 stage pages. Monaco has 5 instances. Page numbers differ from base A2442 (820-02098).",
-  "description": "Complete power delivery chain from USB-C/MagSafe input to SoC power pins. 7 stages. CTO Pro/Max variant — more complex than base due to 42A SVR AON, 3 Viper stage pages, and 5 Monaco instances.",
+  "description": "Complete power delivery chain from USB-C/MagSafe input to SoC power pins. 7 stages. CTO Pro/Max variant \u2014 more complex than base due to 42A SVR AON, 3 Viper stage pages, and 5 Monaco instances.",
   "stages": [
     {
       "stage": 1,
       "name": "USB-C / MagSafe Input & Initial 5V",
       "description": "3 USB-C ports (2 left, 1 right) + MagSafe. CD3217 controllers manage CC signaling and VBUS switching.",
       "nodes": [
-        {"input": "USB-C cable (5V)", "output": "PPVBUS_USBC0", "voltage": "5V->20V", "ic": "UF400 (CD3217 ATC0)", "port": "Left rear", "page": [76, 78]},
-        {"input": "USB-C cable (5V)", "output": "PPVBUS_USBC1", "voltage": "5V->20V", "ic": "UF500 (CD3217 ATC1)", "port": "Left front", "page": [77, 78]},
-        {"input": "USB-C cable (5V)", "output": "PPVBUS_USBC2", "voltage": "5V->20V", "ic": "UG400 (CD3217 ATC2)", "port": "Right", "page": [85, 86]},
-        {"input": "MagSafe cable", "output": "PPVBUS_USBC5", "voltage": "5V->20V", "ic": "MagSafe Port Controller (UPC5)", "port": "J5401 MagSafe", "page": [31, 32]}
+        {
+          "input": "USB-C cable (5V)",
+          "output": "PPVBUS_USBC0",
+          "voltage": "5V->20V",
+          "ic": "UF400 (CD3217 ATC0)",
+          "port": "Left rear",
+          "page": [
+            76,
+            78
+          ]
+        },
+        {
+          "input": "USB-C cable (5V)",
+          "output": "PPVBUS_USBC1",
+          "voltage": "5V->20V",
+          "ic": "UF500 (CD3217 ATC1)",
+          "port": "Left front",
+          "page": [
+            77,
+            78
+          ]
+        },
+        {
+          "input": "USB-C cable (5V)",
+          "output": "PPVBUS_USBC2",
+          "voltage": "5V->20V",
+          "ic": "UG400 (CD3217 ATC2)",
+          "port": "Right",
+          "page": [
+            85,
+            86
+          ]
+        },
+        {
+          "input": "MagSafe cable",
+          "output": "PPVBUS_USBC5",
+          "voltage": "5V->20V",
+          "ic": "MagSafe Port Controller (UPC5)",
+          "port": "J5401 MagSafe",
+          "page": [
+            31,
+            32
+          ]
+        }
+      ],
+      "components": [
+        "UF400",
+        "UF500",
+        "UG400",
+        "J5401"
+      ],
+      "input_rails": [
+        "USB-C 5V/20V input",
+        "MagSafe input"
+      ],
+      "output_rails": [
+        "PPVBUS_USBC0",
+        "PPVBUS_USBC1",
+        "PPVBUS_USBC2",
+        "PPVBUS_USBC5"
+      ],
+      "page": [
+        31,
+        32,
+        76,
+        77,
+        78,
+        85,
+        86
       ]
     },
     {
@@ -29,11 +94,40 @@
         "7. Protection isolation passes -> PPBUS_AON at battery voltage"
       ],
       "signals": {
-        "cc_lines": ["USBC0_CC1/CC2", "USBC1_CC1/CC2", "USBC2_CC1/CC2"],
-        "spi_roms": ["SPI_UPC0", "SPI_UPC1", "SPI_UPC2", "SPI_UPC5"],
+        "cc_lines": [
+          "USBC0_CC1/CC2",
+          "USBC1_CC1/CC2",
+          "USBC2_CC1/CC2"
+        ],
+        "spi_roms": [
+          "SPI_UPC0",
+          "SPI_UPC1",
+          "SPI_UPC2",
+          "SPI_UPC5"
+        ],
         "charger_ready": "CHGR_AUX_OK"
       },
-      "page": [29, 30, 76, 77, 85]
+      "page": [
+        29,
+        30,
+        76,
+        77,
+        85
+      ],
+      "components": [
+        "UF400",
+        "UF500",
+        "UG400"
+      ],
+      "input_rails": [
+        "PPVBUS_USBC0",
+        "PPVBUS_USBC1",
+        "PPVBUS_USBC2",
+        "PPVBUS_USBC5"
+      ],
+      "output_rails": [
+        "PPDCIN_AON"
+      ]
     },
     {
       "stage": 3,
@@ -47,16 +141,34 @@
           "ic": "U5200 area (Charger IC)",
           "enable": "CHGR_AUX_OK, BMU SYS_DETECT",
           "fault": "No PPBUS -> charger IC / CD3217 / U5200 fault",
-          "test_point": "CR765 area — PPBUS_AON decoupling",
-          "page": [28, 29, 30]
+          "test_point": "CR765 area \u2014 PPBUS_AON decoupling",
+          "page": [
+            28,
+            29,
+            30
+          ]
         }
+      ],
+      "components": [
+        "U5200"
+      ],
+      "input_rails": [
+        "PPDCIN_AON"
+      ],
+      "output_rails": [
+        "PPBUS_AON"
+      ],
+      "page": [
+        28,
+        29,
+        30
       ]
     },
     {
       "stage": 4,
       "name": "SVR AON -> PP3V8_AON (42A CTO Design)",
       "description": "U5700 multi-phase buck converts PPBUS_AON to 3.8V always-on rail. CTO: 42A design (base: 30A). BOM thresholds: BOM0=30A, BOM1=35A, BOM2=42A. 3-phase with summing amp ISENSE/ILIMIT. Feeds SPMU, MPMU, and branches to WiFi/BT, display, peripherals.",
-      "cto_difference": "42A design vs 30A base — higher current to support Max GPU power delivery via extended Monaco VR instances",
+      "cto_difference": "42A design vs 30A base \u2014 higher current to support Max GPU power delivery via extended Monaco VR instances",
       "nodes": [
         {
           "input": "PPBUS_AON",
@@ -65,7 +177,13 @@
           "ic": "U5700 (SVR AON, 42A ICC MAX CTO)",
           "enable": "PPVAON_PWR_EN",
           "fault": "PPVAON_FAULT_L (active low)",
-          "phases": ["PP3V8AON_PH1", "PP3V8AON_PH2", "PP3V8AON_PH3", "PP3V8AON_SW2_PH2", "PP3V8AON_SW3_PH3"],
+          "phases": [
+            "PP3V8AON_PH1",
+            "PP3V8AON_PH2",
+            "PP3V8AON_PH3",
+            "PP3V8AON_SW2_PH2",
+            "PP3V8AON_SW3_PH3"
+          ],
           "branches": {
             "to_mpmu": "PP3V8_AON_MPMU_ISNS -> U8100",
             "to_spmu": "PP3V8_AON_SPMU_ISNS -> U7700",
@@ -76,8 +194,26 @@
             "to_codec": "PP3V8_CODEC_VP -> Audio codec",
             "to_tcon": "PP3V8_AWAKESW_TCON -> Display TCON"
           },
-          "page": [34, 35, 36]
+          "page": [
+            34,
+            35,
+            36
+          ]
         }
+      ],
+      "components": [
+        "U5700"
+      ],
+      "input_rails": [
+        "PPBUS_AON"
+      ],
+      "output_rails": [
+        "PP3V8_AON"
+      ],
+      "page": [
+        34,
+        35,
+        36
       ]
     },
     {
@@ -85,59 +221,197 @@
       "name": "PMU + VR Distribution",
       "description": "PP3V8_AON feeds SPMU (U7700, 22+ bucks), MPMU (U8100, 10+ bucks). MPMU feeds Viper VR (U9300, 3 stage pages on CTO) and Monaco VR (5 instances on CTO) for high-current SoC domains.",
       "topology": {
-        "pp3v8_aon_feeds": ["U7700 (SPMU)", "U8100 (MPMU)"],
-        "mpmu_feeds": ["Viper VR (U9300) -> PCPU domains (3 stage pages)", "Monaco VR (5 instances) -> GPU/fabric domains", "Direct buck outputs -> S1/S2 domains", "LDOs -> AON/fixed domains"],
-        "spmu_feeds": ["Direct buck outputs -> SRAM, CLVR, NAND, AWAKE domains", "LDOs -> AON domains"]
+        "pp3v8_aon_feeds": [
+          "U7700 (SPMU)",
+          "U8100 (MPMU)"
+        ],
+        "mpmu_feeds": [
+          "Viper VR (U9300) -> PCPU domains (3 stage pages)",
+          "Monaco VR (5 instances) -> GPU/fabric domains",
+          "Direct buck outputs -> S1/S2 domains",
+          "LDOs -> AON/fixed domains"
+        ],
+        "spmu_feeds": [
+          "Direct buck outputs -> SRAM, CLVR, NAND, AWAKE domains",
+          "LDOs -> AON domains"
+        ]
       },
       "viper_vr": {
         "controller": "U9300",
         "input": "PP3V8_AON (via MPMU regulation)",
         "outputs": [
-          {"rail": "PPVDD_PCPU0_AWAKESW", "voltage": "Variable DVFS", "load": "PCPU cluster 0"},
-          {"rail": "PPVDD_PCPU1_AWAKESW", "voltage": "Variable DVFS", "load": "PCPU cluster 1 (Max only)", "bom": "Max"},
-          {"rail": "PPVDD_PCPU_SRAM0_AWAKESW", "voltage": "Variable", "load": "PCPU SRAM 0"},
-          {"rail": "PPVDD_PCPU_SRAM1_AWAKESW", "voltage": "Variable", "load": "PCPU SRAM 1 (Max only)", "bom": "Max"}
+          {
+            "rail": "PPVDD_PCPU0_AWAKESW",
+            "voltage": "Variable DVFS",
+            "load": "PCPU cluster 0"
+          },
+          {
+            "rail": "PPVDD_PCPU1_AWAKESW",
+            "voltage": "Variable DVFS",
+            "load": "PCPU cluster 1 (Max only)",
+            "bom": "Max"
+          },
+          {
+            "rail": "PPVDD_PCPU_SRAM0_AWAKESW",
+            "voltage": "Variable",
+            "load": "PCPU SRAM 0"
+          },
+          {
+            "rail": "PPVDD_PCPU_SRAM1_AWAKESW",
+            "voltage": "Variable",
+            "load": "PCPU SRAM 1 (Max only)",
+            "bom": "Max"
+          }
         ],
         "fault": "VIPER_ALERT_L",
-        "cto_difference": "3 power stage pages (49-51) vs base 2 — additional phases for Max CPU",
-        "page": [47, 48, 49, 50, 51]
+        "cto_difference": "3 power stage pages (49-51) vs base 2 \u2014 additional phases for Max CPU",
+        "page": [
+          47,
+          48,
+          49,
+          50,
+          51
+        ]
       },
       "monaco_vr": {
         "controller": "Monaco VR (5 instances: C0, C1, C2, C3, C4)",
         "input": "PP3V8_AON via MPMU BUCK 1",
         "outputs": [
-          {"rail": "PPVDD_S0VE_ABMCCN", "source": "Monaco0 BUCK 0", "load": "SoC S0VE"},
-          {"rail": "PPVDD_S0VS_ABMCCN", "source": "Monaco0 BUCK 1", "load": "SoC S0VS"},
-          {"rail": "PPVDD_MCPW_ABMCCN", "source": "Monaco0 BUCK 2", "load": "SoC MCPW"},
-          {"rail": "PPVDD_S0CL_CAMU_ABMCCN", "source": "Monaco0 BUCK 3", "load": "SoC S0CL/CAMU"},
-          {"rail": "PPVDD_GACS_ABMCCN", "source": "Monaco0 BUCK 4", "load": "SoC GACS"},
-          {"rail": "PPVDD_S0DL_ABMCCN", "source": "Monaco0 BUCK 5", "load": "SoC S0DL"},
-          {"rail": "PPVDD_AGXS_ABMCCN", "source": "Monaco0 BUCK 6", "load": "SoC AGXS (GPU)"},
-          {"rail": "PPVDD_S0KE_ABMCCN", "source": "Monaco0 BUCK 7", "load": "SoC S0KE"},
-          {"rail": "PPVDD_S0PE_ABMCCN", "source": "Monaco0 BUCK 8", "load": "SoC S0PE"},
-          {"rail": "PP3V3_S0MWLF_S1", "source": "Monaco0 BUCK 9", "load": "SoC MWLF"}
+          {
+            "rail": "PPVDD_S0VE_ABMCCN",
+            "source": "Monaco0 BUCK 0",
+            "load": "SoC S0VE"
+          },
+          {
+            "rail": "PPVDD_S0VS_ABMCCN",
+            "source": "Monaco0 BUCK 1",
+            "load": "SoC S0VS"
+          },
+          {
+            "rail": "PPVDD_MCPW_ABMCCN",
+            "source": "Monaco0 BUCK 2",
+            "load": "SoC MCPW"
+          },
+          {
+            "rail": "PPVDD_S0CL_CAMU_ABMCCN",
+            "source": "Monaco0 BUCK 3",
+            "load": "SoC S0CL/CAMU"
+          },
+          {
+            "rail": "PPVDD_GACS_ABMCCN",
+            "source": "Monaco0 BUCK 4",
+            "load": "SoC GACS"
+          },
+          {
+            "rail": "PPVDD_S0DL_ABMCCN",
+            "source": "Monaco0 BUCK 5",
+            "load": "SoC S0DL"
+          },
+          {
+            "rail": "PPVDD_AGXS_ABMCCN",
+            "source": "Monaco0 BUCK 6",
+            "load": "SoC AGXS (GPU)"
+          },
+          {
+            "rail": "PPVDD_S0KE_ABMCCN",
+            "source": "Monaco0 BUCK 7",
+            "load": "SoC S0KE"
+          },
+          {
+            "rail": "PPVDD_S0PE_ABMCCN",
+            "source": "Monaco0 BUCK 8",
+            "load": "SoC S0PE"
+          },
+          {
+            "rail": "PP3V3_S0MWLF_S1",
+            "source": "Monaco0 BUCK 9",
+            "load": "SoC MWLF"
+          }
         ],
         "fault": "MONACO_ALERT_L",
         "cto_difference": "5 instances (C0-C4) vs base 3 (C0, C1, C4). Monaco 2 (C2) and Monaco 3 (C3) are CTO-only for Max GPU phases.",
-        "page": [52, 53, 54, 55, 56, 58]
+        "page": [
+          52,
+          53,
+          54,
+          55,
+          56,
+          58
+        ]
       },
       "mpmu_direct_bucks": [
-        {"rail": "PPVDD_ECPU_AWAKE", "source": "MPMU BUCK 5", "state": "AWAKE"},
-        {"rail": "PPVDD_DISP_AWAKESW", "source": "MPMU BUCK 2", "state": "AWAKE"},
-        {"rail": "PPVDD_ANE0_AWAKESW", "source": "MPMU BUCK 4", "state": "AWAKE"},
-        {"rail": "PPVDD_SOC_S1", "source": "MPMU BUCK 7", "state": "S1"},
-        {"rail": "PPVDD_DCS_S1", "source": "MPMU BUCK 8", "state": "S1"},
-        {"rail": "PPVDD_FABRIC_S1", "source": "MPMU BUCK 9", "state": "S1"},
-        {"rail": "PPVDD_FIXED_S1", "source": "MPMU BUCK 10", "state": "S1"}
+        {
+          "rail": "PPVDD_ECPU_AWAKE",
+          "source": "MPMU BUCK 5",
+          "state": "AWAKE"
+        },
+        {
+          "rail": "PPVDD_DISP_AWAKESW",
+          "source": "MPMU BUCK 2",
+          "state": "AWAKE"
+        },
+        {
+          "rail": "PPVDD_ANE0_AWAKESW",
+          "source": "MPMU BUCK 4",
+          "state": "AWAKE"
+        },
+        {
+          "rail": "PPVDD_SOC_S1",
+          "source": "MPMU BUCK 7",
+          "state": "S1"
+        },
+        {
+          "rail": "PPVDD_DCS_S1",
+          "source": "MPMU BUCK 8",
+          "state": "S1"
+        },
+        {
+          "rail": "PPVDD_FABRIC_S1",
+          "source": "MPMU BUCK 9",
+          "state": "S1"
+        },
+        {
+          "rail": "PPVDD_FIXED_S1",
+          "source": "MPMU BUCK 10",
+          "state": "S1"
+        }
       ],
       "spmu_direct_bucks": [
-        {"rail": "PP0V81_S1_SRAM", "source": "SPMU BUCK 0", "state": "S1"},
-        {"rail": "PP0V72_S2_VDDLOW", "source": "SPMU BUCK 13", "state": "S2"},
-        {"rail": "PP0V855_S2SW_VDDCIO", "source": "SPMU BUCK 18", "state": "S2"},
-        {"rail": "PP1V8_S1_CLVR_VDDH", "source": "SPMU BUCK 17", "state": "S1"},
-        {"rail": "PP3V8_AWAKE", "source": "SPMU BUCK 21", "state": "AWAKE"},
-        {"rail": "PPVDD_S1AF_ABMRCN", "source": "SPMU BUCK 0", "state": "S1"},
-        {"rail": "PPVDD_S1CF_ABMRCN", "source": "SPMU BUCK 20", "state": "S1"}
+        {
+          "rail": "PP0V81_S1_SRAM",
+          "source": "SPMU BUCK 0",
+          "state": "S1"
+        },
+        {
+          "rail": "PP0V72_S2_VDDLOW",
+          "source": "SPMU BUCK 13",
+          "state": "S2"
+        },
+        {
+          "rail": "PP0V855_S2SW_VDDCIO",
+          "source": "SPMU BUCK 18",
+          "state": "S2"
+        },
+        {
+          "rail": "PP1V8_S1_CLVR_VDDH",
+          "source": "SPMU BUCK 17",
+          "state": "S1"
+        },
+        {
+          "rail": "PP3V8_AWAKE",
+          "source": "SPMU BUCK 21",
+          "state": "AWAKE"
+        },
+        {
+          "rail": "PPVDD_S1AF_ABMRCN",
+          "source": "SPMU BUCK 0",
+          "state": "S1"
+        },
+        {
+          "rail": "PPVDD_S1CF_ABMRCN",
+          "source": "SPMU BUCK 20",
+          "state": "S1"
+        }
       ],
       "control_signals": {
         "pmu_ready": "PMU_ACTIVE_READY",
@@ -146,7 +420,45 @@
         "viper_alert": "VIPER_ALERT_L",
         "monaco_alert": "MONACO_ALERT_L"
       },
-      "page": [38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 58]
+      "page": [
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        58
+      ],
+      "components": [
+        "U8100",
+        "JM8170",
+        "U7700",
+        "U9300",
+        "Monaco VR"
+      ],
+      "input_rails": [
+        "PP3V8_AON"
+      ],
+      "output_rails": [
+        "PPVDD_PCPU0_AWAKESW",
+        "PPVDD_ECPU_AWAKE",
+        "PPVDD_GPU0_AWAKESW",
+        "PPVDD_SOC_S1",
+        "PPVDD_DCS_S1"
+      ]
     },
     {
       "stage": 6,
@@ -172,14 +484,64 @@
         }
       ],
       "load_switches": [
-        {"input": "PP5V_S2", "output": "PP5V_S2SW_USBC01", "load": "Left USB-C ports", "page": 80},
-        {"input": "PP5V_S2", "output": "PP5V_S2SW_USBC23", "load": "Right USB-C + HDMI", "page": 88},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2SW_USBC0", "load": "ATC0", "page": 80},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2SW_USBC1", "load": "ATC1", "page": 80},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2SW_USBC2", "load": "ATC2", "page": 88},
-        {"input": "PP3V3_S2", "output": "PP3V3_S2_IPD", "load": "IPD subsystem", "page": 142},
-        {"input": "PPBUS_AON", "output": "PPBUS_NAND0", "load": "SSD0 via Ocarina", "page": 106},
-        {"input": "PPBUS_AON", "output": "PPBUS_NAND1", "load": "SSD1 via Ocarina", "page": 111}
+        {
+          "input": "PP5V_S2",
+          "output": "PP5V_S2SW_USBC01",
+          "load": "Left USB-C ports",
+          "page": 80
+        },
+        {
+          "input": "PP5V_S2",
+          "output": "PP5V_S2SW_USBC23",
+          "load": "Right USB-C + HDMI",
+          "page": 88
+        },
+        {
+          "input": "PP3V3_S2",
+          "output": "PP3V3_S2SW_USBC0",
+          "load": "ATC0",
+          "page": 80
+        },
+        {
+          "input": "PP3V3_S2",
+          "output": "PP3V3_S2SW_USBC1",
+          "load": "ATC1",
+          "page": 80
+        },
+        {
+          "input": "PP3V3_S2",
+          "output": "PP3V3_S2SW_USBC2",
+          "load": "ATC2",
+          "page": 88
+        },
+        {
+          "input": "PP3V3_S2",
+          "output": "PP3V3_S2_IPD",
+          "load": "IPD subsystem",
+          "page": 142
+        },
+        {
+          "input": "PPBUS_AON",
+          "output": "PPBUS_NAND0",
+          "load": "SSD0 via Ocarina",
+          "page": 106
+        },
+        {
+          "input": "PPBUS_AON",
+          "output": "PPBUS_NAND1",
+          "load": "SSD1 via Ocarina",
+          "page": 111
+        }
+      ],
+      "components": [
+        "TPS62130"
+      ],
+      "input_rails": [
+        "PPBUS_AON"
+      ],
+      "output_rails": [
+        "PP5V_S2",
+        "PP3V3_S2"
       ]
     },
     {
@@ -187,25 +549,152 @@
       "name": "SoC Power Domains",
       "description": "Final rails reaching SoC U6000 (M1 Pro/Max). CTO has more GPU domains via extended Monaco (C2, C3) and Viper (3 stages). Max variant has dual CPU/GPU clusters.",
       "domains": [
-        {"domain": "PCPU cluster 0", "rail": "PPVDD_PCPU0_AWAKESW", "source": "Viper VR (U9300)", "page": 15},
-        {"domain": "PCPU cluster 1 (Max)", "rail": "PPVDD_PCPU1_AWAKESW", "source": "Viper VR (U9300)", "bom": "Max only", "page": 15},
-        {"domain": "PCPU SRAM 0", "rail": "PPVDD_PCPU_SRAM0_AWAKESW", "source": "Viper VR (U9300)", "page": 16},
-        {"domain": "ECPU", "rail": "PPVDD_ECPU_AWAKE", "source": "MPMU BUCK 5", "page": 15},
-        {"domain": "GPU cluster 0", "rail": "PPVDD_GPU0_AWAKESW", "source": "Monaco VR (via MPMU BUCK 1)", "page": 15},
-        {"domain": "GPU cluster 1 (Max)", "rail": "PPVDD_GPU1_AWAKESW", "source": "Monaco VR", "bom": "Max only", "page": 15},
-        {"domain": "GPU AGXS", "rail": "PPVDD_AGXS_ABMCCN", "source": "Monaco0 BUCK 6", "page": 143},
-        {"domain": "Display", "rail": "PPVDD_DISP_AWAKESW", "source": "MPMU BUCK 2", "page": 16},
-        {"domain": "DCS", "rail": "PPVDD_DCS_S1", "source": "MPMU BUCK 8", "page": 16},
-        {"domain": "SRAM", "rail": "PP0V81_S1_SRAM", "source": "SPMU BUCK 0", "page": [16, 39]},
-        {"domain": "Neural Engine", "rail": "PPVDD_ANE0_AWAKESW", "source": "MPMU BUCK 4", "page": 19},
-        {"domain": "Fabric", "rail": "PPVDD_FABRIC_S1", "source": "MPMU BUCK 9", "page": 20},
-        {"domain": "Fixed", "rail": "PPVDD_FIXED_S1", "source": "MPMU BUCK 10", "page": 20},
-        {"domain": "VDD_LOW", "rail": "PP0V72_S2_VDDLOW", "source": "SPMU BUCK 13", "page": 145},
-        {"domain": "CIO", "rail": "PP0V855_S2SW_VDDCIO", "source": "SPMU BUCK 18", "page": 19},
-        {"domain": "Memory AMPH0/1", "rails": ["PPVDD_AMPH0_S2SW", "PPVDD_AMPH1_S2SW"], "source": "MPMU BUCK 6", "page": 144},
-        {"domain": "Memory VDDQ", "rails": ["PP0V575_S1_VDDQ0", "PP0V575_S1_VDDQ1"], "source": "MPMU BUCK 8", "page": 18},
-        {"domain": "VDD2H0/1", "rails": ["PPVDD2H0_S2SW", "PPVDD2H1_S2SW"], "source": "MPMU BUCK 9", "page": [22, 23]},
-        {"domain": "CLVR", "rails": ["PP0V8_S2_CLVR_VDDDIG", "PP1V8_S1_CLVR_VDDH"], "source": "SPMU BUCK 14/17", "page": 145}
+        {
+          "domain": "PCPU cluster 0",
+          "rail": "PPVDD_PCPU0_AWAKESW",
+          "source": "Viper VR (U9300)",
+          "page": 15
+        },
+        {
+          "domain": "PCPU cluster 1 (Max)",
+          "rail": "PPVDD_PCPU1_AWAKESW",
+          "source": "Viper VR (U9300)",
+          "bom": "Max only",
+          "page": 15
+        },
+        {
+          "domain": "PCPU SRAM 0",
+          "rail": "PPVDD_PCPU_SRAM0_AWAKESW",
+          "source": "Viper VR (U9300)",
+          "page": 16
+        },
+        {
+          "domain": "ECPU",
+          "rail": "PPVDD_ECPU_AWAKE",
+          "source": "MPMU BUCK 5",
+          "page": 15
+        },
+        {
+          "domain": "GPU cluster 0",
+          "rail": "PPVDD_GPU0_AWAKESW",
+          "source": "Monaco VR (via MPMU BUCK 1)",
+          "page": 15
+        },
+        {
+          "domain": "GPU cluster 1 (Max)",
+          "rail": "PPVDD_GPU1_AWAKESW",
+          "source": "Monaco VR",
+          "bom": "Max only",
+          "page": 15
+        },
+        {
+          "domain": "GPU AGXS",
+          "rail": "PPVDD_AGXS_ABMCCN",
+          "source": "Monaco0 BUCK 6",
+          "page": 143
+        },
+        {
+          "domain": "Display",
+          "rail": "PPVDD_DISP_AWAKESW",
+          "source": "MPMU BUCK 2",
+          "page": 16
+        },
+        {
+          "domain": "DCS",
+          "rail": "PPVDD_DCS_S1",
+          "source": "MPMU BUCK 8",
+          "page": 16
+        },
+        {
+          "domain": "SRAM",
+          "rail": "PP0V81_S1_SRAM",
+          "source": "SPMU BUCK 0",
+          "page": [
+            16,
+            39
+          ]
+        },
+        {
+          "domain": "Neural Engine",
+          "rail": "PPVDD_ANE0_AWAKESW",
+          "source": "MPMU BUCK 4",
+          "page": 19
+        },
+        {
+          "domain": "Fabric",
+          "rail": "PPVDD_FABRIC_S1",
+          "source": "MPMU BUCK 9",
+          "page": 20
+        },
+        {
+          "domain": "Fixed",
+          "rail": "PPVDD_FIXED_S1",
+          "source": "MPMU BUCK 10",
+          "page": 20
+        },
+        {
+          "domain": "VDD_LOW",
+          "rail": "PP0V72_S2_VDDLOW",
+          "source": "SPMU BUCK 13",
+          "page": 145
+        },
+        {
+          "domain": "CIO",
+          "rail": "PP0V855_S2SW_VDDCIO",
+          "source": "SPMU BUCK 18",
+          "page": 19
+        },
+        {
+          "domain": "Memory AMPH0/1",
+          "rails": [
+            "PPVDD_AMPH0_S2SW",
+            "PPVDD_AMPH1_S2SW"
+          ],
+          "source": "MPMU BUCK 6",
+          "page": 144
+        },
+        {
+          "domain": "Memory VDDQ",
+          "rails": [
+            "PP0V575_S1_VDDQ0",
+            "PP0V575_S1_VDDQ1"
+          ],
+          "source": "MPMU BUCK 8",
+          "page": 18
+        },
+        {
+          "domain": "VDD2H0/1",
+          "rails": [
+            "PPVDD2H0_S2SW",
+            "PPVDD2H1_S2SW"
+          ],
+          "source": "MPMU BUCK 9",
+          "page": [
+            22,
+            23
+          ]
+        },
+        {
+          "domain": "CLVR",
+          "rails": [
+            "PP0V8_S2_CLVR_VDDDIG",
+            "PP1V8_S1_CLVR_VDDH"
+          ],
+          "source": "SPMU BUCK 14/17",
+          "page": 145
+        }
+      ],
+      "components": [
+        "U6000"
+      ],
+      "input_rails": [
+        "PPVDD_PCPU0_AWAKESW",
+        "PPVDD_ECPU_AWAKE",
+        "PPVDD_SOC_S1",
+        "PP0V72_S2_VDDLOW"
+      ],
+      "output_rails": [
+        "SoC power pins"
       ]
     }
   ]

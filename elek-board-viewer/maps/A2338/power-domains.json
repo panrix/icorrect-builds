@@ -2,81 +2,36 @@
   "board": "A2338",
   "schematic": "820-02020",
   "description": "All rails grouped by power state. AON = always on with battery, S2 = standby, S1 = light sleep, AWAKE = fully on.",
-  "domains": {
-    "G3H": {
+  "domains": [
+    {
+      "name": "G3H",
       "description": "Present whenever AC power connected via USB-C (pre-charger)",
-      "rails": [
-        {"name": "PPVBUS_USBC0", "voltage": "5V/20V", "source": "UF400 (CD3217)"},
-        {"name": "PPVBUS_USBC1", "voltage": "5V/20V", "source": "UF500 (CD3217)"},
-        {"name": "PPOCIN_USBC_AON", "voltage": "5-20V", "source": "Fused via FF201"},
-        {"name": "PPDCIN_AON_CHGR_R", "voltage": "5-20V", "source": "Charger input"}
-      ]
+      "rails": ["PPVBUS_USBC0", "PPVBUS_USBC1", "PPOCIN_USBC_AON", "PPDCIN_AON_CHGR_R"],
+      "pmu": "None — charger input stage"
     },
-    "AON": {
-      "description": "Always on when battery or charger connected",
-      "rails": [
-        {"name": "PPVBAT_AON", "voltage": "~12.6V", "source": "Battery via J5150"},
-        {"name": "PPBUS_AON", "voltage": "12.6V", "source": "Charger IC U5200 / Battery"},
-        {"name": "PP3V8_AON", "voltage": "3.8V", "source": "U5700 (SVR AON, 30A)"},
-        {"name": "PP3V3_AON", "voltage": "3.3V", "source": "UC100 (LP5907UVX-3.3)"},
-        {"name": "PP1V8_AON", "voltage": "1.8V", "source": "UC120 (LP5907UVX-1.8)"},
-        {"name": "PP1V5_VLDOINT_MPMU", "voltage": "1.05V", "source": "MPMU LDOINT"},
-        {"name": "PP3V8_LDO5", "voltage": "3.8V", "source": "MPMU LDO 5 (internal use)"},
-        {"name": "PP3V8_ANA_MPMU", "voltage": "3.8V", "source": "MPMU LDO 9 (internal use)"}
-      ]
+    {
+      "name": "AON",
+      "description": "Always on when battery or charger connected. Stays up in all sleep states.",
+      "rails": ["PPVBAT_AON", "PPBUS_AON", "PP3V8_AON", "PP3V3_AON", "PP1V8_AON", "PP1V5_VLDOINT_MPMU", "PP1V8_AON_MPMU", "PP1V8_AON_SPMU", "PP3V8_ANA_MPMU", "NC_MPMU_VLDO5"],
+      "pmu": "U5700 SVR AON, UC100, UC120, MPMU/SPMU internal LDOs"
     },
-    "S2": {
+    {
+      "name": "S2",
       "description": "System sleep / standby. Memory retention, peripherals powered.",
-      "rails": [
-        {"name": "PP5V_S2", "voltage": "5.15V", "source": "UC300 (LT8642S)"},
-        {"name": "PP3V3_S2", "voltage": "3.3V", "source": "UC710 (SN621371)"},
-        {"name": "PP1V8_S2", "voltage": "1.8V", "source": "MPMU BUCK 3"},
-        {"name": "PP1V25_S2", "voltage": "1.25V", "source": "SPMU BUCK 13"},
-        {"name": "PP1V2_S2", "voltage": "1.2V", "source": "MPMU LDO 3"},
-        {"name": "PP1V2_S2_CIO", "voltage": "1.2V", "source": "SPMU LDO 20"},
-        {"name": "PP0V72_S2_VDD_LOW", "voltage": "0.72V", "source": "SPMU LDO 4"},
-        {"name": "PPVDS5_S2M_CIO", "voltage": "0.855V", "source": "SPMU LDO 11"},
-        {"name": "PPVDS_S2M_DRAM", "voltage": "Variable", "source": "SPMU BUCK 4"},
-        {"name": "PP3V3_S2SW_SNS", "voltage": "3.3V", "source": "UC810 load switch"},
-        {"name": "PP1V8_S2SW_VDD1", "voltage": "1.8V", "source": "UC820 load switch"},
-        {"name": "PP3V3_S2_TPAD", "voltage": "3.3V", "source": "UT305 LDO"},
-        {"name": "PP1V85_S2_IPD", "voltage": "1.85V", "source": "UT300 LDO"},
-        {"name": "PP1V85_S2_KBD_ISNS", "voltage": "1.85V", "source": "From IPD LDO"}
-      ]
+      "rails": ["PP5V_S2", "PP3V3_S2", "PP1V8_S2", "PP1V25_S2", "PP1V2_S2", "PP1V2_S2_CIO", "PP0V72_S2_VDD_LOW", "PPVDS5_S2M_CIO", "PPVDS_S2M_DRAM", "PP3V3_S2SW_SNS", "PP1V8_S2SW_VDD1", "PP3V3_S2_TPAD", "PP1V85_S2_IPD", "PP1V85_S2_KBD_ISNS", "PP3V3_S2SW_USB0", "PP3V3_S2SW_USB1"],
+      "pmu": "SPMU BUCK 4/13, MPMU BUCK 3/LDO3, SPMU LDO 4/11/20, UC300, UC710, UC810, UC820"
     },
-    "S1": {
+    {
+      "name": "S1",
       "description": "Light sleep. Core SoC domains retained at low voltage.",
-      "rails": [
-        {"name": "PP0V764_S1_SRAM", "voltage": "0.764V", "source": "SPMU BUCK 5"},
-        {"name": "PP0V805_S1_VDD_FIXED", "voltage": "0.805V", "source": "SPMU LDO 12"},
-        {"name": "PPVDD_SOC_S1", "voltage": "Variable", "source": "MPMU BUCK 2"},
-        {"name": "PPVDD_DCS_S1", "voltage": "Variable", "source": "MPMU BUCK 9"},
-        {"name": "PPVDD_DISP_S1", "voltage": "Variable", "source": "MPMU BUCK 8"},
-        {"name": "PPVDS_S1_VDDOL", "voltage": "Variable", "source": "SPMU BUCK 10"}
-      ]
+      "rails": ["PP0V764_S1_SRAM", "PP0V805_S1_VDD_FIXED", "PPVDD_SOC_S1", "PPVDD_DCS_S1", "PPVDD_DISP_S1", "PPVDS_S1_VDDOL"],
+      "pmu": "SPMU BUCK 5/10, SPMU LDO 12, MPMU BUCK 2/8/9"
     },
-    "S0_AWAKE": {
+    {
+      "name": "S0_AWAKE",
       "description": "Fully awake. SoC running, display on, all dynamic domains active.",
-      "signal": "PMU_ACTIVE_READY",
-      "rails": [
-        {"name": "PPVDD_PCPU_AWAKE", "voltage": "Variable DVFS", "source": "MPMU BUCK 0"},
-        {"name": "PPVDD_GPU_AWAKE", "voltage": "Variable DVFS", "source": "MPMU BUCK 1"},
-        {"name": "PPVDD_CPU_SRAM_AWAKE", "voltage": "Variable DVFS", "source": "MPMU BUCK 7"},
-        {"name": "PPVDD_ECPU_AWAKE", "voltage": "Variable DVFS", "source": "MPMU BUCK 11 + SPMU BUCK 12"},
-        {"name": "PP1V8_AWAKE", "voltage": "1.8V", "source": "MPMU BUCK 3 SW1"},
-        {"name": "PP1V25_AWAKE_IO", "voltage": "1.25V", "source": "SPMU BUCK 13 SW3"},
-        {"name": "PP1V2_MAME_PLL", "voltage": "1.2V", "source": "SPMU BUCK 14 / LDO 8"},
-        {"name": "PP2V5_AWAKE_NAND", "voltage": "2.5V", "source": "SPMU BUCK 6"},
-        {"name": "PP1V25_AWAKE5W_VCCQ", "voltage": "1.25V", "source": "SPMU BUCK 13 SW5"},
-        {"name": "PP0V88_AWAKE5W_NAND", "voltage": "0.88V", "source": "SPMU BUCK 12 SW6"},
-        {"name": "PPVDS_MAME5W_NAND", "voltage": "Variable", "source": "SPMU BUCK 12 SW7"},
-        {"name": "PP1V8_AWAKE_DFR", "voltage": "1.8V", "source": "UT700 LDO"},
-        {"name": "PP3V3_AWAKE_DFR", "voltage": "3.3V", "source": "UT710 LDO"},
-        {"name": "PPVOUT_LCDBKLT", "voltage": "Variable", "source": "UP800 (BEN boost)"},
-        {"name": "PPVOUT_KBDLED", "voltage": "Variable", "source": "UP800 (BEN KBD output)"},
-        {"name": "PP5V_SW_LCD", "voltage": "5V", "source": "UP701 sequencer"},
-        {"name": "PP3V3_SW_LCD", "voltage": "3.3V", "source": "UP701 sequencer"}
-      ]
+      "rails": ["PPVDD_PCPU_AWAKE", "PPVDD_GPU_AWAKE", "PPVDD_CPU_SRAM_AWAKE", "PPVDD_ECPU_AWAKE", "PP1V8_AWAKE", "PP1V25_AWAKE_IO", "PP1V2_MAME_PLL", "PP2V5_AWAKE_NAND", "PP1V25_AWAKE5W_VCCQ", "PP0V88_AWAKE5W_NAND", "PPVDS_MAME5W_NAND", "PP1V8_AWAKE_DFR", "PP3V3_AWAKE_DFR", "PPVOUT_LCDBKLT", "PPVOUT_KBDLED", "PP5V_SW_LCD", "PP3V3_SW_LCD"],
+      "pmu": "MPMU BUCK 0/1/7/11, SPMU BUCK 6/12/13/14, MPMU BUCK 3 SW1, SPMU BUCK 13 SW3/SW5"
     }
-  }
+  ]
 }

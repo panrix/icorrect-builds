@@ -1,149 +1,549 @@
 {
   "board": "A2338",
   "schematic": "820-02020",
-  "extraction_notes": "Complete rail extraction from Power Aliases pages 100-104, SPMU pages 28-31, MPMU pages 32-35, and standalone regulator pages 36-40. Every rail traced to exact PMU buck/LDO source. NC LDOs explicitly marked.",
-  "WARNING": "This is A2338 (MBP 13\" M1, 820-02020) — NOT A2681 (MBA M2). Do NOT mix up rail names. M1 uses different PMU silicon (TNL T4741/T4600) vs M2 PMUs. This board has NO MagSafe — USB-C charging only. Has DFR (Touch Bar) rails not present on Air models.",
-  "spmu_u7700": {
-    "input": "PP3V8_AON",
-    "part_number": "998-22526 / TNL T4741-JPE",
-    "bucks": [
-      {"buck": "BUCK 4", "output": "PPVDS_S2M_DRAM", "voltage": "Variable", "state": "S2", "load": "DRAM", "page": 28},
-      {"buck": "BUCK 5", "output": "PP0V764_S1_SRAM", "voltage": "0.764V", "state": "S1", "load": "SoC SRAM retention", "page": 28},
-      {"buck": "BUCK 6", "output": "PP2V5_AWAKE_NAND", "voltage": "2.5V", "state": "AWAKE", "load": "NAND flash power", "page": [28, 100]},
-      {"buck": "BUCK 7", "output": "PP1V8_S2 (via UC820 switch)", "voltage": "1.8V", "state": "S2", "load": "Gated through PP1V8_S2SW_VDD1", "page": 40, "note": "SPMU BUCK 7 is not a direct output — it feeds the UC820 switch"},
-      {"buck": "BUCK 10", "output": "PPVDS_S1_VDDOL", "voltage": "Variable", "state": "S1", "load": "SoC VDDOL", "page": 28},
-      {"buck": "BUCK 12", "output": "PPVDD_ECPU_AWAKE", "voltage": "Variable DVFS", "state": "AWAKE", "load": "SoC ECPU (secondary phase)", "page": [28, 100]},
-      {"buck": "BUCK 12 SW6", "output": "PP0V88_AWAKE5W_NAND", "voltage": "0.88V", "state": "AWAKE", "load": "NAND VDD", "page": 28},
-      {"buck": "BUCK 12 SW7", "output": "PPVDS_MAME5W_NAND", "voltage": "Variable", "state": "AWAKE", "load": "NAND VCC", "page": 28},
-      {"buck": "BUCK 13", "output": "PP1V25_S2", "voltage": "1.25V", "state": "S2", "load": "USB-C controllers, level shifters, SE", "page": [28, 100, 101]},
-      {"buck": "BUCK 13 SW3", "output": "PP1V25_AWAKE_IO", "voltage": "1.25V", "state": "AWAKE", "load": "SoC IO, SPI ROM level shifters, NAND MAME IO", "page": [101, 100]},
-      {"buck": "BUCK 13 SW5", "output": "PP1V25_AWAKE5W_VCCQ", "voltage": "1.25V", "state": "AWAKE", "load": "NAND VCCQ", "page": 101},
-      {"buck": "BUCK 14", "output": "PP1V2_MAME_PLL", "voltage": "1.2V", "state": "AWAKE", "load": "SoC PLL", "page": [28, 101]}
-    ],
-    "ldos": [
-      {"ldo": "LDO 4", "output": "PP0V72_S2_VDD_LOW", "voltage": "0.72V", "state": "S2", "load": "SoC VDD_LOW domain", "page": [29, 102]},
-      {"ldo": "LDO 5", "output": "NC_SPMU_VLDO5", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 101},
-      {"ldo": "LDO 6", "output": "NC_SPMU_VLDO6", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 101},
-      {"ldo": "LDO 8", "output": "PP1V2_MAME_PLL", "voltage": "1.2V", "state": "AWAKE", "load": "SoC PLL (shared alias with BUCK 14)", "page": 101},
-      {"ldo": "LDO 9", "output": "NC_SPMU_VLDO9", "voltage": "NC", "state": "NC", "load": "Not to be used to source power to other devices", "page": 101},
-      {"ldo": "LDO 10", "output": "NC_SPMU_VLDO10", "voltage": "NC", "state": "NC", "load": "Not connected, NC_MPMU_VLD010", "page": 101},
-      {"ldo": "LDO 11", "output": "PPVDS5_S2M_CIO", "voltage": "0.855V", "state": "S2", "load": "SoC CIO / USB-C CIO", "page": [29, 101]},
-      {"ldo": "LDO 12", "output": "PP0V805_S1_VDD_FIXED", "voltage": "0.805V", "state": "S1", "load": "SoC VDD_FIXED domain", "page": [29, 102]},
-      {"ldo": "LDO 15", "output": "NC_SPMU_VLD015", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 102},
-      {"ldo": "LDO 17", "output": "NC_SPMU_VLD017", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 102},
-      {"ldo": "LDO 18", "output": "NC_SPMU_VLD018", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 102},
-      {"ldo": "LDO 20", "output": "PP1V2_S2_CIO", "voltage": "1.2V", "state": "S2", "load": "CIO I/O domain", "page": 102}
-    ],
-    "switches": [
-      {"switch": "SW4", "output": "PP3V8_AON_SPMU_ISOG_VIN (SPMU BUCK 3 SW4)", "note": "Not used externally, SPMU GPIOS only", "page": 101},
-      {"switch": "SW5", "output": "PP1V25_AWAKE5W_VCCQ (SPMU BUCK 13 SW5)", "page": 101},
-      {"switch": "SW6", "output": "PP0V88_AWAKE5W_NAND (SPMU BUCK 12 SW6)", "page": 100},
-      {"switch": "SW7", "output": "PPVDS_MAME5W_NAND (SPMU BUCK 12 SW7)", "page": 100}
-    ],
-    "boost": {"output": "PP3V8_SPMU_BSTLQ (via SPMU VCP_OUT_SPARE)", "voltage": "3.8V", "state": "AWAKE", "page": 29},
-    "nc_ldos": ["LDO 5", "LDO 6", "LDO 9", "LDO 10", "LDO 15", "LDO 17", "LDO 18"],
-    "page": [28, 29, 30, 31]
-  },
-  "mpmu_u8100": {
-    "input": "PP3V8_AON (VODMAN)",
-    "part_number": "998-22608 / TNL T4600-JPE",
-    "bucks": [
-      {"buck": "BUCK 0", "output": "PPVDD_PCPU_AWAKE", "voltage": "Variable DVFS", "state": "AWAKE", "load": "SoC Performance CPU", "page": [32, 100]},
-      {"buck": "BUCK 1", "output": "PPVDD_GPU_AWAKE", "voltage": "Variable DVFS", "state": "AWAKE", "load": "SoC GPU", "page": [32, 100]},
-      {"buck": "BUCK 2", "output": "PPVDD_SOC_S1", "voltage": "Variable", "state": "S1", "load": "SoC main S1 domain", "page": [33, 100]},
-      {"buck": "BUCK 3", "output": "PP1V8_S2", "voltage": "1.8V", "state": "S2", "load": "1.8V S2 domain peripherals", "page": [33, 100]},
-      {"buck": "BUCK 3 SW1", "output": "PP1V8_AWAKE", "voltage": "1.8V", "state": "AWAKE", "load": "1.8V awake peripherals, motion sensor, level shifters", "page": 101},
-      {"buck": "BUCK 3 SW2", "output": "NOT USED", "voltage": "NC", "state": "NC", "page": 101},
-      {"buck": "BUCK 7", "output": "PPVDD_CPU_SRAM_AWAKE", "voltage": "Variable DVFS", "state": "AWAKE", "load": "SoC CPU SRAM", "page": [33, 100]},
-      {"buck": "BUCK 8", "output": "PPVDD_DISP_S1", "voltage": "Variable", "state": "S1", "load": "SoC display domain", "page": [33, 100]},
-      {"buck": "BUCK 9", "output": "PPVDD_DCS_S1", "voltage": "Variable", "state": "S1", "load": "SoC DCS memory controller", "page": [33, 100]},
-      {"buck": "BUCK 11", "output": "PPVDD_ECPU_AWAKE", "voltage": "Variable DVFS", "state": "AWAKE", "load": "SoC Efficiency CPU (primary phase)", "page": [33, 100]},
-      {"buck": "BUCK 14", "output": "PP1V2_LDO_PREREG", "voltage": "1.2V", "state": "AWAKE", "load": "LDO pre-regulator for LDO3/8/20", "page": [35, 101]}
-    ],
-    "ldos": [
-      {"ldo": "LDO 1", "output": "MPMU LDO 1 (SPMU BUCK 12 SW7 tied)", "voltage": "Variable", "state": "AWAKE", "load": "Tied to SW7", "page": 101},
-      {"ldo": "LDO 2", "output": "NOT USED", "voltage": "NC", "state": "NC", "page": 101},
-      {"ldo": "LDO 3", "output": "PP1V2_S2", "voltage": "1.2V", "state": "S2", "load": "1.2V S2 domain", "page": 101},
-      {"ldo": "LDO 5", "output": "PP3V8_LDO5 (NC_MPMU_VLDO5)", "voltage": "3.8V", "state": "AON", "load": "Not to be used to source power", "page": [100, 101]},
-      {"ldo": "LDO 7", "output": "MPMU LDO 7 — PP1V2_S2_UPC", "voltage": "1.2V", "state": "S2", "load": "Integrator alias to 1V8 SCHEMATA", "page": 101},
-      {"ldo": "LDO 9", "output": "PP3V8_ANA_MPMU (MPMU LDO 9)", "voltage": "3.8V", "state": "AON", "load": "Not to be used to source power to other devices", "page": 101},
-      {"ldo": "LDO 13", "output": "NC_MPMU_VLD013", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 102},
-      {"ldo": "LDO 14", "output": "NC_MPMU_VLD014", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 102},
-      {"ldo": "LDO 16", "output": "NC_MPMU_VLD016", "voltage": "NC", "state": "NC", "load": "Not connected", "page": 102},
-      {"ldo": "LDO 19", "output": "NOT USED", "voltage": "NC", "state": "NC", "page": 102},
-      {"ldo": "LDOINT", "output": "PP1V5_VLDOINT_MPMU", "voltage": "1.05V", "state": "AON", "load": "MPMU internal, VLDORTC shorted to VDD_ANA for portables", "page": 35}
-    ],
-    "nc_ldos": ["LDO 2", "LDO 13", "LDO 14", "LDO 16", "LDO 19"],
-    "control_signals": {
-      "ready": "PMU_ACTIVE_READY",
-      "fault": "MPMU_FAULT_OUT_L",
-      "reset": "PMU_RESET_L",
-      "force_dfu": "SOC_FORCE_DFU",
-      "charger_reset": "CHGR_RST_IN (via U8440)",
-      "scrash": "PMU_SCRASH_L",
-      "crash": "PMU_CRASH_L",
-      "sys_alive": "PMU_SYS_ALIVE"
-    },
-    "page": [32, 33, 34, 35]
-  },
-  "standalone_regulators": [
+  "extraction_notes": "Complete rail extraction verified against schematic PNGs (pages 21-22, 25, 28-29, 32-34, 36-40, 55, 57-58, 100-103). Every PP-prefixed rail confirmed against power alias pages 100-104. M1 SoC (TML R6A0-B09). No MagSafe — USB-C charging only. Has DFR (Touch Bar).",
+  "rails": [
+    {"section": "=== USB-C / CHARGER INPUT ==="},
     {
-      "designator": "UC100",
-      "input": "PP3V8_AON",
-      "output": "PP3V3_AON",
+      "name": "PPVBUS_USBC0",
+      "voltage": "5V (initial) / 20V (after PD)",
+      "state": "G3H",
+      "source": "UF400 (CD3217B12KE ATC0)",
+      "description": "USB-C VBUS port 0 — left rear, debug port. Main power input.",
+      "page": [57, 59]
+    },
+    {
+      "name": "PPVBUS_USBC1",
+      "voltage": "5V / 20V",
+      "state": "G3H",
+      "source": "UF500 (CD3217B12KE ATC1)",
+      "description": "USB-C VBUS port 1 — left front, non-debug port.",
+      "page": [58, 59]
+    },
+    {
+      "name": "PPOCIN_USBC_AON",
+      "voltage": "5V-20V (follows VBUS)",
+      "state": "G3H",
+      "source": "Fused via FF200 (6A-32V) from PPVBUS",
+      "description": "Charger input rail — fused VBUS path to charger IC U5200.",
+      "page": 55
+    },
+
+    {"section": "=== MAIN BUS ==="},
+    {
+      "name": "PPVBAT_AON",
+      "voltage": "~12.6V (3S Li-ion)",
+      "state": "AON",
+      "source": "Battery via J5150 solder pads",
+      "description": "Battery voltage rail. BMU flex SOLDERED to MLB (not socketed).",
+      "page": [21, 100]
+    },
+    {
+      "name": "PPBUS_AON",
+      "voltage": "12.6V (battery) / ~5V (adapter, pre-PD)",
+      "state": "AON",
+      "source": "U5200 (Suona B379 charger IC, 353S01525) / Battery",
+      "description": "Main system power bus — feeds U5700 SVR AON, UC300 (5V), UC710 (3V3), load switches, BEN backlight.",
+      "page": [22, 100]
+    },
+
+    {"section": "=== 3V8 AON (SVR AON / U5700) ==="},
+    {
+      "name": "PP3V8_AON",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "U5700 (SVR AON, 353502326, 30A ICC MAX)",
+      "enable": "P3V8AON_PWR_EN (delayed by U5340)",
+      "description": "3.8V always-on master rail — input to SPMU (U7700) and MPMU (U8100) and external LDOs.",
+      "page": [25, 26, 27, 100]
+    },
+
+    {"section": "=== EXTERNAL AON LDOs ==="},
+    {
+      "name": "PP3V3_AON",
       "voltage": "3.3V",
-      "type": "LDO",
-      "enable": "P3V3_AON_EN (from PP1V8_AON_MPMU)",
+      "state": "AON",
+      "source": "UC100 (353S3698, LP5907UVX-3.3, 250mA)",
+      "enable": "P3V3_AON_EN (from PP1V8_AON_MPMU via RC100)",
+      "description": "3.3V always-on LDO from PP3V8_AON.",
       "page": [36, 103]
     },
     {
-      "designator": "UC120",
-      "input": "PP3V8_AON",
-      "output": "PP1V8_AON",
+      "name": "PP1V8_AON",
       "voltage": "1.8V",
-      "type": "LDO",
-      "enable": "P1V8_AON_EN (from PP1V8_AON_MPMU)",
+      "state": "AON",
+      "source": "UC120 (353S4262, LP5907UVX-1.8, 250mA)",
+      "enable": "P1V8_AON_EN (from PP1V8_AON_MPMU via RC120)",
+      "description": "1.8V always-on LDO from PP3V8_AON.",
       "page": [36, 103]
     },
+
+    {"section": "=== STANDALONE BUCK CONVERTERS ==="},
     {
-      "designator": "UC300",
-      "input": "PPBUS_AON",
-      "output": "PP5V_S2",
+      "name": "PP5V_S2",
       "voltage": "5.15V",
-      "type": "Buck",
-      "frequency": "1.5MHz",
+      "state": "S2",
+      "source": "UC300 (LT8642S, EDC=6.6A, F=1.5MHz)",
       "enable": "P5VS2_PWR_EN",
-      "edc": "6.6A",
-      "page": [37, 103]
+      "description": "5V S2 buck from PPBUS_AON. Start up <15ms. Feeds USB-C controllers, fan, peripherals.",
+      "page": [37, 38, 103]
     },
     {
-      "designator": "UC710",
-      "input": "PPBUS_AON",
-      "output": "PP3V3_S2",
+      "name": "PP3V3_S2",
       "voltage": "3.3V",
-      "type": "Buck",
-      "frequency": "1.5MHz",
+      "state": "S2",
+      "source": "UC710 (SN621371, 353S02228, EDC=2.5A, F=1.5MHz)",
       "enable": "P3V3S2_PWR_EN",
-      "edc": "2.5A",
-      "page": [39, 103]
+      "description": "3.3V S2 buck from PPBUS_AON. Start up <5ms.",
+      "page": [39, 38, 103]
     },
+
+    {"section": "=== LOAD SWITCHES ==="},
     {
-      "designator": "UC810",
-      "input": "PP3V3_S2",
-      "output": "PP3V3_S2SW_SNS",
+      "name": "PP3V3_S2SW_SNS",
       "voltage": "3.3V",
-      "type": "Load switch",
+      "state": "S2",
+      "source": "UC810 (SLG5AP1445V, 353S00764) from PP3V3_S2",
       "enable": "SENSOR_PWR_EN",
+      "description": "3.3V sensor switch — gates sensor power from PP3V3_S2.",
       "page": [40, 103]
     },
     {
-      "designator": "UC820",
-      "input": "PP3V8_AON",
-      "output": "PP1V8_S2 / PP1V8_S2SW_VDD1",
+      "name": "PP1V8_S2SW_VDD1",
       "voltage": "1.8V",
-      "type": "Load switch",
+      "state": "S2",
+      "source": "UC820 (SLG5AP1445V, 353S00764) from PP3V8_AON",
       "enable": "PVDD1_PWR_EN",
+      "description": "1.8V S2 switch. Note: title on schematic says 'FROM J213 1V8 G3S'.",
       "page": [40, 103]
+    },
+
+    {"section": "=== SPMU U7700 — BUCKS (998-22526, TNL T4741-JPE) ==="},
+    {
+      "name": "PPVDS_S2M_DRAM",
+      "voltage": "Variable",
+      "state": "S2",
+      "source": "U7700 SPMU BUCK 4",
+      "description": "DRAM power rail — variable voltage for LPDDR4X on-package.",
+      "page": [28, 100]
+    },
+    {
+      "name": "PP0V764_S1_SRAM",
+      "voltage": "0.764V",
+      "state": "S1",
+      "source": "U7700 SPMU BUCK 5",
+      "description": "SoC SRAM retention rail.",
+      "page": [28, 100]
+    },
+    {
+      "name": "PP2V5_AWAKE_NAND",
+      "voltage": "2.5V",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 6",
+      "description": "NAND flash power (VCC for NAND packages).",
+      "page": [28, 100]
+    },
+    {
+      "name": "PPVDS_S1_VDDOL",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "U7700 SPMU BUCK 10",
+      "description": "SoC VDDOL domain.",
+      "page": [28, 100]
+    },
+    {
+      "name": "PPVDD_ECPU_AWAKE",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 12 (secondary phase) + U8100 MPMU BUCK 11 (primary phase)",
+      "description": "SoC ECPU — dual-phase from MPMU BUCK 11 + SPMU BUCK 12.",
+      "page": [28, 33, 100]
+    },
+    {
+      "name": "PP0V88_AWAKE5W_NAND",
+      "voltage": "0.88V",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 12 SW6",
+      "description": "NAND VDD rail.",
+      "page": [28, 101]
+    },
+    {
+      "name": "PPVDS_MAME5W_NAND",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 12 SW7 (TIED TO SW6 per page 101)",
+      "description": "NAND VCC rail. SW7 is tied to SW6 on this board.",
+      "page": [28, 101]
+    },
+    {
+      "name": "PP1V25_S2",
+      "voltage": "1.25V",
+      "state": "S2",
+      "source": "U7700 SPMU BUCK 13",
+      "description": "1.25V S2 domain — USB-C controllers, level shifters, SE.",
+      "page": [28, 100, 101]
+    },
+    {
+      "name": "PP1V25_AWAKE_IO",
+      "voltage": "1.25V",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 13 SW3",
+      "description": "SoC IO, SPI ROM level shifters, NAND MAME IO.",
+      "page": [100, 101]
+    },
+    {
+      "name": "PP1V25_AWAKE5W_VCCQ",
+      "voltage": "1.25V",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 13 SW5",
+      "description": "NAND VCCQ rail.",
+      "page": 101
+    },
+    {
+      "name": "PP1V2_MAME_PLL",
+      "voltage": "1.2V",
+      "state": "AWAKE",
+      "source": "U7700 SPMU BUCK 14 / SPMU LDO 8",
+      "description": "SoC PLL rail — shared between BUCK 14 and LDO 8.",
+      "page": [28, 101]
+    },
+
+    {"section": "=== SPMU U7700 — LDOs ==="},
+    {
+      "name": "PP0V72_S2_VDD_LOW",
+      "voltage": "0.72V",
+      "state": "S2",
+      "source": "U7700 SPMU LDO 4",
+      "description": "SoC VDD_LOW domain.",
+      "page": [29, 101, 102]
+    },
+    {
+      "name": "NC_SPMU_VLDO6",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U7700 SPMU LDO 6",
+      "description": "Not connected.",
+      "page": 101
+    },
+    {
+      "name": "PP1V8_AON_SPMU",
+      "voltage": "1.8V",
+      "state": "AON",
+      "source": "U7700 SPMU LDO 9",
+      "description": "SPMU internal 1.8V AON — NOT TO BE USED TO SOURCE POWER TO OTHER DEVICES.",
+      "page": [29, 101]
+    },
+    {
+      "name": "NC_SPMU_VLDO10",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U7700 SPMU LDO 10",
+      "description": "Not connected.",
+      "page": 101
+    },
+    {
+      "name": "PPVDS5_S2M_CIO",
+      "voltage": "0.855V",
+      "state": "S2",
+      "source": "U7700 SPMU LDO 11",
+      "description": "SoC CIO / USB-C CIO domain.",
+      "page": [29, 101]
+    },
+    {
+      "name": "PP0V805_S1_VDD_FIXED",
+      "voltage": "0.805V",
+      "state": "S1",
+      "source": "U7700 SPMU LDO 12",
+      "description": "SoC VDD_FIXED domain.",
+      "page": [29, 102]
+    },
+    {
+      "name": "NC_SPMU_VLD015",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U7700 SPMU LDO 15",
+      "description": "Not connected.",
+      "page": 102
+    },
+    {
+      "name": "NC_SPMU_VLD017",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U7700 SPMU LDO 17",
+      "description": "Not connected.",
+      "page": 102
+    },
+    {
+      "name": "NC_SPMU_VLD018",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U7700 SPMU LDO 18",
+      "description": "Not connected.",
+      "page": 102
+    },
+    {
+      "name": "PP1V2_S2_CIO",
+      "voltage": "1.2V",
+      "state": "S2",
+      "source": "U7700 SPMU LDO 20",
+      "description": "CIO I/O domain 1.2V.",
+      "page": 102
+    },
+
+    {"section": "=== SPMU U7700 — BOOST ==="},
+    {
+      "name": "PP3V8_SPMU_BSTLQ",
+      "voltage": "3.8V",
+      "state": "AWAKE",
+      "source": "U7700 SPMU VCP_OUT_SPARE / boost",
+      "description": "SPMU boost output.",
+      "page": 29
+    },
+    {
+      "name": "PP1V5_VLDOINT_SPMU",
+      "voltage": "1.5V",
+      "state": "AON",
+      "source": "U7700 SPMU LDOINT",
+      "description": "SPMU internal LDO — always-on internal supply.",
+      "page": [28, 29]
+    },
+
+    {"section": "=== MPMU U8100 — BUCKS (998-22608, TNL T4600-JPE) ==="},
+    {
+      "name": "PPVDD_PCPU_AWAKE",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "U8100 MPMU BUCK 0",
+      "description": "SoC Performance CPU power.",
+      "page": [32, 100]
+    },
+    {
+      "name": "PPVDD_GPU_AWAKE",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "U8100 MPMU BUCK 1",
+      "description": "SoC GPU power.",
+      "page": [32, 100]
+    },
+    {
+      "name": "PPVDD_SOC_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "U8100 MPMU BUCK 2",
+      "description": "SoC main S1 domain.",
+      "page": [33, 100]
+    },
+    {
+      "name": "PP1V8_S2",
+      "voltage": "1.8V",
+      "state": "S2",
+      "source": "U8100 MPMU BUCK 3",
+      "description": "1.8V S2 domain peripherals. Very wide distribution (page 100 shows many taps).",
+      "page": [33, 100]
+    },
+    {
+      "name": "PP1V8_AWAKE",
+      "voltage": "1.8V",
+      "state": "AWAKE",
+      "source": "U8100 MPMU BUCK 3 SW1",
+      "description": "1.8V awake peripherals, motion sensor, level shifters.",
+      "page": 101
+    },
+    {
+      "name": "PPVDD_CPU_SRAM_AWAKE",
+      "voltage": "Variable DVFS",
+      "state": "AWAKE",
+      "source": "U8100 MPMU BUCK 7",
+      "description": "SoC CPU SRAM power.",
+      "page": [33, 100]
+    },
+    {
+      "name": "PPVDD_DISP_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "U8100 MPMU BUCK 8",
+      "description": "SoC display domain.",
+      "page": [33, 100]
+    },
+    {
+      "name": "PPVDD_DCS_S1",
+      "voltage": "Variable",
+      "state": "S1",
+      "source": "U8100 MPMU BUCK 9",
+      "description": "SoC DCS memory controller.",
+      "page": [33, 100]
+    },
+    {
+      "name": "PP1V2_LDO_PREREG",
+      "voltage": "1.2V",
+      "state": "AWAKE",
+      "source": "U8100 MPMU BUCK 14",
+      "description": "LDO pre-regulator for downstream LDOs. Note: some schematic views suggest PP1V4; resolution unclear.",
+      "page": [35, 101]
+    },
+
+    {"section": "=== MPMU U8100 — LDOs ==="},
+    {
+      "name": "NC_MPMU_VLD01",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "U8100 MPMU LDO 1 (tied to SPMU BUCK 12 SW7)",
+      "description": "MPMU LDO 1 — tied to SW7/SW6 circuit.",
+      "page": 101
+    },
+    {
+      "name": "PP1V2_S2",
+      "voltage": "1.2V",
+      "state": "S2",
+      "source": "U8100 MPMU LDO 3",
+      "description": "1.2V S2 domain.",
+      "page": 101
+    },
+    {
+      "name": "NC_MPMU_VLDO5",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "U8100 MPMU LDO 5",
+      "description": "NOT TO BE USED TO SOURCE POWER TO OTHER DEVICES. Internal use only.",
+      "page": [100, 101]
+    },
+    {
+      "name": "PP3V3_S2_UPC",
+      "voltage": "1.2V",
+      "state": "S2",
+      "source": "U8100 MPMU LDO 7",
+      "description": "MPMU LDO 7 — integrator alias. UPC supply rail. Note: exact voltage/name uncertain at schematic resolution; may be PP1V2_S2_UPC.",
+      "page": [34, 101]
+    },
+    {
+      "name": "PP1V8_AON_MPMU",
+      "voltage": "1.8V",
+      "state": "AON",
+      "source": "U8100 MPMU LDO 9",
+      "description": "MPMU internal 1.8V AON — NOT TO BE USED TO SOURCE POWER TO OTHER DEVICES. Drives enable resistors for UC100/UC120.",
+      "page": [34, 101]
+    },
+    {
+      "name": "NC_MPMU_VLD013",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U8100 MPMU LDO 13",
+      "description": "Not connected.",
+      "page": 102
+    },
+    {
+      "name": "NC_MPMU_VLD014",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U8100 MPMU LDO 14",
+      "description": "Not connected.",
+      "page": 102
+    },
+    {
+      "name": "NC_MPMU_VLD016",
+      "voltage": "NC",
+      "state": "NC",
+      "source": "U8100 MPMU LDO 16",
+      "description": "Not connected.",
+      "page": 102
+    },
+    {
+      "name": "PP1V5_VLDOINT_MPMU",
+      "voltage": "1.05V",
+      "state": "AON",
+      "source": "U8100 MPMU LDOINT",
+      "description": "MPMU internal LDO — VLDORTC shorted to VDD_ANA for portables.",
+      "page": 35
+    },
+    {
+      "name": "PP3V8_ANA_MPMU",
+      "voltage": "3.8V",
+      "state": "AON",
+      "source": "U8100 MPMU LDO 9 (analog supply)",
+      "description": "MPMU analog supply — NOT TO BE USED TO SOURCE POWER TO OTHER DEVICES.",
+      "page": 101
+    },
+
+    {"section": "=== SUBSIDIARY RAILS (Display, DFR, Keyboard, etc.) ==="},
+    {
+      "name": "PP3V3_S2SW_USB0",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "Load switch from PP3V3_S2",
+      "description": "USB0 (ATC0) 3.3V switched power.",
+      "page": 103
+    },
+    {
+      "name": "PP3V3_S2SW_USB1",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "Load switch from PP3V3_S2",
+      "description": "USB1 (ATC1) 3.3V switched power.",
+      "page": 103
+    },
+    {
+      "name": "PP1V85_S2_IPD",
+      "voltage": "1.85V",
+      "state": "S2",
+      "source": "UT300 (353S01393) from PP3V8_AON",
+      "description": "IPD LDO — trackpad and keyboard IOX power.",
+      "page": 83
+    },
+    {
+      "name": "PP3V3_S2_TPAD",
+      "voltage": "3.3V",
+      "state": "S2",
+      "source": "UT305 from PP3V8_AON",
+      "description": "3.3V trackpad LDO.",
+      "page": 83
+    },
+    {
+      "name": "PP1V8_AWAKE_DFR",
+      "voltage": "1.8V",
+      "state": "AWAKE",
+      "source": "UT700 (V3D2H)",
+      "description": "DFR (Touch Bar) 1.8V power. MBP-specific — not present on Air models.",
+      "page": 86
+    },
+    {
+      "name": "PP3V3_AWAKE_DFR",
+      "voltage": "3.3V",
+      "state": "AWAKE",
+      "source": "UT710",
+      "description": "DFR (Touch Bar) 3.3V power.",
+      "page": 86
+    },
+    {
+      "name": "PPVOUT_LCDBKLT",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "UP800 (CK1714 / 353S4185, BEN boost) from PPBUS_AON",
+      "description": "LCD backlight LED string drive voltage.",
+      "page": [70, 103]
+    },
+    {
+      "name": "PPVOUT_KBDLED",
+      "voltage": "Variable",
+      "state": "AWAKE",
+      "source": "UP800 (BEN KBD output)",
+      "description": "Keyboard backlight drive voltage.",
+      "page": [71, 103]
+    },
+    {
+      "name": "PP5V_SW_LCD",
+      "voltage": "5V",
+      "state": "AWAKE",
+      "source": "UP701 (SLG5AP1564V) from PP5V_S2",
+      "description": "Display panel 5V switched rail.",
+      "page": [69, 103]
+    },
+    {
+      "name": "PP3V3_SW_LCD",
+      "voltage": "3.3V",
+      "state": "AWAKE",
+      "source": "UP701 (SLG5AP1564V) from PP3V3_S2",
+      "description": "Display panel 3.3V switched rail.",
+      "page": [69, 103]
     }
   ]
 }

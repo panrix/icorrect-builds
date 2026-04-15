@@ -382,5 +382,244 @@
     "draft": "Excluded",
     "renderedCard": null,
     "rawCard": null
+  },
+  {
+    "id": "contact-form-forward-included",
+    "description": "michael.f Contact Form forward is a real customer enquiry (mis-attributed) and must be included",
+    "pass": true,
+    "decision": "post",
+    "expectedOutcome": "decision=post, type=new_enquiry",
+    "actualOutcome": "decision=post, type=new_enquiry, mondayMatched=false, hasPastRepairs=false, price=Diagnostics recommended",
+    "customer": {
+      "name": "Test Customer",
+      "email": "test@example.com",
+      "phone": "+447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen",
+      "source": "body_parsed"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "New enquiry from Test Customer Email: test@example.com Phone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen",
+    "draft": "Hi Test,\n\nThank you for your message.\nWe would need to complete a diagnostic first to provide accurate pricing for this repair.\nIf you would like to proceed with that, please let me know and I will confirm the next steps.\n\nKind regards,\nAlex",
+    "renderedCard": "<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>\nType: New Enquiry\nChannel: Email\nDevice: iPhone - iPhone 15 Pro Fault Area\nConfidence: 🟡 Needs review\nPriority: P1\n\n<b>━ CUSTOMER ━</b>\nName: Test Customer\nEmail: test@example.com\nPhone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen\nType: 🆕 New customer\n\n<b>━ PREVIOUS REPAIRS ━</b>\nNo previous repair history.\n\n<b>━ ACTIVE REPAIR ━</b>\nMonday: No active repair found on Monday.\nStatus: No live repair status\nPayment: No payment status\nReceived: Not yet\n\n<b>━ LATEST CUSTOMER MESSAGE ━</b>\nNew enquiry from Test Customer Email: test@example.com Phone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen\n\n<b>━ THREAD ━</b>\nUs: New enquiry from Test Customer Email: test@example.com Phone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen\n\n<b>━━ DRAFT REPLY ━</b>\nHi Test, Thank you for your message. We would need to complete a diagnostic first to provide accurate pricing for this repair. If you would like to proceed with that, please let me know and I will confirm the next steps. Kind regards, Alex\n\n<b>━━ SOURCE ━</b>\nLast reply from us: Michael Ferrari Test at 09 Apr 2026 03:00 UTC\nPricing: Not in KB ⚠️\nWhat matters: New enquiry, price available: Diagnostics recommended. Draft a reply with pricing and next steps.\n\n<a href=\"https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900010\">Open Intercom</a>",
+    "rawCard": {
+      "id": "900010",
+      "customer_name": "Test Customer",
+      "customer_email": "test@example.com",
+      "customer_phone": "+447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen",
+      "type": "new_enquiry",
+      "channel": "email",
+      "device": "iPhone - iPhone 15 Pro Fault Area",
+      "received": null,
+      "expected": null,
+      "tech_notes": "None",
+      "client_status": "No active repair found on Monday.",
+      "payment": "Unknown",
+      "priority": "P1",
+      "price": "Diagnostics recommended",
+      "confidence": {
+        "tier": "yellow",
+        "emoji": "🟡",
+        "label": "Needs review"
+      },
+      "thread_summary": [
+        "Us: New enquiry from Test Customer Email: test@example.com Phone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen"
+      ],
+      "latest_message": "New enquiry from Test Customer Email: test@example.com Phone: +447000000000 Device: iPhone - iPhone 15 Pro Fault Area: Screen",
+      "customer_type": "🆕 New customer",
+      "last_repair": null,
+      "what_matters": "New enquiry, price available: Diagnostics recommended. Draft a reply with pricing and next steps.",
+      "context": {
+        "last_reply_from_us": "Michael Ferrari Test at 2026-04-09T03:00:00.000Z",
+        "thread_age_days": 2,
+        "messages_in_thread": 1,
+        "monday_item_id": null,
+        "monday_item_label": null,
+        "monday_confidence": null,
+        "monday_match_reason": null,
+        "monday_alternatives": [],
+        "past_repairs": [],
+        "kb_used": [],
+        "pricing_source": "Not in KB ⚠️",
+        "monday_url": null,
+        "intercom_url": "https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900010"
+      },
+      "raw": {
+        "source_type": "email",
+        "current_status": null
+      }
+    }
+  },
+  {
+    "id": "quote-request-notification-excluded",
+    "description": "Internal michael.f Quote Request notification must be excluded as noise",
+    "pass": true,
+    "decision": "exclude_noise",
+    "expectedOutcome": "decision=exclude_noise",
+    "actualOutcome": "decision=exclude_noise",
+    "customer": {
+      "name": "Owen Device: MacBook Pro 16",
+      "email": "email@owensutton.com",
+      "phone": null,
+      "source": "body_parsed"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "New quote emailed to email@owensutton.com Name: Owen Device: MacBook Pro 16",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "parts-supplier-excluded",
+    "description": "Parts supplier cold email with OLED/screen keywords must be excluded as spam",
+    "pass": true,
+    "decision": "exclude_non_actionable",
+    "expectedOutcome": "decision=exclude_non_actionable",
+    "actualOutcome": "decision=exclude_non_actionable",
+    "customer": {
+      "name": "Carl Parts Sales",
+      "email": "carl@elekworld.cn",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hello, friend Diagnosable Soft OLED, No Message after repair (Moq Requested) iPhone 13: US$39.11 iPhone 13 Pro 120Hz: US$43.15. We are a trusted supplier of service pack lcd screens.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "phishing-excluded",
+    "description": "Phishing email about unauthorized transaction must be excluded as spam",
+    "pass": true,
+    "decision": "exclude_non_actionable",
+    "expectedOutcome": "decision=exclude_non_actionable",
+    "actualOutcome": "decision=exclude_non_actionable",
+    "customer": {
+      "name": "Giulia Sofia",
+      "email": "giuliasasso32@gmail.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Dear Sir or Madam, I am writing because I noticed an unauthorized transaction on my account during the last night. An amount of 179 pounds was charged.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "reputation-spam-excluded",
+    "description": "Trustpilot reputation management spam must be excluded",
+    "pass": true,
+    "decision": "exclude_non_actionable",
+    "expectedOutcome": "decision=exclude_non_actionable",
+    "actualOutcome": "decision=exclude_non_actionable",
+    "customer": {
+      "name": "Pretty Anna",
+      "email": "prettyanna031@gmail.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hi Business Owner, Your hard-earned reputation is at risk. Right now, Trustpilot is removing and flagging reviews due to stricter AI detection.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "seo-pitch-paraphrased-excluded",
+    "description": "SEO pitch using errors and ranking phrasing must be excluded",
+    "pass": true,
+    "decision": "exclude_non_actionable",
+    "expectedOutcome": "decision=exclude_non_actionable",
+    "actualOutcome": "decision=exclude_non_actionable",
+    "customer": {
+      "name": "Steve Stoce",
+      "email": "steve.itservices0150@hotmail.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hello, Your website has several SEO and technical errors that may be affecting its ranking. I have an audit report ready for you.",
+    "draft": "Excluded",
+    "renderedCard": null,
+    "rawCard": null
+  },
+  {
+    "id": "corporate-repair-not-blocked",
+    "description": "Business domain sender with specific device + fault must NOT be excluded (repair intent protects it)",
+    "pass": true,
+    "decision": "post",
+    "expectedOutcome": "decision=post, type=new_enquiry",
+    "actualOutcome": "decision=post, type=new_enquiry, mondayMatched=false, hasPastRepairs=false, price=Diagnostics recommended",
+    "customer": {
+      "name": "Karen Rai",
+      "email": "karen.rai@lcp.uk.com",
+      "phone": null,
+      "source": "author"
+    },
+    "previousRepairsSummary": "No previous repair history.",
+    "mondayItem": "None",
+    "mondayLink": "None",
+    "latestMessage": "Hi iCorrect, Please can we organise for a screen to be replaced on an iPhone device for Tom Durkin. Tom will be in London from 11am.",
+    "draft": "Hi Karen,\n\nThank you for your message.\nWe would need to complete a diagnostic first to provide accurate pricing for this repair.\nIf you would like to proceed with that, please let me know and I will confirm the next steps.\n\nKind regards,\nAlex",
+    "renderedCard": "<b>━━━ TRIAGE CARD ━━━━━━━━━━━━━━━━━━━━━━━</b>\nType: New Enquiry\nChannel: Email\nDevice: iPhone device for Tom Durkin\nConfidence: 🟡 Needs review\nPriority: P2\n\n<b>━ CUSTOMER ━</b>\nName: Karen Rai\nEmail: karen.rai@lcp.uk.com\nType: 🆕 New customer\n\n<b>━ PREVIOUS REPAIRS ━</b>\nNo previous repair history.\n\n<b>━ ACTIVE REPAIR ━</b>\nMonday: No active repair found on Monday.\nStatus: No live repair status\nPayment: No payment status\nReceived: Not yet\n\n<b>━ LATEST CUSTOMER MESSAGE ━</b>\nHi iCorrect, Please can we organise for a screen to be replaced on an iPhone device for Tom Durkin. Tom will be in London from 11am.\n\n<b>━ THREAD ━</b>\nKaren Rai: Hi iCorrect, Please can we organise for a screen to be replaced on an iPhone device for Tom Durkin. Tom will be in London from 11am.\n\n<b>━━ DRAFT REPLY ━</b>\nHi Karen, Thank you for your message. We would need to complete a diagnostic first to provide accurate pricing for this repair. If you would like to proceed with that, please let me know and I will confirm the next steps. Kind regards, Alex\n\n<b>━━ SOURCE ━</b>\nLast reply from us: None\nPricing: Not in KB ⚠️\nWhat matters: New enquiry, price available: Diagnostics recommended. Draft a reply with pricing and next steps.\n\n<a href=\"https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900016\">Open Intercom</a>",
+    "rawCard": {
+      "id": "900016",
+      "customer_name": "Karen Rai",
+      "customer_email": "karen.rai@lcp.uk.com",
+      "customer_phone": null,
+      "type": "new_enquiry",
+      "channel": "email",
+      "device": "iPhone device for Tom Durkin",
+      "received": null,
+      "expected": null,
+      "tech_notes": "None",
+      "client_status": "No active repair found on Monday.",
+      "payment": "Unknown",
+      "priority": "P2",
+      "price": "Diagnostics recommended",
+      "confidence": {
+        "tier": "yellow",
+        "emoji": "🟡",
+        "label": "Needs review"
+      },
+      "thread_summary": [
+        "Karen Rai: Hi iCorrect, Please can we organise for a screen to be replaced on an iPhone device for Tom Durkin. Tom will be in London from 11am."
+      ],
+      "latest_message": "Hi iCorrect, Please can we organise for a screen to be replaced on an iPhone device for Tom Durkin. Tom will be in London from 11am.",
+      "customer_type": "🆕 New customer",
+      "last_repair": null,
+      "what_matters": "New enquiry, price available: Diagnostics recommended. Draft a reply with pricing and next steps.",
+      "context": {
+        "last_reply_from_us": "None",
+        "thread_age_days": 2,
+        "messages_in_thread": 1,
+        "monday_item_id": null,
+        "monday_item_label": null,
+        "monday_confidence": null,
+        "monday_match_reason": null,
+        "monday_alternatives": [],
+        "past_repairs": [],
+        "kb_used": [],
+        "pricing_source": "Not in KB ⚠️",
+        "monday_url": null,
+        "intercom_url": "https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/900016"
+      },
+      "raw": {
+        "source_type": "email",
+        "current_status": null
+      }
+    }
   }
 ]

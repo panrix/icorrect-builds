@@ -4,13 +4,13 @@
   "board_name": "MacBook Pro 14\" M3 (2023)",
   "schematic": "820-02757",
   "internal_name": "X2482/MLB",
-  "description": "Known and anticipated fault patterns for A2918 based on M3 Pro topology, A2681 M2 Air fault data patterns (adapted), and schematic analysis. Test points use A2918-specific designators from FCT pages 113-114.",
-  "data_source": "Schematic analysis + fault pattern adaptation from A2681 Safan diagnostics. No direct A2918 Safan diagnostic data found.",
+  "description": "Known and anticipated fault patterns for A2918 based on M3 Pro topology and schematic analysis. Test points verified from FCT pages 113-114.",
+  "data_source": "Schematic analysis of 820-02757. Fault patterns estimated from board topology.",
   "faults": [
     {
       "id": "F001",
       "name": "CD3217 (UF400/UF500) failure",
-      "frequency": "Common (based on A2681 pattern: 17 records)",
+      "frequency": "Common",
       "symptoms": {
         "dcps_5v": "0A or 0.001-0.01A",
         "dcps_20v": "0.001A or normal (if only one port affected)"
@@ -28,7 +28,7 @@
     {
       "id": "F002",
       "name": "PP3V8_AON short (VDDMAIN / branches)",
-      "frequency": "Common (based on A2681 pattern: 8 records)",
+      "frequency": "Common",
       "symptoms": {
         "dcps_5v": "0.05-0.5A",
         "dcps_20v": "0.1-0.5A"
@@ -37,17 +37,17 @@
       "root_causes": [
         "Capacitor short on PP3V8_AON distribution",
         "Liquid damage corroding PP3V8_AON trace/vias",
-        "WiFi/BT (Willamette) module pulling PP3V8_AON_WLBT to ground",
-        "HDMI circuit (UH700 Cobra) short on PP3V8_AON_HDMI (Pro-specific)"
+        "WiFi/BT (Willamette) module pulling PP3V8_AON_WLBT_ISNS to ground",
+        "HDMI circuit (UH700 Cobra) short on PP3V8_AON_HDMI_ISNS (Pro-specific)"
       ],
-      "test_points": ["TPU630 (PP3V8_AON main)"],
+      "test_points": ["TPU665 (PP3V8_AON)"],
       "fix": "Identify shorted cap/branch via diode mode or thermal cam. Remove shorted component. If short clears, replace. If persists, trace to IC.",
-      "pro_specific_note": "A2918 has additional PP3V8_AON branches for HDMI, SD card, and dual speaker amps that A2681 Air doesn't have. More potential short paths."
+      "pro_specific_note": "A2918 has additional PP3V8_AON branches for HDMI, SD card, and dual speaker amps not present on Air models. More potential short paths."
     },
     {
       "id": "F003",
       "name": "PPBUS_AON short",
-      "frequency": "Moderate (based on A2681 pattern: 5 records)",
+      "frequency": "Moderate",
       "symptoms": {
         "dcps_5v": "0.01-0.02A",
         "dcps_20v": "0.05-0.3A"
@@ -58,13 +58,13 @@
         "Liquid damage on main bus trace",
         "Shorted component pulling bus to ground"
       ],
-      "test_points": ["TPU633 (PPBUS_AON)"],
+      "test_points": ["TPU651 (PPBUS_AON)"],
       "fix": "Diode mode on PPBUS_AON. Find shorted cap. Remove and retest."
     },
     {
       "id": "F004",
       "name": "PP3V3_S2_LDO short",
-      "frequency": "Moderate (based on A2681 pattern: 4 records)",
+      "frequency": "Moderate",
       "symptoms": {
         "dcps_5v": "0.2-0.3A",
         "dcps_20v": "0.2-0.5A"
@@ -79,7 +79,7 @@
     {
       "id": "F005",
       "name": "U8100 (MPMU) failure",
-      "frequency": "Moderate (based on A2681 pattern: 6 records)",
+      "frequency": "Moderate",
       "symptoms": {
         "dcps_5v": "0.01-0.04A",
         "dcps_20v": "0.05-0.3A"
@@ -92,7 +92,7 @@
       ],
       "test_points": "MPMU analog probe points on page 47 (PP57xx series)",
       "fix": "If multiple LDO outputs missing → replace U8100. If single output missing → find downstream short.",
-      "diagnostic_workflow": "TPU633→TPU630→TPU636→MPMU LDOs→thermal cam"
+      "diagnostic_workflow": "TPU651→TPU665→TPU676→MPMU LDOs→thermal cam"
     },
     {
       "id": "F006",
@@ -101,7 +101,7 @@
       "symptoms": {
         "dcps_20v": "0.5-0.8A (boot loop or stalled boot)"
       },
-      "affected_rail": "PP1V25_MAME_NAND_VCC (SPMU BUCK 6) / PP3V8_MAME_NAND_VDDL (SPMU BUCK 12 SW6/7)",
+      "affected_rail": "PP2V58_AWAKE_NAND_VCC (SPMU BUCK 6) / PP0V88_AWAKE_NAND_VDD (SPMU BUCK 12 SW6/7)",
       "root_causes": [
         "SSD power IC short",
         "NAND flash failure",
@@ -112,20 +112,20 @@
     {
       "id": "F007",
       "name": "PP5V_S2 (UC260 TPS62130) path fault",
-      "frequency": "Low-moderate (based on A2681 pattern: 3 records)",
+      "frequency": "Low-moderate",
       "symptoms": {
         "dcps_5v": "0.01-0.04A",
         "dcps_20v": "0.05-0.5A"
       },
       "affected_rail": "PP5V_S2",
       "root_causes": [
-        "UC260 (TPS62130) dead — different IC from A2681 (which used UC300)",
+        "UC260 (TPS62130) dead",
         "PPV5S2TS_PWR_EN not asserted (PMU not requesting 5V)",
         "Input/output passive component failure"
       ],
-      "test_points": ["TPU636 (PP5V_S2)"],
+      "test_points": ["TPU676 (PP5V_S2_HOLD)"],
       "fix": "Check UC260 input/output. Check enable signal. If both OK → UC260 dead.",
-      "note": "A2918 uses TPS62130 (UC260) not UC300 like A2681. Different pinout, different passives."
+      "note": "A2918 uses TPS62130 (UC260). Verify UC260 input/output passives."
     },
     {
       "id": "F008",
@@ -151,7 +151,7 @@
       "symptoms": {
         "dcps_20v": "Normal current but no HDMI output, OR 0.1-0.5A if HDMI circuit shorted"
       },
-      "affected_rail": "PP3V8_AON_HDMI_1SNS / PP0V95_MAME2W_DFCHM1 (UH908)",
+      "affected_rail": "PP3V8_AON_HDMI_1SNS / PP0V95_MAME2W_DFCHM1 (UH908 buck)",
       "root_causes": [
         "UH700 (Cobra controller) failure",
         "UH908 (0.95V buck) failure",
@@ -169,13 +169,13 @@
       "symptoms": {
         "dcps_20v": "Normal current but SD card not detected"
       },
-      "affected_rail": "PP3V3_MAME_S60 / PP1V2_SL_LDRR",
+      "affected_rail": "PP3V3_S2SW_SNS / PP1V2_SL_LDRR",
       "root_causes": [
         "UK550 (GL9755) SD controller failure",
         "SD card connector (JK600) damage",
         "SD card power regulator fault"
       ],
-      "test_points": ["PP3V3_MAME_S60 at UK550 supply pins"],
+      "test_points": ["PP3V3_S2SW_SNS at UK550 supply pins"],
       "fix": "Check SD card power rails. Check UK550 for short. Check connector for physical damage.",
       "note": "This fault type does not exist on MacBook Air models."
     },

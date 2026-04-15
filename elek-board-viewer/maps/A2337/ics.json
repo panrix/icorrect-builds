@@ -1,8 +1,8 @@
 {
   "board": "A2337",
   "schematic": "820-02016",
-  "extraction_notes": "Complete extraction from 92-page Rev4 schematic. U-designators confirmed from schematic pages. PMU naming: SERA = Master PMU (U8100), SIMETRA = Slave PMU (U7700) per power aliases page 78.",
-  "WARNING": "M1 (T8103) board. Different SoC and PMU configuration from M2 (A2681). USB-C port controllers are CD3217 (same as M2). Charger IC is U5200 area. SVR AON controller is on pages 25-26, NOT the same U-designator range as M2.",
+  "extraction_notes": "Complete extraction from 92-page Rev4 schematic. All designators verified against schematic pages. PMU naming: SERA = Master PMU (U8100), SIMETRA = Slave PMU (U7700) per power aliases page 78. IC designators corrected: UC300 (5V S2, not UC320), UC710 (3V3 S2, not XMC710), UC120 (1.8V AON LDO, not UC200).",
+  "WARNING": "M1 (T8103) board (A2337 / 820-02016). Different SoC and PMU configuration from M2 (A2681). USB-C port controllers are CD3217. SVR AON is U5700 on pages 25-26.",
   "ics": [
     {
       "designator": "U6000",
@@ -13,57 +13,105 @@
     {
       "designator": "U5700",
       "function": "SVR AON - 3V8 always-on switching voltage regulator",
-      "description": "Multi-phase buck converter producing PP3V8_AON from PPBUS_AON. 30A ICC MAX design, 1MHz. Phase drivers on page 26. Main power IC feeding both PMUs.",
+      "description": "Multi-phase buck converter (MAX22503A-BCR1) producing PP3V8_AON from PPBUS_AON. 30A ICC MAX, 1MHz. Phase drivers on page 26. Master power IC feeding both PMUs.",
       "pages": [25, 26, 27]
     },
     {
       "designator": "U7700",
       "part_number": "SIMETRA",
       "function": "SPMU (Slave PMU)",
-      "description": "Slave Power Management Unit. Bucks: 0-14 (see aliases page 78 for SIMETRA BUCK assignments). LDOs: 1-20 plus switches SW1-7. Input: PP3V8_AON. SIMETRA naming from power aliases.",
+      "description": "Slave Power Management Unit. SIMETRA bucks: 4 (SLEEP3), 5 (SLEEP1), 6 (ACTIVE), 10 (SLEEP1), 12 (ACTIVE), 13 (ACTIVE), 14 (ACTIVE). LDOs: 4 (SW CTRL), 8 (SLEEP2), 9 (ACTIVE), 10 (ACTIVE), 11 (SLEEP2), 12 (SLEEP2), 20 (SW CTRL). Switches: SW4-7. Input: PP3V8_AON.",
       "pages": [28, 29, 30, 31]
     },
     {
       "designator": "U8100",
       "part_number": "SERA",
       "function": "MPMU (Master PMU)",
-      "description": "Master Power Management Unit. Bucks: 0-14 (see aliases page 78 for SERA BUCK assignments). LDOs, GPIO, ADC, 32K clock, charger reset. Input: PP3V8_AON. SERA naming from power aliases.",
+      "description": "Master Power Management Unit. SERA bucks: 0 (ACTIVE/PCPU), 1 (SW CTRL), 2 (SLEEP1), 3 (SLEEP3), 7 (ACTIVE), 8 (SW CTRL), 9 (SLEEP1), 11 (ACTIVE/ECPU). LDOs: 1-3, 7, 9-10, 13, 16, 19 (NC). Switches: SW1, SW3. GPIO, ADC, 32K clock, charger reset. Input: PP3V8_AON.",
       "pages": [32, 33, 34, 35]
     },
     {
       "designator": "U5200",
       "function": "Battery charger IC",
-      "description": "Main charger IC converting USB-C input to PPBUS_AON and managing battery charging. CD3217-compatible input. Schematic symbol on page 23.",
+      "description": "Main charger IC (SCH SYMBOL 30000-1525) converting USB-C input to PPBUS_AON and managing battery charging. Output through F5200 fuse. Inductor L5230/XW5230.",
       "pages": [23]
     },
     {
-      "designator": "UC320",
+      "designator": "UC300",
       "function": "5V S2 buck converter",
-      "description": "Produces PP5V_S2 (5.15V) from PPBUS_AON. Vout=5.15V, F=1.5MHz, startup <15ms. Page 38.",
+      "description": "Produces PP5V_S2 (5.15V) from PPBUS_AON. Vout=5.15V, EDC=6.6A, F=1.5MHz, startup <15ms. Inductor LC320, sense XMC320. Enable: P5VS2_PWR_EN.",
       "pages": [38, 37]
     },
     {
-      "designator": "XMC710",
+      "designator": "UC710",
       "function": "3V3 S2 buck converter",
-      "description": "Produces PP3V3_S2 (3.3V) from PPBUS_AON. Vout=3.12V, F=2.25MHz, startup <5ms. Page 39.",
+      "description": "Produces PP3V3_S2 (3.3V) from PPBUS_AON. Vout=3.3V, EDC=2.5A, TPEAK=5A, F=1.5MHz, startup <5ms. Inductor LC710, sense XMC710/XMC711. Enable: P3V3S2_PWR_EN.",
       "pages": [39, 37]
     },
     {
       "designator": "UC100",
       "function": "3.3V AON LDO",
-      "description": "Produces PP3V3_AON from PP3V8_AON_VODMAN. 3.3V always-on LDO. Page 36.",
+      "description": "Produces PP3V3_AON from PP3V8_AON_VODMAN. 3.3V always-on LDO, 250mA max, +/-1.5% error. Input cap CC100, output cap CC101. Enable: P3V3_AON_EN via RC100.",
       "pages": [36]
     },
     {
-      "designator": "UC200",
+      "designator": "UC120",
       "function": "1.8V AON LDO",
-      "description": "Produces PP1V8_AON from PP3V8_AON_VODMAN. 1.8V always-on LDO. Page 36.",
+      "description": "Produces PP1V8_AON from PP3V8_AON_VODMAN. 1.8V always-on LDO, 250mA max, +/-2% DC error. Input cap CC120, output cap CC121. Enable: P1V8_AON_EN via RC120.",
       "pages": [36]
+    },
+    {
+      "designator": "UC830",
+      "function": "PP3V3_S2SW_IPD load switch with e-Fuse",
+      "description": "3.3V IPD load switch (TP525570). Input PP3V3_S2, output PP3V3_S2SW_IPD. Current limit 490mA, RC delay 25.5ms. Enable: MPMU GPIO6.",
+      "pages": [40]
+    },
+    {
+      "designator": "UC840",
+      "function": "PP5V_S2SW_IPD load switch with e-Fuse",
+      "description": "5V IPD load switch (TP525570). Input PP5V_S2, output PP5V_S2SW_IPD. Current limit 1.35A (1.25A KBDBKLT + 100mA IPD), RC delay 4.7ms. Enable: MPMU GPIO6.",
+      "pages": [40]
+    },
+    {
+      "designator": "UC850",
+      "function": "PPBUS_AONSW_IPD load switch with e-Fuse",
+      "description": "PPBUS AON switched IPD load switch (TP525570). Input PPBUS_AON, output PPBUS_AONSW_IPD. Current limit 3A. Self-controlled (EN = 3.13V to 5.93V).",
+      "pages": [40]
+    },
+    {
+      "designator": "UC810",
+      "function": "PP3V3_S2SW_SNS sensor load switch",
+      "description": "3.3V S2 sensor load switch. Input PP3V3_S2, output PP3V3_S2SW_SNS. Enable: SENSOR_PWR_EN.",
+      "pages": [40]
+    },
+    {
+      "designator": "UC820",
+      "function": "PP1V8_S2SW_VDD1 LDO/switch",
+      "description": "1.8V S2 VDD1 LDO/switch. Input PP3V8_AON_STBMAIN, output PP1V8_S2/PP1V8_S2SW_VDD1. Enable: P5V01_PWR_EN.",
+      "pages": [40]
+    },
+    {
+      "designator": "UC860",
+      "function": "IPD OCP fault logic (primary)",
+      "description": "IPD over-current protection fault detection circuit.",
+      "pages": [40]
+    },
+    {
+      "designator": "UC861",
+      "function": "IPD OCP fault logic (secondary)",
+      "description": "Secondary IPD OCP fault circuit.",
+      "pages": [40]
+    },
+    {
+      "designator": "UC870",
+      "function": "IPD_PWR_EN gating logic",
+      "description": "IPD power enable gating logic IC. Combines P5VS2_PWR_EN + IPD_PWR_EN into IPD_PWR_EN_GATE output.",
+      "pages": [40]
     },
     {
       "designator": "UF400",
       "function": "CD3217 USB-C PD port controller ATC0",
-      "description": "Port controller for ATC0 (left rear). PD negotiation, CC signaling, VBUS control. Internal LDO. SPI ROM for firmware.",
+      "description": "Port controller for ATC0 (left rear). CD3217-BLONCE. PD negotiation, CC signaling, VBUS control. Internal LDO (PP1V5_UPC0_LDO_CORE). SPI ROM for firmware.",
       "pages": [55]
     },
     {
@@ -87,7 +135,7 @@
     {
       "designator": "UF710",
       "function": "ATC0 re-timer I2C level shifter",
-      "description": "Parrot 0 I2C/reset level shifter. High side on PP3V_S2, low side on PP1V25_S2.",
+      "description": "Parrot 0 I2C/reset level shifter.",
       "pages": [58]
     },
     {
@@ -131,7 +179,7 @@
     {
       "designator": "UP700",
       "function": "Display power sequencer",
-      "description": "SLGA... part. Controls display panel power rails. Page 68.",
+      "description": "Display panel power sequencer IC. Page 68.",
       "pages": [68]
     },
     {
@@ -149,7 +197,7 @@
     {
       "designator": "DP600",
       "function": "BEN - Display/KBD backlight boost converter",
-      "description": "Boost converter for LCD backlight LED strings and keyboard backlight. SYMBOL 35000160. Input: PPBUS_AONSW_LCD. Page 69.",
+      "description": "Boost converter for LCD backlight LED strings and keyboard backlight. SYMBOL 35000160. Input: PPBUS_AONSW_LCD.",
       "pages": [69, 70]
     },
     {
@@ -167,21 +215,15 @@
     },
     {
       "designator": "UF000",
-      "function": "TBT Burnside Bridge",
-      "description": "Thunderbolt/USB4 Burnside Bridge retimer. 2x ICs (UF000, UF100). Critical module parts.",
+      "function": "TBT Burnside Bridge retimer",
+      "description": "Thunderbolt/USB4 Burnside Bridge retimer IC (first of pair).",
       "pages": [2, 52, 53]
     },
     {
       "designator": "UF100",
-      "function": "TBT Burnside Bridge (second)",
+      "function": "TBT Burnside Bridge retimer (second)",
       "description": "Second Burnside Bridge retimer IC.",
       "pages": [2, 52, 53]
-    },
-    {
-      "designator": "UF500",
-      "function": "Ace2 USB-C controller",
-      "description": "Ace2 82 BGA USB-C/USB4 controller IC. ACE2_82_BGA.",
-      "pages": [2]
     },
     {
       "designator": "XMF100",

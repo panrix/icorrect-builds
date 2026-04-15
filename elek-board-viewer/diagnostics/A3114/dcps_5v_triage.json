@@ -1,11 +1,11 @@
 {
-  "WARNING": "These test points are for A3113 (820-03285) ONLY. Component designators are board-specific. This board uses M3 AWAKE naming, ACE3 MagSafe, MACAW retimers, and Willamette WiFi.",
+  "WARNING": "These test points are for A3114 (820-03285) ONLY. Component designators are board-specific. This board uses M3 AWAKE naming, ACE3 MagSafe, MACAW retimers, and Willamette WiFi.",
   "board": "A3114",
   "board_name": "MacBook Air 13\" M3 (2024)",
   "schematic": "820-03285",
   "internal_name": "X2819/MLB",
   "dcps_voltage": "5V",
-  "description": "Decision trees for 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). Adapted from A2681 methodology for M3 topology.",
+  "description": "Decision trees for 5V DCPS scenarios. Board connected via USB-C at 5V (pre-PD negotiation). M3 topology with ACE3 MagSafe, MACAW retimers, Willamette WiFi.",
   "scenarios": [
     {
       "range": "0A (dead - no current draw)",
@@ -90,11 +90,31 @@
           "action": "Check MPMU (U8100) LDO outputs",
           "measure": "Probe each LDO decoupling cap",
           "sub_checks": [
-            {"component": "C8320", "expected": "1.8V", "rail": "PP1V8_AON_MPMU (LDO 9)"},
-            {"component": "C8330/C8331", "expected": "1.2V", "rail": "PP1V2_AON_MPMU (LDO 9B)"},
-            {"component": "C83A0", "expected": "varies", "rail": "MPMU LDO 20 area"},
-            {"component": "C8360/C8361/C8362", "expected": "1.2V", "rail": "PP1V2_AWAKE_PLL (LDO 8)"},
-            {"component": "C8380/C8381", "expected": "1.5V", "rail": "PP1V5_LDOINT_MPMU"}
+            {
+              "component": "C8320",
+              "expected": "1.8V",
+              "rail": "PP1V8_AON_MPMU (LDO 9)"
+            },
+            {
+              "component": "C8330/C8331",
+              "expected": "1.2V",
+              "rail": "PP1V2_AON_MPMU (LDO 9B)"
+            },
+            {
+              "component": "C83A0",
+              "expected": "varies",
+              "rail": "MPMU LDO 20 area"
+            },
+            {
+              "component": "C8360/C8361/C8362",
+              "expected": "1.2V",
+              "rail": "PP1V2_AWAKE_PLL (LDO 8)"
+            },
+            {
+              "component": "C8380/C8381",
+              "expected": "1.5V",
+              "rail": "PP1V5_LDOINT_MPMU"
+            }
           ],
           "if_all_present": "Fault downstream of PMU. Investigate SoC domains.",
           "if_any_missing": "Go to step 7."

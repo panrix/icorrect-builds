@@ -1,4 +1,0 @@
-[2026-03-28T04:24:59.884Z] [ERROR] Error: BM listings API 500: Network connection lost.
-    at fetchAllListings (/home/ricky/builds/backmarket/scripts/lib/bm-api.js:63:13)
-    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
-    at async main (/home/ricky/builds/backmarket/scripts/build-listings-registry.js:512:23)

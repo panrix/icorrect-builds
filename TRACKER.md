@@ -1,98 +1,82 @@
 # iCorrect Build Tracker
 
-**Last updated:** 2026-04-09
+> **Strategic roadmap: [`EXECUTIVE-BUILD-PLAN.md`](EXECUTIVE-BUILD-PLAN.md)** — the single living plan (phases, initiatives, inbox, research library). This tracker is the short-horizon folder state; the executive plan is the direction.
+
+**Last updated:** 2026-04-13
 **Owner:** Ricky + Code
 
 ---
 
-## Active Builds
+## Active Builds (modified in last 7 days)
 
-| # | Build | Status | Location | Next Step |
-|---|-------|--------|----------|-----------|
-| 1 | Alex Triage Card System | Plan QA'd, ready for Codex | `builds/alex-triage-rebuild/` | Codex builds Phase 1 (1A-1G), Code QAs output |
-| 2 | Alex Quotes (Phase 2) | Blocked | `builds/alex-triage-rebuild/` | Draft plan written. Blocked on Diagnostic Mini App (#8) for structured fault data |
-| 8 | Diagnostic Mini App | Not started | TBD | Telegram Mini App for techs: structured fault logging. Saf for full diagnostics, other techs for additional faults during repair. Blocker for Alex Quotes (#2) |
-| 3 | Intake System (Client Form + Team View) | Plan v2 written + QA'd, docs aligned | `builds/intake-system/plan.md` | Phase 0: foundation (backend scaffold, Supabase schema, API contracts). Then Phase 1: walk-in flow first. Replaces Typeform + n8n→Slack. |
-| 4 | Slack Intake Notifications | Superseded | `builds/intake-notifications/` | Replaced by Intake System (#3) |
-| 5 | Buyback Monitor Rebuild | Spec verified | `builds/backmarket/docs/trusted-buyback-plan-qa-compilation-2026-03-30.md` | Build Phase 1 |
-| 6 | SOP Edge Cases + Verification | Codex dispatched | `builds/agent-rebuild/BRIEF-C16` | Awaiting output |
-| 7 | Main Board Cleanup | Analysis done | `builds/agent-rebuild/main-board-cleanup-analysis.md` | Review + execute move |
+| Directory | Last Modified | Git | Description |
+|-----------|--------------|-----|-------------|
+| `alex-triage-rebuild/` | 2026-04-11 | No | Alex Triage Card System. Build brief dated 2026-04-07, consolidated 2026-04-08. Codex build phases 1A-1G. |
+| `elek-board-viewer/` | 2026-04-11 | Yes | Elek board viewer app. No brief found. |
+| `intake-system/` | 2026-04-11 | No | Client intake form + team view. Plan v2 written, replaces Typeform + n8n. Phase 0 foundation underway. |
+| `alex-triage-classifier-rebuild/` | 2026-04-10 | No | Alex triage classifier refactor. Fixing two fundamental triage bugs. |
+| `agent-rebuild/` | 2026-04-08 | No | OpenClaw cleanup and KB/documentation program. Central research workspace (system rethink, automation blueprint, VPS audit, cron audit, etc). |
+| `claude-project-export/` | 2026-04-08 | No | Operations SOPs. 12 standard operating procedures compiled from Ricky Q&A sessions. |
+| `intake-notifications/` | 2026-04-08 | No | Slack intake notifications. Superseded by Intake System build. |
+| `system-audit-2026-03-31/` | 2026-04-06 | No | Frozen research pack. Evidence-backed audit of business operations, platforms, integrations, and client journeys. |
 
-## Research Complete (reference)
+## Stale Builds (7-30 days inactive)
 
-| Doc | Location |
-|-----|----------|
-| System Rethink (master doc) | `builds/agent-rebuild/system-rethink.md` |
-| Automation Blueprint | `builds/agent-rebuild/automation-blueprint.md` |
-| 11 Systems Dump | `builds/agent-rebuild/ricky-systems-dump.md` |
-| 11 Systems Deep Map | `builds/agent-rebuild/systems-deep-map.md` |
-| VPS Audit | `builds/agent-rebuild/vps-audit.md` |
-| Cron Audit | `builds/agent-rebuild/cron-audit.md` |
-| Hugo Script Audit | `builds/agent-rebuild/hugo-script-audit.md` |
-| Repair History (40K replies) | `builds/agent-rebuild/data/repair-history-full.json` |
-| Repair History Analysis | `builds/agent-rebuild/repair-history-analysis.md` |
-| API Credentials Status | `builds/agent-rebuild/api-credentials-status.md` |
-| Script Test Results | `builds/agent-rebuild/script-test-results.md` |
-| Buyback Rebuild Verification | `builds/agent-rebuild/buyback-rebuild-verification.md` |
-| Slack Intake Readiness | `builds/agent-rebuild/slack-intake-readiness.md` |
-| Marketing Intelligence Audit | `builds/agent-rebuild/marketing-intelligence-audit.md` |
-| Search Not Load Research | `builds/agent-rebuild/search-not-load-research.md` |
-| Jarvis Context Audit | `builds/agent-rebuild/jarvis-context-audit.md` |
+| Directory | Last Modified | Git | Description |
+|-----------|--------------|-----|-------------|
+| `buyback-monitor/` | 2026-04-04 | No | Buy box monitor. Automated price management for BackMarket buyback listings. Scans listings, checks competitors, calculates profit, auto-bumps. |
+| `backmarket/` | 2026-04-03 | No | BackMarket operations. Largest revenue channel (~60% of total, ~31k/mo). Automation scripts, SOPs, analysis tools. |
+| `webhook-migration/` | 2026-04-01 | No | Webhook migration workspace. Active docs, discovery, verification records. |
+| `hiring/` | 2026-03-31 | No | Hiring docs. No brief found. |
+| `pricing-sync/` | 2026-03-31 | No | Pricing sync. No brief found. |
+| `monday/` | 2026-03-30 | No | Monday.com integration scripts. No brief found. |
+| `icorrect-shopify-theme/` | 2026-03-28 | Yes | Shopify theme repo. No brief found. |
+| `scripts/` | 2026-03-28 | No | Shared scripts. No brief found. |
+| `bm-scripts/` | 2026-03-27 | No | BackMarket scripts. No brief found. |
+| `royal-mail-automation/` | 2026-03-24 | Yes | Royal Mail label automation. No brief found. |
+| `icloud-checker/` | 2026-03-24 | No | iCloud checker webhook service. Replaces two deactivated n8n flows (iCloud & Spec Checker, iCloud Recheck). |
+| `server-config/` | 2026-03-24 | No | Server configuration files. No brief found. |
+| `telephone-inbound/` | 2026-03-24 | No | Telephone inbound handling. No brief found. |
+| `documentation/` | 2026-03-24 | No | Documentation. No brief found. |
+| `data/` | 2026-03-23 | No | Data files. No brief found. |
+| `quote-wizard/` | 2026-03-18 | No | Quote Wizard Menu Builder. Node.js script to auto-generate 4 Shopify navigation menus from collection data. |
+| `agents/` | 2026-03-16 | No | Agent configs. No brief found. |
+| `repair-analysis/` | 2026-03-16 | No | Repair analysis. No brief found. |
+| `llm-summary-endpoint/` | 2026-03-13 | No | LLM summary endpoint. No brief found. |
 
-## 11 Systems (from Ricky's dump)
+## Archive Candidates (>30 days inactive)
 
-| # | System | Status | Priority |
-|---|--------|--------|----------|
-| 1 | Client Intake Form | Plan v2 QA'd, prototype exists, ready for Phase 0 | P1 |
-| 2 | Workshop Intake (iPad) | Planned (Phase 3 of Build #3) | P1 |
-| 3 | Device Intake Checklist | Planned (team-view hard gates in Build #3) | P1 |
-| 4 | BackMarket Intake | Spec exists | P2 |
-| 5 | Mail-In Intake | Spec exists | P2 |
-| 6 | Interactive Diagnostic | Spec exists | P3 |
-| 7 | Tech Repair Dashboard | Not started | P2 |
-| 8 | Inventory Management | Not started | P2 |
-| 9 | Coordinator Dashboard | Not started | P3 |
-| 10 | Shipping Interface | Not started | P2 |
-| 11 | QC System | Not started | P3 |
+| Directory | Last Modified | Git | Description |
+|-----------|--------------|-----|-------------|
+| `voice-note-pipeline/` | 2026-03-10 | No | Voice note pipeline. No brief found. |
+| `whisper-api/` | 2026-03-10 | No | Whisper API integration. No brief found. |
+| `xero-invoice-automation/` | 2026-03-04 | Yes | Monday to Xero invoice automation. Ferrari clicks "Create Invoice" on Monday item, draft invoice auto-created in Xero. |
+| `icorrect-parts-service/` | 2026-03-04 | Yes | Parts service. No brief found. |
+| `team-audits/` | 2026-03-03 | No | Team audit files. No brief found. |
+| `data-architecture/` | 2026-02-22 | No | Data architecture. Stub — idea stage only. |
+| `intercom-agent/` | 2026-02-22 | No | Intercom agent. No brief found. |
+| `inventory-system/` | 2026-02-22 | No | Inventory system. No brief found. |
+| `marketing-intelligence/` | 2026-02-22 | No | Marketing intelligence. Stub — needs rethink. |
+| `qa-system/` | 2026-02-22 | No | QA system. Stub — marked "in progress". |
+| `research/` | 2026-02-24 | No | Research files. No brief found. |
+| `templates/` | 2026-02-22 | No | Templates. No brief found. |
+| `voice-notes/` | 2026-02-22 | No | Voice notes. Stub — idea stage only. |
+| `website-conversion/` | 2026-02-22 | No | Website conversion. No brief found. |
 
-## Agents (current state)
+---
 
-| Agent | Model | Status | Role |
-|-------|-------|--------|------|
-| Jarvis | Qwen 3.6 Plus | Active | Thinking partner + KB curator |
-| Alex | Qwen 3.6 Plus | Active | CS drafts (being rebuilt as triage system) |
-| Hugo | Qwen 3.6 Plus | Active | BM strategy (scripts being separated) |
-| Marketing | Qwen 3.6 Plus | Active | Strategy + briefs |
-| Systems | Qwen 3.6 Plus | Low use | Infrastructure |
-| Operations | Qwen 3.6 Plus | Low use | Process analysis |
-| Team | Qwen 3.6 Plus | Low use | People analysis |
-| Parts | Qwen 3.6 Plus | Low use | Inventory strategy |
-| Codex Builder | Codex GPT-5.4 | Active | Research + implementation |
-| Codex Reviewer | Codex GPT-5.4 | Idle | QA |
+## Summary
 
-## Blocked
+| Category | Count |
+|----------|-------|
+| Active (last 7 days) | 8 |
+| Stale (7-30 days) | 19 |
+| Archive Candidate (>30 days) | 14 |
+| **Total directories** | **41** |
 
-| Item | Blocker | Resolution |
-|------|---------|------------|
-| KPI Updater | Xero auth expired | Re-auth via developer.xero.com (new Jarvis app, scopes need checking) |
-| Anthropic agents | OAuth blocked, CLI backend removed | Using Qwen via OpenRouter |
+## Notes
 
-## Done (this week)
-
-- CLI backend migration (then blocked by Anthropic)
-- All agents moved to Qwen 3.6 Plus via OpenRouter
-- Session keepalive disabled (was 288 Opus triggers/day)
-- Elek heartbeat disabled
-- Buyback monitor moved to crontab
-- BM Board Housekeeping cron removed (duplicate)
-- Bali date check disabled
-- 12 SOPs written with Hermes
-- KB schema + index + log created
-- KB finance + customer-service sections populated
-- Jarvis SOUL.md rewritten (thinking partner + KB curator)
-- Jarvis TOOLS.md updated with cron capabilities
-- System audit folder organised
-- 16 Codex research briefs completed
-- Repair history full pull (1,889 items, 40K replies, 18K activity logs)
-- Claude Code Telegram bot installed (blocked by Anthropic extra usage)
-- Hermes agent configured on Qwen via OpenRouter
+- **Git repos** (6 total): `elek-board-viewer`, `icorrect-parts-service`, `icorrect-shopify-theme`, `royal-mail-automation`, `xero-invoice-automation`
+- **Superseded:** `intake-notifications` replaced by `intake-system`
+- **Stubs (no real work started):** `data-architecture`, `marketing-intelligence`, `qa-system`, `voice-notes`, `inventory-system`, `intercom-agent`
+- **Key active work:** Alex triage rebuild + classifier refactor, intake system, elek board viewer

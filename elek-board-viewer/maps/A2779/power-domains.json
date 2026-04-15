@@ -1,18 +1,20 @@
 {
   "board": "A2779",
   "schematic": "820-02655",
-  "description": "All rails grouped by power state. More domains than A2442 due to Austringer/CLVR architecture (replaces Viper/Monaco). 5 CLVR instances vs 3 Monaco.",
-  "WARNING": "This board uses AUSTRINGER (not Viper) for high-current CPU domains and CLVR (not Monaco) for GPU/fabric domains. Do NOT confuse with A2442 naming.",
-  "domains": {
-    "G3H": {
+  "description": "All rails grouped by power state. 5 CLVR instances for GPU/fabric/ANE domains. Austringer (U9300) produces PP1V8_S1_CLVR_VDDH which feeds all CLVRs.",
+  "domains": [
+    {
+      "name": "G3H",
       "description": "Present with AC power connected (pre-charger)",
       "rails": [
         "PPVBUS_USBC0", "PPVBUS_USBC1", "PPVBUS_USBC2", "PPVBUS_USBC5",
         "PPDCIN_AON", "PPDCIN_AON_CHGR_R", "PPCHGR_VDDA", "PPCHGR_VDDP",
         "PP_CABLE"
-      ]
+      ],
+      "pmu": "Pre-PMU (charger/CD3217 domain)"
     },
-    "AON": {
+    {
+      "name": "AON",
       "description": "Always on with battery/charger. Stays up in all sleep states.",
       "rails": [
         "PPBUS_AON", "PPBUS_AON_MPMU", "PPVBAT_AON", "PPVBAT_AON_CHGR_R",
@@ -26,9 +28,11 @@
         "PP5V_AON_P3V8AON", "PP2V5_VREF_P3V8AONILIMIT",
         "PPHV_INT0_AONSW", "PPHV_INT1_AONSW", "PPHV_INT2_AONSW", "PPHV_INT5_AONSW",
         "PPVBAT_AON_WLBT", "PP3V8_AON_WLBT"
-      ]
+      ],
+      "pmu": "U5700 (SVR AON 42A) / MPMU+SPMU internal AON LDOs"
     },
-    "S2": {
+    {
+      "name": "S2",
       "description": "System sleep / standby. Memory retention active.",
       "rails": [
         "PP5V_S2", "PP5V_S2_MAIN", "PP3V3_S2", "PP1V8_S2", "PP1V2_S2", "PP1V25_S2",
@@ -47,84 +51,60 @@
         "PP3V3_UPC0_LDO", "PP3V3_UPC1_LDO", "PP3V3_UPC2_LDO", "PP3V3_UPC5_LDO",
         "PP1V8_S1_CLVR_VDDH", "PP1V2_S2_AOP0", "PP1V2_S2_AOP1",
         "PPVDD_S2_CLVR_VDDIO", "PP1V2_S2_CLVR_VDDIO"
-      ]
+      ],
+      "pmu": "MPMU (U8100) + SPMU (U7700) + UC260 (5V S2 VR)"
     },
-    "S1": {
+    {
+      "name": "S1",
       "description": "Light sleep. Core SoC retention domains active.",
       "rails": [
         "PP0V81_S1_SRAM", "PPVDD_S1AF_ABMRCN", "PPVDD_S1VF_ABMRC", "PPVDD_S1CF_ABMRCN",
         "PPVDD_SOC_S1", "PPVDD_DCS_S1", "PPVDD_FABRIC_S1", "PPVDD_FIXED_S1",
-        "PPVDD_GPU_BMPR_S1",
+        "PPVDD_GPU_BMPR_S1", "PPVDD_SRAM_S1",
         "PPVDD_FIXED_S1_DCS_0", "PPVDD_FIXED_S1_DCS_2",
         "PPVDD_FIXED_S1_DDR_0", "PPVDD_FIXED_S1_DDR_2",
         "PPVDD_FIXED_S1_PCIE_PLL_GP", "PPVDD_FIXED_S1_PCIE_PLL_ST", "PPVDD_FIXED_S1_XTAL",
-        "PP0V575_S1_VDDQ0", "PP0V575_S1_VDDQ1",
+        "PPVDDQ0_S1", "PPVDDQ1_S1",
         "PP1V8_S1_CLVR_VDDH", "PP0V72_S1_MOPASS",
         "PPVDD_CIO_S1", "PPVDD_APR_CS_S1"
-      ]
+      ],
+      "pmu": "MPMU (U8100) + SPMU (U7700) + CLVR3 (Fabric) + CLVR4 (APR_CS)"
     },
-    "S0_AWAKE": {
-      "description": "Fully awake. SoC running. Austringer and CLVR VRs active. Display on.",
-      "rails": {
-        "austringer_cpu": [
-          "PPVDD_PCPU0_AWAKESW", "PPVDD_PCPU1_AWAKESW (Max)",
-          "PPVDD_PCPU_SRAM0_AWAKESW", "PPVDD_PCPU_SRAM1_AWAKESW (Max)",
-          "PPVDD_PCPU0_SRAMB_AWAKESW", "PPVDD_PCPU1_SRAMB_AWAKESW (Max)"
-        ],
-        "clvr_gpu_fabric": [
-          "PPVDD_GPU0_AWAKESW (CLVR1)", "PPVDD_GPU1_AWAKESW (CLVR2, Max)",
-          "PPVDD_GPU_SRAM0_AWAKESW (CLVR1)", "PPVDD_GPU_SRAM1_AWAKESW (CLVR2, Max)",
-          "PPVDD_GPU0_SRAMB_AWAKESW (CLVR1)", "PPVDD_GPU1_SRAMB_AWAKESW (CLVR2, Max)",
-          "PPVDD_DPL0_AWAKESW (CLVR3)", "PPVDD_FABRIC_S1 (CLVR3)",
-          "PPVDD_ANE_AWAKESW (CLVR4)", "PPVDD_ANE_SRAM_AWAKESW (CLVR4)",
-          "PPVDD_APR_CS_S1 (CLVR4)"
-        ],
-        "clvr0_soc": [
-          "PPVDD_PCPU0_AWAKESW (CLVR0 Buck0/HP0)",
-          "PPVDD_PCPU0_SRAMB_AWAKESW (CLVR0 Buck1/LP0)",
-          "PPVDD_PCPU1_AWAKESW (CLVR0 Buck2/HP1, Max only)",
-          "PPVDD_PCPU1_SRAMB_AWAKESW (CLVR0 Buck3/LP1, Max only)"
-        ],
-        "mpmu_awake": [
-          "PPVDD_ECPU_AWAKESW (MPMU Buck5/FDK5)",
-          "PPVDD_ECPU_SRAM_AWAKESW",
-          "PPVDD_DISP_AWAKESW (MPMU Buck2/FDK2)",
-          "PPVDD_DISP2_AWAKESW (MPMU Buck3/FDK3)",
-          "PPVDD_ANE_AWAKESW (MPMU Buck4/FDK4)",
-          "PPVDD_ANE_SRAM_AWAKESW",
-          "PPVDD_AVEMSR_AWAKESW (MPMU Buck2/FDK2 secondary)",
-          "PP1V8_AWAKE", "PP1V2_AWAKE",
-          "PP1V225_AWAKE_C2C", "PP1V225_AWAKE_GRP0", "PP1V225_AWAKE_GRP1",
-          "PP1V225_AWAKE_PCIE_PLL_GP", "PP1V225_AWAKE_PCIE_PLL_ST",
-          "PP1V225_AWAKE_XTAL", "PP1V225_AWAKE_FMON"
-        ],
-        "display": [
-          "PPMDB_AWAKESW_TCON", "PPBCON_AWAKESW_BKLTCONN_VIN", "PPVOUT_LUXE",
-          "PP1V2_GL"
-        ],
-        "nand": [
-          "PP0V9_NAND0", "PP0V9_NAND1",
-          "PP1V2_NAND0", "PP1V2_NAND1",
-          "PP2V5_NAND0", "PP2V5_NAND1",
-          "PPVDD_LDO_NAND0_OCARINA", "PPVDD_LDO_NAND1_OCARINA"
-        ],
-        "hdmi": [
-          "PP1V2_DP2HDMI_DIG", "PP1V2_DP2HDMI_TX_RX_PLL_OSC",
-          "PP3V3_DP2HDMI_AUX_IO", "PP3V3_DP2HDMI_RX_TX"
-        ],
-        "sd_card": [
-          "PP3V3_AWAKE_SW_SD", "PP3V3_GL_SDCONN", "PP1V8_GL_SDCONN"
-        ],
-        "touchid": [
-          "PP16V0_TOUCHID", "PP16V0_TOUCHID_SW",
-          "PP3V0_TOUCHID", "PP1V8_TOUCHID"
-        ],
-        "audio_kbd": [
-          "PP1V8_CODEC_VA", "PP1V8_CODEC_VCP", "PP1V2_CODEC_VL_VD",
-          "PP5V_KBDBKLT_BEN_A", "PP5V_KBDBKLT_BEN_D",
-          "PP3V3_KBD_LEDDRIVER", "PP1V8_DMIC"
-        ]
-      }
+    {
+      "name": "S0_AWAKE",
+      "description": "Fully awake. SoC running. CLVR VRs active. Display on.",
+      "rails": [
+        "PPVDD_PCPU0_AWAKESW", "PPVDD_PCPU1_AWAKESW",
+        "PPVDD_PCPU_SRAM0_AWAKESW", "PPVDD_PCPU_SRAM1_AWAKESW",
+        "PPVDD_GPU0_AWAKESW", "PPVDD_GPU1_AWAKESW",
+        "PPVDD_GPU2_AWAKESW", "PPVDD_GPU3_AWAKESW",
+        "PPVDD_GPU_SRAM0_AWAKESW", "PPVDD_GPU_SRAM1_AWAKESW",
+        "PPVDD_GPU_SRAM2_AWAKESW", "PPVDD_GPU_SRAM3_AWAKESW",
+        "PPVDD_DPL0_AWAKESW",
+        "PPVDD_ANE_AWAKESW", "PPVDD_ANE_SRAM_AWAKESW",
+        "PPVDD_ECPU_AWAKESW", "PPVDD_ECPU_SRAM_AWAKESW",
+        "PPVDD_DISP_AWAKESW", "PPVDD_DISP2_AWAKESW",
+        "PPVDD_AVEMSR_AWAKESW",
+        "PP1V8_AWAKE", "PP1V2_AWAKE",
+        "PP1V225_AWAKE_C2C", "PP1V225_AWAKE_GRP0", "PP1V225_AWAKE_GRP1",
+        "PP1V225_AWAKE_PCIE_PLL_GP", "PP1V225_AWAKE_PCIE_PLL_ST",
+        "PP1V225_AWAKE_XTAL", "PP1V225_AWAKE_FMON",
+        "PPMDB_AWAKESW_TCON", "PPBCON_AWAKESW_BKLTCONN_VIN", "PPVOUT_LUXE",
+        "PP1V2_GL",
+        "PP0V9_NAND0", "PP0V9_NAND1",
+        "PP1V2_NAND0", "PP1V2_NAND1",
+        "PP2V5_NAND0", "PP2V5_NAND1",
+        "PPVDD_LDO_NAND0_OCARINA", "PPVDD_LDO_NAND1_OCARINA",
+        "PP1V2_DP2HDMI_DIG", "PP1V2_DP2HDMI_TX_RX_PLL_OSC",
+        "PP3V3_DP2HDMI_AUX_IO", "PP3V3_DP2HDMI_RX_TX",
+        "PP3V3_AWAKE_SW_SD", "PP3V3_GL_SDCONN", "PP1V8_GL_SDCONN",
+        "PP16V0_TOUCHID", "PP16V0_TOUCHID_SW",
+        "PP3V0_TOUCHID", "PP1V8_TOUCHID",
+        "PP1V8_CODEC_VA", "PP1V8_CODEC_VCP", "PP1V2_CODEC_VL_VD",
+        "PP5V_KBDBKLT_BEN_A", "PP5V_KBDBKLT_BEN_D",
+        "PP3V3_KBD_LEDDRIVER", "PP1V8_DMIC"
+      ],
+      "pmu": "CLVR0-4 + MPMU (U8100) + SPMU (U7700) + standalone VRs"
     }
-  }
+  ]
 }

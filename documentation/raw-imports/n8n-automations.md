@@ -97,7 +97,7 @@
 |-------|-------|
 | Status | 📋 Full spec document exists |
 | Spec file | `icorrect-notification-automation-spec.md` |
-| Intercom admin | 9702338 (Alex/Fin) |
+| Intercom admin | 9702337 (Support) — 9702338 is BANNED for sending |
 | Routing logic | Cloudflare Worker inspects status4 value + service column + client type → routes to correct n8n endpoint |
 
 **Notification routing matrix:**

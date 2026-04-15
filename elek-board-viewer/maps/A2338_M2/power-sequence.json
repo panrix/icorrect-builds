@@ -1,30 +1,37 @@
 {
-  "board": "A2338",
+  "board": "A2338_M2",
   "schematic": "820-02773",
   "description": "Boot power-on sequence adapted from M1 reference for M2 MacBook Pro 13\". Sequence starts from USB-C cable insertion and ends at display LOGO.",
   "reference": "schematics/reference/M1 series standby circuit and power-on principle, and 20V boost circuit.pdf",
   "sequence": [
     {
       "step": 1,
-      "name": "USB-C Cable Insertion — 5V Default",
+      "name": "USB-C Cable Insertion \u2014 5V Default",
       "action": "USB-C cable inserted. Charger provides default 5V on VBUS.",
       "rail": "PPVBUS_USBC0",
       "voltage": "5V",
       "ic": "UF400 (CD3217 ATC0)",
       "what_happens": "CD3217 internal MOSFET passes 5V. PPCON_ACNSW established.",
-      "next_trigger": "CD3217 detects 5V on VBUS → begins CC communication",
-      "page": [25, 61, 66]
+      "next_trigger": "CD3217 detects 5V on VBUS \u2192 begins CC communication",
+      "page": [
+        25,
+        61,
+        66
+      ]
     },
     {
       "step": 2,
-      "name": "PPCON_ACNSW — Charger Input Active",
+      "name": "PPCON_ACNSW \u2014 Charger Input Active",
       "action": "Charger input path enabled. PPCON_ACNSW feeds U5200 charger IC.",
       "rail": "PPCON_ACNSW",
       "voltage": "~5V (initially)",
       "ic": "Charger IC U5200 (XMC260)",
-      "enables": "CHGR_AUX_DET → CHGR_AUX_OK pulled up (page 26)",
-      "what_happens": "Charger IC begins regulating input → generates PPBUS_AON from adapter or battery",
-      "page": [25, 26]
+      "enables": "CHGR_AUX_DET \u2192 CHGR_AUX_OK pulled up (page 26)",
+      "what_happens": "Charger IC begins regulating input \u2192 generates PPBUS_AON from adapter or battery",
+      "page": [
+        25,
+        26
+      ]
     },
     {
       "step": 3,
@@ -34,27 +41,39 @@
       "voltage": "12.6V (battery) / ~5V (adapter, pre-PD)",
       "ic": "Charger IC U5200",
       "prerequisite": "BMU SYS_DETECT circuit (J5150 gasket, TP5100/TP5101) must enable VBAT output",
-      "next_trigger": "PPBUS_AON present → enables SVR AON via PPVAON_PWR_EN delay circuit (U5349, page 26)",
-      "page": [24, 25, 27]
+      "next_trigger": "PPBUS_AON present \u2192 enables SVR AON via PPVAON_PWR_EN delay circuit (U5349, page 26)",
+      "page": [
+        24,
+        25,
+        27
+      ]
     },
     {
       "step": 4,
-      "name": "PP3V8_AON — SVR AON Powers Up",
-      "action": "SVR AON controller (36A ICC MAX) converts PPBUS_AON → PP3V8_AON (3.8V, 30A max output). This is the master rail for both PMUs.",
+      "name": "PP3V8_AON \u2014 SVR AON Powers Up",
+      "action": "SVR AON controller (30A ICC MAX) converts PPBUS_AON \u2192 PP3V8_AON (3.8V, 30A max output). This is the master rail for both PMUs.",
       "rail": "PP3V8_AON",
       "voltage": "3.8V",
-      "ic": "SVR AON (36A ICC MAX controller, page 28; 30A output stage, page 29)",
+      "ic": "SVR AON (30A ICC MAX controller, page 28; 30A output stage, page 29)",
       "enable": "PPVAON_PWR_EN (via U5349 delay from CHGR_EN_RVR)",
-      "fault": "PPVAON_FAULT_L (active low → fault condition)",
+      "fault": "PPVAON_FAULT_L (active low \u2192 fault condition)",
       "current_sense": "U5910 (VMAIN current sense amplifier, page 30)",
-      "branches": ["PP3V8_AON_VDDMAIN", "PP3V8_AON_WLBT (WiFi/BT)"],
+      "branches": [
+        "PP3V8_AON_VDDMAIN",
+        "PP3V8_AON_WLBT (WiFi/BT)"
+      ],
       "delay": "3.8V VR enable delayed by D5342/D5349 circuit (page 26)",
-      "next_trigger": "PP3V8_AON present → SPMU (U7700) and MPMU (U8100) begin startup",
-      "page": [26, 28, 29, 30]
+      "next_trigger": "PP3V8_AON present \u2192 SPMU (U7700) and MPMU (U8100) begin startup",
+      "page": [
+        26,
+        28,
+        29,
+        30
+      ]
     },
     {
       "step": 5,
-      "name": "SPMU & MPMU Startup — PMU Rails Cascade",
+      "name": "SPMU & MPMU Startup \u2014 PMU Rails Cascade",
       "action": "Both PMUs receive PP3V8_AON and begin generating output rails in hardware-defined sequence.",
       "rails_generated": {
         "aon_first": [
@@ -81,24 +100,47 @@
           "PP0V83_S1_STOP (MPMU LDO 11)"
         ]
       },
-      "signal": "PMU_SGP10_READY_REG → SPMU_READY_ANS",
-      "next_trigger": "All S2/S1 rails stable → PMU generates enable for standalone VRs",
-      "page": [31, 32, 33, 35, 36, 37]
+      "signal": "PMU_SGP10_READY_REG \u2192 SPMU_READY_ANS",
+      "next_trigger": "All S2/S1 rails stable \u2192 PMU generates enable for standalone VRs",
+      "page": [
+        31,
+        32,
+        33,
+        35,
+        36,
+        37
+      ]
     },
     {
       "step": 6,
-      "name": "UC300 (5V) & UC710 (3V3) Power Up",
+      "name": "UC260 (5V) & UC710 (3V3) Power Up",
       "action": "Standalone buck converters generate PP5V_S2 and PP3V3_S2 from PPBUS_AON, enabled by PMU GPIO signals.",
       "rails_generated": [
-        {"rail": "PP5V_S2", "voltage": "5.14V", "ic": "UC300 (TPS62130)", "enable": "P5VS2_PWR_EN", "startup": "4.7/7.5/10.5ms"},
-        {"rail": "PP3V3_S2", "voltage": "3.3V", "ic": "UC710", "enable": "P3V3S2_PWR_EN", "startup": "<5ms"}
+        {
+          "rail": "PP5V_S2",
+          "voltage": "5.14V",
+          "ic": "UC260 (TPS62130)",
+          "enable": "P5VS2_PWR_EN",
+          "startup": "4.7/7.5/10.5ms"
+        },
+        {
+          "rail": "PP3V3_S2",
+          "voltage": "3.3V",
+          "ic": "UC710",
+          "enable": "P3V3S2_PWR_EN",
+          "startup": "<5ms"
+        }
       ],
-      "next_trigger": "PP5V_S2 + PP3V3_S2 present → load switches enabled → subsystems powered",
-      "page": [43, 44, 45]
+      "next_trigger": "PP5V_S2 + PP3V3_S2 present \u2192 load switches enabled \u2192 subsystems powered",
+      "page": [
+        43,
+        44,
+        45
+      ]
     },
     {
       "step": 7,
-      "name": "SoC AWAKE Rails — DVFS Domains Power Up",
+      "name": "SoC AWAKE Rails \u2014 DVFS Domains Power Up",
       "action": "SoC dynamic voltage domains enabled. PCPU, ECPU, GPU, SRAM come up at initial DVFS voltage.",
       "rails_generated": [
         "PPVDD_MAME_PCPU (MPMU BUCK 0)",
@@ -109,43 +151,57 @@
         "PP1V8_MAME / PP1V8_S2 (MPMU BUCK 3 SW1)",
         "PP1V12_MAME_PLL (MPMU LDO 8)"
       ],
-      "signal": "PMU_ACTIVE_READY → SoC begins hard start",
-      "next_trigger": "All SoC domains stable → M2 OTP ready → hard start complete",
-      "page": [14, 15, 16, 17, 39]
+      "signal": "PMU_ACTIVE_READY \u2192 SoC begins hard start",
+      "next_trigger": "All SoC domains stable \u2192 M2 OTP ready \u2192 hard start complete",
+      "page": [
+        14,
+        15,
+        16,
+        17,
+        39
+      ]
     },
     {
       "step": 8,
-      "name": "M2 Hard Start Complete — SoC Commands CD3217",
+      "name": "M2 Hard Start Complete \u2014 SoC Commands CD3217",
       "action": "M2 SoC has completed OTP verification and hard start. SoC sends command to CD3217 via internal bus.",
-      "signal": "SoC → CD3217 command (via USBC0_CC1/CC2)",
+      "signal": "SoC \u2192 CD3217 command (via USBC0_CC1/CC2)",
       "what_happens": "CD3217 reads ROM information from SPI ROM",
-      "page": [64, 66, 67]
+      "page": [
+        64,
+        66,
+        67
+      ]
     },
     {
       "step": 9,
-      "name": "PD Negotiation — 20V Boost",
+      "name": "PD Negotiation \u2014 20V Boost",
       "action": "CD3217 uses CC line to communicate PD Source_Capabilities with charger. Requests 20V.",
       "what_happens": [
         "CD3217 sends PD request via CC line",
         "Charger adapter responds with 20V capability",
         "Charger transitions output voltage to 20V",
-        "PPVBUS_USBC0 goes from 5V → 20V"
+        "PPVBUS_USBC0 goes from 5V \u2192 20V"
       ],
       "rail": "PPVBUS_USBC0",
-      "voltage": "5V → 20V",
-      "page": [66]
+      "voltage": "5V \u2192 20V",
+      "page": [
+        66
+      ]
     },
     {
       "step": 10,
-      "name": "Protection Isolation Passes — PPBUS_AON Stabilises",
+      "name": "Protection Isolation Passes \u2014 PPBUS_AON Stabilises",
       "action": "With 20V on VBUS, protection isolation circuit passes. PPBUS_AON stabilises at battery voltage (12.6V) with charger now providing full power.",
       "rail": "PPBUS_AON",
       "voltage": "12.6V (regulated by charger from 20V input)",
-      "page": [25]
+      "page": [
+        25
+      ]
     },
     {
       "step": 11,
-      "name": "Soft Start — SSD, BIOS, Display",
+      "name": "Soft Start \u2014 SSD, BIOS, Display",
       "action": "M2 SoC communicates with SSD (NAND0), reads BIOS/firmware, executes self-checking procedures, outputs display signals.",
       "what_happens": [
         "SoC reads SSD via NAND interface (pages 75-76)",
@@ -156,14 +212,20 @@
         "DFR (Touch Bar) powered via UT700/UT710 LDOs",
         "Apple LOGO appears on screen"
       ],
-      "page": [75, 76, 78, 79, 95]
+      "page": [
+        75,
+        76,
+        78,
+        79,
+        95
+      ]
     }
   ],
   "bypass_forced_start": {
     "description": "From M1 reference PDF: How to bypass protective isolation and forced start of 20V boost circuit",
     "method_1": "If charger IC cannot be started, check if it cannot be connected. Use a 9V jumper or connect to charger for 3 seconds.",
-    "method_2": "Can be forced to start → indicates fault range is at the front and board can proceed to diagnostics",
-    "method_3": "Can't force start → indicates fault range is at the back end (soldering conditions)",
+    "method_2": "Can be forced to start \u2192 indicates fault range is at the front and board can proceed to diagnostics",
+    "method_3": "Can't force start \u2192 indicates fault range is at the back end (soldering conditions)",
     "page": "reference PDF"
   }
 }

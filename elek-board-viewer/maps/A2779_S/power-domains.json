@@ -1,97 +1,37 @@
 {
-  "WARNING": "These power domains are for A2779 STANDARD (820-02841, X2523/MLB_S) ONLY.",
-  "board": "A2779",
-  "variant": "S (Standard / M2 Pro only)",
+  "board": "A2779_S",
   "schematic": "820-02841",
-  "description": "All rails grouped by power state (sleep domain). G3H = always present with AC, AON = always on with battery, S2-S0 = progressively more awake.",
-  "domains": {
-    "G3H": {
+  "description": "All rails grouped by power state (sleep domain). G3H = always present with AC, AON = always on with battery, S2-S0 = progressively more awake. Rail names verified against schematic PNGs pages 39, 43, 139-143.",
+  "domains": [
+    {
+      "name": "G3H",
       "description": "Present whenever AC power is connected (pre-charger, pre-battery)",
-      "wake_condition": "USB-C or MagSafe cable inserted",
-      "rails": [
-        {"name": "PPVBUS_USBC0", "voltage": "5V/20V", "source": "UF400 (CD3217 ATC0)"},
-        {"name": "PPVBUS_USBC1", "voltage": "5V/20V", "source": "UF500 (CD3217 ATC1)"},
-        {"name": "PPVBUS_USBC23", "voltage": "5V/20V", "source": "UF600 (CD3217 ATC2)"},
-        {"name": "PPCON_ACNSW", "voltage": "~5-20V", "source": "Charger input path"},
-        {"name": "PPSC26_ADR_CHSR", "voltage": "~5-20V", "source": "F5601 fuse"}
-      ]
+      "rails": ["PPVBUS_USBC0", "PPVBUS_USBC1", "PPVBUS_USBC23", "PPDCIN_AON", "PPCON_ACNSW", "PPSC26_ADR_CHSR", "PP5V_CHGR_SW", "PPCHGR_VDDA", "PPCHGR_VDDP"],
+      "pmu": "Pre-PMU (charger input stage)"
     },
-    "AON": {
+    {
+      "name": "AON",
       "description": "Always on when battery or charger connected. Stays up in all sleep states.",
-      "wake_condition": "PPBUS_AON present (battery connected or charger active)",
-      "enable_signals": ["PPVAON_PWR_EN (for U5700)", "SYS_DETECT (J5150/U5150 gasket)"],
-      "rails": [
-        {"name": "PPBUS_AON", "voltage": "12.6V", "source": "Charger IC / Battery"},
-        {"name": "PP3V8_AON", "voltage": "3.8V", "source": "U5700 (SVR AON, 30A, 3-phase)"},
-        {"name": "PP3V8_AON_VDDMAIN", "voltage": "3.8V", "source": "PP3V8_AON branch"},
-        {"name": "PP3V8_AON_WLBT", "voltage": "3.8V", "source": "PP3V8_AON to Willamette"},
-        {"name": "PP3V8_AON_DPG_F", "voltage": "3.8V", "source": "PP3V8_AON filtered"},
-        {"name": "PP1V8_AON_MPMU", "voltage": "1.8V", "source": "MPMU LDO 9"},
-        {"name": "PP1V8_AON_SPMU", "voltage": "1.8V", "source": "SPMU LDO 9"},
-        {"name": "PP1V2_AON_MPMU", "voltage": "1.2V", "source": "MPMU LDO 9B"},
-        {"name": "PP1V2_AON_SPMU", "voltage": "1.2V", "source": "SPMU LDO 9B"},
-        {"name": "PP3V_AON", "voltage": "3.0V", "source": "MPMU LDO 5"},
-        {"name": "PP1V05_LDOINT_MPMU", "voltage": "1.05V", "source": "MPMU LDOINT"},
-        {"name": "PP5V_AON_FIVSDAOS", "voltage": "5V", "source": "PP5V_AON distribution"},
-        {"name": "PP5V6_AON", "voltage": "5.6V", "source": "AON distribution"},
-        {"name": "PPBUS_AONSW_LCD", "voltage": "12.6V", "source": "Load switch"}
-      ]
+      "rails": ["PPBUS_AON", "PPVBAT_AON", "PP3V8_AON", "PP3V8_AON_VDDMAIN", "PP3V8_AON_WLBT", "PP3V8_AON_DPG_F", "PP3V8_AON_MPMU", "PP3V8_AON_SPMU", "PP1V8_AON", "PP1V8_AON_SPMU", "PP1V2_AON", "PP1V2_AON_SPMU", "PP1V5_AON_VCORE_MPMU", "PP1V5_AON_VCORE_SPMU", "PP3V3_AON", "PP5V_AON_P3V8AON", "PPBUS_AON_LUXE"],
+      "pmu": "U5700 (SVR AON) + MPMU/SPMU AON LDOs"
     },
-    "S2": {
+    {
+      "name": "S2",
       "description": "System sleep / standby. Memory retention active.",
-      "wake_condition": "PMU enable signals from AON domain",
-      "rails": [
-        {"name": "PP5V_S2", "voltage": "5.15V", "source": "UC259"},
-        {"name": "PP5V_S2_MAIN", "voltage": "5V", "source": "UC259 distribution"},
-        {"name": "PP3V3_S2", "voltage": "3.3V", "source": "Standalone/MPMU LDO"},
-        {"name": "PP3V_S2", "voltage": "3.0V", "source": "MPMU LDO 5"},
-        {"name": "PP1V25_S2", "voltage": "1.25V", "source": "MPMU BUCK 8"},
-        {"name": "PP1V2_S2", "voltage": "1.2V", "source": "MPMU Buck distribution"},
-        {"name": "PPVDD_AMPH1_S2SM", "voltage": "Variable", "source": "MPMU BUCK 3"},
-        {"name": "PPVDD2HS_S2SM", "voltage": "Variable", "source": "MPMU BUCK 4"},
-        {"name": "PPVDD1_S2", "voltage": "Variable", "source": "MPMU BUCK 10"},
-        {"name": "PPVDD_CIO_S2SM", "voltage": "Variable", "source": "SPMU BUCK 5"},
-        {"name": "PPVDD_LDM_S2", "voltage": "Variable", "source": "SPMU LDO 0"},
-        {"name": "PPVDD_S2_CLVR_VDDIO5", "voltage": "Variable", "source": "MPMU LDO 0"},
-        {"name": "PP1V8_S2_CLVR_VDDIO16", "voltage": "1.8V", "source": "MPMU LDO 2"},
-        {"name": "PP1V8_SPMU_IM3_S2", "voltage": "1.8V", "source": "SPMU SN3"}
-      ]
+      "rails": ["PP5V_S2_MAIN", "PP1V8_S2", "PP3V3_S2", "PP1V2_S2", "PP1V8_S2SW", "PPVDD2H0_S2SW", "PPVDD2H1_S2SW", "PPVDD_CIO_S2SW", "PPVDD_AMPH0_S2SW", "PPVDD_AMPH1_S2SW", "PPVDD_LOW_S2", "PP1V8_S2SW_CLVR_VDDC1", "PP0V8_S2_CLVR_VDDD1G", "PP1V2_S2_CLVR_VDDIO", "PP1V8_S2SW_SNS"],
+      "pmu": "UC260 (PP5V_S2) + SPMU/MPMU S2 bucks and LDOs"
     },
-    "S1": {
+    {
+      "name": "S1",
       "description": "Light sleep. Core SoC domains retained at low voltage.",
-      "wake_condition": "S2 domain active + SoC sleep state controller asserts S1 enables",
-      "rails": [
-        {"name": "PPVDD_SRAM_S1", "voltage": "Variable", "source": "MPMU BUCK 0"},
-        {"name": "PPVDD_GPU_SRAM_S1", "voltage": "Variable", "source": "MPMU BUCK 1"},
-        {"name": "PPVDD_FIXED_S1", "voltage": "Variable", "source": "MPMU BUCK 9"},
-        {"name": "PPVDD_DCS_S1", "voltage": "Variable", "source": "SPMU BUCK 0"},
-        {"name": "PPVDD0E_S1", "voltage": "Variable", "source": "SPMU BUCK 1"},
-        {"name": "PPVDD_SOC_S1", "voltage": "Variable", "source": "SPMU BUCK 4"},
-        {"name": "PP1V8_S1_CLVR_VDDH", "voltage": "1.8V", "source": "CLVR VDDH rail"}
-      ]
+      "rails": ["PPVDD_SRAM_S1", "PPVDD_GPU_BMPR_S1", "PPVDD_FIXED_S1", "PPVDD_DCS_S1", "PPVDDQ0_S1", "PPVDDQ1_S1", "PPVDD_SOC_S1", "PP1V8_S1_CLVR_VDDH", "PPVDD_FABRIC_S1", "PPVDD_AFR_CS_S1"],
+      "pmu": "SPMU/MPMU S1 bucks + Austringer (CLVR VDDH) + CLVR2 S1 outputs"
     },
-    "S0_AWAKE": {
+    {
+      "name": "S0_AWAKE",
       "description": "Fully awake. SoC running, display on, all dynamic domains active.",
-      "wake_condition": "PMU_ACTIVE_READY asserted. All S2/S1 rails stable.",
-      "signal": "PMU_ACTIVE_READY",
-      "rails": [
-        {"name": "PPVDD_PCPU1_MAMEISM", "voltage": "Variable DVFS", "source": "CLVR0 (UA100)"},
-        {"name": "PPVDD_PCPU1_SRAM_MAMEISM", "voltage": "Variable", "source": "CLVR0 (UA100)"},
-        {"name": "PPVDD_GPU_SRAM_MAMEISM", "voltage": "Variable DVFS", "source": "CLVR1 (UA200)"},
-        {"name": "PPVDD_ANE_SRAM_MAMEISM", "voltage": "Variable", "source": "CLVR2 (UA600, S variant)"},
-        {"name": "PPVDD_ECPU_MAMEISM", "voltage": "Variable DVFS", "source": "SPMU BUCK 10"},
-        {"name": "PPVDD_ECPU_SRAM_MAMEISM", "voltage": "Variable", "source": "SPMU BUCK 2"},
-        {"name": "PPVDD_SRAM_MAMEISM", "voltage": "Variable", "source": "Austringer (U9300)"},
-        {"name": "PPVDD_DISP_MAMEISM", "voltage": "Variable", "source": "MPMU BUCK 6"},
-        {"name": "PPVDD_JUSTBR_MAMEISM", "voltage": "Variable", "source": "MPMU BUCK 7"},
-        {"name": "PP1V2_MAME", "voltage": "1.2V", "source": "SPMU BUCK 8"},
-        {"name": "PP1V2_MAME_PLL", "voltage": "1.2V", "source": "MPMU BUCK 5"},
-        {"name": "PP3V8_MAME", "voltage": "3.8V", "source": "PP3V8_AON gated"},
-        {"name": "PP1V8_AWAKE", "voltage": "1.8V", "source": "SPMU SN6"},
-        {"name": "PP1V2_SPMU_LDO3_AWAKE", "voltage": "1.2V", "source": "SPMU LDO3"},
-        {"name": "PP3V8_MAME_TCON", "voltage": "3.8V", "source": "Display power sequencer feed"},
-        {"name": "PPVDS_MAME_NAND_VCC", "voltage": "Variable", "source": "SSD power IC"}
-      ]
+      "rails": ["PPVDD_PCPU1_AWAKESW", "PPVDD_PCPU_SRAM1_AWAKESW", "PPVDD_PCPU0_AWAKESW", "PPVDD_PCPU_SRAM0_AWAKESW", "PPVDD_GPU0_AWAKESW", "PPVDD_GPU_SRAM0_AWAKESW", "PPVDD_GPU1_AWAKESW", "PPVDD_GPU_SRAM1_AWAKESW", "PPVDD_ANE_AWAKESW", "PPVDD_ANE_SRAM_AWAKESW", "PPVDD_ECPU_AWAKESW", "PPVDD_ECPU_SRAM_AWAKESW", "PPVDD_DISP_AWAKESW", "PPVDD_AVEMSR_AWAKESW", "PP1V2_AWAKE", "PP1V8_AWAKE", "PP1V2_AWAKESW_BLC"],
+      "pmu": "CLVR0/1/2 + SPMU/MPMU AWAKE bucks and switches"
     }
-  }
+  ]
 }

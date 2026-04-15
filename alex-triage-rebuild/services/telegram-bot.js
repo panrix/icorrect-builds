@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import fs from "node:fs";
 import http from "node:http";
+import https from "node:https";
 import path from "node:path";
 import { applyDraftEdit, handleTelegramCallback, repostDueSnoozes } from "../lib/bot-actions.js";
 import { getConfig } from "../lib/config.js";
@@ -14,7 +15,32 @@ import { IntercomClient } from "../lib/intercom.js";
 import { MondayClient } from "../lib/monday.js";
 import { TelegramClient } from "../lib/telegram.js";
 
-const config = getConfig();
+function sendRawAlert(message) {
+  const token = process.env.ALEX_TELEGRAM_BOT_TOKEN || process.env.TELEGRAM_BOT_TOKEN;
+  if (!token) return Promise.resolve();
+  const chatId = process.env.TELEGRAM_CHAT_ID || "-1003822970061";
+  const threadId = parseInt(process.env.TELEGRAM_ALERTS_THREAD_ID || "1");
+  const body = JSON.stringify({ chat_id: chatId, message_thread_id: threadId, text: message });
+  return new Promise((resolve) => {
+    const req = https.request(
+      { hostname: "api.telegram.org", path: `/bot${token}/sendMessage`, method: "POST",
+        headers: { "Content-Type": "application/json", "Content-Length": Buffer.byteLength(body) } },
+      () => resolve()
+    );
+    req.on("error", () => resolve());
+    req.write(body);
+    req.end();
+  });
+}
+
+let config;
+try {
+  config = getConfig();
+} catch (err) {
+  await sendRawAlert(`\u{1F6A8} Alex bot startup failure\n\n${err.message}\n\nFix INTERCOM_ADMIN_ID env var and restart the service.`);
+  console.error("Startup config error:", err.message);
+  process.exit(1);
+}
 const db = openDb();
 const telegramClient = new TelegramClient(config.telegram);
 const intercomClient = new IntercomClient(config.intercom);

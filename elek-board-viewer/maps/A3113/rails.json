@@ -47,7 +47,7 @@
       "name": "PPBUS_AON",
       "voltage": "12.6V (battery) / ~20V (adapter)",
       "state": "AON",
-      "source": "Charger IC / Battery (page 30)",
+      "source": "U5200 (RAA489901) / Battery (page 30)",
       "description": "Main system power bus - feeds SVR AON (U5700), UC300 (5V), UC710 (3V3), load switches, BEN backlight",
       "page": [30, 101]
     },
@@ -290,7 +290,7 @@
       "voltage": "3.0V",
       "state": "AON",
       "source": "MPMU LDO 2 (U8100)",
-      "description": "3.0V always-on rail. Note: different from A2681 where LDO 5 produced this.",
+      "description": "3.0V always-on rail. From MPMU LDO 2 on this board.",
       "page": [44, 102]
     },
     {"name": "NC: MPMU LDO 3", "voltage": "NC", "state": "NC", "source": "NC MPMU_VLD03", "page": 102},

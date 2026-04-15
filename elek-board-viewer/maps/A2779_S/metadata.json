@@ -1,10 +1,10 @@
 {
-  "board_number": "A2779",
+  "board_number": "A2779_S",
   "schematic_number": "820-02841",
   "internal_name": "X2523/MLB_S",
   "model_identifier": "J414-S",
   "apple_part_number": "051-08012",
-  "chip": "M2 Pro (Standard — no Max)",
+  "chip": "M2 Pro (Standard, no Max)",
   "form_factor": "MacBook Pro",
   "screen_size": "14.2\"",
   "year": 2023,
@@ -12,12 +12,12 @@
   "schematic_revision": "4.0.0",
   "last_modification": "2022-05-02",
   "total_pages": 159,
-  "variant_note": "This is the STANDARD (S) variant — M2 Pro only, no M2 Max. The C (CTO/Max) variant is 820-02655 (X2523/MLB_C) and has additional GPU power phases and different CLVR config. Do NOT mix test points between S and C variants.",
+  "variant_note": "This is the STANDARD (S) variant: M2 Pro only, no M2 Max. The C (CTO/Max) variant is 820-02655 (X2523/MLB_C) and has additional GPU power phases and different CLVR config. Do NOT mix test points between S and C variants.",
   "key_differences_from_a2681": [
-    "M2 Pro SoC vs M2 — more power phases, more cores",
+    "M2 Pro SoC vs M2: more power phases, more cores",
     "3 USB-C ports (ATC0 left, ATC1 left, ATC2 right) vs 2",
     "3 CLVR instances (CLVR0, CLVR1, CLVR2) for SoC power vs none on A2681",
-    "Austringer VR (U9300) for high-current SoC domains — not on A2681",
+    "Austringer VR (U9300) produces PP1V8_S1_CLVR_VDDH for CLVRs: not on A2681",
     "HDMI port with connector JH500 (pages 89-93)",
     "SD card reader with GL9755 controller (pages 94-97)",
     "Willamette WiFi/BT module (vs Typhoon on A2681)",
@@ -30,8 +30,8 @@
     "Eos Secure Element (U5000, SN300V) vs DK3219A on A2681"
   ],
   "key_differences_from_a2779_c": [
-    "S variant has CLVR2 CFG=C (6+1+13+6) vs C variant CFG differs",
-    "S variant: Not used on S designs noted for SPMU Buck7 (PP0V5_DISP7_MAKEIM)",
+    "S variant has CLVR2 CFG=C (8+1+13+6) vs C variant CFG differs",
+    "S variant: SPMU Buck7 (PPVDD_DISP2_AWAKESW) NC on S designs",
     "S variant has fewer GPU power phases than C/Max variant",
     "S variant CLVR address straps differ from C/D"
   ],

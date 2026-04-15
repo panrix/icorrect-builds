@@ -1,0 +1,45 @@
+{
+  "board": "A3114",
+  "schematic": "820-03285",
+  "description": "Diagnostic decision tree for A3114 (MacBook Air 15\" M3, X2819). 30A SVR AON. MagSafe + 2x USB-C.",
+  "WARNING": "A3114 (820-03285) M3 Air 15\" ONLY. U5950+Q5960 throttle. PBUS E-Fuse.",
+  "data_source": "Extracted from A3114 (820-03285) schematics. Shares M3 Air platform architecture with sibling A3113 (820-03286).",
+  "eason_reference": {
+    "source": "Eason @ iphone_cpu_fix",
+    "forced_start_bypass": {
+      "steps": ["1. PP3V8_AON_VDDMAIN to 3.8V (4.3V with display)", "2. Force U5950 output high (page 37)", "3. Press start or charger 3 seconds"],
+      "interpretation": {"forced_start_works": "Front end fault", "forced_start_fails": "Back end fault"}
+    }
+  },
+  "diagnostic_shortcuts": {
+    "ppvaon_fault_l": {"signal": "PPVAON_FAULT_L", "page": 35},
+    "pmu_active_ready": {"signal": "PMU_ACTIVE_READY", "page": 49},
+    "crystal_32khz": {"action": "Oscilloscope check"},
+    "soc_force_dfu": {"action": "DFU works = NAND/firmware"},
+    "phase_balance": {"sense_resistors": ["RS710","RS711","RS712"]},
+    "cd3217_sys_detect": {"page": 29},
+    "pp5v_s2_bootstrap": {"component": "R5900", "page": 37},
+    "pbus_efuse": {"page": 84},
+    "q5960_throttle": {"component": "Q5960", "page": 37}
+  },
+  "tree": [
+    {"step": 1, "check": "PPBUS_AON", "probe": "Page 30", "expect": "~12.6V/~20V", "yes": "Step 2", "no": {"diagnosis": "Charger path", "check_sequence": ["USB-C (pages 64-74)","MagSafe (pages 32-34)","CD3217 (pages 69-70)","SYS_DETECT (page 29)","PBUS E-Fuse (page 84)"]}},
+    {"step": 2, "check": "PP3V8_AON", "probe": "Pages 35-36", "expect": "3.8V", "yes": "Step 3", "no": {"diagnosis": "SVR AON 30A fault", "check_sequence": ["PPVAON_FAULT_L","Phase balance","U5950+Q5960 (page 37)","Forced start bypass"]}},
+    {"step": 3, "check": "AON LDOs", "expect": "3.3V, 1.8V", "yes": "Step 4", "no": {"diagnosis": "LDO fault"}},
+    {"step": 4, "check": "SPMU", "probe": "Pages 38-41", "yes": "Step 5", "no": {"diagnosis": "SPMU fault"}},
+    {"step": 5, "check": "MPMU", "probe": "Pages 42-48", "yes": "Step 6", "no": {"diagnosis": "MPMU fault", "check_sequence": ["U5950/Q5960 (page 37)","32.768KHz","PMU_ACTIVE_READY (page 49)"]}},
+    {"step": 6, "check": "PP5V_S2 + PP3V3_S2", "probe": "Pages 51, 53", "yes": "Step 7", "no": {"diagnosis": "S2 VR fault"}},
+    {"step": 7, "check": "SoC power", "probe": "Pages 18-25", "yes": "Step 8", "no": {"diagnosis": "SoC fault", "check_sequence": ["DFU","SPI NOR (page 14)","Grounds (pages 26-27)"]}},
+    {"step": 8, "check": "Peripherals", "substeps": [
+      {"check": "Display", "pages": "81-84"},
+      {"check": "USB-C (2 ports)", "pages": "64-74"},
+      {"check": "MagSafe", "pages": "32-34"},
+      {"check": "Keyboard", "pages": "91-93"},
+      {"check": "Audio", "pages": "88-90"},
+      {"check": "WiFi/BT", "pages": "75-76"},
+      {"check": "Storage", "pages": "77-79"},
+      {"check": "Trackpad", "pages": "94-95"},
+      {"check": "Camera", "page": "80"}
+    ]}
+  ]
+}

@@ -1,177 +1,244 @@
 {
   "board": "A2337",
   "schematic": "820-02016",
-  "description": "Common fault patterns for MacBook Air 13 M1 (A2337, 820-02016). Based on M1 architecture patterns and known failure modes.",
-  "WARNING": "M1 board. Faults listed here are board-specific. Do NOT apply A2681 (M2) fault patterns directly. PMU: SERA=Master (U8100), SIMETRA=Slave (U7700).",
-  "safan_data_status": "No A2337-specific records found in safan_diagnostics_parsed.json. The a_numbers and board_numbers fields are empty in all records. QA validation against schematic not possible with current Safan data.",
-  "common_faults": [
+  "WARNING": "These faults are for A2337 (820-02016) MacBook Air 13\" M1 ONLY. Do NOT apply A2681 (M2) fault patterns directly. PMU: SERA=Master (U8100), SIMETRA=Slave (U7700).",
+  "data_source": "Schematic PNGs (pages 22-23, 25, 28, 32, 37-38, 55-57) cross-referenced with saf-diagnostics-2026-03-02.json (22 A2337 devices, 15 with logic board work)",
+  "saf_statistics": {
+    "total_a2337_devices": 22,
+    "logic_board_cases": 15,
+    "ammeter_distribution": {
+      "5V_column_no_amps": {"count": 3, "typical_faults": ["CD3217", "Charging IC", "Audio IC"]},
+      "20V_low_amp_0.5A": {"count": 1, "typical_faults": ["Keyboard", "Battery"]},
+      "20V_low_amp_0.8A": {"count": 1, "typical_faults": ["Keyboard"]},
+      "20V_mid_1.4A": {"count": 1, "typical_faults": ["Liquid Damage"]},
+      "20V_normal_2.0-2.5A": {"count": 4, "typical_faults": ["Keyboard", "Charging IC"]},
+      "20V_unspecified": {"count": 5, "typical_faults": ["Keyboard", "Peripheral"]}
+    },
+    "top_fault_components": [
+      {"component": "Keyboard", "count": 9, "percentage": "60%"},
+      {"component": "Charging IC/CD3217", "count": 4, "percentage": "27%"},
+      {"component": "Audio IC", "count": 2, "percentage": "13%"},
+      {"component": "Liquid Damage (board-level)", "count": 2, "percentage": "13%"},
+      {"component": "Battery", "count": 2, "percentage": "13%"}
+    ]
+  },
+  "faults": [
     {
-      "id": "CF001",
+      "id": "F001",
       "name": "No power - CD3217 not negotiating",
       "symptom": "Board draws no current or minimal current (<10mA) at 5V. No PPBUS_AON.",
-      "root_cause": "CD3217 (UF400/UF500) port controller failure or SPI ROM corruption",
-      "affected_rails": ["PPVBUS_USBC0", "PPVBUS_USBC1"],
-      "diagnosis_steps": [
-        "Check CC1/CC2 lines for continuity (page 55/56)",
-        "Check SPI ROM (SPI_UPC0/SPI_UPC1) for corruption",
-        "Measure VBUS pass-through on CD3217 output",
-        "Check Burnside Bridge (UF000/UF100) for shorts dragging VBUS"
+      "dcps_signature": {"5V": "0A", "20V": "0-0.01A"},
+      "probe_point": "PPVBUS_USBC0/USBC1 at USB-C connector pins (page 57), UF400/UF500 output",
+      "expected_value": "5V on VBUS, CC lines not shorted to ground",
+      "causes": [
+        "CD3217 (UF400/UF500) port controller failure",
+        "SPI ROM corruption (SPI_UPC0/SPI_UPC1, XF420 page 55)",
+        "Burnside Bridge (UF000/UF100) shorts dragging VBUS"
       ],
       "fix": "Replace UF400 or UF500 (CD3217). If SPI ROM corrupted, reprogram or replace.",
-      "page": [55, 56, 57]
+      "board_specific_notes": "A2337 has two CD3217 controllers (UF400 ATC0 left rear, UF500 ATC1 left front). No MagSafe alternate power path.",
+      "saf_data": {
+        "cases": 3,
+        "examples": [
+          "BM 1170: 5V column — 'repair logic board one CD chips and charging port and keyboard change'. Parts: Keyboard, Keyboard Backlight, MacBook Logic Board. Fault keywords: Keyboard, Charging IC.",
+          "BM 946: No ammeter — 'repair headphone jack logic board flex and charging port'. Fault keywords: Charging IC."
+        ],
+        "pattern": "CD3217/charging port failure accounts for 27% of A2337 logic board repairs. Often discovered at 5V ammeter stage when board draws nothing."
+      }
     },
     {
-      "id": "CF002",
+      "id": "F002",
       "name": "No power - Charger IC fault",
       "symptom": "5V present at VBUS but no PPBUS_AON. Board draws 50-200mA at 5V but does not boot.",
-      "root_cause": "Charger IC (U5200) failure or battery SYS_DETECT not triggered",
-      "affected_rails": ["PPBUS_AON"],
-      "diagnosis_steps": [
-        "Check PPBUS_AON at bulk cap - should be ~12V with battery",
-        "Check CHGR_AUX_OK signal (page 24)",
-        "Check BMU connector J5100 SYS_DETECT (page 22)",
-        "Check for shorts on PPBUS_AON bulk caps (diode mode)"
+      "dcps_signature": {"5V": "0.05-0.2A", "20V": "0-0.1A"},
+      "probe_point": "PPBUS_AON bulk capacitor near U5200 output, CZ243/CZ245 (page 23)",
+      "expected_value": "~12.6V with battery connected",
+      "causes": [
+        "Charger IC (U5200) failure",
+        "Battery SYS_DETECT not triggered — J5100 gasket, Q5150 (page 22)",
+        "CHGR_AUX_OK signal fault (page 24)",
+        "Short on PPBUS_AON bulk caps",
+        "L5230 inductor open circuit (page 23)"
       ],
       "fix": "If SYS_DETECT missing: check J5100 connector and gasket circuit. If charger IC dead: replace U5200.",
-      "page": [22, 23, 24]
+      "board_specific_notes": "At 5V without battery, PPBUS_AON may not establish on A2337. Battery or 20V DCPS needed for full test. Gate drives CHGR_GATE_G1-G7 visible on page 23.",
+      "saf_data": {
+        "cases": 4,
+        "pattern": "Charging IC/port is the #2 component failure (27%) on A2337 after keyboard. Often co-occurs with other damage (liquid, keyboard)."
+      }
     },
     {
-      "id": "CF003",
+      "id": "F003",
       "name": "No power - PP3V8_AON short",
       "symptom": "PPBUS_AON present but PP3V8_AON missing or low. High current draw on PPBUS_AON.",
-      "root_cause": "Short circuit on PP3V8_AON distribution (VDDMAIN or VODMAN branch)",
-      "affected_rails": ["PP3V8_AON", "PP3V8_AON_VDDMAIN", "PP3V8_AON_VODMAN"],
-      "diagnosis_steps": [
-        "Measure diode mode on PP3V8_AON bulk caps",
-        "Check PPVAON_FAULT_L - will be low if U5700 detects overload",
-        "Use thermal imaging at low voltage to find hot component",
-        "Systematically lift capacitors on PP3V8_AON branches to isolate short",
-        "Check PP3V8_AON_VDDMAIN caps first (common short location)"
+      "dcps_signature": {"20V": "0.3-0.8A (current limited into short)"},
+      "probe_point": "PP3V8_AON bulk capacitors B5700/CS751/CS752 (page 25), PP3V8_AON_VDDMAIN distribution (page 79)",
+      "expected_value": "3.8V on PP3V8_AON, normal diode mode readings (>0.15V)",
+      "causes": [
+        "Short circuit on PP3V8_AON VDDMAIN branch capacitors",
+        "Liquid damage corroding PP3V8_AON trace/vias",
+        "Component pulling PP3V8_AON to ground"
       ],
-      "fix": "Replace shorted capacitor or IC pulling PP3V8_AON low. Common: capacitor failure on VDDMAIN branch.",
-      "page": [25, 26, 27, 79]
+      "fix": "Diode mode on PP3V8_AON caps. Thermal imaging at low voltage. Replace shorted capacitor or IC. Common: capacitor failure on VDDMAIN branch.",
+      "board_specific_notes": "A2337 PP3V8_AON distribution is on pages 25-27 and 79. VDDMAIN and VODMAN are separate branches. U5700 is 30A design at 1MHz CCMIA.",
+      "saf_data": {
+        "cases": 1,
+        "examples": [
+          "BM 1067: 20V/1.4A — 'clan logic board liquid damage and repair liquid damage parts macbook working fine'. Liquid damage on PP3V8_AON area is a common M1 fault pattern."
+        ],
+        "pattern": "Liquid damage cases on A2337 often affect PP3V8_AON distribution. 20V/1.4A reading suggests partial power path — board gets past charger but stalls at SVR/PMU level."
+      }
     },
     {
-      "id": "CF004",
+      "id": "F004",
       "name": "No power - U5700 SVR AON failure",
       "symptom": "PPBUS_AON present, PPVAON_PWR_EN asserted, but PP3V8_AON missing. No short detected.",
-      "root_cause": "U5700 SVR AON controller IC failure",
-      "affected_rails": ["PP3V8_AON"],
-      "diagnosis_steps": [
-        "Verify PPVAON_PWR_EN is high",
-        "Verify PPVAON_FAULT_L is not pulled low",
-        "Check U5700 switching waveform at phase outputs",
-        "Check inductor continuity on SVR AON output"
+      "dcps_signature": {"20V": "0.1-0.3A (charger working, SVR not converting)"},
+      "probe_point": "U5700 output capacitor, PPVAON_PWR_EN (page 25, delayed by D5340/D5345), PPVAON_FAULT_L",
+      "expected_value": "3.8V on PP3V8_AON output, PPVAON_FAULT_L high (no fault)",
+      "causes": [
+        "U5700 SVR AON controller IC failure",
+        "Phase driver failure (page 26, R5710/R5711)",
+        "Inductor open circuit",
+        "U5910 current sense amplifier failure"
       ],
-      "fix": "Replace U5700 SVR AON controller.",
-      "page": [25, 26]
+      "fix": "Replace U5700 SVR AON controller. Check phase outputs on page 26.",
+      "board_specific_notes": "U5700 is a 30A multi-phase buck at 1MHz. Phase drivers on page 26. Enable signal is delayed by D5340/D5345 from SYS_DETECT."
     },
     {
-      "id": "CF005",
+      "id": "F005",
       "name": "No boot - PMU not starting",
       "symptom": "PP3V8_AON present at 3.8V but PMU LDO outputs missing. No PP5V_S2 or PP3V3_S2.",
-      "root_cause": "MPMU (U8100/SERA) or SPMU (U7700/SIMETRA) failure",
-      "affected_rails": ["SERA LDO outputs", "SIMETRA LDO outputs", "PP5V_S2", "PP3V3_S2"],
-      "diagnosis_steps": [
-        "Check SERA LDO 9 output (~1.8V) - if missing, SERA (U8100) may be dead",
-        "Check SIMETRA LDO 9 output (~1.8V) - if missing, SIMETRA (U7700) may be dead",
-        "Check for shorts on PMU LDO output caps",
-        "Thermal imaging to find hot PMU",
-        "Check PMU_ACTIVE_READY signal"
+      "dcps_signature": {"20V": "0.3-0.5A (stuck in AON state, PMU not cascading)"},
+      "probe_point": "SERA LDO9 output cap (~1.8V, page 34), SIMETRA LDO9 output cap (~1.8V, page 29), PMU_ACTIVE_READY signal",
+      "expected_value": "SERA LDO9=~1.8V, SIMETRA LDO9=~1.8V, PMU_ACTIVE_READY asserted",
+      "causes": [
+        "Dead MPMU (U8100/SERA) IC",
+        "Dead SPMU (U7700/SIMETRA) IC",
+        "Downstream short loading PMU outputs",
+        "Liquid damage on PMU BGA pads",
+        "Power button circuit fault (DB110/QR110, page 32)"
       ],
-      "fix": "Replace failed PMU IC. U8100 (SERA/Master) or U7700 (SIMETRA/Slave).",
-      "page": [28, 29, 32, 33, 34]
+      "fix": "Replace failed PMU IC: U8100 (SERA/Master) or U7700 (SIMETRA/Slave). If single LDO missing, find downstream short first.",
+      "board_specific_notes": "A2337 uses SERA (Master, U8100, pages 32-35) and SIMETRA (Slave, U7700, pages 28-31) PMU naming.",
+      "saf_data": {
+        "pattern": "PMU-level faults typically present as 20V/0.3-0.5A (board stuck in AON state). BM 1111 at 20V/0.5A may represent a PMU-adjacent fault — keyboard + battery replacement alongside low current reading."
+      }
     },
     {
-      "id": "CF006",
+      "id": "F006",
       "name": "No boot - PP5V_S2 missing",
       "symptom": "PMU rails present but PP5V_S2 missing. Board partially powers on but does not boot.",
-      "root_cause": "UC320 5V buck converter failure or enable signal missing",
-      "affected_rails": ["PP5V_S2", "PP5V_S2SW_IPD"],
-      "diagnosis_steps": [
-        "Check P5VS2_PWR_EN - should be asserted by PMU GPIO",
-        "Check for short on PP5V_S2 output (diode mode on output caps)",
-        "Check UC320 inductor for continuity",
-        "If shorted: check PP5V_S2SW_IPD load switch for downstream short"
+      "dcps_signature": {"20V": "0.5-1.0A (partial boot, missing S2 rail)"},
+      "probe_point": "UC300 (SMC322) output capacitor (page 38), probe points PPC10-PPC15 (page 37), P5VS2_PWR_EN enable signal (page 37)",
+      "expected_value": "PP5V_S2=5.15V, 4.6A max, 1.5MHz, startup <15ms. P5VS2_PWR_EN asserted.",
+      "causes": [
+        "UC300 (SMC322) 5V buck converter failure",
+        "P5VS2_PWR_EN not asserted by PMU GPIO",
+        "Output inductor LC320 open circuit",
+        "Downstream short on PP5V_S2SW_IPD (UC840)"
       ],
-      "fix": "If P5VS2_PWR_EN missing: trace PMU GPIO. If output shorted: find and fix short. If UC320 dead: replace UC320.",
-      "page": [37, 38]
+      "fix": "If P5VS2_PWR_EN missing: trace PMU GPIO. If output shorted: find and fix short. If UC300 dead: replace UC300.",
+      "board_specific_notes": "A2337 uses UC300 (SMC322, NOT UC320) for PP5V_S2. Inductor LC320 and sense XMC320. Probe points PPC10-15 on page 37."
     },
     {
-      "id": "CF007",
+      "id": "F007",
       "name": "No boot - PP3V3_S2 missing",
       "symptom": "PMU rails present but PP3V3_S2 missing.",
-      "root_cause": "XMC710 3V3 buck converter failure or enable signal missing",
-      "affected_rails": ["PP3V3_S2", "PP3V3_S2SW_IPD", "PP3V3_S2SW_SNS"],
-      "diagnosis_steps": [
-        "Check P3V3S2_PWR_EN gating logic (page 37)",
-        "Check for short on PP3V3_S2 output",
-        "Check XMC710 inductor continuity"
+      "dcps_signature": {"20V": "0.5-1.0A (partial boot, missing S2 rail)"},
+      "probe_point": "UC710 output capacitor (page 39), probe points PPC210-PPC215 (page 37), P3V3S2_PWR_EN enable signal (page 37)",
+      "expected_value": "PP3V3_S2=3.3V, P3V3S2_PWR_EN asserted",
+      "causes": [
+        "UC710 3V3 buck converter failure",
+        "P3V3S2_PWR_EN gating logic fault (page 37) — NOTE: Per Sera PMU OFF, GPIO11 is OFF when System is OFF",
+        "Output inductor LC710 open circuit",
+        "Downstream short on PP3V3_S2 distribution"
       ],
-      "fix": "Fix P3V3S2_PWR_EN path or replace XMC710.",
-      "page": [37, 39]
+      "fix": "Fix P3V3S2_PWR_EN path or replace UC710.",
+      "board_specific_notes": "A2337 uses UC710 for PP3V3_S2. XMC710/XMC711 are external sense components. Probe points PPC210-215 on page 37. Discharge circuit JC211 on page 37."
     },
     {
-      "id": "CF008",
+      "id": "F008",
       "name": "USB-C port not working (one port)",
-      "symptom": "One USB-C port does not charge or data. Other port works fine.",
-      "root_cause": "CD3217 port controller fault on affected port, or connector damage",
-      "affected_rails": ["PPVBUS_USBC0 or PPVBUS_USBC1"],
-      "diagnosis_steps": [
-        "Check CC1/CC2 on affected port for shorts/opens",
-        "Check SBU1/SBU2 for shorts",
-        "Check VBUS for dead short",
-        "Inspect connector physically for bent/broken pins",
-        "Check Burnside Bridge (UF000/UF100) for related fault"
+      "symptom": "One USB-C port does not charge or pass data. Other port works fine.",
+      "dcps_signature": {"20V": "normal on working port"},
+      "probe_point": "CC1/CC2 lines on affected port (page 55/56), VBUS diode mode, SBU1/SBU2",
+      "expected_value": "CC lines not shorted, VBUS not dead shorted, SBU lines normal",
+      "causes": [
+        "CD3217 port controller fault on affected port",
+        "USB-C connector physical damage",
+        "Burnside Bridge (UF000/UF100) related fault"
       ],
       "fix": "Replace connector if physical damage. Replace CD3217 (UF400 or UF500) if controller fault.",
-      "page": [55, 56, 57]
+      "board_specific_notes": "A2337 port 0 (ATC0, UF400) = left rear. Port 1 (ATC1, UF500) = left front. Both ports left side only. No MagSafe backup.",
+      "saf_data": {
+        "pattern": "CD3217 failure is common on A2337. SAF data shows charging port repair in multiple cases. Single-port failure may present as 'charges on one side only'."
+      }
     },
     {
-      "id": "CF009",
+      "id": "F009",
       "name": "No display - backlight fault",
-      "symptom": "Board boots (fan spin, chime) but no display. External display may work.",
-      "root_cause": "BEN (DP600) backlight boost converter failure or display connector issue",
-      "affected_rails": ["PPBUS_AONSW_LCD (backlight input)", "Backlight output"],
-      "diagnosis_steps": [
-        "Check display connector (page 67) for physical damage",
-        "Check PPBUS_AONSW_LCD load switch output",
-        "Check DP600 (BEN) input and output (page 69)",
-        "Check display power sequencer UP700/UP705/UP715 (page 68)",
-        "Try known-good display cable/panel"
+      "symptom": "Board boots (chime, fan) but no display. External display may work.",
+      "dcps_signature": {"20V": "1.5-2.5A (normal boot current)"},
+      "probe_point": "DP600 (BEN) input/output (page 69), display connector (page 67), UP700/UP705/UP715 outputs (page 68)",
+      "expected_value": "PPBUS_AONSW_LCD present, backlight output voltage present, eDP data active",
+      "causes": [
+        "DP600 (BEN) backlight boost converter failure",
+        "Display connector damage",
+        "UP700/UP705/UP715 display power sequencer failure",
+        "Display cable/panel fault"
       ],
       "fix": "Replace DP600 (BEN), display connector, or display cable. If UP700/UP705 sequencer fault: replace sequencer IC.",
-      "page": [67, 68, 69]
+      "board_specific_notes": "A2337 uses DP600 for backlight (not U6560 as on A2681). SECDIS MIPI mux on page 66."
     },
     {
-      "id": "CF010",
-      "name": "WiFi/Bluetooth not working",
-      "symptom": "Board boots and works but no WiFi or Bluetooth detected in macOS.",
-      "root_cause": "Rasputin WiFi/BT module failure or antenna connection issue",
-      "affected_rails": ["PP3V8_AON (WiFi/BT power)"],
-      "diagnosis_steps": [
-        "Check WiFi/BT module power rails (page 60)",
-        "Check antenna connections (page 61)",
-        "Check for physical damage to Rasputin module",
-        "Check PCIe connection to SoC (page 9)"
+      "id": "F010",
+      "name": "Keyboard not working",
+      "symptom": "Board boots and works but keyboard unresponsive or partially working.",
+      "dcps_signature": {"20V": "2.0-2.5A (normal boot)"},
+      "probe_point": "BEN controller (page 69-70), keyboard matrix (page 70), keyboard connector",
+      "expected_value": "Keyboard responds to key presses",
+      "causes": [
+        "Keyboard flex cable damage",
+        "Keyboard backlight failure (often co-occurs)",
+        "Liquid damage on keyboard connector area",
+        "BEN controller fault"
       ],
-      "fix": "Reseat antenna cables. If module fault: replace Rasputin WiFi/BT module.",
-      "page": [60, 61]
+      "fix": "Replace keyboard assembly. Often requires keyboard backlight replacement too (shared A2179/A2337 part).",
+      "board_specific_notes": "Keyboard and keyboard backlight use shared A2179/A2337 parts.",
+      "saf_data": {
+        "cases": 9,
+        "examples": [
+          "BM 1149: 20V/0.8A — 'Post repair all good, we repair new keyboard'",
+          "BM 1226: 20V/2.5A — 'we repair new keyboard and keyboard back light'",
+          "BM 1451: 20V/2.0A — 'we repair new keyboard, keyboard back light we make track pad alignment (has been repair keyboard they damage all keyboard housing rebate)'",
+          "BM 1450: 20V/2.0A — 'we repair new keyboard, keyboard back light, charging port and Bezel and black screen plastic, clan touch id'"
+        ],
+        "pattern": "Keyboard is the DOMINANT fault on A2337 — 60% of all logic board cases. Often co-occurs with keyboard backlight, charging port, and/or trackpad damage. Multiple SAF cases show keyboard + backlight as a paired repair."
+      }
     },
     {
-      "id": "CF011",
-      "name": "SSD not detected",
-      "symptom": "Board boots to DFU/recovery but cannot see internal storage.",
-      "root_cause": "NAND flash failure, NAND power rail missing, or SoC NAND controller issue",
-      "affected_rails": ["NAND power rails from PMU"],
-      "diagnosis_steps": [
-        "Check NAND power rails on pages 62-63",
-        "Check NAND clock and data connections",
-        "Check for physical damage to NAND packages",
-        "Note: M1 has integrated SSD controller in SoC - NAND is soldered on MLB"
+      "id": "F011",
+      "name": "Audio IC failure",
+      "symptom": "Board boots normally but no audio from speakers. Headphone jack may also be affected.",
+      "dcps_signature": {"20V": "2.0-2.5A (normal boot)"},
+      "probe_point": "Audio level shifters (page 73), amplifiers (page 74), audio connectors (page 75)",
+      "expected_value": "Audio output present from speakers and headphone jack",
+      "causes": [
+        "Audio IC failure on logic board",
+        "Audio codec fault",
+        "Liquid damage on audio circuit area"
       ],
-      "fix": "NAND replacement on M1 is extremely difficult (paired to SoC). If NAND fault confirmed, board may be unrepairable for data recovery.",
-      "page": [62, 63, 64, 65]
+      "fix": "Board-level audio IC replacement (requires micro-soldering).",
+      "board_specific_notes": "Audio IC repair requires board-level soldering expertise.",
+      "saf_data": {
+        "cases": 2,
+        "examples": [
+          "BM 1223: 5V column — 'repair audio logic board' then 'repair logic board sound ic and pull battery'. Fault keywords: Keyboard, Audio IC, Battery.",
+          "BM 1313: 20V/2.5A — 'repair logic board and audio logic board repair and we change top case'. Fault keywords: Audio IC."
+        ],
+        "pattern": "Audio IC failure on A2337 requires board-level soldering. SAF shows it sometimes co-occurs with other faults (keyboard, battery). 2 of 15 logic board cases (13%)."
+      }
     }
   ]
 }
