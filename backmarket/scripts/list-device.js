@@ -11,7 +11,8 @@
  *   --probe-product-id <uuid>  Create draft only, verify returned data, never publish
  *   --item <id>                Process a single Main Board item
  *   --product-id <uuid>        Override catalog product_id for live mode
- *   --min-margin <n>           Override minimum margin % (default: 15)
+ *   --min-margin <n>           Override minimum margin % and net £ floor
+ *   --legacy-gates             Use pre-Phase-0.2 thresholds
  *   --json                     Emit structured JSON for probe mode
  *   (no --item)                Process ALL items where status24 = "To List" (index 8)
  */
@@ -76,6 +77,7 @@ const MIN_MARGIN_OVERRIDE = minMarginIdx !== -1 ? parseFloat(args[minMarginIdx +
 const productIdIdx = args.indexOf('--product-id');
 const PRODUCT_ID_OVERRIDE = productIdIdx !== -1 ? args[productIdIdx + 1] : null;
 const EFFECTIVE_PRODUCT_ID_OVERRIDE = PROBE_PRODUCT_ID || PRODUCT_ID_OVERRIDE;
+const USE_LEGACY_GATES = args.includes('--legacy-gates') || process.env.BM_THRESHOLDS_VERSION === 'v1';
 
 const priceIdx = args.indexOf('--price');
 const PRICE_OVERRIDE = priceIdx !== -1 ? parseFloat(args[priceIdx + 1]) : null;
@@ -1054,15 +1056,38 @@ function calculateProfitability(proposed, specs) {
 // ─── Step 9: Decision Gate ────────────────────────────────────────
 
 function decisionGate(profitability) {
-  const { margin, net, minPrice } = profitability;
-  const minMargin = MIN_MARGIN_OVERRIDE !== null ? MIN_MARGIN_OVERRIDE : 15;
-  const minNet = MIN_MARGIN_OVERRIDE !== null ? MIN_MARGIN_OVERRIDE : 50; // £50 minimum net profit
+  const { margin, net } = profitability;
 
-  if (net < 0 && MIN_MARGIN_OVERRIDE === null) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
-  if (net < 0 && MIN_MARGIN_OVERRIDE !== null) return { decision: 'PROPOSE', reason: `⚠️ Loss maker (net £${net}) — approved via --min-margin override` };
-  if (net < minNet && net >= 0) return { decision: 'BLOCK', reason: `Net £${net} < £${minNet} minimum at min_price` };
-  if (margin < minMargin) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < ${minMargin}% at min_price` };
-  return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
+  if (MIN_MARGIN_OVERRIDE !== null) {
+    const minMargin = MIN_MARGIN_OVERRIDE;
+    const minNet = MIN_MARGIN_OVERRIDE;
+
+    if (net < 0) return { decision: 'PROPOSE', reason: `⚠️ Loss maker (net £${net}) — approved via --min-margin override` };
+    if (net < minNet) return { decision: 'BLOCK', reason: `Net £${net} < £${minNet} minimum at min_price` };
+    if (margin < minMargin) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < ${minMargin}% at min_price` };
+    return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
+  }
+
+  if (net < 0) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
+
+  if (USE_LEGACY_GATES) {
+    if (net < 50) return { decision: 'BLOCK', reason: `Net £${net} < £50 minimum at min_price` };
+    if (margin < 15) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 15% at min_price` };
+    return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
+  }
+
+  if (net >= 150 && margin >= 25) {
+    return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net} — primary gate met` };
+  }
+  if (net >= 100 && margin >= 20) {
+    return {
+      decision: 'PROPOSE',
+      reason: `Margin ${margin.toFixed(1)}%, net £${net} — secondary gate only; --min-margin override required to proceed live`,
+      requiresMinMarginOverride: true,
+    };
+  }
+  if (net < 100) return { decision: 'BLOCK', reason: `Net £${net} < £100 secondary minimum at min_price` };
+  return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 20% secondary minimum at min_price` };
 }
 
 // ─── Step 11: Verify Listing ──────────────────────────────────────
@@ -1733,7 +1758,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   const shouldExecuteLive =
     liveModeAllowed &&
     exactResolutionForLive &&
-    decision.decision !== 'BLOCK';
+    decision.decision !== 'BLOCK' &&
+    !decision.requiresMinMarginOverride;
 
   if (shouldExecuteLive) {
     try {
@@ -1986,6 +2012,9 @@ async function main() {
   console.log(`  Back Market Listing Script — ${modeLabel}`);
   console.log(`  ${today()} | Node ${process.version}`);
   console.log('═'.repeat(60));
+  if (USE_LEGACY_GATES) {
+    console.log('[LEGACY] using pre-Phase-0.2 thresholds');
+  }
 
   if (isLive && !singleItemId) {
     console.error('⛔ Live mode without --item is disabled. Mass live listing remains blocked.');

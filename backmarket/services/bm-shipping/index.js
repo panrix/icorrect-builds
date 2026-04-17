@@ -36,11 +36,14 @@ const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
 const BOARD_ID = "349212843";
+const BM_DEVICES_BOARD_ID = "3892194968";
 const STATUS4_COLUMN = "status4";
 const TRACKING_COLUMN = "text53";
 const SERIAL_COLUMN = "text4";
 const BM_BOARD_RELATION = "board_relation5"; // Main Board → BM Devices Board
 const BM_SALES_ORDER_COLUMN = "text_mkye7p1c";
+const BM_DEVICE_LISTING_ID_COLUMN = "text_mkyd4bx3";
+const BM_DEVICE_SOLD_TO_COLUMN = "text4";
 const SHIPPED_INDEX = 160;
 const SHIPPED_GROUP = "new_group269";
 
@@ -125,6 +128,16 @@ async function postMondayComment(itemId, body) {
     .replace(/\n/g, "\\n");
   await mondayQuery(
     `mutation { create_update( item_id: ${itemId}, body: "${escaped}" ) { id } }`
+  );
+}
+
+async function clearBmDeviceSaleFields(bmDeviceItemId) {
+  const values = JSON.stringify({
+    [BM_DEVICE_LISTING_ID_COLUMN]: "",
+    [BM_DEVICE_SOLD_TO_COLUMN]: "",
+  });
+  await mondayQuery(
+    `mutation { change_multiple_column_values(board_id: ${BM_DEVICES_BOARD_ID}, item_id: ${bmDeviceItemId}, column_values: ${JSON.stringify(values)}) { id } }`
   );
 }
 
@@ -297,6 +310,22 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
         `✅ BM notified of shipment: ${itemName} — Order ${bmOrderId} — Tracking ${trackingNumber}`
       );
 
+      console.log(
+        `[shipping] Clearing BM listing_id and sold-to on BM Device ${bmDeviceItemId}`
+      );
+      try {
+        await clearBmDeviceSaleFields(bmDeviceItemId);
+        console.log("[shipping] BM Device sale fields cleared");
+      } catch (clearErr) {
+        console.error(
+          "[shipping] Failed to clear BM Device sale fields:",
+          clearErr.message
+        );
+        await notify(
+          `⚠️ BM notified for ${itemName} but failed to clear BM listing_id / Sold to on the BM Device item. Manual clear needed.`
+        );
+      }
+
       // Move BM Devices item to Shipped group
       console.log(`[shipping] Moving BM Device ${bmDeviceItemId} to Shipped group`);
       try {
@@ -339,6 +368,18 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
           await notify(
             `✅ BM notified of shipment (retry): ${itemName} — Order ${bmOrderId} — Tracking ${trackingNumber}`
           );
+
+          try {
+            await clearBmDeviceSaleFields(bmDeviceItemId);
+          } catch (clearErr) {
+            console.error(
+              "[shipping] Failed to clear BM Device sale fields after retry:",
+              clearErr.message
+            );
+            await notify(
+              `⚠️ BM notified for ${itemName} on retry but failed to clear BM listing_id / Sold to on the BM Device item. Manual clear needed.`
+            );
+          }
 
           // Move on retry success too
           try {

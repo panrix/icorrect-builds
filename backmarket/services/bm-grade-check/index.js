@@ -20,6 +20,16 @@
 
 const express = require("express");
 const fs = require("fs");
+const A_NUMBER_MAP_DATA = require("../../data/A_NUMBER_MAP.json");
+
+if (
+  !A_NUMBER_MAP_DATA ||
+  typeof A_NUMBER_MAP_DATA !== "object" ||
+  !A_NUMBER_MAP_DATA.mappings ||
+  typeof A_NUMBER_MAP_DATA.mappings !== "object"
+) {
+  throw new Error("Invalid A_NUMBER_MAP.json: missing mappings object");
+}
 
 const app = express();
 app.use(express.json());
@@ -69,25 +79,11 @@ const GRADE_RANK = {
   "Grade A": 3,
 };
 
-const A_NUMBER_TO_SCRAPER_MODEL = {
-  A1932: 'Air 13" 2018/2019 Intel',
-  A2179: 'Air 13" 2020 Intel i5 Grey',
-  A2337: 'Air 13" 2020 M1',
-  A2681: 'Air 13" 2022 M2',
-  A3113: 'Air 13" 2024 M3',
-  A3114: 'Air 13" 2025 M4',
-  A2941: 'Air 15" 2023 M2',
-  A2289: 'Pro 13" 2020 Intel',
-  A2251: 'Pro 13" 2020 Intel',
-  A2338: 'Pro 13" 2020 M1',
-  A2442: 'Pro 14" 2021 M1 Pro',
-  A2485: 'Pro 16" 2021 M1 Pro',
-  A2779: 'Pro 14" 2023 M2 Pro',
-  A2780: 'Pro 16" 2023 M2 Pro',
-  A2918: 'Pro 14" 2023 M3 Pro',
-  A2991: 'Pro 14" 2023 M3',
-  A2992: 'Pro 16" 2023 M3 Pro',
-};
+const A_NUMBER_TO_SCRAPER_MODEL = Object.fromEntries(
+  Object.entries(A_NUMBER_MAP_DATA.mappings)
+    .filter(([, entry]) => typeof entry?.scraper_model === "string" && entry.scraper_model)
+    .map(([aNumber, entry]) => [aNumber, entry.scraper_model])
+);
 
 const gradeCheckCache = new Map();
 const GRADE_CHECK_DEDUP_MS = 10 * 60 * 1000;

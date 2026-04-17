@@ -110,7 +110,7 @@ async function fetchNewOrders() {
 //      (Sold status + non-empty date sold → discard).
 //      If still ambiguous after filtering, return empty and alert — never auto-pick.
 async function matchToBmDevice(listingId) {
-  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "text_mkyd4bx3", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
   const items = d.data?.boards?.[0]?.items_page?.items || [];
   const saleable = items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
@@ -186,6 +186,18 @@ async function updateBmDevices(bmDeviceId, visibleIdentity, orderId, salePrice) 
   const values = JSON.stringify({ text4: visibleIdentity, text_mkye7p1c: String(orderId), numeric5: salePrice });
   const q = `mutation { change_multiple_column_values(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceId}, column_values: ${JSON.stringify(values)}) { id } }`;
   const d = await mondayApi(q);
+  return !!d.data;
+}
+
+async function clearBmDeviceListingId(bmDeviceItem) {
+  const listingCol = bmDeviceItem.column_values.find(cv => cv.id === 'text_mkyd4bx3');
+  const currentListingId = listingCol?.text?.trim() || '';
+  if (!currentListingId) return null;
+
+  const values = JSON.stringify({ text_mkyd4bx3: '' });
+  const q = `mutation { change_multiple_column_values(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDeviceItem.id}, column_values: ${JSON.stringify(values)}) { id } }`;
+  const d = await mondayApi(q);
+  if (d.data && listingCol) listingCol.text = '';
   return !!d.data;
 }
 
@@ -350,6 +362,17 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
         console.error(`  ❌ Accept failed: ${e.message}`);
         summary.errors++;
         continue;
+      }
+
+      try {
+        const listingCleared = await clearBmDeviceListingId(availableItem);
+        if (listingCleared) {
+          console.log(`  ✅ Cleared BM listing_id on matched device`);
+        } else if (listingCleared === false) {
+          console.warn(`  WARN: Failed to clear BM listing_id on BM Device ${availableItem.id}. Continuing with accepted sale.`);
+        }
+      } catch (e) {
+        console.warn(`  WARN: Failed to clear BM listing_id on BM Device ${availableItem.id}: ${e.message}`);
       }
 
       // Step 5a: Update BM Devices

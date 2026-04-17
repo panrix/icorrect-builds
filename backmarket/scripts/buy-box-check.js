@@ -17,6 +17,8 @@
  *   node buy-box-check.js --dry-run                # Check one/all listings with no live mutations or Telegram
  *   node buy-box-check.js --listing-id 1234567     # Restrict to one BM listing_id
  *   node buy-box-check.js --auto-bump              # Check + apply profitable bumps
+ *   node buy-box-check.js --min-margin 0           # Clearance override: bypass margin gates
+ *   node buy-box-check.js --legacy-gates           # Use pre-Phase-0.2 thresholds
  *   node buy-box-check.js --compare-profitability   # Show real vs estimated side-by-side
  */
 
@@ -54,14 +56,19 @@ const PROFITABILITY_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'buyback-pr
 const BM_CATALOG_PATH = path.join(__dirname, '..', 'data', 'bm-catalog.json');
 const REGISTRY_PATH = path.join(__dirname, '..', 'data', 'listings-registry.json');
 
-const autoBump = process.argv.includes('--auto-bump');
-const dryRun = process.argv.includes('--dry-run');
-const recalcCosts = process.argv.includes('--recalc');
-const parallelCompare = process.argv.includes('--compare-profitability');
-const noScrape = process.argv.includes('--no-scrape');
+const args = process.argv.slice(2);
+const autoBump = args.includes('--auto-bump');
+const dryRun = args.includes('--dry-run');
+const recalcCosts = args.includes('--recalc');
+const parallelCompare = args.includes('--compare-profitability');
+const noScrape = args.includes('--no-scrape');
+const useLegacyGates = args.includes('--legacy-gates') || process.env.BM_THRESHOLDS_VERSION === 'v1';
+const minMarginIdx = args.indexOf('--min-margin');
+const MIN_MARGIN_OVERRIDE = minMarginIdx !== -1 ? parseFloat(args[minMarginIdx + 1]) : null;
+const bypassMarginGates = MIN_MARGIN_OVERRIDE === 0;
 const listingIdFilter = (() => {
-  const idx = process.argv.indexOf('--listing-id');
-  return idx >= 0 ? process.argv[idx + 1] : null;
+  const idx = args.indexOf('--listing-id');
+  return idx >= 0 ? args[idx + 1] : null;
 })();
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
@@ -707,6 +714,53 @@ function calcProfit(price, totalFixedCost, purchasePrice) {
   };
 }
 
+function getAutoBumpThresholds() {
+  if (useLegacyGates) {
+    return {
+      silentNet: 50,
+      silentMargin: 30,
+      flaggedNet: 50,
+      flaggedMargin: 15,
+    };
+  }
+  return {
+    silentNet: 200,
+    silentMargin: 25,
+    flaggedNet: 150,
+    flaggedMargin: 15,
+  };
+}
+
+function evaluateAutoBumpGate(atWin) {
+  const thresholds = getAutoBumpThresholds();
+  if (!atWin) {
+    return { eligible: false, tier: 'blocked', reason: 'no cost data', thresholds };
+  }
+
+  const margin = parseFloat(atWin.margin);
+  const meetsFlaggedMargin = bypassMarginGates || margin >= thresholds.flaggedMargin;
+  const meetsSilentMargin = bypassMarginGates || margin >= thresholds.silentMargin;
+
+  if (atWin.net >= thresholds.silentNet && meetsSilentMargin) {
+    return { eligible: true, tier: 'silent', reason: 'silent bump tier', thresholds };
+  }
+  if (atWin.net >= thresholds.flaggedNet && meetsFlaggedMargin) {
+    return { eligible: true, tier: 'flagged', reason: 'Telegram flag tier', thresholds };
+  }
+  if (atWin.net < 0) {
+    return { eligible: false, tier: 'blocked', reason: `loss at win price`, thresholds };
+  }
+  if (atWin.net < thresholds.flaggedNet) {
+    return { eligible: false, tier: 'blocked', reason: `net £${atWin.net} < £${thresholds.flaggedNet}`, thresholds };
+  }
+  return {
+    eligible: false,
+    tier: 'blocked',
+    reason: `${atWin.margin}% margin < ${thresholds.flaggedMargin}%`,
+    thresholds,
+  };
+}
+
 // ─── Step 8: Grade prices from V7 scraper ────────────────────────
 let _scraperData = null;
 function loadScraperData() {
@@ -810,19 +864,20 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
   } else if (buyBox.priceToWin) {
     let atWin = null;
     let atCurrent = null;
-    let canWin = false;
+    let gate = null;
     let action = 'No change. Monitor.';
 
     if (costData?.totalFixedCost) {
       atCurrent = calcProfit(currentPrice, costData.totalFixedCost, costData.purchasePrice);
       atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
-      canWin = atWin.net > 0 && parseFloat(atWin.margin) >= 15;
+      gate = evaluateAutoBumpGate(atWin);
     }
 
-    if (canWin) {
+    if (gate?.eligible) {
       // Bump eligible
-      const tier = parseFloat(atWin.margin) >= 30 ? '30%+' : '15-30%';
-      action = `Bump eligible (${tier} tier) — flagged for review`;
+      action = gate.tier === 'silent'
+        ? 'Bump eligible (silent tier)'
+        : 'Bump eligible (Telegram flag tier)';
       lines.push(`⚠️ Not winning: ${listing.sku || listing.title}`);
     } else {
       // Cannot win profitably
@@ -834,14 +889,10 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     lines.push('');
     lines.push(marketLine);
 
-    if (canWin) {
+    if (gate?.eligible) {
       lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%) | Net@current: £${r(atCurrent.net)} (${atCurrent.margin}%)`);
     } else if (atWin) {
-      if (parseFloat(atWin.margin) < 15 && atWin.net > 0) {
-        lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%) — below 15% floor`);
-      } else {
-        lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%)`);
-      }
+      lines.push(`Net@win: £${r(atWin.net)} (${atWin.margin}%) — ${gate?.reason || 'below auto-bump gate'}`);
       if (costData?.totalFixedCost) {
         const be = calcProfit(0, costData.totalFixedCost, costData.purchasePrice);
         lines.push(`Break-even price: £${be.breakEven}`);
@@ -883,9 +934,10 @@ function formatCard(listing, buyBox, costData, gradePrices, dateListed, gradeSou
     statuses.push('✅ Winning');
   } else if (buyBox.priceToWin && costData?.totalFixedCost) {
     const atWin = calcProfit(buyBox.priceToWin, costData.totalFixedCost, costData.purchasePrice);
-    if (atWin.net < 0 || parseFloat(atWin.margin) < 15) {
+    const gate = evaluateAutoBumpGate(atWin);
+    if (!gate.eligible) {
       statuses.push(`⛔ Cannot win profitably`);
-    } else if (parseFloat(atWin.margin) < 30) {
+    } else if (gate.tier === 'flagged') {
       statuses.push(`⚠️ Can win at ${atWin.margin}% margin`);
     } else {
       statuses.push(`✅ Can win at ${atWin.margin}% margin`);
@@ -933,6 +985,9 @@ async function main() {
   console.log(`  Buy Box Check — ${dryRun ? 'DRY RUN' : (autoBump ? 'AUTO-BUMP' : 'CHECK ONLY')}`);
   console.log(`  ${new Date().toISOString()}`);
   console.log('═'.repeat(60));
+  if (useLegacyGates) {
+    console.log('[LEGACY] using pre-Phase-0.2 thresholds');
+  }
 
   // Step 1
   console.log('\nFetching active listings...');
@@ -1132,7 +1187,6 @@ async function main() {
     // Step 6: Auto-bump if enabled
     if (!dryRun && autoBump && variantCheck.ok && variantCheck.managed && !buyBox.isWinning && buyBox.priceToWin) {
       // Use real profitability data when available (more accurate than Monday's single-item costs)
-      let marginOk = false;
       let marginSource = '';
       let atWin = null;
 
@@ -1148,10 +1202,11 @@ async function main() {
         marginSource = 'monday';
       }
 
-      if (atWin && atWin.margin >= 15 && atWin.net >= 50) {
-        marginOk = true;
+      const gate = evaluateAutoBumpGate(atWin);
+
+      if (gate.eligible) {
         const newMin = Math.ceil(buyBox.priceToWin * MIN_PRICE_FACTOR);
-        const isFlagged = atWin.margin < 30;
+        const isFlagged = gate.tier === 'flagged';
         console.log(`  Bumping ${lid} to £${buyBox.priceToWin} / min £${newMin} (${atWin.margin}% margin, net £${atWin.net} via ${marginSource})...`);
         try {
           await bmApi(`/ws/listings/${lid}`, {
@@ -1176,12 +1231,12 @@ async function main() {
       } else if (atWin && atWin.net < 0) {
         summary.unprofitable++;
         alerts.push(`⛔ ${listing.sku}: loss at win price £${buyBox.priceToWin} (${marginSource})`);
-      } else if (atWin && atWin.net < 50) {
+      } else if (atWin && atWin.net < gate.thresholds.flaggedNet) {
         summary.unprofitable++;
-        alerts.push(`⛔ ${listing.sku}: net £${atWin.net} < £50 at win price £${buyBox.priceToWin} (${marginSource})`);
+        alerts.push(`⛔ ${listing.sku}: net £${atWin.net} < £${gate.thresholds.flaggedNet} at win price £${buyBox.priceToWin} (${marginSource})`);
       } else if (atWin) {
         summary.unprofitable++;
-        alerts.push(`⛔ ${listing.sku}: ${atWin.margin}% margin < 15% at win price £${buyBox.priceToWin} (${marginSource})`);
+        alerts.push(`⛔ ${listing.sku}: ${atWin.margin}% margin < ${gate.thresholds.flaggedMargin}% at win price £${buyBox.priceToWin} (${marginSource})`);
       } else {
         // No cost data from either source — don't bump
         console.log(`  ⚠️ ${lid}: no cost data, skipping bump`);

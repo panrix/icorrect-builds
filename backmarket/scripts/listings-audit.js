@@ -25,6 +25,16 @@
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const path = require('path');
+const A_NUMBER_MAP_DATA = require('../data/A_NUMBER_MAP.json');
+
+if (
+  !A_NUMBER_MAP_DATA ||
+  typeof A_NUMBER_MAP_DATA !== 'object' ||
+  !A_NUMBER_MAP_DATA.mappings ||
+  typeof A_NUMBER_MAP_DATA.mappings !== 'object'
+) {
+  throw new Error('Invalid A_NUMBER_MAP.json: missing mappings object');
+}
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -32,6 +42,24 @@ const BM_AUTH = process.env.BACKMARKET_API_AUTH;
 const BM_LANG = process.env.BACKMARKET_API_LANG || 'en-gb';
 const BM_UA = process.env.BACKMARKET_API_UA;
 const PRODUCT_ID_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'product-id-lookup.json');
+const SHARED_A_NUMBER_MAP = A_NUMBER_MAP_DATA.mappings;
+
+const SCRAPER_MODEL_TO_A_NUMBER = Object.fromEntries(
+  Object.entries(SHARED_A_NUMBER_MAP).flatMap(([aNumber, entry]) => {
+    const labels = [];
+    if (typeof entry?.scraper_model === 'string' && entry.scraper_model) {
+      labels.push(entry.scraper_model);
+    }
+    if (Array.isArray(entry?.scraper_model_candidates)) {
+      for (const label of entry.scraper_model_candidates) {
+        if (typeof label === 'string' && label) {
+          labels.push(label);
+        }
+      }
+    }
+    return labels.map(label => [label, aNumber]);
+  })
+);
 
 const args = process.argv.slice(2);
 const limitIdx = args.indexOf('--limit');
@@ -42,6 +70,17 @@ const outputPath = outputIdx !== -1
   : path.join(__dirname, '..', 'data', `listings-audit-${new Date().toISOString().slice(0, 10)}.json`);
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function sharedANumber(aNumber) {
+  if (!SHARED_A_NUMBER_MAP[aNumber]) {
+    throw new Error(`A_NUMBER_MAP.json missing mapping for ${aNumber}`);
+  }
+  return aNumber;
+}
+
+function sharedANumberForScraperModel(scraperModel) {
+  return SCRAPER_MODEL_TO_A_NUMBER[scraperModel] || null;
+}
 
 // ─── API helpers ──────────────────────────────────────────────────
 async function bmApi(urlPath) {
@@ -93,57 +132,57 @@ function gradeToSku(grade) {
 // Model number (A-number) mappings from title patterns
 const MODEL_PATTERNS = [
   // MacBook Air
-  { pattern: /Air.*13.*2020.*M1/i, type: 'MBA', model: 'A2337', chip: 'M1' },
-  { pattern: /Air.*13.*2022.*M2/i, type: 'MBA', model: 'A2681', chip: 'M2' },
-  { pattern: /Air.*13.*2024.*M3/i, type: 'MBA', model: 'A3113', chip: 'M3' },
-  { pattern: /Air.*13.*2025.*M4/i, type: 'MBA', model: 'A3211', chip: 'M4' },
-  { pattern: /Air.*15.*2023.*M2/i, type: 'MBA', model: 'A2941', chip: 'M2' },
-  { pattern: /Air.*15.*2024.*M3/i, type: 'MBA', model: 'A3114', chip: 'M3' },
+  { pattern: /Air.*13.*2020.*M1/i, type: 'MBA', model: sharedANumberForScraperModel('Air 13" 2020 M1'), chip: 'M1' },
+  { pattern: /Air.*13.*2022.*M2/i, type: 'MBA', model: sharedANumberForScraperModel('Air 13" 2022 M2'), chip: 'M2' },
+  { pattern: /Air.*13.*2024.*M3/i, type: 'MBA', model: sharedANumberForScraperModel('Air 13" 2024 M3'), chip: 'M3' },
+  { pattern: /Air.*13.*2025.*M4/i, type: 'MBA', model: sharedANumberForScraperModel('Air 13" 2025 M4'), chip: 'M4' },
+  { pattern: /Air.*15.*2023.*M2/i, type: 'MBA', model: sharedANumberForScraperModel('Air 15" 2023 M2'), chip: 'M2' },
+  { pattern: /Air.*15.*2024.*M3/i, type: 'MBA', model: sharedANumber('A3114'), chip: 'M3' },
   // MacBook Air Intel
-  { pattern: /Air.*13.*2020.*Core i3/i, type: 'MBA', model: 'A2179', chip: 'I3' },
-  { pattern: /Air.*13.*2020.*Core i5.*SSD 512/i, type: 'MBA', model: 'A2179', chip: 'I5' },
-  { pattern: /Air.*13.*2020.*Core i5/i, type: 'MBA', model: 'A2179', chip: 'I5' },
-  { pattern: /Air.*13.*2019.*Core i5/i, type: 'MBA', model: 'A1932', chip: 'I5' },
-  { pattern: /Air.*13.*2018.*Core i5/i, type: 'MBA', model: 'A1932', chip: 'I5' },
-  { pattern: /Air.*13.*2017/i, type: 'MBA', model: 'A1466', chip: 'I5' },
+  { pattern: /Air.*13.*2020.*Core i3/i, type: 'MBA', model: sharedANumber('A2179'), chip: 'I3' },
+  { pattern: /Air.*13.*2020.*Core i5.*SSD 512/i, type: 'MBA', model: sharedANumber('A2179'), chip: 'I5' },
+  { pattern: /Air.*13.*2020.*Core i5/i, type: 'MBA', model: sharedANumber('A2179'), chip: 'I5' },
+  { pattern: /Air.*13.*2019.*Core i5/i, type: 'MBA', model: sharedANumber('A1932'), chip: 'I5' },
+  { pattern: /Air.*13.*2018.*Core i5/i, type: 'MBA', model: sharedANumber('A1932'), chip: 'I5' },
+  { pattern: /Air.*13.*2017/i, type: 'MBA', model: sharedANumber('A1466'), chip: 'I5' },
   // MacBook Pro 13"
-  { pattern: /Pro.*13.*2020.*M1/i, type: 'MBP', model: 'A2338', chip: 'M1' },
-  { pattern: /Pro.*13.*2022.*M2/i, type: 'MBP', model: 'A2681', chip: 'M2' },
-  { pattern: /Pro.*13.*2020.*Core i5/i, type: 'MBP', model: 'A2289', chip: 'I5' },
-  { pattern: /Pro.*13.*2020.*Core i7/i, type: 'MBP', model: 'A2289', chip: 'I7' },
-  { pattern: /Pro.*13.*2019.*Core i5/i, type: 'MBP', model: 'A2159', chip: 'I5' },
-  { pattern: /Pro.*13.*2019.*Core i7/i, type: 'MBP', model: 'A2159', chip: 'I7' },
+  { pattern: /Pro.*13.*2020.*M1/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 13" 2020 M1'), chip: 'M1' },
+  { pattern: /Pro.*13.*2022.*M2/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 13" 2022 M2'), chip: 'M2' },
+  { pattern: /Pro.*13.*2020.*Core i5/i, type: 'MBP', model: sharedANumber('A2289'), chip: 'I5' },
+  { pattern: /Pro.*13.*2020.*Core i7/i, type: 'MBP', model: sharedANumber('A2289'), chip: 'I7' },
+  { pattern: /Pro.*13.*2019.*Core i5/i, type: 'MBP', model: sharedANumber('A2159'), chip: 'I5' },
+  { pattern: /Pro.*13.*2019.*Core i7/i, type: 'MBP', model: sharedANumber('A2159'), chip: 'I7' },
   { pattern: /Pro.*13.*2018.*Core i5/i, type: 'MBP', model: 'A1989', chip: 'I5' },
   { pattern: /Pro.*13.*2018.*Core i7/i, type: 'MBP', model: 'A1989', chip: 'I7' },
   { pattern: /Pro.*13.*2017.*Core i5/i, type: 'MBP', model: 'A1708', chip: 'I5' },
   { pattern: /Pro.*13.*2017.*Core i7/i, type: 'MBP', model: 'A1708', chip: 'I7' },
   { pattern: /Pro.*13.*2016.*Core i5/i, type: 'MBP', model: 'A1706', chip: 'I5' },
   // MacBook Pro 14"
-  { pattern: /Pro.*14.*2021.*M1 Pro.*8-core and 14-core/i, type: 'MBP', model: 'A2442', chip: 'M1PRO', gpuCores: '14C' },
-  { pattern: /Pro.*14.*2021.*M1 Pro.*8-core and 16-core/i, type: 'MBP', model: 'A2442', chip: 'M1PRO', gpuCores: '16C' },
-  { pattern: /Pro.*14.*2021.*M1 Pro/i, type: 'MBP', model: 'A2442', chip: 'M1PRO' },
-  { pattern: /Pro.*14.*2021.*M1 Max.*24-core/i, type: 'MBP', model: 'A2442', chip: 'M1MAX', gpuCores: '24C' },
-  { pattern: /Pro.*14.*2021.*M1 Max.*32-core/i, type: 'MBP', model: 'A2442', chip: 'M1MAX', gpuCores: '32C' },
-  { pattern: /Pro.*14.*2021.*M1 Max/i, type: 'MBP', model: 'A2442', chip: 'M1MAX' },
-  { pattern: /Pro.*14.*2023.*M2 Pro/i, type: 'MBP', model: 'A2779', chip: 'M2PRO' },
-  { pattern: /Pro.*14.*2023.*M3 Pro.*11-core and 14-core/i, type: 'MBP', model: 'A2918', chip: 'M3PRO', gpuCores: '14C' },
-  { pattern: /Pro.*14.*2023.*M3 Pro.*12-core and 18-core/i, type: 'MBP', model: 'A2918', chip: 'M3PRO', gpuCores: '18C' },
-  { pattern: /Pro.*14.*2023.*M3 Pro/i, type: 'MBP', model: 'A2918', chip: 'M3PRO' },
-  { pattern: /Pro.*14.*2023.*M3\b/i, type: 'MBP', model: 'A2918', chip: 'M3' },
-  { pattern: /Pro.*14.*2024.*M4 Pro/i, type: 'MBP', model: 'A2992', chip: 'M4PRO' },
-  { pattern: /Pro.*14.*2024.*M4\b/i, type: 'MBP', model: 'A2992', chip: 'M4' },
+  { pattern: /Pro.*14.*2021.*M1 Pro.*8-core and 14-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2021 M1 Pro'), chip: 'M1PRO', gpuCores: '14C' },
+  { pattern: /Pro.*14.*2021.*M1 Pro.*8-core and 16-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2021 M1 Pro'), chip: 'M1PRO', gpuCores: '16C' },
+  { pattern: /Pro.*14.*2021.*M1 Pro/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2021 M1 Pro'), chip: 'M1PRO' },
+  { pattern: /Pro.*14.*2021.*M1 Max.*24-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2021 M1 Max'), chip: 'M1MAX', gpuCores: '24C' },
+  { pattern: /Pro.*14.*2021.*M1 Max.*32-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2021 M1 Max'), chip: 'M1MAX', gpuCores: '32C' },
+  { pattern: /Pro.*14.*2021.*M1 Max/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2021 M1 Max'), chip: 'M1MAX' },
+  { pattern: /Pro.*14.*2023.*M2 Pro/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2023 M2 Pro'), chip: 'M2PRO' },
+  { pattern: /Pro.*14.*2023.*M3 Pro.*11-core and 14-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2023 M3 Pro'), chip: 'M3PRO', gpuCores: '14C' },
+  { pattern: /Pro.*14.*2023.*M3 Pro.*12-core and 18-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2023 M3 Pro'), chip: 'M3PRO', gpuCores: '18C' },
+  { pattern: /Pro.*14.*2023.*M3 Pro/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2023 M3 Pro'), chip: 'M3PRO' },
+  { pattern: /Pro.*14.*2023.*M3\b/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 14" 2023 M3'), chip: 'M3' },
+  { pattern: /Pro.*14.*2024.*M4 Pro/i, type: 'MBP', model: null, chip: 'M4PRO' },
+  { pattern: /Pro.*14.*2024.*M4\b/i, type: 'MBP', model: null, chip: 'M4' },
   // MacBook Pro 16"
-  { pattern: /Pro.*16.*2021.*M1 Pro.*16-core/i, type: 'MBP', model: 'A2485', chip: 'M1PRO', gpuCores: '16C' },
-  { pattern: /Pro.*16.*2021.*M1 Pro/i, type: 'MBP', model: 'A2485', chip: 'M1PRO' },
-  { pattern: /Pro.*16.*2021.*M1 Max.*24-core/i, type: 'MBP', model: 'A2485', chip: 'M1MAX', gpuCores: '24C' },
-  { pattern: /Pro.*16.*2021.*M1 Max.*32-core/i, type: 'MBP', model: 'A2485', chip: 'M1MAX', gpuCores: '32C' },
-  { pattern: /Pro.*16.*2021.*M1 Max/i, type: 'MBP', model: 'A2485', chip: 'M1MAX' },
-  { pattern: /Pro.*16.*2023.*M2 Pro/i, type: 'MBP', model: 'A2780', chip: 'M2PRO' },
-  { pattern: /Pro.*16.*2023.*M2 Max/i, type: 'MBP', model: 'A2780', chip: 'M2MAX' },
-  { pattern: /Pro.*16.*2023.*M3 Pro/i, type: 'MBP', model: 'A2991', chip: 'M3PRO' },
-  { pattern: /Pro.*16.*2023.*M3 Max/i, type: 'MBP', model: 'A2991', chip: 'M3MAX' },
-  { pattern: /Pro.*16.*2024.*M4 Pro/i, type: 'MBP', model: 'A2993', chip: 'M4PRO' },
-  { pattern: /Pro.*16.*2024.*M4 Max/i, type: 'MBP', model: 'A2993', chip: 'M4MAX' },
+  { pattern: /Pro.*16.*2021.*M1 Pro.*16-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2021 M1 Pro'), chip: 'M1PRO', gpuCores: '16C' },
+  { pattern: /Pro.*16.*2021.*M1 Pro/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2021 M1 Pro'), chip: 'M1PRO' },
+  { pattern: /Pro.*16.*2021.*M1 Max.*24-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2021 M1 Max'), chip: 'M1MAX', gpuCores: '24C' },
+  { pattern: /Pro.*16.*2021.*M1 Max.*32-core/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2021 M1 Max'), chip: 'M1MAX', gpuCores: '32C' },
+  { pattern: /Pro.*16.*2021.*M1 Max/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2021 M1 Max'), chip: 'M1MAX' },
+  { pattern: /Pro.*16.*2023.*M2 Pro/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2023 M2 Pro'), chip: 'M2PRO' },
+  { pattern: /Pro.*16.*2023.*M2 Max/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2023 M2 Pro'), chip: 'M2MAX' },
+  { pattern: /Pro.*16.*2023.*M3 Pro/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2023 M3 Pro'), chip: 'M3PRO' },
+  { pattern: /Pro.*16.*2023.*M3 Max/i, type: 'MBP', model: sharedANumberForScraperModel('Pro 16" 2023 M3 Pro'), chip: 'M3MAX' },
+  { pattern: /Pro.*16.*2024.*M4 Pro/i, type: 'MBP', model: sharedANumber('A2993'), chip: 'M4PRO' },
+  { pattern: /Pro.*16.*2024.*M4 Max/i, type: 'MBP', model: sharedANumber('A2993'), chip: 'M4MAX' },
 ];
 
 // Extract RAM from title
@@ -180,6 +219,9 @@ function extractColour(title) {
 function parseTitle(title) {
   for (const mp of MODEL_PATTERNS) {
     if (mp.pattern.test(title)) {
+      if (!mp.model) {
+        return null;
+      }
       const ram = extractRam(title);
       const ssd = extractSsd(title);
       const parts = [mp.type, mp.model, mp.chip];

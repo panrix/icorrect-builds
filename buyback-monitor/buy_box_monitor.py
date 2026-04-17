@@ -18,6 +18,33 @@ from typing import Optional
 import requests
 import dotenv
 
+GRADE_HARD_BLOCK = {"GOLD", "PLATINUM", "DIAMOND"}
+GRADE_CAUTION = {"SILVER"}
+GRADE_ACCEPTABLE = {"STALLONE", "BRONZE"}
+
+SKIP_GRADE_GOLD = "SKIP_GRADE_GOLD"
+SKIP_GRADE_PLATINUM = "SKIP_GRADE_PLATINUM"
+SKIP_GRADE_DIAMOND = "SKIP_GRADE_DIAMOND"
+SKIP_MARGIN = "SKIP_MARGIN"
+SKIP_NET = "SKIP_NET"
+SKIP_MARKET_FROZEN = "SKIP_MARKET_FROZEN"
+SKIP_UNKNOWN_GRADE = "SKIP_UNKNOWN_GRADE"
+
+AESTHETIC_TO_POLICY_GRADE = {
+    "NOT_FUNCTIONAL_CRACKED": "STALLONE",
+    "NONFUNC_CRACK": "STALLONE",
+    "NOT_FUNCTIONAL_USED": "BRONZE",
+    "NONFUNC_USED": "BRONZE",
+    "FUNCTIONAL_CRACKED": "SILVER",
+    "FUNC_CRACK": "SILVER",
+    "FUNCTIONAL_USED": "GOLD",
+    "FUNC_USED": "GOLD",
+    "FUNCTIONAL_GOOD": "PLATINUM",
+    "FUNC_GOOD": "PLATINUM",
+    "FUNCTIONAL_FLAWLESS": "DIAMOND",
+    "FUNC_EXCELLENT": "DIAMOND",
+}
+
 # ---------------------------------------------------------------------------
 # Config
 # ---------------------------------------------------------------------------
@@ -38,6 +65,7 @@ HEADERS = {
 }
 OUTPUT_DIR = Path("/home/ricky/.openclaw/agents/main/workspace/data/buyback")
 PROGRESS_FILE = OUTPUT_DIR / "buy-box-progress.json"
+FREEZE_STATE_PATH = Path("/home/ricky/builds/backmarket/data/freeze-state.json")
 COMPETITOR_DELAY = 2  # seconds between competitor requests
 SAVE_EVERY = 100
 
@@ -130,6 +158,150 @@ logging.basicConfig(
     datefmt="%Y-%m-%d %H:%M:%S",
 )
 log = logging.getLogger("buybox")
+skip_log = []
+
+
+def skip(listing: dict, reason_code: str, detail: str = ""):
+    listing_id = listing.get("listing_id") or listing.get("id") or "?"
+    skip_log.append((listing_id, reason_code, detail))
+    log.info(f"SKIP [{reason_code}] listing={listing_id} - {detail}")
+
+
+def calc_margin(net_profit: float, sell_price: float) -> float:
+    """Calculate margin against estimated BM net revenue."""
+    net_revenue = sell_price * 0.90
+    if net_revenue <= 0:
+        return 0.0
+    return net_profit / net_revenue
+
+
+def get_frozen_model_match(listing: dict, freeze_state: dict) -> str:
+    frozen_models = freeze_state.get("frozen_models", [])
+    if not isinstance(frozen_models, list):
+        return ""
+    for key in ("model", "apple_model", "imei_prefix", "model_family", "sku"):
+        value = listing.get(key)
+        if value and value in frozen_models:
+            return str(value)
+    return ""
+
+
+def extract_skip_grade(reason_code: str, detail: str) -> str:
+    if reason_code == SKIP_GRADE_GOLD:
+        return "GOLD"
+    if reason_code == SKIP_GRADE_PLATINUM:
+        return "PLATINUM"
+    if reason_code == SKIP_GRADE_DIAMOND:
+        return "DIAMOND"
+    if reason_code == SKIP_UNKNOWN_GRADE:
+        return "UNKNOWN"
+    if "grade=" not in detail:
+        return ""
+    grade = detail.split("grade=", 1)[1].split()[0].strip(",")
+    return grade.strip("'\"")
+
+
+def summarize_skip_log(entries: list) -> dict:
+    by_grade = {"GOLD": 0, "PLATINUM": 0, "DIAMOND": 0, "SILVER": 0, "UNKNOWN": 0}
+    by_reason = {SKIP_MARGIN: 0, SKIP_NET: 0, SKIP_MARKET_FROZEN: 0}
+
+    for _, reason_code, detail in entries:
+        grade = extract_skip_grade(reason_code, detail)
+        if grade in by_grade:
+            by_grade[grade] += 1
+        if reason_code in by_reason:
+            by_reason[reason_code] += 1
+
+    return {"by_grade": by_grade, "by_reason": by_reason}
+
+
+def get_policy_grade(raw_grade: str) -> str:
+    grade = (raw_grade or "").upper().replace(".", "_")
+    return AESTHETIC_TO_POLICY_GRADE.get(grade, grade)
+
+
+def build_bump_candidates(results: list, args: argparse.Namespace, freeze_state: dict) -> list:
+    skip_log.clear()
+    candidates = []
+
+    if args.legacy_thresholds:
+        log.info("[LEGACY] Running with pre-Phase-0.1 thresholds")
+
+    for listing in results:
+        listing["caution_flag"] = False
+
+        if listing.get("is_winning"):
+            continue
+        if listing.get("profit_at_price_to_win", 0) < args.bump_min_profit:
+            continue
+        if not 0 < listing.get("gap", 0) <= args.bump_max_gap:
+            continue
+        if listing.get("model_family", "UNKNOWN") == "UNKNOWN":
+            continue
+
+        net = float(listing.get("profit_at_price_to_win", 0))
+        sell_price = float(listing.get("sell_price_ref", 0) or 0)
+        margin = calc_margin(net, sell_price)
+        listing["margin_at_price_to_win"] = round(margin, 4)
+
+        if args.legacy_thresholds:
+            if margin < 0.15 or net < 50:
+                skip(
+                    listing,
+                    SKIP_MARGIN if margin < 0.15 else SKIP_NET,
+                    f"grade={listing.get('grade', '')} margin={margin:.1%} net=£{net:.0f} below legacy floor",
+                )
+                continue
+            candidates.append(listing)
+            continue
+
+        grade = get_policy_grade(listing.get("policy_grade") or listing.get("grade", ""))
+
+        device_model = get_frozen_model_match(listing, freeze_state)
+        if device_model:
+            skip(
+                listing,
+                SKIP_MARKET_FROZEN,
+                f"model={device_model} frozen: {freeze_state.get('reason', '')}",
+            )
+            continue
+
+        if grade in GRADE_HARD_BLOCK:
+            skip_code = {
+                "GOLD": SKIP_GRADE_GOLD,
+                "PLATINUM": SKIP_GRADE_PLATINUM,
+                "DIAMOND": SKIP_GRADE_DIAMOND,
+            }.get(grade, f"SKIP_GRADE_{grade}")
+            skip(listing, skip_code, f"grade={grade} hard-blocked by acquisition policy")
+            continue
+
+        if grade not in GRADE_CAUTION and grade not in GRADE_ACCEPTABLE:
+            skip(listing, SKIP_UNKNOWN_GRADE, f"grade={grade!r} unrecognised - skipping")
+            continue
+
+        if grade in GRADE_CAUTION:
+            if margin < 0.25 or net < 200:
+                skip(
+                    listing,
+                    SKIP_MARGIN if margin < 0.25 else SKIP_NET,
+                    f"grade={grade} SILVER caution: margin={margin:.1%} net=£{net:.0f} (need >=25%/£200)",
+                )
+                continue
+            listing["caution_flag"] = True
+        else:
+            if margin < 0.15 or net < 150:
+                skip(
+                    listing,
+                    SKIP_MARGIN if margin < 0.15 else SKIP_NET,
+                    f"grade={grade} margin={margin:.1%} net=£{net:.0f} below hard floor",
+                )
+                continue
+            listing["caution_flag"] = margin < 0.25 or net < 200
+
+        candidates.append(listing)
+
+    candidates.sort(key=lambda x: x.get("profit_at_price_to_win", 0), reverse=True)
+    return candidates
 
 
 # ---------------------------------------------------------------------------
@@ -242,6 +414,30 @@ def load_sell_price_lookup() -> Optional[dict]:
         except Exception as e:
             log.error(f"Failed to load sell prices from {path}: {e}")
     return None
+
+
+def load_freeze_state() -> dict:
+    default_state = {"frozen_models": []}
+    if not FREEZE_STATE_PATH.exists():
+        return default_state
+
+    try:
+        data = json.loads(FREEZE_STATE_PATH.read_text())
+    except Exception as e:
+        log.error(f"Invalid freeze state at {FREEZE_STATE_PATH}: {e}")
+        return default_state
+
+    if not isinstance(data, dict):
+        log.error(f"Invalid freeze state at {FREEZE_STATE_PATH}: expected dict, got {type(data).__name__}")
+        return default_state
+
+    frozen_models = data.get("frozen_models")
+    if not isinstance(frozen_models, list):
+        log.error(f"Invalid freeze state at {FREEZE_STATE_PATH}: 'frozen_models' must be a list")
+        return default_state
+
+    log.info(f"Loaded freeze state: {len(frozen_models)} frozen models")
+    return data
 
 
 def resolve_sell_price_from_lookup(lookup: dict, sku: str, grade: str = "") -> Optional[float]:
@@ -659,22 +855,14 @@ def update_listing_price(listing_id: str, amount: float) -> tuple:
     return False, 429, "Exhausted retries"
 
 
-def execute_bumps(results: list, min_profit: float = 30.0, max_bump: float = 100.0) -> dict:
-    """Auto-bump losing listings where profit_at_price_to_win >= min_profit.
+def execute_bumps(candidates: list, min_profit: float = 30.0, max_bump: float = 100.0) -> dict:
+    """Auto-bump pre-screened losing listings.
     
     Returns dict with bump stats and log of changes.
     """
-    candidates = [
-        r for r in results
-        if not r.get("is_winning")
-        and r.get("profit_at_price_to_win", 0) >= min_profit
-        and 0 < r.get("gap", 0) <= max_bump
-        and r.get("model_family", "UNKNOWN") != "UNKNOWN"
-    ]
-
     if not candidates:
         log.info("No bump candidates found.")
-        return {"bumped": 0, "failed": 0, "skipped": 0, "changes": []}
+        return {"bumped": 0, "failed": 0, "skipped": 0, "bumped_with_caution": 0, "changes": []}
 
     # Sort by profit descending (most profitable bumps first)
     candidates.sort(key=lambda x: x.get("profit_at_price_to_win", 0), reverse=True)
@@ -684,6 +872,7 @@ def execute_bumps(results: list, min_profit: float = 30.0, max_bump: float = 100
     bumped = 0
     failed = 0
     consecutive_fails = 0
+    bumped_with_caution = 0
     changes = []
 
     for item in candidates:
@@ -706,6 +895,7 @@ def execute_bumps(results: list, min_profit: float = 30.0, max_bump: float = 100
             "new_price": target_price,
             "bump_amount": gap,
             "profit_at_new_price": profit,
+            "caution_flag": bool(item.get("caution_flag")),
             "status_code": status,
             "success": ok,
             "timestamp": datetime.now(timezone.utc).isoformat(),
@@ -717,6 +907,8 @@ def execute_bumps(results: list, min_profit: float = 30.0, max_bump: float = 100
 
         if ok:
             bumped += 1
+            if item.get("caution_flag"):
+                bumped_with_caution += 1
             consecutive_fails = 0
             log.info(f"    OK ({status})")
         else:
@@ -732,7 +924,13 @@ def execute_bumps(results: list, min_profit: float = 30.0, max_bump: float = 100
     skipped = len(candidates) - bumped - failed
     log.info(f"Auto-bump complete: {bumped} bumped, {failed} failed, {skipped} skipped")
 
-    return {"bumped": bumped, "failed": failed, "skipped": skipped, "changes": changes}
+    return {
+        "bumped": bumped,
+        "failed": failed,
+        "skipped": skipped,
+        "bumped_with_caution": bumped_with_caution,
+        "changes": changes,
+    }
 
 
 # ---------------------------------------------------------------------------
@@ -746,6 +944,8 @@ def main():
     parser.add_argument("--auto-bump", action="store_true", help="Auto-bump losing listings that are profitable to win")
     parser.add_argument("--bump-min-profit", type=float, default=30.0, help="Min profit at win price to auto-bump (default: £30)")
     parser.add_argument("--bump-max-gap", type=float, default=100.0, help="Max gap to bump (safety cap, default: £100)")
+    parser.add_argument("--legacy-thresholds", action="store_true",
+                        help="Use pre-Phase-0.1 thresholds (no grade gate, margin>=15%%, net>=£50)")
     parser.add_argument("--dry-run", action="store_true", help="Show what would be bumped without executing")
     args = parser.parse_args()
 
@@ -753,6 +953,7 @@ def main():
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     log.info("=== Buy Box Monitor starting ===")
+    freeze_state = load_freeze_state()
 
     # Step 1: Load sell prices (prefer scraped lookup, fallback to historical)
     sell_lookup = load_sell_price_lookup()
@@ -812,6 +1013,7 @@ def main():
         sku = listing.get("sku", "") or ""
         buy_price = get_gb_price(listing)
         grade = get_grade(listing)
+        policy_grade = get_policy_grade(grade)
         model_family = extract_model_family(sku)
         apple_model = extract_apple_model(sku)
         parts_cost = get_parts_cost(grade, model=apple_model, parts_lookup=parts_lookup)
@@ -897,6 +1099,7 @@ def main():
             "model_family": model_family,
             "apple_model": apple_model,
             "grade": grade,
+            "policy_grade": policy_grade,
             "our_price": buy_price,
             "price_to_win": round(api_price_to_win, 2),
             "gap": round(gap, 2),
@@ -923,6 +1126,26 @@ def main():
         time.sleep(COMPETITOR_DELAY)
 
     log.info(f"Checked {count} new listings, skipped {skipped} (resumed), {errors} errors")
+
+    bump_candidates = build_bump_candidates(results, args, freeze_state)
+    skip_summary = summarize_skip_log(skip_log)
+    planned_caution_count = sum(1 for item in bump_candidates if item.get("caution_flag"))
+    log.info("Skip breakdown:")
+    log.info(
+        "  by grade: GOLD=%d PLATINUM=%d DIAMOND=%d SILVER=%d UNKNOWN=%d",
+        skip_summary["by_grade"]["GOLD"],
+        skip_summary["by_grade"]["PLATINUM"],
+        skip_summary["by_grade"]["DIAMOND"],
+        skip_summary["by_grade"]["SILVER"],
+        skip_summary["by_grade"]["UNKNOWN"],
+    )
+    log.info(
+        "  by reason: SKIP_MARGIN=%d SKIP_NET=%d SKIP_MARKET_FROZEN=%d",
+        skip_summary["by_reason"][SKIP_MARGIN],
+        skip_summary["by_reason"][SKIP_NET],
+        skip_summary["by_reason"][SKIP_MARKET_FROZEN],
+    )
+    log.info(f"Bumped with caution flag: {planned_caution_count}")
 
     # Step 5: Save full results
     total = len(results)
@@ -964,22 +1187,19 @@ def main():
     # Step 7: Auto-bump if enabled
     bump_results = None
     if args.auto_bump:
-        bump_candidates = [
-            r for r in results
-            if not r.get("is_winning")
-            and r.get("profit_at_price_to_win", 0) >= args.bump_min_profit
-            and 0 < r.get("gap", 0) <= args.bump_max_gap
-            and r.get("model_family", "UNKNOWN") != "UNKNOWN"
-        ]
-
         if args.dry_run:
             log.info(f"DRY RUN: would bump {len(bump_candidates)} listings")
             for item in sorted(bump_candidates, key=lambda x: x.get("profit_at_price_to_win", 0), reverse=True):
                 target = round(item["price_to_win"] + BUMP_BUFFER, 2)
                 gap = round(target - item["our_price"], 2)
-                log.info(f"  [DRY] {item['label']}: £{item['our_price']:.0f} -> £{target:.0f} (+£{gap:.0f}, profit £{item['profit_at_price_to_win']:.0f})")
+                caution = " [CAUTION]" if item.get("caution_flag") else ""
+                log.info(
+                    f"  [DRY]{caution} {item['label']}: £{item['our_price']:.0f} -> £{target:.0f} "
+                    f"(+£{gap:.0f}, profit £{item['profit_at_price_to_win']:.0f}, "
+                    f"margin {item.get('margin_at_price_to_win', 0):.1%})"
+                )
         else:
-            bump_results = execute_bumps(results, min_profit=args.bump_min_profit, max_bump=args.bump_max_gap)
+            bump_results = execute_bumps(bump_candidates, min_profit=args.bump_min_profit, max_bump=args.bump_max_gap)
 
             # Save bump log
             bump_log_path = OUTPUT_DIR / f"bumps-{today_str}.json"
@@ -989,6 +1209,7 @@ def main():
                 "config": {
                     "min_profit": args.bump_min_profit,
                     "max_gap": args.bump_max_gap,
+                    "legacy_thresholds": args.legacy_thresholds,
                 },
                 **bump_results,
             }, indent=2, default=str))
@@ -997,10 +1218,27 @@ def main():
     # Print summary
     overbid_count = sum(1 for r in results if r.get("is_winning") and r.get("overbid", 0) > 10)
     total_overbid = sum(r.get("overbid", 0) for r in results if r.get("is_winning") and r.get("overbid", 0) > 10)
+    caution_summary_count = bump_results["bumped_with_caution"] if bump_results else planned_caution_count
     print(f"\n{'='*50}")
     print(f"Total: {total} | Winning: {winning} | Losing: {losing}")
     print(f"Overbidding >£10: {overbid_count} listings (£{total_overbid:.0f} excess/txn)")
-    bump_count = sum(1 for r in results if not r.get("is_winning") and r.get("profit_at_price_to_win", 0) >= 30)
+    print("Skip breakdown:")
+    print(
+        "  by grade: "
+        f"GOLD={skip_summary['by_grade']['GOLD']} "
+        f"PLATINUM={skip_summary['by_grade']['PLATINUM']} "
+        f"DIAMOND={skip_summary['by_grade']['DIAMOND']} "
+        f"SILVER={skip_summary['by_grade']['SILVER']} "
+        f"UNKNOWN={skip_summary['by_grade']['UNKNOWN']}"
+    )
+    print(
+        "  by reason: "
+        f"SKIP_MARGIN={skip_summary['by_reason'][SKIP_MARGIN]} "
+        f"SKIP_NET={skip_summary['by_reason'][SKIP_NET]} "
+        f"SKIP_MARKET_FROZEN={skip_summary['by_reason'][SKIP_MARKET_FROZEN]}"
+    )
+    print(f"Bumped with caution flag: {caution_summary_count}")
+    bump_count = len(bump_candidates)
     print(f"Recommended bumps: {bump_count}")
     if bump_results:
         print(f"Auto-bumped: {bump_results['bumped']} OK, {bump_results['failed']} failed")

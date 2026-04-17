@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "last_updated": "2026-04-17",
+  "notes": "Maps Apple A-numbers to canonical scraper model family labels (matching BackMarket product page titles exposed via V7 scraper). Source-of-truth for bm-grade-check and listings-audit.",
+  "mappings": {
+    "A1466": {
+      "scraper_model": null,
+      "chip": "Intel",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2017,
+      "verification": "needs_manual"
+    },
+    "A1932": {
+      "scraper_model": null,
+      "chip": "Intel",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2018,
+      "verification": "needs_manual"
+    },
+    "A2179": {
+      "scraper_model": null,
+      "chip": "Intel",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2020,
+      "verification": "needs_manual",
+      "conflict_resolved": "bm-grade-check hard-coded the non-canonical V7 family string \"Air 13\\\" 2020 Intel i5 Grey\", but sell-prices-latest.json exposes no 2020 Intel Air family label. The shared map keeps the Apple A-number metadata and disables scraper fallback until a canonical V7 label exists."
+    },
+    "A2337": {
+      "scraper_model": "Air 13\" 2020 M1",
+      "chip": "M1",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2020,
+      "gpu_variants": [
+        "7C",
+        "8C"
+      ]
+    },
+    "A2681": {
+      "scraper_model": "Air 13\" 2022 M2",
+      "chip": "M2",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2022,
+      "gpu_variants": [
+        "8C",
+        "10C"
+      ],
+      "conflict_resolved": "listings-audit incorrectly reused A2681 for MacBook Pro 13-inch M2 titles. Apple identifies A2681 as the 13-inch MacBook Air chassis, and the exact V7 family label is Air 13\" 2022 M2."
+    },
+    "A2941": {
+      "scraper_model": "Air 15\" 2023 M2",
+      "chip": "M2",
+      "type": "MacBook Air",
+      "size": "15",
+      "year": 2023
+    },
+    "A3113": {
+      "scraper_model": "Air 13\" 2024 M3",
+      "chip": "M3",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2024,
+      "gpu_variants": [
+        "8C",
+        "10C"
+      ],
+      "conflict_resolved": "Apple identifies A3113 as MacBook Air 13-inch M3. This resolves the drift between the repo's older A3114/A3211 assumptions and the exact V7 family label Air 13\" 2024 M3."
+    },
+    "A3114": {
+      "scraper_model": null,
+      "chip": "M3",
+      "type": "MacBook Air",
+      "size": "15",
+      "year": 2024,
+      "verification": "needs_manual",
+      "conflict_resolved": "bm-grade-check mapped A3114 to Air 13\" 2025 M4, but Apple identifies A3114 as MacBook Air 15-inch M3. sell-prices-latest.json does not currently expose an Air 15\" 2024 M3 family label, so the shared map does not guess."
+    },
+    "A3240": {
+      "scraper_model": "Air 13\" 2025 M4",
+      "chip": "M4",
+      "type": "MacBook Air",
+      "size": "13",
+      "year": 2025,
+      "gpu_variants": [
+        "8C",
+        "10C"
+      ],
+      "conflict_resolved": "listings-audit previously used the wrong A3211 placeholder for MacBook Air 13-inch M4, and bm-grade-check previously reused A3114. Apple identifies the 13-inch M4 Air as A3240, which maps cleanly to the V7 family label Air 13\" 2025 M4."
+    },
+    "A3241": {
+      "scraper_model": null,
+      "chip": "M4",
+      "type": "MacBook Air",
+      "size": "15",
+      "year": 2025,
+      "verification": "needs_manual"
+    },
+    "A2159": {
+      "scraper_model": null,
+      "chip": "Intel",
+      "type": "MacBook Pro",
+      "size": "13",
+      "year": 2019,
+      "verification": "needs_manual"
+    },
+    "A2251": {
+      "scraper_model": null,
+      "chip": "Intel",
+      "type": "MacBook Pro",
+      "size": "13",
+      "year": 2020,
+      "verification": "needs_manual"
+    },
+    "A2289": {
+      "scraper_model": null,
+      "chip": "Intel",
+      "type": "MacBook Pro",
+      "size": "13",
+      "year": 2020,
+      "verification": "needs_manual",
+      "conflict_resolved": "bm-grade-check hard-coded the non-canonical V7 family string \"Pro 13\\\" 2020 Intel\", but sell-prices-latest.json exposes no Intel 13-inch Pro family labels. The shared map preserves the A-number and blocks stale scraper fallback."
+    },
+    "A2338": {
+      "scraper_model": null,
+      "scraper_model_candidates": [
+        "Pro 13\" 2020 M1",
+        "Pro 13\" 2022 M2"
+      ],
+      "chip": "M1/M2",
+      "type": "MacBook Pro",
+      "size": "13",
+      "year": 2020,
+      "verification": "needs_manual",
+      "conflict_resolved": "Apple uses A2338 for both MacBook Pro 13-inch M1 (2020) and MacBook Pro 13-inch M2 (2022). Because V7 exposes two exact family labels for the same A-number, bm-grade-check no longer guesses; listings-audit uses the shared candidate list to resolve title patterns without duplicating A-number literals."
+    },
+    "A2442": {
+      "scraper_model": null,
+      "scraper_model_candidates": [
+        "Pro 14\" 2021 M1 Pro",
+        "Pro 14\" 2021 M1 Max"
+      ],
+      "chip": "M1 Pro/M1 Max",
+      "type": "MacBook Pro",
+      "size": "14",
+      "year": 2021,
+      "verification": "needs_manual"
+    },
+    "A2485": {
+      "scraper_model": null,
+      "scraper_model_candidates": [
+        "Pro 16\" 2021 M1 Pro",
+        "Pro 16\" 2021 M1 Max"
+      ],
+      "chip": "M1 Pro/M1 Max",
+      "type": "MacBook Pro",
+      "size": "16",
+      "year": 2021,
+      "verification": "needs_manual"
+    },
+    "A2779": {
+      "scraper_model": "Pro 14\" 2023 M2 Pro",
+      "chip": "M2 Pro/M2 Max",
+      "type": "MacBook Pro",
+      "size": "14",
+      "year": 2023,
+      "conflict_resolved": "Apple's A2779 chassis spans M2 Pro and M2 Max builds, but sell-prices-latest.json exposes a single canonical V7 family label for this generation: Pro 14\" 2023 M2 Pro. The shared map standardises on the exact V7 label."
+    },
+    "A2780": {
+      "scraper_model": "Pro 16\" 2023 M2 Pro",
+      "chip": "M2 Pro/M2 Max",
+      "type": "MacBook Pro",
+      "size": "16",
+      "year": 2023,
+      "conflict_resolved": "Apple's A2780 chassis spans M2 Pro and M2 Max builds, but sell-prices-latest.json exposes a single canonical V7 family label for this generation: Pro 16\" 2023 M2 Pro. The shared map standardises on the exact V7 label."
+    },
+    "A2918": {
+      "scraper_model": "Pro 14\" 2023 M3",
+      "chip": "M3",
+      "type": "MacBook Pro",
+      "size": "14",
+      "year": 2023,
+      "conflict_resolved": "bm-grade-check incorrectly mapped A2918 to Pro 14\" 2023 M3 Pro. Apple identifies A2918 as the base 14-inch M3 model, and the exact V7 family label is Pro 14\" 2023 M3."
+    },
+    "A2991": {
+      "scraper_model": "Pro 16\" 2023 M3 Pro",
+      "chip": "M3 Pro/M3 Max",
+      "type": "MacBook Pro",
+      "size": "16",
+      "year": 2023,
+      "conflict_resolved": "bm-grade-check incorrectly mapped A2991 to Pro 14\" 2023 M3. Apple identifies A2991 as the 16-inch 2023 M3 Pro/Max chassis, and sell-prices-latest.json exposes the canonical family label Pro 16\" 2023 M3 Pro for that generation."
+    },
+    "A2992": {
+      "scraper_model": "Pro 14\" 2023 M3 Pro",
+      "chip": "M3 Pro/M3 Max",
+      "type": "MacBook Pro",
+      "size": "14",
+      "year": 2023,
+      "conflict_resolved": "The repo previously crossed A2918, A2991, and A2992. Apple identifies A2992 as the 14-inch 2023 M3 Pro/Max chassis; sell-prices-latest.json exposes the canonical family label Pro 14\" 2023 M3 Pro, so the shared map uses that exact V7 label."
+    },
+    "A2993": {
+      "scraper_model": null,
+      "chip": "M4 Pro/M4 Max",
+      "type": "MacBook Pro",
+      "size": "16",
+      "year": 2024,
+      "verification": "needs_manual"
+    }
+  }
+}
