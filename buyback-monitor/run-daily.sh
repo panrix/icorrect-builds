@@ -11,9 +11,26 @@ LOG_FILE="$LOG_DIR/buy-box-$TODAY.log"
 DATA_DIR="/home/ricky/builds/buyback-monitor/data/buyback"
 ALERT_SCRIPT="/home/ricky/mission-control-v2/scripts/utils/telegram-alert.py"
 
+# Failure trap — ensures an alert fires if the script dies before the reporting block.
+# Without this, bugs like unquoted .env values caused silent failures for days.
+on_early_exit() {
+    local exit_code=$?
+    local line_no=$1
+    # Only alert on non-zero exits. Normal completion hits exit 0 and the trap runs but returns cleanly.
+    if [ $exit_code -ne 0 ]; then
+        local msg="🔴 <b>Buyback cron FAILED early — $TODAY</b>%0A%0AExit code: $exit_code%0ALine: $line_no%0ALog: <code>$LOG_FILE</code>%0A%0ACheck the log for the actual error."
+        # Best-effort alert; don't let alert failure mask the original failure
+        python3 "$ALERT_SCRIPT" ricky "$msg" 2>> "$LOG_FILE" || echo "Early-exit alert failed" >> "$LOG_FILE" 2>/dev/null || true
+    fi
+}
+trap 'on_early_exit $LINENO' EXIT
+
 cd /home/ricky/builds/buyback-monitor
 
 # Source env for BM_AUTH and TELEGRAM_BOT_TOKEN
+# (.env is sourced under set -u so every referenced variable must be safely quoted.
+#  Unquoted $, backticks or shell metacharacters in values will crash here.
+#  Single-quote any value containing $ or backtick. See CHANGELOG Phase 0.8.)
 source /home/ricky/config/api-keys/.env
 export BM_AUTH BM_UA TELEGRAM_BOT_TOKEN
 
@@ -78,3 +95,6 @@ Full summary: <code>$SUMMARY_FILE</code>"
 python3 "$ALERT_SCRIPT" ricky "$MSG" 2>> "$LOG_FILE" || echo "WARNING: Telegram alert failed" >> "$LOG_FILE"
 
 echo "=== Pipeline complete at $(date -u) ===" >> "$LOG_FILE"
+
+# Disable early-exit trap — we got here, normal path succeeded, don't fire the panic alert
+trap - EXIT

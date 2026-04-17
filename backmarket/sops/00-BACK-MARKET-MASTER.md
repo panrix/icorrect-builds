@@ -492,12 +492,12 @@ Script reactivated a dormant listing with a stale price. Backbox returned 404 (l
 | 05 | QC & Final Grade | Not documented | Gap |
 | 06 | Listing | `list-device.js` | QA'd ✅ v2.1 |
 | 06.5 | Listings Reconciliation | `reconcile-listings.js` | QA'd ✅ (on-demand; no live cron) |
+| 05 | QC & Final Grade | Manual process | Placeholder (see SOP 05) |
 | 07 | Buy Box Management | `buy-box-check.js` | QA'd ✅ (on-demand; no live cron) |
 | 08 | Sale Detection | `sale-detection.js` | QA'd ✅ + live cron |
 | 09 | Label Buying | `dispatch.js` | QA'd ✅ + weekday dispatch cron |
 | 09.5 | Shipment Confirmation | `bm-shipping` (8013) | QA'd ✅ + webhook-driven |
 | 10 | Payment Reconciliation | Manual process | QA'd ✅ |
-| 11 | Tuesday Cutoff | Not built | QA'd ✅ |
-| 12 | Returns & Aftercare | Manual + counter-offer buttons | QA'd ✅ |
+| 12 | Returns & Aftercare | Manual + counter-offer buttons; auto via Phase 4.9 (`backmarket-browser/operations/returns.js`) — in build | QA'd ✅ |
 
-**Known gap:** SOP 05 (QC & Final Grade) does not exist. This is the step between repair (SOP 04) and listing (SOP 06) where the Final Grade is assigned.
+**SOP 11 removed 2026-04-17:** dropped from active scope per rebuild plan v2. Payout-cycle SLA enforcement handled via SOP 10 + `stuck-inventory-audit.js` (Phase 1).

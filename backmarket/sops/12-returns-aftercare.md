@@ -1,9 +1,29 @@
 # SOP 12: Returns & Aftercare
 
-**Version:** 1.0
-**Date:** 2026-03-20
+**Version:** 1.1
+**Date:** 2026-03-20 (initial), 2026-04-17 (interim handoff added)
 **Scope:** Buyer returns, wrong device shipped, suspended orders, counter-offer approval flow, and sales aftercare.
-**Owner:** Agent + Ricky (manual decisions)
+**Owner:** Agent + Ferrari/Ricky (manual); Phase 4.9 `backmarket-browser/operations/returns.js` will automate incoming-returns detection + classification (in build)
+
+---
+
+## Interim manual handoff (Phase 0 → Phase 4.9)
+
+Until Phase 4.9 ships, incoming returns are detected manually via BM seller portal CS tab. When a return is logged, the following reset on the **original** BM Devices item (the one that was sold) is required:
+
+1. Locate the original BM Devices item by either:
+   - BM Sales Order ID (`text_mkye7p1c`), OR
+   - Listing ID (`text_mkyd4bx3`) visible on the return record
+2. On that original item, manually:
+   - **Clear `text_mkyd4bx3`** (BM Listing ID) — set empty
+   - **Clear `text4`** (Sold to) — set empty
+   - **Move to the "Returned" group**
+3. Create the new Main Board item for the returned device per existing flow below
+4. Link the new Main Board item to the original BM Devices item via `board_relation5` so cost history is preserved
+
+**Why:** ISSUE-005 (stale listing_id on BM Devices) causes reconciliation false positives and sale-detection ambiguity. Until Phase 4.9 automates this handoff, doing it manually on every return is the stopgap.
+
+Phase 4.9 automates steps 1-4 by polling the BM seller portal every 6 hours, parsing the return, and posting a Telegram card for Ferrari/Ricky confirmation before applying the Monday mutations. RTN data model: **original BM Devices item is reused** through the full return → QC → relist cycle (preserves cost history, matches Ricky's "one BM item" pattern).
 
 ---
 

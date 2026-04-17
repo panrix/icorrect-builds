@@ -14,6 +14,49 @@
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 
+// ─── Run mode: --dry-run (default) or --live ──────────────────────
+// Phase 0.7: mutations are gated behind explicit --live flag.
+// Fail-safe default: no flag → dry-run. Only --live triggers mutations.
+const LIVE_FLAG = process.argv.includes('--live');
+const DRY_RUN_FLAG = process.argv.includes('--dry-run');
+const IS_LIVE = LIVE_FLAG;  // only live when explicitly requested
+const IS_DRY_RUN = !IS_LIVE;
+const MODE = IS_LIVE ? 'live' : 'dry-run';
+const MODE_TAG = IS_LIVE ? '[LIVE]' : '[DRY-RUN]';
+
+if (!LIVE_FLAG && !DRY_RUN_FLAG) {
+  console.log('⚠️  No mode flag passed — defaulting to --dry-run.');
+  console.log('    Pass --live to execute mutations. Pass --dry-run to suppress this banner.\n');
+}
+
+// Record of every action the script proposes or executes — written to JSON at end of run
+const actionsLog = [];
+
+/**
+ * Gate every mutation through this helper.
+ *   action:   { type: 'monday_write' | 'bm_offline', target: string, current_value?: any, proposed_value?: any, reason: string }
+ *   executor: async () => <the actual API call>
+ * In dry-run:   logs "[DRY-RUN] Would ...", records action, returns without executing
+ * In live:      logs "[LIVE] ...", awaits executor, records action with executed: true
+ */
+async function maybeMutate(action, executor) {
+  const description = `${action.type} on ${action.target}` + (action.proposed_value !== undefined ? ` → ${JSON.stringify(action.proposed_value)}` : '');
+  if (IS_DRY_RUN) {
+    console.log(`    ${MODE_TAG} Would ${description} (reason: ${action.reason})`);
+    actionsLog.push({ ...action, executed: false, timestamp: new Date().toISOString() });
+    return { dryRun: true };
+  }
+  try {
+    console.log(`    ${MODE_TAG} Executing ${description} (reason: ${action.reason})`);
+    const result = await executor();
+    actionsLog.push({ ...action, executed: true, timestamp: new Date().toISOString() });
+    return { dryRun: false, result };
+  } catch (e) {
+    actionsLog.push({ ...action, executed: false, error: e.message, timestamp: new Date().toISOString() });
+    throw e;
+  }
+}
+
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
 const BM_AUTH = process.env.BACKMARKET_API_AUTH;
@@ -268,8 +311,17 @@ async function loadAllBmDevices() {
           const buyFee = purchase * BUY_FEE_RATE;
           const fixed = purchase + parts + labour + SHIPPING + buyFee;
 
-          // Write to Monday
-          await mondayApi(`mutation { change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDev.id}, column_id: "numeric_mm1mgcgn", value: "${Math.round(fixed)}") { id } }`);
+          // Write to Monday (gated)
+          await maybeMutate(
+            {
+              type: 'monday_write',
+              target: `BM Devices item ${bmDev.id} (${name})`,
+              column_id: 'numeric_mm1mgcgn',
+              proposed_value: Math.round(fixed),
+              reason: `Auto-backfill Total Fixed Cost: purchase=£${purchase} + parts=£${parts} + labour=£${labour.toFixed(0)} + ship=£${SHIPPING} + buyFee=£${buyFee.toFixed(0)}`,
+            },
+            () => mondayApi(`mutation { change_column_value(board_id: ${BM_DEVICES_BOARD}, item_id: ${bmDev.id}, column_id: "numeric_mm1mgcgn", value: "${Math.round(fixed)}") { id } }`)
+          );
           console.log(`    Auto-backfilled: £${Math.round(fixed)} (purchase=£${purchase}, parts=£${parts}, labour=£${labour.toFixed(0)})`);
           results.costBackfilled.push({ name, bmDeviceId: bmDev.id, fixed: Math.round(fixed) });
         } else {
@@ -358,7 +410,16 @@ async function loadAllBmDevices() {
   for (const risk of results.oversellRisk) {
     console.log(`  Taking offline: listing ${risk.listingId} (${risk.mainName}, status="${risk.mondayStatus}")`);
     try {
-      await bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } });
+      await maybeMutate(
+        {
+          type: 'bm_offline',
+          target: `listing ${risk.listingId}`,
+          current_value: `qty>0, mondayStatus="${risk.mondayStatus}"`,
+          proposed_value: 'qty=0',
+          reason: `Oversell risk (Check B): listing active on BM but Monday says "${risk.mondayStatus}" for "${risk.mainName}"`,
+        },
+        () => bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } })
+      );
       console.log(`    ✅ Offline`);
     } catch (e) {
       console.error(`    ❌ Failed: ${e.message}`);
@@ -370,7 +431,16 @@ async function loadAllBmDevices() {
   for (const risk of results.qtyMismatch.filter(r => r.type === 'oversell')) {
     console.log(`  Taking offline (qty oversell): listing ${risk.listingId} (${risk.sku}) BM qty=${risk.bmQty} > Monday=${risk.mondayCount}`);
     try {
-      await bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } });
+      await maybeMutate(
+        {
+          type: 'bm_offline',
+          target: `listing ${risk.listingId} (${risk.sku})`,
+          current_value: `bmQty=${risk.bmQty}, mondayCount=${risk.mondayCount}`,
+          proposed_value: 'qty=0',
+          reason: `Qty oversell (Check C): BM quantity ${risk.bmQty} exceeds Monday device count ${risk.mondayCount}`,
+        },
+        () => bmApi(`/ws/listings/${risk.listingId}`, { method: 'POST', body: { quantity: 0 } })
+      );
       console.log(`    ✅ Offline`);
     } catch (e) {
       console.error(`    ❌ Failed: ${e.message}`);
@@ -477,12 +547,26 @@ async function loadAllBmDevices() {
   if (results.qtyMismatch.filter(r => r.type === 'missed_revenue').length > 0) tgLines.push(`⚠️ Missed revenue (more devices than listed): ${results.qtyMismatch.filter(r => r.type === 'missed_revenue').length}`);
   if (results.costBackfilled.length > 0) tgLines.push(`✅ Cost auto-backfilled: ${results.costBackfilled.length}`);
 
+  // Prefix Telegram line with mode tag so the chat clearly shows whether the run was a drill or for real
+  tgLines.splice(1, 0, `Mode: ${MODE.toUpperCase()}`);
   await postTelegram(tgLines.join('\n'));
 
-  // Save report
+  // Save standard reconciliation report (results of the checks)
   const outDir = '/home/ricky/builds/backmarket/data/reports';
   fs.mkdirSync(outDir, { recursive: true });
   const outFile = `${outDir}/reconciliation-${new Date().toISOString().slice(0, 10)}.json`;
   fs.writeFileSync(outFile, JSON.stringify(results, null, 2));
   console.log(`\nResults saved to ${outFile}`);
+
+  // Save actions log (every mutation proposed or executed) — schema matches Phase 0.7 spec
+  const actionsDir = '/home/ricky/builds/backmarket/data';
+  const actionsFile = `${actionsDir}/reconcile-${MODE}-${new Date().toISOString().slice(0, 10)}.json`;
+  const byType = actionsLog.reduce((acc, a) => { acc[a.type] = (acc[a.type] || 0) + 1; return acc; }, {});
+  fs.writeFileSync(actionsFile, JSON.stringify({
+    run_timestamp: new Date().toISOString(),
+    mode: MODE,
+    actions: actionsLog,
+    summary: { total: actionsLog.length, by_type: byType, executed: actionsLog.filter(a => a.executed).length, proposed_only: actionsLog.filter(a => !a.executed).length },
+  }, null, 2));
+  console.log(`Actions log saved to ${actionsFile} (${actionsLog.length} actions, mode=${MODE})`);
 })();

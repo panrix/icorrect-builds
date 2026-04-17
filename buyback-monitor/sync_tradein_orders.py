@@ -24,15 +24,10 @@ import requests
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s", datefmt="%H:%M:%S")
 log = logging.getLogger("tradein-sync")
 
-# Config
-BM_HEADERS = {
-    "Authorization": "Basic MWI1NjJiZDg5ZjE2ZjdlODZmZTQ2NzpCTVQtOGM2ZDI5Zjg2MWJkZmUwZTcwYWI3ZDczM2EwYmE4Y2JhNjE4MjViMA==",
-    "Accept-Language": "en-gb",
-    "User-Agent": "BM-iCorrect-n8n;ricky@icorrect.co.uk",
-    "Accept": "application/json",
-}
+# Config — credentials sourced from .env (never hardcode, never commit)
 SHEET_ID = "1A7-NSlqFeCZmS73i2xO-NqlB2wD_lc53V6BxKGjNW2g"
 ENV_PATH = "/home/ricky/config/api-keys/.env"
+BM_HEADERS = None  # populated in main() after env load
 
 GRADE_MAP = {
     "STALLONE": "NONFUNC_CRACK",
@@ -189,6 +184,21 @@ def main():
 
     log.info("=== Trade-in Orders Sync ===")
 
+    # Load credentials from .env (must not be hardcoded — see CHANGELOG Phase 0.4)
+    env = load_env()
+    auth = env.get("BACKMARKET_API_AUTH")
+    if not auth:
+        log.error("BACKMARKET_API_AUTH not set in %s — refusing to run.", ENV_PATH)
+        sys.exit(1)
+
+    global BM_HEADERS
+    BM_HEADERS = {
+        "Authorization": auth,
+        "Accept-Language": "en-gb",
+        "User-Agent": "BM-iCorrect-n8n;ricky@icorrect.co.uk",
+        "Accept": "application/json",
+    }
+
     # Fetch all orders
     log.info("Fetching all orders from BM API...")
     orders = fetch_all_orders()
@@ -226,8 +236,7 @@ def main():
         log.info("\nDRY RUN: not writing to sheet")
         return
 
-    # Write to sheet
-    env = load_env()
+    # Write to sheet (env already loaded at top of main())
     log.info("\nAuthenticating with Google...")
     access_token = get_access_token(env)
 

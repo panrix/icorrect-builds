@@ -102,7 +102,7 @@ For each order:
 | Payout timing | Following Wednesday (typically) |
 | Orders included | All state=9 orders shipped by Tuesday cutoff |
 
-See SOP 11 (Tuesday Cutoff Protocol) for the operational process around ensuring orders ship on time.
+Timely dispatch to hit the cutoff is handled operationally via `dispatch.js` (weekday 07:00 + 12:00 UTC) and the `stuck-inventory-audit.js` workflow (Phase 1 of the rebuild).
 
 ---
 
