@@ -1,0 +1,193 @@
+#!/usr/bin/env python3
+"""
+Buyback Payout Watch
+Runs every 2 hours. Fetches all RECEIVED trade-in orders and auto-validates
+any that are within 12 hours of the 48h payout deadline.
+Alerts to Telegram for anything urgent. Auto-validates everything in window.
+
+Cron: */120 * * * * (every 2 hours)
+"""
+
+import subprocess, json, sys, os
+from datetime import datetime, timezone, timedelta
+from urllib.parse import urlparse, parse_qs
+
+ALERT_THRESHOLD_HOURS = 12   # escalate alert if < 12h remaining
+PAYOUT_WINDOW_HOURS   = 48   # BM's SLA
+
+# ── Spec validation rules ──
+# A payout is only safe if:
+#   1. counterOfferPrice == originalPrice (BM found no issues)
+#   2. No suspendReasons or counterOfferReasons
+# If either fails → FLAG for manual review, do NOT auto-validate.
+
+def load_env():
+    env = {}
+    with open('/home/ricky/config/api-keys/.env') as f:
+        for line in f:
+            line = line.strip()
+            if line and not line.startswith('#') and '=' in line:
+                k, _, v = line.partition('=')
+                env[k.strip()] = v.strip().strip('"').strip("'")
+    return env
+
+ENV = load_env()
+BM_BASE = ENV['BACKMARKET_API_BASE']
+BM_AUTH = ENV['BACKMARKET_API_AUTH']
+BM_LANG = ENV['BACKMARKET_API_LANG']
+BM_UA   = ENV['BACKMARKET_API_UA']
+
+def bm_get(path):
+    r = subprocess.run(['curl', '-s', f'{BM_BASE}{path}',
+        '-H', f'Authorization: {BM_AUTH}',
+        '-H', f'Accept-Language: {BM_LANG}',
+        '-H', f'User-Agent: {BM_UA}'],
+        capture_output=True, text=True)
+    return json.loads(r.stdout)
+
+def bm_put(path):
+    r = subprocess.run(['curl', '-s', '-X', 'PUT', f'{BM_BASE}{path}',
+        '-H', f'Authorization: {BM_AUTH}',
+        '-H', f'Accept-Language: {BM_LANG}',
+        '-H', f'User-Agent: {BM_UA}',
+        '-H', 'Content-Type: application/json',
+        '-d', '{}'],
+        capture_output=True, text=True)
+    return r.stdout
+
+def send_telegram(message):
+    subprocess.run(['openclaw', 'message', '--channel', 'telegram', '--message', message],
+        capture_output=True, text=True)
+
+def fetch_received_orders():
+    """Fetch all RECEIVED buyback orders, paginated."""
+    all_orders = []
+    cursor = None
+    pages = 0
+    while pages < 50:
+        path = '/ws/buyback/v1/orders?status=RECEIVED&limit=100' + (f'&cursor={cursor}' if cursor else '')
+        data = bm_get(path)
+        batch = data.get('results', [])
+        all_orders.extend(batch)
+        pages += 1
+        nxt = data.get('next')
+        if not nxt or not batch:
+            break
+        q = parse_qs(urlparse(nxt).query)
+        cursor = q.get('cursor', [None])[0]
+    return all_orders
+
+def main():
+    now = datetime.now(timezone.utc)
+    print(f"[{now.strftime('%Y-%m-%d %H:%M UTC')}] Buyback payout watch running...")
+
+    orders = fetch_received_orders()
+    print(f"  RECEIVED orders: {len(orders)}")
+
+    spec_ok      = []   # clean — spec matches, ready to validate
+    spec_issues  = []   # counter-offered or suspended — needs manual review
+    urgent       = []   # < 12h left and still unvalidated
+    overdue      = []   # past 48h window
+
+    for o in orders:
+        pub_id    = o.get('orderPublicId', '?')
+        receival  = o.get('receivalDate')
+        device    = o.get('listing', {}).get('title', '?')
+        grade     = o.get('listing', {}).get('grade', '?')
+        orig_price   = o.get('originalPrice', {}).get('value')
+        paid_price   = o.get('counterOfferPrice', {}).get('value')
+        customer     = f"{o.get('customer',{}).get('firstName','')} {o.get('customer',{}).get('lastName','')}".strip()
+        suspend_reasons  = o.get('suspendReasons', [])
+        counter_reasons  = o.get('counterOfferReasons', [])
+
+        if not receival:
+            continue  # Not physically received yet
+
+        receival_dt = datetime.fromisoformat(receival.replace('Z', '+00:00'))
+        deadline_dt = receival_dt + timedelta(hours=PAYOUT_WINDOW_HOURS)
+        hours_left  = (deadline_dt - now).total_seconds() / 3600
+
+        # Spec check: price unchanged + no BM flags = clean
+        price_ok    = (orig_price is not None and orig_price == paid_price)
+        flags_clear = not suspend_reasons and not counter_reasons
+        spec_clean  = price_ok and flags_clear
+
+        entry = {
+            'pub_id':     pub_id,
+            'device':     device,
+            'grade':      grade,
+            'orig_price': orig_price,
+            'paid_price': paid_price,
+            'customer':   customer,
+            'receival':   receival_dt.strftime('%Y-%m-%d %H:%M UTC'),
+            'deadline':   deadline_dt.strftime('%Y-%m-%d %H:%M UTC'),
+            'hours_left': round(hours_left, 1),
+            'spec_clean': spec_clean,
+            'suspend_reasons': suspend_reasons,
+            'counter_reasons': counter_reasons,
+        }
+
+        if hours_left < 0:
+            overdue.append(entry)
+        elif hours_left <= ALERT_THRESHOLD_HOURS:
+            urgent.append(entry)
+
+        if not spec_clean:
+            spec_issues.append(entry)
+            print(f"  ⚠️  SPEC ISSUE: {pub_id} | {hours_left:.1f}h left | price_ok={price_ok} | flags={suspend_reasons or counter_reasons}")
+        else:
+            # Spec is clean — validate
+            result_raw = bm_put(f'/ws/buyback/v1/orders/{pub_id}/validate')
+            try:
+                result = json.loads(result_raw)
+                status = result.get('status', '?')
+            except:
+                status = result_raw[:50]
+            entry['validate_result'] = status
+            spec_ok.append(entry)
+            print(f"  ✅ Validated: {pub_id} | {hours_left:.1f}h left | {grade} | £{paid_price} → {status}")
+
+    # Build alert message
+    lines = []
+
+    if overdue:
+        lines.append(f"🚨 OVERDUE ({len(overdue)}) — past 48h window:")
+        for e in overdue:
+            flag = "⚠️ SPEC ISSUE" if not e['spec_clean'] else "✅ validated"
+            lines.append(f"  • {e['pub_id']} | {e['grade']} | £{e['paid_price']} | {e['customer']} | {abs(e['hours_left']):.0f}h overdue | {flag}")
+
+    if spec_issues:
+        lines.append(f"\n🔴 SPEC MISMATCH — DO NOT PAY ({len(spec_issues)}) — manual review required:")
+        for e in spec_issues:
+            lines.append(f"  • {e['pub_id']} | {e['grade']} | bid £{e['orig_price']} → counter £{e['paid_price']} | {e['customer']}")
+            if e['suspend_reasons']:
+                lines.append(f"    Suspend: {e['suspend_reasons']}")
+            if e['counter_reasons']:
+                lines.append(f"    Counter: {e['counter_reasons']}")
+            lines.append(f"    Deadline: {e['deadline']} ({e['hours_left']:.1f}h left)")
+
+    if urgent and any(e['spec_clean'] for e in urgent):
+        clean_urgent = [e for e in urgent if e['spec_clean']]
+        lines.append(f"\n⚠️ URGENT — validated <{ALERT_THRESHOLD_HOURS}h before deadline ({len(clean_urgent)}):")
+        for e in clean_urgent:
+            lines.append(f"  • {e['pub_id']} | {e['grade']} | £{e['paid_price']} | {e['hours_left']:.1f}h left → {e.get('validate_result','?')}")
+
+    if spec_ok and not spec_issues and not overdue:
+        lines.append(f"✅ Buyback watch: {len(spec_ok)} order(s) validated — specs clean.")
+
+    if not spec_ok and not spec_issues and not overdue:
+        lines.append("✅ Buyback watch: no RECEIVED orders pending — nothing to action.")
+
+    msg = '\n'.join(lines)
+    print('\n' + msg)
+
+    # Alert if anything needs attention
+    if spec_issues or overdue or urgent:
+        send_telegram(msg)
+    elif spec_ok:
+        send_telegram(msg)
+
+    print(f"\nDone. Validated: {len(spec_ok)} | Spec issues (held): {len(spec_issues)} | Overdue: {len(overdue)}")
+
+if __name__ == '__main__':
+    main()

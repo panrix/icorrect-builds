@@ -1,4 +1,0 @@
-sku,quantity,price,grade,currency,shipper_1,shipping_price_1,shipping_delay_1,shipper_2,shipping_price_2,shipping_delay_2,shipper_3,shipping_price_3,shipping_delay_3,new_battery,min_price,backpricer,ean,product_id
-Required,Required,Required,Required,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Optional,Required,Required
-String/200 (case insensitive),Int,Decimal,Enum (Int),String/10,Enum (String),Decimal,Int,Enum (String),Decimal,Int,Enum (String),Decimal,Int,Bool,Decimal,Bool,String/13,Int | UUID
-IP6-64-SIL-B3,10,399,PREMIUM, FAIR, STALLONE;EUR;UPS;10.00;48;;;;;;;False;360.00;True;888462064149;,,,,,,,,,,,,,

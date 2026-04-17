@@ -1,0 +1,48 @@
+{
+  "created_at": "2026-03-26T08:24:32.341Z",
+  "dry_run": false,
+  "results": [
+    {
+      "bm_device_item_id": "11150464720",
+      "main_item_id": "11127258151",
+      "cleared_listing_id": "6505341",
+      "changed": true
+    },
+    {
+      "bm_device_item_id": "11212765612",
+      "main_item_id": "11212780396",
+      "cleared_listing_id": "6558670",
+      "changed": true
+    },
+    {
+      "bm_device_item_id": "11322620686",
+      "main_item_id": "11322635134",
+      "cleared_listing_id": "6558670",
+      "changed": true
+    },
+    {
+      "bm_device_item_id": "11347682210",
+      "main_item_id": "11347681287",
+      "cleared_listing_id": "5860258",
+      "changed": true
+    },
+    {
+      "bm_device_item_id": "11486670010",
+      "main_item_id": "11486700952",
+      "cleared_listing_id": "4952313",
+      "changed": true
+    },
+    {
+      "bm_device_item_id": "11562931942",
+      "main_item_id": "11040565814",
+      "cleared_listing_id": "6675379",
+      "changed": true
+    },
+    {
+      "bm_device_item_id": "10667830706",
+      "main_item_id": "10907650351",
+      "cleared_listing_id": "5860258",
+      "changed": true
+    }
+  ]
+}

@@ -1,0 +1,291 @@
+{
+  "created_at": "2026-03-26T08:16:40.022Z",
+  "live_listing_count": 5,
+  "affected_bm_device_count": 7,
+  "affected_main_item_count": 7,
+  "live_listings": [
+    {
+      "listing_id": 6675379,
+      "id": "c899ac38-5b2f-460d-8f61-d8e482537fb5",
+      "sku": "MBP.A2991.M3PRO.18GB.512GB.Black.Fair",
+      "title": "MacBook Pro 16-inch (2023) - Apple M3 Pro 12-core and 18-core GPU - 18GB RAM - SSD 512GB - QWERTY - English",
+      "grade": "FAIR",
+      "product_id": "bb65708b-a0c7-4570-81ee-39b2737f90ee",
+      "quantity": 1,
+      "price": "1390.00",
+      "backmarket_id": 3541864
+    },
+    {
+      "listing_id": 6558670,
+      "id": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+      "sku": "MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 2000GB - QWERTY - English",
+      "grade": "FAIR",
+      "product_id": "2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "quantity": 2,
+      "price": "629.00",
+      "backmarket_id": 545355
+    },
+    {
+      "listing_id": 6505341,
+      "id": "4c808024-6bff-4102-9f61-129b00850e68",
+      "sku": "MBP.A2289.i5.8GB.1TB.Grey.Fair",
+      "title": "MacBook Pro Retina 13-inch (2020) - Core i5 - 8GB SSD 1000 QWERTY - English",
+      "grade": "FAIR",
+      "product_id": "1e646c25-5397-4ff3-9301-1c9adc23e752",
+      "quantity": 1,
+      "price": "402.00",
+      "backmarket_id": 604707
+    },
+    {
+      "listing_id": 5860258,
+      "id": "1cdbc179-d1ad-423a-9758-230460d7c537",
+      "sku": "MBA.A2179.2020.i5.8GB.512GB.Grey.Fair",
+      "title": "MacBook Air Retina 13-inch (2020) - Core i3 - 8GB SSD 512 QWERTY - English",
+      "grade": "FAIR",
+      "product_id": "defdf354-2287-4d17-ad0e-26b4b8955427",
+      "quantity": 1,
+      "price": "352.00",
+      "backmarket_id": 566717
+    },
+    {
+      "listing_id": 4952313,
+      "id": "77a4d5cc-7db6-4550-b3de-b3d33279b2c7",
+      "sku": "MBP14.A2442.16GB.512GB.Silver.Vgood",
+      "title": "MacBook Pro 14-inch (2021) - Apple M1 Pro 8-core and 14-core GPU - 16GB RAM - SSD 512GB - QWERTY - English",
+      "grade": "VERY_GOOD",
+      "product_id": "43221f93-0d9a-45ec-870b-02d1613c7471",
+      "quantity": 1,
+      "price": "820.00",
+      "backmarket_id": 543497
+    }
+  ],
+  "bm_devices": [
+    {
+      "bm_device_item_id": "11150464720",
+      "name": "BM 1353",
+      "main_item_ids": [
+        "11127258151"
+      ],
+      "listing_id": "6505341",
+      "stored_uuid": "4c808024-6bff-4102-9f61-129b00850e68",
+      "sku": "MBP.A2289.i5.8GB.1TB.Grey.Fair",
+      "ram": "8GB",
+      "ssd": "1TB",
+      "cpu": "i5",
+      "gpu": "Intel",
+      "purchase_price": "88",
+      "total_fixed_cost": "112"
+    },
+    {
+      "bm_device_item_id": "11212765612",
+      "name": "BM 1400",
+      "main_item_ids": [
+        "11212780396"
+      ],
+      "listing_id": "6558670",
+      "stored_uuid": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+      "sku": "MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "ram": "16GB",
+      "ssd": "2TB",
+      "cpu": "8-Core",
+      "gpu": "8-Core",
+      "purchase_price": "270",
+      "total_fixed_cost": "312"
+    },
+    {
+      "bm_device_item_id": "11322620686",
+      "name": "BM 1465",
+      "main_item_ids": [
+        "11322635134"
+      ],
+      "listing_id": "6558670",
+      "stored_uuid": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+      "sku": "MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "ram": "16GB",
+      "ssd": "2TB",
+      "cpu": "8-Core",
+      "gpu": "8-Core",
+      "purchase_price": "147",
+      "total_fixed_cost": "177"
+    },
+    {
+      "bm_device_item_id": "11347682210",
+      "name": "BM 1486",
+      "main_item_ids": [
+        "11347681287"
+      ],
+      "listing_id": "5860258",
+      "stored_uuid": "1cdbc179-d1ad-423a-9758-230460d7c537",
+      "sku": "MBA.A2179.i5.8GB.512GB.Grey.Fair",
+      "ram": "8GB",
+      "ssd": "512GB",
+      "cpu": "i5",
+      "gpu": "Intel",
+      "purchase_price": "85",
+      "total_fixed_cost": "109"
+    },
+    {
+      "bm_device_item_id": "11486670010",
+      "name": "BM 1540",
+      "main_item_ids": [
+        "11486700952"
+      ],
+      "listing_id": "4952313",
+      "stored_uuid": "",
+      "sku": "",
+      "ram": "16GB",
+      "ssd": "512GB",
+      "cpu": "8-Core",
+      "gpu": "14-Core",
+      "purchase_price": "248",
+      "total_fixed_cost": "421"
+    },
+    {
+      "bm_device_item_id": "11562931942",
+      "name": "BM 611 RTN",
+      "main_item_ids": [
+        "11040565814"
+      ],
+      "listing_id": "6675379",
+      "stored_uuid": "",
+      "sku": "",
+      "ram": "18GB",
+      "ssd": "512GB",
+      "cpu": "12-Core",
+      "gpu": "18-Core",
+      "purchase_price": "550",
+      "total_fixed_cost": "719"
+    },
+    {
+      "bm_device_item_id": "10667830706",
+      "name": "BM 1125",
+      "main_item_ids": [
+        "10907650351"
+      ],
+      "listing_id": "5860258",
+      "stored_uuid": "",
+      "sku": "",
+      "ram": "8GB",
+      "ssd": "512GB",
+      "cpu": "Intel",
+      "gpu": "Intel",
+      "purchase_price": "36",
+      "total_fixed_cost": ""
+    }
+  ],
+  "main_items": [
+    {
+      "main_item_id": "10907650351",
+      "name": "BM 1125 - Leah Warburton's Replacement",
+      "status24": {
+        "text": "Unlisted",
+        "index": 104
+      },
+      "final_grade": {
+        "text": "Fair",
+        "index": 11
+      },
+      "colour": "Space Grey",
+      "parts_cost": "",
+      "labour_cost": "11.366666667",
+      "labour_hours": "0.7577777778"
+    },
+    {
+      "main_item_id": "11040565814",
+      "name": "BM 611 (Abby Webb) (RTN > REPAIR?)",
+      "status24": {
+        "text": "Listed",
+        "index": 7
+      },
+      "final_grade": {
+        "text": "Fair",
+        "index": 11
+      },
+      "colour": "Space Black",
+      "parts_cost": "1, 15, 15",
+      "labour_cost": "38.020833333",
+      "labour_hours": "2.5347222222"
+    },
+    {
+      "main_item_id": "11127258151",
+      "name": "BM 1353 ( Danielle Mensah )",
+      "status24": {
+        "text": "Listed",
+        "index": 7
+      },
+      "final_grade": {
+        "text": "Fair",
+        "index": 11
+      },
+      "colour": "Space Grey",
+      "parts_cost": "18, 7, 11, 8, 29, 55, 47.0",
+      "labour_cost": "59.258333334",
+      "labour_hours": "3.9505555556"
+    },
+    {
+      "main_item_id": "11212780396",
+      "name": "BM 1400 ( Maksim Afanasev )",
+      "status24": {
+        "text": "Listed",
+        "index": 7
+      },
+      "final_grade": {
+        "text": "Fair",
+        "index": 11
+      },
+      "colour": "Space Grey",
+      "parts_cost": "18, 100.0, 7, 11, 3",
+      "labour_cost": "44.970833334",
+      "labour_hours": "2.9980555556"
+    },
+    {
+      "main_item_id": "11322635134",
+      "name": "BM 1465 ( Kristina Sarkisova )",
+      "status24": {
+        "text": "Listed",
+        "index": 7
+      },
+      "final_grade": {
+        "text": "Fair",
+        "index": 11
+      },
+      "colour": "Space Grey",
+      "parts_cost": "18, 100.0, 7, 11, 3, 47.0",
+      "labour_cost": "42.408333333",
+      "labour_hours": "2.8272222222"
+    },
+    {
+      "main_item_id": "11347681287",
+      "name": "BM 1486",
+      "status24": {
+        "text": "Listed",
+        "index": 7
+      },
+      "final_grade": {
+        "text": "Fair",
+        "index": 11
+      },
+      "colour": "Space Grey",
+      "parts_cost": "15, 7, 11, 120",
+      "labour_cost": "45.141666666",
+      "labour_hours": "3.0094444444"
+    },
+    {
+      "main_item_id": "11486700952",
+      "name": "BM 1540 ( Jordan Winterbottom )",
+      "status24": {
+        "text": "Listed",
+        "index": 7
+      },
+      "final_grade": {
+        "text": "Excellent",
+        "index": 6
+      },
+      "colour": "Silver",
+      "parts_cost": "22, 7, 15, 221.0",
+      "labour_cost": "51.229166667",
+      "labour_hours": "3.4152777778"
+    }
+  ]
+}

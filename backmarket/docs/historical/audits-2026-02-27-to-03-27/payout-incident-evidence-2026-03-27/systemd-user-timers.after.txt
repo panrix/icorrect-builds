@@ -1,0 +1,4 @@
+NEXT                         LEFT LAST                         PASSED UNIT                           ACTIVATES
+Fri 2026-03-27 05:02:30 UTC 18min Thu 2026-03-26 05:02:30 UTC 23h ago launchpadlib-cache-clean.timer launchpadlib-cache-clean.service
+
+1 timers listed.

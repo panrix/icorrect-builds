@@ -69,3 +69,9 @@ backmarket/data/vetted-listings-audit.json
 # elek-board-viewer runtime/cache/schematics — not source
 elek-board-viewer/data/
 elek-board-viewer/schematics/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*~

@@ -6,18 +6,19 @@ BackMarket is iCorrect's largest revenue channel (~60% of total, ~£31k/mo). Thi
 
 ```
 backmarket/
+├── CHANGELOG.md    # Deploy record for the rebuild (Phase 0 onwards)
 ├── sops/           # Standard Operating Procedures (SOPs 01-12) — SOURCE OF TRUTH
 ├── scripts/        # Node.js automation scripts + lib/
-│   └── lib/        # Shared modules (monday.js, bm-api.js, logger.js, profitability.js, slack.js, dates.js)
+│   └── lib/        # Shared modules (monday.js, bm-api.js, logger.js, profitability.js, slack.js, dates.js, v7-scraper.js, resolver-truth.js)
 ├── services/       # Deployed webhook services (bm-grade-check, bm-payout, bm-shipping)
-├── analysis/       # Python analysis & pricing scripts
-├── data/           # Generated data (catalog, registry, lookups, reports)
-├── docs/           # Strategy docs, plans, specs, briefs (mostly historical)
-├── qa/             # QA issues, task trackers
+├── data/           # Generated data (catalog, registry, lookups, reports, labels)
+├── docs/           # Active: rebuild plan + rollback log. /historical/ holds dated archives (audits, analysis scripts, QA, staged plans, legacy scripts, reconciliation snapshots)
 ├── knowledge/      # Product ID mappings, BM knowledge docs
-├── audit/          # Historical audit reports
-└── pricing/        # Pricing module (parked)
+└── pricing/        # Pricing module (parked — reference docs only)
 ```
+
+**Current rebuild plan:** `docs/PLAN-BM-REBUILD-2026-04-17.md` (v5, APPROVED FOR EXECUTION)
+**Workspace cleaned 2026-04-17:** `/audit/`, `/analysis/`, `/qa/`, and `/docs/staged/` moved into `/docs/historical/` subdirectories by category + date. 6 legacy scripts archived. Stale caches and CSV exports deleted. See CHANGELOG.md for details.
 
 ## SOPs — Start Here
 
