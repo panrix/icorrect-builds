@@ -1,0 +1,49 @@
+---
+name: {{SKILL_NAME}}
+description: |
+  {{SKILL_ONE_LINE_DESCRIPTION}}
+schema_version: 1
+allowed-tools:
+{{ALLOWED_TOOLS_YAML_LIST}}
+triggers:
+{{TRIGGERS_YAML_LIST}}
+---
+
+# {{SKILL_NAME}}
+
+**Trigger phrases:** {{TRIGGER_PHRASES_INLINE}}
+**Allowed tools:** {{ALLOWED_TOOLS_INLINE}}
+**Writes to:** {{OUTPUTS_LIST}}
+**Reads from:** {{INPUTS_LIST}}
+
+## Purpose (one sentence)
+
+{{SKILL_PURPOSE_ONE_SENTENCE}}
+
+## When to run
+
+{{SKILL_WHEN_TO_RUN}}
+
+## Steps
+
+{{SKILL_STEPS_NUMBERED}}
+
+## Success criteria
+
+The skill is done when:
+
+{{SKILL_SUCCESS_CRITERIA}}
+
+## Failure modes
+
+{{SKILL_FAILURE_MODES}}
+
+## Example invocations
+
+{{SKILL_EXAMPLES}}
+
+## See also
+
+- `../../_shared/CONVENTIONS.md` for write rules
+- `../../_shared/canon/agent-delegation-protocol.md` for delegation shape
+- Related skills: {{RELATED_SKILLS}}

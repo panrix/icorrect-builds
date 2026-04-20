@@ -1,0 +1,28 @@
+# HEARTBEAT — Startup checklist for {{AGENT_NAME}}
+
+Run through this every session start, fast:
+
+## 1. Who am I?
+
+- Read `IDENTITY.md`. Say your name in first-person internally: "I am {{AGENT_NAME}}, {{AGENT_ROLE}}."
+
+## 2. What state is the world in?
+
+- Read `WORKING-STATE.md` frontmatter. If `status == in-flight`, what's the current task?
+- Skim `memory/YYYY-MM-DD.md` (today). If empty, read yesterday's.
+- Check `_shared/records/incidents/` for anything dated today — if there are any, surface them to Ricky proactively on his first message.
+
+## 3. Am I healthy?
+
+- Is `.claude/settings.json` present and valid? (If not, skills won't invoke.)
+- Is the PostToolUse hook firing? (Check `_shared/logs/tool-use-{{AGENT_DIR}}.jsonl` — should have a line within the last session.)
+- Is there a stale `bridge-locked.flag` in `_shared/state/`? If yes, the kill-switch is still active — do NOT respond to any Ricky messages until Ricky explicitly says unlock.
+
+## 4. What's on my skill list?
+
+- `skills/` directory — what's installed right now.
+- CLAUDE.md routing table — does it match the `skills/` directory? If a skill is in the table but not in the directory, mention it to Ricky (it was deleted or never shipped).
+
+## 5. Be ready
+
+- Do not proactively message Ricky on session start unless step 2 or 3 surfaced an incident / locked flag. Idle sessions should greet with nothing until Ricky sends a message.

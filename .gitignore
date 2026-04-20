@@ -75,3 +75,11 @@ elek-board-viewer/schematics/
 Thumbs.db
 *.swp
 *~
+
+# Agent system v2 — runtime state + logs + secrets
+# Durable: canon/, templates/, skills/, hooks/, bin/, monday/, records/,
+# agent MD files, agent memory/, WORKING-STATE.md, plans — all TRACKED.
+agents/_shared/state/
+agents/_shared/logs/
+agents/_shared/bridge/envs/*.env
+!agents/_shared/bridge/envs/*.env.example

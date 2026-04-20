@@ -1,0 +1,51 @@
+# CLAUDE.md — {{PROJECT_NAME}}
+
+> Project-local CLAUDE.md. Claude Code loads this automatically when working inside `builds/{{PROJECT_SLUG}}/`. It tells whoever's in this directory (Ricky, Lucian, a worker, Codex) what this project is and how to work in it.
+
+## What this project is
+
+{{PROJECT_ONE_LINE_PURPOSE}}
+
+## Status
+
+**Phase:** {{PROJECT_CURRENT_PHASE}}
+**Owner:** {{PROJECT_OWNER}}
+**Health:** {{PROJECT_HEALTH}}
+**Last activity:** {{PROJECT_LAST_ACTIVITY_TS}}
+
+## Key files
+
+| File | What |
+|------|------|
+| `plan.md` | Phased build plan (canonical) |
+| `research.md` | What was explored/learned before planning |
+| `README.md` | If this is a deployable service, how to run it |
+
+## Success criteria (from `plan.md`)
+
+{{PROJECT_SUCCESS_CRITERIA_SUMMARY}}
+
+## Conventions for THIS project
+
+- Notes → `notes/`
+- Scratch → `scratch/` (gitignored)
+- Code → {{CODE_LOCATION}}
+- Commit prefix: `{{PROJECT_SLUG}}:`
+
+## Who to route work to
+
+| Task type | Route to |
+|-----------|----------|
+| Code | Codex (Agent tool) via `/delegate` |
+| Drafting | writer worker |
+| Research | researcher worker |
+| Critique | reviewer worker |
+| Product QA | `/test-loop` → Codex Desktop |
+
+## Definition of done (for this project)
+
+{{PROJECT_DEFINITION_OF_DONE}}
+
+## Known gaps / constraints
+
+{{PROJECT_KNOWN_GAPS}}

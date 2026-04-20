@@ -1,0 +1,63 @@
+# TOOLS — API references & endpoints for {{AGENT_NAME}}
+
+External APIs this agent actually uses. Read-on-demand — not auto-loaded.
+
+## Monday.com
+
+- **Token:** `$MONDAY_APP_TOKEN` from `~/config/api-keys/.env`
+- **Endpoint:** `https://api.monday.com/v2`
+- **Existing wrapper:** `builds/alex-triage-rebuild/lib/monday.js` — reuse this, don't reimplement
+- **Main board:** `349212843` (iCorrect Main Board v2)
+- **BM devices board:** `3892194968`
+- **Agents board:** created in Phase 7 — ID stored in `IDENTITY.md` once set
+- **Column reference:** `builds/backmarket/docs/VERIFIED-COLUMN-REFERENCE.md`
+
+## Telegram (outbound)
+
+- **Bot token:** `$TELEGRAM_BOT_TOKEN` from `_shared/bridge/envs/{{AGENT_DIR}}.env`
+- **Allow-list user ID:** `$ALLOWED_USER_ID` (Ricky's Telegram ID; messages from any other `from.id` are refused by the bridge)
+- **Existing wrapper:** `builds/customer-service/modules/enquiry/lib/telegram-client.js`
+- **Rich cards:** `builds/customer-service/modules/enquiry/lib/card-formatter.js`
+- **4096-char limit per message** — longer replies must split
+
+## Codex (Agent tool, build path)
+
+- **Subagent type:** `codex:codex-rescue`
+- **Invocation:** Use the `Agent` tool with `subagent_type: "codex:codex-rescue"` and a self-contained brief following the Agent Delegation Protocol.
+- **Fresh per call** — Codex has no persistent memory across invocations. Pass all context in the brief.
+
+## Codex Desktop (manual handoff, product QA path)
+
+- **No programmatic API.** Ricky runs it manually.
+- **Handoff flow:** `/test-loop` writes a QA plan to `_shared/records/qa-plans/<project>-<ts>.md`, sends Ricky a Telegram message with the path, waits for paste-back.
+
+## Git
+
+- **Repo:** `panrix/icorrect-builds` on GitHub
+- **Current branch:** whatever Ricky is on — never auto-commit on `master`/`main`
+- **Commit discipline:** `/checkpoint` skill commits with structured messages; never commit secrets
+
+## Intercom
+
+- **Stub — added here when a skill actually needs it.**
+
+## Shopify
+
+- **Stub — added when needed.**
+
+## Xero
+
+- **Stub — added when needed.**
+
+## Internal tools (this system)
+
+| Tool | Where | Purpose |
+|------|-------|---------|
+| `write-state` | `_shared/bin/write-state` | Atomic 2-phase commit writer for machine-owned state files |
+| `delegate` | `_shared/bin/delegate` | tmux send-keys + idle-detect + capture into a worker pane |
+| `spawn-worker` | `_shared/bin/spawn-worker` | Create a new tmux window running `claude` for a worker role |
+| `install-agent` | `_shared/bin/install-agent` | Render `.claude/settings.json` from template for a new top-level agent |
+| `verify-load-proof` | `_shared/bin/verify-load-proof` | `--dry-run` or `--live` — prove SOUL/CLAUDE are actually loaded |
+| `sweep-runtime` | `_shared/bin/sweep-runtime` | Startup + 5-min sweep (stale handoffs, log rotate, queue integrity, disk check) |
+| `log-tool-use` | `_shared/bin/log-tool-use` | PostToolUse hook handler — appends to `_shared/logs/tool-use-{{AGENT_DIR}}.jsonl` |
+| `backoff.sh` | `_shared/bin/backoff.sh` | Shared exponential-backoff helper |

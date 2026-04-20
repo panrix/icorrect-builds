@@ -2,12 +2,13 @@
 
 > **Strategic roadmap: [`EXECUTIVE-BUILD-PLAN.md`](EXECUTIVE-BUILD-PLAN.md)** — every build, every phase, every idea. Start there for the big picture. This file is the directory map.
 
-Last updated: 2026-04-13
+Last updated: 2026-04-20
 
 ## Active Projects
 
 | Directory | What | Status |
 |-----------|------|--------|
+| `agents/` | **Claude Code agent system v2** — Lucian (Chief of Staff) + future top-level agents. Replaces OpenClaw. | Phase 1a in progress (2026-04-20) — see `agents/README.md` and `agents/chief-of-staff/plan.md` |
 | `agent-rebuild/` | v3 agent architecture research & planning (00-10 docs) | Active research |
 | `backmarket/` | BM operations: SOPs, automation scripts, analysis tools | Active — see `backmarket/README.md` |
 | `icloud-checker/` | Intake webhook service (iCloud check, counter-offers, grade check) | Live (port 8010), needs decomposition |

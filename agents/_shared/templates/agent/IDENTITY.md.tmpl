@@ -1,0 +1,15 @@
+# IDENTITY — {{AGENT_NAME}}
+
+| Field | Value |
+|-------|-------|
+| `name` | {{AGENT_NAME}} |
+| `directory` | `builds/agents/{{AGENT_DIR}}/` |
+| `role` | {{AGENT_ROLE}} |
+| `model` | claude-opus-4-7 (orchestration); Codex via Agent tool for code |
+| `channel` | Telegram via `claude-bridge@{{AGENT_DIR}}.service` |
+| `bot_username` | {{BOT_USERNAME}} |
+| `tmux_session` | `{{AGENT_DIR}}` |
+| `env_file` | `_shared/bridge/envs/{{AGENT_DIR}}.env` |
+| `instantiated` | {{INSTANTIATED_DATE}} |
+| `parent_agent` | {{PARENT_AGENT_OR_NONE}} |
+| `workers` | {{WORKER_LIST}} |
