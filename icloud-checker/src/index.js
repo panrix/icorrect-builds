@@ -37,7 +37,8 @@ const BM_SSD_COLUMN = "color2";
 const BM_CPU_COLUMN = "status7__1";
 const BM_GPU_COLUMN = "status8__1";
 const COLOUR_COLUMN = "status8";
-const BM_BOARD_RELATION = "board_relation5";
+const DEVICE_BOARD_RELATION = "board_relation5";
+const BM_BOARD_RELATION = "board_relation";
 
 // --- Shipping confirmation webhook constants ---
 const STATUS4_COLUMN = "status4";
@@ -48,6 +49,7 @@ const BM_SALES_API_BASE = "https://www.backmarket.co.uk/ws/orders";
 
 const RECHECK_INTERVAL_MS = 30 * 60 * 1000;
 const STATE_FILE = path.join(__dirname, "..", "recheck-state.json");
+const SERIAL_DEDUPE_FILE = path.join(__dirname, "..", "serial-check-state.json");
 
 const BM_API_BASE = "https://www.backmarket.co.uk/ws/buyback/v1/orders";
 const BM_API_HEADERS = {
@@ -60,6 +62,7 @@ const BM_API_HEADERS = {
 
 const BM_MSG_ICLOUD_ON = "Thank you for your message. Unfortunately, your iCloud account is still linked to the MacBook – could you please double-check that the device is no longer showing in the Find My menu on your iCloud.com account? Guide: https://support.apple.com/en-gb/guide/icloud/mmfc0eeddd/icloud. It's also possible that a previous user's Apple ID is still linked.";
 const BM_MSG_ICLOUD_OFF = "Thank you! We've confirmed your iCloud lock has been removed. Your trade-in will be processed within the next 24 hours.";
+const inflightSerialChecks = new Map();
 
 // Keywords that suggest the customer has removed iCloud
 const RECHECK_KEYWORDS = [
@@ -76,6 +79,14 @@ function loadState() {
 
 function saveState(state) {
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+}
+
+function loadSerialCheckState() {
+  try { return JSON.parse(fs.readFileSync(SERIAL_DEDUPE_FILE, "utf8")); } catch { return {}; }
+}
+
+function saveSerialCheckState(state) {
+  fs.writeFileSync(SERIAL_DEDUPE_FILE, JSON.stringify(state, null, 2));
 }
 
 function hasRecheckKeyword(text) {
@@ -131,12 +142,14 @@ async function moveItemToGroup(itemId, groupId) {
   await mondayQuery(`mutation { move_item_to_group( item_id: ${itemId}, group_id: "${groupId}" ) { id } }`);
 }
 
+async function findBmDeviceItemIdByMainItemId(mainItemId) {
+  const searchQuery = `{ boards(ids: [${BM_BOARD_ID}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "${BM_BOARD_RELATION}", compare_value: ["${mainItemId}"] }] }) { items { id } } } }`;
+  const data = await mondayQuery(searchQuery);
+  return data?.data?.boards?.[0]?.items_page?.items?.[0]?.id || null;
+}
+
 async function getBmClaimedSpecs(mainItemId) {
-  // First get the linked BM board item ID
-  const linkQuery = `{ items(ids: [${mainItemId}]) { column_values(ids: ["${BM_BOARD_RELATION}"]) { id ... on BoardRelationValue { linked_item_ids } } } }`;
-  const linkData = await mondayQuery(linkQuery);
-  const linkCol = linkData?.data?.items?.[0]?.column_values?.[0];
-  const bmItemId = linkCol?.linked_item_ids?.[0] || null;
+  const bmItemId = await findBmDeviceItemIdByMainItemId(mainItemId);
   if (!bmItemId) return null;
 
   // Get the specs from BM board
@@ -648,6 +661,20 @@ app.post("/webhook/icloud-check", async (req, res) => {
     if (!serial) { console.log(`Item ${itemId}: empty serial, skipping`); return res.status(200).send("No serial"); }
     if (itemData.clientType !== "BM") { console.log(`Item ${itemId}: "${itemData.clientType}", not BM`); return res.status(200).send("Not BM"); }
 
+    const serialState = loadSerialCheckState();
+    const lastProcessedSerial = serialState[itemId]?.serial || "";
+    const inflightKey = `${itemId}:${serial}`;
+    if (lastProcessedSerial === serial) {
+      console.log(`Item ${itemId}: duplicate serial event for ${serial}, skipping`);
+      return res.status(200).send("Duplicate serial");
+    }
+    if (inflightSerialChecks.has(inflightKey)) {
+      console.log(`Item ${itemId}: serial ${serial} already in progress, skipping`);
+      return res.status(200).send("Check already in progress");
+    }
+
+    inflightSerialChecks.set(inflightKey, Date.now());
+
     console.log(`Checking iCloud for ${itemName}, serial: ${serial}`);
     const result = await checkSickW(serial);
 
@@ -682,7 +709,7 @@ app.post("/webhook/icloud-check", async (req, res) => {
         // Compare against BM claimed specs
         const claimed = await getBmClaimedSpecs(itemId);
         if (!claimed) {
-          specLines.push("", "⚠️ Could not verify specs — BM board link not found (board_relation5 missing)");
+          specLines.push("", "⚠️ Could not verify specs — linked BM Devices item not found via board_relation");
         } else {
           const mismatches = compareSpecs(appleSpecs, claimed);
           if (mismatches.length > 0) {
@@ -730,9 +757,23 @@ app.post("/webhook/icloud-check", async (req, res) => {
       }
     }
 
+    serialState[itemId] = {
+      serial,
+      lastResult: icloudOn ? "IC ON" : "IC OFF",
+      checkedAt: new Date().toISOString(),
+    };
+    saveSerialCheckState(serialState);
+    inflightSerialChecks.delete(inflightKey);
+
     console.log(`Done: ${itemName} → ${icloudOn ? "IC ON" : "IC OFF"}`);
     return res.status(200).send("OK");
   } catch (err) {
+    try {
+      const event = req.body?.event;
+      const serial = event?.value?.value?.trim?.() || "";
+      const itemId = event?.pulseId;
+      if (itemId && serial) inflightSerialChecks.delete(`${itemId}:${serial}`);
+    } catch {}
     console.error("Error:", err);
     return res.status(500).send("Internal error");
   }
