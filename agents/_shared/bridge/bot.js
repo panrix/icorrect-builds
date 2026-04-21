@@ -109,7 +109,6 @@ function parseRequiredEnv() {
   const required = [
     "TELEGRAM_BOT_TOKEN",
     "ALLOWED_USER_ID",
-    "KILL_HMAC",
     "TZ",
     "AGENT_NAME",
     "TMUX_SESSION"
@@ -118,6 +117,19 @@ function parseRequiredEnv() {
   if (missing.length > 0 || process.env.TZ !== TZ_REQUIRED) {
     console.error(`bridge boot refused: missing/invalid env (${missing.join(", ") || "TZ"})`);
     process.exit(1);
+  }
+
+  // Optional env surface-status logs — so operators can see which kill-switch
+  // paths and degraded-mode features are active at boot time.
+  const optionalNotes = [];
+  if (!String(process.env.KILL_HMAC || "").trim()) {
+    optionalNotes.push("KILL_HMAC not set — kill-switch Path 1 (/kill <passphrase>) disabled; Paths 2 (Monday column) and 3 (SSH + BRIDGE_LOCKED=1) still active");
+  }
+  if (!String(process.env.MONDAY_TOKEN || "").trim()) {
+    optionalNotes.push("MONDAY_TOKEN not set — kill-switch Path 2 (Monday column poll) disabled; Path 3 (SSH) remains");
+  }
+  for (const note of optionalNotes) {
+    console.log(`bridge boot: ${note}`);
   }
 
   const allowedUserId = Number.parseInt(process.env.ALLOWED_USER_ID, 10);
