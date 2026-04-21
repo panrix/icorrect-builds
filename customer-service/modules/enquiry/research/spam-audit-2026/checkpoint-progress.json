@@ -1,0 +1,14 @@
+{
+  "generated_at": "2026-04-21T01:14:45.636Z",
+  "processed": 2060,
+  "breakdown": {
+    "real": 492,
+    "automated": 635,
+    "spam": 183,
+    "unclear": 750
+  },
+  "estimated_cost_gbp": 1.057857,
+  "llm_batches_attempted": 39,
+  "llm_failures": 0,
+  "budget_cap_hit": false
+}

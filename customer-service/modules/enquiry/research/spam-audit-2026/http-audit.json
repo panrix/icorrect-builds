@@ -1,0 +1,256 @@
+{
+  "intercomCalls": [
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:00:52.716Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:00:57.410Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:02.066Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:08.621Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:13.321Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:17.517Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:21.634Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:26.321Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:30.459Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:34.074Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:38.919Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:42.853Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:47.142Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:51.214Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:01:55.454Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:00.382Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:04.560Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:09.797Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:15.795Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:20.498Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:27.247Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:32.089Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:36.349Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:40.262Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:43.702Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:47.519Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:55.291Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:02:59.975Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:04.761Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:12.190Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:18.408Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:24.806Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:29.378Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:33.317Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:36.732Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:43.481Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:47.645Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:54.120Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:03:59.688Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:04:03.885Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:04:09.101Z",
+      "attempt": 1
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/search",
+      "at": "2026-04-21T01:04:15.206Z",
+      "attempt": 1
+    }
+  ]
+}
