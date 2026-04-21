@@ -1,0 +1,22 @@
+[Unit]
+Description=Claude agent bridge — %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ricky
+Group=ricky
+Environment=TZ=Asia/Singapore
+Environment=NODE_ENV=production
+EnvironmentFile=/home/ricky/builds/agents/_shared/bridge/envs/%i.env
+WorkingDirectory=/home/ricky/builds/agents/_shared/bridge
+ExecStart=/usr/bin/node bot.js --agent=%i
+Restart=on-failure
+RestartSec=10
+RestartPreventExitStatus=2
+StandardOutput=append:/home/ricky/builds/agents/_shared/logs/bridge-%i.log
+StandardError=append:/home/ricky/builds/agents/_shared/logs/bridge-%i.log
+
+[Install]
+WantedBy=default.target
