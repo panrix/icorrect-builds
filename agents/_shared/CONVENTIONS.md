@@ -22,6 +22,41 @@ All state file writes go through `_shared/bin/write-state`. Two-phase commit wit
 
 **Forbidden:** direct `Edit` or `Write` tool use on `WORKING-STATE.md`, `agents.json`, `workers.json`, `monday-queue.jsonl`, `intake-progress.json`, `intake-draft-*.json`, `bridge-activity.json`, `infra-snapshot.json`. `write-state` or its owning subsystem (bridge for `bridge-activity.json`) are the only writers.
 
+## Checkpoint manifest
+
+`/session-handoff` uses a fixed checkpoint manifest. The current contents of these files are copied into `memory/YYYY-MM-DD.md` under `## Checkpoints`:
+
+- `_shared/state/intake-progress.json`
+- `_shared/state/workers.json`
+- `_shared/state/agents.json`
+- `_shared/state/monday-queue.jsonl` — last 50 lines only
+
+## Stale handoff quarantine
+
+Scratch files older than 30 minutes are treated as stale handoff artifacts. `_shared/bin/sweep-runtime` quarantines `.bak-*` and `.tmp-*` from `_shared/state/handoff-scratch/` into `_shared/records/incidents/stale-handoff/`.
+
+## Log rotation cadence
+
+Log rotation runs on bridge startup and every 5 minutes after that from the bridge's 60-second tick (`tick_count % 5 == 0`). The bridge invokes `logrotate -s <statefile> <config>` so long-running services stay bounded without cron.
+
+## Queue integrity offset tracking
+
+`_shared/bin/sweep-runtime` persists `_shared/state/queue-validated-offset.txt` as the byte offset of the last known-good line end in `monday-queue.jsonl`. Each run validates forward from that offset and advances it only on success. The first invalid line freezes the offset and triggers an incident plus Telegram alert. The midnight UTC+8 tick also runs a full rescan from byte 0 inside the same tick mutex.
+
+## Tool-use attribution
+
+Incident attribution reads `_shared/state/skill-invocations.jsonl`, which is disk-persisted and survives restarts. Retention is time-windowed: keep any record whose `start_ts` is within the last 2 hours. Active invocations with no `end_ts` are never pruned. If attribution is ambiguous or missing, report `unknown (see skill-invocations.jsonl for window)` rather than inventing a skill name.
+
+## Startup sweep responsibilities
+
+`_shared/bin/sweep-runtime` runs on every bridge startup and every 5 minutes thereafter. Its responsibilities are:
+
+1. Quarantine stale handoff scratch older than 30 minutes to `_shared/records/incidents/stale-handoff/`.
+2. Rotate `_shared/logs/` files over 50MB via `logrotate`.
+3. Purge `imports/*.consumed` older than 30 days.
+4. Run queue-integrity validation using `queue-validated-offset.txt`, with the midnight UTC+8 full rescan handled inside the same tick mutex.
+5. Report anomalies to Telegram once per day, deduplicated.
+
 ## Naming
 
 - **Timestamps in filenames:** ISO-8601 UTC+8 compact — `2026-04-20T14-30-00` (no colons, filename-safe)
@@ -40,7 +75,7 @@ All state file writes go through `_shared/bin/write-state`. Two-phase commit wit
 - **Never log tokens, passwords, API keys, or customer PII** — even at debug level.
 - **Incidents go to Telegram.** `_shared/records/incidents/<kind>-<ts>.md` + Telegram alert per the runtime-artifacts policy.
 - **Silent failures are a bug.** If a write fails, an incident is logged.
-- **Tool-use attribution** is honest. When a skill can't be identified, say "unknown (see skill-invocations.jsonl)" — never fabricate.
+- **Tool-use attribution** is honest. When a skill can't be identified, say "unknown (see skill-invocations.jsonl for window)" — never fabricate.
 
 ## Machine-owned files
 

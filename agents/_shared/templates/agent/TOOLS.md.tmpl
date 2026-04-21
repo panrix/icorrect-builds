@@ -4,60 +4,60 @@ External APIs this agent actually uses. Read-on-demand — not auto-loaded.
 
 ## Monday.com
 
-- **Token:** `$MONDAY_APP_TOKEN` from `~/config/api-keys/.env`
+- **Token:** `{{MONDAY_TOKEN_SOURCE}}`
 - **Endpoint:** `https://api.monday.com/v2`
-- **Existing wrapper:** `builds/alex-triage-rebuild/lib/monday.js` — reuse this, don't reimplement
-- **Main board:** `349212843` (iCorrect Main Board v2)
-- **BM devices board:** `3892194968`
-- **Agents board:** created in Phase 7 — ID stored in `IDENTITY.md` once set
-- **Column reference:** `builds/backmarket/docs/VERIFIED-COLUMN-REFERENCE.md`
+- **Existing wrapper:** `{{MONDAY_WRAPPER_PATH}}`
+- **Board IDs:** `{{MONDAY_BOARD_IDS}}`
+- **Agents board:** `{{AGENTS_BOARD_REF}}`
+- **Column reference:** `{{MONDAY_COLUMN_REFERENCE_PATH}}`
 
 ## Telegram (outbound)
 
-- **Bot token:** `$TELEGRAM_BOT_TOKEN` from `_shared/bridge/envs/{{AGENT_DIR}}.env`
-- **Allow-list user ID:** `$ALLOWED_USER_ID` (Ricky's Telegram ID; messages from any other `from.id` are refused by the bridge)
-- **Existing wrapper:** `builds/customer-service/modules/enquiry/lib/telegram-client.js`
-- **Rich cards:** `builds/customer-service/modules/enquiry/lib/card-formatter.js`
+- **Bot token / config:** `{{TELEGRAM_CONFIG}}`
+- **Allow-list config:** `{{TELEGRAM_ALLOWLIST_CONFIG}}`
+- **Existing wrapper:** `{{TELEGRAM_WRAPPER_PATH}}`
+- **Rich cards:** `{{TELEGRAM_CARD_FORMATTER_PATH}}`
 - **4096-char limit per message** — longer replies must split
 
 ## Codex (Agent tool, build path)
 
-- **Subagent type:** `codex:codex-rescue`
-- **Invocation:** Use the `Agent` tool with `subagent_type: "codex:codex-rescue"` and a self-contained brief following the Agent Delegation Protocol.
+- **Subagent type:** `{{CODEX_SUBAGENT_TYPE}}`
+- **Invocation:** Use the `Agent` tool with `subagent_type: "{{CODEX_SUBAGENT_TYPE}}"` and a self-contained brief following the Agent Delegation Protocol.
+- **Supporting paths:** `{{CODEX_PATHS}}`
 - **Fresh per call** — Codex has no persistent memory across invocations. Pass all context in the brief.
 
 ## Codex Desktop (manual handoff, product QA path)
 
-- **No programmatic API.** Ricky runs it manually.
-- **Handoff flow:** `/test-loop` writes a QA plan to `_shared/records/qa-plans/<project>-<ts>.md`, sends Ricky a Telegram message with the path, waits for paste-back.
+- **No programmatic API.** A human operator runs it manually.
+- **Handoff flow:** `/test-loop` writes a QA plan to `{{QA_PLAN_PATH}}`, sends the operator a Telegram message with the path, waits for paste-back.
 
 ## Git
 
-- **Repo:** `panrix/icorrect-builds` on GitHub
-- **Current branch:** whatever Ricky is on — never auto-commit on `master`/`main`
+- **Repo:** `{{REPO_NAME}}`
+- **Protected branches:** `{{PROTECTED_BRANCHES}}`
 - **Commit discipline:** `/checkpoint` skill commits with structured messages; never commit secrets
 
 ## Intercom
 
-- **Stub — added here when a skill actually needs it.**
+- **Stub:** `{{INTERCOM_CONFIG}}`
 
 ## Shopify
 
-- **Stub — added when needed.**
+- **Stub:** `{{SHOPIFY_CONFIG}}`
 
 ## Xero
 
-- **Stub — added when needed.**
+- **Stub:** `{{XERO_CONFIG}}`
 
 ## Internal tools (this system)
 
 | Tool | Where | Purpose |
 |------|-------|---------|
-| `write-state` | `_shared/bin/write-state` | Atomic 2-phase commit writer for machine-owned state files |
-| `delegate` | `_shared/bin/delegate` | tmux send-keys + idle-detect + capture into a worker pane |
-| `spawn-worker` | `_shared/bin/spawn-worker` | Create a new tmux window running `claude` for a worker role |
-| `install-agent` | `_shared/bin/install-agent` | Render `.claude/settings.json` from template for a new top-level agent |
-| `verify-load-proof` | `_shared/bin/verify-load-proof` | `--dry-run` or `--live` — prove SOUL/CLAUDE are actually loaded |
-| `sweep-runtime` | `_shared/bin/sweep-runtime` | Startup + 5-min sweep (stale handoffs, log rotate, queue integrity, disk check) |
-| `log-tool-use` | `_shared/bin/log-tool-use` | PostToolUse hook handler — appends to `_shared/logs/tool-use-{{AGENT_DIR}}.jsonl` |
-| `backoff.sh` | `_shared/bin/backoff.sh` | Shared exponential-backoff helper |
+| `write-state` | `{{WRITE_STATE_PATH}}` | Atomic 2-phase commit writer for machine-owned state files |
+| `delegate` | `{{DELEGATE_PATH}}` | tmux send-keys + idle-detect + capture into a worker pane |
+| `spawn-worker` | `{{SPAWN_WORKER_PATH}}` | Create a new tmux window running `claude` for a worker role |
+| `install-agent` | `{{INSTALL_AGENT_PATH}}` | Render `.claude/settings.json` from template for a new top-level agent |
+| `verify-load-proof` | `{{VERIFY_LOAD_PROOF_PATH}}` | `--dry-run` or `--live` — prove SOUL/CLAUDE are actually loaded |
+| `sweep-runtime` | `{{SWEEP_RUNTIME_PATH}}` | Startup + 5-min sweep (stale handoffs, log rotate, queue integrity, disk check) |
+| `log-tool-use` | `{{LOG_TOOL_USE_PATH}}` | PostToolUse hook handler — appends to `{{TOOL_USE_LOG_PATH}}` |
+| `backoff.sh` | `{{BACKOFF_HELPER_PATH}}` | Shared exponential-backoff helper |
