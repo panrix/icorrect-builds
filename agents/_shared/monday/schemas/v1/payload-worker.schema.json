@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://panrix.local/agents/monday/schemas/v1/payload-worker.schema.json",
+  "title": "Monday Queue Payload - Worker",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "agent",
+    "role",
+    "tmux_window",
+    "state",
+    "current_task",
+    "last_activity_ts"
+  ],
+  "properties": {
+    "agent": {
+      "type": "string",
+      "minLength": 1
+    },
+    "role": {
+      "type": "string",
+      "minLength": 1
+    },
+    "tmux_window": {
+      "type": "string",
+      "minLength": 1
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "idle",
+        "running",
+        "blocked",
+        "crashed",
+        "zombie"
+      ]
+    },
+    "current_task": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "last_activity_ts": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

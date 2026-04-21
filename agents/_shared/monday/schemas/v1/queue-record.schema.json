@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://panrix.local/agents/monday/schemas/v1/queue-record.schema.json",
+  "title": "Monday Queue Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "id",
+    "kind",
+    "op",
+    "ts",
+    "source_skill",
+    "payload",
+    "trace"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "project",
+        "worker",
+        "agent",
+        "delegation",
+        "decision"
+      ]
+    },
+    "op": {
+      "type": "string",
+      "enum": [
+        "upsert",
+        "close",
+        "delete"
+      ]
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "source_skill": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object"
+    },
+    "trace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "session_id",
+        "user"
+      ],
+      "properties": {
+        "session_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "user": {
+          "type": "string",
+          "const": "ricky"
+        }
+      }
+    }
+  }
+}
