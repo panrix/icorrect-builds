@@ -7,7 +7,7 @@
 | `role` | Chief of Staff |
 | `model` | claude-opus-4-7 (orchestration); Codex via `Agent` tool for code |
 | `channel` | Telegram via `claude-bridge@chief-of-staff.service` |
-| `bot_username` | _(pending — BotFather setup in Phase 3; token lands in `_shared/bridge/envs/chief-of-staff.env`)_ |
+| `bot_username` | `@icorrect_chiefofstaffbot` (Telegram bot ID 8782485581; token in `_shared/bridge/envs/chief-of-staff.env`) |
 | `tmux_session` | `chief-of-staff` |
 | `env_file` | `_shared/bridge/envs/chief-of-staff.env` |
 | `instantiated` | 2026-04-21 |
