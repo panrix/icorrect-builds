@@ -1,0 +1,61 @@
+#!/usr/bin/env bash
+
+# MIGRATION-ONLY — not invoked by any running agent.
+
+set -euo pipefail
+
+if [ "$#" -ne 0 ]; then
+  printf 'usage: export-openclaw-agents\n' >&2
+  exit 64
+fi
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+shared_dir="$(cd "$script_dir/.." && pwd)"
+imports_dir="$shared_dir/state/imports"
+today_sg="$(TZ=Asia/Singapore date +%F)"
+output_file="$imports_dir/openclaw-agents-${today_sg}.jsonl"
+work_dir="$(mktemp -d "$imports_dir/export-openclaw.XXXXXX")"
+temp_output="$work_dir/output.jsonl"
+
+cleanup() {
+  rm -rf "$work_dir"
+}
+trap cleanup EXIT
+
+mkdir -p "$imports_dir"
+: >"$temp_output"
+
+python3 - "$HOME/.openclaw/agents" "$temp_output" <<'PY'
+import datetime as dt
+import json
+import sys
+from pathlib import Path
+
+root = Path(sys.argv[1]).expanduser()
+output = Path(sys.argv[2])
+
+def read_optional(path: Path):
+    if not path.exists():
+        return None
+    return path.read_text(encoding="utf-8")
+
+lines = []
+if root.exists():
+    for agent_dir in sorted(root.iterdir()):
+        workspace = agent_dir / "workspace"
+        if not workspace.is_dir():
+            continue
+        record = {
+            "id": agent_dir.name,
+            "soul_md": read_optional(workspace / "SOUL.md"),
+            "claude_md": read_optional(workspace / "CLAUDE.md"),
+            "memory_md": read_optional(workspace / "MEMORY.md"),
+            "exported_at": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+        }
+        lines.append(json.dumps(record, ensure_ascii=False))
+
+output.write_text("".join(line + "\n" for line in lines), encoding="utf-8")
+PY
+
+mv "$temp_output" "$output_file"
+printf '%s\n' "$output_file"

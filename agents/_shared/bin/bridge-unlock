@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "$#" -ne 0 ]; then
+  printf 'usage: bridge-unlock\n' >&2
+  exit 64
+fi
+
+if [ "$(id -u)" -ne 0 ]; then
+  exit 2
+fi
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+shared_dir="$(cd "$script_dir/.." && pwd)"
+state_dir="$shared_dir/state"
+logs_dir="$shared_dir/logs"
+lock_flag="$state_dir/bridge-locked.flag"
+log_file="$logs_dir/bridge-incidents.jsonl"
+work_dir="$(mktemp -d "$state_dir/bridge-unlock.XXXXXX")"
+
+cleanup() {
+  rm -rf "$work_dir"
+}
+trap cleanup EXIT
+
+mkdir -p "$state_dir" "$logs_dir"
+rm -f "$lock_flag"
+
+python3 - "$log_file" <<'PY'
+import datetime as dt
+import json
+import os
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+line = {
+    "ts": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+    "kind": "bridge-unlock",
+    "uid": os.getuid(),
+    "message": "bridge-locked.flag cleared",
+}
+with path.open("a", encoding="utf-8") as handle:
+    handle.write(json.dumps(line, ensure_ascii=False) + "\n")
+PY

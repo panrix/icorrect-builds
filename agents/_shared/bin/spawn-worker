@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "$#" -ne 2 ]; then
+  printf 'usage: spawn-worker <role> <session>\n' >&2
+  exit 64
+fi
+
+role="$1"
+session="$2"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+shared_dir="$(cd "$script_dir/.." && pwd)"
+state_dir="$shared_dir/state"
+workers_file="$state_dir/workers.json"
+write_state="$script_dir/write-state"
+work_dir="$(mktemp -d "$state_dir/spawn-worker.XXXXXX")"
+next_workers="$work_dir/workers.json"
+
+cleanup() {
+  rm -rf "$work_dir"
+}
+trap cleanup EXIT
+
+mkdir -p "$state_dir"
+tmux has-session -t "$session" >/dev/null 2>&1
+
+if ! tmux list-windows -t "$session" -F '#{window_name}' | grep -Fxq "$role"; then
+  tmux new-window -t "$session:" -n "$role"
+fi
+
+spawned_at="$(date -u +%FT%TZ)"
+
+python3 - "$workers_file" "$next_workers" "$role" "$session" "$spawned_at" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+source = Path(sys.argv[1])
+dest = Path(sys.argv[2])
+role = sys.argv[3]
+session = sys.argv[4]
+spawned_at = sys.argv[5]
+
+data = []
+if source.exists():
+    raw = source.read_text(encoding="utf-8").strip()
+    if raw:
+        parsed = json.loads(raw)
+        if isinstance(parsed, list):
+            data = parsed
+
+updated = False
+for item in data:
+    if item.get("role") == role and item.get("session") == session:
+        item.update({
+            "role": role,
+            "window": role,
+            "session": session,
+            "spawned_at": spawned_at,
+            "status": "idle",
+        })
+        updated = True
+        break
+
+if not updated:
+    data.append({
+        "role": role,
+        "window": role,
+        "session": session,
+        "spawned_at": spawned_at,
+        "status": "idle",
+    })
+
+dest.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+PY
+
+"$write_state" "$workers_file" "$next_workers"

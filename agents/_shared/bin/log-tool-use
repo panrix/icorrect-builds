@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+if [ "$#" -ne 1 ]; then
+  printf 'usage: log-tool-use <agent-name>\n' >&2
+  exit 64
+fi
+
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+shared_dir="$(cd "$script_dir/.." && pwd)"
+agent_name="$1"
+logs_dir="$shared_dir/logs"
+work_dir="$(mktemp -d "$logs_dir/log-tool-use.XXXXXX")"
+input_file="$work_dir/input.json"
+line_file="$work_dir/line.json"
+
+cleanup() {
+  rm -rf "$work_dir"
+}
+trap cleanup EXIT
+
+mkdir -p "$logs_dir"
+cat >"$input_file"
+
+python3 - "$agent_name" "$input_file" "$line_file" <<'PY'
+import datetime as dt
+import json
+import sys
+from pathlib import Path
+
+agent = sys.argv[1]
+input_path = Path(sys.argv[2])
+output_path = Path(sys.argv[3])
+
+raw = input_path.read_text(encoding="utf-8").strip()
+payload = json.loads(raw) if raw else {}
+
+def pick(*paths, default=None):
+    for path in paths:
+        cur = payload
+        ok = True
+        for key in path:
+            if isinstance(cur, dict) and key in cur:
+                cur = cur[key]
+            else:
+                ok = False
+                break
+        if ok and cur is not None:
+            return cur
+    return default
+
+tool = pick(("tool_name",), ("tool",), ("event", "tool_name"), ("toolUse", "toolName"), default="unknown")
+args = pick(("arguments",), ("args",), ("tool_input",), ("event", "arguments"), ("toolUse", "args"), default={})
+duration = pick(("duration_ms",), ("durationMs",), ("timing", "duration_ms"), ("event", "duration_ms"), default=0)
+status_value = pick(("status",), ("success",), ("ok",), ("event", "status"), default="ok")
+
+if isinstance(status_value, bool):
+    status = "ok" if status_value else "error"
+else:
+    lowered = str(status_value).lower()
+    status = "ok" if lowered in {"ok", "success", "true"} else "error"
+
+args_summary = json.dumps(args, ensure_ascii=False, sort_keys=True) if not isinstance(args, str) else args
+if len(args_summary) > 300:
+    args_summary = args_summary[:297] + "..."
+
+line = {
+    "ts": dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+    "agent": agent,
+    "tool": tool,
+    "args_summary": args_summary,
+    "duration_ms": int(duration or 0),
+    "status": status,
+}
+
+output_path.write_text(json.dumps(line, ensure_ascii=False) + "\n", encoding="utf-8")
+PY
+
+cat "$line_file" >>"$logs_dir/tool-use-${agent_name}.jsonl"

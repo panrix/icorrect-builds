@@ -1,0 +1,318 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+usage() {
+  printf 'usage: verify-load-proof --dry-run <proof-file> | verify-load-proof --live <agent-name>\n' >&2
+}
+
+if [ "$#" -ne 2 ]; then
+  usage
+  exit 64
+fi
+
+mode="$1"
+arg="$2"
+script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+repo_root="$(cd "$script_dir/../../.." && pwd)"
+work_dir="$(mktemp -d "$script_dir/.verify-load-proof.XXXXXX")"
+
+cleanup() {
+  rm -rf "$work_dir"
+}
+trap cleanup EXIT
+
+normalize_with_python() {
+  python3 - "$1" <<'PY'
+import re
+import sys
+
+text = sys.argv[1]
+text = re.sub(r"```.*?```", " ", text, flags=re.S)
+text = re.sub(r"\s+", " ", text)
+print(text.strip().lower())
+PY
+}
+
+if [ "$mode" = "--dry-run" ]; then
+  proof_file="$arg"
+  python3 - "$proof_file" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+path = Path(sys.argv[1])
+data = json.loads(path.read_text(encoding="utf-8"))
+
+required_root = {"agent", "generated_at", "checks"}
+missing_root = sorted(required_root - data.keys())
+if missing_root:
+    raise SystemExit(f"Missing root keys: {', '.join(missing_root)}")
+
+if not isinstance(data["checks"], list) or not data["checks"]:
+    raise SystemExit("checks must be a non-empty array")
+
+required_check = {
+    "name",
+    "prompt",
+    "expected",
+    "actual",
+    "normalized_expected",
+    "normalized_actual",
+    "passed",
+}
+
+for index, check in enumerate(data["checks"], start=1):
+    if not isinstance(check, dict):
+        raise SystemExit(f"check #{index} is not an object")
+    missing = sorted(required_check - check.keys())
+    if missing:
+        raise SystemExit(f"check #{index} missing keys: {', '.join(missing)}")
+    if not isinstance(check["passed"], bool):
+        raise SystemExit(f"check #{index} passed must be boolean")
+
+print("proof schema OK")
+PY
+  exit 0
+fi
+
+if [ "$mode" != "--live" ]; then
+  usage
+  exit 64
+fi
+
+resolve_agent_dir() {
+  local value="$1"
+  if [ -d "$value" ]; then
+    cd "$value" && pwd
+    return 0
+  fi
+  if [ -d "$repo_root/agents/$value" ]; then
+    cd "$repo_root/agents/$value" && pwd
+    return 0
+  fi
+  printf 'verify-load-proof: agent path not found: %s\n' "$value" >&2
+  return 1
+}
+
+agent_dir="$(resolve_agent_dir "$arg")"
+proof_meta="$work_dir/proof-meta.json"
+responses_dir="$work_dir/responses"
+mkdir -p "$responses_dir"
+
+python3 - "$agent_dir" "$proof_meta" <<'PY'
+import json
+import random
+import re
+import sys
+from pathlib import Path
+
+agent_dir = Path(sys.argv[1])
+output_path = Path(sys.argv[2])
+soul_path = agent_dir / "SOUL.md"
+claude_path = agent_dir / "CLAUDE.md"
+
+if not soul_path.exists():
+    raise SystemExit(f"Missing {soul_path}")
+if not claude_path.exists():
+    raise SystemExit(f"Missing {claude_path}")
+
+soul_text = soul_path.read_text(encoding="utf-8")
+claude_text = claude_path.read_text(encoding="utf-8")
+
+principles = [re.sub(r"^-+\s*", "", line).strip() for line in soul_text.splitlines() if "[SOUL]" in line]
+headings = [re.sub(r"^#+\s*", "", line).strip() for line in claude_text.splitlines() if re.match(r"^#{1,6}\s+", line)]
+allow_list = next((line.strip() for line in claude_text.splitlines() if "allow-list" in line.lower()), None)
+
+if not principles:
+    raise SystemExit("No [SOUL] principles found in SOUL.md")
+if not headings:
+    raise SystemExit("No headings found in CLAUDE.md")
+if not allow_list:
+    raise SystemExit("No allow-list rule found in CLAUDE.md")
+
+random.seed()
+index = random.randint(1, len(principles))
+
+data = {
+    "agent": agent_dir.name,
+    "agent_dir": str(agent_dir),
+    "soul_principle_count": len(principles),
+    "selected_principle_index": index,
+    "selected_principle": principles[index - 1],
+    "claude_headings": headings,
+    "allow_list_rule": allow_list,
+}
+output_path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+PY
+
+agent_name="$(python3 - "$proof_meta" <<'PY'
+import json
+import sys
+print(json.loads(open(sys.argv[1], encoding="utf-8").read())["agent"])
+PY
+)"
+
+agent_link="$work_dir/agent"
+ln -s "$agent_dir" "$agent_link"
+
+run_prompt() {
+  local prompt="$1"
+  local response_file="$2"
+  local attempt=1
+
+  while [ "$attempt" -le 3 ]; do
+    if timeout 120 claude -p --output-format json "$prompt" >"$response_file"; then
+      return 0
+    fi
+    attempt=$((attempt + 1))
+  done
+
+  return 1
+}
+
+python3 - "$proof_meta" "$work_dir/prompts.json" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+meta = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+prompts = [
+    {
+        "name": "soul_principle",
+        "prompt": (
+            "Reply with JSON only. "
+            f"What is the number of [SOUL] principles in SOUL.md, and quote principle {meta['selected_principle_index']} verbatim? "
+            'Use {"count":<number>,"quote":"..."}'
+        ),
+    },
+    {
+        "name": "claude_headings",
+        "prompt": (
+            "Reply with JSON only. "
+            'List the exact section headings of CLAUDE.md in order. '
+            'Use {"headings":["..."]}'
+        ),
+    },
+    {
+        "name": "allow_list_rule",
+        "prompt": (
+            "Reply with JSON only. "
+            'Quote the allow-list rule from CLAUDE.md verbatim. '
+            'Use {"rule":"..."}'
+        ),
+    },
+]
+Path(sys.argv[2]).write_text(json.dumps(prompts, ensure_ascii=False, indent=2), encoding="utf-8")
+PY
+
+while IFS= read -r prompt_json; do
+  name="$(python3 - "$prompt_json" <<'PY'
+import json
+import sys
+print(json.loads(sys.argv[1])["name"])
+PY
+)"
+  prompt_text="$(python3 - "$prompt_json" <<'PY'
+import json
+import sys
+print(json.loads(sys.argv[1])["prompt"])
+PY
+)"
+  response_file="$responses_dir/${name}.json"
+  (
+    cd "$agent_link"
+    run_prompt "$prompt_text" "$response_file"
+  ) || {
+    printf 'verify-load-proof: claude failed for check %s\n' "$name" >&2
+    exit 1
+  }
+done < <(python3 - "$work_dir/prompts.json" <<'PY'
+import json
+import sys
+for item in json.loads(open(sys.argv[1], encoding="utf-8").read()):
+    print(json.dumps(item, ensure_ascii=False))
+PY
+)
+
+python3 - "$proof_meta" "$work_dir/prompts.json" "$responses_dir" <<'PY'
+import json
+import re
+import sys
+from pathlib import Path
+
+meta = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
+prompts = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+responses_dir = Path(sys.argv[3])
+
+def normalize(value):
+    text = value if isinstance(value, str) else json.dumps(value, ensure_ascii=False)
+    text = re.sub(r"```.*?```", " ", text, flags=re.S)
+    text = re.sub(r"\s+", " ", text)
+    return text.strip().lower()
+
+def extract_text(payload):
+    if isinstance(payload, str):
+        return payload
+    if isinstance(payload, dict):
+        for key in ("result", "text", "output", "message", "content"):
+            if key in payload:
+                candidate = extract_text(payload[key])
+                if candidate:
+                    return candidate
+        for value in payload.values():
+            candidate = extract_text(value)
+            if candidate:
+                return candidate
+    if isinstance(payload, list):
+        for item in payload:
+            candidate = extract_text(item)
+            if candidate:
+                return candidate
+    return ""
+
+checks = []
+for prompt in prompts:
+    response_path = responses_dir / f"{prompt['name']}.json"
+    raw_payload = json.loads(response_path.read_text(encoding="utf-8"))
+    response_text = extract_text(raw_payload)
+    parsed = json.loads(response_text)
+
+    if prompt["name"] == "soul_principle":
+        expected = {"count": meta["soul_principle_count"], "quote": meta["selected_principle"]}
+        actual = {"count": parsed.get("count"), "quote": parsed.get("quote", "")}
+        passed = (
+            str(actual["count"]) == str(expected["count"])
+            and normalize(actual["quote"]) == normalize(expected["quote"])
+        )
+    elif prompt["name"] == "claude_headings":
+        expected = meta["claude_headings"]
+        actual = parsed.get("headings", [])
+        passed = normalize(actual) == normalize(expected)
+    else:
+        expected = meta["allow_list_rule"]
+        actual = parsed.get("rule", "")
+        passed = normalize(actual) == normalize(expected)
+
+    checks.append(
+        {
+            "name": prompt["name"],
+            "prompt": prompt["prompt"],
+            "expected": expected,
+            "actual": actual,
+            "normalized_expected": normalize(expected),
+            "normalized_actual": normalize(actual),
+            "passed": passed,
+        }
+    )
+
+proof = {
+    "agent": meta["agent"],
+    "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
+    "checks": checks,
+}
+
+print(json.dumps(proof, ensure_ascii=False, indent=2))
+if not all(item["passed"] for item in checks):
+    raise SystemExit(1)
+PY
