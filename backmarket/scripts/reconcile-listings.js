@@ -137,7 +137,10 @@ async function loadAllBmDevices() {
   let cursor = null;
   while (true) {
     const cursorPart = cursor ? `cursor: "${cursor}"` : `limit: 500`;
-    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+    // Include CPU (status7__1) and GPU (status8__1) cores so Check C missed-revenue flag
+    // can validate that all devices on a shared listing_id truly match (e.g. A2338 M1 vs M2
+    // both string-match MBP.A2338 SKUs but differ on GPU core count: M1=8C, M2=10C).
+    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2", "status7__1", "status8__1"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
     const d = await mondayApi(q);
     const page = d.data?.boards?.[0]?.items_page;
     if (!page?.items?.length) break;
@@ -286,7 +289,13 @@ async function loadAllBmDevices() {
         console.log(`    Title: ${bmListing.title}`);
         results.specMismatch.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, issues: specIssues });
       }
-      results.matched.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, specOk, specIssues });
+      // Capture spec tuple so Check C (qty reconciliation) can detect mis-grouped devices
+      // on a shared listing_id — e.g. A2338 M1 (8c GPU) and A2338 M2 (10c GPU) both have
+      // identical SKU strings but are different products. Missed-revenue qty-bumping is
+      // only valid when every device on the listing matches on RAM/SSD/CPU/GPU.
+      const devCpu = (bmDev.column_values.find(cv => cv.id === 'status7__1')?.text || '').trim();
+      const devGpu = (bmDev.column_values.find(cv => cv.id === 'status8__1')?.text || '').trim();
+      results.matched.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing, specOk, specIssues, ram: devRam, ssd: devSsd, cpu: devCpu, gpu: devGpu, model: devModel });
     } else {
       console.log(`  ⚠️ ${name}: listing ${listingId} exists but OFFLINE (qty=0)`);
       results.mondayListedBmOffline.push({ name, mainItemId: mainId, listingId, bmDeviceId: bmDev.id, listing: bmListing });
@@ -346,8 +355,23 @@ async function loadAllBmDevices() {
     const mondayCount = devices.length;
     const bmQty = bmListing.quantity;
     if (mondayCount > bmQty) {
-      console.log(`  ⚠️ MISSED REVENUE: listing ${lid} (${bmListing.sku}) has ${mondayCount} devices on Monday but qty=${bmQty} on BM`);
-      results.qtyMismatch.push({ listingId: lid, sku: bmListing.sku, mondayCount, bmQty, type: 'missed_revenue', devices: devices.map(d => d.name) });
+      // Before declaring "missed revenue", verify every device on this listing has matching
+      // RAM, SSD, CPU cores and GPU cores. Shared SKU string does NOT guarantee interchangeable
+      // devices — e.g. A2338 M1 (8c GPU) vs M2 (10c GPU) share SKU "MBP.A2338...". Bumping qty
+      // in that case sells the wrong-gen device at the wrong price.
+      const specKey = (d) => `${(d.ram || '').toUpperCase()}|${(d.ssd || '').toUpperCase()}|${(d.cpu || '').toLowerCase()}|${(d.gpu || '').toLowerCase()}`;
+      const uniqueSpecs = new Set(devices.map(specKey));
+      if (uniqueSpecs.size === 1) {
+        console.log(`  ⚠️ MISSED REVENUE: listing ${lid} (${bmListing.sku}) has ${mondayCount} devices on Monday but qty=${bmQty} on BM — all specs match, safe to bump`);
+        results.qtyMismatch.push({ listingId: lid, sku: bmListing.sku, mondayCount, bmQty, type: 'missed_revenue', devices: devices.map(d => d.name), specs: [...uniqueSpecs] });
+      } else {
+        // Spec drift within a single listing_id — one or more devices is mis-assigned
+        console.log(`  ⛔ SPEC DRIFT on listing ${lid} (${bmListing.sku}): ${mondayCount} devices share the listing but their specs diverge`);
+        for (const d of devices) {
+          console.log(`     ${d.name}: RAM=${d.ram}, SSD=${d.ssd}, CPU=${d.cpu}, GPU=${d.gpu}`);
+        }
+        results.qtyMismatch.push({ listingId: lid, sku: bmListing.sku, mondayCount, bmQty, type: 'spec_drift', devices: devices.map(d => ({ name: d.name, bmDeviceId: d.bmDeviceId, mainItemId: d.mainItemId, ram: d.ram, ssd: d.ssd, cpu: d.cpu, gpu: d.gpu })), uniqueSpecs: [...uniqueSpecs] });
+      }
     } else if (bmQty > mondayCount) {
       console.log(`  ⛔ OVERSELL RISK: listing ${lid} (${bmListing.sku}) has qty=${bmQty} on BM but only ${mondayCount} device(s) on Monday`);
       results.qtyMismatch.push({ listingId: lid, sku: bmListing.sku, mondayCount, bmQty, type: 'oversell', devices: devices.map(d => d.name) });
@@ -544,7 +568,8 @@ async function loadAllBmDevices() {
   if (results.missingBmDevice.length > 0) tgLines.push(`⛔ Missing BM Device: ${results.missingBmDevice.length}`);
   if ((results.specMismatch || []).length > 0) tgLines.push(`⛔ Spec mismatch: ${results.specMismatch.length}`);
   if (results.missingCost.length > 0) tgLines.push(`⚠️ Missing cost data: ${results.missingCost.length}`);
-  if (results.qtyMismatch.filter(r => r.type === 'missed_revenue').length > 0) tgLines.push(`⚠️ Missed revenue (more devices than listed): ${results.qtyMismatch.filter(r => r.type === 'missed_revenue').length}`);
+  if (results.qtyMismatch.filter(r => r.type === 'missed_revenue').length > 0) tgLines.push(`⚠️ Missed revenue (more devices than listed, specs match): ${results.qtyMismatch.filter(r => r.type === 'missed_revenue').length}`);
+  if (results.qtyMismatch.filter(r => r.type === 'spec_drift').length > 0) tgLines.push(`⛔ Spec drift on shared listing_id (qty bump UNSAFE): ${results.qtyMismatch.filter(r => r.type === 'spec_drift').length}`);
   if (results.costBackfilled.length > 0) tgLines.push(`✅ Cost auto-backfilled: ${results.costBackfilled.length}`);
 
   // Prefix Telegram line with mode tag so the chat clearly shows whether the run was a drill or for real

@@ -6,6 +6,65 @@ See `/home/ricky/builds/backmarket/docs/rollback-log.md` for detailed rollback c
 
 ---
 
+## 2026-04-20 14:00 UTC — BM 1555 mis-labelled M1 → M2 fix + A2338 GPU-core disambiguation
+
+**Trigger:** Sunday's `reconcile-listings.js --dry-run` flagged listing 5500817 as "missed revenue" (BM 1554 + BM 1555 both pointing at it, BM qty=1). SKU strings matched — but GPU cores differed: BM 1554 has 8-core GPU (M1), BM 1555 has 10-core GPU (M2). A2338 is the model number Apple reused for BOTH M1 Pro 13" (2020) and M2 Pro 13" (2022).
+
+Serial structure confirmed the gap: BM 1554 has a 12-char factory-code serial (`FVHDN54GQ05D`, old Apple format) → M1; BM 1555 has a 10-char randomised serial (`H9Q3QXHQ7T`, introduced Oct 2021) → M2.
+
+**Data fixes (Monday):**
+- BM Devices item 11522177120 (BM 1555) — cleared wrong `text_mkyd4bx3` (5500817 was the M1 slot); updated `text89` to `MBP.A2338.M2.8GB.256GB.Grey.Fair`
+- Main Board item 11522195767 (BM 1555) — `status24` reset to "To List" so `list-device.js` can relist on the correct M2 slot
+
+**Code fixes:**
+- `scripts/list-device.js` — added A2338 GPU-core disambiguation to `constructSku()`: 10-core GPU → M2, 8-core → M1. Same pattern already used for A2918 / A2992 / A2442 / A2485. Also updated `deriveCatalogModelFamily()` so A2338 + 10c GPU routes to `"MacBook Pro 13-inch (2022)"`.
+- `scripts/reconcile-listings.js` — Check C (qty reconciliation) now computes a per-device spec tuple `RAM|SSD|CPU|GPU` on every matched listing. Only flags `missed_revenue` (safe-to-bump) when all devices on a shared listing_id converge on the same tuple. Divergent-spec cases re-classified as `spec_drift` (UNSAFE). Adds CPU + GPU core counts to the BM Devices GraphQL query. New Telegram summary line distinguishes the two classes.
+
+**Verification:**
+- `node -c` passes on both scripts
+- Re-ran `list-device.js --dry-run --item 11522195767` on BM 1555 with spec `8C/10C`: correctly constructs SKU `MBP.A2338.M2.8GB.256GB.Grey.Fair`, hits registry slot `6569346` (trust registry_verified), product_id `ef20e8dd-bcbf-4d94-8933-15f59560b9b9` = "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU". Market prices now M2 generation (£548 Fair / £630 Good / £1200 Excellent) instead of M1's £420 / £484 / £546.
+- Phase 0.2 policy gate holds: net −£67 at min price (purchase £188 + parts £142 + labour 5.2hrs) → BLOCK. Loss-override with `--min-margin 0` available if Ricky chooses to clear at a loss.
+- Synthetic unit test on reconcile spec-drift logic: `{ram:8GB,ssd:256GB,cpu:8-Core,gpu:8-Core}` vs `{ram:8GB,ssd:256GB,cpu:8-Core,gpu:10-Core}` → 2 unique tuples → correctly returns `spec_drift`, not `missed_revenue`.
+
+**Plan update:** `docs/PLAN.md` Phase 4.2 spec now requires the rebuilt `listings-audit.js` to derive canonical SKU from CPU + GPU cores (not just A-number) for shared-A-number models, and to emit the full spec tuple on every row so downstream tooling can distinguish true duplicates.
+
+**Rollback:**
+```bash
+# Revert code changes
+cd /home/ricky/builds/backmarket && git checkout HEAD -- scripts/list-device.js scripts/reconcile-listings.js docs/PLAN.md
+# Restore BM 1555 Monday state (only if the M2 move was wrong — which it wasn't, serial confirms)
+# BM Devices 11522177120: set text_mkyd4bx3 back to "5500817" and text89 back to "MBP.A2338.M1.8GB.256GB.Grey.Fair"
+# Main Board 11522195767: set status24 back to "Listed" (index 7)
+```
+
+---
+
+## 2026-04-20 13:10 UTC — icloud-checker spec-compare BM Devices lookup fix
+
+**Files touched:**
+- `/home/ricky/builds/icloud-checker/src/index.js`
+
+**Change:**
+- Fixed intake spec comparison to resolve the linked **BM Devices** item by searching BM Devices board `board_relation` back to the Main Board item, instead of incorrectly reading Main Board `board_relation5`.
+- Left `board_relation5` semantics intact as the Device lookup relation.
+- Updated the missing-link warning text to reflect the real lookup path.
+
+**Why:**
+- BM 1598 (`Hari mccoy`) completed iCloud check but did not produce a spec comparison because the service was reading claimed specs from the wrong relation path.
+
+**Verification:**
+- Confirmed Main Board `board_relation5` points to Device lookup board `3923707691`.
+- Confirmed BM Devices item is linked back to Main via BM Devices `board_relation`.
+- Patched `getBmClaimedSpecs()` to resolve BM Devices item from that reverse link.
+- Service restart/test pending after this edit.
+
+**Rollback:**
+```bash
+cd /home/ricky/builds/icloud-checker && git checkout HEAD -- src/index.js
+```
+
+---
+
 ## 2026-04-17 — Phase 0.11 — Verification of already-fixed claims
 
 Codex QA flagged some Phase 0 tasks as already resolved in the code. Verified before removing from scope:

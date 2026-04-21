@@ -526,8 +526,12 @@ Locked decisions (same as v1):
 - Rebuild canonical-SKU derivation to read colour from BM Devices board (`status8` mirror), not BM listing title
 - Replace inline A-number map with the single-source-of-truth JSON built in Phase 0.3
 - Add regression test: feed 30 known live listings, assert correct canonical SKU derivation
+- **A-number disambiguation:** where an A-number covers multiple chip generations (A2338 = M1 + M2 13" Pro; A2918 / A2992 = M3 + M3 Pro 14"; A2442 / A2485 = M1 Pro + M1 Max), canonical SKU MUST be derived from CPU and GPU core counts, not just the A-number or the device name. `list-device.js` already does this for A2338 / A2918 / A2992 / A2442 / A2485 — mirror that logic into `listings-audit.js`.
+- **Spec-tuple output:** for every live listing, `listings-audit.js` must emit the full spec tuple (A-number, chip, RAM, SSD, CPU cores, GPU cores, colour, grade) alongside the canonical SKU, not just the SKU string. Downstream tools (Phase 4.6 Path C browser rename, Phase 5 orchestrator) need the tuple to distinguish true duplicates from string-match-only collisions.
 
 Only once this passes regression can we trust the mismatch baseline.
+
+**Related fix already applied (2026-04-20):** `reconcile-listings.js` Check C (qty reconciliation) no longer flags "missed revenue" purely on SKU-string match. It now computes a spec-tuple `RAM|SSD|CPU|GPU` per device on a shared listing_id and only flags `missed_revenue` (safe-to-bump) when all devices converge on the same tuple. Divergent-spec cases are re-classified as `spec_drift` (UNSAFE — a device is mis-assigned to the listing). Root cause found on BM 1554 (M1) + BM 1555 (M2) both pointing at listing 5500817. `list-device.js` also patched to disambiguate A2338 M1 vs M2 via GPU cores (was hardcoded M1).
 
 ### 4.3 Registry audit
 

@@ -216,6 +216,15 @@ const MODEL_NUMBER_TO_CATALOG_FAMILY = {
 };
 
 function deriveCatalogModelFamily(specs) {
+  // A2338: model number reused across M1 (2020) and M2 (2022). Disambiguate by GPU cores.
+  // M1 = 8-core GPU → catalog family "MacBook Pro 13-inch (2020)"
+  // M2 = 10-core GPU → catalog family "MacBook Pro 13-inch (2022)"
+  if (specs.model === 'A2338') {
+    const gpuCores = parseInt((specs.gpu || '').match(/(\d+)/)?.[1] || '0');
+    if (gpuCores === 10) return 'MacBook Pro 13-inch (2022)';
+    return 'MacBook Pro 13-inch (2020)';
+  }
+
   const fromModel = MODEL_NUMBER_TO_CATALOG_FAMILY[specs.model];
   if (fromModel) return fromModel;
 
@@ -484,6 +493,18 @@ function constructSku(specs, gradeText) {
       console.log(`  Chip override: ${model} with ${cpuCores}c CPU/${gpuCores}c GPU → base M3`);
     } else if (cpuCores > 0 || gpuCores > 0) {
       console.log(`  Chip confirmed: ${model} with ${cpuCores}c CPU/${gpuCores}c GPU → M3 Pro`);
+    }
+  }
+  // A2338: Apple reused this model number for BOTH M1 (2020) and M2 (2022) 13" Pro.
+  // M1 Pro 13" = 8-core CPU + 8-core GPU. M2 Pro 13" = 8-core CPU + 10-core GPU.
+  // Serial structure also differs: M1 uses 12-char factory codes, M2 uses 10-char randomised.
+  if (model === 'A2338') {
+    const gpuCores = parseInt((gpu || '').match(/(\d+)/)?.[1] || '0');
+    if (gpuCores === 10) {
+      chip = 'M2';
+      console.log(`  Chip override: A2338 with ${gpuCores}c GPU → M2 (2022 generation)`);
+    } else if (gpuCores === 8) {
+      console.log(`  Chip confirmed: A2338 with ${gpuCores}c GPU → M1 (2020 generation)`);
     }
   }
 
