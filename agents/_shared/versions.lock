@@ -1,0 +1,11 @@
+# Pinned tool versions — verified on production VPS 2026-04-20
+# Bumping these requires canary flow per plan's Version pinning section.
+
+claude-cli=2.1.114              # Anthropic CLI; -p --output-format json confirmed working
+node>=20                        # bridge runtime; VPS has v22.22.0
+tmux>=3.3                       # window_silence_ms needed; VPS has 3.4
+logrotate>=3.21                 # VPS has 3.21.0
+restic>=0.16                    # VPS has 0.16.4
+flock>=2.39                     # util-linux; VPS has 2.39.3
+OS=Ubuntu 24.04                 # production VPS image
+SKILL_md_schema_version=1       # SKILL.md frontmatter schema; migrations in _shared/migrations/skill/
