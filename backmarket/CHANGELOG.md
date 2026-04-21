@@ -6,6 +6,40 @@ See `/home/ricky/builds/backmarket/docs/rollback-log.md` for detailed rollback c
 
 ---
 
+## 2026-04-20 15:00 UTC — icloud-checker dead-code sweep + reconcile Check F (back-relation integrity)
+
+**icloud-checker cleanup (277 lines removed):**
+- Deleted `_disabled_to_list` function — disabled since 2026-03-23 when listing logic moved to `list-device.js`. Contained stale references to the old `BM_BOARD_RELATION = "board_relation5"` semantics that would have been a landmine for anyone reviving the flow post-Hugo's rename this morning.
+- File reduced from 1,469 → 1,193 lines. Service restarted at 15:00 UTC; health endpoint returns `{"status":"ok", trackedOrders: 19}`.
+
+**reconcile-listings.js Check F — new integrity check:**
+- Scans all BM Devices items in the live lifecycle groups (BM Trade-Ins, BM To List / Listed / Sold, Shipped, BM Returns) for missing `board_relation` back-link to Main Board.
+- Same class of issue Hugo found on BM 1598 + manually backfilled for BM 1602-1605 — intake spec-compare silently skips when the back-link is missing.
+- Excludes `Rejected / iC Locked`, `Old BMs`, `MTR`, `TigerTech`, `Repair Board` (post-facto / partner / archive groups where spec-compare is moot).
+- Telegram summary gains a new line: `⛔ BM Devices missing back-link (breaks spec-compare): N` when findings > 0.
+- First live dry-run: found 2 real gaps (BM 969, BM 1208 in BM Trade-Ins). These will surface on Sunday 04:00 UTC cron for Ferrari to backfill.
+
+**Files touched:**
+- `/home/ricky/builds/icloud-checker/src/index.js` — 277 lines deleted
+- `/home/ricky/builds/backmarket/scripts/reconcile-listings.js` — +51 lines (query extension + Check F block + summary lines)
+
+**Verification:**
+- `node -c` passes on both files
+- `icloud-checker` service healthy post-restart, webhook endpoints unchanged
+- `reconcile-listings.js --dry-run` end-to-end run: 2 missingBackRelation findings written to `data/reconcile-dry-run-2026-04-20.json`; Check F section appears correctly in console summary
+
+**Rollback:**
+```bash
+# icloud-checker
+cp /tmp/icloud-checker-index.js.bak-20260420 /home/ricky/builds/icloud-checker/src/index.js
+systemctl --user restart icloud-checker
+
+# reconcile-listings
+cd /home/ricky/builds/backmarket && git checkout HEAD -- scripts/reconcile-listings.js
+```
+
+---
+
 ## 2026-04-20 14:00 UTC — BM 1555 mis-labelled M1 → M2 fix + A2338 GPU-core disambiguation
 
 **Trigger:** Sunday's `reconcile-listings.js --dry-run` flagged listing 5500817 as "missed revenue" (BM 1554 + BM 1555 both pointing at it, BM qty=1). SKU strings matched — but GPU cores differed: BM 1554 has 8-core GPU (M1), BM 1555 has 10-core GPU (M2). A2338 is the model number Apple reused for BOTH M1 Pro 13" (2020) and M2 Pro 13" (2022).

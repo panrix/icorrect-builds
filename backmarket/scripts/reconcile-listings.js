@@ -140,7 +140,9 @@ async function loadAllBmDevices() {
     // Include CPU (status7__1) and GPU (status8__1) cores so Check C missed-revenue flag
     // can validate that all devices on a shared listing_id truly match (e.g. A2338 M1 vs M2
     // both string-match MBP.A2338 SKUs but differ on GPU core count: M1=8C, M2=10C).
-    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2", "status7__1", "status8__1"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+    // Include group so Check F can detect active items missing board_relation back-link
+    // (breaks icloud-checker spec comparison — same class of issue Hugo hit on BM 1598).
+    const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(${cursorPart}) { cursor items { id name group { id title } column_values(ids:["text_mkyd4bx3", "numeric_mm1mgcgn", "numeric", "board_relation", "status__1", "color2", "status7__1", "status8__1"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
     const d = await mondayApi(q);
     const page = d.data?.boards?.[0]?.items_page;
     if (!page?.items?.length) break;
@@ -209,7 +211,41 @@ async function loadAllBmDevices() {
     qtyMismatch: [],
     costBackfilled: [],
     specMismatch: [],
+    missingBackRelation: [],  // Check F: BM Devices items in active groups with no Main Board link
   };
+
+  // Check F: BM Devices items in active lifecycle groups missing board_relation back-link
+  // to Main Board. icloud-checker's spec-compare looks up claimed specs via this back-link
+  // (post Hugo's 2026-04-20 fix). A missing link means intake spec-compare silently skips
+  // the device — exactly what happened to BM 1598. Flag all active-group items missing it
+  // so Ferrari can backfill on the weekly report (same pattern he ran for BM 1602-1605).
+  //
+  // Active groups that BENEFIT from a back-link: BM Trade-Ins (intake spec-compare fires
+  // here), and the live lifecycle (Listed → Sold → Shipped → Returns — sale-detection,
+  // reconciliation, and shipping confirmation all read the back-link).
+  // EXCLUDED: Rejected / iC Locked (post-facto, spec-compare is moot once rejected);
+  // Old BMs, MTR, TigerTech, Repair Board (partner/archive — historical noise).
+  const ACTIVE_BM_GROUPS = new Set([
+    'group_mkq3wkeq',         // BM Trade-Ins
+    'new_group',               // BM To List / Listed / Sold (main lifecycle)
+    'new_group269',            // Shipped
+    'new_group_mkmybfgr',      // BM Returns
+    // If group IDs shift, add "title" fallback below
+  ]);
+  const ACTIVE_BM_TITLES = /BM Trade-Ins|BM To List|Listed|Sold|Shipped|BM Returns/i;
+  console.log('\n[Step 2F] BM Devices items missing board_relation back-link (active groups only)...');
+  for (const item of bmDevices) {
+    const relCol = item.column_values.find(cv => cv.id === 'board_relation');
+    const hasLink = relCol?.linked_item_ids && relCol.linked_item_ids.length > 0;
+    if (hasLink) continue;
+    const groupId = item.group?.id || '';
+    const groupTitle = item.group?.title || '';
+    const isActive = ACTIVE_BM_GROUPS.has(groupId) || ACTIVE_BM_TITLES.test(groupTitle);
+    if (!isActive) continue;  // Historical / partner groups — skip
+    console.log(`  ⛔ MISSING BACK-LINK: ${item.name} (id=${item.id}, group="${groupTitle}") — intake spec-compare will fail`);
+    results.missingBackRelation.push({ bmDeviceId: item.id, name: item.name, group: groupTitle });
+  }
+  console.log(`  ${results.missingBackRelation.length} BM Devices items in active groups missing board_relation`);
 
   // Check A: Monday Listed → BM Active
   console.log('\n[Step 2A] Monday Listed → BM Active...');
@@ -486,6 +522,7 @@ async function loadAllBmDevices() {
   console.log(`  ⛔ No listing found:     ${results.mondayListedNoListing.length}`);
   console.log(`  ⛔ Orphan BM listings:   ${results.orphanListings.length}`);
   console.log(`  ⛔ Missing BM Device:    ${results.missingBmDevice.length}`);
+  console.log(`  ⛔ Missing back-link:    ${results.missingBackRelation.length}`);
   console.log(`  ⚠️ Missing cost data:    ${results.missingCost.length}`);
   console.log(`  ⛔ Spec mismatch:        ${(results.specMismatch || []).length}`);
   console.log(`  ⚠️ Qty mismatch:        ${results.qtyMismatch.length}`);
@@ -524,6 +561,13 @@ async function loadAllBmDevices() {
     console.log('\n⛔ MISSING BM DEVICE ENTRY:');
     for (const r of results.missingBmDevice) {
       console.log(`  ${r.name}`);
+    }
+  }
+
+  if (results.missingBackRelation.length > 0) {
+    console.log('\n⛔ MISSING BACK-RELATION (breaks intake spec-compare):');
+    for (const r of results.missingBackRelation) {
+      console.log(`  ${r.name} (BM Devices id=${r.bmDeviceId}, group="${r.group}") — add board_relation to Main Board item`);
     }
   }
 
@@ -566,6 +610,7 @@ async function loadAllBmDevices() {
   if (results.mondayListedNoListing.length > 0) tgLines.push(`⛔ No listing found: ${results.mondayListedNoListing.length}`);
   if (results.orphanListings.length > 0) tgLines.push(`⛔ Orphan BM listings: ${results.orphanListings.length}`);
   if (results.missingBmDevice.length > 0) tgLines.push(`⛔ Missing BM Device: ${results.missingBmDevice.length}`);
+  if (results.missingBackRelation.length > 0) tgLines.push(`⛔ BM Devices missing back-link (breaks spec-compare): ${results.missingBackRelation.length}`);
   if ((results.specMismatch || []).length > 0) tgLines.push(`⛔ Spec mismatch: ${results.specMismatch.length}`);
   if (results.missingCost.length > 0) tgLines.push(`⚠️ Missing cost data: ${results.missingCost.length}`);
   if (results.qtyMismatch.filter(r => r.type === 'missed_revenue').length > 0) tgLines.push(`⚠️ Missed revenue (more devices than listed, specs match): ${results.qtyMismatch.filter(r => r.type === 'missed_revenue').length}`);
