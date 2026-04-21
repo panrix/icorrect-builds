@@ -17,7 +17,7 @@ backmarket/
 └── pricing/        # Pricing module (parked — reference docs only)
 ```
 
-**Current rebuild plan:** `docs/PLAN-BM-REBUILD-2026-04-17.md` (v5, APPROVED FOR EXECUTION)
+**Current rebuild plan:** [`docs/PLAN.md`](docs/PLAN.md) (v5, APPROVED FOR EXECUTION). For navigation of the full docs tree see [`docs/README.md`](docs/README.md).
 **Workspace cleaned 2026-04-17:** `/audit/`, `/analysis/`, `/qa/`, and `/docs/staged/` moved into `/docs/historical/` subdirectories by category + date. 6 legacy scripts archived. Stale caches and CSV exports deleted. See CHANGELOG.md for details.
 
 ## SOPs — Start Here
