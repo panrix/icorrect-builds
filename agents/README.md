@@ -42,9 +42,18 @@ Future agents (Customer Service, BackMarket, Marketing) spawn via `/spawn-new-ag
 ## Directory layout
 
 - `_shared/` — all infrastructure shared between agents (bridge, bin helpers, templates, schemas, hooks, canon, skills, records, logs, state)
-- `<agent>/` — one directory per top-level agent with its identity files, skills, memory, and per-agent bin
+- `<agent>/` — one directory per top-level agent with its identity files, skills, memory, and per-agent bin (e.g. `chief-of-staff/`)
+- `_archive/` — historical agent planning docs from pre-v2 era; see [`_archive/legacy-feb-2026/README.md`](_archive/legacy-feb-2026/README.md). Not authoritative; kept for audit trail.
 
 See [`_shared/CONVENTIONS.md`](_shared/CONVENTIONS.md) for the runtime write rules and durability classification.
+
+## Quick nav
+
+- **Lucian's plan (the big one):** [`chief-of-staff/plan.md`](chief-of-staff/plan.md)
+- **Current build status:** [`_shared/BUILD-STATUS.md`](_shared/BUILD-STATUS.md)
+- **Runtime rules:** [`_shared/CONVENTIONS.md`](_shared/CONVENTIONS.md)
+- **Shared canon (USER/COMPANY/GOALS/etc.):** [`_shared/canon/`](_shared/canon/)
+- **Runbooks (DR + credential rotation):** [`_shared/runbooks/`](_shared/runbooks/) (Phase 1b Batch 5)
 
 ## Build plan
 
