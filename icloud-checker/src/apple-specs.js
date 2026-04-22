@@ -1,10 +1,39 @@
 const { chromium } = require("playwright");
 const path = require("path");
+const fsEnv = require("fs");
+
+function loadEnvFile(filePath) {
+  try {
+    const content = fsEnv.readFileSync(filePath, "utf8");
+    for (const rawLine of content.split("\n")) {
+      const line = rawLine.trim();
+      if (!line || line.startsWith("#")) continue;
+      const eq = line.indexOf("=");
+      if (eq < 0) continue;
+      const key = line.slice(0, eq).trim();
+      let value = line.slice(eq + 1).trim();
+      if (
+        (value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))
+      ) {
+        value = value.slice(1, -1);
+      }
+      if (!(key in process.env)) process.env[key] = value;
+    }
+  } catch {}
+}
+loadEnvFile("/home/ricky/config/api-keys/.env");
+
+if (!process.env.PROXY_SERVER || !process.env.PROXY_USER || !process.env.PROXY_PASS) {
+  throw new Error(
+    "apple-specs.js: PROXY_SERVER / PROXY_USER / PROXY_PASS not set. Configure them in /home/ricky/config/api-keys/.env"
+  );
+}
 
 const PROXY = {
-  server: "http://gw.dataimpulse.com:823",
-  username: "6408bbc453bce516a1e4__cr.us",
-  password: "e6cc20fea176ee65",
+  server: process.env.PROXY_SERVER,
+  username: process.env.PROXY_USER,
+  password: process.env.PROXY_PASS,
 };
 
 const ORDER_URL = "https://selfservicerepair.com/en-US/order";
