@@ -722,10 +722,19 @@ app.post("/webhook/icloud-check", async (req, res) => {
         specComment = specLines.join("\n");
       } else if (appleSpecs?.unsupported) {
         specComment = "ℹ️ Apple specs unavailable — pre-M1 device";
+      } else if (appleSpecs?.error) {
+        console.error(`Apple spec lookup errored for ${serial}: ${appleSpecs.error}`);
+        specComment = `⚠️ Apple spec lookup failed: ${appleSpecs.error}`;
+        await sendSlackAlert(
+          `⚠️ *Apple spec lookup FAILED* for ${itemName} (serial \`${serial}\`)\nError: ${appleSpecs.error}\nProxy/Apple-site issue — device will be processed without spec-match verification.`
+        );
       }
     } catch (err) {
       console.error(`Apple spec lookup failed for ${serial}:`, err.message);
       specComment = "⚠️ Apple spec lookup failed";
+      await sendSlackAlert(
+        `⚠️ *Apple spec lookup threw* for ${itemName} (serial \`${serial}\`)\nException: ${err.message}`
+      );
     }
 
     if (icloudOn) {
