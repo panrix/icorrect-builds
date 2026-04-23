@@ -52,6 +52,25 @@
 - **Path inconsistency resolved:** Critical Files section clearly divides `backmarket/scripts/` (data + audit + REST API scripts) from `backmarket-browser/` (Playwright-driven portal operations). Import direction rule: browser → scripts allowed, never reverse.
 - Codex final verdict: **APPROVED FOR EXECUTION.** Phase 0 cleared to start.
 
+## Changelog from v5 → v6 (2026-04-22/23 — pricing truth replacement)
+
+- **Scraper grade data invalidated.** Spot-check revealed `models[key].grades.Fair/Good/Excellent` all resolve to the same placeholder product UUID per model. 5 of 13 models have grade-order violations (Excellent priced lower than Fair — impossible for real grade pricing). The scraper is a single default-variant price reference, not a grade-stratified sampler. Every margin calc since Phase 0.1 landed (2026-04-17) ran against noise. Full discovery trail in `docs/pricing-architecture.md`.
+- **Sold-price lookup built (this branch `fix/sold-price-lookup`, not yet merged).** New daily script `scripts/build-sold-price-lookup.js` pulls 90 days of completed BM orders, derives condition-code → grade mapping empirically (10=Excellent, 11=Good, 12=Fair), aggregates per A-number × grade. Collapses fragmented SKU formats (`MBP.A2338` / `MBP.M1A2338` / `MBP13.A2338M1` / etc.) into single A-number buckets.
+- **Both consumer gates patched** to use sold-lookup first, scraper as last-resort fallback, with `BM_PRICING_SOURCE=scraper_only` env flag for instant rollback: `buy_box_monitor.py` (buy-side acquisition gate) and `backmarket/services/bm-grade-check/index.js` (sell-side profitability webhook).
+- **Trade-in SKU resolver added.** Buy-side bids arrive with SKUs like `MBP14.2021.M1PRO.APPLECORE.16GB.512GB.NONFUNC.CRACK` — no A-number in the string. Resolver extracts form+year+chip and inverts `A_NUMBER_MAP.json` to get the A-number, so sold-lookup actually fires on buy-side bids. Falls back to listing-title parsing if SKU parse fails.
+- **Verified end-to-end.** Three MBP 14 M1 Pro bids (STALLONE £157 × 2, BRONZE £163) that the scraper-gate had PASSed at £775 now correctly flip to SKIP_NET / PASS_CAUTION at the real sold price £697. Decision diffs 14 of 15 on recent post-Phase 0.1 bids. Verifier at `scripts/tests/verify-sold-lookup.js`.
+- **Phase 5.2 is obsolete as written.** v5's "per-SKU cost lookup keyed on scraper pricing" needs re-scoping — the scraper input is no longer trustworthy. Re-spec against sold-lookup + real workshop labour/parts data (see v6 open items).
+- **Phase 2.1 scraper-diff alerting becomes more important, not less.** Without a scraper-drift alarm, a data-quality regression in the fallback path will silently skew gate decisions when sold-lookup returns null.
+- **Acquisition strategy crystallised.** Aim is FEWER devices at HIGHER margin, not volume at mid-margin. Edge is NONFUNC_USED (BRONZE) on modern M-series where ~27% of repairs need board work and the remaining 73% are consumable-level. MBA 2022 SILVER is structurally bad at Fair-floor. STALLONE on high-value MBP Pros (M1 Max, M-Pro chips) remains the healthiest pattern.
+- **Full margin formula documented.** Previous analyses routinely under-counted by dropping BM buy fee (10% of paid) and VAT margin scheme (16.67% of gross). Both are in `calc_profit()` in `buy_box_monitor.py` but weren't visible anywhere else. Now captured in `docs/pricing-architecture.md`.
+- **Cost-basis source of truth clarified.** BM Devices `numeric_mm1mgcgn` is authoritative (total cost all-in). Main Board `numeric` is purchase-only and £0 for trade-ins. Using the wrong field caused a bad Phase 1 audit brief earlier in session.
+- **iCloud-checker spec lookup silent-failure fixed** (commit `6049877` on `feat/agents-removed`, pushed). Proxy creds moved to env (`/home/ricky/config/api-keys/.env`), hardcoded creds removed from `apple-specs.js`. New Slack alert on Apple-lookup errors so next proxy rotation pings immediately instead of a week of silent spec-check-free intakes. Full detail in `docs/icloud-checker.md`.
+- **v6 open items** (to clean up before next approved-for-execution pass):
+  - Merge `fix/sold-price-lookup` to master; install the daily cron (`15 2 * * * cd /home/ricky/builds/backmarket && /usr/bin/node scripts/build-sold-price-lookup.js --live >> /home/ricky/logs/backmarket/sold-price-lookup.log 2>&1`)
+  - Re-spec Phase 5.2 against the new pricing-truth layer
+  - Build Phase 2.1 scraper-diff alerting (now mandatory, not nice-to-have)
+  - Consider tightening the gate beyond the 15%/£150 hard floor — current recent bids sit at 23-29% real margin, on the edge. Stated strategy (fewer/higher-margin) doesn't match a gate that lets through 20% bids.
+
 ---
 
 ## Context
