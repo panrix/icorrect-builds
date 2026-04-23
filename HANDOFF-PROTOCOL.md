@@ -26,6 +26,22 @@ When an agent hits something beyond ops scope:
 4. Code picks it up as a build task
 5. Code follows the build → handoff → maintain cycle below
 
+### Where to file
+
+**Per-domain issue log:** `/home/ricky/builds/<domain>/qa/ISSUES.md`
+
+- BackMarket issues → `/home/ricky/builds/backmarket/qa/ISSUES.md`
+- Add per-domain file as other domains surface issues (customer-service/qa/ISSUES.md, etc.)
+
+**Format:** the template at the top of each domain's ISSUES.md. Copy-paste it at the bottom, fill in the fields, save. No PR needed — agents can append directly.
+
+**What NOT to put in ISSUES.md:**
+- **Ops-level fixes that you actually performed** (service restart, credential rotation, config tweak reversible in under a minute) → log in `<domain>/docs/rollback-log.md` with the revert command
+- **Diagnosis without action** (e.g. "I noticed X pattern across these 12 BM orders") → either open a research doc in `<domain>/docs/` if it's substantive, or memory if it's just a signal
+
+**What agents MUST NOT do:**
+- Patch build artifacts (scripts, services, crons) in their own workspace — the patch won't be in git, won't survive a session reset, and creates drift. File the issue, let Code make the change.
+
 ---
 
 ## Code Handoff Criteria (Build → Agents)
