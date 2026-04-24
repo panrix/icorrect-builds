@@ -246,3 +246,65 @@ The script creates the order, but `board_relation5` is only written when device 
   - add missing live-title mappings, including current 2025 wording
   - emit explicit warning / Telegram alert when device lookup fails instead of silently creating blank relation
   - query `linked_items` when validating Monday board-relation columns, because `text` / `value` may stay null even when the relation exists
+
+## 2026-04-24 — Shipping webhook is live but failing operationally, forcing manual BM confirmation
+
+**Reported by:** Hugo
+**Affected:** `/home/ricky/builds/backmarket/services/bm-shipping/index.js`, SOP 09.5 shipment confirmation flow
+**Symptom:** Monday `status4` changes to `Shipped` are reaching the webhook service, but recent real orders still required manual BM shipment confirmation because the webhook hit hard-gate failures instead of completing the flow.
+**Repro:**
+- Service is live on `127.0.0.1:8013` and receiving Monday webhook traffic
+- Recent Monday items show manual recovery comments instead of normal automation success comments:
+  - Main Board item `11677042523` — `BM 1588 (Tilly Luckett)`
+    - `status4`: `Shipped`
+    - update on `2026-04-23T03:12:36.000Z`: `✅ BM notified of shipment [MANUAL - 2026-04-23]`
+    - note: `Reason: webhook hard-gate failure`
+  - Main Board item `11707523961` — `BM 1591 (Buyer: Daniel Powell / Ship to: Dan Powell)`
+    - `status4`: `Shipped`
+    - update on `2026-04-23T03:12:50.000Z`: `✅ BM notified of shipment [MANUAL - 2026-04-23]`
+    - note: `Reason: webhook hard-gate failure`
+- Service logs also show real blocked runs, for example:
+  - `no BM order ID on devices board item 3926457177`
+  - `no tracking number found`
+**Suspected cause:** The service has hard dependency gates on linked Monday data being present and correct, especially BM Devices relation, BM order ID, tracking number, and serial number. When those inputs are missing or mismatched, the webhook does not complete and ops has to push tracking/serial to BM manually.
+**Impact:** silent failure / operational friction / seller-score risk — orders can sit in Monday as `Shipped` without BM being notified unless someone manually recovers them
+**Priority:** urgent
+
+**Context / notes:**
+- Normal success marker in code is a Monday update containing `✅ BM notified of shipment [...]`
+- The issue is not service uptime. It is outcome failure on real orders.
+- This likely overlaps with upstream matching/data-link issues already logged, especially wrong-device matching and missing relations/order IDs.
+- Recommended fix scope:
+  - enumerate every hard gate before BM API call and emit explicit failure reason to Monday/Telegram
+  - reduce reliance on ambiguous listing-based matching
+  - verify linked BM Devices item always carries BM order ID before dispatch stage
+  - add a post-run audit that flags `status4 = Shipped` items with no automation success marker within a short window
+
+## 2026-04-24 — Payout webhook is live but lacks recent outcome evidence proving automation success
+
+**Reported by:** Hugo
+**Affected:** `/home/ricky/builds/backmarket/services/bm-payout/index.js`, SOP 03b trade-in payout flow
+**Symptom:** The payout webhook service is healthy on port `8012`, but recent operational evidence does not prove that Monday `status24 -> Pay-Out` changes are actually completing automated payout validation to BM and writing the expected Monday outcome markers.
+**Repro:**
+- Service is live on `127.0.0.1:8012` with healthy `/health`
+- Expected automation markers from code are:
+  - Monday status update to `Purchased`
+  - Monday comment starting `✅ Payout validated`
+- Recent Monday items with `status24 = Purchased` exist, for example:
+  - Main Board item `11419141821` — `BM 1522 ( Catherine Gauld )`
+    - `status24`: `Purchased`
+    - BM trade-in ID in `text_mky01vb4`: `GB-26087-AWKZR`
+- But recent updates inspected on those items do not show the expected `Payout validated` comment, so the board state alone does not prove the webhook performed the action
+- Ricky also reports payout is not working in practice, with team handling payouts manually
+**Suspected cause:** Unknown yet. The service is deployed, but either payout events are not reaching it, they are being blocked by pre-flight gates, or success/failure is not being written back in a reliably auditable way.
+**Impact:** silent failure / operational friction / payout-risk — irreversible BM payout action may depend on manual handling with no clean automated audit trail
+**Priority:** urgent
+
+**Context / notes:**
+- This is an operational-verification issue first, not yet a pinpointed code bug.
+- Pre-flight checks in code include BM Trade-in ID present, iCloud not locked, and status still being valid when webhook executes.
+- Recommended fix scope:
+  - inspect recent webhook logs for real payout attempts, not just startup/health logs
+  - confirm whether Monday webhook is still pointed at `/webhook/bm/payout`
+  - emit explicit Monday/Telegram failure markers whenever payout pre-flight blocks execution
+  - add an auditable reconciliation check for items moved to `Pay-Out` that do not gain `Purchased` + `Payout validated` within expected time
