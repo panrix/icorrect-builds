@@ -203,3 +203,47 @@ _(None yet — add below this line.)_
   - stop paging once pages are older than cutoff
   - query one state first, expand only if needed
   - add progress logging so it is obvious the lookup is alive
+
+## 2026-04-24 — SENT trade-in orders are creating Main Board items without device relation
+
+**Reported by:** Hugo
+**Affected:** `/home/ricky/builds/backmarket/scripts/sent-orders.js`, SOP 01 trade-in intake flow
+**Symptom:** New SENT trade-in orders are being created on Monday, but the Main Board device field / `board_relation5` is blank. This leaves the team without the linked device entry and breaks downstream operational clarity.
+**Repro:** Recent Main Board items created from SENT orders have blank `board_relation5`, including:
+- `GB-26172-NXOSW` → `BM 1611`
+- `GB-26162-YBLJV` → `BM 1612`
+- `GB-26173-HDFDI` → `BM 1614`
+- `GB-26173-AIIDM` → `BM 1615`
+
+The script creates the order, but `board_relation5` is only written when device lookup succeeds:
+- `buildPreparedOrderData()`
+- `extractBMModel(deviceTitle)`
+- `BM_TO_DEVICE_MAP[bmModel]`
+- `findDeviceItemByName(mappedDeviceName)`
+- then conditional write: `if (matchedDevice?.id) mainBoardColumns.board_relation5 = ...`
+
+**Suspected cause:** Device lookup is brittle and now misses live BM title variants.
+- BM titles are arriving with date strings instead of the mapped friendly labels, for example:
+  - `MacBook Pro 14" (2021-01-01T00:00:00+00:00) ...`
+  - `MacBook Air 13" (2020-01-01T00:00:00+00:00) ...`
+- Those produce `bmModel` strings that do not exist in `BM_TO_DEVICE_MAP`
+- Newer live wording also appears unmapped, for example:
+  - `MacBook Air 13" (Early 2025)`
+  - lookup board contains `MacBook Air 13 M4 A3240`, but no current `BM_TO_DEVICE_MAP` entry resolves to it
+- Some items may have a second write-path issue on top. Example: `GB-26173-AIIDM` maps cleanly to `MacBook Pro 14 M3 A2918`, yet the created Main Board item still has blank `board_relation5`
+
+**Impact:** silent failure / operational friction — team loses device linkage on new trade-ins, and any downstream process relying on the device relation is weakened
+**Priority:** urgent
+
+**Context / notes:**
+- This is specifically the Main Board device relation path, not the BM Devices item creation path.
+- Verified lookup behavior:
+  - `GB-26162-YBLJV` title → `MacBook Pro 14 (2021-01-01T00:00:00+00:00)` → no map hit
+  - `GB-26172-NXOSW` title → `MacBook Air 13 (2020-01-01T00:00:00+00:00)` → no map hit
+  - `GB-26173-HDFDI` title → `MacBook Air 13 (Early 2025)` → no map hit, despite lookup-board item `MacBook Air 13 M4 A3240` existing
+  - `GB-26173-AIIDM` title → `MacBook Pro 14 (Late 2023)` → map hit and lookup-board item exists, but relation still ended up blank on the created Main Board item
+- Recommended fix scope:
+  - normalize BM year/date variants before `BM_TO_DEVICE_MAP` lookup
+  - add missing live-title mappings, including current 2025 wording
+  - emit explicit warning / Telegram alert when device lookup fails instead of silently creating blank relation
+  - inspect why matched cases like `GB-26173-AIIDM` still ended with blank `board_relation5`
