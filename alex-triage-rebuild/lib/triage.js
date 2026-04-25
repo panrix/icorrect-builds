@@ -115,6 +115,18 @@ function isNoiseConversation(conversation, messages = []) {
     return true;
   }
 
+  if (senderEmail === "no-reply-aws@amazon.com") {
+    return true;
+  }
+
+  if (senderEmail === "support@webador.com") {
+    return true;
+  }
+
+  if (senderEmail === "mailout@arbor-education.finance") {
+    return true;
+  }
+
   if (senderEmail.includes("no-reply") && senderDomain.endsWith("backmarket.com")) {
     return true;
   }
@@ -415,6 +427,8 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("moq") && senderEmail.includes(".cn"),
     () => combinedText.includes("trusted supplier"),
     () => combinedText.includes("repair parts supplier"),
+    () => senderEmail.endsWith("@elekworld.cn"),
+    () => senderName.includes("cell phone parts supplier"),
     () => combinedText.includes("service pack lcd"),
     () => combinedText.includes("wholesale price"),
     () => combinedText.includes("bulk price"),
@@ -427,6 +441,15 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("trustpilot") && combinedText.includes("reputation"),
     () => combinedText.includes("reviews being removed"),
     () => combinedText.includes("hard-earned reputation"),
+    () => combinedText.includes("weak rating"),
+    () => combinedText.includes("online reputation manager"),
+    () => combinedText.includes("genuine reviews"),
+    () => combinedText.includes("aged email accounts"),
+    () => combinedText.includes("trustpilot profile"),
+    () => combinedText.includes("trustpilot") && combinedText.includes("customer trust"),
+    () => combinedText.includes("google reviews") && combinedText.includes("trustpilot"),
+    () => combinedText.includes("real and consistent customer reviews"),
+    () => combinedText.includes("build real") && combinedText.includes("customer reviews"),
     // Chinese manufacturing / PCB / component spam (non-repair supplier)
     () => getEmailDomain(senderEmail).endsWith(".cn") && !repairIntent,
     // Platform/contribution phishing/scam
@@ -451,6 +474,19 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("expand your reach"),
     () => combinedText.includes("join our ecosystem"),
     () => combinedText.includes("invite you to join"),
+    () => combinedText.includes("aliexpress team"),
+    () => combinedText.includes("server tech supply"),
+    () => combinedText.includes("adsgpt"),
+    () => combinedText.includes("competitor heist"),
+    () => combinedText.includes("website is losing buyers"),
+    () => combinedText.includes("early stage products"),
+    () => combinedText.includes("before people try something new"),
+    () => combinedText.includes("am i connected with store owner"),
+    () => combinedText.includes("connected with store owner"),
+    () => combinedText.includes("is this store still working"),
+    () => combinedText.includes("if this store is still working"),
+    () => combinedText.includes("am i connected with the store owner"),
+    () => combinedText.includes("recent order") && combinedText.includes("damaged condition") && combinedText.includes("pdf report"),
   ];
 
   if (hardSpamPatterns.some((check) => check())) {
@@ -473,6 +509,11 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("seo service"),
     () => combinedText.includes("seo error"),
     () => combinedText.includes("seo audit"),
+    () => combinedText.includes("seo and ads plan"),
+    () => combinedText.includes("google 1stpage"),
+    () => combinedText.includes("organic traffic") && combinedText.includes("leads"),
+    () => combinedText.includes("google map pack"),
+    () => combinedText.includes("top 10") && combinedText.includes("google map"),
     () => combinedText.includes("technical errors") && combinedText.includes("ranking"),
     () => combinedText.includes("audit report") && combinedText.includes("website"),
     () => combinedText.includes("domain authority"),
@@ -482,6 +523,10 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("page speed"),
     () => combinedText.includes("web traffic"),
     () => combinedText.includes("supplier catalog"),
+    () => combinedText.includes("one stop supplier"),
+    () => combinedText.includes("cell phone parts supplier"),
+    () => combinedText.includes("price list attached") && combinedText.includes("colleague"),
+    () => combinedText.includes("current price list attached"),
     () => combinedText.includes("free demo"),
     () => combinedText.includes("instagram followers"),
     () => combinedText.includes("social media promotion"),
@@ -499,6 +544,7 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("are you the right person"),
     () => combinedText.includes("just following up on my previous email"),
     () => combinedText.includes("still waiting for your reply") && combinedText.includes("website"),
+    () => combinedText.includes("still waiting for your reply") && combinedText.includes("service"),
     () => combinedText.includes("i represent"),
     () => combinedText.includes("on behalf of my client"),
     () => combinedText.includes("recruitment agency"),
@@ -506,6 +552,8 @@ export function isActionableConversation(conversation, messages) {
     () => combinedText.includes("hire developers"),
     () => combinedText.includes("managed services"),
     () => combinedText.includes("cloud migration"),
+    () => combinedText.includes("level 3 business administration"),
+    () => combinedText.includes("fresh talent") && combinedText.includes("organisation"),
     // Enterprise / corporate pitches
     () => combinedText.includes("corporate package"),
     () => combinedText.includes("enterprise plan"),
@@ -529,6 +577,7 @@ export function isActionableConversation(conversation, messages) {
         "enterprise rate", "corporate rate", "partner with us",
         "our platform", "our service", "our company offers",
         "we provide", "we offer", "we specialize", "we specialise",
+        "one stop supplier", "current price list", "seo", "reviews",
         "contact us for", "visit our website", "check out our"
       ];
       const hasVendorSignal = vendorSignals.some((signal) => combinedText.includes(signal));
