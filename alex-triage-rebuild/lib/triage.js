@@ -541,12 +541,13 @@ export function isActionableConversation(conversation, messages) {
   }
 
   if (lastMessage.author_type === "admin") {
-    // michael.f Contact Form forwards are customer enquiries mis-attributed as admin.
-    // Treat them as actionable until the webhook migration fixes attribution.
+    // michael.f Contact Form forwards can arrive as admin-authored source messages.
+    // Only allow that exception for a single-message conversation. If Support has
+    // replied later, the thread has already been handled and should not be triaged.
     const isMichaelFContactForm =
       senderEmail === "michael.f@icorrect.co.uk" &&
       subject.startsWith("contact form:");
-    if (!isMichaelFContactForm) {
+    if (!isMichaelFContactForm || messages.length > 1) {
       return false;
     }
   }
