@@ -31,11 +31,13 @@ Reason:
 - [x] DataImpulse path reaches Back Market auth email step.
 - [x] Jarvis email submitted successfully: `jarvis@icorrect.co.uk`.
 - [x] Password was stored in env as `BM_PORTAL_PASSWORD`.
-- [ ] Run password-stage canary.
+- [x] Run password-stage canary.
   - Session: `kind-meadow`
-  - Scope: email + password only.
-  - Stop at dashboard, email code/2FA, password rejection, captcha, or any unexpected auth state.
-  - Report target: `/home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md`
+  - Result: password accepted, then Back Market requested email verification code.
+  - Blocker: `email_code_required`
+  - Seller dashboard reached: no
+  - Report: `/home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md`
+- [ ] Get/enter email verification code via explicit approved handoff or approved mailbox-code path.
 
 ### Phase 2 — Two logged-in browser agents
 
