@@ -35,7 +35,7 @@ const {
   resolveNuxt, extractNuxtPrice, categorisePickerLabel,
   findNuxtPickers, extractNuxtDataCategories,
   createStealthContext, extractNuxtDataFromPage, isCloudflareBlocked,
-  scrapeSingleProduct, scrapeWithFallback,
+  scrapeSingleProduct, scrapeWithFallback, buildReconciledScrapeTarget,
 } = require('./lib/v7-scraper');
 
 // ─── Config ───────────────────────────────────────────────────────
@@ -194,6 +194,33 @@ function normalizeStorageForCatalog(ssd) {
 
 function normalizeRamForCatalog(ram) {
   return (ram || '').trim().toUpperCase().replace(/\s+/g, '');
+}
+
+function inferKeyboardLayout(title = '') {
+  const match = String(title || '').match(/\b(QWERTY|AZERTY)\b/i);
+  return match ? match[1].toUpperCase() : '';
+}
+
+function buildScrapeVerificationCandidate(specs, bmGrade, catalogResult) {
+  return {
+    productId: catalogResult?.productId || '',
+    modelFamily: catalogResult?.modelFamily || catalogResult?.modelKey || '',
+    cpuGpu: catalogResult?.slot?.verified_title?.cpu_gpu || catalogResult?.variant?.cpu_gpu || '',
+    ram: specs?.ram || '',
+    ssd: specs?.ssd || '',
+    colour: specs?.colour || '',
+    keyboardLayout: inferKeyboardLayout(catalogResult?.title || catalogResult?.lookupTitle || ''),
+    grade: bmGrade || '',
+  };
+}
+
+function buildScrapeVerificationReason(verification) {
+  const issues = []
+    .concat(verification?.hardFailures || [])
+    .concat(verification?.unresolved || []);
+  return issues.length > 0
+    ? `Unreconciled scrape target: ${issues.join('; ')}`
+    : 'Unreconciled scrape target';
 }
 
 const MODEL_NUMBER_TO_CATALOG_FAMILY = {
@@ -1260,6 +1287,14 @@ function formatSummary(device) {
   if (device.liveMarketSource) {
     lines.push(`Live     ${device.liveMarketSource}`);
   }
+  if (device.scrapeVerification) {
+    const sv = device.scrapeVerification;
+    lines.push(`Scrape   ${sv.trusted ? 'reconciled' : 'UNTRUSTED'} | requested ${sv.requestedProductId || 'n/a'}${sv.reconciledProductId ? ` | reconciled ${sv.reconciledProductId}` : ''}`);
+    const issues = [].concat(sv.hardFailures || []).concat(sv.unresolved || []);
+    if (issues.length > 0) {
+      lines.push(`         ${issues.join(' | ')}`);
+    }
+  }
 
   // Status
   const statusEmoji = decision.decision === 'AUTO-LIST' ? '✅' : decision.decision === 'PROPOSE' ? '⚠️' : '⛔';
@@ -1448,6 +1483,10 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   console.log(`  product_id: ${catalogResult.productId}`);
   console.log(`  model_family: ${catalogResult.modelFamily || catalogResult.modelKey}`);
   const liveMarket = await getLiveMarketData(catalogResult.productId, catalogResult);
+  const scrapeVerification = buildReconciledScrapeTarget(
+    buildScrapeVerificationCandidate(specs, grade.bmGrade, catalogResult),
+    liveMarket
+  );
   const marketResult = {
     ...catalogResult,
     gradePrices: Object.keys(liveMarket.gradePrices || {}).length > 0 ? liveMarket.gradePrices : catalogResult.gradePrices,
@@ -1455,16 +1494,30 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     ssdPicker: Object.keys(liveMarket.ssdPicker || {}).length > 0 ? liveMarket.ssdPicker : catalogResult.ssdPicker,
     colourPicker: Object.keys(liveMarket.colourPicker || {}).length > 0 ? liveMarket.colourPicker : catalogResult.colourPicker,
     cpuGpuPicker: Object.keys(liveMarket.cpuGpuPicker || {}).length > 0 ? liveMarket.cpuGpuPicker : catalogResult.cpuGpuPicker,
+    keyboardPicker: Object.keys(liveMarket.keyboardPicker || {}).length > 0 ? liveMarket.keyboardPicker : catalogResult.keyboardPicker,
   };
   console.log(`  Live scrape: ${liveMarket.ok ? 'ok' : `fallback (${liveMarket.error})`}`);
   if (Object.keys(marketResult.gradePrices || {}).length > 0) {
     console.log(`  Live/catalog grade prices: ${JSON.stringify(marketResult.gradePrices)}`);
+  }
+  console.log('[Step 5a] Scrape target verification...');
+  console.log(`  Requested product_id: ${scrapeVerification.requestedProductId || '(missing)'}`);
+  console.log(`  Reconciled product_id: ${scrapeVerification.reconciledProductId || '(none)'}`);
+  console.log(`  Verification: ${scrapeVerification.trusted ? 'trusted' : 'UNTRUSTED'}`);
+  for (const issue of scrapeVerification.hardFailures || []) {
+    console.log(`  ⛔ ${issue}`);
+  }
+  for (const issue of scrapeVerification.unresolved || []) {
+    console.log(`  ⚠️ ${issue}`);
   }
 
   // Step 5b: Calculate P&L using live market prices where available
   console.log('[Step 5b] Calculating P&L...');
   const marketGrade = getCatalogGradePrice(marketResult, grade.bmGrade);
   const priceFlags = getPriceFlags(marketResult);
+  if (!scrapeVerification.trusted) {
+    priceFlags.unshift(`⛔ ${buildScrapeVerificationReason(scrapeVerification)}`);
+  }
   if (priceFlags.length > 0) {
     for (const f of priceFlags) console.log(`  ${f}`);
   }
@@ -1513,14 +1566,24 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   // Step 6: Decision gate
   console.log('[Step 6] Decision gate...');
-  const decision = decisionGate(profitability);
+  let decision = decisionGate(profitability);
   console.log(`  Decision: ${decision.decision} — ${decision.reason}`);
-  const trust = classifyTrust({
+  let trust = classifyTrust({
     hasProductResolution: !!hasCatalogMatch,
     liveEligible: !!catalogResult?.liveEligible,
     decision,
     missingGrade: !grade?.bmGrade,
   });
+  if (isDryRun && !scrapeVerification.trusted) {
+    decision = { decision: 'BLOCK', reason: buildScrapeVerificationReason(scrapeVerification) };
+    trust = classifyTrust({
+      hasProductResolution: !!hasCatalogMatch,
+      liveEligible: false,
+      decision,
+      missingGrade: !grade?.bmGrade,
+    });
+    console.log(`  Decision override (dry-run only): ${decision.decision} — ${decision.reason}`);
+  }
   console.log(`  Trust: ${trust.classification} — ${trust.reason}`);
 
   // Step 7: Registry lookup (preferred)
@@ -1552,6 +1615,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     decision,
     priceFlags,
     trust,
+    scrapeVerification,
     liveMarketSource: liveMarket.ok ? 'single-page scrape' : `catalog fallback (${liveMarket.error})`,
     // Clean-create specific
     floorPrice,
@@ -1602,6 +1666,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         decisionReason: result.decision?.reason || '',
         listingId: result.registrySlot?.listing_id || null,
         productId: result.catalogResult?.productId || null,
+        scrapeVerification: result.scrapeVerification || null,
         priceFlags: result.priceFlags || [],
       };
       process.stdout.write('CARD_JSON:' + JSON.stringify(cardJson) + '\n');

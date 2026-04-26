@@ -74,6 +74,7 @@ function extractNuxtDataCategories(arr) {
     ssdPicker: {},
     colourPicker: {},
     cpuGpuPicker: {},
+    keyboardPicker: {},
   };
 
   for (const raw of findNuxtPickers(arr)) {
@@ -100,10 +101,250 @@ function extractNuxtDataCategories(arr) {
       categorised.colourPicker[label] = entry;
     } else if (category === 'cpu_gpu') {
       categorised.cpuGpuPicker[label] = entry;
+    } else if (category === 'keyboard') {
+      categorised.keyboardPicker[label] = entry;
     }
   }
 
   return categorised;
+}
+
+function normalizeWhitespace(value) {
+  return String(value || '').trim().replace(/\s+/g, ' ');
+}
+
+function normalizeRamLabel(value) {
+  const match = normalizeWhitespace(value).toUpperCase().match(/(\d+)\s*GB/);
+  return match ? `${match[1]}GB` : '';
+}
+
+function normalizeSsdLabel(value) {
+  const token = normalizeWhitespace(value).toUpperCase();
+  const gbMatch = token.match(/(\d+)\s*GB/);
+  if (gbMatch) return `${gbMatch[1]}GB`;
+  const tbMatch = token.match(/(\d+)\s*TB/);
+  if (tbMatch) return `${parseInt(tbMatch[1], 10) * 1000}GB`;
+  return '';
+}
+
+function normalizeColourLabel(value) {
+  const token = normalizeWhitespace(value).toUpperCase().replace(/[\s-]+/g, '');
+  const aliases = {
+    SPACEGRAY: 'SPACEGRAY',
+    SPACEGREY: 'SPACEGRAY',
+    GREY: 'SPACEGRAY',
+    GRAY: 'SPACEGRAY',
+    SILVER: 'SILVER',
+    GOLD: 'GOLD',
+    MIDNIGHT: 'MIDNIGHT',
+    STARLIGHT: 'STARLIGHT',
+    BLACK: 'BLACK',
+    SPACEBLACK: 'SPACEBLACK',
+    BLUE: 'BLUE',
+    GREEN: 'GREEN',
+    PURPLE: 'PURPLE',
+    RED: 'RED',
+    PINK: 'PINK',
+    YELLOW: 'YELLOW',
+    WHITE: 'WHITE',
+  };
+  return aliases[token] || token;
+}
+
+function normalizeCpuGpuLabel(value) {
+  return normalizeWhitespace(value)
+    .toUpperCase()
+    .replace(/[()"]/g, '')
+    .replace(/\bWITH\b/g, ' ')
+    .replace(/\bAPPLE\b/g, 'APPLE ')
+    .replace(/\s+AND\s+/g, ' ')
+    .replace(/\s*-\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeKeyboardLabel(value) {
+  const token = normalizeWhitespace(value).toUpperCase();
+  if (token.includes('AZERTY')) return 'AZERTY';
+  if (token.includes('QWERTY')) return 'QWERTY';
+  return token;
+}
+
+function normalizeTitleText(value) {
+  return normalizeWhitespace(value)
+    .toUpperCase()
+    .replace(/[()"]/g, '')
+    .replace(/\s*-\s*/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeModelFamilyLabel(value) {
+  return normalizeTitleText(value)
+    .replace(/-?INCH\b/g, ' ')
+    .replace(/\bRETINA\b/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function normalizeExpectedValue(category, value) {
+  if (!value) return '';
+  if (category === 'ram') return normalizeRamLabel(value);
+  if (category === 'ssd') return normalizeSsdLabel(value);
+  if (category === 'colour') return normalizeColourLabel(value);
+  if (category === 'cpu_gpu') return normalizeCpuGpuLabel(value);
+  if (category === 'keyboard') return normalizeKeyboardLabel(value);
+  if (category === 'model_family') return normalizeModelFamilyLabel(value);
+  return normalizeWhitespace(value).toUpperCase();
+}
+
+function findMatchingPickerEntry(picker = {}, expectedValue, category) {
+  const expected = normalizeExpectedValue(category, expectedValue);
+  if (!expected) return null;
+
+  for (const [label, entry] of Object.entries(picker || {})) {
+    const normalizedLabel = normalizeExpectedValue(category, label);
+    if (normalizedLabel && normalizedLabel === expected) {
+      return { label, entry };
+    }
+  }
+  return null;
+}
+
+function titleMatchesExpected(pageTitle, expectedValue, category) {
+  const title = category === 'model_family'
+    ? normalizeModelFamilyLabel(pageTitle)
+    : normalizeTitleText(pageTitle);
+  const expected = normalizeExpectedValue(category, expectedValue);
+  if (!title || !expected) return false;
+  return title.includes(expected);
+}
+
+function expectedGradeLabel(grade) {
+  return {
+    FAIR: 'Fair',
+    GOOD: 'Good',
+    VERY_GOOD: 'Excellent',
+    EXCELLENT: 'Excellent',
+  }[String(grade || '').trim().toUpperCase()] || '';
+}
+
+function buildReconciledScrapeTarget(candidate = {}, scrape = {}) {
+  const assertions = [];
+  const hardFailures = [];
+  const unresolved = [];
+  const matchedProductIds = {};
+  const pageTitle = scrape.pageTitle || '';
+  const finalUrl = scrape.finalUrl || scrape.url || '';
+  const gradePrices = scrape.gradePrices || {};
+  const gradeLabel = expectedGradeLabel(candidate.grade);
+  const gradePrice = gradeLabel ? gradePrices[gradeLabel] || null : null;
+
+  function assertPicker(category, picker, expectedValue, options = {}) {
+    const { required = false, titleFallback = false } = options;
+    if (!expectedValue) return;
+
+    const pickerValues = picker || {};
+    const pickerKeys = Object.keys(pickerValues);
+    const match = findMatchingPickerEntry(pickerValues, expectedValue, category);
+    if (match) {
+      const productId = String(match.entry?.productId || '').trim();
+      assertions.push({
+        category,
+        ok: true,
+        expected: expectedValue,
+        actual: match.label,
+        productId,
+      });
+      if (productId) matchedProductIds[category] = productId;
+      return;
+    }
+
+    if (titleFallback && titleMatchesExpected(pageTitle, expectedValue, category)) {
+      assertions.push({
+        category,
+        ok: true,
+        expected: expectedValue,
+        actual: `title:${pageTitle}`,
+        productId: '',
+        via: 'title',
+      });
+      return;
+    }
+
+    const message = pickerKeys.length === 0
+      ? `${category} picker not exposed for expected "${expectedValue}"`
+      : `${category} mismatch for expected "${expectedValue}"`;
+    assertions.push({
+      category,
+      ok: false,
+      expected: expectedValue,
+      actual: pickerKeys,
+      productId: '',
+    });
+    if (required) hardFailures.push(message);
+    else unresolved.push(message);
+  }
+
+  if (candidate.modelFamily) {
+    if (titleMatchesExpected(pageTitle, candidate.modelFamily, 'model_family')) {
+      assertions.push({ category: 'model_family', ok: true, expected: candidate.modelFamily, actual: pageTitle, productId: '', via: 'title' });
+    } else {
+      assertions.push({ category: 'model_family', ok: false, expected: candidate.modelFamily, actual: pageTitle, productId: '', via: 'title' });
+    }
+  }
+
+  assertPicker('ram', scrape.ramPicker, candidate.ram, { required: true, titleFallback: true });
+  assertPicker('ssd', scrape.ssdPicker, candidate.ssd, { required: true, titleFallback: true });
+  assertPicker('colour', scrape.colourPicker, candidate.colour, { required: true, titleFallback: false });
+  assertPicker('cpu_gpu', scrape.cpuGpuPicker, candidate.cpuGpu, { required: true, titleFallback: true });
+  assertPicker('keyboard', scrape.keyboardPicker, candidate.keyboardLayout, { required: !!candidate.keyboardLayout, titleFallback: true });
+
+  if (!gradeLabel) {
+    unresolved.push(`expected grade "${candidate.grade || ''}" is not mapped for scrape verification`);
+  } else if (!gradePrice) {
+    hardFailures.push(`missing expected grade price for ${gradeLabel}`);
+  }
+
+  const fair = gradePrices.Fair;
+  const good = gradePrices.Good;
+  const excellent = gradePrices.Excellent;
+  const ladderOk = !(fair && good && fair >= good) && !(good && excellent && good >= excellent);
+  if (fair && good && fair >= good) {
+    hardFailures.push(`grade ladder inversion: Fair £${fair} >= Good £${good}`);
+  }
+  if (good && excellent && good >= excellent) {
+    hardFailures.push(`grade ladder inversion: Good £${good} >= Excellent £${excellent}`);
+  }
+
+  const uniqueProductIds = Array.from(new Set(Object.values(matchedProductIds).filter(Boolean)));
+  const reconciledProductId = uniqueProductIds.length === 1 ? uniqueProductIds[0] : '';
+
+  if (uniqueProductIds.length > 1) {
+    hardFailures.push(`picker product_id divergence: ${uniqueProductIds.join(', ')}`);
+  } else if (candidate.productId && reconciledProductId && String(candidate.productId).trim() !== reconciledProductId) {
+    hardFailures.push(`reconciled product_id ${reconciledProductId} does not match requested ${candidate.productId}`);
+  } else if (candidate.productId && !reconciledProductId) {
+    hardFailures.push(`requested product_id ${candidate.productId} was not reconciled from picker evidence`);
+  }
+
+  return {
+    ok: hardFailures.length === 0,
+    trusted: hardFailures.length === 0 && unresolved.length === 0,
+    fullyReconciled: hardFailures.length === 0 && unresolved.length === 0,
+    requestedProductId: String(candidate.productId || '').trim(),
+    reconciledProductId,
+    url: scrape.url || '',
+    finalUrl,
+    pageTitle,
+    expectedGradeLabel: gradeLabel,
+    expectedGradePrice: gradePrice,
+    ladderOk,
+    matchedProductIds,
+    assertions,
+    hardFailures,
+    unresolved,
+  };
 }
 
 // ─── Browser Helpers ─────────────────────────────────────────────
@@ -137,6 +378,13 @@ async function extractNuxtDataFromPage(page) {
     }
     return null;
   });
+}
+
+async function extractPageMetadata(page) {
+  return await page.evaluate(() => ({
+    finalUrl: window.location.href,
+    pageTitle: document.querySelector('h1')?.textContent?.trim() || document.title || '',
+  }));
 }
 
 async function isCloudflareBlocked(page) {
@@ -191,11 +439,13 @@ async function scrapeSingleProduct(productId) {
       throw new Error('no_nuxt_data');
     }
     const extracted = extractNuxtDataCategories(nuxtData);
+    const metadata = await extractPageMetadata(page);
     await page.close();
     return {
       ok: true,
       source: 'live single-page scrape',
       url,
+      ...metadata,
       ...extracted,
     };
   } finally {
@@ -228,10 +478,12 @@ async function scrapeWithContext(context, productId) {
       throw new Error('no_nuxt_data');
     }
     const extracted = extractNuxtDataCategories(nuxtData);
+    const metadata = await extractPageMetadata(page);
     return {
       ok: true,
       source: 'live single-page scrape',
       url,
+      ...metadata,
       ...extracted,
     };
   } finally {
@@ -264,6 +516,7 @@ async function scrapeWithFallback(productId, catalogFallback = {}, timeoutMs = D
       ssdPicker: catalogFallback.ssdPicker || {},
       colourPicker: catalogFallback.colourPicker || {},
       cpuGpuPicker: catalogFallback.cpuGpuPicker || {},
+      keyboardPicker: catalogFallback.keyboardPicker || {},
     };
   }
 }
@@ -303,9 +556,11 @@ module.exports = {
   categorisePickerLabel,
   findNuxtPickers,
   extractNuxtDataCategories,
+  buildReconciledScrapeTarget,
   // Browser helpers
   createStealthContext,
   extractNuxtDataFromPage,
+  extractPageMetadata,
   isCloudflareBlocked,
   // Main scrape functions
   scrapeSingleProduct,
