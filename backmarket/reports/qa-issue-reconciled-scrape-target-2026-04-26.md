@@ -81,7 +81,9 @@ The durable fix should make the canonical candidate spec drive the scrape target
 
 Desired steady state:
 
-- the scraper opens the right model/spec/grade page automatically
+- the browser agent captures the canonical public frontend URL for each seller listing from the seller portal GB market flag/link when available
+- the scraper opens the captured public URL as the preferred target instead of guessing a placeholder/product URL
+- canonical SKU/spec still verifies that the public page matches model/spec/grade before pricing is trusted
 - adjacent variants such as 256GB vs 512GB are never used as substitute market evidence
 - pricing data is generated from the reconciled target, not corrected after the fact
 - fallback/fail states become rare exception handling, not the operating model
