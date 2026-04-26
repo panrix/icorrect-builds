@@ -1,0 +1,631 @@
+{
+  "generated_at": "2026-04-26T16:18:47Z",
+  "total_elapsed_s": 262.2,
+  "records": [
+    {
+      "sku": "MBP.A2338.M1.8GB.256GB.Silver.Fair",
+      "product_id": "0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985?l=12",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=MBP.A2338.M1.8GB.256GB.Silver.Fair",
+      "captured_at": "2026-04-26T16:14:38Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English | Back Market",
+        "h1": "MacBook Pro (M1 series)\nQWERTY - English \u2022 13\" \u2022 Apple M1 8-core - 8-core GPU \u2022 256 GB \u2022 RAM 8GB \u2022 Silver",
+        "portal_row_text": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English SKU: MBP.A2338.M1.8GB.256GB.Silver.Fair Deal opportunity Fair Archive listing Units GB More than 5 sellers",
+        "parsed_tokens": {
+          "family": "MBP",
+          "parts": [
+            "MBP",
+            "A2338",
+            "M1",
+            "8GB",
+            "256GB",
+            "Silver",
+            "Fair"
+          ],
+          "ref": "A2338",
+          "chip": "M1",
+          "ram": "8GB",
+          "storage": "256GB",
+          "colour": "Silver",
+          "grade": "Fair"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "MBP",
+            "evidence": "title/h1 has \"macbook pro\"",
+            "ok": true
+          },
+          {
+            "field": "manufacturer_ref",
+            "expected": "A2338",
+            "evidence": "spec.Manufacturer Ref=A2338",
+            "ok": true
+          },
+          {
+            "field": "chip",
+            "expected": "M1",
+            "evidence": "spec.Processor=Apple M1 8-core",
+            "ok": true
+          },
+          {
+            "field": "ram",
+            "expected": "8GB",
+            "evidence": "spec.Memory=8 GB",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "256GB",
+            "evidence": "spec.Storage=256 GB h1=[MacBook Pro (M1 series)\nQWERTY - English \u2022 13\" \u2022 Apple M1 8-core - 8-core GPU \u2022 ]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "Silver",
+            "evidence": "spec.Colour=silver",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "Fair",
+            "evidence": "portal_row contains \"Fair\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Online",
+        "active_listing_export_quantity": "1",
+        "active_listing_export_price_gbp": "450.00",
+        "active_listing_export_min_price_gbp": "420.00",
+        "active_listing_export_listing_uuid": "2c13573c-8254-4610-9cd4-bb5cc5730246",
+        "active_listing_export_back_market_id": "871170"
+      },
+      "elapsed_s": 13.2,
+      "listing_id": "6709048",
+      "listing_uuid": "2c13573c-8254-4610-9cd4-bb5cc5730246",
+      "back_market_id": "871170",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "MBP.A2338.M1.16GB.256GB.Grey.Fair",
+      "product_id": "7408af3f-40ad-4e74-aff8-d2acca799683",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/7408af3f-40ad-4e74-aff8-d2acca799683?l=12",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=MBP.A2338.M1.16GB.256GB.Grey.Fair",
+      "captured_at": "2026-04-26T16:14:55Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 256GB - Standard display - QWERTY - English | Back Market",
+        "h1": "MacBook Pro (M1 series)\nQWERTY - English \u2022 13\" \u2022 Apple M1 8-core - 8-core GPU \u2022 256 GB \u2022 RAM 16GB \u2022 Space Gray",
+        "portal_row_text": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 256GB - Standard display - QWERTY - English SKU: MBP.A2338.M1.16GB.256GB.Grey.Fair Deal opportunity Fair Archive listing Units GB More than 5 sellers",
+        "parsed_tokens": {
+          "family": "MBP",
+          "parts": [
+            "MBP",
+            "A2338",
+            "M1",
+            "16GB",
+            "256GB",
+            "Grey",
+            "Fair"
+          ],
+          "ref": "A2338",
+          "chip": "M1",
+          "ram": "16GB",
+          "storage": "256GB",
+          "colour": "Grey",
+          "grade": "Fair"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "MBP",
+            "evidence": "title/h1 has \"macbook pro\"",
+            "ok": true
+          },
+          {
+            "field": "manufacturer_ref",
+            "expected": "A2338",
+            "evidence": "spec.Manufacturer Ref=A2338",
+            "ok": true
+          },
+          {
+            "field": "chip",
+            "expected": "M1",
+            "evidence": "spec.Processor=Apple M1 8-core",
+            "ok": true
+          },
+          {
+            "field": "ram",
+            "expected": "16GB",
+            "evidence": "spec.Memory=16 GB",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "256GB",
+            "evidence": "spec.Storage=256 GB h1=[MacBook Pro (M1 series)\nQWERTY - English \u2022 13\" \u2022 Apple M1 8-core - 8-core GPU \u2022 ]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "Grey",
+            "evidence": "spec.Colour=space gray",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "Fair",
+            "evidence": "portal_row contains \"Fair\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Online",
+        "active_listing_export_quantity": "1",
+        "active_listing_export_price_gbp": "502.00",
+        "active_listing_export_min_price_gbp": "487.00",
+        "active_listing_export_listing_uuid": "49e34bd8-3aff-4c38-8eee-aa56180b430a",
+        "active_listing_export_back_market_id": "2872244"
+      },
+      "elapsed_s": 16.7,
+      "listing_id": "6709047",
+      "listing_uuid": "49e34bd8-3aff-4c38-8eee-aa56180b430a",
+      "back_market_id": "2872244",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "MBP.M2.A2338.8GB.256GB.Grey.Fair",
+      "product_id": "ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9?l=12",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=MBP.M2.A2338.8GB.256GB.Grey.Fair",
+      "captured_at": "2026-04-26T16:15:15Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English | Back Market",
+        "h1": "MacBook Pro (M2 series)\nQWERTY - English \u2022 13\" \u2022 Apple M2 8-core - 10-core GPU \u2022 256 GB \u2022 RAM 8GB \u2022 Space Gray",
+        "portal_row_text": "MacBook Pro 13-inch (2022) - Apple M2 8-core and 10-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English SKU: MBP.M2.A2338.8GB.256GB.Grey.Fair Deal opportunity Fair Archive listing Units GB More than 5 sellers",
+        "parsed_tokens": {
+          "family": "MBP",
+          "parts": [
+            "MBP",
+            "M2",
+            "A2338",
+            "8GB",
+            "256GB",
+            "Grey",
+            "Fair"
+          ],
+          "chip": "M2",
+          "ref": "A2338",
+          "ram": "8GB",
+          "storage": "256GB",
+          "colour": "Grey",
+          "grade": "Fair"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "MBP",
+            "evidence": "title/h1 has \"macbook pro\"",
+            "ok": true
+          },
+          {
+            "field": "manufacturer_ref",
+            "expected": "A2338",
+            "evidence": "spec.Manufacturer Ref=A2338",
+            "ok": true
+          },
+          {
+            "field": "chip",
+            "expected": "M2",
+            "evidence": "spec.Processor=Apple M2 8-core",
+            "ok": true
+          },
+          {
+            "field": "ram",
+            "expected": "8GB",
+            "evidence": "spec.Memory=8 GB",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "256GB",
+            "evidence": "spec.Storage=256 GB h1=[MacBook Pro (M2 series)\nQWERTY - English \u2022 13\" \u2022 Apple M2 8-core - 10-core GPU \u2022]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "Grey",
+            "evidence": "spec.Colour=space gray",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "Fair",
+            "evidence": "portal_row contains \"Fair\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Online",
+        "active_listing_export_quantity": "1",
+        "active_listing_export_price_gbp": "599.00",
+        "active_listing_export_min_price_gbp": "582.00",
+        "active_listing_export_listing_uuid": "e0395dcf-435c-4c9e-b29f-15141854ce24",
+        "active_listing_export_back_market_id": "762088"
+      },
+      "elapsed_s": 20.8,
+      "listing_id": "6569346",
+      "listing_uuid": "e0395dcf-435c-4c9e-b29f-15141854ce24",
+      "back_market_id": "762088",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "iP11.Green.256GB.VeryGood",
+      "product_id": "616da0c1-7404-43a9-a8af-7ea24366fd29",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29?l=11",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=iP11.Green.256GB.VeryGood",
+      "captured_at": "2026-04-26T16:15:40Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "iPhone 11 256GB - Green - Unlocked | Back Market",
+        "h1": "iPhone 11\nGreen \u2022 256 GB \u2022 Physical SIM + eSIM",
+        "portal_row_text": "iPhone 11 256GB - Green - Unlocked SKU: iP11.Green.256GB.VeryGood Very good Physical SIM + eSIM Archive listing Units GB None",
+        "parsed_tokens": {
+          "family": "iP11",
+          "parts": [
+            "iP11",
+            "Green",
+            "256GB",
+            "VeryGood"
+          ],
+          "grade": "VeryGood",
+          "colour": "Green",
+          "storage": "256GB"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "iP11",
+            "evidence": "title/h1 has \"iphone 11\"",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "256GB",
+            "evidence": "spec.Storage= h1=[iPhone 11\nGreen \u2022 256 GB \u2022 Physical SIM + eSIM] [rechecked H1 with-space form]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "Green",
+            "evidence": "spec.Colour=green",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "VeryGood",
+            "evidence": "portal_row contains \"VeryGood\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Offline",
+        "active_listing_export_quantity": "0",
+        "active_listing_export_price_gbp": "450.00",
+        "active_listing_export_min_price_gbp": "",
+        "active_listing_export_listing_uuid": "fdec6a19-7890-4859-83d9-26aa0cc21d17",
+        "active_listing_export_back_market_id": "290070"
+      },
+      "elapsed_s": 24.7,
+      "listing_id": "1450768",
+      "listing_uuid": "fdec6a19-7890-4859-83d9-26aa0cc21d17",
+      "back_market_id": "290070",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "iPaAir4.64gb.blue.good",
+      "product_id": "622f915c-3ead-40c2-a8b1-04cbcda843ea",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-4-2020-hdd-64-gb-sky-blue-wifi-4g/622f915c-3ead-40c2-a8b1-04cbcda843ea?l=10",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=iPaAir4.64gb.blue.good",
+      "captured_at": "2026-04-26T16:16:09Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "iPad Air 10.9\" (2020) 4th gen 64 GB - Wi-Fi + 4G - Sky Blue | Back Market",
+        "h1": "iPad Air 4 (2020, A14 series)\nSky blue \u2022 64 GB \u2022 Wi-Fi + 4G",
+        "portal_row_text": "iPad Air 10.9\" (2020) 4th gen 64 GB - Wi-Fi + 4G - Sky Blue SKU: iPaAir4.64gb.blue.good Good Archive listing Units GB None",
+        "parsed_tokens": {
+          "family": "iPaAir4",
+          "parts": [
+            "iPaAir4",
+            "64gb",
+            "blue",
+            "good"
+          ],
+          "grade": "good",
+          "storage": "64GB",
+          "colour": "blue"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "iPaAir4",
+            "evidence": "title/h1 has \"ipad air\"",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "64GB",
+            "evidence": "spec.Storage=64 GB h1=[iPad Air 4 (2020, A14 series)\nSky blue \u2022 64 GB \u2022 Wi-Fi + 4G]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "blue",
+            "evidence": "spec.Colour=sky blue",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "good",
+            "evidence": "portal_row contains \"good\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Offline",
+        "active_listing_export_quantity": "0",
+        "active_listing_export_price_gbp": "420.00",
+        "active_listing_export_min_price_gbp": "410.00",
+        "active_listing_export_listing_uuid": "fe1c1192-87a5-426c-9c27-ffc3662947e8",
+        "active_listing_export_back_market_id": "409055"
+      },
+      "elapsed_s": 28.7,
+      "listing_id": "2616390",
+      "listing_uuid": "fe1c1192-87a5-426c-9c27-ffc3662947e8",
+      "back_market_id": "409055",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "iP8Plus.SpaceGrey.64GB.Mint",
+      "product_id": "4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/iphone-8-plus-64-gb-space-gray-unlocked/4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb?l=12",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=iP8Plus.SpaceGrey.64GB.Mint",
+      "captured_at": "2026-04-26T16:16:42Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "iPhone 8 Plus 64GB - Space Gray - Unlocked | Back Market",
+        "h1": "iPhone 8 Plus\nSpace Gray \u2022 64 GB \u2022 Physical SIM",
+        "portal_row_text": "iPhone 8 Plus 64GB - Space Gray - Unlocked SKU: iP8Plus.SpaceGrey.64GB.Mint Excellent Physical SIM Archive listing Units GB None",
+        "parsed_tokens": {
+          "family": "iP8Plus",
+          "parts": [
+            "iP8Plus",
+            "SpaceGrey",
+            "64GB",
+            "Mint"
+          ],
+          "grade": "Mint",
+          "colour": "SpaceGrey",
+          "storage": "64GB"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "iP8Plus",
+            "evidence": "title/h1 has \"iphone 8 plus\"",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "64GB",
+            "evidence": "spec.Storage= h1=[iPhone 8 Plus\nSpace Gray \u2022 64 GB \u2022 Physical SIM] [rechecked H1 with-space form]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "SpaceGrey",
+            "evidence": "spec.Colour=space gray",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "Mint",
+            "evidence": "portal_row contains \"Mint\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Offline",
+        "active_listing_export_quantity": "0",
+        "active_listing_export_price_gbp": "240.00",
+        "active_listing_export_min_price_gbp": "",
+        "active_listing_export_listing_uuid": "fe57d0c8-ad92-4895-b7c9-857f389ef5dd",
+        "active_listing_export_back_market_id": "38769"
+      },
+      "elapsed_s": 33.1,
+      "listing_id": "1669048",
+      "listing_uuid": "fe57d0c8-ad92-4895-b7c9-857f389ef5dd",
+      "back_market_id": "38769",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "iP11.Black.128GB.Mint",
+      "product_id": "dfab99ae-8ec6-443e-bc25-34c882d1e0cd",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/iphone-11-128-gb-black-unlocked/dfab99ae-8ec6-443e-bc25-34c882d1e0cd?l=12",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=iP11.Black.128GB.Mint",
+      "captured_at": "2026-04-26T16:17:19Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "iPhone 11 128GB - Black - Unlocked | Back Market",
+        "h1": "iPhone 11\nBlack \u2022 128 GB \u2022 Physical SIM + eSIM",
+        "portal_row_text": "iPhone 11 128GB - Black - Unlocked SKU: iP11.Black.128GB.Mint Excellent Physical SIM + eSIM Archive listing Units GB None",
+        "parsed_tokens": {
+          "family": "iP11",
+          "parts": [
+            "iP11",
+            "Black",
+            "128GB",
+            "Mint"
+          ],
+          "grade": "Mint",
+          "colour": "Black",
+          "storage": "128GB"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "iP11",
+            "evidence": "title/h1 has \"iphone 11\"",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "128GB",
+            "evidence": "spec.Storage= h1=[iPhone 11\nBlack \u2022 128 GB \u2022 Physical SIM + eSIM] [rechecked H1 with-space form]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "Black",
+            "evidence": "spec.Colour=black",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "Mint",
+            "evidence": "portal_row contains \"Mint\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Offline",
+        "active_listing_export_quantity": "0",
+        "active_listing_export_price_gbp": "375.00",
+        "active_listing_export_min_price_gbp": "",
+        "active_listing_export_listing_uuid": "fe9ce912-5a20-4b8b-a599-12ae3467eee0",
+        "active_listing_export_back_market_id": "290063"
+      },
+      "elapsed_s": 37.1,
+      "listing_id": "1450737",
+      "listing_uuid": "fe9ce912-5a20-4b8b-a599-12ae3467eee0",
+      "back_market_id": "290063",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "product_id": "2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/2bc8a185-15f9-4e3e-a21b-420b928528c3?l=11",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "captured_at": "2026-04-26T16:18:01Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 2000GB - Standard display - QWERTY - English | Back Market",
+        "h1": "MacBook Pro (M1 series)\nQWERTY - English \u2022 13\" \u2022 Apple M1 8-core - 8-core GPU \u2022 2000 GB \u2022 RAM 16GB \u2022 Space Gray",
+        "portal_row_text": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 16GB RAM - SSD 2000GB - Standard display - QWERTY - English SKU: MBP.A2338.M1.16GB.2TB.Grey.Fair Fair Archive listing Units GB None",
+        "parsed_tokens": {
+          "family": "MBP",
+          "parts": [
+            "MBP",
+            "A2338",
+            "M1",
+            "16GB",
+            "2TB",
+            "Grey",
+            "Fair"
+          ],
+          "ref": "A2338",
+          "chip": "M1",
+          "ram": "16GB",
+          "storage": "2TB",
+          "colour": "Grey",
+          "grade": "Fair"
+        },
+        "sku_spec_check": [
+          {
+            "field": "family",
+            "expected": "MBP",
+            "evidence": "title/h1 has \"macbook pro\"",
+            "ok": true
+          },
+          {
+            "field": "manufacturer_ref",
+            "expected": "A2338",
+            "evidence": "spec.Manufacturer Ref=A2338",
+            "ok": true
+          },
+          {
+            "field": "chip",
+            "expected": "M1",
+            "evidence": "spec.Processor=Apple M1 8-core",
+            "ok": true
+          },
+          {
+            "field": "ram",
+            "expected": "16GB",
+            "evidence": "spec.Memory=16 GB",
+            "ok": true
+          },
+          {
+            "field": "storage",
+            "expected": "2TB",
+            "evidence": "spec.Storage=2000 GB h1=[MacBook Pro (M1 series)\nQWERTY - English \u2022 13\" \u2022 Apple M1 8-core - 8-core GPU \u2022 ]",
+            "ok": true
+          },
+          {
+            "field": "colour",
+            "expected": "Grey",
+            "evidence": "spec.Colour=space gray",
+            "ok": true
+          },
+          {
+            "field": "grade",
+            "expected": "Fair",
+            "evidence": "portal_row contains \"Fair\"",
+            "ok": true
+          }
+        ],
+        "sku_spec_mismatches": [],
+        "active_listing_export_status": "Offline",
+        "active_listing_export_quantity": "0",
+        "active_listing_export_price_gbp": "629.00",
+        "active_listing_export_min_price_gbp": "",
+        "active_listing_export_listing_uuid": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+        "active_listing_export_back_market_id": "545355"
+      },
+      "elapsed_s": 42.1,
+      "listing_id": "6558670",
+      "listing_uuid": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+      "back_market_id": "545355",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "MBA.A2179.I3.8GB.512GB.Grey.GOOD",
+      "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i3-8gb-ssd-512-gb-qwerty/defdf354-2287-4d17-ad0e-26b4b8955427",
+      "verification_status": "error",
+      "error": "WebSocket connection closed",
+      "elapsed_s": 45.9,
+      "listing_id": "6709283",
+      "listing_uuid": "feff81df-9e60-4543-b67d-7fb0c7ea1a7c",
+      "back_market_id": "566717",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    },
+    {
+      "sku": "iPXR.White.256GB.Good",
+      "href": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "verification_status": "error",
+      "error": "sent 1011 (internal error) keepalive ping timeout; no close frame received",
+      "elapsed_s": 0.0,
+      "listing_id": "1451300",
+      "listing_uuid": "fff60c37-6f4c-45b1-9598-038064d82997",
+      "back_market_id": "193116",
+      "source": "backmarket-active-listings-export+browser-harness-verification"
+    }
+  ],
+  "captured_via": "browser-harness CDP attach to user signed-in Chrome on 127.0.0.1:9333 (Mac)",
+  "source_active_listings_csv": "/home/ricky/builds/backmarket/data/backmarket-active-listings-2026-04-26.csv",
+  "operator": "claude-code (browser-harness BM 10-SKU sample)"
+}
