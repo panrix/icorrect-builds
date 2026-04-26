@@ -37,7 +37,8 @@ Reason:
   - Blocker: `email_code_required`
   - Seller dashboard reached: no
   - Report: `/home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md`
-- [ ] Get/enter email verification code via explicit approved handoff or approved mailbox-code path.
+- [x] Attempt mailbox-code login completion via approved path. Result: blocked by Cloudflare human-verification before `/2fa/email`; mailbox retrieval not reached.
+- [ ] Resolve Cloudflare human-verification / interactive browser path, then retry code step.
 
 ### Phase 2 — Two logged-in browser agents
 
