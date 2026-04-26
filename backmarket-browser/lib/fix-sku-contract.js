@@ -25,9 +25,17 @@ function buildVerificationPlan(row) {
       'require exactly one result',
       'click underlined listing name',
       'assert product_id, appearance, current_sku',
+      'capture GB market flag frontend URL and public page spec snapshot',
+      'record listing_id -> frontend_url mapping locally for scraper target selection',
       'planned edit: SKU only',
-      'after save: return to listings URL, filter again, reopen, verify exact correct_sku'
+      'after save: return to listings URL, filter again, reopen, verify exact correct_sku and frontend_url mapping still points to matching public spec'
     ],
+    urlCapture: {
+      required: true,
+      operation: 'capture-gb-frontend-url',
+      outputFields: ['listing_id', 'sku', 'product_id', 'seller_portal_url', 'frontend_url', 'captured_at', 'spec_snapshot', 'verification_status'],
+      scrapeTargetPolicy: 'captured frontend_url becomes preferred scraper target; product_id placeholder URL is fallback only',
+    },
     row
   };
 }

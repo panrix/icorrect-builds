@@ -115,9 +115,15 @@ After explicit approval only:
     - quantity/inventory if visible
     - publication/stock status if visible
     - title
-13. Compare portal SKU to canonical BM Devices `text89`.
-14. Write a local report only.
-15. Close or leave neutral browser state according to operator instruction.
+13. Capture canonical public frontend URL:
+    - locate the **GB market flag/link** in the listing detail Inventory/market section
+    - open the GB link in a new tab or popup-safe read-only way
+    - capture final public `backmarket.co.uk` URL after redirects settle
+    - capture safe public title/spec snapshot from the public page
+    - close public tab and return to seller portal detail
+14. Compare portal SKU to canonical BM Devices `text89`.
+15. Write a local report only, including `listing_id -> frontend_url` mapping.
+16. Close or leave neutral browser state according to operator instruction.
 
 ## Screenshot/checkpoint plan
 
@@ -129,7 +135,8 @@ Store under `data/screenshots/portal-canary/<run-id>/`:
 - `03-filter-filled.png`
 - `04-filter-results.png`
 - `05-listing-detail.png`
-- `06-final-state.png`
+- `06-gb-frontend-page.png` — public GB listing URL opened from the flag/link
+- `07-final-state.png`
 
 Each screenshot must have a matching local JSON checkpoint with:
 
@@ -139,6 +146,7 @@ Each screenshot must have a matching local JSON checkpoint with:
 - action just performed
 - assertion result
 - whether any mutation-capable control was clicked (`false` required)
+- captured frontend URL if the GB flag/link step ran
 
 ## Hard stops
 
@@ -152,6 +160,7 @@ Stop immediately if:
 - Save/submit/reply/refund/return/warranty controls are focused accidentally
 - candidate SKU in BM Devices no longer matches expected QC SKU
 - portal page suggests listing ownership/account mismatch
+- GB flag/link is missing, ambiguous, or opens a public page whose spec does not match the canonical SKU
 - captcha, unexpected modal, or error banner appears
 
 ## Future write canary boundary
