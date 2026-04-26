@@ -77,7 +77,9 @@ Column: `status_2_Mjj4GJNQ` on Main Board.
 
 ---
 
-## Step 3: Construct SKU
+## Step 3: Validate QC SKU handoff
+
+Listing no longer treats SKU as primarily listing-time output. QC/SOP 05 generates and writes the canonical SKU to BM Devices `text89`; listing recalculates the expected SKU from source fields and validates stored vs expected before resolver/pricing work.
 
 Format: `{Type}.{Model}.{Chip}.{GPU?}.{RAM}.{Storage}.{Colour}.{Grade}`
 
@@ -88,7 +90,13 @@ Format: `{Type}.{Model}.{Chip}.{GPU?}.{RAM}.{Storage}.{Colour}.{Grade}`
 - Colour: `Grey`, `Silver`, `Gold`, `Midnight`, `Starlight`, `Space Black`
 - Grade: `Fair`, `Good`, `Excellent`
 
-Write SKU to BM Devices Board `text89`.
+Validation rules:
+
+- Read stored SKU from BM Devices Board `text89`.
+- Recalculate expected SKU using `scripts/lib/sku.js`.
+- If `text89` is missing → **BLOCK** as QC handoff issue (`QC_SKU_MISSING`).
+- If stored SKU differs from expected → **BLOCK** as QC handoff issue (`QC_SKU_MISMATCH`).
+- Normal live listing must not auto-repair or create the SKU. Transitional backfill requires an explicitly named flag and separate approval.
 
 ---
 
@@ -539,7 +547,7 @@ Content-Type: application/json
 | Purchase price | BM Devices | `numeric` |
 | Listing ID | BM Devices | `text_mkyd4bx3` |
 | Product UUID | BM Devices | `text_mm1dt53s` |
-| SKU | BM Devices | `text89` |
+| SKU | BM Devices | `text89` | Generated during SOP 05 QC handoff; validated during SOP 06 |
 | Total fixed cost | BM Devices | `numeric_mm1mgcgn` |
 | Board relation (→ Main) | BM Devices | `board_relation` |
 

@@ -11,7 +11,7 @@
 
 Device has completed repair/refurb (`status4` = "Ready To Collect" per Monday automation [411590646]) and moved to "BMs Awaiting Sale" group, status24 = "To List".
 
-Before `list-device.js` can proceed, the **Final Grade** column (`status_2_Mjj4GJNQ` on Main Board) must be populated.
+Before `list-device.js` can proceed, the **Final Grade** column (`status_2_Mjj4GJNQ` on Main Board) must be populated and the canonical BM SKU must be generated into BM Devices `text89` as part of QC handoff.
 
 ---
 
@@ -49,7 +49,17 @@ The assigned grade is the **worst-of** the pre-grades (i.e. if Top Case is Good 
 3. Runs functional tests (boot, display, keyboard, trackpad, ports, battery cycle test)
 4. If any test fails → return to repair queue (SOP 04)
 5. If all pass → assign Final Grade column on Main Board
-6. Device is now eligible for listing (SOP 06)
+6. Confirm required BM Devices specs are complete: model/A-number, RAM, SSD, CPU, GPU
+7. Confirm Main Board colour is complete
+8. Run the QC SKU handoff helper in dry-run mode:
+   ```bash
+   node scripts/qc-generate-sku.js --item <mainBoardItemId> --json
+   ```
+9. If the dry-run classification is `QC_SKU_MISSING` or `QC_SKU_MISMATCH` and all required fields pass, write only BM Devices `text89` with explicit operator approval:
+   ```bash
+   node scripts/qc-generate-sku.js --item <mainBoardItemId> --write --json
+   ```
+10. Device is eligible for listing (SOP 06) only once stored BM Devices `text89` matches the expected SKU.
 
 ---
 
@@ -57,7 +67,7 @@ The assigned grade is the **worst-of** the pre-grades (i.e. if Top Case is Good 
 
 - **SOP 04 (Repair):** writes pre-grade columns; these feed the final grade decision.
 - **SOP 03 (Diagnostic):** `bm-grade-check` service (port 8011) fires a profitability alert based on predicted final grade. SOP 05 is where the predicted grade becomes the actual grade.
-- **SOP 06 (Listing):** hard-gates on Final Grade being set. If empty, listing is blocked (see SOP 06 Step 1).
+- **SOP 06 (Listing):** hard-gates on Final Grade being set and validates BM Devices `text89` against the expected SKU. If final grade is empty, stored SKU is missing, or stored SKU mismatches expected SKU, listing is blocked (see SOP 06 Steps 1 and 3).
 
 ---
 

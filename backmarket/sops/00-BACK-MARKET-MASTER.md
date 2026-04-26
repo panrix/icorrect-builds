@@ -357,7 +357,7 @@ margin = (net / min_price) × 100
 | `text53` | Outbound Tracking | text |
 | `date_mkq385pa` | Date Listed (BM) | date |
 | `date_mkq34t04` | Date Sold (BM) | date |
-| `board_relation5` | Link to BM Devices | board_relation |
+| `board_relation5` | Link to Devices/BM Devices candidate relation | board_relation |
 
 ### 7.3 Key BM Devices Board Columns
 
@@ -365,7 +365,7 @@ margin = (net / min_price) × 100
 |-----------|-------|------|
 | `text_mkyd4bx3` | BM Listing ID | text |
 | `text_mm1dt53s` | Product UUID | text |
-| `text89` | SKU | text |
+| `text89` | SKU | text | Generated during SOP 05 QC handoff; validated during SOP 06 listing |
 | `numeric` | Purchase Price (ex VAT) | numbers |
 | `numeric_mm1mgcgn` | Total Fixed Cost | numbers |
 | `numeric5` | Sale Price (ex VAT) | numbers |
@@ -387,7 +387,7 @@ margin = (net / min_price) × 100
 | 3 | Counteroffer | icloud-checker (spec mismatch) |
 | 6 | Purchased | bm-payout (after BM validate) |
 | 7 | Listed | list-device.js (after verified listing) |
-| 8 | To List | QC tech (after final grade) |
+| 8 | To List | QC tech (after final grade and BM Devices SKU handoff) |
 | 10 | Sold | sale-detection.js (after sale confirmed) |
 | 12 | Pay-Out | Team (triggers payout webhook) |
 | 104 | Unlisted | Manual |

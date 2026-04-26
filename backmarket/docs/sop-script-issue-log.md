@@ -11,6 +11,23 @@ Use this format for each entry:
 
 ---
 
+## 2026-04-26 — QC SKU handoff boundary
+
+- **SOP:** `05` — QC & Final Grade Assignment; `06` — Listing on Back Market
+- **Issue found:** SKU was treated mainly as a listing-time artifact even though it defines the finished BM device identity after QC final grade/spec confirmation.
+- **Script issue:** `list-device.js` constructed SKU during listing and only wrote BM Devices `text89` after live listing verification; `current-queue-readonly.js` treated missing `text89` as a generic blocker instead of a QC handoff issue.
+- **Resolution:** extracted shared SKU logic to `scripts/lib/sku.js`, added `scripts/qc-generate-sku.js`, changed listing to validate stored vs expected SKU, and changed queue classification to `QC_SKU_MISSING` / `QC_SKU_MISMATCH`.
+- **Updated:**
+  - `scripts/lib/sku.js`
+  - `scripts/qc-generate-sku.js`
+  - `scripts/list-device.js`
+  - `scripts/current-queue-readonly.js`
+  - `sops/05-qc-final-grade.md`
+  - `sops/06-listing.md`
+  - `sops/00-BACK-MARKET-MASTER.md`
+
+---
+
 ## 2026-04-02 — SOP 09 label writeback bug
 
 - **SOP:** `09` — Label Buying

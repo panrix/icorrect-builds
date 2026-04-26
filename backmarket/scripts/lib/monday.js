@@ -14,7 +14,10 @@ const BOARDS = {
 const COLUMNS = {
   BM_TRADE_IN_ID: 'text_mky01vb4',
   STATUS: 'status24',
+  // Main Board board_relation5 has historically linked to generic Devices, not BM Devices.
+  // For BM Devices -> Main back-link mapping, use BM_DEVICES_BACK_RELATION.
   BOARD_RELATION: 'board_relation5',
+  BM_DEVICES_BACK_RELATION: 'board_relation',
   LISTING_UUID: 'text_mm1dt53s',
   LISTING_ID: 'text_mkyd4bx3',
 };

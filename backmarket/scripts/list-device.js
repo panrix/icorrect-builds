@@ -22,6 +22,7 @@ require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const path = require('path');
 const { mondayQuery, BOARDS, COLUMNS } = require('./lib/monday');
+const { constructBmSku, validateSku } = require('./lib/sku');
 const { BM_API_HEADERS, fetchSalesHistory } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
 const {
@@ -83,6 +84,8 @@ const priceIdx = args.indexOf('--price');
 const PRICE_OVERRIDE = priceIdx !== -1 ? parseFloat(args[priceIdx + 1]) : null;
 const JSON_OUTPUT = args.includes('--json');
 const CARD_JSON_MODE = args.includes('--card-json');
+const SKIP_HISTORY = args.includes('--skip-history');
+const LEGACY_CONSTRUCT_SKU = args.includes('--legacy-construct-sku');
 
 // In card-json mode suppress all console output — only CARD_JSON: line goes to stdout
 if (CARD_JSON_MODE) {
@@ -304,7 +307,7 @@ async function buildBmDeviceMap(mainItemIds) {
       cursor
       items {
         id name
-        column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
+        column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s", "text89"]) {
           id text type
           ... on BoardRelationValue { linked_item_ids }
           ... on MirrorValue { display_value }
@@ -334,6 +337,7 @@ async function buildBmDeviceMap(mainItemIds) {
             if (cv.id === 'lookup') specs.deviceName = cv.display_value || '';
             if (cv.id === 'text_mkyd4bx3') specs.storedListingId = (cv.text || '').trim();
             if (cv.id === 'text_mm1dt53s') specs.storedUuid = (cv.text || '').trim();
+            if (cv.id === 'text89') specs.storedSku = (cv.text || '').trim();
           }
           // Extract A-number from deviceName if model column is empty
           if (!specs.model && specs.deviceName) {
@@ -361,7 +365,7 @@ async function buildBmDeviceMap(mainItemIds) {
         cursor
         items {
           id name
-          column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s"]) {
+          column_values(ids: ["board_relation", "text", "status__1", "color2", "status7__1", "status8__1", "numeric", "lookup", "text_mkyd4bx3", "text_mm1dt53s", "text89"]) {
             id text type
             ... on BoardRelationValue { linked_item_ids }
             ... on MirrorValue { display_value }
@@ -440,143 +444,13 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
     labourHours,
     storedListingId: bmDev.storedListingId || '',
     storedUuid: bmDev.storedUuid || '',
+    storedSku: bmDev.storedSku || '',
   };
 }
 
 // ─── Step 3: Construct SKU ────────────────────────────────────────
-
-function constructSku(specs, gradeText) {
-  const { model, cpu, gpu, ram, ssd, colour } = specs;
-
-  // Type from device name
-  let type = 'MAC';
-  const dn = (specs.deviceName || '').toLowerCase();
-  if (dn.includes('air')) type = 'MBA';
-  else if (dn.includes('pro')) type = 'MBP';
-
-  // Chip: PRIMARY source is model number lookup (most reliable)
-  // Device name can say "M3" when it's actually M3 Pro (e.g. "MacBook Pro 14 M3 A2918")
-  const modelChipMap = {
-    'A2337': 'M1',                  // Air 13 2020 M1
-    // A2179 is Intel Air — resolved via catalog or --product-id override.
-    'A2681': 'M2',                  // Air 13 2022
-    'A3113': 'M3', 'A3114': 'M3',  // Air 13 2024
-    'A2338': 'M1',                  // Pro 13 2020
-    'A2442': 'M1PRO',              // Pro 14 2021 (or Max)
-    'A2485': 'M1PRO',              // Pro 16 2021 (or Max)
-    'A2779': 'M2PRO',              // Pro 14 2023
-    // A2918/A2992: M3 or M3 Pro — determined by CPU/GPU core counts below
-    'A2918': 'M3PRO',              // Pro 14 2023 (default, overridden below)
-    'A2992': 'M3PRO',              // Pro 14 2023 (default, overridden below)
-    'A2780': 'M2PRO',              // Pro 16 2023
-    'A2991': 'M3PRO',              // Pro 16 2023
-    'A2941': 'M2',                 // Air 15 2023
-    'A2289': 'I5',                 // MBP 13 2020 Intel 2-port
-    'A2251': 'I5',                 // MBP 13 2020 Intel 4-port
-  };
-  let chip = modelChipMap[model] || '';
-  // Max distinction from device name for shared model numbers
-  // A2442/A2485: distinguish Pro vs Max using GPU core count, NOT device name
-  // (device name often says "Pro/Max" which matches both)
-  if (chip && (model === 'A2442' || model === 'A2485')) {
-    const gpuCores = parseInt((gpu || '').match(/(\d+)/)?.[1] || '0');
-    // M1 Max has 24 or 32 GPU cores; M1 Pro has 14 or 16
-    if (gpuCores >= 24) chip = chip.replace('PRO', 'MAX');
-  }
-  // A2918/A2992: distinguish base M3 from M3 Pro using CPU/GPU core counts
-  // Base M3 = 8-core CPU, 10-core GPU. M3 Pro = 11c/14c or 12c/18c.
-  if (model === 'A2918' || model === 'A2992') {
-    const cpuCores = parseInt((cpu || '').match(/(\d+)/)?.[1] || '0');
-    const gpuCores = parseInt((gpu || '').match(/(\d+)/)?.[1] || '0');
-    if (cpuCores === 8 && gpuCores === 10) {
-      chip = 'M3'; // base M3, not Pro
-      console.log(`  Chip override: ${model} with ${cpuCores}c CPU/${gpuCores}c GPU → base M3`);
-    } else if (cpuCores > 0 || gpuCores > 0) {
-      console.log(`  Chip confirmed: ${model} with ${cpuCores}c CPU/${gpuCores}c GPU → M3 Pro`);
-    }
-  }
-  // A2338: Apple reused this model number for BOTH M1 (2020) and M2 (2022) 13" Pro.
-  // M1 Pro 13" = 8-core CPU + 8-core GPU. M2 Pro 13" = 8-core CPU + 10-core GPU.
-  // Serial structure also differs: M1 uses 12-char factory codes, M2 uses 10-char randomised.
-  if (model === 'A2338') {
-    const gpuCores = parseInt((gpu || '').match(/(\d+)/)?.[1] || '0');
-    if (gpuCores === 10) {
-      chip = 'M2';
-      console.log(`  Chip override: A2338 with ${gpuCores}c GPU → M2 (2022 generation)`);
-    } else if (gpuCores === 8) {
-      console.log(`  Chip confirmed: A2338 with ${gpuCores}c GPU → M1 (2020 generation)`);
-    }
-  }
-
-  // Fallback: parse from device name if model not in map
-  if (!chip) {
-    const chipPatterns = [
-      { re: /M4\s*Pro/i, chip: 'M4PRO' },
-      { re: /M4\s*Max/i, chip: 'M4MAX' },
-      { re: /M4/i, chip: 'M4' },
-      { re: /M3\s*Pro/i, chip: 'M3PRO' },
-      { re: /M3\s*Max/i, chip: 'M3MAX' },
-      { re: /M3/i, chip: 'M3' },
-      { re: /M2\s*Pro/i, chip: 'M2PRO' },
-      { re: /M2\s*Max/i, chip: 'M2MAX' },
-      { re: /M2/i, chip: 'M2' },
-      { re: /M1\s*Pro/i, chip: 'M1PRO' },
-      { re: /M1\s*Max/i, chip: 'M1MAX' },
-      { re: /M1/i, chip: 'M1' },
-    ];
-    for (const p of chipPatterns) {
-      if (p.re.test(dn)) { chip = p.chip; break; }
-    }
-  }
-  // Fallback: check CPU column
-  if (!chip) {
-    const cpuLower = (cpu || '').toLowerCase();
-    const chipPatterns = [
-      { re: /M4\s*Pro/i, chip: 'M4PRO' }, { re: /M4/i, chip: 'M4' },
-      { re: /M3\s*Pro/i, chip: 'M3PRO' }, { re: /M3/i, chip: 'M3' },
-      { re: /M2\s*Pro/i, chip: 'M2PRO' }, { re: /M2/i, chip: 'M2' },
-      { re: /M1\s*Pro/i, chip: 'M1PRO' }, { re: /M1/i, chip: 'M1' },
-    ];
-    for (const p of chipPatterns) {
-      if (p.re.test(cpuLower)) { chip = p.chip; break; }
-    }
-  }
-  // Fallback: Intel detection from CPU or GPU columns
-  if (!chip) {
-    const cpuLower = (cpu || '').toLowerCase();
-    const gpuLower = (gpu || '').toLowerCase();
-    if (cpuLower.includes('i5') || cpuLower === 'i5') chip = 'I5';
-    else if (cpuLower.includes('i7') || cpuLower === 'i7') chip = 'I7';
-    else if (cpuLower.includes('i9') || cpuLower === 'i9') chip = 'I9';
-    else if (cpuLower.includes('i3') || cpuLower === 'i3') chip = 'I3';
-    else if (cpuLower.includes('intel') || gpuLower.includes('intel')) chip = 'INTEL';
-    else chip = cpu.replace(/\s+/g, '').toUpperCase(); // last resort
-  }
-
-  // GPU: only include core count when multiple GPU variants exist for same model
-  // e.g. MBA M1 A2337 has 7-core and 8-core GPU
-  const variableGpuModels = ['A2337', 'A2681'];
-  let gpuPart = '';
-  if (variableGpuModels.includes(model) && gpu) {
-    const coreMatch = gpu.match(/(\d+)/);
-    if (coreMatch) gpuPart = `${coreMatch[1]}C`;
-  }
-
-  // Storage normalisation
-  let storage = ssd.replace(/\s/g, '');
-  if (storage === '1000GB') storage = '1TB';
-  if (storage === '2000GB') storage = '2TB';
-
-  // RAM normalisation
-  let ramStr = ram.replace(/\s/g, '');
-
-  // Colour normalisation
-  let col = colour || 'Grey';
-  col = col.replace('Space Gray', 'Grey').replace('Space Grey', 'Grey');
-
-  const parts = [type, model, chip, gpuPart, ramStr, storage, col, gradeText].filter(Boolean);
-  return parts.join('.');
-}
+// SKU construction now lives in scripts/lib/sku.js so QC handoff and listing
+// validation use exactly the same identity logic.
 
 let _bmCatalog = null;
 let _bmCatalogIndex = null;
@@ -1441,10 +1315,34 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     console.error(`  ⚠️ Missing purchase price — cannot calculate profitability`);
   }
 
-  // Step 3: Construct SKU
-  console.log('[Step 3] Constructing SKU...');
-  const sku = constructSku(specs, grade.gradeText);
-  console.log(`  SKU: ${sku}`);
+  // Step 3: Validate stored QC SKU
+  console.log('[Step 3] Validating QC SKU handoff...');
+  const sku = constructBmSku(specs, grade.gradeText);
+  const skuValidation = validateSku({ storedSku: specs.storedSku, expectedSku: sku });
+  console.log(`  Stored SKU: ${skuValidation.storedSku || '(missing)'}`);
+  console.log(`  Expected SKU: ${sku}`);
+  if (!skuValidation.ok) {
+    const blockReason = `${skuValidation.code}: stored SKU must be generated during QC handoff before listing`;
+    console.log(`  ⛔ ${blockReason}`);
+    if (isLive && !LEGACY_CONSTRUCT_SKU) {
+      throw new Error(`Live listing blocked: ${blockReason}. Use --legacy-construct-sku only for explicitly approved transition work.`);
+    }
+    if (!isLive) {
+      const blockedDecision = { decision: 'BLOCK', reason: blockReason };
+      const blockedTrust = classifyTrust({ hasProductResolution: false, liveEligible: false, decision: blockedDecision, missingGrade: !grade?.bmGrade });
+      const blockedResult = {
+        mainItemId, itemName: grade.name, grade, bmGrade: grade.bmGrade, sku, specs,
+        skuValidation, catalogResult: null, slotResult: null,
+        pricing: { proposed: 0, source: 'blocked before resolver' },
+        historicalSales: { count: 0, avg: 0, low: 0, high: 0, sales: [] },
+        profitability: { proposed: 0, minPrice: 0, purchasePrice: specs.purchasePrice || 0, partsCost: specs.partsCost || 0, labourCost: 0, labourHours: specs.labourHours || 0, shipping: SHIPPING_COST, bmBuyFee: 0, bmSellFee: 0, vat: 0, totalCosts: 0, net: 0, margin: 0, totalFixedCost: 0, breakEven: 0 },
+        decision: blockedDecision, priceFlags: [], trust: blockedTrust,
+      };
+      console.log('\n' + formatSummary(blockedResult));
+      return blockedResult;
+    }
+    console.log('  ⚠️ Transitional --legacy-construct-sku supplied; continuing with expected SKU.');
+  }
 
   const registrySlot = lookupRegistrySlot(sku);
 
@@ -1592,15 +1490,19 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   // Historical sales — query BM completed orders for same product_id + grade (last 90 days)
   console.log('[Step 6b] Looking up historical sales...');
   let historicalSales = { count: 0, avg: 0, median: 0, low: 0, high: 0, sales: [] };
-  try {
-    historicalSales = await fetchSalesHistory(catalogResult.productId, grade.bmGrade, 90);
-    if (historicalSales.count > 0) {
-      console.log(`  Found ${historicalSales.count} sales: avg £${historicalSales.avg}, median £${historicalSales.median} (£${historicalSales.low}-£${historicalSales.high})`);
-    } else {
-      console.log('  No sales history (new model or no completed orders in 90 days)');
+  if (SKIP_HISTORY) {
+    console.log('  Skipped ( --skip-history )');
+  } else {
+    try {
+      historicalSales = await fetchSalesHistory(catalogResult.productId, grade.bmGrade, 90);
+      if (historicalSales.count > 0) {
+        console.log(`  Found ${historicalSales.count} sales: avg £${historicalSales.avg}, median £${historicalSales.median} (£${historicalSales.low}-£${historicalSales.high})`);
+      } else {
+        console.log('  No sales history (new model or no completed orders in 90 days)');
+      }
+    } catch (e) {
+      console.log(`  Sales history lookup failed: ${e.message}`);
     }
-  } catch (e) {
-    console.log(`  Sales history lookup failed: ${e.message}`);
   }
 
   // Calculate profitability at proposed price
