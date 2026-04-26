@@ -137,6 +137,51 @@ async function submitEmailOnlyStep(page, email, timeoutMs) {
   };
 }
 
+async function submitPasswordStep(page, password, timeoutMs) {
+  const beforeUrl = page.url();
+  const passwordInput = await firstVisible(page.locator('input[type="password"]'));
+  if (!passwordInput) {
+    return {
+      attempted: true,
+      submitted: false,
+      reason: 'password_input_not_found',
+      beforeUrl: redactUrl(beforeUrl),
+      afterUrl: redactUrl(page.url()),
+    };
+  }
+
+  await passwordInput.fill('');
+  await passwordInput.fill(password);
+
+  const form = page.locator('form').filter({ has: passwordInput }).first();
+  const submitButton =
+    (await firstVisible(form.locator('button[type="submit"], input[type="submit"]'))) ||
+    (await firstVisible(form.getByRole('button', { name: /continue|sign in|log in|submit/i }))) ||
+    (await firstVisible(page.getByRole('button', { name: /continue|sign in|log in|submit/i })));
+
+  if (submitButton) {
+    await Promise.allSettled([
+      page.waitForURL(url => url.toString() !== beforeUrl, { timeout: Math.min(timeoutMs, 20000) }),
+      submitButton.click(),
+    ]);
+  } else {
+    await Promise.allSettled([
+      page.waitForURL(url => url.toString() !== beforeUrl, { timeout: Math.min(timeoutMs, 20000) }),
+      passwordInput.press('Enter'),
+    ]);
+  }
+
+  await waitForSettledPage(page, 3500);
+
+  return {
+    attempted: true,
+    submitted: true,
+    reason: 'password_submitted',
+    beforeUrl: redactUrl(beforeUrl),
+    afterUrl: redactUrl(page.url()),
+  };
+}
+
 async function main() {
   const planOnly = hasFlag('--plan');
   loadEnvFile(DEFAULT_ENV_FILE);
@@ -145,6 +190,8 @@ async function main() {
   const portalUrl = argValue('--portal-url', DEFAULT_PORTAL_URL);
   const listingsUrl = argValue('--listings-url', DEFAULT_LISTINGS_URL);
   const portalEmail = argValue('--portal-email', DEFAULT_PORTAL_EMAIL);
+  const allowPasswordSubmit = hasFlag('--allow-password-submit');
+  const verifyListings = hasFlag('--verify-listings');
   const headless = !hasFlag('--headful');
   const timeoutMs = Number(argValue('--timeout-ms', process.env.BM_PORTAL_TIMEOUT_MS || 90000));
   const lockPath = argValue('--lock', process.env.BM_LOCK_PATH || defaultLockPath());
@@ -163,6 +210,8 @@ async function main() {
     mode: planOnly ? 'plan' : 'execute',
     readOnly: true,
     mutatesPortal: false,
+    allowPasswordSubmit,
+    verifyListings,
     provider: proxySummary.provider,
     proxy: {
       serverHost: proxySummary.serverHost,
@@ -182,8 +231,11 @@ async function main() {
       'missing PROXY_SERVER / PROXY_USER / PROXY_PASS',
       'missing Chromium binary',
       'email-entry page appears and the requested seller email is unavailable or not approved',
-      'password prompt appears after email submission',
+      'password prompt appears after email submission unless --allow-password-submit is explicitly provided',
+      'password is missing when password submission is approved',
+      'password is rejected after submission',
       'email-code prompt appears and no code is available',
+      'captcha or human verification appears',
       'any mutation-capable flow would require a click',
     ],
   };
@@ -280,6 +332,9 @@ async function main() {
     let emailSubmission = null;
     let postEmailState = null;
     let postEmailScreenshot = null;
+    let passwordSubmission = null;
+    let postPasswordState = null;
+    let postPasswordScreenshot = null;
     let portalState = detectPortalState(initialState);
 
     if (portalState.blocker === 'email_entry_required') {
@@ -290,11 +345,28 @@ async function main() {
       portalState = detectPortalState(postEmailState);
     }
 
-    if (portalState.state === 'portal_reached' && !portalState.blocker) {
+    if (portalState.blocker === 'password_required' && allowPasswordSubmit) {
+      if (!process.env.BM_PORTAL_PASSWORD) {
+        throw new Error('BM_PORTAL_PASSWORD missing while --allow-password-submit is enabled');
+      }
+      passwordSubmission = await submitPasswordStep(page, process.env.BM_PORTAL_PASSWORD, timeoutMs);
+      postPasswordState = await capturePageState(page);
+      postPasswordScreenshot = path.join(
+        screenshotDir,
+        postEmailState ? '03-post-password-submit.png' : '02-post-password-submit.png'
+      );
+      await page.screenshot({ path: postPasswordScreenshot, fullPage: true });
+      portalState = detectPortalState(postPasswordState);
+    }
+
+    if (verifyListings && portalState.state === 'logged_in' && portalState.blocker === 'logged_in') {
       await page.goto(listingsUrl, { waitUntil: 'domcontentloaded', timeout: timeoutMs }).catch(() => null);
       await waitForSettledPage(page, 2000);
       listings = await capturePageState(page);
-      listingsScreenshot = path.join(screenshotDir, postEmailState ? '03-listings-index.png' : '02-listings-index.png');
+      listingsScreenshot = path.join(
+        screenshotDir,
+        postPasswordState ? '04-listings-index.png' : postEmailState ? '03-listings-index.png' : '02-listings-index.png'
+      );
       await page.screenshot({ path: listingsScreenshot, fullPage: true });
       const listingsState = detectPortalState(listings);
       if (listingsState.state !== 'unknown') portalState = listingsState;
@@ -328,20 +400,32 @@ async function main() {
         attempted: Boolean(emailSubmission),
         submission: emailSubmission,
       },
+      passwordStep: {
+        approved: allowPasswordSubmit,
+        attempted: Boolean(passwordSubmission),
+        submission: passwordSubmission,
+      },
       portalState,
       initialState: checkpointForReport(initialState, initialScreenshot),
       postEmailState: checkpointForReport(postEmailState, postEmailScreenshot),
+      postPasswordState: checkpointForReport(postPasswordState, postPasswordScreenshot),
       listings: listings
         ? checkpointForReport(listings, listingsScreenshot)
         : null,
-      finalCheckpoint: checkpointForReport(listings || postEmailState || initialState, listingsScreenshot || postEmailScreenshot || initialScreenshot),
+      finalCheckpoint: checkpointForReport(
+        listings || postPasswordState || postEmailState || initialState,
+        listingsScreenshot || postPasswordScreenshot || postEmailScreenshot || initialScreenshot
+      ),
       responses: responseLog.slice(-20),
       requestFailures: requestFailures.slice(-20),
       handoffRequired:
         portalState.blocker === 'email_entry_required' ||
         portalState.blocker === 'password_required' ||
+        portalState.blocker === 'password_rejected' ||
         portalState.blocker === 'login_required' ||
-        portalState.blocker === 'email_code_required',
+        portalState.blocker === 'email_code_required' ||
+        portalState.blocker === 'captcha' ||
+        portalState.blocker === 'other',
     };
 
     fs.writeFileSync(runFile, `${JSON.stringify(result, null, 2)}\n`);

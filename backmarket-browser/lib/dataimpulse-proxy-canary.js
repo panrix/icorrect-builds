@@ -94,6 +94,18 @@ function looksLikeEmailEntryPrompt({ emailFieldCount = 0, passwordFieldCount = 0
   return emailFieldCount > 0 && passwordFieldCount === 0 && emailCodeFieldCount === 0;
 }
 
+function looksLikePasswordRejected({ title, bodyText }) {
+  return /incorrect password|wrong password|invalid password|password.*incorrect|password.*invalid|try again/i.test(
+    `${title || ''} ${bodyText || ''}`
+  );
+}
+
+function looksLikeCaptcha({ title, bodyText }) {
+  return /captcha|recaptcha|hcaptcha|verify you are human|verify that you are human|robot check|security challenge/i.test(
+    `${title || ''} ${bodyText || ''}`
+  );
+}
+
 function detectPortalState({
   url,
   title,
@@ -122,6 +134,16 @@ function detectPortalState({
     };
   }
 
+  if (looksLikeCaptcha({ title, bodyText })) {
+    return {
+      state: 'blocked',
+      blocker: 'captcha',
+      stopReason: 'Back Market presented a CAPTCHA or human-verification challenge.',
+      handoff: 'Stop here and request explicit operator guidance before continuing through any interactive challenge.',
+      pageMarker: snippet,
+    };
+  }
+
   if (
     emailCodeFieldCount > 0 ||
     /verification code|one-time code|6-digit code|enter the code|security code/i.test(bodyText || '')
@@ -131,6 +153,16 @@ function detectPortalState({
       blocker: 'email_code_required',
       stopReason: 'Back Market requested an email verification code.',
       handoff: 'Operator must supply the current Back Market email code or enable a mailbox-code path before any further canary step.',
+      pageMarker: snippet,
+    };
+  }
+
+  if (looksLikePasswordRejected({ title, bodyText })) {
+    return {
+      state: 'auth_required',
+      blocker: 'password_rejected',
+      stopReason: 'Back Market rejected the submitted password.',
+      handoff: 'Stop here and verify the stored password out of band before retrying.',
       pageMarker: snippet,
     };
   }
@@ -176,8 +208,8 @@ function detectPortalState({
     listingsMarkerCount > 0
   ) {
     return {
-      state: 'portal_reached',
-      blocker: null,
+      state: 'logged_in',
+      blocker: 'logged_in',
       stopReason: null,
       handoff: null,
       pageMarker: snippet,
@@ -218,5 +250,7 @@ module.exports = {
   textSnippet,
   looksLikePasswordPrompt,
   looksLikeEmailEntryPrompt,
+  looksLikePasswordRejected,
+  looksLikeCaptcha,
   detectPortalState,
 };

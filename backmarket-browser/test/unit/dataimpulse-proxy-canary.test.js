@@ -72,6 +72,17 @@ assert.deepStrictEqual(
 
 assert.deepStrictEqual(
   detectPortalState({
+    url: 'https://accounts.backmarket.co.uk/en-gb/password?x=1',
+    title: 'Password',
+    bodyText: 'Incorrect password. Try again.',
+    passwordFieldCount: 1,
+    loginFieldCount: 1,
+  }).blocker,
+  'password_rejected'
+);
+
+assert.deepStrictEqual(
+  detectPortalState({
     url: 'https://accounts.backmarket.co.uk/oauth2/auth?x=1',
     title: 'Sign in',
     bodyText: 'Sign in to continue',
@@ -92,12 +103,21 @@ assert.deepStrictEqual(
 
 assert.deepStrictEqual(
   detectPortalState({
+    url: 'https://accounts.backmarket.co.uk/en-gb/login?x=1',
+    title: 'Security Check',
+    bodyText: 'Please verify that you are human before continuing.',
+  }).blocker,
+  'captcha'
+);
+
+assert.deepStrictEqual(
+  detectPortalState({
     url: 'https://www.backmarket.co.uk/en-gb/dashboard/seller/listings',
     title: 'Listings',
     bodyText: 'Listings inventory dashboard',
     listingsMarkerCount: 1,
   }).state,
-  'portal_reached'
+  'logged_in'
 );
 
 console.log('dataimpulse-proxy-canary.test passed');
