@@ -4,6 +4,7 @@ const DEFAULT_ENV_FILE = '/home/ricky/config/api-keys/.env';
 const DEFAULT_PROXY_PORT = 823;
 const DEFAULT_PORTAL_URL = 'https://www.backmarket.co.uk/bo-seller';
 const DEFAULT_LISTINGS_URL = 'https://www.backmarket.co.uk/en-gb/dashboard/seller/listings';
+const DEFAULT_PORTAL_EMAIL = 'jarvis@icorrect.co.uk';
 
 function loadEnvFile(filePath = DEFAULT_ENV_FILE, env = process.env) {
   const content = fs.readFileSync(filePath, 'utf8');
@@ -84,10 +85,21 @@ function textSnippet(value, max = 280) {
     .slice(0, max);
 }
 
+function looksLikePasswordPrompt({ title, bodyText, passwordFieldCount = 0 }) {
+  if (passwordFieldCount > 0) return true;
+  return /password/i.test(`${title || ''} ${bodyText || ''}`);
+}
+
+function looksLikeEmailEntryPrompt({ emailFieldCount = 0, passwordFieldCount = 0, emailCodeFieldCount = 0 }) {
+  return emailFieldCount > 0 && passwordFieldCount === 0 && emailCodeFieldCount === 0;
+}
+
 function detectPortalState({
   url,
   title,
   bodyText,
+  emailFieldCount = 0,
+  passwordFieldCount = 0,
   loginFieldCount = 0,
   emailCodeFieldCount = 0,
   listingsMarkerCount = 0,
@@ -119,6 +131,26 @@ function detectPortalState({
       blocker: 'email_code_required',
       stopReason: 'Back Market requested an email verification code.',
       handoff: 'Operator must supply the current Back Market email code or enable a mailbox-code path before any further canary step.',
+      pageMarker: snippet,
+    };
+  }
+
+  if (looksLikePasswordPrompt({ title, bodyText, passwordFieldCount })) {
+    return {
+      state: 'auth_required',
+      blocker: 'password_required',
+      stopReason: 'Back Market advanced past email entry and is now requesting the password.',
+      handoff: 'Stop here unless a later task explicitly authorizes password entry with BM_PORTAL_PASSWORD available.',
+      pageMarker: snippet,
+    };
+  }
+
+  if (looksLikeEmailEntryPrompt({ emailFieldCount, passwordFieldCount, emailCodeFieldCount })) {
+    return {
+      state: 'auth_required',
+      blocker: 'email_entry_required',
+      stopReason: 'Back Market is requesting the seller email address.',
+      handoff: 'Submit only the approved seller email, then stop again at the next auth blocker.',
       pageMarker: snippet,
     };
   }
@@ -176,6 +208,7 @@ module.exports = {
   DEFAULT_PROXY_PORT,
   DEFAULT_PORTAL_URL,
   DEFAULT_LISTINGS_URL,
+  DEFAULT_PORTAL_EMAIL,
   loadEnvFile,
   normalizeProxyServer,
   extractProxyCountryHint,
@@ -183,5 +216,7 @@ module.exports = {
   redactUrl,
   buildRunId,
   textSnippet,
+  looksLikePasswordPrompt,
+  looksLikeEmailEntryPrompt,
   detectPortalState,
 };

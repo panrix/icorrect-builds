@@ -52,8 +52,29 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(
   detectPortalState({
     url: 'https://accounts.backmarket.co.uk/oauth2/auth?x=1',
+    title: 'Log in',
+    bodyText: 'Who goes there? Email Next',
+    emailFieldCount: 1,
+  }).blocker,
+  'email_entry_required'
+);
+
+assert.deepStrictEqual(
+  detectPortalState({
+    url: 'https://accounts.backmarket.co.uk/en-gb/password?x=1',
+    title: 'Password',
+    bodyText: 'Enter your password to continue',
+    passwordFieldCount: 1,
+    loginFieldCount: 1,
+  }).blocker,
+  'password_required'
+);
+
+assert.deepStrictEqual(
+  detectPortalState({
+    url: 'https://accounts.backmarket.co.uk/oauth2/auth?x=1',
     title: 'Sign in',
-    bodyText: 'Sign in with your email address and password',
+    bodyText: 'Sign in to continue',
     loginFieldCount: 2,
   }).blocker,
   'login_required'

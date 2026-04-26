@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const {
   DEFAULT_ENV_FILE,
+  DEFAULT_PORTAL_EMAIL,
   DEFAULT_PORTAL_URL,
   DEFAULT_LISTINGS_URL,
   loadEnvFile,
@@ -30,9 +31,28 @@ function ensureDir(dirPath) {
   return dirPath;
 }
 
+async function firstVisible(locator) {
+  const count = await locator.count().catch(() => 0);
+  for (let index = 0; index < count; index += 1) {
+    const candidate = locator.nth(index);
+    if (await candidate.isVisible().catch(() => false)) return candidate;
+  }
+  return count > 0 ? locator.first() : null;
+}
+
+async function waitForSettledPage(page, quietMs = 2000) {
+  await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
+  await page.waitForTimeout(quietMs);
+}
+
 async function capturePageState(page) {
   const bodyText = await page.textContent('body').catch(() => '');
   const title = await page.title().catch(() => '');
+  const emailFieldCount = await page
+    .locator('input[type="email"], input[autocomplete="username"], input[name="email" i], input[name*="email" i]')
+    .count()
+    .catch(() => 0);
+  const passwordFieldCount = await page.locator('input[type="password"]').count().catch(() => 0);
   const loginFieldCount = await page
     .locator('input[type="email"], input[autocomplete="username"], input[name*="email" i], input[type="password"]')
     .count()
@@ -46,9 +66,74 @@ async function capturePageState(page) {
     url: page.url(),
     title,
     bodyText,
+    emailFieldCount,
+    passwordFieldCount,
     loginFieldCount,
     emailCodeFieldCount,
     listingsMarkerCount,
+  };
+}
+
+function checkpointForReport(state, screenshot) {
+  if (!state) return null;
+  return {
+    url: redactUrl(state.url),
+    title: state.title,
+    emailFieldCount: state.emailFieldCount,
+    passwordFieldCount: state.passwordFieldCount,
+    loginFieldCount: state.loginFieldCount,
+    emailCodeFieldCount: state.emailCodeFieldCount,
+    listingsMarkerCount: state.listingsMarkerCount,
+    screenshot,
+  };
+}
+
+async function submitEmailOnlyStep(page, email, timeoutMs) {
+  const beforeUrl = page.url();
+  const emailInput = await firstVisible(
+    page.locator('input[type="email"], input[autocomplete="username"], input[name="email" i], input[name*="email" i]')
+  );
+  if (!emailInput) {
+    return {
+      attempted: true,
+      submitted: false,
+      email,
+      reason: 'email_input_not_found',
+      beforeUrl: redactUrl(beforeUrl),
+      afterUrl: redactUrl(page.url()),
+    };
+  }
+
+  await emailInput.fill('');
+  await emailInput.fill(email);
+
+  const form = page.locator('form').filter({ has: emailInput }).first();
+  const submitButton =
+    (await firstVisible(form.locator('button[type="submit"], input[type="submit"]'))) ||
+    (await firstVisible(form.getByRole('button', { name: /next|continue|sign in|log in/i }))) ||
+    (await firstVisible(page.getByRole('button', { name: /next|continue|sign in|log in/i })));
+
+  if (submitButton) {
+    await Promise.allSettled([
+      page.waitForURL(url => url.toString() !== beforeUrl, { timeout: Math.min(timeoutMs, 15000) }),
+      submitButton.click(),
+    ]);
+  } else {
+    await Promise.allSettled([
+      page.waitForURL(url => url.toString() !== beforeUrl, { timeout: Math.min(timeoutMs, 15000) }),
+      emailInput.press('Enter'),
+    ]);
+  }
+
+  await waitForSettledPage(page, 2500);
+
+  return {
+    attempted: true,
+    submitted: true,
+    email,
+    reason: 'email_submitted',
+    beforeUrl: redactUrl(beforeUrl),
+    afterUrl: redactUrl(page.url()),
   };
 }
 
@@ -59,6 +144,7 @@ async function main() {
   const proxySummary = summarizeProxyEnv(process.env);
   const portalUrl = argValue('--portal-url', DEFAULT_PORTAL_URL);
   const listingsUrl = argValue('--listings-url', DEFAULT_LISTINGS_URL);
+  const portalEmail = argValue('--portal-email', DEFAULT_PORTAL_EMAIL);
   const headless = !hasFlag('--headful');
   const timeoutMs = Number(argValue('--timeout-ms', process.env.BM_PORTAL_TIMEOUT_MS || 90000));
   const lockPath = argValue('--lock', process.env.BM_LOCK_PATH || defaultLockPath());
@@ -86,6 +172,7 @@ async function main() {
     envKeysPresent: proxySummary.envKeysPresent,
     portalUrl,
     listingsUrl,
+    portalEmail,
     profileDir,
     screenshotDir,
     runFile,
@@ -94,7 +181,8 @@ async function main() {
     hardStops: [
       'missing PROXY_SERVER / PROXY_USER / PROXY_PASS',
       'missing Chromium binary',
-      'login page appears and credentials are unavailable or not approved',
+      'email-entry page appears and the requested seller email is unavailable or not approved',
+      'password prompt appears after email submission',
       'email-code prompt appears and no code is available',
       'any mutation-capable flow would require a click',
     ],
@@ -181,23 +269,32 @@ async function main() {
       waitUntil: 'domcontentloaded',
       timeout: timeoutMs,
     });
-    await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
-    await page.waitForTimeout(3000);
+    await waitForSettledPage(page, 3000);
 
-    const landing = await capturePageState(page);
-    const landingScreenshot = path.join(screenshotDir, '01-landing-or-login.png');
-    await page.screenshot({ path: landingScreenshot, fullPage: true });
+    const initialState = await capturePageState(page);
+    const initialScreenshot = path.join(screenshotDir, '01-initial-state.png');
+    await page.screenshot({ path: initialScreenshot, fullPage: true });
 
     let listings = null;
     let listingsScreenshot = null;
-    let portalState = detectPortalState(landing);
+    let emailSubmission = null;
+    let postEmailState = null;
+    let postEmailScreenshot = null;
+    let portalState = detectPortalState(initialState);
+
+    if (portalState.blocker === 'email_entry_required') {
+      emailSubmission = await submitEmailOnlyStep(page, portalEmail, timeoutMs);
+      postEmailState = await capturePageState(page);
+      postEmailScreenshot = path.join(screenshotDir, '02-post-email-submit.png');
+      await page.screenshot({ path: postEmailScreenshot, fullPage: true });
+      portalState = detectPortalState(postEmailState);
+    }
 
     if (portalState.state === 'portal_reached' && !portalState.blocker) {
       await page.goto(listingsUrl, { waitUntil: 'domcontentloaded', timeout: timeoutMs }).catch(() => null);
-      await page.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {});
-      await page.waitForTimeout(2000);
+      await waitForSettledPage(page, 2000);
       listings = await capturePageState(page);
-      listingsScreenshot = path.join(screenshotDir, '02-listings-index.png');
+      listingsScreenshot = path.join(screenshotDir, postEmailState ? '03-listings-index.png' : '02-listings-index.png');
       await page.screenshot({ path: listingsScreenshot, fullPage: true });
       const listingsState = detectPortalState(listings);
       if (listingsState.state !== 'unknown') portalState = listingsState;
@@ -222,33 +319,29 @@ async function main() {
       },
       initialNavigation: {
         requestedUrl: redactUrl(portalUrl),
-        finalUrl: redactUrl(landing.url),
+        finalUrl: redactUrl(initialState.url),
         mainResponseStatus: gotoResponse ? gotoResponse.status() : null,
-        title: landing.title,
+        title: initialState.title,
+      },
+      emailStep: {
+        requestedEmail: portalEmail,
+        attempted: Boolean(emailSubmission),
+        submission: emailSubmission,
       },
       portalState,
-      landing: {
-        url: redactUrl(landing.url),
-        title: landing.title,
-        loginFieldCount: landing.loginFieldCount,
-        emailCodeFieldCount: landing.emailCodeFieldCount,
-        listingsMarkerCount: landing.listingsMarkerCount,
-        screenshot: landingScreenshot,
-      },
+      initialState: checkpointForReport(initialState, initialScreenshot),
+      postEmailState: checkpointForReport(postEmailState, postEmailScreenshot),
       listings: listings
-        ? {
-            url: redactUrl(listings.url),
-            title: listings.title,
-            loginFieldCount: listings.loginFieldCount,
-            emailCodeFieldCount: listings.emailCodeFieldCount,
-            listingsMarkerCount: listings.listingsMarkerCount,
-            screenshot: listingsScreenshot,
-          }
+        ? checkpointForReport(listings, listingsScreenshot)
         : null,
+      finalCheckpoint: checkpointForReport(listings || postEmailState || initialState, listingsScreenshot || postEmailScreenshot || initialScreenshot),
       responses: responseLog.slice(-20),
       requestFailures: requestFailures.slice(-20),
       handoffRequired:
-        portalState.blocker === 'login_required' || portalState.blocker === 'email_code_required',
+        portalState.blocker === 'email_entry_required' ||
+        portalState.blocker === 'password_required' ||
+        portalState.blocker === 'login_required' ||
+        portalState.blocker === 'email_code_required',
     };
 
     fs.writeFileSync(runFile, `${JSON.stringify(result, null, 2)}\n`);
