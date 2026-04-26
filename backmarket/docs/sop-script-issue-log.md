@@ -16,7 +16,7 @@ Use this format for each entry:
 - **SOP:** `06` — Listing on Back Market
 - **Issue found:** During BM 1527 review, Ricky spotted that the candidate/device spec is `512GB` but scraper/matching evidence appeared to be using or mixing adjacent `256GB` product/page data. This makes the BM 1527 card suspect and exposes a broader class of pricing QA risk.
 - **Script issue:** Listing-card generation can validate SKU/product/listing identity from registry/catalog, then accept scraped market prices without proving the live scraped page, selected pickers, product ID, and grade ladder are reconciled to the exact candidate spec: model, chip, RAM, SSD, colour, keyboard/layout where relevant, and grade.
-- **Resolution:** Open. BM 1527 is paused. Active read-only investigations are running: immediate mismatch root cause (`vivid-gulf`) and reconciled scrape URL/target verification design (`sharp-dune`). Long-term fix must hard-fail cards when scrape target reconciliation fails.
+- **Resolution:** Open. BM 1527 is paused. Active read-only investigations are running: immediate mismatch root cause (`vivid-gulf`) and reconciled scrape URL/target verification design (`sharp-dune`). Long-term fix is upstream: canonical SKU/spec must generate the correct reconciled scrape target so adjacent variants are not used. Hard-fail behavior is only a safety net while the upstream matching is corrected.
 - **Updated:**
   - `/home/ricky/builds/backmarket/reports/qa-issue-reconciled-scrape-target-2026-04-26.md`
 

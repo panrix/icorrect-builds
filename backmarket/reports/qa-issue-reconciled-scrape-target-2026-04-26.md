@@ -65,9 +65,11 @@ Missing QA gate:
 
 ## Required Long-Term Fix
 
-Create a **fully reconciled scrape target contract** for SOP 06.
+Fix the scraper/matching system **upstream** so the normal path generates the correct Back Market scrape target in the first place.
 
-Before accepting market prices, the scraper/card generator must assert:
+The goal is not to rely on a downstream hard-fail as the solution. A hard-fail is only a temporary safety net while the upstream matching is being corrected.
+
+The durable fix should make the canonical candidate spec drive the scrape target deterministically:
 
 - canonical candidate spec from Monday/QC SKU
 - resolved BM catalog product/listing target
@@ -77,26 +79,33 @@ Before accepting market prices, the scraper/card generator must assert:
 - selected SSD/RAM/colour/CPU-GPU/layout all match candidate
 - grade-specific price extraction is scoped to the reconciled product variant
 
-If any assertion fails:
+Desired steady state:
 
-- hard-fail the product card
-- do not calculate market/P&L from that scrape
-- do not ask Ricky for approval
+- the scraper opens the right model/spec/grade page automatically
+- adjacent variants such as 256GB vs 512GB are never used as substitute market evidence
+- pricing data is generated from the reconciled target, not corrected after the fact
+- fallback/fail states become rare exception handling, not the operating model
+
+If reconciliation fails during development or because Back Market changes the page:
+
+- pause the card as a safety measure
 - report the exact mismatch layer
+- fix the resolver/scrape-target generation upstream before trusting that product family again
 
 ## Acceptance Criteria
 
 A fix is not complete until:
 
-- BM 1527 regression case proves a 512GB candidate cannot consume 256GB market evidence.
-- The card output includes a scrape reconciliation block showing expected vs observed spec.
-- `list-device.js` dry-run/card generation refuses pricing when reconciled scrape checks fail.
+- BM 1527 regression case proves a 512GB candidate resolves directly to the correct 512GB scrape target.
+- The generated scrape URL/target is derived from the canonical SKU/spec, not from fuzzy sibling lineage.
+- The card output includes a scrape reconciliation block showing expected vs observed spec as evidence, not as the primary fix.
+- `list-device.js` dry-run/card generation gets correct pricing from the reconciled target for BM 1527.
 - Regression tests/fixtures cover at least:
-  - correct 512GB match
-  - 512GB candidate with 256GB scrape/page mismatch
-  - sibling variant/product ID mismatch
-  - grade ladder extracted from wrong selected variant
-- SOP 06 documentation says pricing is invalid unless scrape target reconciliation passes.
+  - correct 512GB target generation
+  - 512GB candidate must not use a 256GB scrape/page
+  - sibling variant/product ID separation
+  - grade ladder extracted from the selected reconciled variant
+- SOP 06 documentation says pricing is valid only when generated from the reconciled target.
 
 ## Current Actions
 
