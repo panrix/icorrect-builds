@@ -1,0 +1,51 @@
+{
+  "generated_at": "2026-04-26T12:30:00.000Z",
+  "source_capture_file": "browser-harness-pilot",
+  "captured_via": "browser-harness CDP attach to user's signed-in Chrome on 127.0.0.1:9333 (Mac, GUI)",
+  "source_active_listings_csv": "/home/ricky/builds/backmarket/data/backmarket-active-listings-2026-04-26.csv",
+  "operator": "claude-code (browser-harness pilot)",
+  "records": [
+    {
+      "listing_id": "6709048",
+      "listing_uuid": "2c13573c-8254-4610-9cd4-bb5cc5730246",
+      "back_market_id": "871170",
+      "sku": "MBP.A2338.M1.8GB.256GB.Silver.Fair",
+      "product_id": "0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "seller_portal_url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10&sku=MBP.A2338.M1.8GB.256GB.Silver.Fair",
+      "frontend_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985?l=12",
+      "captured_at": "2026-04-26T12:28:30.000Z",
+      "verification_status": "captured_spec_match",
+      "spec_snapshot": {
+        "page_title": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English | Back Market",
+        "h1": "MacBook Pro (M1 series)\nQWERTY - English • 13\" • Apple M1 8-core - 8-core GPU • 256 GB • RAM 8GB • Silver",
+        "portal_row_text": "MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English | SKU: MBP.A2338.M1.8GB.256GB.Silver.Fair | Fair | Archive listing | Units | GB | More than 5 sellers",
+        "active_listing_export_status": "Online",
+        "active_listing_export_quantity": "1",
+        "active_listing_export_price_gbp": "450.00",
+        "active_listing_export_min_price_gbp": "420.00",
+        "active_listing_export_listing_uuid": "2c13573c-8254-4610-9cd4-bb5cc5730246",
+        "active_listing_export_back_market_id": "871170",
+        "sku_spec_check": [
+          {"field": "model_family", "expected": "MBP", "evidence": "h1=MacBook Pro (M1 series); spec.Model=MacBook Pro", "ok": true},
+          {"field": "manufacturer_ref", "expected": "A2338", "evidence": "spec.Manufacturer Ref=A2338", "ok": true},
+          {"field": "chip", "expected": "M1", "evidence": "spec.Processor=Apple M1 8-core", "ok": true},
+          {"field": "ram", "expected": "8GB", "evidence": "spec.Memory (GB)=8 GB; h1=RAM 8GB", "ok": true},
+          {"field": "storage", "expected": "256GB", "evidence": "spec.Storage (GB)=256 GB; spec.SSD storage capacity (GB)=256", "ok": true},
+          {"field": "colour", "expected": "Silver", "evidence": "spec.Colour=Silver; h1=Silver", "ok": true},
+          {"field": "grade", "expected": "Fair", "evidence": "portal_row=Fair; public page Condition selector includes Fair", "ok": true}
+        ],
+        "sku_spec_mismatches": [],
+        "screenshots": [
+          "/tmp/bm-1.png",
+          "/tmp/bm-2.png",
+          "/tmp/bm-4.png"
+        ]
+      },
+      "source": "backmarket-active-listings-export+browser-harness-verification",
+      "notes": [
+        "Real-browser capture: attached to user's signed-in Chrome via CDP on :9333. No DataImpulse, no headless, no Cloudflare retries — challenge cleared automatically in <8 seconds.",
+        "Public-page Cloudflare challenge fires on first hit to /en-gb/p/<slug>/<uuid>. Real session cleared it silently within ~6s. Never required interaction."
+      ]
+    }
+  ]
+}
