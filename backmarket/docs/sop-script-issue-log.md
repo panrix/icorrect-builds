@@ -11,6 +11,21 @@ Use this format for each entry:
 
 ---
 
+## 2026-04-26 — Return/refund relist invariant
+
+- **SOP:** `12` — Returns & Aftercare; `05` — QC & Final Grade; `06` — Listing
+- **Issue found:** Return/refund devices may re-enter the normal repair/QC/listing path, but must not be treated as new physical BM device identities.
+- **Script issue:** Read-only queue output did not surface return/refund markers like `RTN > REFUND` as an operator caution before relisting.
+- **Resolution:** documented the invariant that one physical BM device maps to one canonical BM Devices item through return/refund cycles, and added non-blocking return/relist caution metadata to `current-queue-readonly.js`.
+- **Updated:**
+  - `sops/12-returns-aftercare.md`
+  - `sops/05-qc-final-grade.md`
+  - `sops/06-listing.md`
+  - `scripts/current-queue-readonly.js`
+  - `test/unit/current-queue-readonly.test.js`
+
+---
+
 ## 2026-04-26 — QC SKU handoff boundary
 
 - **SOP:** `05` — QC & Final Grade Assignment; `06` — Listing on Back Market

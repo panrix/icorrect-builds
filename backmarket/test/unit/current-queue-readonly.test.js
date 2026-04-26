@@ -6,6 +6,7 @@ const {
   columnText,
   buildSpecs,
   extractModelNumber,
+  detectReturnRelistCaution,
 } = require('../../scripts/current-queue-readonly');
 
 const plan = buildPlan();
@@ -66,5 +67,20 @@ const bmWithNameFallback = {
 };
 assert.equal(buildSpecs(main, bmWithNameFallback).model, 'A2338');
 assert.equal(classifyRow(main, bmWithNameFallback).classification, 'READY_FOR_LISTING_PROPOSAL');
+
+assert.deepEqual(detectReturnRelistCaution('BM 1541 *RTN > REFUND'), {
+  return_relist_caution: true,
+  return_relist_reason: 'Return/refund relist marker detected; verify original BM Devices linkage/reset before SOP 06 live listing',
+});
+assert.equal(detectReturnRelistCaution('normal BM item').return_relist_caution, false);
+
+const returnedMain = { ...main, name: 'BM 1541 *RTN > REFUND' };
+const missingSkuReturned = classifyRow(returnedMain, { ...bm, column_values: bm.column_values.filter(c => c.id !== 'text89') });
+assert.equal(missingSkuReturned.classification, 'QC_SKU_MISSING');
+assert.equal(missingSkuReturned.return_relist_caution, true);
+
+const readyReturned = classifyRow(returnedMain, bm);
+assert.equal(readyReturned.classification, 'READY_FOR_LISTING_PROPOSAL');
+assert.equal(readyReturned.return_relist_caution, true);
 
 console.log('current-queue-readonly.test passed');

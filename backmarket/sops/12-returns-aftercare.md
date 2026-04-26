@@ -25,6 +25,22 @@ Until Phase 4.9 ships, incoming returns are detected manually via BM seller port
 
 Phase 4.9 automates steps 1-4 by polling the BM seller portal every 6 hours, parsing the return, and posting a Telegram card for Ferrari/Ricky confirmation before applying the Monday mutations. RTN data model: **original BM Devices item is reused** through the full return → QC → relist cycle (preserves cost history, matches Ricky's "one BM item" pattern).
 
+## Return/refund relist invariant
+
+**One physical BM device = one canonical BM Devices item.**
+
+Return/refund cycles do not create a replacement BM Devices identity for the same physical device. A returned/refunded device re-enters the normal Main Board repair/QC/listing path, but the Main workflow item must remain linked back to the original BM Devices item.
+
+Before any relist:
+
+1. Confirm the Main Board return/refund workflow item links to the original BM Devices item through the BM Devices `board_relation` back-link.
+2. Confirm stale sale/listing fields on that BM Devices item were reset according to this SOP.
+3. Re-run repair/QC as needed.
+4. Re-run SOP 05 final grade + QC SKU handoff.
+5. Relist only through SOP 06 after stored BM Devices `text89` validates against the expected SKU.
+
+Queue/reporting scripts may flag return/refund names such as `RTN > REFUND` as a non-blocking caution. That caution does not replace QC/readiness classification; it means the operator must verify original BM Devices linkage/reset before live listing.
+
 ---
 
 ## 1. Buyer Return Request

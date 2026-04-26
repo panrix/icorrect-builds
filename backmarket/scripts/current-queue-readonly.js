@@ -93,6 +93,8 @@ function buildPlan() {
       commercial_gate: 'pass | fail | unknown',
       clearance_reason: 'string',
       block_reason: 'string',
+      return_relist_caution: 'boolean',
+      return_relist_reason: 'string',
       evidence: 'array'
     },
     nextRequiredApproval: EXECUTE_READ ? null : 'approval to run --execute-read for Monday read-only queue pull'
@@ -122,6 +124,26 @@ function extractModelNumber(...values) {
   return '';
 }
 
+
+function detectReturnRelistCaution(...values) {
+  const haystack = values.map(v => String(v || '')).join(' ').toLowerCase();
+  const patterns = [
+    /\brtn\s*>\s*refund\b/i,
+    /\brtn\b.*\brefund\b/i,
+    /\bbm\s*rtn\b/i,
+    /\bbm\s*rfd\b/i,
+    /\breturn\s*refund\b/i,
+    /\breturned\b/i,
+    /\brefund(?:ed)?\b/i,
+  ];
+  const matched = patterns.find(re => re.test(haystack));
+  if (!matched) return { return_relist_caution: false, return_relist_reason: '' };
+  return {
+    return_relist_caution: true,
+    return_relist_reason: 'Return/refund relist marker detected; verify original BM Devices linkage/reset before SOP 06 live listing',
+  };
+}
+
 function buildSpecs(mainItem, bmDevice) {
   if (!bmDevice) return null;
   const modelColumn = columnText(bmDevice, 'text');
@@ -149,21 +171,22 @@ function missingSpecFields(specs) {
 
 function classifyRow(mainItem, bmDevice) {
   const evidence = [];
+  const caution = detectReturnRelistCaution(mainItem?.name, bmDevice?.name);
   const listingId = bmDevice ? columnText(bmDevice, 'text_mkyd4bx3') : '';
   const storedSku = bmDevice ? columnText(bmDevice, 'text89') : '';
   const grade = columnText(mainItem, 'status_2_Mjj4GJNQ');
 
   if (!bmDevice) {
-    return { classification: 'MISSING_BM_DEVICE_RELATION', block_reason: 'Missing BM Devices relation', evidence, expectedSku: null, storedSku: null };
+    return { classification: 'MISSING_BM_DEVICE_RELATION', block_reason: 'Missing BM Devices relation', evidence, expectedSku: null, storedSku: null, ...caution };
   }
   if (!grade) {
-    return { classification: 'MISSING_FINAL_GRADE', block_reason: 'Missing final grade', evidence, expectedSku: null, storedSku };
+    return { classification: 'MISSING_FINAL_GRADE', block_reason: 'Missing final grade', evidence, expectedSku: null, storedSku, ...caution };
   }
 
   const specs = buildSpecs(mainItem, bmDevice);
   const missing = missingSpecFields(specs);
   if (missing.length) {
-    return { classification: 'MISSING_SPEC_FIELD', block_reason: `Missing spec field(s): ${missing.join(', ')}`, evidence, expectedSku: null, storedSku, missingFields: missing };
+    return { classification: 'MISSING_SPEC_FIELD', block_reason: `Missing spec field(s): ${missing.join(', ')}`, evidence, expectedSku: null, storedSku, missingFields: missing, ...caution };
   }
 
   const expectedSku = constructBmSku(specs, grade);
@@ -179,6 +202,7 @@ function classifyRow(mainItem, bmDevice) {
       expectedSku,
       storedSku: validation.storedSku,
       missingFields: [],
+      ...caution,
     };
   }
 
@@ -191,6 +215,7 @@ function classifyRow(mainItem, bmDevice) {
     expectedSku,
     storedSku,
     missingFields: [],
+    ...caution,
   };
 }
 
@@ -280,6 +305,8 @@ async function executeRead() {
       clearance_reason: classification.clearance_reason || '',
       block_reason: classification.block_reason || '',
       missing_spec_fields: classification.missingFields || [],
+      return_relist_caution: !!classification.return_relist_caution,
+      return_relist_reason: classification.return_relist_reason || '',
       evidence: classification.evidence || []
     };
   });
@@ -324,6 +351,7 @@ module.exports = {
   buildSpecs,
   missingSpecFields,
   extractModelNumber,
+  detectReturnRelistCaution,
   MAIN_BOARD,
   BM_DEVICES_BOARD,
   TO_LIST_GROUP,

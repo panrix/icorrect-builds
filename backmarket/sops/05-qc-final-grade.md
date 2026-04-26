@@ -60,6 +60,7 @@ The assigned grade is the **worst-of** the pre-grades (i.e. if Top Case is Good 
    node scripts/qc-generate-sku.js --item <mainBoardItemId> --write --json
    ```
 10. Device is eligible for listing (SOP 06) only once stored BM Devices `text89` matches the expected SKU.
+11. For return/refund relists (`RTN > REFUND`, returned, refund markers), verify the Main workflow is linked to the **original** BM Devices item and that sale/listing reset steps from SOP 12 were completed before treating QC handoff as complete.
 
 ---
 

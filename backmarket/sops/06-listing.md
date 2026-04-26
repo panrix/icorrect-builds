@@ -97,6 +97,7 @@ Validation rules:
 - If `text89` is missing → **BLOCK** as QC handoff issue (`QC_SKU_MISSING`).
 - If stored SKU differs from expected → **BLOCK** as QC handoff issue (`QC_SKU_MISMATCH`).
 - Normal live listing must not auto-repair or create the SKU. Transitional backfill requires an explicitly named flag and separate approval.
+- If the item name indicates a return/refund relist (`RTN > REFUND`, returned, refund markers), verify it is still linked to the original BM Devices item and that SOP 12 reset steps are complete before live listing.
 
 ---
 
