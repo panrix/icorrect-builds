@@ -1,0 +1,18 @@
+{
+  "name": "backmarket-browser-ops",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Controlled Back Market seller-portal browser ops runtime for SKU fixes and CS monitoring.",
+  "type": "commonjs",
+  "scripts": {
+    "test": "node test/unit/selector-map.test.js && node test/unit/fix-sku.test.js && node test/unit/cs-monitor.test.js && node test/unit/mailbox-code.test.js && node test/unit/mailbox-imap-contract.test.js && node test/unit/mailbox-fetcher.test.js && node test/unit/imap-metadata-fetcher.test.js && node test/unit/runtime-lock.test.js && node test/unit/harness-check.test.js && node test/unit/harness-doctor.test.js && node test/unit/vps-cdp-harness.test.js",
+    "validate:selectors": "node scripts/validate-selectors.js",
+    "fix-sku:dry-run": "node scripts/run-fix-sku.js --dry-run",
+    "cs-monitor:fixture": "node scripts/run-cs-monitor.js --fixture",
+    "harness:about-blank:plan": "node scripts/vps-cdp-about-blank-check.js --plan",
+    "harness:about-blank": "node scripts/vps-cdp-about-blank-check.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1"
+  }
+}

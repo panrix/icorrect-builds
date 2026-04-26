@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "updated": "2026-04-25",
+  "pages": {
+    "listings": {
+      "navListings": { "text": "Listings", "required": true },
+      "pageTitle": { "text": "Your listings", "required": true },
+      "filterButton": { "text": "Filter", "required": true },
+      "filterSkuField": { "label": "SKU", "required": true },
+      "filterUuidField": { "label": "UUID", "required": false },
+      "applyFiltersButton": { "text": "Apply filters", "required": true },
+      "underlinedListingName": { "role": "link", "required": true }
+    },
+    "listingDetail": {
+      "pageTitle": { "text": "Listing detail", "required": true },
+      "productId": { "textPrefix": "product_id:", "required": true },
+      "appearance": { "textPrefix": "Appearance:", "required": true },
+      "skuInput": { "label": "SKU", "required": true },
+      "saveButton": { "text": "Save", "required": true }
+    },
+    "customerCare": {
+      "navCustomerCare": { "text": "Customer Care", "required": true },
+      "pageTitle": { "text": "Customer care", "required": true },
+      "openTasksTab": { "text": "Open tasks", "required": true },
+      "allRequestsTab": { "text": "All requests", "required": true },
+      "statusColumn": { "text": "Status", "required": true },
+      "taskColumn": { "text": "Task", "required": true }
+    }
+  }
+}

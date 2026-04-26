@@ -1,0 +1,12 @@
+const assert = require('assert');
+const { runHarnessDoctor, summariseDoctor } = require('../../lib/harness-doctor');
+const missing = runHarnessDoctor('/definitely/not/browser-harness');
+assert.equal(missing.ok, false);
+assert.equal(missing.reason, 'missing_binary');
+assert.equal(missing.livePortalAccess, false);
+const summary = summariseDoctor({ ok: true, exists: true, stdoutPreview: 'Daemon OK Browser OK', stderrPreview: '' });
+assert.equal(summary.ok, true);
+assert.equal(summary.daemonMentioned, true);
+assert.equal(summary.browserMentioned, true);
+assert.equal(summary.livePortalAccess, false);
+console.log('harness-doctor.test passed');
