@@ -47,6 +47,7 @@ const BM_DEVICE_COLUMNS = [
   'status8__1',        // GPU
   'numeric',           // purchase price
   'numeric_mm1mgcgn',  // total fixed cost
+  'lookup',            // BM Devices mirror/display name used for A-number fallback
 ];
 
 function usage() {
@@ -109,16 +110,32 @@ function linkedIds(item) {
   return rel?.linked_item_ids || [];
 }
 
+function extractModelNumber(...values) {
+  for (const value of values) {
+    const text = String(value || '').trim();
+    if (!text) continue;
+    const direct = text.match(/^A\d{4}$/i);
+    if (direct) return direct[0].toUpperCase();
+    const embedded = text.match(/\bA\d{4}\b/i);
+    if (embedded) return embedded[0].toUpperCase();
+  }
+  return '';
+}
+
 function buildSpecs(mainItem, bmDevice) {
   if (!bmDevice) return null;
+  const modelColumn = columnText(bmDevice, 'text');
+  const lookupDisplay = columnText(bmDevice, 'lookup');
+  const deviceName = lookupDisplay || bmDevice.name || mainItem?.name || '';
+  const model = extractModelNumber(modelColumn, lookupDisplay, bmDevice.name, mainItem?.name);
   return {
-    model: columnText(bmDevice, 'text'),
+    model,
     ram: columnText(bmDevice, 'status__1'),
     ssd: columnText(bmDevice, 'color2'),
     cpu: columnText(bmDevice, 'status7__1'),
     gpu: columnText(bmDevice, 'status8__1'),
     colour: columnText(mainItem, 'status8'),
-    deviceName: bmDevice.name || '',
+    deviceName,
   };
 }
 
@@ -306,6 +323,7 @@ module.exports = {
   classifyRow,
   buildSpecs,
   missingSpecFields,
+  extractModelNumber,
   MAIN_BOARD,
   BM_DEVICES_BOARD,
   TO_LIST_GROUP,
