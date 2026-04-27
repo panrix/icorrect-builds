@@ -256,3 +256,41 @@ Validated examples after correction:
 - `iPhone 12 Mini Battery` -> linked part `iPhone 12 Mini Battery`, stock `0`
 
 Also corrected product search so it does not rely only on the exact raw string. Example: `MacBook Air 13 M1 A2337 Screen` now finds `MacBook Air 13 'M1' A2337 Screen` by falling back to model token lookup (`A2337`) and local scoring.
+
+---
+
+## Confirmed Monday Update Format — 2026-04-27
+
+Live Monday evidence confirms the pre-repair form posts updates using this heading:
+
+```text
+CLIENT FORM RESPONSE SUMMARY
+```
+
+Observed format:
+
+```text
+CLIENT FORM RESPONSE SUMMARY
+
+Issue Reported:
+[customer’s issue description]
+
+Additional Information:
+Diagnosed by Apple: [answer]
+Device purchased: [answer]
+Previous repairs: [answer]
+Other issues noticed: [answer]
+Data backed up: [answer]
+Data important/preserve if possible: [answer]
+System update consent: [answer]
+Passcode provided: [Yes/No]
+```
+
+Live example checked:
+
+- Monday item: `#1219 - Kitty Walker`
+- Update created: `2026-04-27T11:45:33Z`
+
+V0 rule for booked appointments:
+
+> Check for the `CLIENT FORM RESPONSE SUMMARY` update on the Monday item, then verify gaps/mismatches in person. Do not re-collect the whole form from scratch unless the update is missing or incomplete.
