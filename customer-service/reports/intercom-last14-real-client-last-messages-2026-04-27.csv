@@ -1,0 +1,261 @@
+verdict,classification,conversation_id,intercom_url,customer_name,customer_email,subject,waiting_since,last_client_message_at,last_client_message_text,admin_reply_after_last_client,first_admin_after_last_client_at,first_admin_after_last_client_snippet,last_admin_reply_at,last_admin_reply_snippet,noise_reason
+NEEDS_REPLY,REAL_CLIENT,215473797836196,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473797836196,Faisal Iqbal,iphysal@gmail.com,Re: Your Repair with iCorrect,2026-04-13T11:43:29.000Z,2026-04-13T11:43:29.000Z,"ok great, will come and collect soon
+thx
+faisal
+​
+Sent from my iPhone",false,,,2026-04-13T11:32:49.000Z,"Hi Faisal,
+We have completed your warranty repair and your device is ready for collection.
+Our collection opening hours are:
+- Monday – Thursday: 9:30am - 5:30pm 
+- Friday: 10am - 5:30pm 
+Kind regards,",
+NEEDS_REPLY,REAL_CLIENT,215473886407862,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473886407862,Marcus Ervin,ervinlm@gmail.com,Fwd: Import Duty Payment Alert,2026-04-13T13:28:46.000Z,2026-04-13T13:28:46.000Z,"Marcus Ervin 
+Begin forwarded message:",false,,,,,
+NOISE,NOISE_TEST_SYSTEM,215473250582569,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473250582569,Birju Ravaliya,birju.ravaliya@gmail.com,Contact Form: Birju Ravaliya - iPad Pro 12.9 4th Gen (2020) [1772046902974],2026-04-14T13:46:09.000Z,2026-04-14T13:46:09.000Z,"I’ve just dropped it off and paid for diagnostics
+​
+Birju Ravaliya
+​",false,,,2026-04-14T11:40:34.000Z,"Hi Birju,
+That would work, yes. Feel free to come in after lunch today. 
+Kind regards,
+Michael",Internal Ferrari/test submission
+NOISE,NOISE_TEST_SYSTEM,215473878088789,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473878088789,Jason Hill,creeperboon123@gmail.com,Contact Form: Jason Hill - iPhone 12 Pro [1776028325340],2026-04-15T11:04:36.000Z,2026-04-15T11:04:36.000Z,I will :) Cheers.,false,,,2026-04-15T11:02:36.000Z,"Hi Jason,
+It makes perfect sense. If you ever need anything else in the future, please let us know. 
+Kind regards,
+Michael",Internal Ferrari/test submission
+NOISE,NOISE_TEST_SYSTEM,215473658989581,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473658989581,Jenni Walden,jenni.walden78@gmail.com,,2026-04-15T14:41:28.000Z,2026-04-15T14:41:28.000Z,"That's great, thank you very much.
+Jenni",false,,,2026-04-15T13:57:22.000Z,"Hi Jenni,
+Thank you for arranging your repair with iCorrect - your device is on the way back to you, please use the link below to track your delivery:
+https://www.royalmail.com/track-your-item#/tracking-results/MV101838408GB 
+Kind regards,",Intercom/operator test/automation conversation
+NEEDS_REPLY,REAL_CLIENT,215473901242611,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473901242611,Aaryan Makhija,aaryanmakhija06@gmail.com,Quote Request: Aaryan Makhija - iPhone 13,2026-04-15T16:11:04.000Z,2026-04-15T16:11:04.000Z,"Thank you. I would stay in touch :)
+Kind Regards,
+Aaryan
+ᐧ",false,,,2026-04-15T16:09:07.000Z,"Hi Aaryan,
+Thank you for letting us know. Feel free to get back in touch if you ever experience anything else unusual. 
+Kind regards,
+Michael",
+NOISE,NOISE_TEST_SYSTEM,215473059241874,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473059241874,Alex,amy.grant@cosydirect.com,,2026-04-16T10:46:50.000Z,2026-04-16T10:46:50.000Z,"Amy Grantreacted to your message: 
+Amy Grant 
+☎ 
+amy.grant@cosydirect.com 
+www.cosydirect.com 
+Cosy, Craters Edge, Units 316-318,Fauld Industrial Estate
+Fauld Lane, Fauld, Staffordshire DE13 9HS
+EORI No: GB107483420000
+​
+This email and any files transmitted with it are confidential and intended solely for the use of the individual or entity to whom they are addressed. If you received this email in error please forward to the correct person, or contact the sender.
+​",false,,,2026-04-16T10:35:38.000Z,"Hi Amy,
+Thank you for your email. I'm glad to hear that! 
+Wishing both you and Stuart a great weekend. 
+Kind regards,
+Michael",Intercom/operator test/automation conversation
+NOISE,NOISE_TEST_SYSTEM,215473685535127,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473685535127,Adebiyi,michaelson28@yahoo.com,"Contact Form: Adebiyi - MacBook Pro 14” ‘M3 & M3 Pro /Max’ A2918, A2992 (2023) [1774789525733]",2026-04-16T15:17:16.000Z,2026-04-16T15:17:16.000Z,"Thank you. I will keep hoping for the best outcome. Appreciate your help 
+​
+Sent from Outlook for iOS",false,,,2026-04-16T14:49:21.000Z,"Hi Adebiyi,
+I hope you're well. Thank you for filling out the form.
+We’ve taken an initial look at the device and noted that the MacBook is taking power, but there is no image and both the trackpad and keyboard are not working.
+We found signs of liquid damage around the keyboard, but not on other components at this stage. We currently suspect a logic board issue, as when multiple unrelated parts are affected like this, it usually points to something deeper on the board.
+Becau
+[…truncated…]",Internal Ferrari/test submission
+NEEDS_REPLY,REAL_CLIENT,215473911749208,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473911749208,Stephen Ward,stephenandrewward1972@gmail.com,2017 iMac upgrade,2026-04-16T15:17:51.000Z,2026-04-16T15:17:51.000Z,"Hi Michael, thanks for the info! Im gutted to hear that I cant even use it as a monitor screen! I’ll start saving up the pennies! 
+Many thanks again
+Stephen",false,,,2026-04-15T16:22:33.000Z,"Hi Stephen,
+Good to hear from you again!
+I’ll be honest, on a 2017 iMac it’s probably not worth investing money into it at this stage. The main issue isn’t the storage, it’s the fact that it’s already dropped off from the latest macOS support, and that will only get worse over time with apps and general compatibility.
+Upgrading to an SSD would make it feel a bit faster day to day, but it won’t change the overall lifespan of the machine in any meaningful way. You’d still be on
+[…truncated…]",
+NEEDS_REPLY,REAL_CLIENT,215473926163114,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473926163114,Harvey Williams-Fairley,harvey@hwfpht.co.uk,MacBook 2021 Screen Repair - Harvey Williams-Fairley,2026-04-16T16:55:41.000Z,2026-04-16T16:55:41.000Z,"Heya Micheal,
+That’s perfect, appreciate the speedy service.
+Thank you,
+Harves",false,,,2026-04-16T16:17:15.000Z,"Hi Harvey,
+Thank you for your email.
+We received the device not long ago, so we’ll aim to complete the repair and send it back tomorrow. You should hopefully receive it on Saturday.
+We’ll keep you posted on the progress.
+Kind regards,
+Michael",
+NOISE,NOISE_TEST_SYSTEM,215473954966450,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473954966450,Michael Ferrari Test,michael.f@icorrect.co.uk,Contact Form: ricky - MacBook Pro 16” ‘M4 Max’ A3186 (2024) [1776422909677],2026-04-17T10:48:52.000Z,2026-04-17T10:48:52.000Z,"New enquiry from ricky
+Email: rickysinghpanesar@gmail.com 
+Phone: +447572526074
+Device: MacBook - MacBook Pro 16” ‘M4 Max’ A3186 (2024)
+Fault Area: Screen / Display
+Message:
+Fault: Screen / Display
+Issue: Cracked or shattered screen
+Message:
+testing this submission",false,,,2026-04-17T10:48:52.000Z,"New enquiry from ricky
+Email: rickysinghpanesar@gmail.com 
+Phone: +447572526074
+Device: MacBook - MacBook Pro 16” ‘M4 Max’ A3186 (2024)
+Fault Area: Screen / Display
+Message:
+Fault: Screen / Display
+Issue: Cracked or shattered screen
+Message:
+testing this submission",Internal Ferrari/test submission
+NOISE,NOISE_TEST_SYSTEM,215473955615371,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473955615371,Michael Ferrari,michael.f@icorrect.co.uk,Contact Form: Ricky - iPhone 13 Pro Max [1776426732974],2026-04-17T11:52:31.000Z,2026-04-17T11:52:31.000Z,"New enquiry from Ricky
+Email: rickysinghpanesar@gmail.com 
+Phone: +447572526074
+Device: iPhone - iPhone 13 Pro Max
+Fault Area: Water Damage
+Message:
+Fault: Water Damage
+Issue: Dropped in liquid (within 24 hours)
+Message:
+Dropped water",false,,,2026-04-17T11:52:31.000Z,"New enquiry from Ricky
+Email: rickysinghpanesar@gmail.com 
+Phone: +447572526074
+Device: iPhone - iPhone 13 Pro Max
+Fault Area: Water Damage
+Message:
+Fault: Water Damage
+Issue: Dropped in liquid (within 24 hours)
+Message:
+Dropped water",Internal Ferrari/test submission
+NOISE,NOISE_TEST_SYSTEM,215473985166707,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473985166707,No-reply-aws,no-reply-aws@amazon.com,[Case 177666106600814] New correspondence added,2026-04-20T04:58:08.000Z,2026-04-20T04:58:08.000Z,"A new correspondence was added to case 177666106600814
+To view this correspondence, please visit the AWS Support Center using the following URL:
+https://console.aws.amazon.com/support/home#/case/?displayId=177666106600814&language=en 
+=======================================
+(If you will connect by federation, log in before following the link.)
+*Please note: this e-mail was sent from an address that cannot accept incoming e-mail. Please use the appropriate link above if you need to contact us again about this same issue. 
+Some of the content and links in this email may have been generated by an Amazon customer. Amazon is not responsible for the contents or links within.
+Amazon Web Services, Inc. is a subsidiary of Amazon.com, Inc. Amazon.com is a registered trademark of Amazon.com.
+This message was produced and distributed by Amazon Web Services, Inc. or its affiliates 410 Terry Ave. North, Seattle, WA 98109.
+© [2026], Amazon Web Services, Inc. or its affiliates. All rights reserved. Read our Privacy Notice.",false,,,,,Automated/system sender
+NOISE,NOISE_TEST_SYSTEM,215473985167026,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473985167026,No-reply-aws,no-reply-aws@amazon.com,Amazon Web Services: You have opened a new Support case: 177666106600814,2026-04-20T04:58:14.000Z,2026-04-20T04:58:14.000Z,"Thank you for contacting Amazon Web Services.
+We have opened case 177666106600814 to address your issue.
+The details of your case are as follows:
+Case ID: 177666106600814
+Account ID: 522412052597
+Severity: low 
+To contact us again about this issue, please use the following link to enter your correspondence or attach any files you think would be useful:
+https://console.aws.amazon.com/support/home#/case/?displayId=177666106600814&language=en 
+(If you will connect by federation, log in before following the link.)
+Sincerely,
+The Amazon Web Services Team 
+*Please note: this e-mail was sent from an address that cannot accept incoming e-mail. Please use the appropriate link above if you need to contact us again about this same issue.
+Some of the content and links in this email may have been generated by an Amazon customer. Amazon is not responsible for the contents or links within.
+Amazon Web Services, Inc. is a subsidiary of Amazon.com, Inc. Amazon.com is a registered trademark of Amazon.com.
+This message was produced and distributed by Amazon Web Services, Inc. or its affiliates 410 Terry Ave. North, Seattle, WA 98109.
+© [2026], Amazon Web Services, Inc. or its affiliates. All rights reserved. Read our Privacy Notice.",false,,,,,Automated/system sender
+NOISE,NOISE_TEST_SYSTEM,215473986323729,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473986323729,TeleSphere VPBX,telesphere@therackhouse.net,[TeleSphere]: Voicemail attached for - an unknown caller (423@900),2026-04-20T07:40:03.000Z,2026-04-20T07:40:03.000Z,"Hallo,
+You have a 0:25 long message in mailbox 900, left on Monday, 20 April 2026 at 08:39:39.
+CallerID: 07971249984.
+Number called: an unknown caller.
+Your inbox contains 423/100 messages. 
+--TeleSphere iPBX",false,,,,,Automated/system sender
+NEEDS_REPLY,REAL_CLIENT,215473278921911,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473278921911,Karen Rai,karen.rai@lcp.uk.com,iPhone screen repair,2026-04-20T08:12:37.000Z,2026-04-20T08:12:37.000Z,"Thanks Michael,
+Are you able to provide me with invoices for each of these and I can issue you with a PO.
+Thanks
+Karen Rai (LCP)
+Support Manager
+0203 8247260",false,,,2026-04-17T15:59:58.000Z,"Hi Karen,
+I hope you’re well.
+Our finance department has flagged that we’re missing PO numbers for a few repairs. Could you please raise and send them over so we can issue the invoices?
+The repairs are as follows:
+- iPhone 14 Pro (screen and battery, completed on 14 April): £290 ex VAT 
+- iPhone 13 (battery, completed on 20 January): £101.15 ex VAT 
+- iPhone SE (3rd gen, screen repair scheduled for next Tuesday 21 April): £140.83 ex VAT 
+Thank you, and have a lovely weekend.
+[…truncated…]",
+NOISE,NOISE_TEST_SYSTEM,215473985167080,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473985167080,Amazon.com,nobody@bounces.amazon.com,RE:[CASE 177666106600814] SES: Production Access,2026-04-20T08:31:54.000Z,2026-04-20T08:31:54.000Z,"Greetings from Amazon Web Services.
+We're sorry. You've written to an address that cannot accept incoming
+e-mail.
+If you need to contact us, please visit http://www.aws.amazon.com/contact-us .
+Thank you for your business.
+Best regards,
+Amazon Web Services
+http://www.aws.amazon.com/ 
+P.S. You received this message because Amazon.com received the following 
+message:",false,,,2026-04-20T06:00:29.000Z,"Hi, 
+​
+Thanks for reviewing. Happy to provide detail on each point.
+​
+Use case 
+We operate iCorrect (Panrix Limited, UK), an Apple device repair business. Customers fill out a contact form on our public website (icorrect.co.uk) to request a quote or ask a question about a repair. Our backend receives that form submission and relays it as a single email to our own support inbox ( support@icorrect.co.uk ), which is ingested by our helpdesk (Intercom) as a new support conversati
+[…truncated…]",Automated/system sender
+NEEDS_REPLY,REAL_CLIENT,215473988632950,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473988632950,Gabor Kovacs,csiga1974@yahoo.co.uk,Re: Your iPhone 3 Diagnostics with iCorrect,2026-04-20T11:43:45.000Z,2026-04-20T11:43:44.000Z,"Hello Guys
+as you can see in my previous email, you have repaired few of my phones in Sept. 2025. i have dropped off iPhone 13 Mini for a Genuine Battery replacement with an SE 2020. unfortunately i was unable to locate the Order Number, sorry. 
+AND
+it seems i am not so lucky with the phones even using your professional services. Tthe 13 Mini has ""decided"" not to charge itself this Saturday showing the battery icon during charging BUT (AND it says"" iphone is finable""). no luck so cant use it. 
+I am in Hunagry and have already planned to come back to the UK on Wednesday 22nd of April BUT all banking App along with the necessary traveling app need, SO deiced to drop it off at my Friend's repair shop to check whether the Original battery has gave up already,. 
+First, wondering whether it is still on warranty? 
+if yes, i have attached the Order acknowledgment for your record (it is hungarian BUT i can translate it for you if needed) you can locate the IME number etc and they will take photos about the repair and keep the battery (if that is the problem) and let you know IF the battery has given UP and not someting else! 
+they will receive the Genuine BAttery tomorrow morning and do the test on the phone. 
+i am sorry to bring this news to you and thank you for your help in advane 
+Kind Regards
+Gabor Kovacs
+07528895299",false,,,,,
+NEEDS_REPLY,REAL_CLIENT,215474001606931,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215474001606931,Debjani Mitra,d.mitra@gosh.camden.sch.uk,Fw: IPad repair request,2026-04-21T07:44:54.000Z,2026-04-21T07:44:54.000Z,"Hi Michael
+Please find attached purchase order for this repair.
+From here on could you please send all correspondence to finance@gosh.camden.sch.uk 
+Thanks 
+Debjani
+My working day and week may look different to yours. Please do not feel obligated to respond outside of your normal working hours",false,,,,,
+NEEDS_REPLY,REAL_CLIENT,215474002827937,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215474002827937,Audley House,audleyhouse@boutique.co,Guest,2026-04-21T10:17:44.000Z,2026-04-21T10:17:44.000Z,"Vimal Shah is here to collect computer
+Thank you kindly!
+Kindest regards,
+Shamara
+Michelle Moses 
+Workplace Experience Manager
+Audley House
+Phone: 0203 405 4070 
+theboutiqueworkplace.co 
+This e-mail is intended only for the person to whom it is addressed. If an addressing or transmission error has misdirected this e-mail, please notify the author by replying to this e-mail. If you are not the intended recipient you must not use, disclose, print or rely on this e-mail. The information contained in this email, including any attachments, is solely for the attention of the addressee(s) and may be confidential. Any review, distribution or copying of this email, or any attachment, is prohibited. Any views or opinions are solely those of the author and do not necessarily represent those of The Boutique Workplace Company Ltd or associated companies, unless specifically stated.",false,,,,,
+NOISE,NOISE_TEST_SYSTEM,215474015555805,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215474015555805,No-reply-aws,no-reply-aws@amazon.com,[Case 177666106600814] New correspondence added,2026-04-22T03:03:25.000Z,2026-04-22T03:03:25.000Z,"A new correspondence was added to case 177666106600814
+To view this correspondence, please visit the AWS Support Center using the following URL:
+https://console.aws.amazon.com/support/home#/case/?displayId=177666106600814&language=en 
+=======================================
+(If you will connect by federation, log in before following the link.)
+*Please note: this e-mail was sent from an address that cannot accept incoming e-mail. Please use the appropriate link above if you need to contact us again about this same issue. 
+Some of the content and links in this email may have been generated by an Amazon customer. Amazon is not responsible for the contents or links within.
+Amazon Web Services, Inc. is a subsidiary of Amazon.com, Inc. Amazon.com is a registered trademark of Amazon.com.
+This message was produced and distributed by Amazon Web Services, Inc. or its affiliates 410 Terry Ave. North, Seattle, WA 98109.
+© [2026], Amazon Web Services, Inc. or its affiliates. All rights reserved. Read our Privacy Notice.",false,,,,,Automated/system sender
+NEEDS_REPLY,REAL_CLIENT,215473497122440,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473497122440,Ruth Davies,itsupport@st-james.southwark.sch.uk,Screen repair on ipad,2026-04-22T08:31:26.000Z,2026-04-22T08:31:26.000Z,"Thank you. Have forwarded to our finance manager who, for your records, is:
+​
+nchurch4.210@st-james.southwark.sch.uk 
+​
+Best regards,
+​
+Ruth Davies
+IT Manager
+St James' CE Primary School
+(02072373111)",false,,,2026-04-17T14:24:39.000Z,"Hi Ruth,
+Happy Friday! I hope you’re well.
+I’m just getting in touch to check on the invoice for this repair, as it looks like our system didn’t send it through. I’ve attached it here in case you haven’t received it.
+Apologies for the inconvenience, and hope you have a lovely weekend.
+Kind regards,
+Michael",
+NOISE,NOISE_TEST_SYSTEM,215474019374983,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215474019374983,mailout@arbor-education.finance,mailout@arbor-education.finance,RemittanceAdvice-22/04/2026,2026-04-22T11:57:40.000Z,2026-04-22T11:57:40.000Z,"Hi,
+Please find remittance advice attached for our upcoming payment.
+Many thanks,
+ST JAMES' CE PRIMARY SCHOOL
+Arbor Finance This is a system generated email
+​",false,,,,,Automated/system sender
+NOISE,NOISE_TEST_SYSTEM,215474023332623,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215474023332623,No-reply-aws,no-reply-aws@amazon.com,RE:[CASE 177666106600814] SES: Production Access,2026-04-22T16:00:23.000Z,2026-04-22T16:00:23.000Z,"Hello,
+Thank you for submitting your request to increase your sending limits. Your new sending quota is 50,000 messages per day. Your maximum send rate is now 14 messages per second. We have also moved your account out of the Amazon SES sandbox.
+This takes effect immediately in the Europe (Stockholm) region. You can view the current sending rate and sending quota for your account on the Sending Statistics page of the Amazon SES console, or by using the GetSendQuota API.
+As you get started with Amazon SES, keep in mind that you must:
+- Comply with the AWS Acceptable Use Policy ( http://aws.amazon.com/aup/ ) and read the Amazon SES Service Terms (section Amazon Simple Email Service (SES) of http://aws.amazon.com/service-terms/ ).
+- Send only high-quality emails to recipients who expect to hear from you. For more information, see https://docs.aws.amazon.com/ses/latest/dg/best-practices.html .
+- Set up a process to handle bounces and complaints. For more information, see https://docs.aws.amazon.com/ses/latest/dg/monitor-sending-activity.html .
+- Use your new account to send a different type of email than you are sending from your other account(s), if applicable. For more information, see http://docs.aws.amazon.com/ses/latest/DeveloperGuide/multiple-accounts.html .
+- Use the Amazon SES mailbox simulator to test your system so that your testing does not adversely impact your account. For more information, see https://docs.aws.amazon.com/ses/latest/dg/send-an-email-from-console.html .
+- Apply for higher sending limits before you need them. For more information, see https://docs.aws.amazon.com/ses/latest/dg/manage-sending-quotas-request-increase.html .
+- With Amazon SES, you pay only for what you use. There are no contract negotiations and no minimum charges
+[…truncated…]",false,,,,,Automated/system sender
+NOISE,NOISE_TEST_SYSTEM,215473904574173,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473904574173,Birju Ravaliya,birju.ravaliya@gmail.com,,2026-04-22T16:36:39.000Z,2026-04-22T16:36:39.000Z,"ok, i guess ill go into sherlock homes mode and check everything and get back to you to schedule in repair
+Birju Ravaliya
+​",false,,,2026-04-22T12:15:41.000Z,"Hi Birju,
+Exactly, that cable is absolutely not safe to use. You can see the green goo (corrosion) as well as charred pins, which should normally be orange/dark yellow.
+If any other cable looks like this, throw it away. If any charging port has similar issues (it’s a bit harder to spot on the port side), then let us know.
+Kind regards,
+Michael",Intercom/operator test/automation conversation
+NOISE,NOISE_TEST_SYSTEM,215473958592345,https://app.intercom.com/a/inbox/pt6lwaq6/inbox/conversation/215473958592345,George Messer,georgemesser4001@hotmail.co.uk,,2026-04-23T15:50:42.000Z,2026-04-23T15:50:42.000Z,"Definitely will thanks again michael!!
+Sent from Outlook for Android",false,,,2026-04-23T15:09:24.000Z,"Hi George,
+Really glad we could help! If you’re happy with the service, we’d really appreciate a quick review. It only takes a minute and it makes a big difference for us. Here are the links: 
+🌐 Google 
+🌐 Trustpilot 
+Thank you for choosing iCorrect!
+Kind regards,
+Michael",Intercom/operator test/automation conversation
