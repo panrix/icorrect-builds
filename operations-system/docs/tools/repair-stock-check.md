@@ -1,12 +1,17 @@
 # Repair Stock Check Tool
 Last updated: 2026-04-27
-Status: V0 read-only helper
+Status:
+- CLI helper — V0 read-only, working
+- Monday webhook service — built, awaiting webhook subscription + production deploy
 
 ## Purpose
 
-`repair-stock-check.js` checks whether a requested repair has linked stock available in Monday.
+Two surfaces, one shared core:
 
-It is designed for intake/support use while the full intake app is still being mapped.
+1. **CLI tool** (`tools/repair-stock-check.js`) — ad-hoc lookup by device + repair name. Used during intake/support while the full intake app is being mapped.
+2. **Monday webhook service** (`/home/ricky/builds/monday/services/repair-stock-check/`) — fires automatically when the **Requested Repairs** column changes on the main board, and posts a stock-check Monday update on the same item.
+
+Shared stock-check logic lives in `tools/lib/stock-check-core.js` and is consumed by both surfaces.
 
 The output is intentionally simple:
 
@@ -128,3 +133,17 @@ It does not:
 - If a Products & Pricing item has no linked part, fallback search is only advisory.
 - Multi-part repairs may need a richer output later.
 - The full intake app should eventually call this logic through a backend endpoint rather than shelling out to this script.
+
+## Monday Webhook Service
+
+The webhook counterpart lives at `/home/ricky/builds/monday/services/repair-stock-check/` and watches Main Board `349212843`, column `board_relation` (Requested Repairs).
+
+On a column change it:
+- Reads linked Products & Pricing item IDs from the webhook payload
+- Looks up linked Parts and stock for each
+- Posts a Monday update on the main-board item
+
+It does **not** reserve or deduct stock. Deduction is handled separately by `icorrect-parts-service` on the `Parts Used` (`connect_boards__1`) column.
+
+Setup, deployment, and Monday webhook subscription steps are in the service README:
+`/home/ricky/builds/monday/services/repair-stock-check/README.md`
