@@ -1,0 +1,1058 @@
+{
+  "started_at": "2026-04-27T02:58:53Z",
+  "records": [
+    {
+      "uuid": "96499dac-b35d-4a2b-91d0-48f634baf58c",
+      "orig_sku": "TEST.DELETE.ME3",
+      "new_sku": "_DEAD_TEST.DELETE.ME3_2026-04-27",
+      "steps": [
+        {
+          "step": "get_before",
+          "status": 200
+        },
+        {
+          "step": "patch_sku",
+          "status": 200
+        },
+        {
+          "step": "get_after_patch",
+          "status": 200
+        },
+        {
+          "step": "archive",
+          "status": 204
+        },
+        {
+          "step": "get_after_archive",
+          "status": 200
+        }
+      ],
+      "before_snapshot": {
+        "id": "96499dac-b35d-4a2b-91d0-48f634baf58c",
+        "legacyId": 6316738,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "TEST.DELETE.ME3",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": false,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "OFFLINE",
+              "price": {
+                "amount": 400.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": null,
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "after_archive_snapshot": {
+        "id": "96499dac-b35d-4a2b-91d0-48f634baf58c",
+        "legacyId": 6316738,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "_DEAD_TEST.DELETE.ME3_2026-04-27",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": true,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 400.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": null,
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "result": "success"
+    },
+    {
+      "uuid": "1d7f4036-e38f-4d37-8dfc-c54bf35e2b7e",
+      "orig_sku": "TEST.GRADE.CHECK",
+      "new_sku": "_DEAD_TEST.GRADE.CHECK_2026-04-27",
+      "steps": [
+        {
+          "step": "get_before",
+          "status": 200
+        },
+        {
+          "step": "patch_sku",
+          "status": 200
+        },
+        {
+          "step": "get_after_patch",
+          "status": 200
+        },
+        {
+          "step": "archive",
+          "status": 204
+        },
+        {
+          "step": "get_after_archive",
+          "status": 200
+        }
+      ],
+      "before_snapshot": {
+        "id": "1d7f4036-e38f-4d37-8dfc-c54bf35e2b7e",
+        "legacyId": 6675377,
+        "legacyProductId": 522954,
+        "productId": "a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd",
+        "categoryId": 110,
+        "title": "MacBook Air Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "TEST.GRADE.CHECK",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd-1_cd47cab0-cf26-45da-8ae2-6e5159103f5e-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "BRONZE",
+          "label": "Fair"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": false,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "522954",
+                  "slug": "second-hand-macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty",
+                  "slugV2": "macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty",
+                  "uuid": "a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty/a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 370.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": {
+                "amount": 359.0,
+                "currency": "GBP"
+              },
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 1699.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "after_archive_snapshot": {
+        "id": "1d7f4036-e38f-4d37-8dfc-c54bf35e2b7e",
+        "legacyId": 6675377,
+        "legacyProductId": 522954,
+        "productId": "a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd",
+        "categoryId": 110,
+        "title": "MacBook Air Retina 13-inch (2020) - Core i5 - 8GB SSD 512 QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "_DEAD_TEST.GRADE.CHECK_2026-04-27",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd-1_cd47cab0-cf26-45da-8ae2-6e5159103f5e-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "BRONZE",
+          "label": "Fair"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": true,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "522954",
+                  "slug": "second-hand-macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty",
+                  "slugV2": "macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty",
+                  "uuid": "a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty/a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 370.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": {
+                "amount": 359.0,
+                "currency": "GBP"
+              },
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 1699.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "result": "success"
+    },
+    {
+      "uuid": "5d88794b-c235-4d6b-b879-a346d72a9ec1",
+      "orig_sku": "TEST.NUMERIC.001",
+      "new_sku": "_DEAD_TEST.NUMERIC.001_2026-04-27",
+      "steps": [
+        {
+          "step": "get_before",
+          "status": 200
+        },
+        {
+          "step": "patch_sku",
+          "status": 200
+        },
+        {
+          "step": "get_after_patch",
+          "status": 200
+        },
+        {
+          "step": "archive",
+          "status": 204
+        },
+        {
+          "step": "get_after_archive",
+          "status": 200
+        }
+      ],
+      "before_snapshot": {
+        "id": "5d88794b-c235-4d6b-b879-a346d72a9ec1",
+        "legacyId": 6317631,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "TEST.NUMERIC.001",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": false,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "OFFLINE",
+              "price": {
+                "amount": 500.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": null,
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "after_archive_snapshot": {
+        "id": "5d88794b-c235-4d6b-b879-a346d72a9ec1",
+        "legacyId": 6317631,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "_DEAD_TEST.NUMERIC.001_2026-04-27",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": true,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 500.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": null,
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "result": "success"
+    },
+    {
+      "uuid": "75141a82-f981-4c8a-a959-633ac2d0dbe5",
+      "orig_sku": "TEST.UUID.001",
+      "new_sku": "_DEAD_TEST.UUID.001_2026-04-27",
+      "steps": [
+        {
+          "step": "get_before",
+          "status": 200
+        },
+        {
+          "step": "patch_sku",
+          "status": 200
+        },
+        {
+          "step": "get_after_patch",
+          "status": 200
+        },
+        {
+          "step": "archive",
+          "status": 204
+        },
+        {
+          "step": "get_after_archive",
+          "status": 200
+        }
+      ],
+      "before_snapshot": {
+        "id": "75141a82-f981-4c8a-a959-633ac2d0dbe5",
+        "legacyId": 6317632,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "TEST.UUID.001",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": false,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "OFFLINE",
+              "price": {
+                "amount": 375.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": {
+                "amount": 364.0,
+                "currency": "GBP"
+              },
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "after_archive_snapshot": {
+        "id": "75141a82-f981-4c8a-a959-633ac2d0dbe5",
+        "legacyId": 6317632,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "_DEAD_TEST.UUID.001_2026-04-27",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": true,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 375.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": {
+                "amount": 364.0,
+                "currency": "GBP"
+              },
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "result": "success"
+    },
+    {
+      "uuid": "c66b6780-76bd-44dc-9757-f9e8875f0229",
+      "orig_sku": "TEST.API.003",
+      "new_sku": "_DEAD_TEST.API.003_2026-04-27",
+      "steps": [
+        {
+          "step": "get_before",
+          "status": 200
+        },
+        {
+          "step": "patch_sku",
+          "status": 200
+        },
+        {
+          "step": "get_after_patch",
+          "status": 200
+        },
+        {
+          "step": "archive",
+          "status": 204
+        },
+        {
+          "step": "get_after_archive",
+          "status": 200
+        }
+      ],
+      "before_snapshot": {
+        "id": "c66b6780-76bd-44dc-9757-f9e8875f0229",
+        "legacyId": 6654283,
+        "legacyProductId": 761582,
+        "productId": "247a7a06-b392-4845-8833-a3df28108b6a",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "TEST.API.003",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/247a7a06-b392-4845-8833-a3df28108b6a-1_0d0fee52-d935-40a1-a995-ec26799fc3af-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "BRONZE",
+          "label": "Fair"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": false,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "761582",
+                  "slug": "second-hand-macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty",
+                  "slugV2": "macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty",
+                  "uuid": "247a7a06-b392-4845-8833-a3df28108b6a",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/247a7a06-b392-4845-8833-a3df28108b6a"
+              },
+              "publicationState": "OFFLINE",
+              "price": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": {
+                "amount": 950.0,
+                "currency": "GBP"
+              },
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 1249.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "after_archive_snapshot": {
+        "id": "c66b6780-76bd-44dc-9757-f9e8875f0229",
+        "legacyId": 6654283,
+        "legacyProductId": 761582,
+        "productId": "247a7a06-b392-4845-8833-a3df28108b6a",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2022) - Apple M2 8-core and 8-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "_DEAD_TEST.API.003_2026-04-27",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/247a7a06-b392-4845-8833-a3df28108b6a-1_0d0fee52-d935-40a1-a995-ec26799fc3af-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "BRONZE",
+          "label": "Fair"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": true,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "761582",
+                  "slug": "second-hand-macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty",
+                  "slugV2": "macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty",
+                  "uuid": "247a7a06-b392-4845-8833-a3df28108b6a",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/247a7a06-b392-4845-8833-a3df28108b6a"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": {
+                "amount": 950.0,
+                "currency": "GBP"
+              },
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 1249.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "result": "success"
+    },
+    {
+      "uuid": "f5a173fb-258b-4d90-85a2-51c74d30a0f0",
+      "orig_sku": "TEST.TIMING.CHECK",
+      "new_sku": "_DEAD_TEST.TIMING.CHECK_2026-04-27",
+      "steps": [
+        {
+          "step": "get_before",
+          "status": 200
+        },
+        {
+          "step": "patch_sku",
+          "status": 200
+        },
+        {
+          "step": "get_after_patch",
+          "status": 200
+        },
+        {
+          "step": "archive",
+          "status": 204
+        },
+        {
+          "step": "get_after_archive",
+          "status": 200
+        }
+      ],
+      "before_snapshot": {
+        "id": "f5a173fb-258b-4d90-85a2-51c74d30a0f0",
+        "legacyId": 6316868,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "TEST.TIMING.CHECK",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": false,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "OFFLINE",
+              "price": {
+                "amount": 400.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": null,
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "after_archive_snapshot": {
+        "id": "f5a173fb-258b-4d90-85a2-51c74d30a0f0",
+        "legacyId": 6316868,
+        "legacyProductId": 545379,
+        "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+        "categoryId": 528,
+        "title": "MacBook Air 13-inch (2020) - Apple M1 8-core and 7-core GPU - 8GB RAM - SSD 256GB - Standard display - QWERTY - English",
+        "isPublicationStateComputing": false,
+        "sku": "_DEAD_TEST.TIMING.CHECK_2026-04-27",
+        "dualSim": null,
+        "quantity": 0,
+        "thumbnail": {
+          "link": {
+            "type": "external",
+            "href": "https://d2e6ccujb3mkqf.cloudfront.net/b5ebc79d-0304-41a6-b1ae-d2a487afa11f-1_3a6e2d54-9925-4f83-b068-6e260b422d89-thumb.jpg"
+          }
+        },
+        "aestheticGrade": {
+          "value": "SILVER",
+          "label": "Good"
+        },
+        "specialOfferType": {
+          "value": "NORMAL",
+          "label": "Normal"
+        },
+        "markets": {
+          "withoutBackbox": {},
+          "withBackbox": {},
+          "offline": {
+            "GB": {
+              "backboxPrice": null,
+              "hasBackbox": false,
+              "isBackboxPending": true,
+              "currentBackboxPrice": null,
+              "hasBackboxWithOtherListing": false,
+              "isBackpricerEnabledForListing": false,
+              "productPageLink": {
+                "type": "internal",
+                "name": "product",
+                "pattern": "/:locale/p/:slugV2/:uuid",
+                "params": {
+                  "id": "545379",
+                  "slug": "second-hand-macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "slugV2": "macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us",
+                  "uuid": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+                  "locale": "en-gb"
+                },
+                "query": {},
+                "hash": {},
+                "href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f"
+              },
+              "publicationState": "DISABLED",
+              "price": {
+                "amount": 400.0,
+                "currency": "GBP"
+              },
+              "minimumPrice": null,
+              "pricingStrategy": null,
+              "priceWhenSoldNew": {
+                "amount": 999.0,
+                "currency": "GBP"
+              },
+              "backboxGrade": null,
+              "pricingStrategyInformation": {
+                "salesMaximizerInformation": null,
+                "dealInformation": null
+              }
+            }
+          }
+        },
+        "hasDealOpportunity": false
+      },
+      "result": "success"
+    }
+  ],
+  "finished_at": "2026-04-27T02:59:19Z",
+  "final_remaining": [],
+  "all_ok": true
+}
