@@ -1,0 +1,1205 @@
+{
+  "generated_at": "2026-04-27T02:10:28Z",
+  "list_pages": 1,
+  "list_elapsed_s": 1.233,
+  "detail_elapsed_s": 35.064,
+  "detail_per_listing_s": 0.701,
+  "total_elapsed_s": 36.297,
+  "count": 50,
+  "records": [
+    {
+      "index": 0,
+      "id": "03e0a87e-f3ac-4a16-8fef-02b3227687d6",
+      "sku": "MBP14.A2442.32GB.512GB.Grey.Fair",
+      "productId": "a1a7eeae-c91d-4c06-8ff2-d52fe8067464",
+      "legacyId": 5005045,
+      "legacyProductId": 543554,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-10-core-and-16-core-gpu-32gb-ram-ssd-512gb-qwerty-english-uk/a1a7eeae-c91d-4c06-8ff2-d52fe8067464",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.685
+    },
+    {
+      "index": 1,
+      "id": "0d09b87c-8e76-4432-8905-e4fa9b23cbb5",
+      "sku": "S644mm.nike.Cellular.Fair",
+      "productId": "ef5e2e12-3166-4878-a73a-e72c4b04f7a5",
+      "legacyId": 2619491,
+      "legacyProductId": 488851,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/apple-watch-series-6-september-2020-44-aluminium-space-gray-sport-nike-black/ef5e2e12-3166-4878-a73a-e72c4b04f7a5",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 1.497
+    },
+    {
+      "index": 2,
+      "id": "28dee1af-d30e-42ad-9be7-37412700464c",
+      "sku": "MBP14.A2442.1016.16GB.1TB.Silver.Good",
+      "productId": "64a08696-8c1b-4268-8877-b54703bc146d",
+      "legacyId": 5293987,
+      "legacyProductId": 543536,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-1tb-qwerty-english-uk/64a08696-8c1b-4268-8877-b54703bc146d",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.864
+    },
+    {
+      "index": 3,
+      "id": "2c13573c-8254-4610-9cd4-bb5cc5730246",
+      "sku": "MBP.A2338.M1.8GB.256GB.Silver.Fair",
+      "productId": "0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "legacyId": 6709048,
+      "legacyProductId": 871170,
+      "quantity": 1,
+      "gb_bucket": "withoutBackbox",
+      "gb_publicationState": "ONLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [
+          "GB"
+        ],
+        "withBackbox": [],
+        "offline": []
+      },
+      "elapsed_s": 0.628
+    },
+    {
+      "index": 4,
+      "id": "2dafe638-860f-452c-8233-5e21bd74c31e",
+      "sku": "MBP14.2442.16GB.512B.Silver.VGood",
+      "productId": "43221f93-0d9a-45ec-870b-02d1613c7471",
+      "legacyId": 4846564,
+      "legacyProductId": 543497,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk/43221f93-0d9a-45ec-870b-02d1613c7471",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.685
+    },
+    {
+      "index": 5,
+      "id": "376f931a-fa91-4f5c-98da-6a2349ed2a66",
+      "sku": "MBP13.A2338M2.16Ram.256gbSSD.Grey.Good",
+      "productId": "b00f4de2-ee1d-42d5-b440-fd36e80b1665",
+      "legacyId": 4925173,
+      "legacyProductId": 762012,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-16gb-ram-ssd-256gb-qwerty/b00f4de2-ee1d-42d5-b440-fd36e80b1665",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.699
+    },
+    {
+      "index": 6,
+      "id": "48a4ecd7-172c-4d9f-8d89-33100b313499",
+      "sku": "MBA.A1932.2019.8GB.128GB.Gold.fair",
+      "productId": "6f81e2f8-0fc6-46ad-b2ea-f38b5ecb9ab4",
+      "legacyId": 5294536,
+      "legacyProductId": 369177,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2018-core-i5-8gb-ssd-128-gb-qwerty-english-uk/6f81e2f8-0fc6-46ad-b2ea-f38b5ecb9ab4",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.643
+    },
+    {
+      "index": 7,
+      "id": "49e34bd8-3aff-4c38-8eee-aa56180b430a",
+      "sku": "MBP.A2338.M1.16GB.256GB.Grey.Fair",
+      "productId": "7408af3f-40ad-4e74-aff8-d2acca799683",
+      "legacyId": 6709047,
+      "legacyProductId": 2872244,
+      "quantity": 1,
+      "gb_bucket": "withBackbox",
+      "gb_publicationState": "ONLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/7408af3f-40ad-4e74-aff8-d2acca799683",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [
+          "GB"
+        ],
+        "offline": []
+      },
+      "elapsed_s": 0.619
+    },
+    {
+      "index": 8,
+      "id": "60833d04-4c02-478d-8a63-2c88e6bb9c6c",
+      "sku": "MBA.A2179.2020.i5.8gb.512gb.Grey.Vgood",
+      "productId": "ab191cdf-2e76-4701-bb6a-b851d27ef262",
+      "legacyId": 5354764,
+      "legacyProductId": 503367,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-13-inch-2020-core-i5-8gb-ssd-256-gb-qwerty/ab191cdf-2e76-4701-bb6a-b851d27ef262",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.66
+    },
+    {
+      "index": 9,
+      "id": "67144d40-f529-46a5-ab2b-bd1b8f3141f1",
+      "sku": "MBA.A2337.8GB.256GB.Grey.Good",
+      "productId": "b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+      "legacyId": 4857985,
+      "legacyProductId": 545379,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-us/b5ebc79d-0304-41a6-b1ae-d2a487afa11f",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.701
+    },
+    {
+      "index": 10,
+      "id": "8a6212f1-9e70-4dc2-8a08-95254050f539",
+      "sku": "APS444.Grey.Vgood",
+      "productId": "b4ba88f2-a4a1-498b-936b-6b8c4dfb4d9b",
+      "legacyId": 2591942,
+      "legacyProductId": 510230,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/apple-watch-series-4-gps-cellular-44-aluminium-space-gray-sport-loop-band-black/b4ba88f2-a4a1-498b-936b-6b8c4dfb4d9b",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.608
+    },
+    {
+      "index": 11,
+      "id": "bfb0f795-00a8-411f-a49c-4824ee1f78d9",
+      "sku": "S644mm.GPS.Fair",
+      "productId": "d3bf8780-f3b7-410c-8fd6-494fbad8bd3a",
+      "legacyId": 2619386,
+      "legacyProductId": 417795,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/apple-watch-series-6-september-2020-44-aluminium-space-gray-sport-loop-black/d3bf8780-f3b7-410c-8fd6-494fbad8bd3a",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.617
+    },
+    {
+      "index": 12,
+      "id": "c63e93a2-32ca-4c1d-a203-32560e8b388b",
+      "sku": "MBP.A2338.M1.8GB.256GB.Silver.Good",
+      "productId": "0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "legacyId": 5476297,
+      "legacyProductId": 871170,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.675
+    },
+    {
+      "index": 13,
+      "id": "d3063c28-eff8-4a98-8adc-3a03f854c496",
+      "sku": "MBP13.M1A2338.8GB.256GB.Grey.Fair",
+      "productId": "8948b82c-f746-4be0-a8b0-0758b1dc4acc",
+      "legacyId": 4858016,
+      "legacyProductId": 545418,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-2tb-qwerty-english-uk/8948b82c-f746-4be0-a8b0-0758b1dc4acc",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.58
+    },
+    {
+      "index": 14,
+      "id": "d31dc5c0-be66-4f65-85c3-837ade9349a4",
+      "sku": "MBP.A2991.M3Pro.12C.18GB.512GB.Black.Good",
+      "productId": "78e550f7-863b-4357-8818-5c3a8fe362f3",
+      "legacyId": 6382836,
+      "legacyProductId": 3541877,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-162-inch-2023-m3-pro-12-core-and-18-core-gpu-18gb-ram-ssd-512gb-qwerty-english/78e550f7-863b-4357-8818-5c3a8fe362f3",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.677
+    },
+    {
+      "index": 15,
+      "id": "d4224261-cfa2-437b-bca6-6f3e5f7b84cb",
+      "sku": "MBP13.A2338.8GB.512GB.Grey.Fair",
+      "productId": "30c2c24c-be74-409d-8bec-50e9b9bf421a",
+      "legacyId": 4852610,
+      "legacyProductId": 545361,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-8gb-ram-ssd-512gb-qwerty-english-us/30c2c24c-be74-409d-8bec-50e9b9bf421a",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.625
+    },
+    {
+      "index": 16,
+      "id": "e0395dcf-435c-4c9e-b29f-15141854ce24",
+      "sku": "MBP.M2.A2338.8GB.256GB.Grey.Fair",
+      "productId": "ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "legacyId": 6569346,
+      "legacyProductId": 762088,
+      "quantity": 1,
+      "gb_bucket": "withoutBackbox",
+      "gb_publicationState": "ONLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [
+          "GB"
+        ],
+        "withBackbox": [],
+        "offline": []
+      },
+      "elapsed_s": 0.611
+    },
+    {
+      "index": 17,
+      "id": "e21d4c3c-b4fa-4589-8020-f61307c5f7d5",
+      "sku": "MBP14.2442.32GB.2TB.Good",
+      "productId": "2947907b-7e1f-4204-9664-e5ed2bf5fbab",
+      "legacyId": 4452125,
+      "legacyProductId": 543430,
+      "quantity": 1,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-max-10-core-and-32-core-gpu-32gb-ram-ssd-2tb-qwerty-english-us/2947907b-7e1f-4204-9664-e5ed2bf5fbab",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.658
+    },
+    {
+      "index": 18,
+      "id": "f91f4a7d-fe55-410d-a089-9897ae5a0bd4",
+      "sku": "MBP.A2442.16GB.512GB.Grey.VGood",
+      "productId": "1e1ec3c9-c221-4651-870c-74d2c8c28a3c",
+      "legacyId": 5558302,
+      "legacyProductId": 543513,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk/1e1ec3c9-c221-4651-870c-74d2c8c28a3c",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.603
+    },
+    {
+      "index": 19,
+      "id": "f968e5c4-0b2b-4f04-bf1a-48a4b8231938",
+      "sku": "iP11.PROMAX.MidnightGreen.512GB.Mint",
+      "productId": "de23fce1-f9b7-4963-a047-91c829019ee8",
+      "legacyId": 1451045,
+      "legacyProductId": 290056,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-11-pro-max-512-gb-midnight-green-unlocked/de23fce1-f9b7-4963-a047-91c829019ee8",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.64
+    },
+    {
+      "index": 20,
+      "id": "f9c8d754-5185-4ba8-9381-e4c37d3972a9",
+      "sku": "iPXS.MAX.Silver.256GB.Fair",
+      "productId": "6e0d5271-8341-43c9-8a9b-42fa388a2c10",
+      "legacyId": 1450696,
+      "legacyProductId": 161639,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xs-max-256-gb-silver-unlocked/6e0d5271-8341-43c9-8a9b-42fa388a2c10",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.628
+    },
+    {
+      "index": 21,
+      "id": "f9e42947-a0ea-4da2-b3cb-7cd746cf67a0",
+      "sku": "MBP.A2442.10C.32G.32GB.512GB.Grey.Good",
+      "productId": "b223cd84-efe0-4092-a0da-728b2f73c5fc",
+      "legacyId": 6318712,
+      "legacyProductId": 543350,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-14-inch-with-m1-pro-8-core-and-14-core-gpu-32gb-ram-ssd-512gb-qwerty-english-us/b223cd84-efe0-4092-a0da-728b2f73c5fc",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.746
+    },
+    {
+      "index": 22,
+      "id": "f9e55d19-548a-4d2f-943d-a17da611d5e1",
+      "sku": "MBP.A2485.10C.32G.64GB.1TB.Grey.Fair",
+      "productId": "ae31be9d-795f-41d9-913f-91dc7e10bab3",
+      "legacyId": 6530024,
+      "legacyProductId": 543650,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-64gb-ram-ssd-1tb-qwerty-english-uk/ae31be9d-795f-41d9-913f-91dc7e10bab3",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.621
+    },
+    {
+      "index": 23,
+      "id": "fa3b208a-74fb-4540-a374-631b7c22ffaa",
+      "sku": "MBA.A2337.8GB.256GB.Silver.Vgood",
+      "productId": "b8f6f0c1-d4f4-4693-8150-b112d5371b64",
+      "legacyId": 5666116,
+      "legacyProductId": 545434,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-2020-13-inch-with-m1-8-core-and-7-core-gpu-8gb-ram-ssd-2tb-qwerty-english-uk/b8f6f0c1-d4f4-4693-8150-b112d5371b64",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.72
+    },
+    {
+      "index": 24,
+      "id": "fac9cee5-b671-4037-a2cf-766803f84fac",
+      "sku": "MBP.A2251.I7.8GB.256GB.Grey.FAIR",
+      "productId": "5ae7aaa7-1977-4eec-bc47-57ad28316a76",
+      "legacyId": 6709258,
+      "legacyProductId": 715267,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-retina-133-inch-2020-core-i7-8gb-ssd-256-qwerty-english-us/5ae7aaa7-1977-4eec-bc47-57ad28316a76",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.599
+    },
+    {
+      "index": 25,
+      "id": "faf65d2b-565a-4aed-bd8c-42439bce9243",
+      "sku": "MBP.A2251.I7.16GB.512GB.Grey.VERY_GOOD",
+      "productId": "3a6f21f8-3aae-41de-8718-58c788932962",
+      "legacyId": 6709296,
+      "legacyProductId": 725422,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-retina-133-inch-2020-core-i7-16gb-ssd-512-qwerty-english-us/3a6f21f8-3aae-41de-8718-58c788932962",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.683
+    },
+    {
+      "index": 26,
+      "id": "fafe9de5-52e4-46ee-92be-ea8f887e8ccc",
+      "sku": "iP12PM.Grey.256.Good",
+      "productId": "a05c14b7-f865-42a4-ac25-72060adae132",
+      "legacyId": 2864690,
+      "legacyProductId": 413847,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-12-pro-max-256-gb-graphite-unlocked/a05c14b7-f865-42a4-ac25-72060adae132",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.839
+    },
+    {
+      "index": 27,
+      "id": "fb45baa0-ad25-47ba-bd9c-1b1e567e7e37",
+      "sku": "MBA.2019.A1932.8GB.128GB.Gold.Fair",
+      "productId": "80760140-6528-4a2a-aab7-68d06b049d94",
+      "legacyId": 5928302,
+      "legacyProductId": 369170,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2019-core-i5-8gb-ssd-128-gb-qwerty-english-uk/80760140-6528-4a2a-aab7-68d06b049d94",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.746
+    },
+    {
+      "index": 28,
+      "id": "fb5f262d-0a70-43e5-ad66-99e86c67f341",
+      "sku": "iPXR.Red.64GB.Stallone",
+      "productId": "ce6d33be-f0d3-42bc-84f3-c69c416ba32e",
+      "legacyId": 1384430,
+      "legacyProductId": 205401,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-64-gb-productred-unlocked/ce6d33be-f0d3-42bc-84f3-c69c416ba32e",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.729
+    },
+    {
+      "index": 29,
+      "id": "fb81cde5-d6dd-4517-9c55-768e2d4a9739",
+      "sku": "iPXS.Gold.512GB.VeryGood",
+      "productId": "ec470852-c0f2-4bf7-9d19-ae3305756e2d",
+      "legacyId": 1424879,
+      "legacyProductId": 226485,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xs-512-gb-gold-unlocked/ec470852-c0f2-4bf7-9d19-ae3305756e2d",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.677
+    },
+    {
+      "index": 30,
+      "id": "fb95c43c-dddf-4a0a-8377-9d77292bf2db",
+      "sku": "MBA.A2681.M2.8C.8GB.256GB.Midnight.Good",
+      "productId": "9b1ef69f-c204-4a9f-8b06-a4ec8e37b231",
+      "legacyId": 6711634,
+      "legacyProductId": 761518,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-13-inch-2022-m2-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/9b1ef69f-c204-4a9f-8b06-a4ec8e37b231",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.84
+    },
+    {
+      "index": 31,
+      "id": "fba008fd-ec2c-4520-80ca-b1ef4f2a37f8",
+      "sku": "iPad.129.5th.128GB.Grey.Good",
+      "productId": "37773c1b-fc7d-442c-84ea-3e22a64cad1a",
+      "legacyId": 5184695,
+      "legacyProductId": 475457,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/ipad-pro-129-5th-gen-2021-hdd-128-gb-space-gray-wifi/37773c1b-fc7d-442c-84ea-3e22a64cad1a",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.654
+    },
+    {
+      "index": 32,
+      "id": "fbb06d0d-f657-4f92-9882-03b682af1a07",
+      "sku": "iPXS.MAX.SpaceGrey.512GB.Fair",
+      "productId": "c7bfaa97-3c78-4842-95c9-228c6d29201e",
+      "legacyId": 1371818,
+      "legacyProductId": 178660,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xs-max-512-gb-space-gray-unlocked/c7bfaa97-3c78-4842-95c9-228c6d29201e",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.845
+    },
+    {
+      "index": 33,
+      "id": "fbf64af9-40cf-4278-930f-276279382b18",
+      "sku": "MBP.A1708.8GB.256GB.Grey.Fair",
+      "productId": "fa33724e-1494-4699-bbfe-77b0f07fbb0d",
+      "legacyId": 5402048,
+      "legacyProductId": 2674119,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-retina-133-inch-2017-core-i5-8gb-ssd-256-qwerty-english-uk/fa33724e-1494-4699-bbfe-77b0f07fbb0d",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.717
+    },
+    {
+      "index": 34,
+      "id": "fcb5e0b9-e768-4140-9e88-229fb0684cbf",
+      "sku": "iPXS.Gold.256GB.Mint",
+      "productId": "eddc6437-fa57-4331-8ceb-8661cf52ccbb",
+      "legacyId": 1384347,
+      "legacyProductId": 161655,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xs-256-gb-gold-unlocked/eddc6437-fa57-4331-8ceb-8661cf52ccbb",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.604
+    },
+    {
+      "index": 35,
+      "id": "fd232840-9bf4-4f68-b0e8-f89da92c9f6c",
+      "sku": "MBP15.A1990.i7.16GB.256GB.Grey.Fair",
+      "productId": "2f8f2850-2755-4acb-81c8-49dd01862233",
+      "legacyId": 5383552,
+      "legacyProductId": 368265,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-retina-154-inch-2018-core-i7-16gb-ssd-256-gb-qwerty-english-uk/2f8f2850-2755-4acb-81c8-49dd01862233",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.703
+    },
+    {
+      "index": 36,
+      "id": "fd30ec4d-3ffc-4076-a984-3f01b84437f0",
+      "sku": "iPX.Silver.64GB.Fair",
+      "productId": "8822c6ae-4e5d-4b02-a681-4b28843fce2c",
+      "legacyId": 1386077,
+      "legacyProductId": 36835,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-x-64-gb-silver-unlocked/8822c6ae-4e5d-4b02-a681-4b28843fce2c",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.701
+    },
+    {
+      "index": 37,
+      "id": "fd8fac5d-0cd0-4f76-ba1c-3c2b8c4b0198",
+      "sku": "iPXR.Red.64GB.Mint",
+      "productId": "ce6d33be-f0d3-42bc-84f3-c69c416ba32e",
+      "legacyId": 1451276,
+      "legacyProductId": 205401,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-64-gb-productred-unlocked/ce6d33be-f0d3-42bc-84f3-c69c416ba32e",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.626
+    },
+    {
+      "index": 38,
+      "id": "fd931e0b-67ca-4488-ac6e-f90c95fb36df",
+      "sku": "MBP.A2485.16GB.512GB.Silver.Fair",
+      "productId": "34eca29e-4561-47ea-b437-0447e0d9bfc9",
+      "legacyId": 5587136,
+      "legacyProductId": 543603,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-pro-10-core-and-16-core-gpu-16gb-ram-ssd-512gb-qwerty-english-uk/34eca29e-4561-47ea-b437-0447e0d9bfc9",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.664
+    },
+    {
+      "index": 39,
+      "id": "fdab18bb-c32a-4c4b-8e0c-90a89756d0ef",
+      "sku": "MBP.A2918.8GB.512GB.Grey.Good",
+      "productId": "66817557-aa53-47aa-b076-0b2f83e866c3",
+      "legacyId": 6382950,
+      "legacyProductId": 3540530,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-142-inch-2023-m3-8-core-and-10-core-gpu-8gb-ram-ssd-512gb-qwerty-english/66817557-aa53-47aa-b076-0b2f83e866c3",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.716
+    },
+    {
+      "index": 40,
+      "id": "fdadabcd-a6e9-4003-ac56-4fa8a178a2c9",
+      "sku": "MBP16.A2485.M1MAX.32GB.1TB.Silver.Good",
+      "productId": "7cb19749-13a9-4cb4-9ee3-191e9961cf68",
+      "legacyId": 6233842,
+      "legacyProductId": 543476,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2021-16-inch-with-m1-max-10-core-and-32-core-gpu-32gb-ram-ssd-1tb-qwerty-english-us/7cb19749-13a9-4cb4-9ee3-191e9961cf68",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.768
+    },
+    {
+      "index": 41,
+      "id": "fdd0eb47-dc39-4076-ad5d-65706b9e2ac3",
+      "sku": "MBA.A2179.I5.8GB.512GB.Gold.Fair",
+      "productId": "a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd",
+      "legacyId": 6675190,
+      "legacyProductId": 522954,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "DISABLED",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i5-8gb-ssd-256-gb-qwerty/a95cf4ab-f96a-4dec-bbf7-7e8f5751d3cd",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.709
+    },
+    {
+      "index": 42,
+      "id": "fde094bc-281c-4eef-895b-928c1066605a",
+      "sku": "MBP13.A1706.i5.8GB.256GB.Silver.Good",
+      "productId": "7f23943c-b893-4809-903c-ce75943cd0b7",
+      "legacyId": 5384187,
+      "legacyProductId": 366583,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-retina-133-inch-2016-core-i5-8gb-ssd-256-gb-qwerty-english-us/7f23943c-b893-4809-903c-ce75943cd0b7",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.709
+    },
+    {
+      "index": 43,
+      "id": "fdec6a19-7890-4859-83d9-26aa0cc21d17",
+      "sku": "iP11.Green.256GB.VeryGood",
+      "productId": "616da0c1-7404-43a9-a8af-7ea24366fd29",
+      "legacyId": 1450768,
+      "legacyProductId": 290070,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.618
+    },
+    {
+      "index": 44,
+      "id": "fe1c1192-87a5-426c-9c27-ffc3662947e8",
+      "sku": "iPaAir4.64gb.blue.good",
+      "productId": "622f915c-3ead-40c2-a8b1-04cbcda843ea",
+      "legacyId": 2616390,
+      "legacyProductId": 409055,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/ipad-air-4-2020-hdd-64-gb-sky-blue-wifi-4g/622f915c-3ead-40c2-a8b1-04cbcda843ea",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.766
+    },
+    {
+      "index": 45,
+      "id": "fe57d0c8-ad92-4895-b7c9-857f389ef5dd",
+      "sku": "iP8Plus.SpaceGrey.64GB.Mint",
+      "productId": "4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb",
+      "legacyId": 1669048,
+      "legacyProductId": 38769,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-8-plus-64-gb-space-gray-unlocked/4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.719
+    },
+    {
+      "index": 46,
+      "id": "fe9ce912-5a20-4b8b-a599-12ae3467eee0",
+      "sku": "iP11.Black.128GB.Mint",
+      "productId": "dfab99ae-8ec6-443e-bc25-34c882d1e0cd",
+      "legacyId": 1450737,
+      "legacyProductId": 290063,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-11-128-gb-black-unlocked/dfab99ae-8ec6-443e-bc25-34c882d1e0cd",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.621
+    },
+    {
+      "index": 47,
+      "id": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+      "sku": "MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "productId": "2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "legacyId": 6558670,
+      "legacyProductId": 545355,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.811
+    },
+    {
+      "index": 48,
+      "id": "feff81df-9e60-4543-b67d-7fb0c7ea1a7c",
+      "sku": "MBA.A2179.I3.8GB.512GB.Grey.GOOD",
+      "productId": "defdf354-2287-4d17-ad0e-26b4b8955427",
+      "legacyId": 6709283,
+      "legacyProductId": 566717,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i3-8gb-ssd-512-gb-qwerty/defdf354-2287-4d17-ad0e-26b4b8955427",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.66
+    },
+    {
+      "index": 49,
+      "id": "fff60c37-6f4c-45b1-9598-038064d82997",
+      "sku": "iPXR.White.256GB.Good",
+      "productId": "3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "legacyId": 1451300,
+      "legacyProductId": 193116,
+      "quantity": 0,
+      "gb_bucket": "offline",
+      "gb_publicationState": "OFFLINE",
+      "gb_productPageLink_href": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "gb_present": true,
+      "all_markets_keys": {
+        "withoutBackbox": [],
+        "withBackbox": [],
+        "offline": [
+          "GB"
+        ]
+      },
+      "elapsed_s": 0.648
+    }
+  ],
+  "overlap_diff": [
+    {
+      "sku": "MBP.A2338.M1.8GB.256GB.Silver.Fair",
+      "uuid": "2c13573c-8254-4610-9cd4-bb5cc5730246",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985?l=12",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2020-m1-8-core-and-8-core-gpu-8gb-ram-ssd-256gb-qwerty/0dfd2e16-45be-4594-afaa-ee5a19662985",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.628
+    },
+    {
+      "sku": "MBP.A2338.M1.16GB.256GB.Grey.Fair",
+      "uuid": "49e34bd8-3aff-4c38-8eee-aa56180b430a",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/7408af3f-40ad-4e74-aff8-d2acca799683?l=12",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/7408af3f-40ad-4e74-aff8-d2acca799683",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/7408af3f-40ad-4e74-aff8-d2acca799683",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-133-inch-2020-m1-8-core-and-8-core-gpu-16gb-ram-ssd-256gb-qwerty-english/7408af3f-40ad-4e74-aff8-d2acca799683",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.619
+    },
+    {
+      "sku": "MBP.M2.A2338.8GB.256GB.Grey.Fair",
+      "uuid": "e0395dcf-435c-4c9e-b29f-15141854ce24",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9?l=12",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-13-inch-2022-m2-8-core-and-10-core-gpu-8gb-ram-ssd-256gb-qwerty/ef20e8dd-bcbf-4d94-8933-15f59560b9b9",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.611
+    },
+    {
+      "sku": "iP11.Green.256GB.VeryGood",
+      "uuid": "fdec6a19-7890-4859-83d9-26aa0cc21d17",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29?l=11",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.618
+    },
+    {
+      "sku": "iPaAir4.64gb.blue.good",
+      "uuid": "fe1c1192-87a5-426c-9c27-ffc3662947e8",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-4-2020-hdd-64-gb-sky-blue-wifi-4g/622f915c-3ead-40c2-a8b1-04cbcda843ea?l=10",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/ipad-air-4-2020-hdd-64-gb-sky-blue-wifi-4g/622f915c-3ead-40c2-a8b1-04cbcda843ea",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/ipad-air-4-2020-hdd-64-gb-sky-blue-wifi-4g/622f915c-3ead-40c2-a8b1-04cbcda843ea",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/ipad-air-4-2020-hdd-64-gb-sky-blue-wifi-4g/622f915c-3ead-40c2-a8b1-04cbcda843ea",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.766
+    },
+    {
+      "sku": "iP8Plus.SpaceGrey.64GB.Mint",
+      "uuid": "fe57d0c8-ad92-4895-b7c9-857f389ef5dd",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/iphone-8-plus-64-gb-space-gray-unlocked/4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb?l=12",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/iphone-8-plus-64-gb-space-gray-unlocked/4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-8-plus-64-gb-space-gray-unlocked/4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-8-plus-64-gb-space-gray-unlocked/4f28f0c9-3f45-4541-bb3c-a3c4f6054ccb",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.719
+    },
+    {
+      "sku": "iP11.Black.128GB.Mint",
+      "uuid": "fe9ce912-5a20-4b8b-a599-12ae3467eee0",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/iphone-11-128-gb-black-unlocked/dfab99ae-8ec6-443e-bc25-34c882d1e0cd?l=12",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/iphone-11-128-gb-black-unlocked/dfab99ae-8ec6-443e-bc25-34c882d1e0cd",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-11-128-gb-black-unlocked/dfab99ae-8ec6-443e-bc25-34c882d1e0cd",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-11-128-gb-black-unlocked/dfab99ae-8ec6-443e-bc25-34c882d1e0cd",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.621
+    },
+    {
+      "sku": "MBP.A2338.M1.16GB.2TB.Grey.Fair",
+      "uuid": "fef74d38-f986-4a8c-b840-3a8489bf2ecd",
+      "browser_status": "captured_spec_match",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/2bc8a185-15f9-4e3e-a21b-420b928528c3?l=11",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-2020-13-inch-with-m1-8-core-and-8-core-gpu-16gb-ram-ssd-2tb-qwerty-english-us/2bc8a185-15f9-4e3e-a21b-420b928528c3",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.811
+    },
+    {
+      "sku": "MBA.A2179.I3.8GB.512GB.Grey.GOOD",
+      "uuid": "feff81df-9e60-4543-b67d-7fb0c7ea1a7c",
+      "browser_status": "error",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i3-8gb-ssd-512-gb-qwerty/defdf354-2287-4d17-ad0e-26b4b8955427",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i3-8gb-ssd-512-gb-qwerty/defdf354-2287-4d17-ad0e-26b4b8955427",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i3-8gb-ssd-512-gb-qwerty/defdf354-2287-4d17-ad0e-26b4b8955427",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/macbook-air-retina-133-inch-2020-core-i3-8gb-ssd-512-gb-qwerty/defdf354-2287-4d17-ad0e-26b4b8955427",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.66
+    },
+    {
+      "sku": "iPXR.White.256GB.Good",
+      "uuid": "fff60c37-6f4c-45b1-9598-038064d82997",
+      "browser_status": "error",
+      "browser_url": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "api_url": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "browser_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "api_url_canon": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+      "identical_after_strip_l_param": true,
+      "sku_match": true,
+      "bm_id_match": true,
+      "source": "sampled-50",
+      "elapsed_s": 0.648
+    }
+  ],
+  "overlap_identical_count": 10,
+  "overlap_total": 10
+}

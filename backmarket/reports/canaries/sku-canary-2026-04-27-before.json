@@ -1,0 +1,146 @@
+{
+  "iPXR": {
+    "id": "fff60c37-6f4c-45b1-9598-038064d82997",
+    "legacyId": 1451300,
+    "legacyProductId": 193116,
+    "productId": "3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+    "categoryId": 2,
+    "title": "iPhone XR 256GB - White - Unlocked",
+    "isPublicationStateComputing": false,
+    "sku": "iPXR.White.256GB.Good",
+    "dualSim": "Physical SIM + eSIM",
+    "quantity": 0,
+    "thumbnail": {
+      "link": {
+        "type": "external",
+        "href": "https://d2e6ccujb3mkqf.cloudfront.net/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb-1_06571650-146a-4324-b410-815c41476649-thumb.jpg"
+      }
+    },
+    "aestheticGrade": {
+      "value": "SILVER",
+      "label": "Good"
+    },
+    "specialOfferType": {
+      "value": "NORMAL",
+      "label": "Normal"
+    },
+    "markets": {
+      "withoutBackbox": {},
+      "withBackbox": {},
+      "offline": {
+        "GB": {
+          "backboxPrice": null,
+          "hasBackbox": false,
+          "isBackboxPending": false,
+          "currentBackboxPrice": null,
+          "hasBackboxWithOtherListing": false,
+          "isBackpricerEnabledForListing": false,
+          "productPageLink": {
+            "type": "internal",
+            "name": "product",
+            "pattern": "/:locale/p/:slugV2/:uuid",
+            "params": {
+              "id": "193116",
+              "slug": "second-hand-iphone-xr-256-gb-white-unlocked",
+              "slugV2": "iphone-xr-256-gb-white-unlocked",
+              "uuid": "3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb",
+              "locale": "en-gb"
+            },
+            "query": {},
+            "hash": {},
+            "href": "https://www.backmarket.co.uk/en-gb/p/iphone-xr-256-gb-white-unlocked/3ffb04bf-42c6-4e6a-8266-a854a8d1e6bb"
+          },
+          "publicationState": "OFFLINE",
+          "price": {
+            "amount": 450.0,
+            "currency": "GBP"
+          },
+          "minimumPrice": null,
+          "pricingStrategy": null,
+          "priceWhenSoldNew": {
+            "amount": 549.0,
+            "currency": "GBP"
+          },
+          "backboxGrade": null,
+          "pricingStrategyInformation": {
+            "salesMaximizerInformation": null,
+            "dealInformation": null
+          }
+        }
+      }
+    },
+    "hasDealOpportunity": false
+  },
+  "iP11": {
+    "id": "fdec6a19-7890-4859-83d9-26aa0cc21d17",
+    "legacyId": 1450768,
+    "legacyProductId": 290070,
+    "productId": "616da0c1-7404-43a9-a8af-7ea24366fd29",
+    "categoryId": 2,
+    "title": "iPhone 11 256GB - Green - Unlocked",
+    "isPublicationStateComputing": false,
+    "sku": "iP11.Green.256GB.VeryGood",
+    "dualSim": "Physical SIM + eSIM",
+    "quantity": 0,
+    "thumbnail": {
+      "link": {
+        "type": "external",
+        "href": "https://d2e6ccujb3mkqf.cloudfront.net/616da0c1-7404-43a9-a8af-7ea24366fd29-1_e6d93508-7fd3-4e80-b677-3bdf7b708006-thumb.jpg"
+      }
+    },
+    "aestheticGrade": {
+      "value": "GOLD",
+      "label": "Very good"
+    },
+    "specialOfferType": {
+      "value": "NORMAL",
+      "label": "Normal"
+    },
+    "markets": {
+      "withoutBackbox": {},
+      "withBackbox": {},
+      "offline": {
+        "GB": {
+          "backboxPrice": null,
+          "hasBackbox": false,
+          "isBackboxPending": false,
+          "currentBackboxPrice": null,
+          "hasBackboxWithOtherListing": false,
+          "isBackpricerEnabledForListing": false,
+          "productPageLink": {
+            "type": "internal",
+            "name": "product",
+            "pattern": "/:locale/p/:slugV2/:uuid",
+            "params": {
+              "id": "290070",
+              "slug": "second-hand-iphone-11-256-gb-green-unlocked",
+              "slugV2": "iphone-11-256-gb-green-unlocked",
+              "uuid": "616da0c1-7404-43a9-a8af-7ea24366fd29",
+              "locale": "en-gb"
+            },
+            "query": {},
+            "hash": {},
+            "href": "https://www.backmarket.co.uk/en-gb/p/iphone-11-256-gb-green-unlocked/616da0c1-7404-43a9-a8af-7ea24366fd29"
+          },
+          "publicationState": "OFFLINE",
+          "price": {
+            "amount": 450.0,
+            "currency": "GBP"
+          },
+          "minimumPrice": null,
+          "pricingStrategy": null,
+          "priceWhenSoldNew": {
+            "amount": 639.0,
+            "currency": "GBP"
+          },
+          "backboxGrade": null,
+          "pricingStrategyInformation": {
+            "salesMaximizerInformation": null,
+            "dealInformation": null
+          }
+        }
+      }
+    },
+    "hasDealOpportunity": false
+  }
+}

@@ -1,0 +1,518 @@
+{
+  "services": {
+    "seller-experience": {
+      "base": "/api/seller-experience",
+      "version": "0.1.0",
+      "openapi_path": "/api/seller-experience/openapi.json",
+      "endpoint_count": 60,
+      "schema_count": 124,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/categories",
+          "summary": "Get Product Categories",
+          "op_id": "get_product_categories_categories_get"
+        },
+        {
+          "method": "GET",
+          "path": "/categories/{category_id}/attributes",
+          "summary": "Get Product Category Attributes",
+          "op_id": "get_product_category_attributes_categories__category_id__attributes_get"
+        },
+        {
+          "method": "POST",
+          "path": "/drafts",
+          "summary": "Create Product Draft",
+          "op_id": "create_product_draft_drafts_post"
+        },
+        {
+          "method": "GET",
+          "path": "/finance/report",
+          "summary": "Get Reports",
+          "op_id": "get_reports_finance_report_get"
+        },
+        {
+          "method": "GET",
+          "path": "/finance/report/metadata",
+          "summary": "Get Reports Metadata",
+          "op_id": "get_reports_metadata_finance_report_metadata_get"
+        },
+        {
+          "method": "GET",
+          "path": "/insights",
+          "summary": "Get Insights",
+          "op_id": "get_insights_insights_get"
+        },
+        {
+          "method": "GET",
+          "path": "/insights/embedded",
+          "summary": "Get Embedded Link",
+          "op_id": "get_embedded_link_insights_embedded_get"
+        },
+        {
+          "method": "POST",
+          "path": "/legal-details/dsa/contact-details",
+          "summary": "Save Dsa Contact Details",
+          "op_id": "save_dsa_contact_details_legal_details_dsa_contact_details_post"
+        },
+        {
+          "method": "GET",
+          "path": "/legal-details/dsa/contact-details",
+          "summary": "Get Dsa Contact Details",
+          "op_id": "get_dsa_contact_details_legal_details_dsa_contact_details_get"
+        },
+        {
+          "method": "POST",
+          "path": "/legal-details/dsa/contact-details/bulk/import",
+          "summary": "Bulk Import Dsa Contact Details",
+          "op_id": "bulk_import_dsa_contact_details_legal_details_dsa_contact_details_bulk_import_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings",
+          "summary": "Create Listing",
+          "op_id": "create_listing_listings_post"
+        },
+        {
+          "method": "GET",
+          "path": "/listings",
+          "summary": "Get Listings",
+          "op_id": "get_listings_listings_get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings-new",
+          "summary": "Filter Listings",
+          "op_id": "filter_listings_listings_new_get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/active-deal-campaigns",
+          "summary": "Get Active Deal Campaigns",
+          "op_id": "get_active_deal_campaigns_listings_active_deal_campaigns_get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/backbox",
+          "summary": "Get Product Backbox Information",
+          "op_id": "get_product_backbox_information_listings_backbox_get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/count",
+          "summary": "Get Listings Count",
+          "op_id": "get_listings_count_listings_count_get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/count-estimate",
+          "summary": "Get Listings Count Estimate",
+          "op_id": "get_listings_count_estimate_listings_count_estimate_get"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/export-deals",
+          "summary": "Export Deals",
+          "op_id": "export_deals_listings_export_deals_post"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/metadata/create/products/{product_id}",
+          "summary": "Listings Metadata Create",
+          "op_id": "listings_metadata_create_listings_metadata_create_products__product_id__get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/metadata/search",
+          "summary": "Listings Metadata Search",
+          "op_id": "listings_metadata_search_listings_metadata_search_get"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/{listing_id}",
+          "summary": "Get Listing",
+          "op_id": "get_listing_listings__listing_id__get"
+        },
+        {
+          "method": "PATCH",
+          "path": "/listings/{listing_id}",
+          "summary": "Update Listing",
+          "op_id": "update_listing_listings__listing_id__patch"
+        },
+        {
+          "method": "GET",
+          "path": "/listings/{listing_id}/alerts",
+          "summary": "Listings Alerts",
+          "op_id": "listings_alerts_listings__listing_id__alerts_get"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/archive",
+          "summary": "Archive Listing",
+          "op_id": "archive_listing_listings__listing_id__archive_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/get-all-backboxes",
+          "summary": "Get All Backboxes",
+          "op_id": "get_all_backboxes_listings__listing_id__get_all_backboxes_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/get-backbox",
+          "summary": "Get Backbox",
+          "op_id": "get_backbox_listings__listing_id__get_backbox_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/publish",
+          "summary": "Publish Listing",
+          "op_id": "publish_listing_listings__listing_id__publish_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/set-all-sales-maximizer-prices",
+          "summary": "Set All Sales Maximizer Prices",
+          "op_id": "set_all_sales_maximizer_prices_listings__listing_id__set_all_sales_maximizer_prices_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/set-deal-price",
+          "summary": "Set Deal Price",
+          "op_id": "set_deal_price_listings__listing_id__set_deal_price_post"
+        },
+        {
+          "method": "POST",
+          "path": "/listings/{listing_id}/set-sales-maximizer-price",
+          "summary": "Set Sales Maximizer Price",
+          "op_id": "set_sales_maximizer_price_listings__listing_id__set_sales_maximizer_price_post"
+        },
+        {
+          "method": "GET",
+          "path": "/mailbook",
+          "summary": "Get All Seller Contacts",
+          "op_id": "get_all_seller_contacts_mailbook_get"
+        },
+        {
+          "method": "POST",
+          "path": "/mailbook",
+          "summary": "Create Seller Contact",
+          "op_id": "create_seller_contact_mailbook_post"
+        },
+        {
+          "method": "GET",
+          "path": "/mailbook/metadata",
+          "summary": "Get Metadata",
+          "op_id": "get_metadata_mailbook_metadata_get"
+        },
+        {
+          "method": "DELETE",
+          "path": "/mailbook/{contact_id}",
+          "summary": "Delete Seller Contact",
+          "op_id": "delete_seller_contact_mailbook__contact_id__delete"
+        },
+        {
+          "method": "PUT",
+          "path": "/mailbook/{contact_id}/types",
+          "summary": "Update Seller Contact",
+          "op_id": "update_seller_contact_mailbook__contact_id__types_put"
+        },
+        {
+          "method": "GET",
+          "path": "/onboarding/self-onboarding",
+          "summary": "Get Self Onboarding",
+          "op_id": "get_self_onboarding_onboarding_self_onboarding_get"
+        },
+        {
+          "method": "GET",
+          "path": "/onboarding/v2/self-onboarding",
+          "summary": "Get Self Onboarding V2",
+          "op_id": "get_self_onboarding_v2_onboarding_v2_self_onboarding_get"
+        },
+        {
+          "method": "POST",
+          "path": "/onboarding/webhook/qualification-form",
+          "summary": "Receive qualification form webhook submissions",
+          "op_id": "receive_qualification_form_webhook_onboarding_webhook_qualification_form_post"
+        },
+        {
+          "method": "GET",
+          "path": "/opportunities/inventory",
+          "summary": "Get Inventory Opportunities",
+          "op_id": "get_inventory_opportunities_opportunities_inventory_get"
+        },
+        {
+          "method": "GET",
+          "path": "/opportunities/inventory/metadata",
+          "summary": "Get Inventory Opp Metadata",
+          "op_id": "get_inventory_opp_metadata_opportunities_inventory_metadata_get"
+        },
+        {
+          "method": "GET",
+          "path": "/orders/{order_id}",
+          "summary": "Get Order",
+          "op_id": "get_order_orders__order_id__get"
+        },
+        {
+          "method": "POST",
+          "path": "/orders/{order_id}/items/cancel",
+          "summary": "Cancel Order Items",
+          "op_id": "cancel_order_items_orders__order_id__items_cancel_post"
+        },
+        {
+          "method": "GET",
+          "path": "/pricing-rules",
+          "summary": "Get Pricing Rules",
+          "op_id": "get_pricing_rules_pricing_rules_get"
+        },
+        {
+          "method": "POST",
+          "path": "/pricing-rules",
+          "summary": "Create Pricing Rule",
+          "op_id": "create_pricing_rule_pricing_rules_post"
+        },
+        {
+          "method": "GET",
+          "path": "/pricing-rules/metadata",
+          "summary": "Get Metadata",
+          "op_id": "get_metadata_pricing_rules_metadata_get"
+        },
+        {
+          "method": "PATCH",
+          "path": "/pricing-rules/reference-market",
+          "summary": "Patch Seller Reference Market",
+          "op_id": "patch_seller_reference_market_pricing_rules_reference_market_patch"
+        },
+        {
+          "method": "GET",
+          "path": "/pricing-rules/seller-configurations",
+          "summary": "Get Seller Configurations",
+          "op_id": "get_seller_configurations_pricing_rules_seller_configurations_get"
+        },
+        {
+          "method": "PATCH",
+          "path": "/pricing-rules/seller-configurations",
+          "summary": "Patch Seller Configurations",
+          "op_id": "patch_seller_configurations_pricing_rules_seller_configurations_patch"
+        },
+        {
+          "method": "DELETE",
+          "path": "/pricing-rules/{pricing_rule_id}",
+          "summary": "Delete Pricing Rule",
+          "op_id": "delete_pricing_rule_pricing_rules__pricing_rule_id__delete"
+        },
+        {
+          "method": "POST",
+          "path": "/pricing-rules/{pricing_rule_id}/apply",
+          "summary": "Apply Pricing Rule",
+          "op_id": "apply_pricing_rule_pricing_rules__pricing_rule_id__apply_post"
+        },
+        {
+          "method": "GET",
+          "path": "/products/{product_id}",
+          "summary": "Get Product",
+          "op_id": "get_product_products__product_id__get"
+        },
+        {
+          "method": "GET",
+          "path": "/sales-metrics",
+          "summary": "Get Sales Metrics",
+          "op_id": "get_sales_metrics_sales_metrics_get"
+        },
+        {
+          "method": "GET",
+          "path": "/sales-metrics/metadata",
+          "summary": "Get Sales Metrics Metadata",
+          "op_id": "get_sales_metrics_metadata_sales_metrics_metadata_get"
+        },
+        {
+          "method": "GET",
+          "path": "/seller/features",
+          "summary": "Get Seller Features",
+          "op_id": "get_seller_features_seller_features_get"
+        },
+        {
+          "method": "GET",
+          "path": "/seller/information",
+          "summary": "Get Seller Information",
+          "op_id": "get_seller_information_seller_information_get"
+        },
+        {
+          "method": "GET",
+          "path": "/seller/terms-and-conditions",
+          "summary": "Get Terms And Conditions",
+          "op_id": "get_terms_and_conditions_seller_terms_and_conditions_get"
+        },
+        {
+          "method": "GET",
+          "path": "/seller/terms-and-conditions/document/{version}",
+          "summary": "Get Terms And Conditions Document",
+          "op_id": "get_terms_and_conditions_document_seller_terms_and_conditions_document__version__get"
+        },
+        {
+          "method": "GET",
+          "path": "/seller/terms-and-conditions/sign",
+          "summary": "Get Sign Terms And Conditions Url",
+          "op_id": "get_sign_terms_and_conditions_url_seller_terms_and_conditions_sign_get"
+        },
+        {
+          "method": "GET",
+          "path": "/seller/terms-and-conditions/signed",
+          "summary": "Sign Terms And Conditions",
+          "op_id": "sign_terms_and_conditions_seller_terms_and_conditions_signed_get"
+        },
+        {
+          "method": "GET",
+          "path": "/staff/seller/{seller_id}",
+          "summary": "Get Seller Details",
+          "op_id": "get_seller_details_staff_seller__seller_id__get"
+        }
+      ]
+    },
+    "payout-experience": {
+      "base": "/api/payout-experience",
+      "version": "0.1.0",
+      "openapi_path": "/api/payout-experience/openapi.json",
+      "endpoint_count": 13,
+      "schema_count": 25,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/v1/hello",
+          "summary": "Hello World",
+          "op_id": "hello_world_v1_hello_get"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/kyb",
+          "summary": "Retrieve Seller",
+          "op_id": "retrieve_seller_v1_kyb_get"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/article-of-incorporation",
+          "summary": "Upload Article Of Incorporation",
+          "op_id": "upload_article_of_incorporation_v1_kyb_article_of_incorporation_post"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/kyb/business-details",
+          "summary": "Update Business Details",
+          "op_id": "update_business_details_v1_kyb_business_details_put"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/business-details",
+          "summary": "Upload Business Details",
+          "op_id": "upload_business_details_v1_kyb_business_details_post"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/letter-of-authorization/{stakeholder_id}",
+          "summary": "Upload Letter Of Authorization",
+          "op_id": "upload_letter_of_authorization_v1_kyb_letter_of_authorization__stakeholder_id__post"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/proof-of-second-hand-dealer-licence",
+          "summary": "Upload Proof Of Second Hand Dealer Licence",
+          "op_id": "upload_proof_of_second_hand_dealer_licence_v1_kyb_proof_of_second_hand_dealer_licence_post"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/stakeholders",
+          "summary": "Create Stakeholder",
+          "op_id": "create_stakeholder_v1_kyb_stakeholders_post"
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/kyb/stakeholders/{stakeholder_id}",
+          "summary": "Update Stakeholder",
+          "op_id": "update_stakeholder_v1_kyb_stakeholders__stakeholder_id__put"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/stakeholders/{stakeholder_id}/proof-of-identity",
+          "summary": "Upload Stakeholder Proof Of Identity",
+          "op_id": "upload_stakeholder_proof_of_identity_v1_kyb_stakeholders__stakeholder_id__proof_of_identity_post"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/submit",
+          "summary": "Submit",
+          "op_id": "submit_v1_kyb_submit_post"
+        },
+        {
+          "method": "POST",
+          "path": "/v1/kyb/w9",
+          "summary": "Upload W9",
+          "op_id": "upload_w9_v1_kyb_w9_post"
+        },
+        {
+          "method": "GET",
+          "path": "/v1/metadata",
+          "summary": "Retrieve Seller",
+          "op_id": "retrieve_seller_v1_metadata_get"
+        }
+      ]
+    },
+    "seller-chat-agent": {
+      "base": "/api/seller-chat-agent",
+      "version": "0.1.0",
+      "openapi_path": "/api/seller-chat-agent/openapi.json",
+      "endpoint_count": 5,
+      "schema_count": 6,
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/v2/admin/check-admin",
+          "summary": "Check Admin Live",
+          "op_id": "check_admin_live_v2_admin_check_admin_get"
+        },
+        {
+          "method": "GET",
+          "path": "/v2/admin/conversations/csv",
+          "summary": "Get Conversations Csv",
+          "op_id": "get_conversations_csv_v2_admin_conversations_csv_get"
+        },
+        {
+          "method": "POST",
+          "path": "/v2/conversations",
+          "summary": "Create Conversation",
+          "op_id": "create_conversation_v2_conversations_post"
+        },
+        {
+          "method": "GET",
+          "path": "/v2/conversations/{conversation_id}",
+          "summary": "Get Conversation",
+          "op_id": "get_conversation_v2_conversations__conversation_id__get"
+        },
+        {
+          "method": "POST",
+          "path": "/v2/conversations/{conversation_id}/messages",
+          "summary": "Create Message",
+          "op_id": "create_message_v2_conversations__conversation_id__messages_post"
+        }
+      ]
+    }
+  },
+  "totals": {
+    "endpoints": 78,
+    "schemas": 155,
+    "services": 3
+  },
+  "bundle_grep_undocumented": {
+    "/api/v2": [
+      "/api/v2"
+    ],
+    "/api/v1": [
+      "/api/v1/products",
+      "/api/v1/quotes",
+      "/api/v1/sourcing-opportunities",
+      "/api/v1/tasks"
+    ],
+    "/api/tableau-2": [
+      "/api/tableau-2"
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "by_service": {
+    "/api/v2": [
+      "/api/v2"
+    ],
+    "/api/payout-experience": [
+      "/api/payout-experience/v1/kyb",
+      "/api/payout-experience/v1/kyb/article-of-incorporation",
+      "/api/payout-experience/v1/kyb/business-details",
+      "/api/payout-experience/v1/kyb/letter-of-authorization",
+      "/api/payout-experience/v1/kyb/proof-of-second-hand-dealer-licence",
+      "/api/payout-experience/v1/kyb/stakeholders",
+      "/api/payout-experience/v1/kyb/submit",
+      "/api/payout-experience/v1/kyb/w9"
+    ],
+    "/api/seller-experience": [
+      "/api/seller-experience/legal-details/dsa/contact-details",
+      "/api/seller-experience/legal-details/dsa/contact-details/bulk/import",
+      "/api/seller-experience/listings",
+      "/api/seller-experience/listings-new",
+      "/api/seller-experience/listings/active-deal-campaigns",
+      "/api/seller-experience/listings/count",
+      "/api/seller-experience/listings/export-deals",
+      "/api/seller-experience/listings/metadata/create/products",
+      "/api/seller-experience/listings/metadata/search",
+      "/api/seller-experience/pricing-rules",
+      "/api/seller-experience/pricing-rules/metadata",
+      "/api/seller-experience/pricing-rules/reference-market",
+      "/api/seller-experience/pricing-rules/seller-configurations",
+      "/api/seller-experience/seller/features",
+      "/api/seller-experience/seller/information"
+    ],
+    "/api/v1": [
+      "/api/v1/products",
+      "/api/v1/quotes",
+      "/api/v1/sourcing-opportunities",
+      "/api/v1/tasks"
+    ],
+    "/api/tableau-2": [
+      "/api/tableau-2"
+    ],
+    "/api/seller-chat-agent": [
+      "/api/seller-chat-agent/v2/conversations"
+    ]
+  },
+  "total": 30
+}
