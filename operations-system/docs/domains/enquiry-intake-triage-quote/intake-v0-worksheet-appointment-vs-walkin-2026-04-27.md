@@ -1,6 +1,6 @@
 # Intake V0 Worksheet — Appointment vs Walk-In
 Last updated: 2026-04-27 12:22 UTC
-Status: working correction after Ricky feedback, not final SOP
+Status: working correction after feedback
 Owner: Ops / Ricky / Naheed
 
 ## Purpose

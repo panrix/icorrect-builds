@@ -2,16 +2,16 @@
 Last updated: 2026-04-27
 Status:
 - CLI helper — V0 read-only, working
-- Monday webhook service — built, awaiting webhook subscription + production deploy
+- Monday webhook — **live** as of 2026-04-27 on `https://mc.icorrect.co.uk/stock-check-webhook` (handler lives inside `icorrect-parts-service`)
 
 ## Purpose
 
-Two surfaces, one shared core:
+Two surfaces:
 
 1. **CLI tool** (`tools/repair-stock-check.js`) — ad-hoc lookup by device + repair name. Used during intake/support while the full intake app is being mapped.
-2. **Monday webhook service** (`/home/ricky/builds/monday/services/repair-stock-check/`) — fires automatically when the **Requested Repairs** column changes on the main board, and posts a stock-check Monday update on the same item.
+2. **Monday webhook** — fires automatically when the **Requested Repairs** column changes on the main board, and posts a stock-check Monday update on the same item. Runs as a second route inside the existing `icorrect-parts-service` (port 3001).
 
-Shared stock-check logic lives in `tools/lib/stock-check-core.js` and is consumed by both surfaces.
+Shared stock-check logic in the CLI lives in `tools/lib/stock-check-core.js`. The webhook handler in `icorrect-parts-service/src/stock-check.js` is a near-duplicate sized for that service's deps; both follow the same `BoardRelationValue.linked_item_ids` lookup pattern.
 
 The output is intentionally simple:
 
@@ -134,16 +134,62 @@ It does not:
 - Multi-part repairs may need a richer output later.
 - The full intake app should eventually call this logic through a backend endpoint rather than shelling out to this script.
 
-## Monday Webhook Service
+## Monday Webhook (live)
 
-The webhook counterpart lives at `/home/ricky/builds/monday/services/repair-stock-check/` and watches Main Board `349212843`, column `board_relation` (Requested Repairs).
+| Item | Value |
+|---|---|
+| Public URL | `https://mc.icorrect.co.uk/stock-check-webhook` |
+| Service | `icorrect-parts-service` (systemd user unit `icorrect-parts.service`, port 3001) |
+| Handler | `src/stock-check-webhook.js` + `src/stock-check.js` |
+| Watches | Main Board `349212843`, column `board_relation` (Requested Repairs) |
+| Monday subscription | webhook id `571252124`, event `change_specific_column_value` |
+| Nginx route | `/etc/nginx/sites-enabled/mission-control` → `127.0.0.1:3001/stock-check-webhook` |
 
-On a column change it:
-- Reads linked Products & Pricing item IDs from the webhook payload
-- Looks up linked Parts and stock for each
-- Posts a Monday update on the main-board item
+On a column change the handler:
 
-It does **not** reserve or deduct stock. Deduction is handled separately by `icorrect-parts-service` on the `Parts Used` (`connect_boards__1`) column.
+- Reads linked Products & Pricing item IDs from `event.value.linkedPulseIds`
+- Looks up each product's linked Parts (`connect_boards8`) and their stock
+- Posts a `create_update` Monday update on the main-board item
 
-Setup, deployment, and Monday webhook subscription steps are in the service README:
-`/home/ricky/builds/monday/services/repair-stock-check/README.md`
+It does **not** reserve or deduct stock. Deduction is handled by the same service's other route (`/parts-webhook` → `connect_boards__1` Parts Used column). The two webhook handlers share the express server but are completely separate code paths and never write to the same Monday columns.
+
+### Why it lives in icorrect-parts-service (not its own service)
+
+Both webhooks are Monday subscriptions on the same main board, both deal with parts. Running them in the same Node process avoids a second nginx route, a second systemd unit, and a second deploy surface. The two handlers (`webhook.js` for deduction, `stock-check-webhook.js` for stock check) are kept as separate files with separate routes (`/webhook` vs `/stock-check-webhook`) so the read-only stock-check trigger is never coupled to the write-path deduction logic.
+
+### Skips
+
+The handler short-circuits and returns `200 OK` without posting anything when:
+
+- Event is not `update_column_value`, not on Main Board, or not on column `board_relation`
+- `linkedPulseIds` is empty (column was cleared)
+- `previousValue` and `value` resolve to the same set of IDs (echo / no real change)
+
+### Operating the live service
+
+```bash
+# logs
+journalctl --user -u icorrect-parts -f | grep stock_check
+
+# restart after edits
+systemctl --user restart icorrect-parts
+
+# health
+curl -s https://mc.icorrect.co.uk/stock-check-webhook -X POST \
+  -H 'Content-Type: application/json' -d '{"challenge":"ping"}'
+# → {"challenge":"ping"}
+```
+
+### Update body format
+
+Monday update body is HTML:
+
+```
+Stock Check
+• Repair: <product name>
+• Linked Part: <part name>
+• Available Stock: <n> [⚠️ Low if <= 0]
+• Other Possible Parts: …
+```
+
+Multiple linked products are listed in order. If a product has no linked Part, that entry says `Not found — manual check required`.
