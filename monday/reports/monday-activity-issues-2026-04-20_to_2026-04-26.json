@@ -1,0 +1,383 @@
+{
+  "generated_at": "2026-04-27T08:03:43.165186+00:00",
+  "window": {
+    "from": "2026-04-20T00:00:00Z",
+    "to": "2026-04-26T23:59:59Z",
+    "timezone": "UTC"
+  },
+  "board": {
+    "id": 349212843,
+    "name": "iCorrect Main Board"
+  },
+  "read_only": true,
+  "method": "Fetched Monday board activity_logs for window, fetched current item columns/updates for items with activity, excluded current Client Type BM/Back Market and non end-user/corporate client types, classified issue-like status/repair-type/group/update evidence.",
+  "total_activity_logs": 4724,
+  "total_items_with_activity": 218,
+  "total_non_bm_enduser_corporate_items_with_activity": 32,
+  "excluded_client_type_counts": {
+    "BM": 33,
+    "Warranty": 2,
+    "iCorrect": 1
+  },
+  "total_potential_issue_items": 12,
+  "breakdown_by_issue_type": {
+    "status_regression": 8,
+    "handoff_or_data_error": 1,
+    "missed_contact_or_chase_needed": 1,
+    "parts_unavailable_or_wrong_part": 1,
+    "delay_or_stuck_status": 1
+  },
+  "breakdown_by_client_type": {
+    "End User": 12
+  },
+  "candidates": [
+    {
+      "item_id": "11477994231",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11477994231",
+      "item_name": "#1114 - Gemma Kew",
+      "group": "Incoming Future",
+      "client_type": "End User",
+      "service": "Mail-In",
+      "current_status": "Shipped",
+      "current_repair_type": "Diagnostic",
+      "activity_timestamps": [
+        "2026-04-20T11:05:07.055859Z",
+        "2026-04-21T12:03:58.846770Z",
+        "2026-04-21T15:41:21.400162Z",
+        "2026-04-23T09:20:53.554414Z",
+        "2026-04-23T11:44:31.617848Z"
+      ],
+      "issue_categories": [
+        "status_regression",
+        "delay_or_stuck_status",
+        "delay_or_chase_needed",
+        "quote_or_payment_dispute"
+      ],
+      "primary_category": "status_regression",
+      "severity": "high",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics",
+        "Status changed Under Repair \u2192 Repair Paused",
+        "Status moved backwards Repaired \u2192 Diagnostics",
+        "Problem (Repair) changed Stuck \u2192 Solved",
+        "Repair Type changed Diagnostic \u2192 Quote Rejected"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ferrari/client services: review customer comms and contact customer if needed."
+    },
+    {
+      "item_id": "11731044367",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11731044367",
+      "item_name": "#1178 - Kobby Adi",
+      "group": "Returned",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Returned",
+      "current_repair_type": "BER",
+      "activity_timestamps": [
+        "2026-04-20T15:01:46.820299Z",
+        "2026-04-21T15:56:30.074059Z"
+      ],
+      "issue_categories": [
+        "status_regression",
+        "failed_or_unrepairable"
+      ],
+      "primary_category": "status_regression",
+      "severity": "high",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics",
+        "Repair Type changed Diagnostic \u2192 BER"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Technician + Ferrari: confirm diagnosis/repair outcome and next customer decision."
+    },
+    {
+      "item_id": "11047177121",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11047177121",
+      "item_name": "Alan Sherling",
+      "group": "Awaiting Collection",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Ready To Collect",
+      "current_repair_type": "Diagnostic",
+      "activity_timestamps": [
+        "2026-04-20T18:02:45.683714Z",
+        "2026-04-20T18:03:03.267341Z"
+      ],
+      "issue_categories": [
+        "handoff_or_data_error"
+      ],
+      "primary_category": "handoff_or_data_error",
+      "severity": "high",
+      "evidence_snippets": [
+        "Status changed Repaired \u2192 Error",
+        "Status changed Repaired \u2192 Error"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ops/Ferrari: audit item handoff/status history and correct process if needed."
+    },
+    {
+      "item_id": "11756337615",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11756337615",
+      "item_name": "#1186 - Benjamin Hadhazi",
+      "group": "Returned",
+      "client_type": "End User",
+      "service": "Mail-In",
+      "current_status": "Shipped",
+      "current_repair_type": "Repair",
+      "activity_timestamps": [
+        "2026-04-21T12:19:49.954661Z",
+        "2026-04-21T12:26:28.906704Z",
+        "2026-04-23T14:56:31.925443Z",
+        "2026-04-23T16:23:30.408798Z"
+      ],
+      "issue_categories": [
+        "status_regression",
+        "delay_or_stuck_status",
+        "missed_contact_or_chase_needed"
+      ],
+      "primary_category": "status_regression",
+      "severity": "high",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics",
+        "Status changed Under Refurb \u2192 Repair Paused",
+        "Status changed Received \u2192 Client To Contact",
+        "Status regressed Shipped \u2192 Received"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ferrari/client services: review customer comms and contact customer if needed."
+    },
+    {
+      "item_id": "11803327110",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11803327110",
+      "item_name": "#1201 - Stefan Chapman",
+      "group": "Client Services - To Do",
+      "client_type": "End User",
+      "service": "Mail-In",
+      "current_status": "Client To Contact",
+      "current_repair_type": "Repair",
+      "activity_timestamps": [
+        "2026-04-24T17:05:03.685435Z",
+        "2026-04-24T17:05:11.356236Z"
+      ],
+      "issue_categories": [
+        "missed_contact_or_chase_needed",
+        "status_regression"
+      ],
+      "primary_category": "missed_contact_or_chase_needed",
+      "severity": "high",
+      "evidence_snippets": [
+        "Status changed Received \u2192 Client To Contact",
+        "Status regressed Shipped \u2192 Received"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ferrari/client services: review customer comms and contact customer if needed."
+    },
+    {
+      "item_id": "11721115235",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11721115235",
+      "item_name": "Liam king",
+      "group": "Awaiting Collection",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Ready To Collect",
+      "current_repair_type": "Diagnostic",
+      "activity_timestamps": [
+        "2026-04-20T12:16:50.823632Z"
+      ],
+      "issue_categories": [
+        "status_regression"
+      ],
+      "primary_category": "status_regression",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ops/Ferrari: audit item handoff/status history and correct process if needed."
+    },
+    {
+      "item_id": "11630018092",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11630018092",
+      "item_name": "Farin Dickinson",
+      "group": "Returned",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Returned",
+      "current_repair_type": "Board Level",
+      "activity_timestamps": [
+        "2026-04-20T13:18:31.978978Z"
+      ],
+      "issue_categories": [
+        "status_regression"
+      ],
+      "primary_category": "status_regression",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ops/Ferrari: audit item handoff/status history and correct process if needed."
+    },
+    {
+      "item_id": "11701355436",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11701355436",
+      "item_name": "Francis Omede",
+      "group": "Awaiting Collection",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Ready To Collect",
+      "current_repair_type": "Diagnostic",
+      "activity_timestamps": [
+        "2026-04-20T14:50:50.178071Z",
+        "2026-04-21T12:26:28.925125Z"
+      ],
+      "issue_categories": [
+        "status_regression",
+        "delay_or_stuck_status"
+      ],
+      "primary_category": "status_regression",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics",
+        "Status changed Under Repair \u2192 Repair Paused"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ops/Ferrari: audit item handoff/status history and correct process if needed."
+    },
+    {
+      "item_id": "11625087344",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11625087344",
+      "item_name": "#1156 - Gary Adamson",
+      "group": "Safan (Short Deadline)",
+      "client_type": "End User",
+      "service": "Mail-In",
+      "current_status": "Queued For Repair",
+      "current_repair_type": "Repair",
+      "activity_timestamps": [
+        "2026-04-21T11:26:56.210838Z",
+        "2026-04-22T17:17:47.898020Z",
+        "2026-04-23T13:43:25.076090Z"
+      ],
+      "issue_categories": [
+        "parts_unavailable_or_wrong_part",
+        "parts_unavailable_or_waiting"
+      ],
+      "primary_category": "parts_unavailable_or_wrong_part",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Parts Status changed No Stock \u2192 Ordered",
+        "Parts Status changed In Stock \u2192 No Stock",
+        "Status changed Repair Paused \u2192 Awaiting Part"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Technician/parts owner: verify part order/stock ETA and update customer if delayed."
+    },
+    {
+      "item_id": "11491056656",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11491056656",
+      "item_name": "Antonio Asamoah",
+      "group": "Awaiting Collection",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Ready To Collect",
+      "current_repair_type": "Diagnostic",
+      "activity_timestamps": [
+        "2026-04-21T16:54:57.526907Z"
+      ],
+      "issue_categories": [
+        "status_regression"
+      ],
+      "primary_category": "status_regression",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ops/Ferrari: audit item handoff/status history and correct process if needed."
+    },
+    {
+      "item_id": "11646088036",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11646088036",
+      "item_name": "#1158 - Chelsea Boliti",
+      "group": "Returned",
+      "client_type": "End User",
+      "service": "Mail-In",
+      "current_status": "Shipped",
+      "current_repair_type": "Repair",
+      "activity_timestamps": [
+        "2026-04-22T17:05:29.924580Z",
+        "2026-04-24T09:29:11.350822Z",
+        "2026-04-24T09:42:46.975770Z"
+      ],
+      "issue_categories": [
+        "delay_or_stuck_status",
+        "status_regression",
+        "missed_contact_or_chase_needed"
+      ],
+      "primary_category": "delay_or_stuck_status",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Status changed Diagnostics \u2192 Repair Paused",
+        "Status moved backwards Repaired \u2192 Diagnostics",
+        "Status changed Battery Testing \u2192 Password Req"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ferrari/client services: review customer comms and contact customer if needed."
+    },
+    {
+      "item_id": "11611289090",
+      "item_url": "https://icorrect.monday.com/boards/349212843/pulses/11611289090",
+      "item_name": "Niki Freeman",
+      "group": "Awaiting Collection",
+      "client_type": "End User",
+      "service": "Walk-In",
+      "current_status": "Ready To Collect",
+      "current_repair_type": "Diagnostic",
+      "activity_timestamps": [
+        "2026-04-23T11:25:42.398630Z"
+      ],
+      "issue_categories": [
+        "status_regression"
+      ],
+      "primary_category": "status_regression",
+      "severity": "medium",
+      "evidence_snippets": [
+        "Status moved backwards Repaired \u2192 Diagnostics"
+      ],
+      "evidence_sources": [
+        "activity_log"
+      ],
+      "recommended_follow_up": "Ops/Ferrari: audit item handoff/status history and correct process if needed."
+    }
+  ],
+  "limitations": [
+    "Client type filtering uses current Main Board Client Type (`status`) value, not historical client type at activity timestamp.",
+    "Issue classification is rule-based from activity log data and same-window updates; it intentionally flags potential issues for human review, not confirmed failures.",
+    "Monday activity log `created_at` is returned as a high-precision numeric epoch timestamp and was normalized to UTC.",
+    "Updates fetched with `updates(limit:100)` per item; very update-heavy items could have older same-window updates omitted if more than 100 newer updates exist.",
+    "Blank/other client types were excluded to honor end-user/corporate-only scope; this may omit miscoded end-user items."
+  ]
+}
