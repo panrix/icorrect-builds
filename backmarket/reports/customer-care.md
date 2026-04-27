@@ -146,13 +146,103 @@ The seller-portal "Open tasks" tab shows **TODO + LATE + UPCOMING** (anything ac
 
 `SCREEN_BLACK`, `DOES_NOT_TURN_ON` — partial list. The full enum lives in BM's translation dictionary; capture more by hitting a sample of real customer requests.
 
-## What we DON'T have yet
+## Write endpoints — body shapes (extracted from bundle, NOT yet test-fired)
 
-- The exact POST body shape for: `POST_MESSAGE`, `REFUND`, `PROBLEM`, `CREATE_MANUAL_RETURN_OF_PRODUCT_RETURN`. Discover by capturing Network during one real UI action of each type.
-- The path prefix for those POSTs (probably `POST /seller-after-sales/api/v1/orderlines/{uuid}/{messages|refunds|problems|returns}` but unverified).
-- Pagination cursor shape on `/requests` (the `metadata` field exists but wasn't expanded in this probe).
-- File upload endpoint for attachments.
-- The `/seller-after-sales/api/v1/orderlines` direct list returned 403, suggesting some staff-only endpoints exist on the same prefix.
+All 4 write actions discovered in `/api/v2/.../actions` map to the following POST endpoints. Bodies were extracted statically from the seller-portal JS bundle (`DX8ixRUX.js`) — no actual writes performed during discovery.
+
+### POST_MESSAGE — reply to customer
+
+```http
+POST /seller-after-sales/api/v1/orderlines/{orderlinePublicId}/message
+Content-Type: application/json
+
+{
+  "message": "<HTML or plain text reply>",
+  "attachments": [
+    {"handle": "...", "filePath": "...", "bucketName": "..."}
+  ]
+}
+```
+
+`attachments` is an array of references — files are uploaded separately first (endpoint not yet captured) and the upload returns `{handle, filePath, bucketName}` triples to attach here.
+
+### PROBLEM — escalate / report a problem
+
+```http
+POST /seller-after-sales/api/v1/orderlines/{orderlinePublicId}/problem
+Content-Type: application/json
+
+{
+  "message": "<text describing the problem>",
+  "problemType": "ACCOUNT_LOCKED | CODE_LOCKED | DAMAGED_PACKAGE | ITEM_NOT_RECEIVED | MISSING_PART | OOW_ITEM | PROBLEM_NOT_IDENTIFIED | WRONG_ITEM | OTHER",
+  "attachments": [...]
+}
+```
+
+`problemType` enum confirmed against `/actions` response. Some types require attachments (the bundle distinguishes via a per-type list); safest to always send `attachments: []` when none.
+
+### REFUND — full or partial (same endpoint, different body)
+
+```http
+POST /bm/customer_request/orderlines/{orderlinePublicId}/refund
+Content-Type: application/json
+```
+
+**Full refund** body (when `refundAmount == maxRefundPrice`):
+```json
+{
+  "monetaryAmount": {"amount": "692.00", "currency": "GBP"}
+}
+```
+
+**Partial refund** body (when amount < max):
+```json
+{
+  "monetaryAmount": {"amount": "20.00", "currency": "GBP"},
+  "partialRefundReason": "ACCESSORY_PROBLEM | RETURN_LABEL_FEES | THIRD_PARTY_REPAIR | APPEARANCE_ISSUE | PERFORMANCE_ISSUE | OTHER",
+  "partialRefundMessage": "<free text — only required when reason is OTHER>"
+}
+```
+
+⚠️ **Refund uses the `/bm/customer_request/...` prefix, not `/seller-after-sales/...`**. The bundle code path that decides full vs partial: if `refundAmount == maxRefundPrice` send the full-shape body; else send the partial-shape body. Same URL either way.
+
+The `maxRefundPrice` for the orderline is read from `GET /seller-after-sales/api/v2/orderlines/{publicId}/actions` → `actions[].attributes.refundPrice.amount` for the REFUND action. Always re-read this before any refund POST — never assume a cached value.
+
+### CREATE_MANUAL_RETURN — log a return shipment manually
+
+```http
+POST /seller-after-sales/api/v1/orderlines/{orderlinePublicId}/manual_return
+Content-Type: application/json
+
+{
+  "carrierCodename": "<from /bm/shippers list>",
+  "orderlineId": "<orderlinePublicId — yes, same uuid as path param>",
+  "trackingNumber": "<carrier tracking number>",
+  "sellerAddressPublicId": "<from merchant info>"
+}
+```
+
+Supporting reads needed before this POST:
+
+- `GET /bm/shippers` → returns `{results: [{shipper_name, codename, ...}]}`. Match by name to get the codename.
+- `GET /bm/customer_request/merchant/information` → returns `{returnAddresses: [{publicId, ...}]}`. Pick the right address.
+
+## Other endpoints surfaced by bundle
+
+- `GET /bm/customer_request/orderlines/{orderlineId}` — adjacent: billing/warranty/insurance (note: uses numeric `orderlineId`, not the UUID `orderlinePublicId`)
+- `GET /bm/customer_request/resolutions/{resolutionId}/information` — resolution lookup → returns `customerRequestId` for navigation
+- `GET /seller-after-sales/api/v1/tasks/{taskId}/next` — next-task navigation (returns `{resolutionId, orderlinePublicId}`)
+- `GET /bm/buyback/v1/staff/orders/{id}/messages` — **buyback** (trade-in) seller-side messages — different surface from customer-care, but uses same patterns. Per-role variants:
+  - `/staff/...` — admin
+  - `/refurbisher/...` — seller
+  - `/customer/...` — buyer
+
+## What we still don't have
+
+- **Attachment upload endpoint** — POST_MESSAGE and PROBLEM accept attachments via opaque handles, but the upload-to-get-handle endpoint wasn't captured. Likely a multipart POST to a presigned-URL flow. Needed before message-with-attachment automations.
+- **Pagination cursor shape on `/requests`** — the `metadata` field exists but its keys weren't expanded. Cheap to verify with a paged GET.
+- **The 403 endpoints** — `/seller-after-sales/api/v1/openapi.json`, `/seller-after-sales/api/v1/orderlines` (direct list), `/seller-after-sales/api/v2/tasks` — exist but admin-only. Not blocking any iCorrect use case.
+- **Real POST verification** — bodies are inferred from bundle source; one safe test (e.g. partial-refund of £0.01 to a test order, or POST_MESSAGE on an internal test thread if BM has one) would confirm shapes work as documented. Recommend doing this on the next live customer-care interaction Ricky has, not as a synthetic test.
 
 ## Known cross-reference fields
 
@@ -184,6 +274,7 @@ For each customer request, you can join to:
 
 ## Suggested next steps
 
-1. **One-click sniff session**: open the Davey Teague task in the UI, click each of [Send message, Mark problem, Refund, Manual return] once with `Network.enable` on. Capture the POST URL + body for each. ~10 minutes; adds 4 endpoints to this skill file.
+1. ~~**One-click sniff session**: open the Davey Teague task in the UI, click each of [Send message, Mark problem, Refund, Manual return] once with `Network.enable` on. Capture the POST URL + body for each.~~ **✅ DONE 2026-04-27 — extracted statically from the JS bundle (`DX8ixRUX.js`) instead of triggering UI actions. Zero writes performed during discovery. All 4 POST URL templates + body shapes are in the "Write endpoints" section above.** First real send will be the live verification.
 2. **Wire the morning brief**: cron `GET /requests?openTasks=true` at 8am Bali; post to Operations group. Trivial — same pattern as the BM listings alerts in `/home/ricky/builds/backmarket/scripts/`.
 3. **Cross-reference test**: pick 5 current requests, look up their `order.id` against Monday's BM column. Confirm 5/5 join cleanly. If they do, the Telegram alert can include "→ Monday card BM XXXX (status: <main_status>)" links.
+4. **Discover the attachment upload endpoint**: required before any POST_MESSAGE / PROBLEM with attachments can be automated. Likely a multipart upload to a presigned-URL flow. Sniff one real attachment-upload click in the UI to capture.

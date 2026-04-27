@@ -98,3 +98,49 @@ Weekly price scraper at `buyback-monitor/sell_price_scraper_v7.js`. Runs Monday 
 | BM Devices Board | 3892194968 |
 
 Column reference: `docs/VERIFIED-COLUMN-REFERENCE.md`
+
+## Browser-Harness Research & Skills (2026-04-26 onwards)
+
+Codex's pipeline (`scripts/list-device.js`, `services/...`) uses the **legacy public BM APIs**: `/ws/buyback/v1/orders`, `/ws/listings`, etc. — token-authed via `BM_AUTH`.
+
+Separately, **browser-harness research from Mac discovered BM's private seller-portal API surface** — same endpoints the BM web UI uses. Cookie-authed via the user's signed-in Chrome (no extra token). Different surface, far more capable for some operations:
+
+- **3 OpenAPI specs** at `api-specs/` (seller-experience, payout-experience, seller-chat-agent — 78 documented endpoints, 155 schemas)
+- **Customer-care surface** at `/seller-after-sales/api/v{1,2}/...` — list customer requests, conversation threads, refunds, problems, manual returns. NOT covered by the existing pipeline.
+- **Listing creation via `POST /api/seller-experience/listings`** — atomic, no UI fighting. Resolves the "no catalog match" SOP 6 BLOCK class via `/opportunities/inventory` search.
+
+### Where the docs live
+
+| Doc | What it covers |
+|---|---|
+| `reports/api-discovery.md` | How private API discovery works + endpoint inventory (the source of all the below) |
+| `reports/listing-create.md` | List a device end-to-end via API. Replaces UI-driven `list-device.js` for the hot path. |
+| `reports/url-capture.md` | Capture frontend URLs via `GET /listings/{uuid}` instead of browser-scraping. ~36× faster than `v7-scraper`. |
+| `reports/customer-care.md` | Customer-care/returns/refunds API surface. New capability — not previously automated. |
+| `reports/browser-harness-bm-canary-report.md` | SKU canary proof + safety-incident write-up |
+| `reports/browser-harness-bm-pilot-report.md` | First URL-capture pilot |
+| `reports/bm-api-vs-browser-validation.md` | Sub-agent verification: API matches browser scrape 10/10 |
+| `reports/sop6-block-resolution-report.md` | Sub-agent dry-run: 3/3 SOP 6 BLOCKs are false negatives, all resolvable via API |
+| `api-docs/` | Plain-English capability docs grouped by service (seller-experience, payout-experience, seller-chat) |
+| `api-specs/` | Raw OpenAPI 3.1 JSON + bundle-grep extras |
+| `data/captures/` | Audit trails (browser-harness URL captures, listing-create canary, SKU rename canary) |
+
+### Canonical source of skills
+
+The `*.md` files in `reports/` are **mirrors** of the canonical browser-harness domain skills which live on Ricky's Mac at:
+
+```
+~/Developer/browser-harness/domain-skills/backmarket/
+├── api-discovery.md
+├── url-capture.md
+├── listing-create.md
+└── customer-care.md
+```
+
+When Ricky updates a skill on the Mac, he `scp`s to `reports/` here. The Mac copy is source of truth (browser-harness loads them at runtime); the VPS copy is for VPS-side reference + future agent reading.
+
+### Boundary with the existing pipeline
+
+- **`scripts/list-device.js`** still uses local `bm-catalog.json` + `/ws/listings`. Recommended: patch it to fall back to `/api/seller-experience/opportunities/inventory` when local catalog misses (see `sop6-block-resolution-report.md` for sketch).
+- **`scripts/buy-box-check.js`** etc. — unchanged; the BackBox endpoints exposed in seller-experience could replace the v7-scraper for some fields, but no migration done yet.
+- **Customer-care** is greenfield — no existing pipeline coverage. The `customer-care.md` skill is the starting point if/when we wire CS automations.

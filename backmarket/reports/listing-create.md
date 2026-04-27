@@ -14,21 +14,27 @@ Use `GET /api/seller-experience/opportunities/inventory` with `productTitle` + `
 url = '/api/seller-experience/opportunities/inventory'
 params = {
     'productTitle': 'MacBook Pro 16-inch (2023)',  # broad enough to match
-    'categoryId': 110,                              # MacBook
+    'categoryId': 528,                              # ⚠️ Apple Silicon Macs (M1/M2/M3/M4)
     'pageSize': 100,                                # max page = 200
 }
 # returns {count, next, results: [{productId, title, brand, grade, categoryName, isListed, ...}]}
 ```
 
-**Important quirks of `/opportunities/inventory`:**
+**⚠️ Critical category-ID gotcha (corrected 2026-04-27):**
 
-- Despite the name ("opportunities"), this is **the** searchable BM catalog. It surfaces ~all products in your authorised categories — not just BM-curated recommendations.
+Despite what the metadata implies, `categoryId=110` ("MacBook") is **Intel-only**. Apple-Silicon Macs (M1/M2/M3/M4) live in `categoryId=528` ("MacBook M1") — that subcategory is the umbrella for ALL Apple Silicon, NOT just M1. A naive query for "M3 Pro" against `categoryId=110` returns zero. Get the full category list once via `GET /api/seller-experience/opportunities/inventory/metadata` and pick the right subcategory per device family.
+
+The earlier draft of this skill had `categoryId=110` for MacBook — that was wrong. The 2026-04-27 sub-agent dry-run against SOP 6 BLOCKs surfaced the correction.
+
+**Other quirks of `/opportunities/inventory`:**
+
+- Despite the name ("opportunities"), this is the searchable surface BM exposes for your authorised categories. Sub-agent investigation noted the result set is **curated by demand**, not the unfiltered raw catalog — but in practice for refurbished Apple gear it appears to surface all relevant variants. If a query returns zero unexpectedly, broaden the title or try a sibling category before assuming the product genuinely doesn't exist.
 - `productTitle` is **substring match against the canonical product name**. Phrases like `"MacBook Pro 16-inch (2023)"` work; `"M3 Pro"` works; `"M3+Pro"` (URL-encoded space) returns broader matches than `"M3-Pro"` would.
 - Returns DUPLICATE rows per (productId, grade) combination — same productId can appear multiple times if BM has data for it at Excellent + Good + Fair separately. Dedupe by `productId` when you only need the catalog entry.
 - The `title` field carries spec but **NOT colour**. Colour is bound to the productId itself (different colour = different productId), but you can't tell which is which from the title alone — you have to either disambiguate from the public product page or check the per-product detail (next step).
-- For **MacBook**, `categoryId=110`. Other category IDs are at `GET /api/seller-experience/opportunities/inventory/metadata` (returns full category list — iPhone, iPad etc.).
+- Get the full category list at `GET /api/seller-experience/opportunities/inventory/metadata`. Notable IDs observed so far: **MacBook (Intel)** = 110, **MacBook (Apple Silicon)** = 528. iPhone / iPad IDs not yet recorded — discover via metadata before bulk runs.
 
-For "MacBook Pro 16-inch (2023) - Apple M3 Pro 36GB 1TB SSD English QWERTY" the search returned 4 productId rows with that exact spec, two of which were English QWERTY (one Space Black, one Silver) — the other two were Italian / French / Dutch keyboard variants.
+For "MacBook Pro 16-inch (2023) - Apple M3 Pro 36GB 1TB SSD English QWERTY" the search (against `categoryId=528`) returned 4 productId rows with that exact spec, two of which were English QWERTY (one Space Black, one Silver) — the other two were Italian / French / Dutch keyboard variants.
 
 ### Step 2 — verify listability + colour disambiguation
 
@@ -37,11 +43,11 @@ For each candidate productId, hit `GET /api/seller-experience/listings/metadata/
 ```python
 r = api('GET', f'/api/seller-experience/listings/metadata/create/products/{product_id}')
 # returns {
-#   "aestheticGrades": [{"label","value","code"}],   ← what grades are listable for THIS product
+#   "aestheticGrades": [{"label","value","code"}],   ← grades available to YOUR seller account (top-level)
 #   "product": {
 #     "id", "publicId", "name", "mpn", "manufacturerVersion",
 #     "dualSim", "thumbnails",
-#     "availableMarkets": [{"market", "productPageLink": {"href"}}]
+#     "availableMarkets": [{"market", "productPageLink": {"href"}}]   ← markets THIS product can be listed in
 #   }
 # }
 ```
@@ -53,6 +59,8 @@ r = api('GET', f'/api/seller-experience/listings/metadata/create/products/{produ
 - `product.mpn` — Apple's manufacturer part number. **The fastest colour disambiguator.** For MBP 16" 2023 M3 Pro 36GB 1TB the two candidates differ on `mpn`: `MRW63FN/A-CTO-RO-36GB-1TB` vs `MRW23FN/A-CTO-RO-36GB-1TB`. Apple's MPN scheme encodes colour. Cross-reference against an Apple MPN map, OR just hit the public product page once per candidate and grep for `space black` / `silver`.
 - `product.availableMarkets[].productPageLink.href` — the canonical public URL (no `?l=N` suffix from the API; that's appended only when the UI navigates there).
 - `product.dualSim` — for iPhones; null for laptops.
+
+**⚠️ Listability gate (corrected 2026-04-27):** the *seller-account* gate is `aestheticGrades` (top-level), but the *per-product* gate is `product.availableMarkets`. Listing a product to GB requires `'GB' in [m.market for m in product.availableMarkets]`. If GB isn't there, the product simply isn't listable on the UK marketplace regardless of your account's grade entitlements. Earlier draft of this skill conflated these two — now split.
 
 **Colour disambiguation by public-page check:** if MPN doesn't disambiguate (or you don't have an MPN→colour map handy), fetch each candidate's `productPageLink.href` and regex for the colour token. The first hit per session may need ~5s for Cloudflare to clear; subsequent hits in the same session are instant.
 
@@ -166,3 +174,11 @@ def list_device_via_api(sku, product_title_search, category_id, grade_int, stock
 ## Per-product caching
 
 The `(productTitle, categoryId) → productId` mapping is stable across a release cycle (BM doesn't churn product IDs). Cache results for ~24h to avoid re-searching the catalog on every listing. Invalidate cache on 404-from-product or on listing-create failure with `productId` validation error.
+
+## Known local-catalog discrepancies vs live API
+
+Discovered during the 2026-04-27 SOP 6 dry-run — Codex's `/home/ricky/builds/backmarket/data/bm-catalog.json` contains at least one labelling bug worth knowing about:
+
+- productId `9b1ef69f-c204-4a9f-8b06-a4ec8e37b231` is labelled **"Starlight"** in the local catalog but BM's live `/products/{id}` returns colour **"Midnight"**. This product is currently bound to BM 1429, BM 1496 (PROPOSE rows in SOP 6) AND BM 1491 (BLOCK row). The BLOCK reason "no Midnight match" was real for the local catalog but a non-issue against the live API.
+
+When migrating to live-API resolution, expect more such mislabels to surface. Treat the live API as source of truth and queue `bm-catalog.json` corrections via a separate audit task — don't try to back-patch the local catalog inside the resolver hot-path.
