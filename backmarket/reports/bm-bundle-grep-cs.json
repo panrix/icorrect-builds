@@ -1,0 +1,40 @@
+{
+  "/api/v2": [
+    "/api/v2"
+  ],
+  "/api/tableau-2": [
+    "/api/tableau-2"
+  ],
+  "other": [
+    "/customer-care/buoy-boy",
+    "/customer-care/conversation/",
+    "/customer-care/help-requests/",
+    "/customer-care/help-requests/resolutions/",
+    "/customer-care/not-found",
+    "/customer-care/technical-error"
+  ],
+  "/api/payout-experience": [
+    "/api/payout-experience/v1/kyb",
+    "/api/payout-experience/v1/kyb/business-details",
+    "/api/payout-experience/v1/kyb/stakeholders",
+    "/api/payout-experience/v1/kyb/submit"
+  ],
+  "/api/v1": [
+    "/api/v1/products",
+    "/api/v1/quotes",
+    "/api/v1/refunds",
+    "/api/v1/requests",
+    "/api/v1/sourcing-opportunities",
+    "/api/v1/tasks"
+  ],
+  "/api/seller-chat-agent": [
+    "/api/seller-chat-agent/v2/conversations"
+  ],
+  "/api/seller-experience": [
+    "/api/seller-experience/seller/features",
+    "/api/seller-experience/seller/information"
+  ],
+  "/crm": [
+    "/crm/customers/v1/data/id"
+  ]
+}

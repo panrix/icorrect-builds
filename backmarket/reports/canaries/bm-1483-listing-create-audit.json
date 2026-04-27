@@ -1,0 +1,84 @@
+{
+  "created_at": "2026-04-27T05:23:47Z",
+  "verify_response": {
+    "id": "25fdee1b-0702-4f94-8575-cd16da28334f",
+    "legacyId": 6844271,
+    "legacyProductId": 3541870,
+    "productId": "7321f8b6-c3f9-4141-b562-c1f6e426bf0e",
+    "categoryId": 528,
+    "title": "MacBook Pro 16-inch (2023) - Apple M3 Pro 12-core and 18-core GPU - 36GB RAM - SSD 1000GB - Standard display - QWERTY - English",
+    "isPublicationStateComputing": false,
+    "sku": "MBP.A2991.M3PRO.36GB.1TB.SpaceBlack.Excellent",
+    "dualSim": null,
+    "quantity": 1,
+    "thumbnail": {
+      "link": {
+        "type": "external",
+        "href": "https://d2e6ccujb3mkqf.cloudfront.net/7321f8b6-c3f9-4141-b562-c1f6e426bf0e-1_bf9d8898-3758-4d4c-b5a9-45420ab4bcd6-thumb.jpg"
+      }
+    },
+    "aestheticGrade": {
+      "value": "SHINY",
+      "label": "Excellent"
+    },
+    "specialOfferType": {
+      "value": "NORMAL",
+      "label": "Normal"
+    },
+    "markets": {
+      "withoutBackbox": {},
+      "withBackbox": {
+        "GB": {
+          "backboxPrice": {
+            "amount": 2000.0,
+            "currency": "GBP"
+          },
+          "hasBackbox": true,
+          "isBackboxPending": false,
+          "currentBackboxPrice": {
+            "amount": 2000.0,
+            "currency": "GBP"
+          },
+          "hasBackboxWithOtherListing": true,
+          "isBackpricerEnabledForListing": false,
+          "productPageLink": {
+            "type": "internal",
+            "name": "product",
+            "pattern": "/:locale/p/:slugV2/:uuid",
+            "params": {
+              "id": "3541870",
+              "slug": "second-hand-macbook-pro-162-inch-2023-m3-pro-12-core-and-18-core-gpu-36gb-ram-ssd-1000gb-qwerty-english",
+              "slugV2": "macbook-pro-162-inch-2023-m3-pro-12-core-and-18-core-gpu-36gb-ram-ssd-1000gb-qwerty-english",
+              "uuid": "7321f8b6-c3f9-4141-b562-c1f6e426bf0e",
+              "locale": "en-gb"
+            },
+            "query": {},
+            "hash": {},
+            "href": "https://www.backmarket.co.uk/en-gb/p/macbook-pro-162-inch-2023-m3-pro-12-core-and-18-core-gpu-36gb-ram-ssd-1000gb-qwerty-english/7321f8b6-c3f9-4141-b562-c1f6e426bf0e"
+          },
+          "publicationState": "ONLINE",
+          "price": {
+            "amount": 2000.0,
+            "currency": "GBP"
+          },
+          "minimumPrice": null,
+          "pricingStrategy": null,
+          "priceWhenSoldNew": {
+            "amount": 3199.0,
+            "currency": "GBP"
+          },
+          "backboxGrade": {
+            "value": 10,
+            "label": "Excellent"
+          },
+          "pricingStrategyInformation": {
+            "salesMaximizerInformation": null,
+            "dealInformation": null
+          }
+        }
+      },
+      "offline": {}
+    },
+    "hasDealOpportunity": false
+  }
+}
