@@ -294,3 +294,43 @@ Live example checked:
 V0 rule for booked appointments:
 
 > Check for the `CLIENT FORM RESPONSE SUMMARY` update on the Monday item, then verify gaps/mismatches in person. Do not re-collect the whole form from scratch unless the update is missing or incomplete.
+
+---
+
+## Copy/Paste Monday Template for Booked Client Intake
+
+Ricky clarified that the booked-client verification template should be written so Naheed can copy and paste it directly into the Monday item.
+
+For booked clients, the point is not to re-ask the whole pre-repair form. The point is to check the `CLIENT FORM RESPONSE SUMMARY`, verify the physical device/customer in person, and paste a short verification update.
+
+Suggested Monday update:
+
+```text
+BOOKED INTAKE VERIFY
+Customer arrived: Yes / No
+Device received: Yes / No
+Device matches Monday item: Yes / No
+CLIENT FORM RESPONSE SUMMARY present: Yes / No
+Critical info missing/unclear: None / [state issue]
+Passcode provided in form/system: Yes / No
+Access verified in person: Yes / No / Not testable because device is dead
+Payment/deposit confirmed: Yes / No / Not required / Needs checking
+Requested repair: [copy from Monday/requested repair]
+Parts stock check: [paste stock checker result or state manual check needed]
+Next step: Diagnostic / Repair / Staff review / Hold
+Owner: [name]
+Notes: [anything important]
+```
+
+If everything is clean, shorter version:
+
+```text
+BOOKED INTAKE VERIFY
+Device matches Monday item: Yes
+CLIENT FORM RESPONSE SUMMARY present: Yes
+Access/passcode: Provided / verified where possible
+Payment: Confirmed / not required
+Parts: Checked / not required for diagnostic
+Next step: [Diagnostic / Repair]
+Owner: [name]
+```
