@@ -212,3 +212,47 @@ V0 is:
 5. For walk-ins, does the walk-in form already capture any of the same pre-repair answers?
 6. Where should the parts check result be written today?
 7. Who owns fixing the Products & Pricing → Parts relation mappings?
+
+---
+
+## Correction — Monday Board Relation Lookup Syntax
+
+After Ricky challenged the lookup, the parts checker was corrected.
+
+The issue was not that Products & Pricing lacked parts in the tested cases. The issue was the script was only parsing the generic `value` field for the Products & Pricing `Parts` board-relation column. Monday returned `text: null` and `value: null`, while the actual linked parts were available via the typed GraphQL fragment:
+
+```graphql
+... on BoardRelationValue {
+  linked_item_ids
+  display_value
+}
+```
+
+Correct lookup pattern:
+
+```graphql
+column_values(ids:["connect_boards8"]) {
+  id
+  type
+  text
+  value
+  ... on BoardRelationValue {
+    linked_item_ids
+    display_value
+  }
+}
+```
+
+Correct Products & Pricing relation:
+
+- board: Products & Pricing `2477699024`
+- relation column: `connect_boards8` / `Parts`
+- related board: Parts/Stock Levels `985177480`
+
+Validated examples after correction:
+
+- `iPhone 15 Pro Screen` -> linked part `Full Screen - iPhone 15 Pro`, stock `0`
+- `MacBook Air 13 'M1' A2337 Screen` -> linked part `LCD - A2337`, stock `10`
+- `iPhone 12 Mini Battery` -> linked part `iPhone 12 Mini Battery`, stock `0`
+
+Also corrected product search so it does not rely only on the exact raw string. Example: `MacBook Air 13 M1 A2337 Screen` now finds `MacBook Air 13 'M1' A2337 Screen` by falling back to model token lookup (`A2337`) and local scoring.
