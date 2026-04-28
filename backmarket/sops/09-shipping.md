@@ -1,7 +1,7 @@
 # SOP 09: Label Buying
 
 **Version:** 1.1
-**Date:** 2026-04-02
+**Date:** 2026-04-02 (boards reference updated 2026-04-28)
 **Scope:** Purchase Royal Mail labels for accepted BM sales orders and write tracking back to Monday.
 **Owner:** `dispatch.js`
 

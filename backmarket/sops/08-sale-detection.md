@@ -153,7 +153,7 @@ mutation { change_multiple_column_values(
 
 ### Main Board (349212843)
 
-Find linked Main Board item via `board_relation` on BM Devices Board, then:
+Find linked Main Board item via `board_relation` on BM Devices Board, then write all four values in a single mutation:
 
 ```graphql
 mutation { change_multiple_column_values(
@@ -161,10 +161,14 @@ mutation { change_multiple_column_values(
   item_id: MAIN_ITEM_ID,
   column_values: "{
     \"status24\": {\"index\": 10},
-    \"date_mkq34t04\": {\"date\": \"YYYY-MM-DD\"}
+    \"date_mkq34t04\": {\"date\": \"YYYY-MM-DD\"},
+    \"text_mm2vf3nk\": \"{order_id}\",
+    \"text_mm2v7ysq\": \"{listing_id}\"
   }"
 ) { id } }
 ```
+
+`text_mm2vf3nk` and `text_mm2v7ysq` are read directly by `bm-shipping` (SOP 09.5) and `icloud-checker` so neither service has to traverse the broken `board_relation5` link. They MUST be written here at sale-detection time. See SOP 09.5 *change log — 2026-04-28*.
 
 Also rename the Main Board item. The BM number prefix must be preserved:
 - Fetch the current item name
@@ -190,6 +194,8 @@ mutation { change_simple_column_value(
 |-----------|-------|-------|
 | `status24` | Repair Type | "Sold" (index 10) |
 | `date_mkq34t04` | Date Sold (BM) | Today's date (YYYY-MM-DD) |
+| `text_mm2vf3nk` | BM Sales Order ID | `{order_id}` (string) — read by SOP 09.5 |
+| `text_mm2v7ysq` | BM Listing ID | `{listing_id}` (string) — read by icloud-checker spec-match |
 | `name` | Item Name | `BM XXXX (Buyer Name)` if same, otherwise `BM XXXX (Buyer: X / Ship to: Y)` |
 
 ---
