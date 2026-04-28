@@ -1,0 +1,122 @@
+{
+  "discovery_date": "2026-04-28",
+  "platform": {
+    "name": "Magento 1.x (custom MS heavily-modified)",
+    "evidence": [
+      "Mage.Cookies global",
+      "FORM_KEY global + ENCRYPT_FORM_KEY",
+      "Prototype.js v1.7 in main bundle",
+      "/customer/account/, /sales/order/, /checkout/cart/ URL structure",
+      "frontend cookie (HttpOnly)"
+    ],
+    "edge": "Cloudflare WAF + zstd compression",
+    "static_assets": "https://static.mobilesentrix.co.uk (concatenated /js_secure/<hash>-uk-5.132.js bundles)",
+    "payment_gateway": "Braintree (Gene_Braintree module v3.1.3) + PayPal SDK"
+  },
+  "auth": {
+    "session_cookie": {
+      "name": "frontend",
+      "httpOnly": true,
+      "secure": true,
+      "domain": ".www.mobilesentrix.co.uk",
+      "size": 26,
+      "note": "Standard Magento PHPSESSID. Required for all authenticated requests."
+    },
+    "form_key": {
+      "global": "FORM_KEY",
+      "rendered_in_html": "var FORM_KEY = '<16-char>'; var ENCRYPT_FORM_KEY = '<base64>=='",
+      "rotation": "Per-session, persists across navigations until logout"
+    },
+    "csrf_header": {
+      "name": "anti-csrf-token",
+      "format": "<ENCRYPT_FORM_KEY>@<encrptyEndpointKey>",
+      "note": "Per-endpoint encrypted token. Each endpoint var (e.g. checkadminurl) has matching encrptycheckadminurl. These tokens are rendered into the page HTML inline."
+    },
+    "no_bearer_no_oauth": true
+  },
+  "endpoint_inventory": {
+    "stock_and_product_lookup": {
+      "category_listing_html": "GET /<category-path>",
+      "note": "Per-product max-qty rendered server-side as <input id=productmaxqty_<id> value=<n>>. SKU and price extracted from rendered HTML. No JSON product API was found.",
+      "search": "GET /catalogsearch/result/?q=<term> (HTML response)"
+    },
+    "add_to_cart": {
+      "url_template": "POST /quickorder/index/add/uenc/<base64-current-page-url>/product/<productId>/form_key/<FORM_KEY>/?isAjax=1&qty=<qty>&productid=<productId>&recall=false&lockship=false&productnotification=false&flagpreorder=false",
+      "method": "GET (jQuery.ajax default when no type given in setLocationAjax)",
+      "response": "JSON {STATUS: 'SUCCESS' | ..., sidebar: <html>, cart_quantities: {...}}",
+      "note": "uenc is base64 of current page URL. Server uses it for redirect after add."
+    },
+    "add_custom_sku": {
+      "url": "POST /cart/addcustomsku/  (alias /checkout/cart/addcustomsku/)",
+      "note": "For SKU-direct add when product ID unknown."
+    },
+    "cart_view": {
+      "url": "GET /checkout/cart/  (HTML)",
+      "with_xhr": "Returns JSON-wrapped HTML if X-Requested-With: XMLHttpRequest"
+    },
+    "cart_update_qty": "POST /checkout/cart/updateCartQtyAjax/  (form_key, item_id, qty)",
+    "cart_delete_item": "GET  /checkout/cart/delete/id/<itemId>/form_key/<FORM_KEY>/",
+    "cart_delete_all": "POST /checkout/cart/deleteCartAllQtyAjax/",
+    "cart_remove_no_stock": "POST /checkout/cart/removeNoStockCartItem/",
+    "cart_save_reference_number": "POST /checkout/cart/savereferencenumber/  (writes PO number on quote)",
+    "cart_apply_coupon": "POST /checkout/cart/couponPostAjax/",
+    "checkout_page": "GET  /checkout/onepage/  (HTML, exposes all checkout AJAX URLs and encryption keys as window globals)",
+    "set_shipping_address": "POST /placeorder/address/setaddress/  (form_key, shipping_id, billing_id, same_as)",
+    "address_make_default": "POST /placeorder/address/makedefault/",
+    "address_add_new": "POST /placeorder/address/addnew/  (form-encoded address fields + form_key)",
+    "address_get_region": "POST /placeorder/address/getregion/  (country_id + form_key)",
+    "address_check_zipcode": "POST /customer/account/checkZipcode/",
+    "address_check_address": "POST /customer/account/checkAddress/",
+    "address_check_vat": "POST /customer/account/checkVat/  ({vat_id})",
+    "validate_shipping": "POST /placeorder/shipping/validateshippingmethod/  (form_key, shipping_method, addtoattachorder, parentOrder)",
+    "save_shipping_method": "POST /placeorder/shipping/setshippingmethod/  (serialized #shipping-method-form + appendData with holdlocation, defaultlocation, reserveorders, dsd_cost, dsd_user_input)",
+    "address_check_url_pre_shipping": "POST /placeorder/shipping/addresscheck (named addresscheckUrl in JS)",
+    "shipping_charge_check": "POST /placeorder/shipping/shippingchargecheck",
+    "load_address_step": "POST /placeorder/expresscheckout/loadaddress/",
+    "load_shipping_step": "POST /placeorder/expresscheckout/loadshipping/",
+    "load_ci_step": "POST /placeorder/expresscheckout/loadci/  (commercial-invoice)",
+    "load_payment_step": "POST /placeorder/expresscheckout/loadpayment/",
+    "express_save_to_quote": "POST /placeorder/expresscheckout/savetoquote/  (form_key, profile_id, parentOrder)",
+    "place_order_THE_BIG_ONE": {
+      "url": "POST /placeorder/payment/savePayment/",
+      "body": "form_key=<FORM_KEY>&is_express=<0|1>&count=<recall_count>&payment[method]=<methodCode>&payment[<field>]=<value>...",
+      "headers": {
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "anti-csrf-token": "<ENCRYPT_FORM_KEY>@<encrptysavePayment>",
+        "X-Requested-With": "XMLHttpRequest"
+      },
+      "response": "JSON {page_reload: bool, error: string, redirect: <url-on-success>}",
+      "note": "Excludes routingnumber, accountnumber, confirmaccountnumber, accounttype, ownershiptype, businessname, firstname, lastname from the form prior to POST. Success generally redirects to /checkout/onepage/success/. This IS the place-order call for ALL payment methods including Braintree, on-account, etc."
+    },
+    "set_order_unapproved": "POST /placeorder/payment/setOrderAsUnapprove/  (post-place hook)",
+    "track_order": "POST /placeorder/shipping/trackOrder/  (orderid, form_key)",
+    "order_history_html": "GET /sales/order/history/  (HTML, or JSON {status,outputHtml,headCSS,headJs} with X-Requested-With)",
+    "order_view": "GET /sales/order/view/order_id/<id>/  (HTML)",
+    "reserve_orders": "GET /sales/order/reserveorders/  (HTML)",
+    "braintree_client_token": "POST /braintree/checkout/clientToken/  (issues nonce for hosted fields)",
+    "braintree_quote_total": "POST /braintree/checkout/quoteTotal/",
+    "braintree_tokenize_card": "POST /braintree/checkout/tokenizeCard/",
+    "braintree_saved_methods": "GET  /braintree/saved/index/"
+  },
+  "session_state_required_for_order": {
+    "frontend_cookie": "obtained from prior login flow (out of scope for this discovery)",
+    "FORM_KEY": "scrape from any page HTML",
+    "ENCRYPT_FORM_KEY": "scrape from any page HTML",
+    "encrpty<endpoint> tokens": "scrape from /checkout/onepage/ HTML, at least 23 of these are defined inline",
+    "quoteId": "scrape from /checkout/onepage/ HTML  (var quoteId = '52685';)"
+  },
+  "cookies_full_list": [
+    "frontend (HttpOnly, Secure) -- session",
+    "remoteIp / remoteIpCountry / remoteIpCountryName / geoip_country / geoip_prefer (HttpOnly, GeoIP)",
+    "selected_language / selected_currency / consent_status / c2NyZWVud2lkdGg (non-Http, UI prefs)",
+    "_ga / _ga_* / _gcl_au (analytics)"
+  ],
+  "risks_and_unknowns": {
+    "payment_method_codes": "Not enumerated yet. Payment radios are loaded by /placeorder/expresscheckout/loadpayment/. Need a real (read-only) trigger of that AJAX from a non-empty quote to see the available method codes (likely include 'braintree', 'paypal_express', 'banktransfer', possibly an 'on-account' option).",
+    "form_key_rotation_under_xhr": "Untested. Does /placeorder/payment/savePayment/ accept the same FORM_KEY across multiple requests in the same session? Magento default: yes, until logout.",
+    "anti_csrf_per_endpoint_keys": "encrpty<X> tokens differ per endpoint and per session. Relationship to FORM_KEY appears to be: AES-encrypted form_key with endpoint name as IV/salt. Not reverse-engineered. Easiest is to re-scrape /checkout/onepage/ each session.",
+    "browser_fingerprinting": "Cloudflare may challenge requests from non-browser UAs. Tested fetch via Chrome session worked. A Python script will need to (a) reuse a Chrome cookie, OR (b) drive a headless Chrome to scrape FORM_KEY+encrpty tokens then issue API calls within the same session. NOT confirmed whether bare requests with cookie+headers passes CF.",
+    "place_order_payload_full_shape": "Confirmed wrapper, not all required payment[<x>] fields. The FORM submit serializes #payment-form which includes Braintree-injected hidden fields (nonce, payment_method_token). For 'on-account' payment, fewer fields needed. Need a live but ABORTED trigger to capture the exact form contents (out of scope for read-only discovery).",
+    "cart_already_has_items": "The discovered FORM_KEY belongs to a cart that already had 2 quote items (id 172965, 173305). Real automation MUST start from a known-empty cart or know exactly which items it added."
+  }
+}
