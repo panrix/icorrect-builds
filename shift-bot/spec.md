@@ -53,9 +53,17 @@ No agent, no LLM, no judgement calls. Pure script-and-cron — fits the "scripts
 | Google OAuth | `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET` / `GOOGLE_REFRESH_TOKEN` (env) |
 | Failure alerts | `~/builds/scripts/telegram-alert.py` |
 
+**Note:** Socket Mode only — `SLACK_SIGNING_SECRET` is **not** used and must not be configured.
+
 ## Architecture
 
 Single Node.js service. Slack Bolt in Socket Mode (no public endpoint). `googleapis` for Calendar. `better-sqlite3` for storage. `node-cron` for the four scheduled jobs. Runs as a systemd user service.
+
+**Timezone contract (load-bearing — every component must follow):**
+- All `node-cron` schedules registered with `{ timezone: 'Europe/London' }`.
+- systemd unit sets `Environment=TZ=Europe/London`.
+- All date arithmetic uses an explicit `Europe/London` zone (via `luxon` or `date-fns-tz`); never the host's local time, never naive `Date`.
+- DST: the four fire times (Fri 10:00, Sun 18:00, Mon 00:05, Mon 08:00) all sit outside the 01:00–02:00 BST gap, so spring-forward / fall-back don't double-fire or skip.
 
 ```
 shift-bot.service
@@ -82,30 +90,46 @@ shift-bot.service
 
 ```sql
 CREATE TABLE shifts (
-    week_start  DATE     NOT NULL,    -- Monday of the week being worked
-    tech_id     TEXT     NOT NULL,    -- Slack user ID
-    day         TEXT     NOT NULL,    -- 'mon'..'sun'
-    start_time  TEXT,                 -- 'HH:MM' in London local, NULL if off
-    end_time    TEXT,                 -- 'HH:MM' in London local, NULL if off
-    is_off      INTEGER  NOT NULL,    -- 0 or 1
-    gcal_event_id  TEXT,              -- set after Phase 4 sync
+    week_start     DATE     NOT NULL,    -- Monday of the week being worked (London local date)
+    tech_id        TEXT     NOT NULL,    -- Slack user ID
+    tech_short     TEXT     NOT NULL,    -- snapshot of short name at submission time
+    color_id       TEXT     NOT NULL,    -- snapshot of GCal colorId at submission time (string)
+    day            TEXT     NOT NULL,    -- 'mon'..'sun'
+    start_time     TEXT,                 -- 'HH:MM' London local, NULL if off
+    end_time       TEXT,                 -- 'HH:MM' London local, NULL if off
+    is_off         INTEGER  NOT NULL,    -- 0 or 1
+    gcal_event_id  TEXT,                 -- set after Phase 4 sync
     submitted_at   TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (week_start, tech_id, day)
 );
+
+CREATE TABLE job_runs (
+    job_name    TEXT     NOT NULL,       -- 'fri_nudge' | 'sun_chase' | 'mon_sync' | 'mon_summary'
+    week_start  DATE     NOT NULL,       -- the week this run was for
+    completed_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (job_name, week_start)
+);
 ```
 
-A "submission" is the 7 rows for one (week_start, tech_id). Re-submission for the same (week_start, tech_id) is rejected — modal returns an error: *"You've already submitted shifts for the week of <date>. Contact Ricky if you need to change them."*
+A "submission" is the 7 rows for one (week_start, tech_id). Re-submission is rejected — modal returns: *"You've already submitted shifts for the week of <date>. Contact Ricky if you need to change them."*
+
+**Snapshot rule:** `tech_short` and `color_id` are written at submission time, not looked up from `config.json` at sync/summary time. This means a tech who leaves mid-week still gets correctly rendered in the calendar and summary for shifts they already submitted.
+
+**Week targeting (load-bearing):**
+- A submission/nudge sent during the open window (Fri 10:00 → Mon 00:00 London) targets `week_start = next Monday` (the upcoming Monday).
+- The Mon 00:05 sync and Mon 08:00 summary target `week_start = current Monday` (today's date in London).
+- All `week_start` values are computed in `Europe/London`, never UTC.
 
 ## Flow
 
 | Time (Europe/London) | Component | Action |
 |---|---|---|
 | Fri 10:00 | `slack/nudge.js` | DM each tech with a "Submit next week's shifts" button → opens modal |
-| Anytime Fri–Sun 23:59 | `slack/command.js` | `/shift` opens the same modal |
-| On modal submit | `slack/modal.js` | Validate → insert 7 rows → reply ephemerally "✅ Submitted" |
+| Open window | `slack/command.js` | `/shift` opens modal during `[Fri 10:00, Mon 00:00)` London. Outside window: ephemeral reply "Submission window closed", no modal. |
+| On modal submit | `slack/modal.js` | Re-check window, validate, insert 7 rows transactionally, reply ephemerally "✅ Submitted" |
 | Sun 18:00 | `slack/nudge.js` | DM techs missing from next week's submissions |
-| Sun 23:59 | (passive) | Window closes — modal opens after this point reject with "Submission window closed" |
-| Mon 00:05 | `calendar/sync.js` | For each shift in this week's submissions, create one GCal event, store event ID |
+| Mon 00:00 | (passive) | Window closes — `view_submission` handler also rejects past this point |
+| Mon 00:05 | `calendar/sync.js` | For each shift in this week's submissions, create one GCal event, store event ID. Idempotent — see Calendar Sync section. |
 | Mon 08:00 | `summary/post.js` | Format rota table, post to `#general` with calendar link |
 
 ## Modal Design
@@ -114,19 +138,41 @@ Slack modal with 7 sections (Mon–Sun). Each section:
 - A toggle: **Working / Off**
 - If Working: two `timepicker` blocks — Start and End
 
-Submit handler:
-- Reject if any day has only one of start/end set.
-- Reject if start >= end on any day.
-- Reject if (week_start, tech_id) already exists.
-- Reject if `now > Sunday 23:59` (window closed).
+**Cutoff is enforced at TWO points** to close the "modal opened at 23:58, submitted at 00:01" race:
+1. `app_mention` / slash-command handler: if `now < Fri 10:00` or `now >= Mon 00:00` London → reply ephemerally "Submission window closed", do **not** open the modal.
+2. `view_submission` handler: re-check the same condition before any DB write. If closed, return Slack `response_action: errors` and discard.
+
+Submit handler validation (in order):
+- Reject if `now` is outside the open window (cutoff re-check).
+- Reject if any day marked **Working** has `start_time` or `end_time` missing — both required.
+- Reject if any day marked **Working** has `start_time >= end_time`.
+- Reject if (week_start, tech_id) already exists in `shifts` table.
+- Insert all 7 rows in a single SQLite transaction (all-or-nothing).
 
 ## Calendar Event Format
 
 - **Title:** `Misha (9–6)` — short name + dash + start–end as h-only when on the hour, else `9:30`.
-- **Start/end:** Absolute London times converted to RFC3339 with the `Europe/London` timezone.
-- **Color:** `colorId` per tech from `config.json`.
+- **Start/end:** Absolute London times sent as `{ dateTime: '...', timeZone: 'Europe/London' }` (Calendar API resolves DST correctly).
+- **Color:** `colorId` is a **string** (`"1"`, `"2"`, `"3"`) per [Calendar Colors API](https://developers.google.com/calendar/api/v3/reference/colors), read from the `color_id` snapshot in the `shifts` row.
 - **Calendar:** the single shared calendar above.
+- **Idempotency key:** every event sets `extendedProperties.private = { shiftKey: '<week_start>:<tech_id>:<day>' }`. Sync uses this to detect existing events on retry.
 - One event per (tech, working day). Off days create no event.
+
+### Sync algorithm (idempotent)
+
+```
+for each row where week_start = this_monday and is_off = 0:
+    if row.gcal_event_id is not null:
+        continue  # already synced
+    list events with extendedProperties.private.shiftKey = '<row.shiftKey>'
+    if found:
+        update row.gcal_event_id = found.id   # crash recovery
+        continue
+    create event with shiftKey, capture event.id
+    update row.gcal_event_id = event.id       # write-back BEFORE returning from try block
+```
+
+This survives: cron retry, manual re-run, mid-flight crash between `events.insert` and DB write-back.
 
 ## Monday Summary Format
 
@@ -151,11 +197,13 @@ If Phase 4 sync failed, append a single line: `⚠️ Calendar sync failed — s
 
 | Failure | Behaviour |
 |---|---|
-| Slack API down at Friday 10:00 | Cron retries every 15 min for up to 2h, then logs and gives up |
-| Google Calendar API call fails | Log to journal, fire `telegram-alert.py`, **do not block** Monday summary |
+| Slack API transient error at Fri 10:00 | Retry every 15 min for up to 2h, then log + Telegram alert |
+| GCal API transient error (5xx, rate limit) | Exponential backoff up to 5 attempts, then log + Telegram alert. Mon 08:00 summary still posts with "⚠️ calendar sync failed" line. |
+| GCal auth failure (`invalid_grant`, HTTP 401) | **Do not retry.** Mark `mon_sync` failed, fire immediate Telegram alert ("Refresh `GOOGLE_REFRESH_TOKEN`"), suppress until credentials rotated and service restarted. |
 | Tech submits invalid times | Modal returns inline error block — no DB write |
 | Duplicate submission attempt | Modal rejects with friendly message naming the week |
 | systemd service crashes | `Restart=on-failure`, `RestartSec=10s` |
+| Service was down at a fire time (missed cron) | On startup, for each scheduled job in this week with no `job_runs` row and whose fire time has passed, run it once immediately. Catches "VPS rebooted Monday morning, missed the 8am post." |
 
 ## Security
 
@@ -164,13 +212,26 @@ If Phase 4 sync failed, append a single line: `⚠️ Calendar sync failed — s
 - No web endpoint — Socket Mode only. Nothing to firewall.
 - Service runs as `ricky` user, not root.
 
+### Logging policy
+Logs go to `journalctl --user -u shift-bot`. Allowed log fields:
+- Job name, `week_start`, `tech_id` (Slack ID, not real name), event type, sanitized error code/HTTP status.
+
+**Never log:**
+- Env variable values, OAuth tokens, Slack tokens.
+- Raw Slack payloads or request bodies.
+- Tech real names in error logs (Slack ID is enough for Ricky to look up).
+- Full GCal event JSON (just the event ID).
+
 ## Verification (Phase 6)
+
+Phase 1 adds thin CLI wrappers under `scripts/`:
+- `scripts/run-job.js <fri_nudge|sun_chase|mon_sync|mon_summary> [--week YYYY-MM-DD] [--dry-run]`
 
 1. `systemctl --user status shift-bot` → active, no recent restarts.
 2. Manually invoke `/shift` from Ricky's Slack — modal opens, can submit a dummy week.
-3. Run nudge job manually (`node scripts/nudge.js fri`) — Ricky receives DM as a tech.
-4. Run sync job manually for the test week — events appear on the shared calendar.
-5. Run summary job manually — message appears in `#general` (or test channel for dry run).
+3. `node scripts/run-job.js fri_nudge --dry-run` — shows the DMs that would be sent.
+4. `node scripts/run-job.js mon_sync --week <test-week>` — events appear on the shared calendar.
+5. `node scripts/run-job.js mon_summary --week <test-week>` — message in test channel (override channel via env for dry run).
 6. Watch the actual Friday 10:00 nudge fire on the next real Friday.
 7. Output COMPROMISES section per CLAUDE.md.
 
@@ -190,5 +251,9 @@ Each phase commits independently per CLAUDE.md build workflow.
 ## Open / Deferred
 
 - Slack app needs to be created or updated in the Slack admin — Phase 6 walks through this.
-- If techs join/leave, `config.json` needs a manual update + restart. Acceptable for ~3 people.
+- If techs join/leave, `config.json` needs a manual update + restart. Acceptable for ~3 people. Already-submitted shifts continue to render correctly because of the snapshot rule.
 - No timezone-of-tech support: all shifts are London local. (All three techs work London.)
+- **Manual correction procedure** (Ricky only, no user-facing path):
+  1. `sqlite3 ~/data/shift-bot/shifts.db "SELECT * FROM shifts WHERE week_start='YYYY-MM-DD' AND tech_id='U…';"` to inspect.
+  2. Delete rows + corresponding GCal events (use the stored `gcal_event_id`).
+  3. Tech can then re-submit `/shift` for that week.
