@@ -29,6 +29,16 @@ sed -i 's/SLACK_BOT_TOKEN/SHIFT_BOT_TOKEN/g'   index.js scripts/run-job.js
 sed -i 's/SLACK_APP_TOKEN/SHIFT_BOT_APP_TOKEN/g' index.js scripts/run-job.js
 ```
 
+## 2b. Smoke-test the Telegram alert path
+
+`shift-bot` fires a Telegram alert if Google Calendar auth fails. Confirm that path works *before* enabling the service so we know alerts will reach you:
+
+```bash
+python3 /home/ricky/mission-control-v2/scripts/utils/telegram-alert.py "shift-bot deploy test ($(date '+%H:%M %Z'))"
+```
+
+You should see the message in your Telegram. If not, fix the alert path before deploying — `lib/alert.js` reads `alert_script` from `config.json`.
+
 ## 3. Install the systemd unit
 
 ```bash

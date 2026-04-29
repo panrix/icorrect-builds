@@ -51,7 +51,9 @@ function makeOAuthClient() {
 }
 
 function isAuthFailure(err) {
-  if (err.code === 401) return true;
+  // google-auth-library surfaces refresh failures as err.code = 'invalid_grant' (string, not 401).
+  if (err.code === 401 || err.code === 'invalid_grant' || err.code === 'invalid_client') return true;
+  if (err.response?.status === 401) return true;
   const reason = err.errors?.[0]?.reason || err.response?.data?.error || '';
   return reason === 'invalid_grant' || reason === 'authError' || reason === 'invalid_client';
 }

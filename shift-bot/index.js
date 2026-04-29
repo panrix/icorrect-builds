@@ -1,6 +1,7 @@
 'use strict';
 
-require('dotenv').config({ path: '/home/ricky/config/.env' });
+const ENV_PATH = '/home/ricky/config/.env';
+const dotenvResult = require('dotenv').config({ path: ENV_PATH });
 
 const { App } = require('@slack/bolt');
 const cron = require('node-cron');
@@ -8,9 +9,13 @@ const config = require('./config.json');
 const dbClient = require('./db/client');
 const log = require('./lib/log');
 
+if (dotenvResult.error) {
+  log.warn({ event: 'dotenv_miss', path: ENV_PATH, code: dotenvResult.error.code });
+}
+
 async function main() {
   if (!process.env.SLACK_BOT_TOKEN || !process.env.SLACK_APP_TOKEN) {
-    throw new Error('missing SLACK_BOT_TOKEN or SLACK_APP_TOKEN');
+    throw new Error(`missing SLACK_BOT_TOKEN or SLACK_APP_TOKEN (loaded from ${ENV_PATH})`);
   }
 
   dbClient.migrate(config.db_path);

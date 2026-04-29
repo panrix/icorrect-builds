@@ -24,7 +24,6 @@ oauth_config:
       - commands         # /shift slash command
       - chat:write       # post DMs + #general summary
       - im:write         # open DMs to techs
-      - users:read       # resolve user info
 
 settings:
   org_deploy_enabled: false

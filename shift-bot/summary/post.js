@@ -70,8 +70,12 @@ async function runMonSummary({ client, weekStartIso = currentMonday(), dryRun = 
     (rowsByTech[row.tech_id] ||= []).push(row);
   }
 
+  // syncFailed is true if either:
+  //   (a) mon_sync never recorded a job_run for this week, OR
+  //   (b) any working shift row is still missing its gcal_event_id (partial failure path)
   const syncRan = repo.jobRan('mon_sync', weekStartIso);
-  const syncFailed = !syncRan && allRows.length > 0;
+  const unsyncedWorking = allRows.filter((r) => !r.is_off && !r.gcal_event_id).length;
+  const syncFailed = allRows.length > 0 && (!syncRan || unsyncedWorking > 0);
 
   const text = buildMessage({ weekStartIso, rowsByTech, syncFailed });
 

@@ -26,16 +26,6 @@ function isoToLondonDate(iso) {
   return DateTime.fromISO(iso, { zone: TZ });
 }
 
-function isWindowOpen(dt = nowLondon(), window) {
-  const day = dt.weekday;
-  const hour = dt.hour;
-  const minute = dt.minute;
-  if (day === window.open_day_of_week) return hour >= window.open_hour;
-  if (day === 6 || day === 7) return true;
-  if (day === window.close_day_of_week) return hour < window.close_hour && minute >= 0 ? false : false;
-  return false;
-}
-
 function windowState(dt = nowLondon(), window) {
   const day = dt.weekday;
   const hour = dt.hour;
