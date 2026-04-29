@@ -22,7 +22,7 @@ async function main() {
     logLevel: 'info',
   });
 
-  // Phase 2 will register /shift here.
+  require('./slack/command').register(app);
   // Phase 3 will register cron jobs here.
   // Phase 4 will register the calendar sync cron here.
   // Phase 5 will register the Monday summary cron here.
