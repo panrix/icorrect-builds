@@ -46,11 +46,11 @@ async function main() {
   let client = null;
   if (SLACK_REQUIRED.has(job)) {
     if (!dryRun) {
-      if (!process.env.SLACK_BOT_TOKEN) {
-        console.error('SLACK_BOT_TOKEN missing — set it or use --dry-run');
+      if (!process.env.SHIFT_BOT_TOKEN) {
+        console.error('SHIFT_BOT_TOKEN missing — set it or use --dry-run');
         process.exit(2);
       }
-      client = new WebClient(process.env.SLACK_BOT_TOKEN);
+      client = new WebClient(process.env.SHIFT_BOT_TOKEN);
     } else {
       client = {
         conversations: { open: async () => ({ channel: { id: 'D-DRYRUN' } }) },

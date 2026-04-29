@@ -9,7 +9,7 @@ function alert(message) {
     console.error(`[alert] alert_script not found at ${config.alert_script}; message: ${message}`);
     return;
   }
-  const child = spawn('python3', [config.alert_script, message], { stdio: 'ignore', detached: true });
+  const child = spawn('python3', [config.alert_script, '--test', message], { stdio: 'ignore', detached: true });
   child.on('error', (err) => console.error(`[alert] spawn failed: ${err.code || err.message}`));
   child.unref();
 }

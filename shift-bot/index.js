@@ -14,15 +14,15 @@ if (dotenvResult.error) {
 }
 
 async function main() {
-  if (!process.env.SLACK_BOT_TOKEN || !process.env.SLACK_APP_TOKEN) {
-    throw new Error(`missing SLACK_BOT_TOKEN or SLACK_APP_TOKEN (loaded from ${ENV_PATH})`);
+  if (!process.env.SHIFT_BOT_TOKEN || !process.env.SHIFT_BOT_APP_TOKEN) {
+    throw new Error(`missing SHIFT_BOT_TOKEN or SHIFT_BOT_APP_TOKEN (loaded from ${ENV_PATH})`);
   }
 
   dbClient.migrate(config.db_path);
 
   const app = new App({
-    token: process.env.SLACK_BOT_TOKEN,
-    appToken: process.env.SLACK_APP_TOKEN,
+    token: process.env.SHIFT_BOT_TOKEN,
+    appToken: process.env.SHIFT_BOT_APP_TOKEN,
     socketMode: true,
     logLevel: 'info',
   });
