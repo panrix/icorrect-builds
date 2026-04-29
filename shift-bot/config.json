@@ -1,0 +1,24 @@
+{
+  "timezone": "Europe/London",
+  "techs": [
+    { "slack_id": "U07GVP3EP25", "name": "Mykhailo", "short": "Misha",  "color_id": "1" },
+    { "slack_id": "U05SR56SK1U", "name": "Andres",   "short": "Andres", "color_id": "2" },
+    { "slack_id": "U02KY1GTC10", "name": "Safan",    "short": "Safan",  "color_id": "3" }
+  ],
+  "calendar_id": "c_0024d477e3218afdf4d230f4a8b0138340a711e73175c89da186e5a4a474f3f3@group.calendar.google.com",
+  "summary_channel_id": "C024H7518J3",
+  "schedule": {
+    "fri_nudge":   "0 10 * * 5",
+    "sun_chase":   "0 18 * * 0",
+    "mon_sync":    "5 0 * * 1",
+    "mon_summary": "0 8 * * 1"
+  },
+  "window": {
+    "open_day_of_week": 5,
+    "open_hour": 10,
+    "close_day_of_week": 1,
+    "close_hour": 0
+  },
+  "db_path": "/home/ricky/data/shift-bot/shifts.db",
+  "alert_script": "/home/ricky/builds/scripts/telegram-alert.py"
+}

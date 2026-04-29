@@ -1,0 +1,19 @@
+[Unit]
+Description=Shift Bot — Slack /shift + Google Calendar + Monday rota
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/shift-bot
+Environment=TZ=Europe/London
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node /home/ricky/builds/shift-bot/index.js
+Restart=on-failure
+RestartSec=10s
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=shift-bot
+
+[Install]
+WantedBy=default.target

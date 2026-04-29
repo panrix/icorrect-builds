@@ -1,0 +1,24 @@
+{
+  "name": "shift-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Slack bot for tech shift submissions → Google Calendar + Monday rota",
+  "main": "index.js",
+  "type": "commonjs",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "migrate": "node db/migrate.js",
+    "job": "node scripts/run-job.js"
+  },
+  "dependencies": {
+    "@slack/bolt": "^3.21.4",
+    "better-sqlite3": "^11.3.0",
+    "dotenv": "^16.4.5",
+    "googleapis": "^144.0.0",
+    "luxon": "^3.5.0",
+    "node-cron": "^3.0.3"
+  }
+}
