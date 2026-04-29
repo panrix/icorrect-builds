@@ -31,7 +31,7 @@ When an agent hits something beyond ops scope:
 **Per-domain issue log:** `/home/ricky/builds/<domain>/qa/ISSUES.md`
 
 - BackMarket issues → `/home/ricky/builds/backmarket/qa/ISSUES.md`
-- Add per-domain file as other domains surface issues (customer-service/qa/ISSUES.md, etc.)
+- Add per-domain file as other active domains surface issues (operations/qa/ISSUES.md, marketing/qa/ISSUES.md, etc.)
 
 **Format:** the template at the top of each domain's ISSUES.md. Copy-paste it at the bottom, fill in the fields, save. No PR needed — agents can append directly.
 
@@ -66,18 +66,18 @@ Updated as systems come online.
 
 | System | Built By | Maintained By | Status |
 |--------|----------|---------------|--------|
-| OpenClaw Gateway config | Code | Agents (Jarvis/Systems) | Active |
-| Agent Trigger (FastAPI) | Code | Agents (Systems) | Active |
-| Supabase tables + triggers | Code | Agents (Systems) | Active |
-| Memory bridge | Code | Agents (Systems) | Active |
-| QA pipeline | Code | Agents (QA team) | Active |
-| Mission Control dashboard | Code | Agents (Systems) | Active |
+| OpenClaw Gateway config | Code | Agents (Jarvis/Operations) | Active |
+| Agent Trigger (FastAPI) | Code | Agents (Operations) | Active |
+| Supabase tables + triggers | Code | Agents (Operations) | Active |
+| Memory bridge | Code | Agents (Operations) | Active |
+| QA pipeline | Code | Agents (`main` coordinating build-layer review) | Active |
+| Mission Control dashboard | Code | Agents (Operations) | Active |
 | Morning briefing cron | Code | Agents (Jarvis) | Active |
-| Inter-agent comms | Code | Agents (Jarvis/Systems) | **In progress** |
+| Inter-agent comms | Code | Agents (Jarvis/Operations) | **In progress** |
 | Intake System | Code | Agents (Operations) | Not started |
-| Intercom Agent | Code | Agents (Customer Service) | Not started |
+| Intercom Agent | Code | Agents (`alex-cs`/Jarvis) | Not started |
 | Inventory System | Code | Agents (Parts/Ops) | Not started |
-| Website Conversion | Code | Agents (Website) | Not started |
+| Website Conversion | Code | Agents (Marketing/Arlo Website) | Not started |
 
 ---
 
