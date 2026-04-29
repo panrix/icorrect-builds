@@ -23,7 +23,7 @@ async function main() {
   });
 
   require('./slack/command').register(app);
-  // Phase 3 will register cron jobs here.
+  require('./slack/nudge').register(app);
   // Phase 4 will register the calendar sync cron here.
   // Phase 5 will register the Monday summary cron here.
 
