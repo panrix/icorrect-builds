@@ -20,5 +20,5 @@
     "close_hour": 0
   },
   "db_path": "/home/ricky/data/shift-bot/shifts.db",
-  "alert_script": "/home/ricky/builds/scripts/telegram-alert.py"
+  "alert_script": "/home/ricky/mission-control-v2/scripts/utils/telegram-alert.py"
 }

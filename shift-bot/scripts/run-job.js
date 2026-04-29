@@ -9,9 +9,11 @@ const dbClient = require('../db/client');
 const JOBS = {
   fri_nudge:   () => require('../slack/nudge').runFridayNudge,
   sun_chase:   () => require('../slack/nudge').runSundayChase,
-  mon_sync:    () => null,    // Phase 4
+  mon_sync:    () => require('../calendar/sync').runMonSync,
   mon_summary: () => null,    // Phase 5
 };
+
+const SLACK_REQUIRED = new Set(['fri_nudge', 'sun_chase']);
 
 function parseArgs(argv) {
   const args = { job: null, week: null, dryRun: false };
@@ -42,21 +44,25 @@ async function main() {
   dbClient.open(config.db_path);
 
   let client = null;
-  if (!dryRun) {
-    if (!process.env.SLACK_BOT_TOKEN) {
-      console.error('SLACK_BOT_TOKEN missing — set it or use --dry-run');
-      process.exit(2);
+  if (SLACK_REQUIRED.has(job)) {
+    if (!dryRun) {
+      if (!process.env.SLACK_BOT_TOKEN) {
+        console.error('SLACK_BOT_TOKEN missing — set it or use --dry-run');
+        process.exit(2);
+      }
+      client = new WebClient(process.env.SLACK_BOT_TOKEN);
+    } else {
+      client = {
+        conversations: { open: async () => ({ channel: { id: 'D-DRYRUN' } }) },
+        chat: { postMessage: async (args) => { console.log('[dry-run] DM →', args.channel, '\n', args.text, '\n---'); return { ok: true }; } },
+      };
     }
-    client = new WebClient(process.env.SLACK_BOT_TOKEN);
-  } else {
-    client = {
-      conversations: { open: async () => ({ channel: { id: 'D-DRYRUN' } }) },
-      chat: { postMessage: async (args) => { console.log('[dry-run] DM →', args.channel, '\n', args.text, '\n---'); return { ok: true }; } },
-    };
   }
 
   console.error(`[run-job] ${job} week=${week || '(auto)'} dry-run=${dryRun}`);
-  const result = await fn({ client, weekStartIso: week || undefined, dryRun });
+  const args = { weekStartIso: week || undefined, dryRun };
+  if (client) args.client = client;
+  const result = await fn(args);
   console.error('[run-job] result:', JSON.stringify(result, null, 2));
 
   dbClient.close();

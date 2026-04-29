@@ -24,7 +24,7 @@ async function main() {
 
   require('./slack/command').register(app);
   require('./slack/nudge').register(app);
-  // Phase 4 will register the calendar sync cron here.
+  require('./calendar/sync').register();
   // Phase 5 will register the Monday summary cron here.
 
   await app.start();

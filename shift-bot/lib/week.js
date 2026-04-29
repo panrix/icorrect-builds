@@ -54,10 +54,12 @@ function dayOfDateInWeek(weekStartIso, dayKey) {
 }
 
 function formatHourSpan(start, end) {
+  // 12-hour display, no am/pm. 09:00 -> "9", 18:00 -> "6", 09:30 -> "9:30", 12:00 -> "12", 00:00 -> "12".
   function h(s) {
     const [hh, mm] = s.split(':').map(Number);
-    if (mm === 0) return String(hh);
-    return `${hh}:${String(mm).padStart(2, '0')}`;
+    const h12 = hh % 12 === 0 ? 12 : hh % 12;
+    if (mm === 0) return String(h12);
+    return `${h12}:${String(mm).padStart(2, '0')}`;
   }
   return `${h(start)}–${h(end)}`;
 }
