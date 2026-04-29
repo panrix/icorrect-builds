@@ -10,10 +10,10 @@ const JOBS = {
   fri_nudge:   () => require('../slack/nudge').runFridayNudge,
   sun_chase:   () => require('../slack/nudge').runSundayChase,
   mon_sync:    () => require('../calendar/sync').runMonSync,
-  mon_summary: () => null,    // Phase 5
+  mon_summary: () => require('../summary/post').runMonSummary,
 };
 
-const SLACK_REQUIRED = new Set(['fri_nudge', 'sun_chase']);
+const SLACK_REQUIRED = new Set(['fri_nudge', 'sun_chase', 'mon_summary']);
 
 function parseArgs(argv) {
   const args = { job: null, week: null, dryRun: false };
@@ -54,7 +54,7 @@ async function main() {
     } else {
       client = {
         conversations: { open: async () => ({ channel: { id: 'D-DRYRUN' } }) },
-        chat: { postMessage: async (args) => { console.log('[dry-run] DM →', args.channel, '\n', args.text, '\n---'); return { ok: true }; } },
+        chat: { postMessage: async (args) => { console.log('[dry-run] post →', args.channel, '\n', args.text, '\n---'); return { ok: true }; } },
       };
     }
   }

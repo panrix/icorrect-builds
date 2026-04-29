@@ -25,7 +25,7 @@ async function main() {
   require('./slack/command').register(app);
   require('./slack/nudge').register(app);
   require('./calendar/sync').register();
-  // Phase 5 will register the Monday summary cron here.
+  require('./summary/post').register(app);
 
   await app.start();
   log.info({ event: 'started', mode: 'socket', tz: config.timezone });
