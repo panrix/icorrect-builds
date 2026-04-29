@@ -54,8 +54,10 @@ node scripts/run-job.js mon_summary --week 2026-05-04
 | # | Status | Phase |
 |---|---|---|
 | 1 | ✅ done | Scaffold |
-| 2 | pending | `/shift` + modal |
-| 3 | pending | Nudge + chase |
-| 4 | pending | Calendar sync |
-| 5 | pending | Monday summary |
-| 6 | pending | Slack app config + deploy + verify |
+| 2 | ✅ done | `/shift` + modal |
+| 3 | ✅ done | Nudge + chase |
+| 4 | ✅ done | Calendar sync |
+| 5 | ✅ done | Monday summary |
+| 6 | 🔜 ready | Slack app config + deploy + verify — see [`DEPLOY.md`](./DEPLOY.md) |
+
+End-of-build honesty pass: [`COMPROMISES.md`](./COMPROMISES.md).

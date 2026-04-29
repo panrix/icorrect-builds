@@ -1,0 +1,36 @@
+# Slack app manifest for shift-bot.
+# Paste this into https://api.slack.com/apps → Create New App → From a manifest.
+# Workspace: iCorrect (T025AJKA42V).
+
+display_information:
+  name: Shift Bot
+  description: Tech shift submissions → Google Calendar + Monday rota in #general
+  background_color: "#2c3e50"
+
+features:
+  bot_user:
+    display_name: Shift Bot
+    always_online: false
+
+  slash_commands:
+    - command: /shift
+      description: Submit your shifts for next week
+      should_escape: false
+      usage_hint: "(opens a form)"
+
+oauth_config:
+  scopes:
+    bot:
+      - commands         # /shift slash command
+      - chat:write       # post DMs + #general summary
+      - im:write         # open DMs to techs
+      - users:read       # resolve user info
+
+settings:
+  org_deploy_enabled: false
+  socket_mode_enabled: true
+  token_rotation_enabled: false
+
+  # No event subscriptions, no interactivity request URL — Socket Mode delivers them.
+  interactivity:
+    is_enabled: true
