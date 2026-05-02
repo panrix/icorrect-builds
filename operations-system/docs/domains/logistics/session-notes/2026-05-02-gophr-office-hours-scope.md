@@ -100,6 +100,7 @@ Decision captured 2026-05-02:
 - Monday is not the full data-entry UX for Gophr because it cannot comfortably capture all required courier metrics/fields.
 - Monday `Book Courier` can act as a trigger to start the Telegram booking module, where staff complete/confirm the richer Gophr data.
 - Monday has two intent statuses that should trigger different Telegram flows: `Book Courier` for inbound/collection courier and `Book Return Courier` for outbound/return courier.
+- For same-day collection + return, the first/inbound leg should be booked first, while the return leg is created as a linked draft/quick-book leg for later confirmation once repair readiness is known.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
@@ -170,7 +171,7 @@ Recommendation:
 Recommended first slice:
 1. Booking module/ledger as the core object model, supporting three v1 sources: Shopify frontend, manual non-corporate, and manual corporate.
 2. Backend quote endpoint with policy calculation and same-day availability checks.
-3. Supabase `courier_bookings` table storing quote attempts, booking intents, corporate/manual bookings, and decisions.
+3. Supabase `courier_bookings` table storing quote attempts, booking intents, corporate/manual bookings, and decisions, with support for linked legs where inbound is booked and return is draft/quick-book.
 4. Monday `Book Courier` or `Book Return Courier` trigger starts the matching Telegram data-completion/review module when the booking did not originate from Shopify/internal form.
 5. Telegram draft card generated from a stored booking record.
 6. Monday writeback in dry-run first.
