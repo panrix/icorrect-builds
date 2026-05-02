@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb0000007aOXIAY",
+  "articleNumber": "000001058",
+  "title": "Product - definition",
+  "urlName": "Product-definition",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Product-definition",
+  "language": "en_GB",
+  "lastPublishedDate": "2025-11-20T14:44:08.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahWWAQ",
+      "parent_topic_name": "Products & Listings",
+      "topic_id": "0TO3X0000009akuWAA",
+      "topic_name": "Definitions",
+      "urlName": "Product-definition"
+    }
+  ],
+  "bodyHtml": "<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">A <strong>product</strong> is a <strong>unique</strong> device.<br>This device has specific characteristics, attributes that depend directly on the <strong>Category 3</strong> in which the product was created.</span></p>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Each product has <strong>mandatory and optional attributes</strong>:</span></p>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\"><strong>➡️ Mandatory attributes common to all categories:</strong><br>The Back Market ID (BMID)<br>The EAN (European Article Number)<br>The title<br>The description<br>The brand<br>The model<br>The price new<br>The weight<br>The first picture </span></p>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\"><strong>➡️ Mandatory attributes specific to a category, such as:</strong><br>Keyboard language for Laptops<br>Memory for a Smartphone<br>The power for an electric scooter</span></p>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\"><strong>➡️ All our products also have optional attributes.</strong><br>These are not mandatory, but allow you to provide more information about the products you sell, such as:<br>The resolution for a Laptop<br>The release date for a Smartphone<br>The autonomy for an electric scooter</span></p>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">As an example, for the Laptop Category, the attributes are divided as follows: <br><br><img alt=\"produit.jpg\" src=\"/ssc/servlet/rtaImage?eid=ka0Sb0000007aOX&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064Qtg\"></img><br><br>All these attributes allow us to obtain clean, clear and complete product pages. These attributes are also here to boost the conversion rate. </span></p>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">&#128161; If you have any questions regarding the creation of your products, you can consult the following article: <strong><a href=\"https://backmarket.my.site.com/ssc/s/article/Create-my-product-on-Back-Market-s-Back-Office\" target=\"_blank\"><span style=\"color: #2980b9;\">Create a product on my Back Offic</span></a><span style=\"color: #2980b9;\">e</span></strong></span></p>"
+}

@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb0000003YDFIA2",
+  "articleNumber": "000001473",
+  "title": "How do I add multiple users to my Back Office?",
+  "urlName": "How-do-I-add-multiple-users-to-my-Back-Office",
+  "url": "https://backmarket.my.site.com/ssc/s/article/How-do-I-add-multiple-users-to-my-Back-Office",
+  "language": "en_GB",
+  "lastPublishedDate": "2025-04-04T14:46:51.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahHWAQ",
+      "parent_topic_name": "Quality & Sales",
+      "topic_id": "0TO3X0000009aiZWAQ",
+      "topic_name": "Set Up My Back Office For Sales",
+      "urlName": "How-do-I-add-multiple-users-to-my-Back-Office"
+    }
+  ],
+  "bodyHtml": "<p style=\"line-height: 1.38;margin-top: 16px;margin-bottom: 16px;\">You might want to add multiple users in your Back Office to avoid sharing your login information with every person who needs to access your Back Market account. And now it’s possible to add additional users.<br><br><br>Jump to<br><strong><a href=\"#acct\">How do I add a new user to my account?</a> </strong><br><a href=\"#access\"><strong>How do I select which pages the user can access?</strong></a><br><a href=\"#delete\"><strong>How do I delete a user?</strong></a></p>\n<p><br>As the admin user, or primary user, you’ll be able to:</p>\n<ul><li>See existing users</li><li>Add new users</li><li>Delete existing users</li><li>Decide which pages users can access</li><li>Manage API tokens for the account as only the admin user has access to the <strong><a href=\"https://www.backmarket.fr/bo-seller/options/integrations\" target=\"_blank\">integration page</a> </strong></li></ul>\n<p> </p>\n<p><img src=\"https://lh7-us.googleusercontent.com/NNJzSrg8iet9SJxMHd9Ja4cdmYYrflb-KyfrvlwYE0T0yuqW6JIHsQTxeGO3akhfgggrTCyx7Lh_kY-BUwA-yagw3HcVxzLsvHPYdWi635O039uBD3PQOLxs2G71YVODXYIrmkJqcv0sSPIesnIGlOQ\"></img><br><br> </p>\n<h2><strong><a id=\"acct\" name=\"acct\">How do I add a new user to my account?</a></strong></h2>\n<ol><li>Log into your Back Office &gt; “Your profile”.</li><li>Select the “User permissions” tab. </li><li>Select “Add new user”.</li><li>Enter the user&#39;s first name, last name, and email address.</li><li>This user will receive an email with a link to the Back Office. They will need to change their password before logging in.</li></ol>\n<p> </p>\n<h2><strong><a id=\"access\" name=\"access\">How do I select which pages the user can access?</a></strong></h2>\n<ol><li>Select a user profile on the user permissions page.</li><li>Select the pages the user should have access to.</li></ol>\n<p><br><img src=\"https://lh7-us.googleusercontent.com/A7SwsBHW6rgiIsYPQChfNY3jgpm_Y--b3Ov3v8yb_bQRsifETTR7K7-UT2O9FCAXTGnbHuY64BdmYaWWNk60biY1o_9U9ufSUlj3lhwqCP-ymWssMzJMCEyGdj1j7RZWfifV-XfWcpI1UArAd4PxitI\"></img></p>\n<p> </p>\n<p><img src=\"https://lh7-us.googleusercontent.com/tWkHgCfimXERJi8_gDgNvPyPCChbV6KMj2AiEsKxEaX-33T7MIyEFT1uhE14OkjdWIy2stVbdxk_OTLVLhA-67V5g1vMFVsLvJaXmbTWVtEEywSfz_9bHroLHI-cxOrjrUICjSoemj5FDw4jmzopWng\"></img><br><br><br> </p>\n<h2><strong><a id=\"delete\" name=\"delete\">How do I delete a user?</a></strong></h2>\n<ol><li>Select a user profile on the user permissions page.</li><li>Select the “Delete” button next to the user you want to delete.</li></ol>\n<p id=\"\" style=\"left: 69px;top: 2387.29px;\"> </p>\n<h3 style=\"left: 69px;top: 2387.29px;\"><strong>If you found this article clear and helpful, hit the like button to let us know.</strong></h3>"
+}

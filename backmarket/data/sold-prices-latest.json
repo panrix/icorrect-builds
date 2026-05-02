@@ -1,0 +1,1357 @@
+{
+  "generated_at": "2026-04-22T03:22:59.009Z",
+  "lookback_days": 90,
+  "order_count": 220,
+  "line_count": 220,
+  "condition_code_map": {
+    "10": "Excellent",
+    "11": "Good",
+    "12": "Fair"
+  },
+  "unmatched_skus": [
+    "MBA.Intel.i3.8GB.256GB.Grey.Fair"
+  ],
+  "by_sku": {
+    "MBA.A2179.2020.8GB.512GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 348,
+      "median_price": 348,
+      "min_price": 348,
+      "max_price": 348,
+      "last_sold_date": "2026-01-27T23:12:44Z"
+    },
+    "MBA.A2179.2020.i3.8GB.256GB.Gold.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 290,
+      "median_price": 290,
+      "min_price": 290,
+      "max_price": 290,
+      "last_sold_date": "2026-03-21T16:11:38Z"
+    },
+    "MBA.A2179.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 6,
+      "avg_price": 299.17,
+      "median_price": 301,
+      "min_price": 270,
+      "max_price": 311,
+      "last_sold_date": "2026-03-28T15:21:43Z"
+    },
+    "MBA.A2179.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 347,
+      "median_price": 347,
+      "min_price": 347,
+      "max_price": 347,
+      "last_sold_date": "2026-02-18T22:52:21Z"
+    },
+    "MBA.A2179.8GB.512GB.Gold.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 320,
+      "median_price": 320,
+      "min_price": 320,
+      "max_price": 320,
+      "last_sold_date": "2026-04-03T00:44:50+01:00"
+    },
+    "MBA.A2179.i3.8GB.256GB.Gold.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 304,
+      "median_price": 304,
+      "min_price": 304,
+      "max_price": 304,
+      "last_sold_date": "2026-01-27T17:06:07Z"
+    },
+    "MBA.A2179.i5.2020.8GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 305,
+      "median_price": 305,
+      "min_price": 305,
+      "max_price": 305,
+      "last_sold_date": "2026-03-30T09:59:31+01:00"
+    },
+    "MBA.A2337.16GB.1TB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 501,
+      "median_price": 501,
+      "min_price": 501,
+      "max_price": 501,
+      "last_sold_date": "2026-04-11T00:38:25+01:00"
+    },
+    "MBA.A2337.16GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 444,
+      "median_price": 444,
+      "min_price": 444,
+      "max_price": 444,
+      "last_sold_date": "2026-02-07T09:34:54Z"
+    },
+    "MBA.A2337.256.Gold.Vgood": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 449,
+      "median_price": 449,
+      "min_price": 449,
+      "max_price": 449,
+      "last_sold_date": "2026-03-23T15:35:30Z"
+    },
+    "MBA.A2337.8C.8GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 7,
+      "avg_price": 400,
+      "median_price": 411,
+      "min_price": 350,
+      "max_price": 433,
+      "last_sold_date": "2026-04-16T22:21:26+01:00"
+    },
+    "MBA.A2337.8GB.256GB.Gold.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 401,
+      "median_price": 401,
+      "min_price": 401,
+      "max_price": 401,
+      "last_sold_date": "2026-02-05T00:07:25Z"
+    },
+    "MBA.A2337.8GB.256GB.Gold.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 396,
+      "median_price": 396,
+      "min_price": 396,
+      "max_price": 396,
+      "last_sold_date": "2026-02-18T18:20:09Z"
+    },
+    "MBA.A2337.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 8,
+      "avg_price": 364.38,
+      "median_price": 361,
+      "min_price": 351,
+      "max_price": 378,
+      "last_sold_date": "2026-04-18T16:01:14+01:00"
+    },
+    "MBA.A2337.8GB.256GB.Rose Gold.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 369,
+      "median_price": 371,
+      "min_price": 357,
+      "max_price": 379,
+      "last_sold_date": "2026-03-23T12:47:22Z"
+    },
+    "MBA.A2337.8GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 4,
+      "avg_price": 382.75,
+      "median_price": 389,
+      "min_price": 360,
+      "max_price": 393,
+      "last_sold_date": "2026-03-12T22:17:13Z"
+    },
+    "MBA.A2337.8GB.256GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 419,
+      "median_price": 419,
+      "min_price": 419,
+      "max_price": 419,
+      "last_sold_date": "2026-03-30T11:51:17+01:00"
+    },
+    "MBA.A2337.8GB.512GB.Gold.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 429,
+      "median_price": 429,
+      "min_price": 429,
+      "max_price": 429,
+      "last_sold_date": "2026-02-21T14:15:34Z"
+    },
+    "MBA.A2337.M1.16GB.256GB.Gold.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 493,
+      "median_price": 493,
+      "min_price": 493,
+      "max_price": 493,
+      "last_sold_date": "2026-02-15T18:51:22Z"
+    },
+    "MBA.A2337.M1.16GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 440,
+      "median_price": 440,
+      "min_price": 440,
+      "max_price": 440,
+      "last_sold_date": "2026-02-15T15:54:27Z"
+    },
+    "MBA.A2337.M1.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 485.26,
+      "median_price": 485.26,
+      "min_price": 480,
+      "max_price": 490.52,
+      "last_sold_date": "2026-02-21T00:28:38Z"
+    },
+    "MBA.A2337.M1.7C.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 410,
+      "median_price": 410,
+      "min_price": 402,
+      "max_price": 418,
+      "last_sold_date": "2026-04-16T22:45:46+01:00"
+    },
+    "MBA.A2337.M1.7C.8GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 369.67,
+      "median_price": 369,
+      "min_price": 360,
+      "max_price": 380,
+      "last_sold_date": "2026-03-22T19:14:18Z"
+    },
+    "MBA.A2337.M1.8C.8GB.512GB.Silver.Excellent": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 465.88,
+      "median_price": 465.88,
+      "min_price": 465.88,
+      "max_price": 465.88,
+      "last_sold_date": "2026-02-23T17:35:31Z"
+    },
+    "MBA.A2337.M1.8GB.256GB.Gold.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 411,
+      "median_price": 411,
+      "min_price": 411,
+      "max_price": 411,
+      "last_sold_date": "2026-04-09T16:32:28+01:00"
+    },
+    "MBA.A2337.M1.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 368.5,
+      "median_price": 368.5,
+      "min_price": 357,
+      "max_price": 380,
+      "last_sold_date": "2026-03-12T15:48:05Z"
+    },
+    "MBA.A2337.M1.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 412.5,
+      "median_price": 412.5,
+      "min_price": 412,
+      "max_price": 413,
+      "last_sold_date": "2026-03-19T12:53:39Z"
+    },
+    "MBA.A2337.M1.8GB.256GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 393,
+      "median_price": 393,
+      "min_price": 393,
+      "max_price": 393,
+      "last_sold_date": "2026-02-27T13:52:09Z"
+    },
+    "MBA.A2681.8C.10C.8GB.256GB.Starlight.VGood": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 679,
+      "median_price": 679,
+      "min_price": 679,
+      "max_price": 679,
+      "last_sold_date": "2026-02-09T20:36:15Z"
+    },
+    "MBA.A2681.8C.10C.8GB.512GB.Grey.Vgood": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 618,
+      "median_price": 618,
+      "min_price": 618,
+      "max_price": 618,
+      "last_sold_date": "2026-04-05T18:58:55+01:00"
+    },
+    "MBA.A2681.8GB.256GB.Gold.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 498,
+      "median_price": 498,
+      "min_price": 498,
+      "max_price": 498,
+      "last_sold_date": "2026-03-09T10:12:36Z"
+    },
+    "MBA.A2681.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 4,
+      "avg_price": 541.5,
+      "median_price": 547,
+      "min_price": 503,
+      "max_price": 569,
+      "last_sold_date": "2026-03-09T07:52:41Z"
+    },
+    "MBA.A2681.8GB.256GB.Midnight.Fair": {
+      "grade": "Fair",
+      "count": 6,
+      "avg_price": 529.17,
+      "median_price": 523,
+      "min_price": 510,
+      "max_price": 571,
+      "last_sold_date": "2026-04-18T17:40:59+01:00"
+    },
+    "MBA.A2681.8GB.256GB.Midnight.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 599,
+      "median_price": 599,
+      "min_price": 569,
+      "max_price": 629,
+      "last_sold_date": "2026-04-10T10:34:06+01:00"
+    },
+    "MBA.A2681.8GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 489,
+      "median_price": 489,
+      "min_price": 489,
+      "max_price": 489,
+      "last_sold_date": "2026-03-12T08:40:41Z"
+    },
+    "MBA.A2681.8GB.256GB.Starlight.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 532,
+      "median_price": 532,
+      "min_price": 532,
+      "max_price": 532,
+      "last_sold_date": "2026-01-25T11:07:20Z"
+    },
+    "MBA.A2681.8GB.256GB.Starlight.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 558,
+      "median_price": 558,
+      "min_price": 558,
+      "max_price": 558,
+      "last_sold_date": "2026-02-13T13:56:59Z"
+    },
+    "MBA.A2681.M2.16GB.256GB.Grey.Excellent": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 699,
+      "median_price": 699,
+      "min_price": 699,
+      "max_price": 699,
+      "last_sold_date": "2026-03-13T01:32:24Z"
+    },
+    "MBA.A2681.M2.8C.8GB.256GB.Grey.Excellent": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 620,
+      "median_price": 620,
+      "min_price": 620,
+      "max_price": 620,
+      "last_sold_date": "2026-04-20T20:54:41+01:00"
+    },
+    "MBA.A2681.M2.8C.8GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 524,
+      "median_price": 524,
+      "min_price": 523,
+      "max_price": 525,
+      "last_sold_date": "2026-04-20T15:35:57+01:00"
+    },
+    "MBA.A2681.M2.8GB.1TB.Midnight.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 599,
+      "median_price": 599,
+      "min_price": 599,
+      "max_price": 599,
+      "last_sold_date": "2026-03-24T13:48:31Z"
+    },
+    "MBA.A2681.M2.8GB.256GB.Starlight.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 511,
+      "median_price": 511,
+      "min_price": 511,
+      "max_price": 511,
+      "last_sold_date": "2026-04-09T00:30:45+01:00"
+    },
+    "MBA.A2681.M2.8GB.512GB.Starlight.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 492,
+      "median_price": 492,
+      "min_price": 492,
+      "max_price": 492,
+      "last_sold_date": "2026-03-12T15:50:33Z"
+    },
+    "MBA.A2941.8C.10G.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 710,
+      "median_price": 710,
+      "min_price": 710,
+      "max_price": 710,
+      "last_sold_date": "2026-02-14T23:03:43Z"
+    },
+    "MBA.A2941.8GB.256GB.Midnight.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 745,
+      "median_price": 745,
+      "min_price": 745,
+      "max_price": 745,
+      "last_sold_date": "2026-03-02T16:53:56Z"
+    },
+    "MBA.A3113.8C.10C.16GB.512GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 724.68,
+      "median_price": 724.68,
+      "min_price": 724.68,
+      "max_price": 724.68,
+      "last_sold_date": "2026-03-09T10:41:33Z"
+    },
+    "MBA.A3240.16GB.256GB.10C.8C.Midnight.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 819,
+      "median_price": 819,
+      "min_price": 819,
+      "max_price": 819,
+      "last_sold_date": "2026-01-29T18:38:21Z"
+    },
+    "MBA.A3240.16GB.256GB.10C.8C.SkyBlue.VGood": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 777,
+      "median_price": 777,
+      "min_price": 777,
+      "max_price": 777,
+      "last_sold_date": "2026-01-31T17:58:40Z"
+    },
+    "MBA.A3240.16GB.256GB.10C.8C.Starlight.VGood": {
+      "grade": "Excellent",
+      "count": 2,
+      "avg_price": 845.5,
+      "median_price": 845.5,
+      "min_price": 808,
+      "max_price": 883,
+      "last_sold_date": "2026-03-16T10:00:43Z"
+    },
+    "MBA.Intel.i3.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 336,
+      "median_price": 336,
+      "min_price": 336,
+      "max_price": 336,
+      "last_sold_date": "2026-03-02T21:05:31Z"
+    },
+    "MBA.M1A2337.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 17,
+      "avg_price": 369.88,
+      "median_price": 376,
+      "min_price": 341,
+      "max_price": 399,
+      "last_sold_date": "2026-02-24T19:08:35Z"
+    },
+    "MBA.M1A2337.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 9,
+      "avg_price": 410.78,
+      "median_price": 408,
+      "min_price": 408,
+      "max_price": 424,
+      "last_sold_date": "2026-02-28T12:55:10Z"
+    },
+    "MBP.A2251.i5.16GB.1TB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 409,
+      "median_price": 409,
+      "min_price": 409,
+      "max_price": 409,
+      "last_sold_date": "2026-02-19T21:09:41Z"
+    },
+    "MBP.A2251.i5.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 358.33,
+      "median_price": 349,
+      "min_price": 339,
+      "max_price": 387,
+      "last_sold_date": "2026-03-13T05:47:25Z"
+    },
+    "MBP.A2251.i5.16GB.512GB.Grey.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 401.72,
+      "median_price": 401.72,
+      "min_price": 396,
+      "max_price": 407.44,
+      "last_sold_date": "2026-04-01T00:34:48+01:00"
+    },
+    "MBP.A2289.16GB.512GB.i5.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 396.72,
+      "median_price": 396.72,
+      "min_price": 396.72,
+      "max_price": 396.72,
+      "last_sold_date": "2026-02-27T14:51:50Z"
+    },
+    "MBP.A2289.i5.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 4,
+      "avg_price": 371.25,
+      "median_price": 368,
+      "min_price": 359,
+      "max_price": 390,
+      "last_sold_date": "2026-02-22T22:41:19Z"
+    },
+    "MBP.A2338.8GB.512GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 570,
+      "median_price": 570,
+      "min_price": 570,
+      "max_price": 570,
+      "last_sold_date": "2026-02-02T16:26:01Z"
+    },
+    "MBP.A2338.M1.16GB.1TB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 599,
+      "median_price": 599,
+      "min_price": 599,
+      "max_price": 599,
+      "last_sold_date": "2026-01-25T14:45:11Z"
+    },
+    "MBP.A2338.M1.16GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 505,
+      "median_price": 505,
+      "min_price": 505,
+      "max_price": 505,
+      "last_sold_date": "2026-04-05T23:14:52+01:00"
+    },
+    "MBP.A2338.M1.16GB.2TB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 635.67,
+      "median_price": 629,
+      "min_price": 629,
+      "max_price": 649,
+      "last_sold_date": "2026-04-13T11:52:43+01:00"
+    },
+    "MBP.A2338.M1.16GB.512GB.Grey.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 545,
+      "median_price": 545,
+      "min_price": 518,
+      "max_price": 572,
+      "last_sold_date": "2026-03-22T02:07:48Z"
+    },
+    "MBP.A2338.M1.8GB.256GB.Grey.Excellent": {
+      "grade": "Excellent",
+      "count": 2,
+      "avg_price": 539,
+      "median_price": 539,
+      "min_price": 528,
+      "max_price": 550,
+      "last_sold_date": "2026-02-22T11:53:44Z"
+    },
+    "MBP.A2338.M1.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 16,
+      "avg_price": 463.42,
+      "median_price": 468.92,
+      "min_price": 413,
+      "max_price": 511,
+      "last_sold_date": "2026-03-24T13:17:18Z"
+    },
+    "MBP.A2338.M1.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 520.5,
+      "median_price": 520.5,
+      "min_price": 512,
+      "max_price": 529,
+      "last_sold_date": "2026-02-13T05:01:24Z"
+    },
+    "MBP.A2338.M1.8GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 458,
+      "median_price": 458,
+      "min_price": 458,
+      "max_price": 458,
+      "last_sold_date": "2026-04-01T17:01:21+01:00"
+    },
+    "MBP.A2338.M1.8GB.256GB.Silver.VGood": {
+      "grade": "Excellent",
+      "count": 2,
+      "avg_price": 545.5,
+      "median_price": 545.5,
+      "min_price": 539,
+      "max_price": 552,
+      "last_sold_date": "2026-03-23T20:53:09Z"
+    },
+    "MBP.A2338.M1.8GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 468.33,
+      "median_price": 460,
+      "min_price": 445,
+      "max_price": 500,
+      "last_sold_date": "2026-03-28T20:53:39Z"
+    },
+    "MBP.A2338.M2.8GB.256GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 638.33,
+      "median_price": 651,
+      "min_price": 598,
+      "max_price": 666,
+      "last_sold_date": "2026-02-24T09:07:38Z"
+    },
+    "MBP.A2442.16GB.512GB.Grey.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 737.32,
+      "median_price": 737.32,
+      "min_price": 714.96,
+      "max_price": 759.68,
+      "last_sold_date": "2026-03-02T09:48:49Z"
+    },
+    "MBP.A2442.16GB.512GB.Grey.VGood": {
+      "grade": "Excellent",
+      "count": 2,
+      "avg_price": 608.62,
+      "median_price": 608.62,
+      "min_price": 462.24,
+      "max_price": 755,
+      "last_sold_date": "2026-03-09T02:44:27Z"
+    },
+    "MBP.A2442.M1PRO.10C.16C.16GB.2TB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 925,
+      "median_price": 925,
+      "min_price": 925,
+      "max_price": 925,
+      "last_sold_date": "2026-03-11T09:54:05Z"
+    },
+    "MBP.A2442.M1PRO.10C.16C.16GB.512GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 850,
+      "median_price": 850,
+      "min_price": 850,
+      "max_price": 850,
+      "last_sold_date": "2026-02-20T17:20:55Z"
+    },
+    "MBP.A2485.10C.16C.16GB.1TB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 745.2,
+      "median_price": 745.2,
+      "min_price": 745.2,
+      "max_price": 745.2,
+      "last_sold_date": "2026-03-09T14:03:50Z"
+    },
+    "MBP.A2485.10C.16C.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 728,
+      "median_price": 728,
+      "min_price": 728,
+      "max_price": 728,
+      "last_sold_date": "2026-02-22T14:08:50Z"
+    },
+    "MBP.A2485.10C.16G.32GB.1TB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 494,
+      "median_price": 494,
+      "min_price": 494,
+      "max_price": 494,
+      "last_sold_date": "2026-02-07T18:33:58Z"
+    },
+    "MBP.A2485.10C.32G.64GB.1TB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 1157,
+      "median_price": 1157,
+      "min_price": 1157,
+      "max_price": 1157,
+      "last_sold_date": "2026-02-19T00:15:34Z"
+    },
+    "MBP.A2485.M1PRO.10C.16C.32GB.1TB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 999,
+      "median_price": 999,
+      "min_price": 999,
+      "max_price": 999,
+      "last_sold_date": "2026-02-24T02:19:23Z"
+    },
+    "MBP.A2779.16GB.512GB.Silver.Good": {
+      "grade": "Good",
+      "count": 3,
+      "avg_price": 1018,
+      "median_price": 1074,
+      "min_price": 902,
+      "max_price": 1078,
+      "last_sold_date": "2026-03-23T17:39:16Z"
+    },
+    "MBP.A2779.M2PRO.12C.19C.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 932,
+      "median_price": 932,
+      "min_price": 932,
+      "max_price": 932,
+      "last_sold_date": "2026-02-21T12:48:12Z"
+    },
+    "MBP.A2918.8GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 893,
+      "median_price": 893,
+      "min_price": 893,
+      "max_price": 893,
+      "last_sold_date": "2026-02-09T23:34:54Z"
+    },
+    "MBP.A2918.8GB.512GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 975,
+      "median_price": 975,
+      "min_price": 975,
+      "max_price": 975,
+      "last_sold_date": "2026-02-19T16:12:35Z"
+    },
+    "MBP.A2918.8GB.512GB.Grey.VGood": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 909,
+      "median_price": 909,
+      "min_price": 909,
+      "max_price": 909,
+      "last_sold_date": "2026-02-18T13:39:09Z"
+    },
+    "MBP.A2918.M2Pro.16GB.1TB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 1100,
+      "median_price": 1100,
+      "min_price": 1100,
+      "max_price": 1100,
+      "last_sold_date": "2026-02-19T16:03:42Z"
+    },
+    "MBP.A2918.M3.16GB.512GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 964,
+      "median_price": 964,
+      "min_price": 964,
+      "max_price": 964,
+      "last_sold_date": "2026-04-05T20:28:10+01:00"
+    },
+    "MBP.A2991.M3PRO.18GB.512GB.Space Black.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 1516,
+      "median_price": 1516,
+      "min_price": 1516,
+      "max_price": 1516,
+      "last_sold_date": "2026-03-28T22:20:56Z"
+    },
+    "MBP.A2992.M3PRO.12C.18C.18GB.512GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 1082,
+      "median_price": 1082,
+      "min_price": 1082,
+      "max_price": 1082,
+      "last_sold_date": "2026-03-01T16:35:09Z"
+    },
+    "MBP.A2992.M3PRO.18GB.512GB.Silver.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 1223,
+      "median_price": 1223,
+      "min_price": 1223,
+      "max_price": 1223,
+      "last_sold_date": "2026-03-31T20:34:24+01:00"
+    },
+    "MBP.M1.A2338.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 498,
+      "median_price": 498,
+      "min_price": 498,
+      "max_price": 498,
+      "last_sold_date": "2026-02-27T18:47:49Z"
+    },
+    "MBP.M1.A2338.8GB.256GB.Grey.VGood": {
+      "grade": "Excellent",
+      "count": 5,
+      "avg_price": 515,
+      "median_price": 513,
+      "min_price": 513,
+      "max_price": 523,
+      "last_sold_date": "2026-02-12T23:11:19Z"
+    },
+    "MBP.M1A2338.16GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 498.96,
+      "median_price": 498.96,
+      "min_price": 498.96,
+      "max_price": 498.96,
+      "last_sold_date": "2026-02-24T14:41:07Z"
+    },
+    "MBP.M1A2338.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 399,
+      "median_price": 399,
+      "min_price": 399,
+      "max_price": 399,
+      "last_sold_date": "2026-03-11T06:32:17Z"
+    },
+    "MBP.M1A2338.8GB.256GB.Silver.Good": {
+      "grade": "Good",
+      "count": 2,
+      "avg_price": 539,
+      "median_price": 539,
+      "min_price": 539,
+      "max_price": 539,
+      "last_sold_date": "2026-02-02T18:28:36Z"
+    },
+    "MBP.M2.A2338.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 648,
+      "median_price": 648,
+      "min_price": 645,
+      "max_price": 651,
+      "last_sold_date": "2026-03-04T08:39:26Z"
+    },
+    "MBP.M2.A2338.8GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 656,
+      "median_price": 656,
+      "min_price": 656,
+      "max_price": 656,
+      "last_sold_date": "2026-02-20T10:15:53Z"
+    },
+    "MBP.M2.A2338.8GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 616,
+      "median_price": 616,
+      "min_price": 616,
+      "max_price": 616,
+      "last_sold_date": "2026-02-18T15:53:53Z"
+    },
+    "MBP13.A1989.2018.2.3.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 335,
+      "median_price": 335,
+      "min_price": 335,
+      "max_price": 335,
+      "last_sold_date": "2026-03-03T20:45:43Z"
+    },
+    "MBP13.A2338M1.8GB.512GB.Vgood": {
+      "grade": "Excellent",
+      "count": 2,
+      "avg_price": 467,
+      "median_price": 467,
+      "min_price": 405,
+      "max_price": 529,
+      "last_sold_date": "2026-03-21T18:26:08Z"
+    },
+    "MBP13.A2338M2.8GB.256GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 600,
+      "median_price": 600,
+      "min_price": 600,
+      "max_price": 600,
+      "last_sold_date": "2026-02-17T21:05:51Z"
+    },
+    "MBP13.M1A2338.16GB.256GB.Grey.Good": {
+      "grade": "Good",
+      "count": 1,
+      "avg_price": 630,
+      "median_price": 630,
+      "min_price": 630,
+      "max_price": 630,
+      "last_sold_date": "2026-02-13T02:41:14Z"
+    },
+    "MBP13.M1A2338.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 519.48,
+      "median_price": 519.48,
+      "min_price": 519.48,
+      "max_price": 519.48,
+      "last_sold_date": "2026-03-01T21:24:04Z"
+    },
+    "MBP13.M1A2338.8GB.256GB.silver.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 460,
+      "median_price": 460,
+      "min_price": 455,
+      "max_price": 465,
+      "last_sold_date": "2026-03-12T21:35:42Z"
+    },
+    "MBP14.A2442.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 3,
+      "avg_price": 700.33,
+      "median_price": 699,
+      "min_price": 694,
+      "max_price": 708,
+      "last_sold_date": "2026-02-09T14:44:47Z"
+    },
+    "MBP14.A2442.16GB.512GB.Silver.Fair": {
+      "grade": "Fair",
+      "count": 2,
+      "avg_price": 691.5,
+      "median_price": 691.5,
+      "min_price": 654,
+      "max_price": 729,
+      "last_sold_date": "2026-03-25T14:55:17Z"
+    },
+    "MBP14.A2442.16GB.512GB.Silver.Vgood": {
+      "grade": "Excellent",
+      "count": 1,
+      "avg_price": 798,
+      "median_price": 798,
+      "min_price": 798,
+      "max_price": 798,
+      "last_sold_date": "2026-04-07T00:29:50+01:00"
+    },
+    "MBP16.A2485.16GB.512GB.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 692,
+      "median_price": 692,
+      "min_price": 692,
+      "max_price": 692,
+      "last_sold_date": "2026-04-19T04:22:53+01:00"
+    },
+    "MBP16.M1A2485.32GB.512.Grey.Fair": {
+      "grade": "Fair",
+      "count": 1,
+      "avg_price": 727,
+      "median_price": 727,
+      "min_price": 727,
+      "max_price": 727,
+      "last_sold_date": "2026-04-04T21:05:51+01:00"
+    }
+  },
+  "by_model": {
+    "A1989": {
+      "form_factor": "MBP13",
+      "chip": "Intel",
+      "year": 2018,
+      "grades": {
+        "Fair": {
+          "count": 1,
+          "avg_price": 335,
+          "median_price": 335,
+          "min_price": 335,
+          "max_price": 335,
+          "last_sold_date": "2026-03-03T20:45:43Z"
+        }
+      }
+    },
+    "A2179": {
+      "form_factor": "MBA13",
+      "chip": "Intel",
+      "year": 2020,
+      "grades": {
+        "Fair": {
+          "count": 10,
+          "avg_price": 301.4,
+          "median_price": 302.5,
+          "min_price": 270,
+          "max_price": 320,
+          "last_sold_date": "2026-04-03T00:44:50+01:00"
+        },
+        "Good": {
+          "count": 2,
+          "avg_price": 347.5,
+          "median_price": 347.5,
+          "min_price": 347,
+          "max_price": 348,
+          "last_sold_date": "2026-02-18T22:52:21Z"
+        }
+      }
+    },
+    "A2251": {
+      "form_factor": "MBP13",
+      "chip": "Intel",
+      "year": 2020,
+      "grades": {
+        "Fair": {
+          "count": 4,
+          "avg_price": 371,
+          "median_price": 368,
+          "min_price": 339,
+          "max_price": 409,
+          "last_sold_date": "2026-03-13T05:47:25Z"
+        },
+        "Good": {
+          "count": 2,
+          "avg_price": 401.72,
+          "median_price": 401.72,
+          "min_price": 396,
+          "max_price": 407.44,
+          "last_sold_date": "2026-04-01T00:34:48+01:00"
+        }
+      }
+    },
+    "A2289": {
+      "form_factor": "MBP13",
+      "chip": "Intel",
+      "year": 2020,
+      "grades": {
+        "Fair": {
+          "count": 4,
+          "avg_price": 371.25,
+          "median_price": 368,
+          "min_price": 359,
+          "max_price": 390,
+          "last_sold_date": "2026-02-22T22:41:19Z"
+        },
+        "Good": {
+          "count": 1,
+          "avg_price": 396.72,
+          "median_price": 396.72,
+          "min_price": 396.72,
+          "max_price": 396.72,
+          "last_sold_date": "2026-02-27T14:51:50Z"
+        }
+      }
+    },
+    "A2337": {
+      "form_factor": "MBA13",
+      "chip": "M1",
+      "year": 2020,
+      "grades": {
+        "Excellent": {
+          "count": 2,
+          "avg_price": 457.44,
+          "median_price": 457.44,
+          "min_price": 449,
+          "max_price": 465.88,
+          "last_sold_date": "2026-03-23T15:35:30Z"
+        },
+        "Fair": {
+          "count": 51,
+          "avg_price": 385.19,
+          "median_price": 379,
+          "min_price": 341,
+          "max_price": 501,
+          "last_sold_date": "2026-04-18T16:01:14+01:00"
+        },
+        "Good": {
+          "count": 20,
+          "avg_price": 414.7,
+          "median_price": 409.5,
+          "min_price": 393,
+          "max_price": 493,
+          "last_sold_date": "2026-04-16T22:45:46+01:00"
+        }
+      }
+    },
+    "A2338": {
+      "form_factor": "MBP13",
+      "chip": "M1/M2",
+      "year": 2020,
+      "grades": {
+        "Excellent": {
+          "count": 11,
+          "avg_price": 516.18,
+          "median_price": 523,
+          "min_price": 405,
+          "max_price": 552,
+          "last_sold_date": "2026-03-23T20:53:09Z"
+        },
+        "Fair": {
+          "count": 38,
+          "avg_price": 514.69,
+          "median_price": 488.5,
+          "min_price": 399,
+          "max_price": 666,
+          "last_sold_date": "2026-04-13T11:52:43+01:00"
+        },
+        "Good": {
+          "count": 10,
+          "avg_price": 556.3,
+          "median_price": 539,
+          "min_price": 498,
+          "max_price": 656,
+          "last_sold_date": "2026-03-22T02:07:48Z"
+        }
+      }
+    },
+    "A2442": {
+      "form_factor": "MBP14",
+      "chip": "M1 Pro/M1 Max",
+      "year": 2021,
+      "grades": {
+        "Excellent": {
+          "count": 3,
+          "avg_price": 671.75,
+          "median_price": 755,
+          "min_price": 462.24,
+          "max_price": 798,
+          "last_sold_date": "2026-04-07T00:29:50+01:00"
+        },
+        "Fair": {
+          "count": 6,
+          "avg_price": 722.33,
+          "median_price": 703.5,
+          "min_price": 654,
+          "max_price": 850,
+          "last_sold_date": "2026-03-25T14:55:17Z"
+        },
+        "Good": {
+          "count": 3,
+          "avg_price": 799.88,
+          "median_price": 759.68,
+          "min_price": 714.96,
+          "max_price": 925,
+          "last_sold_date": "2026-03-11T09:54:05Z"
+        }
+      }
+    },
+    "A2485": {
+      "form_factor": "MBP16",
+      "chip": "M1 Pro/M1 Max",
+      "year": 2021,
+      "grades": {
+        "Fair": {
+          "count": 4,
+          "avg_price": 826,
+          "median_price": 727.5,
+          "min_price": 692,
+          "max_price": 1157,
+          "last_sold_date": "2026-04-19T04:22:53+01:00"
+        },
+        "Good": {
+          "count": 3,
+          "avg_price": 746.07,
+          "median_price": 745.2,
+          "min_price": 494,
+          "max_price": 999,
+          "last_sold_date": "2026-03-09T14:03:50Z"
+        }
+      }
+    },
+    "A2681": {
+      "form_factor": "MBA13",
+      "chip": "M2",
+      "year": 2022,
+      "grades": {
+        "Excellent": {
+          "count": 4,
+          "avg_price": 654,
+          "median_price": 649.5,
+          "min_price": 618,
+          "max_price": 699,
+          "last_sold_date": "2026-04-20T20:54:41+01:00"
+        },
+        "Fair": {
+          "count": 14,
+          "avg_price": 524.57,
+          "median_price": 517.5,
+          "min_price": 489,
+          "max_price": 599,
+          "last_sold_date": "2026-04-20T15:35:57+01:00"
+        },
+        "Good": {
+          "count": 7,
+          "avg_price": 560.29,
+          "median_price": 558,
+          "min_price": 503,
+          "max_price": 629,
+          "last_sold_date": "2026-04-10T10:34:06+01:00"
+        }
+      }
+    },
+    "A2779": {
+      "form_factor": "MBP14",
+      "chip": "M2 Pro/M2 Max",
+      "year": 2023,
+      "grades": {
+        "Fair": {
+          "count": 1,
+          "avg_price": 932,
+          "median_price": 932,
+          "min_price": 932,
+          "max_price": 932,
+          "last_sold_date": "2026-02-21T12:48:12Z"
+        },
+        "Good": {
+          "count": 3,
+          "avg_price": 1018,
+          "median_price": 1074,
+          "min_price": 902,
+          "max_price": 1078,
+          "last_sold_date": "2026-03-23T17:39:16Z"
+        }
+      }
+    },
+    "A2918": {
+      "form_factor": "MBP14",
+      "chip": "M3",
+      "year": 2023,
+      "grades": {
+        "Excellent": {
+          "count": 1,
+          "avg_price": 909,
+          "median_price": 909,
+          "min_price": 909,
+          "max_price": 909,
+          "last_sold_date": "2026-02-18T13:39:09Z"
+        },
+        "Fair": {
+          "count": 2,
+          "avg_price": 996.5,
+          "median_price": 996.5,
+          "min_price": 893,
+          "max_price": 1100,
+          "last_sold_date": "2026-02-19T16:03:42Z"
+        },
+        "Good": {
+          "count": 2,
+          "avg_price": 969.5,
+          "median_price": 969.5,
+          "min_price": 964,
+          "max_price": 975,
+          "last_sold_date": "2026-04-05T20:28:10+01:00"
+        }
+      }
+    },
+    "A2941": {
+      "form_factor": "MBA15",
+      "chip": "M2",
+      "year": 2023,
+      "grades": {
+        "Fair": {
+          "count": 1,
+          "avg_price": 745,
+          "median_price": 745,
+          "min_price": 745,
+          "max_price": 745,
+          "last_sold_date": "2026-03-02T16:53:56Z"
+        },
+        "Good": {
+          "count": 1,
+          "avg_price": 710,
+          "median_price": 710,
+          "min_price": 710,
+          "max_price": 710,
+          "last_sold_date": "2026-02-14T23:03:43Z"
+        }
+      }
+    },
+    "A2991": {
+      "form_factor": "MBP16",
+      "chip": "M3 Pro/M3 Max",
+      "year": 2023,
+      "grades": {
+        "Fair": {
+          "count": 1,
+          "avg_price": 1516,
+          "median_price": 1516,
+          "min_price": 1516,
+          "max_price": 1516,
+          "last_sold_date": "2026-03-28T22:20:56Z"
+        }
+      }
+    },
+    "A2992": {
+      "form_factor": "MBP14",
+      "chip": "M3 Pro/M3 Max",
+      "year": 2023,
+      "grades": {
+        "Good": {
+          "count": 2,
+          "avg_price": 1152.5,
+          "median_price": 1152.5,
+          "min_price": 1082,
+          "max_price": 1223,
+          "last_sold_date": "2026-03-31T20:34:24+01:00"
+        }
+      }
+    },
+    "A3113": {
+      "form_factor": "MBA13",
+      "chip": "M3",
+      "year": 2024,
+      "grades": {
+        "Good": {
+          "count": 1,
+          "avg_price": 724.68,
+          "median_price": 724.68,
+          "min_price": 724.68,
+          "max_price": 724.68,
+          "last_sold_date": "2026-03-09T10:41:33Z"
+        }
+      }
+    },
+    "A3240": {
+      "form_factor": "MBA13",
+      "chip": "M4",
+      "year": 2025,
+      "grades": {
+        "Excellent": {
+          "count": 3,
+          "avg_price": 822.67,
+          "median_price": 808,
+          "min_price": 777,
+          "max_price": 883,
+          "last_sold_date": "2026-03-16T10:00:43Z"
+        },
+        "Good": {
+          "count": 1,
+          "avg_price": 819,
+          "median_price": 819,
+          "min_price": 819,
+          "max_price": 819,
+          "last_sold_date": "2026-01-29T18:38:21Z"
+        }
+      }
+    }
+  }
+}

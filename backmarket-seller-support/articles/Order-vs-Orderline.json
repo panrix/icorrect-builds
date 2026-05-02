@@ -1,0 +1,11 @@
+{
+  "id": "ka03X000000icrKQAQ",
+  "articleNumber": "000001092",
+  "title": "Order vs. Orderline 🧱",
+  "urlName": "Order-vs-Orderline",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Order-vs-Orderline",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-06-14T07:35:16.000Z",
+  "topics": [],
+  "bodyHtml": "<p>When a customer buys one or several <strong>listings</strong> from one specific Seller on Back Market, an <strong>order</strong> is created. An <strong>order</strong> is composed of one or several <strong>orderlines</strong>. An <strong>orderline</strong> is defined by a quantity of a specific <strong>listing</strong> from an <strong>order</strong> placed by a customer to a specific Seller (<strong>orderline </strong>contains also specific information about the customer: billing, shipping addresses, etc.). </p>\n\n<p>For example, if a customer buys 2 different <strong>listings</strong> owned by the Seller X and 4 same <strong>listings</strong> of the Seller Y, 2 <strong>orders</strong> will be created, one related to the Seller X and composed of 2 <strong>orderlines</strong> and one related to the Seller Y and composed of 1 <strong>orderline</strong>.<br><br><img alt=\"3.jfif\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000icrK&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064sRG\"></img><br> </p>\n\n<p>Actually, Sellers only have to manage <strong>orderlines</strong>. <strong>Orders</strong> are treated automatically when corresponding <strong>orderlines</strong> are treated.</p>\n\n<p>Note that in most cases, an <strong>order</strong> is composed of only one <strong>orderline</strong>. </p>"
+}

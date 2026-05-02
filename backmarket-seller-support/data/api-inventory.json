@@ -1,0 +1,129 @@
+{
+  "site": "https://backmarket.my.site.com/ssc/s/",
+  "platform": "Salesforce Experience Cloud (Lightning Communities)",
+  "framework": "Aura (legacy Lightning, app=siteforce:communityApp)",
+  "rest_api_version_supported_max": "v66.0 (highest in /services/data/ index; v60.0 used in observed traffic)",
+  "auth": {
+    "primary": "Salesforce session cookie 'sid' set on backmarket.my.site.com (HTTP-only, secure)",
+    "aura_token": "JWT-shape token in window.Aura.initConfig.token, embedded in every page; required for /sfsites/aura POSTs",
+    "csrf": "None observed beyond the token in the request body",
+    "cookies_observed": ["renderCtx","CookieConsentPolicy","BrowserId","oinfo","sid","sid_Client","clientSrc","inst","oid","__Secure-has-sid"]
+  },
+  "host_constants": {
+    "fwuid": "stable per Aura framework rev (resniff if you get FWUID_MISMATCH)",
+    "app": "siteforce:communityApp",
+    "pathPrefix": "/ssc",
+    "context_app_loaded_key": "APPLICATION@markup://siteforce:communityApp",
+    "category_group_name": "Seller_Support_Knowledge",
+    "knowledge_object": "Knowledge__kav",
+    "body_field": "Details__c"
+  },
+  "endpoints": {
+    "rest_versions_index": {
+      "method": "GET",
+      "url": "/services/data/",
+      "auth": "none required (public)",
+      "purpose": "list all supported REST versions"
+    },
+    "rest_knowledge_articles_list": {
+      "method": "GET",
+      "url": "/services/data/v60.0/support/knowledgeArticles",
+      "params": {"pageSize": "1-100", "pageNumber": "int", "categories": "JSON-encoded {GroupName: CategoryName}", "sort": "Title|LastPublishedDate|CreatedDate|ViewScore", "order": "ASC|DESC", "channel": "Pkb (only valid for this org)"},
+      "auth": "sid cookie",
+      "purpose": "Standard SF Knowledge listing — but only returns ~11 most-viewed articles for this user; not a full enumerator. Returns: id (KnowledgeArticleId, kA0...), articleNumber, title, urlName, lastPublishedDate, categoryGroups[]. Body content NOT included."
+    },
+    "rest_single_knowledge_article": {
+      "method": "GET",
+      "url": "/services/data/v60.0/support/knowledgeArticles/{KnowledgeArticleId|UrlName}",
+      "auth": "sid cookie",
+      "purpose": "Article metadata + layoutItems[]. Note: only works for the ~11 'channel-published' articles, not for the 242 visible via Aura. body content NOT included."
+    },
+    "rest_data_category_groups": {
+      "method": "GET",
+      "url": "/services/data/v60.0/support/dataCategoryGroups?sObjectName=KnowledgeArticleVersion",
+      "auth": "sid cookie",
+      "purpose": "Lists data category groups (returns one: Seller_Support_Knowledge)"
+    },
+    "rest_data_category_tree": {
+      "method": "GET",
+      "url": "/services/data/v60.0/support/dataCategoryGroups/Seller_Support_Knowledge/dataCategories/All?sObjectName=KnowledgeArticleVersion",
+      "auth": "sid cookie",
+      "purpose": "Full category tree (52 categories under Seller_Support_Knowledge). Names like 'Warranty_Withdrawal', 'BackShip', 'BuyBack_Overview_and_Activation'."
+    },
+    "aura_apex_get_topic": {
+      "method": "POST",
+      "url": "/ssc/s/sfsites/aura?r={N}&aura.ApexAction.execute=1",
+      "body_form": "message=<JSON>&aura.context=<JSON>&aura.pageURI=/ssc/s/&aura.token=<token>",
+      "message_action": {
+        "descriptor": "aura://ApexActionController/ACTION$execute",
+        "params": {"namespace": "", "classname": "ssc_FaqController", "method": "getTopic", "params": {"topicId": "0TO..."}, "cacheable": true}
+      },
+      "purpose": "Custom Apex controller. Returns top-5 articles per child topic for a topic-group root id, OR top-5 for a leaf topic. Capped at 5; cannot retrieve full list this way."
+    },
+    "aura_get_record_with_fields": {
+      "method": "POST",
+      "url": "/ssc/s/sfsites/aura?r={N}&aura.RecordUi.getRecordWithFields=1",
+      "message_action": {
+        "descriptor": "aura://RecordUiController/ACTION$getRecordWithFields",
+        "params": {"recordId": "ka0... (KnowledgeArticleVersion id)", "fields": ["Knowledge__kav.Details__c","Knowledge__kav.UrlName","Knowledge__kav.Title","Knowledge__kav.LastPublishedDate","Knowledge__kav.ArticleNumber","Knowledge__kav.Summary","Knowledge__kav.Language","Knowledge__kav.KnowledgeArticleId"]}
+      },
+      "purpose": "Fetch full article body. Body is in custom rich-text field Details__c (HTML). Supports batch (multiple actions in one POST). recordId is the article-VERSION id (ka0...), NOT the KnowledgeArticleId (kA0...). Use getArticleVersionId to map UrlName -> recordId."
+    },
+    "aura_get_article_version_id": {
+      "method": "POST",
+      "url": "/ssc/s/sfsites/aura?r={N}&getArticleVersionId=1",
+      "message_action": {
+        "descriptor": "serviceComponent://ui.comm.runtime.components.aura.components.siteforce.recordservicecomponent.RecordServiceComponentController/ACTION$getArticleVersionId",
+        "params": {"urlName": "Some-Article-Url-Name"}
+      },
+      "purpose": "Map an article UrlName to its current published version id (ka0...). Use before getRecordWithFields if you only have the URL."
+    },
+    "aura_search_scoped_results": {
+      "method": "POST",
+      "url": "/ssc/s/sfsites/aura?r={N}&getItems=1",
+      "message_action": {
+        "descriptor": "serviceComponent://ui.search.components.forcesearch.scopedresultsdataprovider.ScopedResultsDataProviderController/ACTION$getItems",
+        "params": {
+          "scopeMap": {"label": "Article", "keyPrefix": "ka#", "name": "KnowledgeArticleVersion", "namespace": "forceCommunity", "cacheable": "Y", "id": "forceCommunity:KnowledgeArticleVersion", "labelPlural": "Articles"},
+          "term": "<query>", "pageSize": 50, "currentPage": 1, "sortBy": null,
+          "enableRowActions": false, "context": {"persistedContextParams": {"feeds": {}}},
+          "withSpellCorrection": true, "withSearchContext": [], "configurationName": null
+        }
+      },
+      "purpose": "Site-search. THIS IS THE PRIMARY ENUMERATION ENDPOINT. Returns 15+ records per page with full record metadata (Id, Title, UrlName, ArticleNumber, dates, language, PublishStatus). Use stop-word seeds ('the','a','of','and') to enumerate ALL accessible articles (242 confirmed). Search uses SF SOSL under the hood."
+    },
+    "aura_navigation_menu": {
+      "method": "POST",
+      "url": "/ssc/s/sfsites/aura?r={N}&NavigationMenu.getNavigationMenu=1",
+      "message_action": {
+        "descriptor": "serviceComponent://ui.communities.components.aura.components.forceCommunity.navigationMenu.NavigationMenuDataProviderController/ACTION$getNavigationMenu",
+        "purpose_note": "Top-bar links + featured topic list (the 9 home-page tile topics)."
+      }
+    }
+  },
+  "discovered_apex_controllers": {
+    "ssc_FaqController": ["getTopic"],
+    "ssc_KnowledgeController": "exists but no methods accessible to current user",
+    "ssc_HomeController": "exists but no methods accessible to current user"
+  },
+  "endpoints_blocked_or_not_visible": [
+    "/services/data/v60.0/sobjects/Knowledge__kav/{id}  (401 INVALID_SESSION_ID — sid is for community, not API)",
+    "/services/data/v60.0/query?q=SELECT...   (401 — community user lacks API access)",
+    "/services/data/v60.0/connect/communities  (403)",
+    "/services/data/v60.0/connect/knowledge/topics  (403)",
+    "/services/apexrest/  (no public Apex REST classes exposed)"
+  ],
+  "rate_limits": "No throttling observed during 242-article batch fetch (8/batch, 0.2s sleep). Salesforce default org limit is ~25k API calls / 24h.",
+  "notes_on_session": {
+    "session_lifetime": "Long — sid persists across page reloads",
+    "aura_token_lifetime": "Per-page; refreshed on every page load. Has 'iat' claim and is HS256-signed. Does NOT appear to expire short-term (no 'exp' enforcement seen)",
+    "stale_token_recovery": "Reload any /ssc/s/ page and re-read window.Aura.initConfig.token"
+  },
+  "write_endpoints_NOT_PROBED": [
+    "Submit case (Case object create)",
+    "Post comment / reply (FeedItem)",
+    "Vote / mark helpful (KnowledgeArticleVote, AppFeedback)",
+    "Update profile / preferences",
+    "Notification dismiss"
+  ]
+}

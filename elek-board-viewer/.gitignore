@@ -1,0 +1,25 @@
+# FlexBV runtime artifacts (ephemeral, regenerated each run)
+data/parser_cache/runtime/
+data/boardview_logs/
+data/boardview_state/
+
+# FlexBV sidecar files created at runtime (empty containers)
+schematics/*/*.obdlocal
+schematics/*.sqlite3
+schematics/*/820-*.sqlite3
+schematics/*/J3*.sqlite3
+schematics/*/J4*.sqlite3
+schematics/*/PJM-*.sqlite3
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Temp files
+*.swp
+*~
+.DS_Store
+
+# Claude Code local
+.claude/

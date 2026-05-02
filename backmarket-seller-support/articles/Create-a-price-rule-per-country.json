@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000OybeQAC",
+  "articleNumber": "000001003",
+  "title": "Create a price rule per country  🌎",
+  "urlName": "Create-a-price-rule-per-country",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Create-a-price-rule-per-country",
+  "language": "en_GB",
+  "lastPublishedDate": "2023-08-04T13:40:18.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahHWAQ",
+      "parent_topic_name": "Quality & Sales",
+      "topic_id": "0TO3X0000009aiZWAQ",
+      "topic_name": "Set Up My Back Office For Sales",
+      "urlName": "Create-a-price-rule-per-country"
+    }
+  ],
+  "bodyHtml": "<p><img alt=\"pricing tool.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000Oybe&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000006jh0Q\"></img></p>\n\n<p> </p>\n\n<p>In order to always have an up-to-date pricing in every of your market, we launched the Back Market pricing tool. It enables you to create price rule which are automatically updating prices depending on the prices in your reference market.</p>\n\n<p> </p>\n\n<p>First, go to your<strong> Back Office</strong> under the &#39;<strong>Options</strong>&#39; tab:</p>\n\n<p><img alt=\"options menu.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000Oybe&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000006jh19\"></img></p>\n\n<p>Then select the &#39;<strong>Pricing</strong>&#39; tab to find the &#39;<strong>International Pricing Tool</strong>&#39; section:</p>\n\n<p><img alt=\"options en.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000Oybe&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000006jh1i\"></img></p>\n\n<p> </p>\n\n<p>Check that you reference market is correctly set up</p>\n\n<p><img alt=\"mceclip0.png\" height=\"55\" src=\"https://merchant-support.backmarket.com/hc/article_attachments/360017282860/mceclip0.png\" width=\"593\"></img></p>\n\n<p>This market will serve as a reference for your price rule, so be sure to take your main market as a reference! As the market where you are doing the more sales, it&#39;s also the market where you will be the more competitive. Aligning your price with that market is the best mean to boost your sales.</p>\n\n<p> </p>\n\n<p>Create your rules</p>\n\n<p><img alt=\"austria.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000Oybe&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000006jh1x\"></img></p>\n\n<ul><li>Chose the country to apply this rule and select &#39;<strong>Add another rule&#39;</strong></li></ul>\n\n<p><img alt=\"austria 2.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000Oybe&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000006jh27\"></img></p>\n\n<p>1. Select a product category to apply this rule (tips: use the &quot;all categories&quot; to be more scalable)</p>\n\n<p>2. Define a rule for this category</p>\n\n<p>The formula is as followed:</p>\n\n<p><strong>price in reference market * multiplier + value</strong></p>\n\n<p> </p>\n\n<p>Example:</p>\n\n<p>- in Germany, the price of my smartphone is 400€</p>\n\n<p>- for my French price rule I add 2% because my customer transactions are mainly made through Paypal so I apply a multiplier of 1.02</p>\n\n<p>- and my shipping provider is invoicing me 5€ more to deliver from the Germany to France, so I increase every French prices by 5€</p>\n\n<p>- in France, my smartphone will have a price of 413€</p>\n\n<p><strong>Price rule created! It will update automatically every 24h.</strong></p>\n\n<p><strong>Good to know:</strong> you can always change the prices of your product manually to win backboxes if you want, the new price will simply be erased by the new price rule at the time of price rule update.</p>\n\n<p>You can also deactivate the automatic update via the green button. This will disable the rule on existing listings, but not on new listings, on which the rule will continue to apply automatically.</p>"
+}

@@ -1,0 +1,349 @@
+batch_id: 3
+folders_processed: 6
+warnings_total: 5
+folders:
+  - folder: /home/ricky/builds/apple-ssr
+    state_at_scan: active
+    owner: parts
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - docs/audits
+      - archive
+      - scratch
+      - scripts
+      - data
+    file_moves:
+      - from: /home/ricky/builds/apple-ssr/build-catalog-phase4.py
+        to: /home/ricky/builds/apple-ssr/scripts/build-catalog-phase4.py
+        rationale: "code file (.py); <3 .py files at root → scripts/"
+      - from: /home/ricky/builds/apple-ssr/build-catalog.py
+        to: /home/ricky/builds/apple-ssr/scripts/build-catalog.py
+        rationale: "code file (.py); <3 .py files at root → scripts/"
+      - from: /home/ricky/builds/apple-ssr/apple-ssr-orders-detail.json
+        to: /home/ricky/builds/apple-ssr/data/apple-ssr-orders-detail.json
+        rationale: "runtime JSON data dump → data/"
+      - from: /home/ricky/builds/apple-ssr/apple-ssr-orders-raw.json
+        to: /home/ricky/builds/apple-ssr/data/apple-ssr-orders-raw.json
+        rationale: "runtime JSON data dump → data/"
+      - from: /home/ricky/builds/apple-ssr/parts-catalog.json
+        to: /home/ricky/builds/apple-ssr/data/parts-catalog.json
+        rationale: "generated catalog data → data/"
+      - from: /home/ricky/builds/apple-ssr/serial-candidates.json
+        to: /home/ricky/builds/apple-ssr/data/serial-candidates.json
+        rationale: "generated runtime data → data/"
+      - from: /home/ricky/builds/apple-ssr/known-good-serials.json
+        to: /home/ricky/builds/apple-ssr/data/known-good-serials.json
+        rationale: "runtime input data → data/"
+      - from: /home/ricky/builds/apple-ssr/api-inventory.json
+        to: /home/ricky/builds/apple-ssr/docs/api-inventory.json
+        rationale: "API/schema reference (config-shaped, supports docs/discovery.md) → docs/"
+      - from: /home/ricky/builds/apple-ssr/discovery.md
+        to: /home/ricky/builds/apple-ssr/docs/discovery.md
+        rationale: "*-discovery.md tone is canonical reference (how-it-works) → docs/"
+      - from: /home/ricky/builds/apple-ssr/parts-catalog-summary.md
+        to: /home/ricky/builds/apple-ssr/docs/parts-catalog-summary.md
+        rationale: "summary of generated catalog, reference tone → docs/"
+      - from: /home/ricky/builds/apple-ssr/order-history-audit.md
+        to: /home/ricky/builds/apple-ssr/docs/audits/order-history-audit.md
+        rationale: "filename ends with -audit.md → docs/audits/"
+    new_files_created:
+      - path: /home/ricky/builds/apple-ssr/INDEX.md
+        description: "Active-state INDEX.md per template"
+      - path: /home/ricky/builds/apple-ssr/briefs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/apple-ssr/decisions/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/apple-ssr/archive/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/apple-ssr/scratch/.gitkeep
+        description: "keep empty subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:20"
+        ref: "apple-ssr"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:255"
+        ref: "/home/ricky/builds/apple-ssr/discovery.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:256"
+        ref: "/home/ricky/builds/apple-ssr/parts-catalog-summary.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:273"
+        ref: "/home/ricky/builds/apple-ssr/parts-catalog-summary.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:274"
+        ref: "/home/ricky/builds/apple-ssr/parts-catalog-summary.md"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md (size table row)"
+        ref: "/home/ricky/builds/apple-ssr/"
+    warnings:
+      - "idea-inventory.md references discovery.md and parts-catalog-summary.md at root paths; consolidation pass must rewrite to docs/ subpaths"
+    status: success
+
+  - folder: /home/ricky/builds/icorrect-parts-service
+    state_at_scan: active
+    owner: parts
+    existing_subdirs_kept:
+      - src
+      - scripts
+      - test
+      - migrations
+      - dashboard
+      - data
+      - logs
+      - node_modules
+      - .git
+      - .remember
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/icorrect-parts-service/INDEX.md
+        description: "Active-state INDEX.md per template; documents service + lists path-drift + secrets-rotation open items"
+      - path: /home/ricky/builds/icorrect-parts-service/briefs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/icorrect-parts-service/decisions/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/icorrect-parts-service/docs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/icorrect-parts-service/archive/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/icorrect-parts-service/scratch/.gitkeep
+        description: "keep empty subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/parts/workspace/MEMORY.md:49"
+        ref: "/home/ricky/builds/icorrect-parts-service/data/parts.db"
+      - source: "/home/ricky/.openclaw/agents/parts/workspace/TOOLS.md:9"
+        ref: "/home/ricky/builds/icorrect-parts-service/data/parts.db"
+      - source: "/home/ricky/.openclaw/shared/LEARNINGS.md:39"
+        ref: "/home/ricky/builds/icorrect-parts-service/data/parts.db"
+      - source: "/home/ricky/.config/systemd/user/icorrect-parts.service:7"
+        ref: "/home/ricky/builds/icorrect-parts-service (WorkingDirectory)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:34"
+        ref: "icorrect-parts-service"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:76"
+        ref: "icorrect-parts-service (security note)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:80"
+        ref: "icorrect-parts-service (path drift note)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:249"
+        ref: "/home/ricky/builds/icorrect-parts-service/CHANGELOG.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:250"
+        ref: "/home/ricky/builds/icorrect-parts-service/CHANGELOG.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:254"
+        ref: "/home/ricky/builds/icorrect-parts-service/CHANGELOG.md"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:223"
+        ref: "icorrect-parts-service"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:99"
+        ref: "icorrect-parts-service/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:139"
+        ref: "/home/ricky/builds/icorrect-parts-service/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:606"
+        ref: "icorrect-parts-service (entry row)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:639"
+        ref: "icorrect-parts-service"
+    warnings:
+      - "live code service: did NOT touch root-level runtime configs (.env, .env.example, .gitignore, ecosystem.config.js, icorrect-parts.service, nginx-snippet.conf, package.json, package-lock.json, replay-missed.js, CHANGELOG.md). All inbound refs are path-stable (no moves)."
+      - ".env present at root — explicitly NOT read or echoed; flagged for Phase 7c secrets rotation"
+      - "Existing src/ scripts/ test/ migrations/ dashboard/ data/ logs/ kept untouched per spec rule 5 (no code-dir restructuring)"
+    status: success
+
+  - folder: /home/ricky/builds/inventory-system
+    state_at_scan: dormant
+    owner: parts
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/inventory-system/SPEC.md
+        to: /home/ricky/builds/inventory-system/briefs/SPEC.md
+        rationale: "*-spec / SPEC-* pattern → briefs/ (proposal/spec)"
+    new_files_created:
+      - path: /home/ricky/builds/inventory-system/INDEX.md
+        description: "Dormant-state INDEX.md per template"
+      - path: /home/ricky/builds/inventory-system/decisions/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/inventory-system/docs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/inventory-system/archive/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/inventory-system/scratch/.gitkeep
+        description: "keep empty subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:40"
+        ref: "inventory-system"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:268"
+        ref: "/home/ricky/builds/inventory-system/SPEC.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:269"
+        ref: "/home/ricky/builds/inventory-system/SPEC.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:270"
+        ref: "/home/ricky/builds/inventory-system/SPEC.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:271"
+        ref: "/home/ricky/builds/inventory-system/SPEC.md"
+      - source: "/home/ricky/kb/system/_phase-1.6-systems-fold-manifest.md:7"
+        ref: "/home/ricky/builds/inventory-system/SPEC.md"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:103"
+        ref: "/home/ricky/builds/inventory-system/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:185"
+        ref: "inventory-system/"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:102"
+        ref: "inventory-system/"
+    warnings:
+      - "SPEC.md path moved from root to briefs/SPEC.md — 4 idea-inventory rows + 1 KB manifest row need patch in consolidation pass"
+    status: success
+
+  - folder: /home/ricky/builds/mobilesentrix
+    state_at_scan: active
+    owner: parts
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/mobilesentrix/api-inventory.json
+        to: /home/ricky/builds/mobilesentrix/docs/api-inventory.json
+        rationale: "API reference data (paired with discovery doc) → docs/"
+      - from: /home/ricky/builds/mobilesentrix/order-placement-discovery.md
+        to: /home/ricky/builds/mobilesentrix/docs/order-placement-discovery.md
+        rationale: "*-discovery.md tone is canonical reference (how-it-works) → docs/"
+    new_files_created:
+      - path: /home/ricky/builds/mobilesentrix/INDEX.md
+        description: "Active-state INDEX.md per template"
+      - path: /home/ricky/builds/mobilesentrix/briefs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/mobilesentrix/decisions/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/mobilesentrix/archive/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/mobilesentrix/scratch/.gitkeep
+        description: "keep empty subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:43"
+        ref: "mobilesentrix"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:247"
+        ref: "/home/ricky/builds/mobilesentrix/order-placement-discovery.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:248"
+        ref: "/home/ricky/builds/mobilesentrix/order-placement-discovery.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:272"
+        ref: "/home/ricky/builds/mobilesentrix/order-placement-discovery.md"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:221"
+        ref: "mobilesentrix"
+    warnings:
+      - "3 idea-inventory.md references to order-placement-discovery.md at root path; consolidation pass must rewrite to docs/order-placement-discovery.md"
+    status: success
+
+  - folder: /home/ricky/builds/repair-analysis
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+      - scripts
+    file_moves:
+      - from: /home/ricky/builds/repair-analysis/repair_deep_dive.py
+        to: /home/ricky/builds/repair-analysis/scripts/repair_deep_dive.py
+        rationale: "code file (.py); 2 (<3) .py files at root → scripts/"
+      - from: /home/ricky/builds/repair-analysis/repair_profitability.py
+        to: /home/ricky/builds/repair-analysis/scripts/repair_profitability.py
+        rationale: "code file (.py); 2 (<3) .py files at root → scripts/"
+    new_files_created:
+      - path: /home/ricky/builds/repair-analysis/INDEX.md
+        description: "Dormant-state INDEX.md per template"
+      - path: /home/ricky/builds/repair-analysis/briefs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/repair-analysis/decisions/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/repair-analysis/docs/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/repair-analysis/archive/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/repair-analysis/scratch/.gitkeep
+        description: "keep empty subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:50"
+        ref: "repair-analysis"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:115"
+        ref: "/home/ricky/builds/repair-analysis/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:619"
+        ref: "repair-analysis (entry row)"
+    warnings:
+      - "No outbound idea-inventory references to specific files; folder is scratch-flavored and dormant"
+    status: success
+
+  - folder: /home/ricky/builds/pricing-sync
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept:
+      - config
+      - data
+      - docs
+      - reports
+      - __pycache__
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/pricing-sync/plan.md
+        to: /home/ricky/builds/pricing-sync/briefs/plan.md
+        rationale: "*-plan / plan.md pattern → briefs/ (proposal/plan)"
+    new_files_created:
+      - path: /home/ricky/builds/pricing-sync/INDEX.md
+        description: "Dormant-state INDEX.md per template"
+      - path: /home/ricky/builds/pricing-sync/decisions/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/pricing-sync/archive/.gitkeep
+        description: "keep empty subdir"
+      - path: /home/ricky/builds/pricing-sync/scratch/.gitkeep
+        description: "keep empty subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/operations/workspace/TOOLS.md:8"
+        ref: "/home/ricky/builds/pricing-sync/"
+      - source: "/home/ricky/.openclaw/agents/operations/workspace/MEMORY.md:26"
+        ref: "/home/ricky/builds/pricing-sync/"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:47"
+        ref: "pricing-sync"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:88"
+        ref: "/home/ricky/builds/pricing-sync/reports/audit-2026-03-16.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:91"
+        ref: "/home/ricky/builds/pricing-sync/reports/audit-2026-03-16.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:174"
+        ref: "/home/ricky/builds/alex-triage-rebuild/data/cron-pricing-sync.log (related)"
+      - source: "/home/ricky/kb/pricing/macbook.md:7"
+        ref: "/home/ricky/builds/pricing-sync/data/monday-pricing.json"
+      - source: "/home/ricky/kb/pricing/ipad.md:7"
+        ref: "/home/ricky/builds/pricing-sync/data/monday-pricing.json"
+      - source: "/home/ricky/kb/pricing/watch.md:7"
+        ref: "/home/ricky/builds/pricing-sync/data/monday-pricing.json"
+      - source: "/home/ricky/kb/pricing/iphone.md:7"
+        ref: "/home/ricky/builds/pricing-sync/data/monday-pricing.json"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:130"
+        ref: "/home/ricky/builds/pricing-sync/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:616"
+        ref: "pricing-sync (entry row)"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:175,213"
+        ref: "pricing-sync"
+    warnings:
+      - "plan.md moved from root to briefs/plan.md — no current inbound refs to plan.md found, but worth a sweep in consolidation"
+      - "6 .py files (phase1..5 + utils.py) left at root: treated as a coherent code base per rubric (>3 root code files) instead of scripts/. If consolidation prefers scripts/, easy follow-up."
+      - "docs/ already had pre-existing nested staged/2026-03-31/ subfolder — left untouched (only top-level standardization per spec rule 5)"
+      - "__pycache__/ excluded per spec; left in place"
+    status: success

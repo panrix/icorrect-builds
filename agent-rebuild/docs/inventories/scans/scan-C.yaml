@@ -1,0 +1,197 @@
+folder: ~/builds/icloud-checker
+size_on_disk: 676K
+file_count: 31
+last_git_commit: no git
+last_modified: "2026-05-01T05:06:28"
+state: active
+purpose: "Live Express webhook service for Back Market trade-in intake that checks iCloud lock and Apple specs from a serial, writes results back to Monday, and also carries several adjacent BM webhook automations in the same Node process. The folder reads as an actively used but overgrown operational service."
+suspected_owner_agent: backmarket
+ownership_confidence: high
+key_files:
+  - path: README.md
+    role: live service overview and deployment notes
+  - path: index.js
+    role: monolithic runtime entry point
+  - path: AUDIT-AND-DECOMPOSITION.md
+    role: architecture and risk audit
+  - path: apple-specs.js
+    role: Apple spec lookup helper
+actionable_ideas:
+  - idea: confirm which Monday webhooks and Slack interactivity URLs are actually wired to the live 8010 endpoints
+    source_path: /home/ricky/builds/icloud-checker/AUDIT-AND-DECOMPOSITION.md
+    source_line: 205
+    state_hint: unknown
+  - idea: extract shared libraries and split the 8010 monolith into separate services
+    source_path: /home/ricky/builds/icloud-checker/AUDIT-AND-DECOMPOSITION.md
+    source_line: 214
+    state_hint: partial-built
+dependencies:
+  external: ["SICKW_API_KEY", "MONDAY_APP_TOKEN", "SLACK_BOT_TOKEN", "SLACK_AUTOMATIONS_BOT_TOKEN", "SLACK_WEBHOOK_URL", "BM_AUTH", "SickW API", "Monday.com", "Back Market buyback API", "Slack", "Playwright", "DataImpulse proxy", "Apple Self Service Repair site"]
+  internal: ["~/builds/buyback-monitor"]
+canonical_status: canonical
+notes: "README documents a live systemd/nginx deployment. The audit says port 8010 is internet-exposed and that six unrelated functions were bolted into one process; it also notes a service-file path mismatch (`src/index.js` vs `index.js`). Plaintext API key material is present in `/home/ricky/builds/icloud-checker/BRIEF.md`."
+---
+folder: ~/builds/intake-notifications
+size_on_disk: 112K
+file_count: 15
+last_git_commit: no git
+last_modified: "2026-04-08T02:05:20"
+state: dormant
+purpose: "Planning/spec workspace for replacing n8n-hosted Typeform-to-Slack intake notifications with a self-hosted Node service that enriches Monday history before posting to Slack. The folder contains briefs, plans, and archived workflow specs rather than a runnable implementation."
+suspected_owner_agent: alex-cs
+ownership_confidence: medium
+key_files:
+  - path: REBUILD-BRIEF.md
+    role: primary technical rebuild brief
+  - path: plan.md
+    role: two-phase replacement plan
+  - path: archive/COLLECTION-WORKFLOW-SPEC.md
+    role: archived n8n workflow build guide
+  - path: archive/SPEC.md
+    role: original enrichment spec
+actionable_ideas:
+  - idea: build the Node.js service scaffold with Typeform webhook handling, Monday lookup, LLM summary, and Slack posting
+    source_path: /home/ricky/builds/intake-notifications/plan.md
+    source_line: 42
+    state_hint: captured
+  - idea: cut the collection flow over from n8n by deploying the new webhook, verifying Slack output, and disabling the old Typeform webhook
+    source_path: /home/ricky/builds/intake-notifications/plan.md
+    source_line: 117
+    state_hint: captured
+dependencies:
+  external: ["Typeform", "Monday.com", "Slack", "OpenAI API", "Intercom", "n8n cloud"]
+  internal: ["~/builds/llm-summary-endpoint"]
+canonical_status: draft
+notes: "Docs/specs only: the planned `server.js`, `src/`, and `routes/` files are not present. `.claude/` exists and was excluded. `intake-system/plan.md` explicitly says this project was scrapped/replaced, so this folder now looks like superseded planning rather than the current intake source of truth."
+---
+folder: ~/builds/intake-system
+size_on_disk: 3M
+file_count: 184
+last_git_commit: no git
+last_modified: "2026-04-23T05:00:19"
+state: active
+purpose: "Primary rebuild of iCorrect's intake stack: a client-facing intake form, an iPad-first team CRM/intake view, and a Node backend with shared types and Supabase-backed workflow plans. The repo shows real frontend/backend scaffolding and tests, but live Monday/Intercom/OpenAI/Supabase integrations are still not wired."
+suspected_owner_agent: operations
+ownership_confidence: high
+key_files:
+  - path: plan.md
+    role: canonical scope and phasing document
+  - path: SPEC.md
+    role: architecture and rules spec
+  - path: backend/src/app.ts
+    role: backend app composition entry point
+  - path: frontend/src/App.tsx
+    role: client/team frontend shell entry point
+  - path: TEAM-VIEW-SPEC-v2.md
+    role: detailed team CRM spec
+actionable_ideas:
+  - idea: reconcile the older docs so `SPEC.md` and `FORM-FLOW.md` match the canonical four-flow plan
+    source_path: /home/ricky/builds/intake-system/plan.md
+    source_line: 141
+    state_hint: partial-built
+  - idea: replace mocked adapters with live Monday, Intercom, OpenAI, and Supabase integrations
+    source_path: /home/ricky/builds/intake-system/backend/README.md
+    source_line: 22
+    state_hint: partial-built
+dependencies:
+  external: ["MONDAY_APP_TOKEN", "INTERCOM_ACCESS_TOKEN", "OPENAI_API_KEY", "SUPABASE_URL", "SUPABASE_SERVICE_ROLE_KEY", "TELEGRAM_BOT_TOKEN", "Monday.com", "Intercom", "OpenAI API", "Supabase", "Telegram", "nginx basic auth"]
+  internal: ["~/builds/intake-notifications"]
+canonical_status: canonical
+notes: "No git repo at the folder root, but `react-form/` contains a nested `.git` directory that was excluded from counts. `frontend/dist` and other build/test artefacts are present and were excluded. Backend README says routes/tests exist with mocked adapters and in-memory persistence, so the build is active but not yet live-integrated."
+---
+folder: ~/builds/elek-board-viewer
+size_on_disk: 4.5G
+file_count: 2888
+last_git_commit: "2026-04-22T11:13:50+00:00"
+last_modified: "2026-04-23T05:00:19"
+state: active
+purpose: "Large diagnostics workspace for Apple Silicon MacBook logic-board repair, combining headless FlexBV board-view tooling, schematic/BRD extraction infrastructure, per-board diagnostic flows, and technician-facing triage briefs. It appears to be the canonical diagnostics knowledge/runtime repo for board-level fault isolation."
+suspected_owner_agent: diagnostics
+ownership_confidence: high
+key_files:
+  - path: PROJECT-STATE.md
+    role: source-of-truth status and handoff doc
+  - path: scripts/flexbv_controller.py
+    role: headless FlexBV runtime controller
+  - path: diagnostics/MASTER-TRIAGE-FLOW.json
+    role: universal triage flow
+  - path: systemd/flexbv-headless.service
+    role: headless runtime service unit
+actionable_ideas:
+  - idea: rebuild the lost board-reference and flow-QA scripts from the surviving outputs
+    source_path: /home/ricky/builds/elek-board-viewer/PROJECT-STATE.md
+    source_line: 152
+    state_hint: broken
+  - idea: redo the A2681 pilot rewrite against the canonical board-reference outputs
+    source_path: /home/ricky/builds/elek-board-viewer/PROJECT-STATE.md
+    source_line: 157
+    state_hint: broken
+  - idea: scale the verified rewrite pattern to the remaining 13 board revisions
+    source_path: /home/ricky/builds/elek-board-viewer/PROJECT-STATE.md
+    source_line: 163
+    state_hint: captured
+dependencies:
+  external: ["FlexBV", "Xvfb", "Openbox", "xdotool", "Monday.com", "Apple schematic PDFs", "BRD boardview files"]
+  internal: []
+canonical_status: canonical
+notes: "Sampled rather than fully read because the folder is >50 MB (about 4.5G) and is dominated by schematics/data. `PROJECT-STATE.md` is explicitly marked the single source of truth. Headless runtime service files are present, and the repo records lost uncommitted scripts/work that still need rebuilding. `.DS_Store` and `.claude/` are present."
+---
+folder: ~/builds/repair-analysis
+size_on_disk: 41K
+file_count: 2
+last_git_commit: no git
+last_modified: "2026-03-16T01:36:48"
+state: dormant
+purpose: "Two standalone Python analysis scripts for repair profitability and device-by-repair breakdowns. They look like one-off reporting utilities that pull from Monday or previously exported profitability JSON rather than a maintained service."
+suspected_owner_agent: operations
+ownership_confidence: medium
+key_files:
+  - path: repair_profitability.py
+    role: Monday-backed profitability analysis entry point
+  - path: repair_deep_dive.py
+    role: deeper device/repair-type analysis script
+actionable_ideas: []
+dependencies:
+  external: ["MONDAY_APP_TOKEN", "Monday.com API"]
+  internal: []
+canonical_status: scratch
+notes: "Both scripts use hardcoded paths outside this folder (`/home/ricky/.openclaw/...`) and `repair_profitability.py` reads `/home/ricky/config/api-keys/.env` directly. No README, tests, or wrapper/runtime scaffold is present."
+---
+folder: ~/builds/royal-mail-automation
+size_on_disk: 227K
+file_count: 16
+last_git_commit: "2026-04-28T15:00:04+00:00"
+last_modified: "2026-04-28T15:16:52"
+state: active
+purpose: "Playwright-based Royal Mail label-buying automation with dispatchers for both Back Market orders and iCorrect mail-in repairs, including Monday writeback and Slack notifications. The folder also carries follow-on work for stronger address validation and London courier handling."
+suspected_owner_agent: operations
+ownership_confidence: high
+key_files:
+  - path: buy-labels.js
+    role: generic Royal Mail purchase driver
+  - path: repairs-dispatch.js
+    role: live mail-in repairs dispatcher
+  - path: dispatch.js
+    role: Back Market dispatch automation
+  - path: REPAIRS-DISPATCH-PLAN.md
+    role: live repairs-dispatch plan and runbook
+  - path: ADDRESSNOW-IMPLEMENTATION.md
+    role: address-validation follow-up plan
+actionable_ideas:
+  - idea: add AddressNow-backed postcode-to-street validation and fail closed on ambiguous matches
+    source_path: /home/ricky/builds/royal-mail-automation/ADDRESSNOW-IMPLEMENTATION.md
+    source_line: 29
+    state_hint: captured
+  - idea: turn inner-London courier handling into a real Gophr-backed service with live eligibility and pricing
+    source_path: /home/ricky/builds/royal-mail-automation/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md
+    source_line: 12
+    state_hint: captured
+  - idea: add dedup/retry/backoff and logrotate around the repairs-dispatch cron
+    source_path: /home/ricky/builds/royal-mail-automation/REPAIRS-DISPATCH-PLAN.md
+    source_line: 146
+    state_hint: partial-built
+dependencies:
+  external: ["BM_AUTH", "MONDAY_APP_TOKEN", "SLACK_*", "CARD_*", "Royal Mail send.royalmail.com", "Monday.com", "Slack", "postcodes.io", "Braintree / 3DS", "ROYALMAIL_ADDRESSNOW_API_KEY", "ROYALMAIL_ADDRESSNOW_BASE_URL", "Gophr API"]
+  internal: ["~/builds/monday", "~/builds/system-audit-2026-03-31"]
+canonical_status: canonical
+notes: "Top-level plan says Phase 1 + Phase 2 are live and that Phase 3 cron was scheduled on 2026-04-28; `soak-review.sh` is the newest file. The plan documents real live runs plus installed cron entries. Address validation is still weaker than desired until the AddressNow path is implemented."

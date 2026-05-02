@@ -1,0 +1,4244 @@
+{
+  "source": "/home/ricky/builds/team-audits/reports/ferrari/ferrari_monday_raw_2025-10-25_to_2026-04-23.json",
+  "from_date": "2025-10-25",
+  "to_date": "2026-04-23",
+  "pattern_counts": {
+    "routing_or_assignment": 996,
+    "diagnostic_or_repair_decision": 954,
+    "parts_or_stock": 468,
+    "customer_update": 345,
+    "uncategorized": 340,
+    "quote_or_price": 274,
+    "payment_or_invoice": 150,
+    "logistics_or_collection": 74
+  },
+  "top_terms": [
+    [
+      "device",
+      710
+    ],
+    [
+      "repair",
+      707
+    ],
+    [
+      "parts",
+      667
+    ],
+    [
+      "intercom",
+      643
+    ],
+    [
+      "macbook",
+      625
+    ],
+    [
+      "screen",
+      537
+    ],
+    [
+      "battery",
+      446
+    ],
+    [
+      "board",
+      429
+    ],
+    [
+      "issue",
+      428
+    ],
+    [
+      "repairs",
+      414
+    ],
+    [
+      "walk-in",
+      414
+    ],
+    [
+      "pro",
+      377
+    ],
+    [
+      "client",
+      372
+    ],
+    [
+      "yes",
+      341
+    ],
+    [
+      "https",
+      340
+    ],
+    [
+      "logic",
+      339
+    ],
+    [
+      "data",
+      331
+    ],
+    [
+      "safan",
+      319
+    ],
+    [
+      "patel",
+      316
+    ],
+    [
+      "app",
+      315
+    ],
+    [
+      "ticket",
+      311
+    ],
+    [
+      "total",
+      305
+    ],
+    [
+      "iphone",
+      291
+    ],
+    [
+      "liquid",
+      285
+    ],
+    [
+      "system",
+      280
+    ],
+    [
+      "complete",
+      275
+    ],
+    [
+      "damage",
+      264
+    ],
+    [
+      "charging",
+      260
+    ],
+    [
+      "keyboard",
+      247
+    ],
+    [
+      "working",
+      234
+    ],
+    [
+      "diagnostic",
+      228
+    ],
+    [
+      "one",
+      223
+    ],
+    [
+      "replacement",
+      218
+    ],
+    [
+      "automated",
+      204
+    ],
+    [
+      "checkout",
+      202
+    ],
+    [
+      "customer",
+      201
+    ],
+    [
+      "deducted",
+      200
+    ],
+    [
+      "deduction",
+      200
+    ],
+    [
+      "inch",
+      197
+    ],
+    [
+      "order",
+      191
+    ],
+    [
+      "completed",
+      186
+    ],
+    [
+      "power",
+      179
+    ],
+    [
+      "port",
+      179
+    ],
+    [
+      "apple",
+      178
+    ],
+    [
+      "provided",
+      171
+    ],
+    [
+      "service",
+      170
+    ],
+    [
+      "previous",
+      169
+    ],
+    [
+      "other",
+      168
+    ],
+    [
+      "roni",
+      167
+    ],
+    [
+      "issues",
+      166
+    ],
+    [
+      "shopify",
+      165
+    ],
+    [
+      "turnaround",
+      164
+    ],
+    [
+      "mykhailiuk",
+      161
+    ],
+    [
+      "online",
+      161
+    ],
+    [
+      "created",
+      161
+    ],
+    [
+      "standard",
+      161
+    ],
+    [
+      "automatically",
+      161
+    ],
+    [
+      "typeform",
+      160
+    ],
+    [
+      "once",
+      158
+    ],
+    [
+      "prices",
+      157
+    ],
+    [
+      "reviewed",
+      156
+    ],
+    [
+      "model",
+      155
+    ],
+    [
+      "vat",
+      154
+    ],
+    [
+      "items",
+      153
+    ],
+    [
+      "proceed",
+      152
+    ],
+    [
+      "lcd",
+      150
+    ],
+    [
+      "new",
+      149
+    ],
+    [
+      "inc",
+      146
+    ],
+    [
+      "display",
+      141
+    ],
+    [
+      "see",
+      136
+    ],
+    [
+      "confirm",
+      135
+    ],
+    [
+      "andres",
+      133
+    ],
+    [
+      "required",
+      132
+    ],
+    [
+      "passcode",
+      130
+    ],
+    [
+      "ricky",
+      127
+    ],
+    [
+      "found",
+      127
+    ],
+    [
+      "egas",
+      125
+    ],
+    [
+      "within",
+      124
+    ],
+    [
+      "confirmed",
+      123
+    ],
+    [
+      "back",
+      122
+    ],
+    [
+      "information",
+      121
+    ],
+    [
+      "panesar",
+      117
+    ],
+    [
+      "air",
+      117
+    ],
+    [
+      "noticed",
+      116
+    ],
+    [
+      "purchased",
+      115
+    ],
+    [
+      "reported",
+      114
+    ],
+    [
+      "additional",
+      111
+    ],
+    [
+      "ipad",
+      111
+    ],
+    [
+      "diagnosed",
+      110
+    ],
+    [
+      "faults",
+      110
+    ],
+    [
+      "backed",
+      109
+    ],
+    [
+      "form",
+      107
+    ],
+    [
+      "fault",
+      105
+    ],
+    [
+      "adil",
+      104
+    ],
+    [
+      "azad",
+      104
+    ],
+    [
+      "replaced",
+      104
+    ],
+    [
+      "summary",
+      104
+    ],
+    [
+      "a2337",
+      102
+    ],
+    [
+      "know",
+      101
+    ],
+    [
+      "which",
+      101
+    ],
+    [
+      "air/pro",
+      101
+    ],
+    [
+      "response",
+      100
+    ],
+    [
+      "details",
+      97
+    ],
+    [
+      "backlight",
+      97
+    ],
+    [
+      "approved",
+      96
+    ],
+    [
+      "more",
+      94
+    ],
+    [
+      "negative",
+      94
+    ],
+    [
+      "optional",
+      93
+    ],
+    [
+      "days",
+      93
+    ],
+    [
+      "possible",
+      90
+    ],
+    [
+      "kepeshchuk",
+      89
+    ],
+    [
+      "trackpad",
+      89
+    ],
+    [
+      "discounted",
+      89
+    ],
+    [
+      "circuit",
+      89
+    ],
+    [
+      "warning",
+      88
+    ],
+    [
+      "check",
+      87
+    ],
+    [
+      "genuine",
+      86
+    ],
+    [
+      "full",
+      85
+    ],
+    [
+      "repairable",
+      85
+    ],
+    [
+      "charger",
+      85
+    ],
+    [
+      "a2338",
+      84
+    ],
+    [
+      "time",
+      82
+    ],
+    [
+      "camera",
+      81
+    ],
+    [
+      "below",
+      81
+    ],
+    [
+      "affected",
+      81
+    ],
+    [
+      "address",
+      81
+    ],
+    [
+      "naheed",
+      80
+    ],
+    [
+      "uddin",
+      79
+    ],
+    [
+      "any",
+      78
+    ],
+    [
+      "options",
+      78
+    ],
+    [
+      "save",
+      78
+    ],
+    [
+      "sensor",
+      77
+    ],
+    [
+      "stock",
+      73
+    ],
+    [
+      "restore",
+      73
+    ],
+    [
+      "identified",
+      73
+    ],
+    [
+      "usb-c",
+      73
+    ],
+    [
+      "cable",
+      72
+    ],
+    [
+      "damaged",
+      71
+    ],
+    [
+      "mykhailo",
+      70
+    ],
+    [
+      "paid",
+      69
+    ],
+    [
+      "rear",
+      69
+    ],
+    [
+      "important/preserve",
+      69
+    ],
+    [
+      "it's",
+      68
+    ],
+    [
+      "touch",
+      65
+    ],
+    [
+      "don't",
+      65
+    ],
+    [
+      "again",
+      63
+    ],
+    [
+      "charge",
+      62
+    ],
+    [
+      "password",
+      62
+    ],
+    [
+      "current",
+      61
+    ],
+    [
+      "let",
+      61
+    ]
+  ],
+  "examples": {
+    "parts_or_stock": [
+      {
+        "item_id": "10518799882",
+        "item_name": "Tharaphi Zaw *To contact once stock arrives",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Parts",
+        "level": "reply",
+        "parent_update_id": "4651907873",
+        "message_id": "4687413053",
+        "created_at": "2025-11-20T14:15:07.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar should we add a couple of these cameras to Nancy's order or is it too late now?",
+        "pattern_labels": [
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4709428836",
+        "created_at": "2025-11-28T17:15:42.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client has this mark again on the LCD (video). It's really similar to the one he had in the previous warranty (image). We need to understand what's causing the fault.  @Ricky Panesar told client we have no stock at the moment and need to source. We won't be able to get away with just a pulled B screen assembly as she's quite pissed given that the same fault happened twice in a row. We also need to understand what's causing those marks  IMG_3595 (1).mp4",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4815840268",
+        "created_at": "2026-01-09T10:27:23.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar haven\u2019t found anything good in the UK. I meant to say can we potentially source one from China in our next order? Otherwise we\u2019ll need to work with what we have",
+        "pattern_labels": [
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10733781953",
+        "item_name": "Harry McAllister (Freuds) [FC0908] PO69253",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4859978873",
+        "created_at": "2026-01-23T17:06:40.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Hall Sensor - A3240: 1 \u2192 0  \u23ed\ufe0f Skipped (not tracked): \u2022 Other (See Notes)  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "update",
+        "message_id": "4911739488",
+        "created_at": "2026-02-10T13:26:52.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Full Screen - iPhone 15 Pro Max: 1 \u2192 0 \u2022 iPhone 15 Pro Max Rear Glass Black Titanium: 3 \u2192 2  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4907198389",
+        "created_at": "2026-02-09T10:42:17.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas please complete ori screen and rear glass repairs. We should have both parts in stock",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4907496454",
+        "created_at": "2026-02-09T12:58:35.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar Misha used the last screen on his iPhone last week and the stock was not updated. Can you get an ori screen from your suppliers?",
+        "pattern_labels": [
+          "customer_update",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10809812149",
+        "item_name": "Amanda Davis 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4765019633",
+        "message_id": "4772449528",
+        "created_at": "2025-12-22T15:57:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Our diagnostic confirmed extensive liquid damage across the logic board, affecting multiple critical power and data circuits. This level of damage explains why the MacBook is not powering on. To restore stable operation, the affected areas will require full board-level rebuilding and thorough cleaning to remove all residue. * Charging ports: Liquid damage has affected both charging ports. Both will need to be replaced. * Touch ID: Touch ID is not working due to liquid damage affecting the sensor line. To fix the issue, we would need to order the replacement Touch ID from Apple, but this would arrive after the holidays. * Data status: The data is safe and accessible. If preferred, we can proceed with a data-only repair focused solely on data recovery rather than full functional restoration.  We can confirm that your MacBook is repairable, and your data is safe. Please see your options below.  Required Repairs ----------------  * MacBook Pro 14 M1 Pro/Max A2442 Tier 3 Logic Board Repair & Liquid Damage Treatment: \u00a3399 * MacBook Pro 14 M1 Pro/Max A2442 Charging Ports: \u00a3199 * MacBook Pro 14 M1 Pro/Max A2442 Touch ID: \u00a3199 Total: \u00a3797 inc VAT discounted to \u00a3648 (save \u00a3149)  Repair Details --------------  We can complete all repairs apart from the Touch ID by tomorrow (our last day before the holidays). To repair the Touch ID, we would need to order the required part once we\u2019re back from the holidays on the 5th of January. The part typically arrives within 5 to 7 working days. In the meantime, we would temporarily disconnect the Touch ID from the device. This means the fingerprint sensor and the power button functionality would not work during that period, but the MacBook would remain fully usable otherwise.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10809812149",
+        "item_name": "Amanda Davis 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4765019633",
+        "message_id": "4772758990",
+        "created_at": "2025-12-22T16:59:51.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please complete logic board repair, liquid damage treatment and charging ports replacement. Also disconnect Touch ID. We will order a replacement one once we are back.    @Adil Azad just FYI, the client already knows that until the Touch ID is replaced she cannot use her fingerprint sensor or power button. Just please explain to her how she can switch off the device or turn it on if needed. Ideally, it should go in sleep mode for now",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4856533317",
+        "created_at": "2026-01-22T17:08:10.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Used MacBook Pro A2159/A2289/A2338 Battery (A2171) (only for BM): 2 \u2192 1 \u2022 Charger MacBook Pro 13-inch, (2016 intel - 2020 M1) 61W: 23 \u2192 22 \u2022 Cable Macbook USB-C Air/Pro: 2 \u2192 1 \u2022 Adapters head MacBook Air/Pro: 28 \u2192 27  \u23ed\ufe0f Skipped (not tracked): \u2022 MacBook Logic Board  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10824879469",
+        "item_name": "BM 1223 (Iain Moore)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4841831721",
+        "created_at": "2026-01-17T16:26:28.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 LCD - A2337: -4 \u2192 -5 \u26a0\ufe0f NEGATIVE \u2022 Keyboard Backlight - A2179 / A2337: 7 \u2192 6 \u2022 Keyboard - A2337: 0 \u2192 -1 \u26a0\ufe0f NEGATIVE \u2022 Audio Board / Audio Flex - A2337: 0 \u2192 -1 \u26a0\ufe0f NEGATIVE \u2022 Used MacBook Air A2337 Battery (A2389) (only for BM): 2 \u2192 1  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10831736500",
+        "item_name": "Khaled Al Kurdi",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "update",
+        "message_id": "4911653489",
+        "created_at": "2026-02-10T13:10:37.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 Data Recovery (All Models): -3 \u2192 -4 \u26a0\ufe0f NEGATIVE  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10831736500",
+        "item_name": "Khaled Al Kurdi",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4772106058",
+        "message_id": "4775588827",
+        "created_at": "2025-12-23T15:52:48.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Liquid ingress has affected the main logic board, impacting multiple critical circuits responsible for power distribution, data handling, and component communication. To restore stable and reliable operation, the logic board would require full replacement or extensive board-level rebuilding. * Screen: Liquid ingress has damaged the display, causing it to fail. The screen would need to be fully replaced to restore normal visual output and touch functionality. * Charging port: Liquid contamination has affected the charging port as well. A full charging port replacement would be required to restore reliable power input. * Rear cameras: Liquid ingress has reached the rear camera module, resulting in the component failure. The camera module would need to be replaced. * Face ID system: Liquid damage is present in the Face ID area, and it caused it to fail. To replace it, we would need to order the part directly from Apple. * Housing and internal areas: Liquid has spread throughout the internal housing, affecting multiple internal areas and increasing the risk of corrosion and long-term instability. The overall housing and internal structure would need addressing as part of any full functional repair.  Due to the extent and spread of the liquid damage across multiple critical components, the only feasible repair would be a data recovery. This would involve repairing the device enough to allow us to complete a full backup of your data to your iCloud account. We can confirm that the device contains approximately 480 GB of data, so a 2 TB iCloud plan would be required to ensure sufficient space (more on this here: https://www.apple.com/uk/icloud/). This process will need to be completed after we return from the holiday break, as it will take several days to carry out safely. Once completed, we will confirm as soon as the backup is finished so you can restore the data onto your replacement device.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10836969006",
+        "item_name": "BM 1226 (Jim Rogers)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4926447208",
+        "created_at": "2026-02-14T16:06:02.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Keyboard Backlight - A2179 / A2337: 17 \u2192 16 \u2022 Keyboard - A2337: 10 \u2192 9 \u2022 Charger MacBook Air 13-inch, (2018 or later) 30W: 13 \u2192 12 \u2022 Adapters head MacBook Air/Pro: 8 \u2192 7  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10891996752",
+        "item_name": "BM 1248 (Seth Warnapala)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4841660162",
+        "created_at": "2026-01-17T11:49:30.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Hall Sensor - A2442 / A2779 / A2918 / A2992: 8 \u2192 7 \u2022 LCD - A2992 | A2918 (BOE): 3 \u2192 2  \u23ed\ufe0f Skipped (not tracked): \u2022 Other (See Notes)  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10891999520",
+        "item_name": "BM 1239 (Ana Wall)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4840608851",
+        "created_at": "2026-01-16T19:43:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Keyboard Backlight - A2289 / A2338: 3 \u2192 2 \u2022 Screen Bezel - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 (Space Grey): 18 \u2192 17 \u2022 Touch Bar - A2338 M1 / A2338 M2: 6 \u2192 5  \u23ed\ufe0f Skipped (not tracked): \u2022 Other (See Notes)  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10892000726",
+        "item_name": "BM 1236 (Maddison Anderson )",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4855006779",
+        "created_at": "2026-01-22T09:34:54.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 MacBook Air A1932/A2179 Battery (A1965): 8 \u2192 7 \u2022 Screen Bezel - A1932 / A2179 / A2337 (Space Grey): -2 \u2192 -3 \u26a0\ufe0f NEGATIVE  \u23ed\ufe0f Skipped (not tracked): \u2022 MacBook Logic Board \u2022 Other (See Notes)  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10892000726",
+        "item_name": "BM 1236 (Maddison Anderson )",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4852994635",
+        "created_at": "2026-01-21T18:30:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 MacBook Air A1932/A2179 Battery (A1965): 9 \u2192 8 \u2022 Screen Bezel - A1932 / A2179 / A2337 (Space Grey): -1 \u2192 -2 \u26a0\ufe0f NEGATIVE  \u23ed\ufe0f Skipped (not tracked): \u2022 MacBook Logic Board \u2022 Other (See Notes)  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10904712172",
+        "item_name": "BM 1257 (Fatma Abukar)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4855073186",
+        "created_at": "2026-01-22T10:14:51.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 LCD - A2681 | A3113 | A3240: 1 \u2192 0 \u2022 Keyboard - A2681 / A3113 / A2941 / A3114: 16 \u2192 15  \u23ed\ufe0f Skipped (not tracked): \u2022 MacBook Logic Board \u2022 Other (See Notes)  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10904720550",
+        "item_name": "BM 1261 (Nnamdi Abuah)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4889880454",
+        "created_at": "2026-02-03T12:25:29.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Keyboard - A2338: 1 \u2192 0 \u2022 Screen Bezel - A1706 / A1708 / A1989 / A2159 / A2251 / A2289 / A2338 (Space Grey): 12 \u2192 11  \u23ed\ufe0f Skipped (not tracked): \u2022 Other (See Notes)  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10904731396",
+        "item_name": "BM 1262 (Konrad Bylina)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4841798160",
+        "created_at": "2026-01-17T15:31:34.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 LCD - A2442 | A2779 (LG): 3 \u2192 2 \u2022 USB-C Port - A2442 / A2779 / A2485 / A2780: 5 \u2192 4  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10904736356",
+        "item_name": "BM 1263 (Christabel Tarakeme)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4840462111",
+        "created_at": "2026-01-16T19:05:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 MacBook Pro A1989/A2251 Battery (A1964): 4 \u2192 3 \u2022 Full Screen - A2251|A2289 - Grade A - Grey: 0 \u2192 -1 \u26a0\ufe0f NEGATIVE  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10908475658",
+        "item_name": "Lucia White",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4841818184",
+        "created_at": "2026-01-17T16:03:35.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 iPhone 13 Pro/13 Pro Max Rear Lens: -1 \u2192 -2 \u26a0\ufe0f NEGATIVE \u2022 iPhone 13 Pro / 13 Pro Max Rear Camera: 0 \u2192 -1 \u26a0\ufe0f NEGATIVE  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10908475658",
+        "item_name": "Lucia White",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798597292",
+        "message_id": "4829977109",
+        "created_at": "2026-01-14T12:05:03.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar have you re-ordered these via Mohammad?",
+        "pattern_labels": [
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10916264813",
+        "item_name": "BM 1266 (Tristan Hill)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4840666291",
+        "created_at": "2026-01-16T20:00:02.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u26a0\ufe0f Parts Checkout Completed with Warning  \ud83d\udce6 Parts Deducted: \u2022 Speakers - A2337 (Left): 8 \u2192 7 \u2022 Speakers - A2337 (Right): 8 \u2192 7 \u2022 Full Screen - A2337 - Grade Poor - Grey: 0 \u2192 -1 \u26a0\ufe0f NEGATIVE  \u274c WARNING: One or more parts now have NEGATIVE stock. Please check inventory.  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      }
+    ],
+    "routing_or_assignment": [
+      {
+        "item_id": "10652246569",
+        "item_name": "Alex Haikel",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4706538407",
+        "message_id": "4706616532",
+        "created_at": "2025-11-27T11:21:03.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas please keep an eye out on this one, it should arrive by 12:45pm. Client said he also has an issue with the front camera so please let's test it before we complete the repair in case it's broken.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10652246569",
+        "item_name": "Alex Haikel",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4706538407",
+        "message_id": "4707470105",
+        "created_at": "2025-11-27T17:06:40.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please proceed with screen repair only. Need to return device by lunch time/early afternoon tomorrow",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4740396695",
+        "created_at": "2025-12-10T09:05:50.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar tagging you again on this one in case you haven't seen it",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4815830932",
+        "created_at": "2026-01-09T10:21:04.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar tagging you again. Can we source a screen for it? I've asked Misha but he said he only has screens with Dustgate/Flexgate that require cutting + polariser",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10680373565",
+        "item_name": "Matt Pickering",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4716694065",
+        "message_id": "4763828626",
+        "created_at": "2025-12-18T10:09:13.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please confirm if it's Dustgate or something else",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10680373565",
+        "item_name": "Matt Pickering",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4716694065",
+        "message_id": "4859966665",
+        "created_at": "2026-01-23T17:04:17.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk please reassemble, BER",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10683164689",
+        "item_name": "John Scarlett",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4717711281",
+        "message_id": "4741148550",
+        "created_at": "2025-12-10T14:29:29.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel tagging you again on this one",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10683164689",
+        "item_name": "John Scarlett",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4717711281",
+        "message_id": "4852797674",
+        "created_at": "2026-01-21T17:46:15.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk please reassemble. Client declined trade in because he needs to return it to his employer",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10710765693",
+        "item_name": "Mario Balcan (Mother) *COMMS 1-9",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4738124393",
+        "created_at": "2025-12-09T17:03:11.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad we are receiving the 9 MacBooks tomorrow between 9:30am and 1:30pm. I've already set the indicative deadlines to help the guys, and requested more details regarding the liquid damaged MacBooks. All Macs should also be restored with no MDM.    Once we get the tote, please check the devices' serial numbers, tag them and queue them for repair/diagnostic. All of them need corporate diagnostic: 4 of them are liquid damaged (-> Saf), 1 needs a trackpad (-> Saf), and 4 need a screen repair. The ones that require a screen repair can be diagnosed by the refurb team.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10733781953",
+        "item_name": "Harry McAllister (Freuds) [FC0908] PO69253",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4859978873",
+        "created_at": "2026-01-23T17:06:40.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Hall Sensor - A3240: 1 \u2192 0  \u23ed\ufe0f Skipped (not tracked): \u2022 Other (See Notes)  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10733781953",
+        "item_name": "Harry McAllister (Freuds) [FC0908] PO69253",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4736792898",
+        "message_id": "4827123179",
+        "created_at": "2026-01-13T18:41:21.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please complete repairs",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10745839538",
+        "item_name": "Alexander Dobb",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4741232404",
+        "message_id": "4871946803",
+        "created_at": "2026-01-28T11:37:20.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad hey this device is going back later today between 2 and 4pm via Gophr. Could you please pack it up once you're back?",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "update",
+        "message_id": "4911739488",
+        "created_at": "2026-02-10T13:26:52.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Full Screen - iPhone 15 Pro Max: 1 \u2192 0 \u2022 iPhone 15 Pro Max Rear Glass Black Titanium: 3 \u2192 2  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4772025699",
+        "created_at": "2025-12-22T14:15:11.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Screen: The iPhone powers on, but the display is damaged and not usable. To fix this, the screen will need to be replaced. We can fit either a genuine Apple display or an aftermarket soft OLED. The genuine option offers stronger glass, better colour accuracy, higher brightness, and more responsive touch. The aftermarket screen works well for general use but has weaker glass, lower brightness, slightly reduced touch sensitivity, and less accurate colours. * Rear glass: The back glass is damaged. While the phone is currently powering on, broken rear glass can allow debris inside the device and may cause further issues over time. The rear glass replacement is optional but recommended.  We can confirm that your iPhone is repairable, please see your options below.  Required Repairs ----------------  * iPhone 15 Pro Max Screen: \u00a3359 inc VAT or  * iPhone 15 Pro Max Aftermarket Screen: \u00a3249 inc VAT  Optional Repairs ----------------  * iPhone 15 Pro Max Rear Glass: \u00a3179 Total (including Genuine Apple screen): \u00a3538 inc VAT discounted to \u00a3489 (save \u00a349)  Total (including Aftermarket screen): \u00a3428 inc VAT discounted to \u00a3399 (save \u00a329)  Repair Details --------------  Repairs will be completed within 1 working day once approved.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4907198389",
+        "created_at": "2026-02-09T10:42:17.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas please complete ori screen and rear glass repairs. We should have both parts in stock",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4761296021",
+        "created_at": "2025-12-17T16:07:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please try the following passwords:  Olivia2019  Sweatshop2014  Mykonos2016  Mykonos2016!  Mykonos_2016  Sweatshop2014  Wallpaper88  Carlita88  Olivia2019Olivia  OliviaAndNico  Olivia2019_Nico2023    If the account starts getting locked let me know please",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4831591623",
+        "created_at": "2026-01-14T17:13:45.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Our diagnostic identified liquid damage on the logic board. We will need to complete our MacBook liquid damage treatment to properly clean, stabilise, and restore all the affected components. * Charging port: We also found clear liquid damage on the charging port, as shown in the image attached. Because the port has been affected by liquid ingress, it is no longer working and will need to be replaced to restore stable charging. * Battery: The battery has become faulty as a direct result of the liquid damage. The charging port and battery are connected through the same power distribution and charging circuits. When liquid entered this area, it damaged the Battery Management System (BMS), which is a small control board built into the battery itself. The BMS is responsible for allowing the battery to communicate with the logic board and report battery data correctly. Since this component is no longer functioning, the system cannot read the battery, and the battery will need to be replaced to restore normal operation.  We can confirm that your MacBook is repairable, please see your options below.  Required Repairs ----------------  * MacBook Pro 13 M2 A2338 Battery: \u00a3199 * MacBook Pro 13 M2 A2338 Charging Port: \u00a3159 * MacBook Liquid Damage Treatment: \u00a3149 Total: \u00a3507 inc VAT discounted to \u00a3429 (save \u00a378)  Repair Details --------------  Repairs will be completed within 3 working days once approved.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "5067859583",
+        "created_at": "2026-04-02T14:12:28.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client paid, please proceed with battery, charging port and liquid damage treatment",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10796128973",
+        "item_name": "BM 1194 (Sharon Jeffreys)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4767971196",
+        "message_id": "5033131908",
+        "created_at": "2026-03-23T12:27:41.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please take the logic board from BM 1231 and install it in this one. It needs to go out today",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10809812149",
+        "item_name": "Amanda Davis 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4765019633",
+        "message_id": "4772449528",
+        "created_at": "2025-12-22T15:57:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Our diagnostic confirmed extensive liquid damage across the logic board, affecting multiple critical power and data circuits. This level of damage explains why the MacBook is not powering on. To restore stable operation, the affected areas will require full board-level rebuilding and thorough cleaning to remove all residue. * Charging ports: Liquid damage has affected both charging ports. Both will need to be replaced. * Touch ID: Touch ID is not working due to liquid damage affecting the sensor line. To fix the issue, we would need to order the replacement Touch ID from Apple, but this would arrive after the holidays. * Data status: The data is safe and accessible. If preferred, we can proceed with a data-only repair focused solely on data recovery rather than full functional restoration.  We can confirm that your MacBook is repairable, and your data is safe. Please see your options below.  Required Repairs ----------------  * MacBook Pro 14 M1 Pro/Max A2442 Tier 3 Logic Board Repair & Liquid Damage Treatment: \u00a3399 * MacBook Pro 14 M1 Pro/Max A2442 Charging Ports: \u00a3199 * MacBook Pro 14 M1 Pro/Max A2442 Touch ID: \u00a3199 Total: \u00a3797 inc VAT discounted to \u00a3648 (save \u00a3149)  Repair Details --------------  We can complete all repairs apart from the Touch ID by tomorrow (our last day before the holidays). To repair the Touch ID, we would need to order the required part once we\u2019re back from the holidays on the 5th of January. The part typically arrives within 5 to 7 working days. In the meantime, we would temporarily disconnect the Touch ID from the device. This means the fingerprint sensor and the power button functionality would not work during that period, but the MacBook would remain fully usable otherwise.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10809812149",
+        "item_name": "Amanda Davis 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4765019633",
+        "message_id": "4772758990",
+        "created_at": "2025-12-22T16:59:51.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please complete logic board repair, liquid damage treatment and charging ports replacement. Also disconnect Touch ID. We will order a replacement one once we are back.    @Adil Azad just FYI, the client already knows that until the Touch ID is replaced she cannot use her fingerprint sensor or power button. Just please explain to her how she can switch off the device or turn it on if needed. Ideally, it should go in sleep mode for now",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4856533317",
+        "created_at": "2026-01-22T17:08:10.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Used MacBook Pro A2159/A2289/A2338 Battery (A2171) (only for BM): 2 \u2192 1 \u2022 Charger MacBook Pro 13-inch, (2016 intel - 2020 M1) 61W: 23 \u2192 22 \u2022 Cable Macbook USB-C Air/Pro: 2 \u2192 1 \u2022 Adapters head MacBook Air/Pro: 28 \u2192 27  \u23ed\ufe0f Skipped (not tracked): \u2022 MacBook Logic Board  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4798265149",
+        "created_at": "2026-01-05T15:01:01.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel can you please quickly open this up and confirm whether it's an A2338 or A2289?",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798265149",
+        "message_id": "4808197296",
+        "created_at": "2026-01-07T14:06:40.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar the client said that he purchased the device on Back Market and he also attached a receipt that belongs to an M1 with serial FVFFC77X0KPF (it has iCloud off). It's possible that the other company gave him the device with the painted bottom cover to hide that the bottom case belonged to an A2289. However, even if everything matches we are not able to physically confirm the device's serial number at this stage.    5715e56b-5ee3-4f68-8377-e8c5716cc4e0_17676098881339295_original-macbook-m1-receipt.pdf",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10816205862",
+        "item_name": "Saif Al Shamsi",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4767369157",
+        "message_id": "4808314206",
+        "created_at": "2026-01-07T14:27:04.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please reassemble",
+        "pattern_labels": [
+          "routing_or_assignment"
+        ]
+      }
+    ],
+    "diagnostic_or_repair_decision": [
+      {
+        "item_id": "10652246569",
+        "item_name": "Alex Haikel",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4706538407",
+        "message_id": "4706616532",
+        "created_at": "2025-11-27T11:21:03.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas please keep an eye out on this one, it should arrive by 12:45pm. Client said he also has an issue with the front camera so please let's test it before we complete the repair in case it's broken.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10652246569",
+        "item_name": "Alex Haikel",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4706538407",
+        "message_id": "4707470105",
+        "created_at": "2025-11-27T17:06:40.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please proceed with screen repair only. Need to return device by lunch time/early afternoon tomorrow",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10658195997",
+        "item_name": "Maryam Ali *only book inbound",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Incoming Future",
+        "level": "update",
+        "message_id": "5055589073",
+        "created_at": "2026-03-30T15:02:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Tried cleaning keys but now they're broken. Potential liquid damage. Already paid for diagnostic and keyboard.",
+        "pattern_labels": [
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4709428836",
+        "created_at": "2025-11-28T17:15:42.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client has this mark again on the LCD (video). It's really similar to the one he had in the previous warranty (image). We need to understand what's causing the fault.  @Ricky Panesar told client we have no stock at the moment and need to source. We won't be able to get away with just a pulled B screen assembly as she's quite pissed given that the same fault happened twice in a row. We also need to understand what's causing those marks  IMG_3595 (1).mp4",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4815830932",
+        "created_at": "2026-01-09T10:21:04.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar tagging you again. Can we source a screen for it? I've asked Misha but he said he only has screens with Dustgate/Flexgate that require cutting + polariser",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10671813600",
+        "item_name": "BM 1281 (Zainab Rodemade)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4713465809",
+        "message_id": "4717686965",
+        "created_at": "2025-12-02T15:49:15.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas is the client only interested in trade-in or does she also want a repair quote?",
+        "pattern_labels": [
+          "quote_or_price",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10680373565",
+        "item_name": "Matt Pickering",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4716694065",
+        "message_id": "4763827396",
+        "created_at": "2025-12-18T10:08:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Screen broken - pink bars, worked intermittently with external display now doesn\u2019t work at all",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10683164689",
+        "item_name": "John Scarlett",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4717711281",
+        "message_id": "4772204788",
+        "created_at": "2025-12-22T14:57:44.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar client doesn't want to proceed, BM offer \u00a3195 for a non functional cracked screen A2918 8GB 512GB. Should I offer him this or lowball him?",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10710765693",
+        "item_name": "Mario Balcan (Mother) *COMMS 1-9",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4738124393",
+        "created_at": "2025-12-09T17:03:11.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad we are receiving the 9 MacBooks tomorrow between 9:30am and 1:30pm. I've already set the indicative deadlines to help the guys, and requested more details regarding the liquid damaged MacBooks. All Macs should also be restored with no MDM.    Once we get the tote, please check the devices' serial numbers, tag them and queue them for repair/diagnostic. All of them need corporate diagnostic: 4 of them are liquid damaged (-> Saf), 1 needs a trackpad (-> Saf), and 4 need a screen repair. The ones that require a screen repair can be diagnosed by the refurb team.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10733781953",
+        "item_name": "Harry McAllister (Freuds) [FC0908] PO69253",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4736792898",
+        "message_id": "4748953143",
+        "created_at": "2025-12-12T17:22:09.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Liquid damaged",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10733781953",
+        "item_name": "Harry McAllister (Freuds) [FC0908] PO69253",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4736792898",
+        "message_id": "4827123179",
+        "created_at": "2026-01-13T18:41:21.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please complete repairs",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10745839538",
+        "item_name": "Alexander Dobb",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4741232404",
+        "created_at": "2025-12-10T14:49:03.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Previous repair:   * LCD cracked in bottom left corner.  * Removed dent on the top case to prevent pressure on the rubber frame.  * Replaced the screen, no IC soldering required.  * Brightness issue (resolved after updating macOS).  Current fault:  Client reports a hotspot appearing on the display a few months after the screen replacement. No drops or pressure applied. The hotspot temporarily disappears when rubbed but returns.  IMG_3472.heicIMG_3474.heicIMG_3473.heicIMG_3475.heicIMG_3471.heic",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "update",
+        "message_id": "4911739488",
+        "created_at": "2026-02-10T13:26:52.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "\u2705 Parts Checkout Complete  \ud83d\udce6 Parts Deducted: \u2022 Full Screen - iPhone 15 Pro Max: 1 \u2192 0 \u2022 iPhone 15 Pro Max Rear Glass Black Titanium: 3 \u2192 2  \ud83e\udd16 Automated by Parts Deduction System",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4760450169",
+        "created_at": "2025-12-17T12:10:19.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar how long would it take to source an ori screen?",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4772025699",
+        "created_at": "2025-12-22T14:15:11.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Screen: The iPhone powers on, but the display is damaged and not usable. To fix this, the screen will need to be replaced. We can fit either a genuine Apple display or an aftermarket soft OLED. The genuine option offers stronger glass, better colour accuracy, higher brightness, and more responsive touch. The aftermarket screen works well for general use but has weaker glass, lower brightness, slightly reduced touch sensitivity, and less accurate colours. * Rear glass: The back glass is damaged. While the phone is currently powering on, broken rear glass can allow debris inside the device and may cause further issues over time. The rear glass replacement is optional but recommended.  We can confirm that your iPhone is repairable, please see your options below.  Required Repairs ----------------  * iPhone 15 Pro Max Screen: \u00a3359 inc VAT or  * iPhone 15 Pro Max Aftermarket Screen: \u00a3249 inc VAT  Optional Repairs ----------------  * iPhone 15 Pro Max Rear Glass: \u00a3179 Total (including Genuine Apple screen): \u00a3538 inc VAT discounted to \u00a3489 (save \u00a349)  Total (including Aftermarket screen): \u00a3428 inc VAT discounted to \u00a3399 (save \u00a329)  Repair Details --------------  Repairs will be completed within 1 working day once approved.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4880005341",
+        "created_at": "2026-01-30T10:11:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "CC: To accept quote for ori screen and rear glass. She wants to come in to pay in person because she prefers doing things that way.    @Adil Azad @Andres Egas just a heads up as she may come in today to pay",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4907198389",
+        "created_at": "2026-02-09T10:42:17.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas please complete ori screen and rear glass repairs. We should have both parts in stock",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4907496454",
+        "created_at": "2026-02-09T12:58:35.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar Misha used the last screen on his iPhone last week and the stock was not updated. Can you get an ori screen from your suppliers?",
+        "pattern_labels": [
+          "customer_update",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10776615870",
+        "item_name": "Bijal Mistry",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4752698537",
+        "message_id": "4752700150",
+        "created_at": "2025-12-15T13:33:38.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Damaged screen",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4808875142",
+        "created_at": "2026-01-07T15:58:16.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel if you cannot find the correct password, let me know if you can at least confirm what components need to be replaced or repaired. I can see you mentioned the charging port and Touch Bar: is there anything else?",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4831591623",
+        "created_at": "2026-01-14T17:13:45.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Our diagnostic identified liquid damage on the logic board. We will need to complete our MacBook liquid damage treatment to properly clean, stabilise, and restore all the affected components. * Charging port: We also found clear liquid damage on the charging port, as shown in the image attached. Because the port has been affected by liquid ingress, it is no longer working and will need to be replaced to restore stable charging. * Battery: The battery has become faulty as a direct result of the liquid damage. The charging port and battery are connected through the same power distribution and charging circuits. When liquid entered this area, it damaged the Battery Management System (BMS), which is a small control board built into the battery itself. The BMS is responsible for allowing the battery to communicate with the logic board and report battery data correctly. Since this component is no longer functioning, the system cannot read the battery, and the battery will need to be replaced to restore normal operation.  We can confirm that your MacBook is repairable, please see your options below.  Required Repairs ----------------  * MacBook Pro 13 M2 A2338 Battery: \u00a3199 * MacBook Pro 13 M2 A2338 Charging Port: \u00a3159 * MacBook Liquid Damage Treatment: \u00a3149 Total: \u00a3507 inc VAT discounted to \u00a3429 (save \u00a378)  Repair Details --------------  Repairs will be completed within 3 working days once approved.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "5067859583",
+        "created_at": "2026-04-02T14:12:28.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client paid, please proceed with battery, charging port and liquid damage treatment",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10789143742",
+        "item_name": "Charlie Hawkins (HaysMac) *Priority",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4757564454",
+        "message_id": "4757573770",
+        "created_at": "2025-12-16T15:49:57.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Coming in for priority corporate diagnostic + battery.",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10796128973",
+        "item_name": "BM 1194 (Sharon Jeffreys)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4767971196",
+        "message_id": "5033131908",
+        "created_at": "2026-03-23T12:27:41.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please take the logic board from BM 1231 and install it in this one. It needs to go out today",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10809812149",
+        "item_name": "Amanda Davis 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4765019633",
+        "message_id": "4772449528",
+        "created_at": "2025-12-22T15:57:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Our diagnostic confirmed extensive liquid damage across the logic board, affecting multiple critical power and data circuits. This level of damage explains why the MacBook is not powering on. To restore stable operation, the affected areas will require full board-level rebuilding and thorough cleaning to remove all residue. * Charging ports: Liquid damage has affected both charging ports. Both will need to be replaced. * Touch ID: Touch ID is not working due to liquid damage affecting the sensor line. To fix the issue, we would need to order the replacement Touch ID from Apple, but this would arrive after the holidays. * Data status: The data is safe and accessible. If preferred, we can proceed with a data-only repair focused solely on data recovery rather than full functional restoration.  We can confirm that your MacBook is repairable, and your data is safe. Please see your options below.  Required Repairs ----------------  * MacBook Pro 14 M1 Pro/Max A2442 Tier 3 Logic Board Repair & Liquid Damage Treatment: \u00a3399 * MacBook Pro 14 M1 Pro/Max A2442 Charging Ports: \u00a3199 * MacBook Pro 14 M1 Pro/Max A2442 Touch ID: \u00a3199 Total: \u00a3797 inc VAT discounted to \u00a3648 (save \u00a3149)  Repair Details --------------  We can complete all repairs apart from the Touch ID by tomorrow (our last day before the holidays). To repair the Touch ID, we would need to order the required part once we\u2019re back from the holidays on the 5th of January. The part typically arrives within 5 to 7 working days. In the meantime, we would temporarily disconnect the Touch ID from the device. This means the fingerprint sensor and the power button functionality would not work during that period, but the MacBook would remain fully usable otherwise.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      }
+    ],
+    "uncategorized": [
+      {
+        "item_id": "10652246569",
+        "item_name": "Alex Haikel",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4706538407",
+        "message_id": "4706849135",
+        "created_at": "2025-11-27T13:24:10.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas contacting client",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10659608002",
+        "item_name": "Justice Allotey",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4709298637",
+        "message_id": "4821590490",
+        "created_at": "2026-01-12T14:43:58.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Mykhailo Kepeshchuk any update on this one?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10671813600",
+        "item_name": "BM 1281 (Zainab Rodemade)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4713465809",
+        "message_id": "4736557595",
+        "created_at": "2025-12-09T08:40:29.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "iCloud off",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10671813600",
+        "item_name": "BM 1281 (Zainab Rodemade)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4713465809",
+        "message_id": "4817534234",
+        "created_at": "2026-01-09T18:23:04.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel IC off now:",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10680373565",
+        "item_name": "Matt Pickering",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4716694065",
+        "message_id": "4916733643",
+        "created_at": "2026-02-11T17:09:41.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad same with this one, is it still with us?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10683164689",
+        "item_name": "John Scarlett",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4717711281",
+        "message_id": "4717717106",
+        "created_at": "2025-12-02T15:55:35.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Boot looping. Needs data",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10683164689",
+        "item_name": "John Scarlett",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4717711281",
+        "message_id": "4737219648",
+        "created_at": "2025-12-09T13:49:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel any updates on this one? Client is chasing",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4756226930",
+        "created_at": "2025-12-16T11:01:25.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "From client:  Powers on when plugged in but does not charge or operate on battery power. Sister-in-law claims she may have spilled coffee on the speaker.",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4813746472",
+        "created_at": "2026-01-08T17:43:44.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel do you see the option to restore the password?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "4815808949",
+        "created_at": "2026-01-09T10:06:34.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad I'm asking the client their availability to restore the password over the phone. I'll let you know once you can give him a call",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10815344927",
+        "item_name": "BM 1208 ( Wil Valovin )",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Incoming Future",
+        "level": "update",
+        "message_id": "5016726539",
+        "created_at": "2026-03-17T13:36:22.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk what do I need to contact the client for?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798265149",
+        "message_id": "4798287628",
+        "created_at": "2026-01-05T15:05:10.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel you told me that an A2289 bottom cover would not be compatible with an A2338 \ud83d\ude05 I\u2019ve been fighting the client saying that we definitely don\u2019t have an A2338",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798265149",
+        "message_id": "4798289866",
+        "created_at": "2026-01-05T15:05:23.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel can you turn on the device to confirm the serial number?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10892000726",
+        "item_name": "BM 1236 (Maddison Anderson )",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4797936585",
+        "message_id": "4856871950",
+        "created_at": "2026-01-22T18:29:04.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk is this backlight issue?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10904595979",
+        "item_name": "Fix Shopify tax issue",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Monday 5th Jan",
+        "level": "reply",
+        "parent_update_id": "4797028662",
+        "message_id": "4797036246",
+        "created_at": "2026-01-05T09:48:20.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "I know what the issue is",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10904736356",
+        "item_name": "BM 1263 (Christabel Tarakeme)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4808833119",
+        "message_id": "4817241366",
+        "created_at": "2026-01-09T17:15:50.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Mykhailo Kepeshchuk back in your queue",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10906675983",
+        "item_name": "Shut down AWS instance for icrtcont",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Backlog",
+        "level": "update",
+        "message_id": "4817199847",
+        "created_at": "2026-01-09T17:06:30.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar I've followed your Claude's instructions but there is no active icrtcont instance on EC2. Has it already been removed?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10906675983",
+        "item_name": "Shut down AWS instance for icrtcont",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Backlog",
+        "level": "reply",
+        "parent_update_id": "4817199847",
+        "message_id": "4817213967",
+        "created_at": "2026-01-09T17:09:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "I instead found these in Amazon Lightsail. Are these the ones to turn off? https://lightsail.aws.amazon.com/ls/webapp/home/instances",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10906699054",
+        "item_name": "Update DNS at SiteGround for icrtcont subdomain",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Monday 5th Jan",
+        "level": "update",
+        "message_id": "4798107942",
+        "created_at": "2026-01-05T14:11:54.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Domain successfully transferred and tested",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10906946134",
+        "item_name": "Seb Sandler's iPad Repair",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Monday 5th Jan",
+        "level": "reply",
+        "parent_update_id": "4797933999",
+        "message_id": "4797940535",
+        "created_at": "2026-01-05T13:38:28.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar what's his phone number so I can contact him?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10908345347",
+        "item_name": "Import staging.icorrect.co.uk redirects to Shopify (10 URLs)",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Thursday 8th Jan",
+        "level": "reply",
+        "parent_update_id": "4799082618",
+        "message_id": "4811886131",
+        "created_at": "2026-01-08T09:20:23.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar done",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4865264106",
+        "created_at": "2026-01-26T17:34:22.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel hey Saf any updates on this one by any chance?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4867508529",
+        "created_at": "2026-01-27T09:12:16.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel Not even with more time?",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4878003015",
+        "created_at": "2026-01-29T17:45:18.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar interested in making an offer? Client wants the device back",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      },
+      {
+        "item_id": "10916264813",
+        "item_name": "BM 1266 (Tristan Hill)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4817401516",
+        "message_id": "4825372043",
+        "created_at": "2026-01-13T12:37:46.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Sent \u00a3129 counteroffer",
+        "pattern_labels": [
+          "uncategorized"
+        ]
+      }
+    ],
+    "payment_or_invoice": [
+      {
+        "item_id": "10658195997",
+        "item_name": "Maryam Ali *only book inbound",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Incoming Future",
+        "level": "update",
+        "message_id": "5055589073",
+        "created_at": "2026-03-30T15:02:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Tried cleaning keys but now they're broken. Potential liquid damage. Already paid for diagnostic and keyboard.",
+        "pattern_labels": [
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4880005341",
+        "created_at": "2026-01-30T10:11:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "CC: To accept quote for ori screen and rear glass. She wants to come in to pay in person because she prefers doing things that way.    @Adil Azad @Andres Egas just a heads up as she may come in today to pay",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4881270810",
+        "created_at": "2026-01-30T16:19:54.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client paying \u00a3489 in person",
+        "pattern_labels": [
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "10779730188",
+        "item_name": "Erman Ozen (C/o Carla Grima)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4753875092",
+        "message_id": "5067859583",
+        "created_at": "2026-04-02T14:12:28.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client paid, please proceed with battery, charging port and liquid damage treatment",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10815347259",
+        "item_name": "BM 1211 (Julian Widdop)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798265149",
+        "message_id": "4809807566",
+        "created_at": "2026-01-07T18:19:46.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad @Ricky Panesar should just be liquid or backlight right? We should be able to pay out then",
+        "pattern_labels": [
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10830277145",
+        "item_name": "Pele Banugo",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4771948806",
+        "message_id": "4772314322",
+        "created_at": "2025-12-22T15:23:22.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad O Rey just paid so you are aware haha",
+        "pattern_labels": [
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "10906946134",
+        "item_name": "Seb Sandler's iPad Repair",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Monday 5th Jan",
+        "level": "reply",
+        "parent_update_id": "4797933999",
+        "message_id": "4798006535",
+        "created_at": "2026-01-05T13:50:56.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar is he paying in advance or after the repair? Has he given you his email address as well for Zendesk or should I ask him?",
+        "pattern_labels": [
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10931929033",
+        "item_name": "Leo Best: To decide what to do",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Thursday 8th Jan",
+        "level": "update",
+        "message_id": "4807369014",
+        "created_at": "2026-01-07T09:47:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "RM lost his A1989 that was coming in for a Dustgate repair. He's happy with refund for now and then if the device comes up he'll be happy to proceed again. He's a returning client and the tracking is not showing updates since 2nd December",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10945705499",
+        "item_name": "Naboshika Nantheswaran",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4812504554",
+        "message_id": "4867628270",
+        "created_at": "2026-01-27T10:16:57.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quote accepted. Invoiced.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "10945876372",
+        "item_name": "Jacob Cantillon",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4812660892",
+        "message_id": "4852145314",
+        "created_at": "2026-01-21T15:31:50.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Mykhailo Kepeshchuk please proceed with diagnostic and let me know if you see further issues/liquid damage. If everything is fine and the client only needs the speaker, he has already agreed on the repair. Please notify me so I can send him the invoice.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10956836168",
+        "item_name": "Paul Veer",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4816371410",
+        "message_id": "4831538074",
+        "created_at": "2026-01-14T17:06:18.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Screen: The display is cracked around the area where the front camera cover sits. The cracking clearly originates from that point, which indicates pressure damage caused when the lid was closed with the camera cover in place. Unfortunately, these covers are known to apply uneven pressure on the LCD and often lead to this exact type of damage. For this reason, we would strongly recommend not using camera covers, as they can easily cause screen failure over time. * Logic board: During our inspection, we also found liquid damage on the logic board. This will require our full liquid damage treatment to properly clean and stabilise the affected areas and ensure reliable operation going forward. * Battery (optional): The battery health is currently reading at 82%. This does not indicate a fault at this stage, it simply shows normal wear over time. Once the battery health drops below 80%, macOS will begin to display a \u201cService Recommended\u201d message, but for now the battery is still operating within expected limits.  We can confirm that your MacBook is repairable, please see your options below.  Required Repairs ----------------  * MacBook Pro 16 A2141 Screen: \u00a3499 * MacBook Liquid Damage Treatment: \u00a399 Total: \u00a3598 inc VAT discounted to \u00a3499 (save \u00a399)  Optional Repairs ----------------  * MacBook Pro 16 A2141 Battery: \u00a3199 New total: \u00a3698 inc VAT discounted to \u00a3599 (save \u00a3198 in total)  Repair Details --------------  Repairs will be completed within 3 working days once approved and paid.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10973795390",
+        "item_name": "Tabitha Kantenga",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4821099481",
+        "message_id": "4840166016",
+        "created_at": "2026-01-16T17:50:09.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * System / T2 firmware: When the device arrived, it was stuck in a state with no operating system loading. To stabilise the MacBook and proceed with diagnostics, we first restored the T2 security chip. This chip manages core firmware and security features such as Touch ID, Apple Wallet, and system integrity. When its firmware becomes corrupted, it can prevent macOS from loading correctly. Restoring the T2 resolved the software loop and allowed us to continue testing the hardware. * Touch Bar: Once the system was restored, we identified a fault with the Touch Bar. The Touch Bar itself is damaged and the display is no longer functioning. This is a hardware failure, and the Touch Bar will need to be replaced to restore normal operation. * Keyboard: We also found that the keyboard is sticky, which is consistent with liquid exposure. This indicates that liquid has affected the internal keyboard membrane. While the keyboard is currently still working, damage at this level often worsens over time and can lead to further failures. For this reason, we strongly recommend replacing the keyboard now, as any future issues caused by this damage would not be covered under warranty. * Battery: The battery health is currently reading at 80%. This is not a fault, but it does indicate normal wear and tear and that the battery is becoming depleted. Battery replacement is optional at this stage, but we do recommend it to maintain reliable performance and avoid unexpected shutdowns in the near future.  We can confirm that your MacBook is repairable, please see your options below.  ---------------- Required Repairs ----------------  * Touch Bar: \u00a3249 Total: \u00a3249 inc VAT  ---------------- Optional Repairs ----------------  * Battery: \u00a3199 * Keyboard: \u00a3249 Total (including battery): \u00a3448 inc VAT discounted to \u00a3399 (save \u00a349)  Total (including keyboard): \u00a3498 inc VAT discounted to \u00a3429 (save \u00a369)  Total (including both): \u00a3697 inc VAT discounted to \u00a3549 (save \u00a3148)  -------------- Repair Details --------------  Repairs will be completed within 2-3 working days once approved and paid.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10973838600",
+        "item_name": "Joseph Idahor",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4830715098",
+        "created_at": "2026-01-14T14:30:01.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "CLIENT FORM RESPONSE SUMMARY  Issue Reported: Few days ago a little water spilled on it, i cleaned it out and the laptop was still working fine, no problem with the screen or anything, then i shut it down few minutes after only to try turning it back on 2 days later, it\u2019s not turning on or even charging, i took it to a repair shop near me here in Manchester and paid for a liquid damage repair and the specialist said he has fixed the liquid damage but it\u2019s still not coming on because it\u2019s something related to the logic board that i should take it to apple, took it to apple and apple is saying it\u2019s the logic board and calling an insane amount of money to fix it, then i made some research online and found you guys, even though it\u2019s was far away in London i just trusted you will be able to help fix it for way lesser according to your videos i saw online. and that\u2019s why i\u2019m using you. Thanks  Additional Information: Diagnosed by Apple: Yes Device purchased: New Previous repairs: Not at all, this is the fix issue i am having with it, it\u2019s a new macbook, got it late 2024, it\u2019s not even up to a year and half Other issues noticed: Nothing at all, the device has been perfect Interested in battery replacement: No Data backed up: I don't know Passcode provided: Yes",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10973838600",
+        "item_name": "Joseph Idahor",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830715098",
+        "message_id": "4840455918",
+        "created_at": "2026-01-16T19:03:32.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic confirmed severe damage on the logic board, primarily caused by liquid ingress. Despite what was previously advised by the other repair shop, the liquid damage on the board has not been fully repaired and is still present. The most critical issue we identified is around the camera connector on the logic board. This connector is responsible for transferring signal data between the MacBook\u2019s camera and the logic board. In this case, liquid damage and an electrical short in this area have caused the connector to fail.  In addition to the connector itself, the combination of liquid contamination and the resulting short has affected surrounding circuits and chips. These areas will need to be fully rebuilt at board level to ensure long-term reliability and prevent repeat failure. The camera connector will need to be replaced, and the damaged area beneath it will need to be properly treated and rebuilt. * Display: The camera connector runs between the logic board and the display assembly. Because the short originated on the logic board and travelled through the camera connection, the display-side circuitry has also been damaged. This has caused the display to fail completely. As a result, a full screen repair will be required in addition to the logic board work. We can confirm that the device is fully repairable. Your data has not been affected, and once the required repairs are completed, you will be able to continue using the MacBook normally.  ---------------- Required Repairs ----------------  * Tier 3 Logic Board Repair: \u00a3399 * Display Repair: \u00a3649 Total: \u00a31,048 inc VAT discounted to \u00a3879 (save \u00a3169)  -------------- Repair Details --------------  Repairs will be completed within 2 working days once approved and paid.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10973838600",
+        "item_name": "Joseph Idahor",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830715098",
+        "message_id": "4964710009",
+        "created_at": "2026-02-27T15:24:02.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client accepted repairs at \u00a3800. Invoiced",
+        "pattern_labels": [
+          "customer_update",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10982542463",
+        "item_name": "BM 1293 (Lydia Chelovska)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830166619",
+        "message_id": "4831988011",
+        "created_at": "2026-01-14T18:39:00.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "No need to counteroffer, there's only \u00a315 difference. @Andres Egas can I pay out?",
+        "pattern_labels": [
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "10999017903",
+        "item_name": "Sebastian Cook",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830703238",
+        "message_id": "4840367011",
+        "created_at": "2026-01-16T18:38:56.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic confirmed liquid damage inside the device. We identified a short on the CD control area of the logic board, which is responsible for managing charging and power communication between the charger and the main board. This fault is preventing the MacBook from powering on correctly. * Charging port: We also found liquid damage on the charging ports. This has contributed to the power issue and the port will need to be replaced as part of the repair. * Battery: The battery is not original but it is working correctly.  We can confirm that your MacBook is repairable, please see your options below.  ---------------- Required Repairs ----------------  * Diagnostic: \u00a349 - Waived off unless repair declined * Tier 1 Logic Board Repair: \u00a3149 * Charging port: \u00a3149 Total: \u00a3298 inc VAT discounted to \u00a3249 (save \u00a349)  Outstanding amount: \u00a370 (\u00a3179 already paid)  ---------------- Optional Repairs ----------------  * Battery: \u00a3179 Total: \u00a3428 inc VAT discounted to \u00a3349 (save \u00a3128 in total)  Outstanding amount: \u00a3170 (\u00a3179 already paid)  -------------- Repair Details --------------  Repairs will be completed within 2-3 working days once approved and paid.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11010528016",
+        "item_name": "Xinzhang",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4834693217",
+        "message_id": "4939670553",
+        "created_at": "2026-02-19T16:15:20.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel invoice paid, please mark the device as Repaired if it's ready to go.    @Roni Mykhailiuk please complete QC tomorrow (Friday) - I quoted 1 working day for the repair",
+        "pattern_labels": [
+          "quote_or_price",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11020062035",
+        "item_name": "Dwayne Morris",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4838343420",
+        "message_id": "4845233748",
+        "created_at": "2026-01-19T18:10:13.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "We have completed our diagnostic on your MacBook Air A1932 and identified the following faults:  * Software: Our diagnostic confirmed that the device was unresponsive and would not power on. After connecting the MacBook in DFU mode, we were able to revive the software, and the device is now functioning correctly. * Battery: Our diagnostic also confirmed that the battery has inflated. An inflated battery is a safety concern and indicates that the battery has reached the end of its usable life. The battery will need to be replaced to ensure the device can be used safely. We can confirm that your MacBook Air A1932 is repairable, please see your options below.  ---------------- Required Repairs ----------------  * Diagnostic: \u00a349 * Software Restoration: \u00a349 * Battery Replacement: \u00a3199 * 7% Discount: \u00a320.79 Total: \u00a3276.21 inc VAT  -------------- Repair Details --------------  Repairs will be completed within 2-3 working days once approved and paid.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11030930045",
+        "item_name": "BM 1311 (do not list, we do not have this device - it's with Rayan Khan)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Ferrari",
+        "level": "reply",
+        "parent_update_id": "4844530038",
+        "message_id": "4911375256",
+        "created_at": "2026-02-10T11:18:16.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar we have BM 1362 that is looping and needs top case and lid + LCD (we only have grade A top case). Let me know if we should refund or queue BM 1362 for repair to try and get it out",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11039242927",
+        "item_name": "Naomi Alex",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Cancelled/Missed Bookings",
+        "level": "reply",
+        "parent_update_id": "4844640600",
+        "message_id": "4848478121",
+        "created_at": "2026-01-20T16:13:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad @Andres Egas  do we have this device with us? It's still showing in Today's Repairs. Also has she paid?",
+        "pattern_labels": [
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11039672457",
+        "item_name": "Blaze",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4844795443",
+        "message_id": "4847426972",
+        "created_at": "2026-01-20T11:52:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic Board (Liquid Damage): Our diagnostic confirmed liquid damage on the logic board. Liquid has affected the charging circuit, and the main power distribution system. In order to fix the fault, we will need to clean any liquid residue, fully rebuild the circuits, and cure them to ensure they won't fail in the future. Our diagnostic confirmed that all data on the device remains intact and accessible.  ---------------- Required Repairs ----------------  * MacBook Pro 14 M4 Pro/Max Tier 3 Express Logic Board Repair: \u00a3599 Total: \u00a3599 inc VAT  -------------- Repair Details --------------  Once approved and paid, repairs will be completed by 5pm today.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11040565814",
+        "item_name": "BM 611 RTN (Jamie Bone)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4845126392",
+        "message_id": "5000797109",
+        "created_at": "2026-03-11T16:38:06.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk we've refunded it. Please proceed with repair and relist",
+        "pattern_labels": [
+          "quote_or_price",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11050556259",
+        "item_name": "Lorna Kitt",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4871819252",
+        "message_id": "5101163970",
+        "created_at": "2026-04-15T09:40:56.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas client paid for the screen repair. Are you able to please confirm what part needs to be fixed? If it's an LCD replacement please proceed, if it's something more complex that requires Misha to take a look please let me know",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11055321849",
+        "item_name": "BM 1323 (Ruben Garces Piaraly)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4969175219",
+        "created_at": "2026-03-02T12:05:55.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client changed their mind. Returning for refund",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice"
+        ]
+      }
+    ],
+    "quote_or_price": [
+      {
+        "item_id": "10671813600",
+        "item_name": "BM 1281 (Zainab Rodemade)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4713465809",
+        "message_id": "4717686965",
+        "created_at": "2025-12-02T15:49:15.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas is the client only interested in trade-in or does she also want a repair quote?",
+        "pattern_labels": [
+          "quote_or_price",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4880005341",
+        "created_at": "2026-01-30T10:11:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "CC: To accept quote for ori screen and rear glass. She wants to come in to pay in person because she prefers doing things that way.    @Adil Azad @Andres Egas just a heads up as she may come in today to pay",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4829872205",
+        "created_at": "2026-01-14T11:23:44.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "CC: Looking for an update (she's a very anxious person). I told her that we are still diagnosing the device and narrowing down the cause of the fault. We will aim to get a quote sent by the end of the week.",
+        "pattern_labels": [
+          "quote_or_price"
+        ]
+      },
+      {
+        "item_id": "10931929033",
+        "item_name": "Leo Best: To decide what to do",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Thursday 8th Jan",
+        "level": "update",
+        "message_id": "4807369014",
+        "created_at": "2026-01-07T09:47:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "RM lost his A1989 that was coming in for a Dustgate repair. He's happy with refund for now and then if the device comes up he'll be happy to proceed again. He's a returning client and the tracking is not showing updates since 2nd December",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10936399871",
+        "item_name": "Jack Matthews",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4821570243",
+        "message_id": "4840062708",
+        "created_at": "2026-01-16T17:26:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quoted for screen (\u00a3399 instead of \u00a3499) and battery (\u00a3149 instead of \u00a3199). Confirmed out of warranty repair.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10945705499",
+        "item_name": "Naboshika Nantheswaran",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4812504554",
+        "message_id": "4867628270",
+        "created_at": "2026-01-27T10:16:57.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quote accepted. Invoiced.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "10959264112",
+        "item_name": "Jide Daniel",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4816952983",
+        "message_id": "4831487269",
+        "created_at": "2026-01-14T16:57:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quoted for out-of-warranty repair",
+        "pattern_labels": [
+          "quote_or_price",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10996978059",
+        "item_name": "Kanni Dumbuya",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4829722467",
+        "message_id": "4848401598",
+        "created_at": "2026-01-20T15:57:29.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Offered client Face ID for \u00a3249 saying that it normally costs \u00a3299 instead",
+        "pattern_labels": [
+          "quote_or_price"
+        ]
+      },
+      {
+        "item_id": "10999129424",
+        "item_name": "Manteer Bhambra (Silver Fern) 2",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4831084611",
+        "created_at": "2026-01-14T15:49:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Coming in for a screen repair. FIRST TEST THE DEVICE AND CONFIRM REQUIRED REPAIRS. We need to quote the client before proceeding",
+        "pattern_labels": [
+          "quote_or_price",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11010528016",
+        "item_name": "Xinzhang",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4834693217",
+        "message_id": "4939670553",
+        "created_at": "2026-02-19T16:15:20.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel invoice paid, please mark the device as Repaired if it's ready to go.    @Roni Mykhailiuk please complete QC tomorrow (Friday) - I quoted 1 working day for the repair",
+        "pattern_labels": [
+          "quote_or_price",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11030930045",
+        "item_name": "BM 1311 (do not list, we do not have this device - it's with Rayan Khan)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Ferrari",
+        "level": "reply",
+        "parent_update_id": "4844530038",
+        "message_id": "4911375256",
+        "created_at": "2026-02-10T11:18:16.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar we have BM 1362 that is looping and needs top case and lid + LCD (we only have grade A top case). Let me know if we should refund or queue BM 1362 for repair to try and get it out",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11037884724",
+        "item_name": "Fix quote emails issue",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Monday 19th Jan",
+        "level": "update",
+        "message_id": "4844234687",
+        "created_at": "2026-01-19T14:06:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Clients who got their quotes sent as new 'Tickets' never received them. Messages on Intercom need to be sent as 'Conversations' instead.    Clients chased despite quotes being already sent, so I've raised conversations instead of tickets and re-sent their quotes.",
+        "pattern_labels": [
+          "quote_or_price"
+        ]
+      },
+      {
+        "item_id": "11040565814",
+        "item_name": "BM 611 RTN (Jamie Bone)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4845126392",
+        "message_id": "5000797109",
+        "created_at": "2026-03-11T16:38:06.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk we've refunded it. Please proceed with repair and relist",
+        "pattern_labels": [
+          "quote_or_price",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11055321849",
+        "item_name": "BM 1323 (Ruben Garces Piaraly)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4969175219",
+        "created_at": "2026-03-02T12:05:55.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client changed their mind. Returning for refund",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "11070711850",
+        "item_name": "Arun",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4855690549",
+        "message_id": "4867866340",
+        "created_at": "2026-01-27T12:23:55.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quote accepted, invoiced for standard turnaround.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "11072393395",
+        "item_name": "Lateefat Sanni",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4856364343",
+        "created_at": "2026-01-22T16:35:22.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Liquid damage on keyboard, some keys are not working. Been to Apple who quoted \u00a3450 (probably ex VAT). Client knows battery is bad so that will be offered as optional.",
+        "pattern_labels": [
+          "quote_or_price",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11072393395",
+        "item_name": "Lateefat Sanni",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4856364343",
+        "message_id": "4885812262",
+        "created_at": "2026-02-02T12:10:57.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Refunded",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "11081136614",
+        "item_name": "BM 1126 (Vivek Sanghvi / Soham Danani)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4859372571",
+        "created_at": "2026-01-23T14:38:29.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Customer returning the device for a refund. I've asked for the reason as it was not confirmed. Sold in December 2025.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "11106931289",
+        "item_name": "BM 1137 (Bal Cooke)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4867475906",
+        "created_at": "2026-01-27T08:54:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client changed his mind and wants a refund",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "11118230478",
+        "item_name": "Mantas Beivydas",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4871750781",
+        "message_id": "4877797996",
+        "created_at": "2026-01-29T16:55:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic confirmed that the device has suffered liquid damage. The device is displaying a high-temperature warning because liquid has affected the logic board and caused the temperature sensor circuit to short. The liquid damage is located between the internal layers of the logic board, which means the board will need to be split, the layers cleaned thoroughly, and any damaged circuits repaired. * Charging port: The charging port is not working. We did not find direct evidence of liquid damage on the port itself, however it is likely that liquid damage on the logic board has affected the charging port flex line, leading to failure. * Battery: The battery is currently at 86% health. This is not considered faulty and is still operating normally. A genuine battery replacement would be optional. * Screen: We identified that the screen has been previously replaced with a non-original component. The display is currently working so replacement is not required at this stage, especially considering the cost (\u00a3339).  We can confirm that your iPhone is repairable, please see your options below.  ---------------- Required Repairs ----------------  * Charging Port Replacement: \u00a3149 * Tier 1 Logic Board Repair + Liquid Damage Treatment: \u00a3199 Total: \u00a3348 inc VAT discounted to \u00a3329 (save \u00a319)  ---------------- Optional Repairs ----------------  * Genuine Battery Replacement: \u00a399 Total: \u00a3428 inc VAT discounted to \u00a3389 (save \u00a358 in total)  -------------- Repair Details --------------  Repairs will be completed within 1 working day once approved.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11140100634",
+        "item_name": "Write MacBook Repair Content for AI Discoverability (Searchable)",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Friday 30th Jan",
+        "level": "reply",
+        "parent_update_id": "4879836994",
+        "message_id": "4880069311",
+        "created_at": "2026-01-30T10:54:41.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Asked my Claude and GPT to create the 6 drafts based on their knowledge (especially my GPT which has more training data due to all enquiries, quotes, etc), and asked Claude to build the definitive version.  icorrect-content-rationale.md  icorrect-macbook-repairs-content.md",
+        "pattern_labels": [
+          "quote_or_price",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11142507182",
+        "item_name": "Back Market (messages, CC, listings)",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Friday 30th Jan",
+        "level": "update",
+        "message_id": "4881629478",
+        "created_at": "2026-01-30T17:46:01.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "We sold BM 1137 today (A2442). The guys realised today that we don't have it. I told them it was a rtn > refund delivered on 27th Jan that was QC'd and relisted on the same day. It turns out that we mistakenly sent BM 1137 to Rayan Khan (Order 76586010) instead of BM 1237 (which is an A2179).    I tried calling the client but he didn't pick up, so I sent a message to BM. Misha said that he'll try to use a BOE screen on BM 1331 with China lid and will let me know by tomorrow morning. I haven't refunded the client on BM yet just in case we can ship it tomorrow.",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11159005314",
+        "item_name": "#1051 - Abida Abdin",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4901986853",
+        "message_id": "5007368244",
+        "created_at": "2026-03-13T12:39:08.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please reassemble, quote rejected for data recovery",
+        "pattern_labels": [
+          "quote_or_price",
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "11173913748",
+        "item_name": "BM 1311",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Quality Control",
+        "level": "update",
+        "message_id": "4890621641",
+        "created_at": "2026-01-27T08:54:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client changed his mind and wants a refund",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "11174721263",
+        "item_name": "Dylan Bukovenczki",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4890941242",
+        "message_id": "4919555566",
+        "created_at": "2026-02-12T12:01:11.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client confirmed he doesn't have access to the passcode. Can I send a quote for just the battery or are you able to complete more testing?",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "routing_or_assignment"
+        ]
+      }
+    ],
+    "customer_update": [
+      {
+        "item_id": "10683164689",
+        "item_name": "John Scarlett",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4717711281",
+        "message_id": "4852797674",
+        "created_at": "2026-01-21T17:46:15.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk please reassemble. Client declined trade in because he needs to return it to his employer",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10773080783",
+        "item_name": "Nour Acogny",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4751496835",
+        "message_id": "4907496454",
+        "created_at": "2026-02-09T12:58:35.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar Misha used the last screen on his iPhone last week and the stock was not updated. Can you get an ori screen from your suppliers?",
+        "pattern_labels": [
+          "customer_update",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10809812149",
+        "item_name": "Amanda Davis 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4765019633",
+        "message_id": "4772449528",
+        "created_at": "2025-12-22T15:57:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Faults Found ------------  * Logic board: Our diagnostic confirmed extensive liquid damage across the logic board, affecting multiple critical power and data circuits. This level of damage explains why the MacBook is not powering on. To restore stable operation, the affected areas will require full board-level rebuilding and thorough cleaning to remove all residue. * Charging ports: Liquid damage has affected both charging ports. Both will need to be replaced. * Touch ID: Touch ID is not working due to liquid damage affecting the sensor line. To fix the issue, we would need to order the replacement Touch ID from Apple, but this would arrive after the holidays. * Data status: The data is safe and accessible. If preferred, we can proceed with a data-only repair focused solely on data recovery rather than full functional restoration.  We can confirm that your MacBook is repairable, and your data is safe. Please see your options below.  Required Repairs ----------------  * MacBook Pro 14 M1 Pro/Max A2442 Tier 3 Logic Board Repair & Liquid Damage Treatment: \u00a3399 * MacBook Pro 14 M1 Pro/Max A2442 Charging Ports: \u00a3199 * MacBook Pro 14 M1 Pro/Max A2442 Touch ID: \u00a3199 Total: \u00a3797 inc VAT discounted to \u00a3648 (save \u00a3149)  Repair Details --------------  We can complete all repairs apart from the Touch ID by tomorrow (our last day before the holidays). To repair the Touch ID, we would need to order the required part once we\u2019re back from the holidays on the 5th of January. The part typically arrives within 5 to 7 working days. In the meantime, we would temporarily disconnect the Touch ID from the device. This means the fingerprint sensor and the power button functionality would not work during that period, but the MacBook would remain fully usable otherwise.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10831736500",
+        "item_name": "Khaled Al Kurdi",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4772106058",
+        "message_id": "4876828552",
+        "created_at": "2026-01-29T13:56:48.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client accepted data recovery on iCloud. Please proceed.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4851130179",
+        "created_at": "2026-01-21T10:25:58.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client confirmed data not important. Is there an ETA on this one?",
+        "pattern_labels": [
+          "customer_update"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4894730618",
+        "created_at": "2026-02-04T15:16:38.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar I didn\u2019t think that the screws would be an issue. I\u2019ve already confirmed to the client that we\u2019re shipping the device back today. I\u2019ll delay her until the weekend. She can only receive boxes on Thursday or the weeend",
+        "pattern_labels": [
+          "customer_update",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "10916264813",
+        "item_name": "BM 1266 (Tristan Hill)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4817401516",
+        "message_id": "4834015595",
+        "created_at": "2026-01-15T08:39:40.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Counteroffer accepted",
+        "pattern_labels": [
+          "customer_update"
+        ]
+      },
+      {
+        "item_id": "10933073490",
+        "item_name": "BM 1097 (Jack Lester) BM RTN > REPLACEMENT",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4807834787",
+        "message_id": "4887192956",
+        "created_at": "2026-02-02T17:21:02.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "From BM: \"The customer has informed us that, the laptop is overheayting (too hot to have on their lap) and the fan is too loud. They added, the battery is draining really quickly.\"  @Ricky Panesar another one",
+        "pattern_labels": [
+          "customer_update"
+        ]
+      },
+      {
+        "item_id": "10936399871",
+        "item_name": "Jack Matthews",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4821570243",
+        "message_id": "4840062708",
+        "created_at": "2026-01-16T17:26:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quoted for screen (\u00a3399 instead of \u00a3499) and battery (\u00a3149 instead of \u00a3199). Confirmed out of warranty repair.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10941746674",
+        "item_name": "BM 1278 (Freya Cowden)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4817571729",
+        "message_id": "4841661786",
+        "created_at": "2026-01-17T11:55:58.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client accepted \u00a3186 offer.",
+        "pattern_labels": [
+          "customer_update"
+        ]
+      },
+      {
+        "item_id": "10945705499",
+        "item_name": "Naboshika Nantheswaran",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4812504554",
+        "message_id": "4867628270",
+        "created_at": "2026-01-27T10:16:57.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Quote accepted. Invoiced.",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "payment_or_invoice"
+        ]
+      },
+      {
+        "item_id": "10945870113",
+        "item_name": "Alex Darlow (C/o Alicia Matutino-Barnes)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4831771915",
+        "message_id": "4876833880",
+        "created_at": "2026-01-29T13:58:42.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel client accepted data recovery on iCloud, please proceed.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10945870113",
+        "item_name": "Alex Darlow (C/o Alicia Matutino-Barnes)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4831771915",
+        "message_id": "4920340999",
+        "created_at": "2026-02-12T15:21:21.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel any update on this one? Can you please complete the data transfer on the side? The customer is chasing",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment"
+        ]
+      },
+      {
+        "item_id": "10973795390",
+        "item_name": "Tabitha Kantenga",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4821099481",
+        "message_id": "4839150806",
+        "created_at": "2026-01-16T14:20:44.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad what was the oirignal reported issue with this one? The client just called but I couldn't find it in the notes",
+        "pattern_labels": [
+          "customer_update"
+        ]
+      },
+      {
+        "item_id": "10973838600",
+        "item_name": "Joseph Idahor",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830715098",
+        "message_id": "4840455918",
+        "created_at": "2026-01-16T19:03:32.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic confirmed severe damage on the logic board, primarily caused by liquid ingress. Despite what was previously advised by the other repair shop, the liquid damage on the board has not been fully repaired and is still present. The most critical issue we identified is around the camera connector on the logic board. This connector is responsible for transferring signal data between the MacBook\u2019s camera and the logic board. In this case, liquid damage and an electrical short in this area have caused the connector to fail.  In addition to the connector itself, the combination of liquid contamination and the resulting short has affected surrounding circuits and chips. These areas will need to be fully rebuilt at board level to ensure long-term reliability and prevent repeat failure. The camera connector will need to be replaced, and the damaged area beneath it will need to be properly treated and rebuilt. * Display: The camera connector runs between the logic board and the display assembly. Because the short originated on the logic board and travelled through the camera connection, the display-side circuitry has also been damaged. This has caused the display to fail completely. As a result, a full screen repair will be required in addition to the logic board work. We can confirm that the device is fully repairable. Your data has not been affected, and once the required repairs are completed, you will be able to continue using the MacBook normally.  ---------------- Required Repairs ----------------  * Tier 3 Logic Board Repair: \u00a3399 * Display Repair: \u00a3649 Total: \u00a31,048 inc VAT discounted to \u00a3879 (save \u00a3169)  -------------- Repair Details --------------  Repairs will be completed within 2 working days once approved and paid.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10973838600",
+        "item_name": "Joseph Idahor",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830715098",
+        "message_id": "4964710009",
+        "created_at": "2026-02-27T15:24:02.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Client accepted repairs at \u00a3800. Invoiced",
+        "pattern_labels": [
+          "customer_update",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "10985155317",
+        "item_name": "BM 1107 (Leah Warburton) (RTN > REPLACEMENT)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Client Services - Awaiting Confirmation",
+        "level": "update",
+        "message_id": "4825139188",
+        "created_at": "2026-01-13T10:54:54.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "The customer is having issues with loggin in to the device. Please see their message: \"It\u2019s not allowing us the put the internet password in, we set up a Mac book password and when trying to log in with the right password it\u2019s just not logging in and when trying to reset the password it just keep going back to the reset password page\"  Previous repairs below    @Ricky Panesar this MacBook keeps giving issues. We should probably not relist it and use it for parts. We have another BM we can use for the client (BM 1125)",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10999017903",
+        "item_name": "Sebastian Cook",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4830703238",
+        "message_id": "4840367011",
+        "created_at": "2026-01-16T18:38:56.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic confirmed liquid damage inside the device. We identified a short on the CD control area of the logic board, which is responsible for managing charging and power communication between the charger and the main board. This fault is preventing the MacBook from powering on correctly. * Charging port: We also found liquid damage on the charging ports. This has contributed to the power issue and the port will need to be replaced as part of the repair. * Battery: The battery is not original but it is working correctly.  We can confirm that your MacBook is repairable, please see your options below.  ---------------- Required Repairs ----------------  * Diagnostic: \u00a349 - Waived off unless repair declined * Tier 1 Logic Board Repair: \u00a3149 * Charging port: \u00a3149 Total: \u00a3298 inc VAT discounted to \u00a3249 (save \u00a349)  Outstanding amount: \u00a370 (\u00a3179 already paid)  ---------------- Optional Repairs ----------------  * Battery: \u00a3179 Total: \u00a3428 inc VAT discounted to \u00a3349 (save \u00a3128 in total)  Outstanding amount: \u00a3170 (\u00a3179 already paid)  -------------- Repair Details --------------  Repairs will be completed within 2-3 working days once approved and paid.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11008865369",
+        "item_name": "Update form to remove battery question",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Thursday 22nd Jan",
+        "level": "update",
+        "message_id": "4854927250",
+        "created_at": "2026-01-22T09:04:32.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Changes made:  * Removed battery question - Deleted the batteryInterest variable and removed it from the summary * Added data importance conditional field - Added handling for the new question \"Is the data stored on your device important, and should it be preserved during the repair if possible?\" which only appears when the backup answer is \"No\" or \"I don't know\" * Updated summary logic - The \"Data important/preserve if possible\" line only shows in the Monday update when the client answered No or \"I don't know\" to the backup question * Updated test pinData - Reflected the new form structure (removed battery question, added data importance field, updated passcode example) * Passcode question (\"Are you able to provide a log-in passcode or password?\"): Description changed to \"To properly test your device before and after the repair, we would need temporary access. No personal data is accessed. If you\u2019re happy to share the passcode, please type the passcode only in the field below. If you\u2019d prefer not to share it, simply type NO.\"  The summary will now display like this:  * If client has data backed up: Shows \"Data backed up: Yes\" (no preservation question shown) * If client says No/I Don't Know: Shows \"Data backed up: No\" followed by \"Data important/preserve if possible: Yes/No\"",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11009640531",
+        "item_name": "Fin's refining (attribues, guidance, snippets (logic board \u00a3150)",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Thursday 15th Jan",
+        "level": "update",
+        "message_id": "4834441331",
+        "created_at": "2026-01-15T12:35:13.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Built new attributes (https://app.intercom.com/a/apps/pt6lwaq6/automation/fin-ai-agent/attributes) and updated escalation rules accordingly (https://app.intercom.com/a/apps/pt6lwaq6/automation/fin-ai-agent/escalation)",
+        "pattern_labels": [
+          "customer_update"
+        ]
+      },
+      {
+        "item_id": "11010528016",
+        "item_name": "Xinzhang",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4834693217",
+        "message_id": "4936051856",
+        "created_at": "2026-02-18T16:53:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic confirmed a fault within the charging circuitry on the logic board. This circuit is responsible for regulating incoming power from the charging port and distributing it safely to the battery and the other areas of the device. When this section becomes shorted or unstable, the device will not charge correctly and will fail to power on. The affected charging circuit will need to be rebuilt to restore stable charging and startup functionality. This issue is fully repairable at board level.  We can confirm that your iPhone is repairable, and your data is safe. Please see your options below.  ---------------- Required Repairs ----------------  * iPhone 16 Pro Tier 2 Logic Board Repair: \u00a3299 Total: \u00a3299 inc VAT  -------------- Repair Details --------------  Repairs will be completed by tomorrow.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11020062035",
+        "item_name": "Dwayne Morris",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4838343420",
+        "message_id": "4845233748",
+        "created_at": "2026-01-19T18:10:13.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "We have completed our diagnostic on your MacBook Air A1932 and identified the following faults:  * Software: Our diagnostic confirmed that the device was unresponsive and would not power on. After connecting the MacBook in DFU mode, we were able to revive the software, and the device is now functioning correctly. * Battery: Our diagnostic also confirmed that the battery has inflated. An inflated battery is a safety concern and indicates that the battery has reached the end of its usable life. The battery will need to be replaced to ensure the device can be used safely. We can confirm that your MacBook Air A1932 is repairable, please see your options below.  ---------------- Required Repairs ----------------  * Diagnostic: \u00a349 * Software Restoration: \u00a349 * Battery Replacement: \u00a3199 * 7% Discount: \u00a320.79 Total: \u00a3276.21 inc VAT  -------------- Repair Details --------------  Repairs will be completed within 2-3 working days once approved and paid.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11039417054",
+        "item_name": "Dobrila Brice",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4844689354",
+        "message_id": "4872983385",
+        "created_at": "2026-01-28T15:45:08.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic identified extensive liquid damage on the logic board. The liquid ingress has affected multiple circuits, in particular the screen-related circuitry, including the backlight circuit and the image output circuit. This damage is the root cause of several of the symptoms observed on the device. * Screen: We confirmed that the liquid damage affecting the logic board caused a chain reaction that also damaged the display. The screen is electrically linked to the logic board through several circuits, including the backlight and image output circuits mentioned above. As a result of the failure on these lines, the circuitry within the screen itself has failed. Unfortunately, this type of damage is not repairable at component level and the display will need to be replaced. * Keyboard: We also identified an issue with the keyboard, where the key input feedback is inconsistent. This is caused by liquid ingress affecting the internal key network beneath the keyboard. Due to the same liquid damage, the keyboard backlight has also been affected and is no longer functioning correctly. Both the keyboard and the keyboard backlight will require replacement to restore proper operation.  We can confirm that your MacBook is repairable, and your data is safe. Please see your options below.  ---------------- Required Repairs ----------------  * Tier 2 Logic Board Repair: \u00a3249 * Keyboard & Keyboard Backlight Replacement: \u00a3289 * Genuine LCD Replacement: \u00a3599 Total: \u00a31,137 inc VAT discounted to \u00a3899 (save \u00a3238)  -------------- Repair Details --------------  Repairs will be completed within 2-3 working days once approved.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11039417054",
+        "item_name": "Dobrila Brice",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4844689354",
+        "message_id": "4876516936",
+        "created_at": "2026-01-29T12:04:34.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel customer called and doesn't have finances to complete all repairs at once, but wants to bring the device back in the future for the screen.    Would it be possible for us to detach the screen flexes so that they won't cause any further issues? The customer has been using the device with an external monitor anyways",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision"
+        ]
+      },
+      {
+        "item_id": "11039672457",
+        "item_name": "Blaze",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4844795443",
+        "message_id": "4847426972",
+        "created_at": "2026-01-20T11:52:47.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic Board (Liquid Damage): Our diagnostic confirmed liquid damage on the logic board. Liquid has affected the charging circuit, and the main power distribution system. In order to fix the fault, we will need to clean any liquid residue, fully rebuild the circuits, and cure them to ensure they won't fail in the future. Our diagnostic confirmed that all data on the device remains intact and accessible.  ---------------- Required Repairs ----------------  * MacBook Pro 14 M4 Pro/Max Tier 3 Express Logic Board Repair: \u00a3599 Total: \u00a3599 inc VAT  -------------- Repair Details --------------  Once approved and paid, repairs will be completed by 5pm today.",
+        "pattern_labels": [
+          "customer_update",
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "parts_or_stock"
+        ]
+      }
+    ],
+    "logistics_or_collection": [
+      {
+        "item_id": "10906946134",
+        "item_name": "Seb Sandler's iPad Repair",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Monday 5th Jan",
+        "level": "reply",
+        "parent_update_id": "4797933999",
+        "message_id": "4797944329",
+        "created_at": "2026-01-05T13:39:45.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar also the courier would be an additioal \u00a330 ex VAT",
+        "pattern_labels": [
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4893933457",
+        "created_at": "2026-02-04T11:06:59.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk please reassemble this one today, we need to ship it back",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "10908476217",
+        "item_name": "Jade Johnson",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4798595034",
+        "message_id": "4894730618",
+        "created_at": "2026-02-04T15:16:38.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar I didn\u2019t think that the screws would be an issue. I\u2019ve already confirmed to the client that we\u2019re shipping the device back today. I\u2019ll delay her until the weekend. She can only receive boxes on Thursday or the weeend",
+        "pattern_labels": [
+          "customer_update",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "10945869970",
+        "item_name": "Manteer Bhambra (Silver Fern) 1",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4812658118",
+        "message_id": "4840265438",
+        "created_at": "2026-01-16T18:14:14.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "********************************************* Device 1 \u2013 iPhone 14 Pro (Serial: KH95K22WJD) *********************************************  ------------ Faults Found ------------  * Screen: The display is damaged. * Rear housing: The rear housing is also damaged.  ********************************************* Device 2 \u2013 iPhone 14 Pro (Serial: PV62LVQ4F2) *********************************************  ------------ Faults Found ------------  * Liquid damage: We found clear evidence of liquid ingress inside the device. The liquid has affected multiple internal areas, indicating widespread damage. * Face ID: Face ID is not working as a result of the liquid damage and would require replacement to restore biometric functionality. This would need to be ordered directly from Apple. * Battery: The battery is not working and will need to be replaced. * Screen: The screen is currently functional but shows signs of liquid damage. While it is still working at this stage, it is likely to fail in the future and should be considered an optional but strongly recommended repair.  ------------------------------------- Required Repairs (Serial: KH95K22WJD) -------------------------------------  * Screen: \u00a3249 * Rear Housing: \u00a3209 Total: \u00a3458 inc VAT discounted to \u00a3379 (save \u00a379)  ------------------------------------- Required Repairs (Serial: PV62LVQ4F2) -------------------------------------  * Face ID: \u00a3249 * iPhone Liquid Damage Treatment: \u00a399 * Battery: \u00a379 * Screen (optional): \u00a3249 * London Courier Service: \u00a320 Total (excluding screen repair): \u00a3447 inc VAT discounted to \u00a3349 (save \u00a398)  Total (including screen repair): \u00a3696 inc VAT discounted to \u00a3549 (save \u00a3147)  -------------- Repair Details --------------  Repairs for the iPhone with serial number KH95K22WJD will be completed within 1 working day once approved. We currently do not have a Space Grey housing in stock, however we do have Gold and Silver available. If a Space Grey housing is required, we can contact our suppliers on Monday to confirm availability and ETA, which is normally around 24 hours.  Repairs for the iPhone with serial number PV62LVQ4F2 will be completed within 5\u20137 working days once approved, as the Face ID component will need to be ordered directly from Apple.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "10973963328",
+        "item_name": "Ibraheem Ashraf",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4822109156",
+        "message_id": "4916728865",
+        "created_at": "2026-02-11T17:08:28.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad I thought this had already been shipped? It's been marked as Return Booked for two weeks so I marked it as Returned yesterday but the client just checked in asking when we'd ship it",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "10999129424",
+        "item_name": "Manteer Bhambra (Silver Fern) 2",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4831084611",
+        "message_id": "4840265103",
+        "created_at": "2026-01-16T18:14:07.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "********************************************* Device 1 \u2013 iPhone 14 Pro (Serial: KH95K22WJD) *********************************************  ------------ Faults Found ------------  * Screen: The display is damaged. * Rear housing: The rear housing is also damaged.  ********************************************* Device 2 \u2013 iPhone 14 Pro (Serial: PV62LVQ4F2) *********************************************  ------------ Faults Found ------------  * Liquid damage: We found clear evidence of liquid ingress inside the device. The liquid has affected multiple internal areas, indicating widespread damage. * Face ID: Face ID is not working as a result of the liquid damage and would require replacement to restore biometric functionality. This would need to be ordered directly from Apple. * Battery: The battery is not working and will need to be replaced. * Screen: The screen is currently functional but shows signs of liquid damage. While it is still working at this stage, it is likely to fail in the future and should be considered an optional but strongly recommended repair.  ------------------------------------- Required Repairs (Serial: KH95K22WJD) -------------------------------------  * Screen: \u00a3249 * Rear Housing: \u00a3209 Total: \u00a3458 inc VAT discounted to \u00a3379 (save \u00a379)  ------------------------------------- Required Repairs (Serial: PV62LVQ4F2) -------------------------------------  * Face ID: \u00a3249 * iPhone Liquid Damage Treatment: \u00a399 * Battery: \u00a379 * Screen (optional): \u00a3249 * London Courier Service: \u00a320 Total (excluding screen repair): \u00a3447 inc VAT discounted to \u00a3349 (save \u00a398)  Total (including screen repair): \u00a3696 inc VAT discounted to \u00a3549 (save \u00a3147)  -------------- Repair Details --------------  Repairs for the iPhone with serial number KH95K22WJD will be completed within 1 working day once approved. We currently do not have a Space Grey housing in stock, however we do have Gold and Silver available. If a Space Grey housing is required, we can contact our suppliers on Monday to confirm availability and ETA, which is normally around 24 hours.  Repairs for the iPhone with serial number PV62LVQ4F2 will be completed within 5\u20137 working days once approved, as the Face ID component will need to be ordered directly from Apple.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11011699388",
+        "item_name": "Alba K",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4835168170",
+        "message_id": "4847862372",
+        "created_at": "2026-01-20T14:20:38.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Another collection arranged for tomorrow",
+        "pattern_labels": [
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11030930045",
+        "item_name": "BM 1311 (do not list, we do not have this device - it's with Rayan Khan)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Ferrari",
+        "level": "reply",
+        "parent_update_id": "4844530038",
+        "message_id": "4911350135",
+        "created_at": "2026-02-10T11:03:54.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar we don't have this BM. This MacBook is the one that we originally took the screen from for Aaron Zouzou. Then we built the screen with the China lid to ship to Bal Cooke, because the other MacBook that we were supposed to have is the one that we sent to that other BM client instead of the A2179. For some reason this was changed from Unlisted to Sold overnight",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11037163906",
+        "item_name": "Ehiz Ufuah",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4843790578",
+        "message_id": "4843832669",
+        "created_at": "2026-01-19T12:16:18.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad this is coming in as a courier but the client is collecting it back on Wednesday in person. Please change the status to Walk-In once it comes in",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11050520322",
+        "item_name": "Rita Fernandes",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4851422764",
+        "message_id": "4872918147",
+        "created_at": "2026-01-28T15:32:11.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Andres Egas client is confident that the passwords below should work, especially the second one. Can you please try again once you\u2019re finished? Client needs to collect tomorrow  127Nicolas! Nicolas127!  Could it be a keyboard issue? Maybe shift is not working?",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11056922374",
+        "item_name": "Counter offer: James Clark BM",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Wednesday 21st Jan",
+        "level": "reply",
+        "parent_update_id": "4850761719",
+        "message_id": "4850968781",
+        "created_at": "2026-01-21T08:51:12.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Ricky Panesar his MacBook is BM 1218 which we already sold and shipped. Can't really counteroffer because what if he declines?",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11060187697",
+        "item_name": "Aaron Zouzou",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4851991633",
+        "message_id": "4859064034",
+        "created_at": "2026-01-23T13:02:17.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Mykhailo Kepeshchuk please proceed with another LCD without macOS update. The client will come back once we have more stock. Client needs to collect today, so I told him it will be ready by end of today.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11071612194",
+        "item_name": "BM 1186 (Stefanie Gilmour) (RTN > REPAIR)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4859374847",
+        "message_id": "4883067338",
+        "created_at": "2026-01-31T10:13:01.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk If you were to use it as a standard client, meaning without opening 20 apps and stress testing it, would it be unusable? Or can we ship it?",
+        "pattern_labels": [
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11130170683",
+        "item_name": "Mari Kydd",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "update",
+        "message_id": "4876403205",
+        "created_at": "2026-01-29T11:06:33.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "We completed a screen repair in Oct 2025 and now the client is reporting that the trackpad feels jolty. Advised it would be an out of warranty repair but we can waive courier fee if she's happy to proceed.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11132049697",
+        "item_name": "*Chased | Wilson Goh (Oaktree Capital)",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4898123532",
+        "message_id": "4911483003",
+        "created_at": "2026-02-10T12:15:25.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk @Adil Azad courier arranged for this one, coming between 12:25 and 13:45",
+        "pattern_labels": [
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11142507182",
+        "item_name": "Back Market (messages, CC, listings)",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Friday 30th Jan",
+        "level": "update",
+        "message_id": "4881629478",
+        "created_at": "2026-01-30T17:46:01.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "We sold BM 1137 today (A2442). The guys realised today that we don't have it. I told them it was a rtn > refund delivered on 27th Jan that was QC'd and relisted on the same day. It turns out that we mistakenly sent BM 1137 to Rayan Khan (Order 76586010) instead of BM 1237 (which is an A2179).    I tried calling the client but he didn't pick up, so I sent a message to BM. Misha said that he'll try to use a BOE screen on BM 1331 with China lid and will let me know by tomorrow morning. I haven't refunded the client on BM yet just in case we can ship it tomorrow.",
+        "pattern_labels": [
+          "quote_or_price",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11144850246",
+        "item_name": "Lauren Kennedy",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4881702314",
+        "message_id": "4924272153",
+        "created_at": "2026-02-13T16:00:56.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic identified a fault within the main power management circuitry on the logic board. This circuit is responsible for distributing stable power from the battery to the other components during startup and normal operation. When this section becomes unstable or damaged, the device will not power on or respond to charging as expected. The fault was preventing proper power flow across the board, resulting in a complete no-power condition. The affected power circuitry will need to be rebuilt to restore stable and reliable operation. * Battery: We also identified that the battery is not detected by the device. The battery contains an internal management system that regulates charging, monitors health, and communicates with the logic board to ensure safe power delivery. When this system degrades or fails, the device may not detect it any longer. The battery will require replacement to ensure stable performance once the board-level fault is addressed.  We can confirm that your iPhone 12 is repairable, please see your options below.  ---------------- Required Repairs ----------------  * iPhone 12 Battery: \u00a389 * iPhone 12 Logic Board Repair: \u00a3199 Total: \u00a3288 inc VAT discounted to \u00a3249 (save \u00a339)  -------------- Repair Details --------------  Repairs will be completed within 2 working days once approved.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11161997586",
+        "item_name": "Adrian cucuiet",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4886685867",
+        "message_id": "4903018585",
+        "created_at": "2026-02-06T16:36:32.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "------------ Faults Found ------------  * Logic board: Our diagnostic identified a logic board level fault affecting the main power distribution line. This line is part of the MacBook\u2019s primary power delivery system and is responsible for distributing regulated power to multiple subsystems during startup and normal operation. This rail is critical for initial power sequencing, and when it's compromised the system cannot correctly initialise its power stages, resulting in a no-power condition. We can confirm that this is a repairable logic board fault, and the affected power circuit will need to be rebuilt to restore stable power delivery and allow the device to power on normally. * Keyboard (optional): We also identified signs of liquid exposure affecting the keyboard assembly. The keyboard is currently functional, however, liquid residue within the keyboard layers can lead to corrosion over time and may cause intermittent or complete key failure in the future. For this reason, a keyboard replacement is recommended as a preventative repair to avoid potential long-term issues, though it is not required to restore the device to a full working condition.  We can confirm that your MacBook is repairable, and your data is safe. Please see your options below.  ---------------- Required Repairs ----------------  * Tier 3 Logic Board Repair: \u00a3349 Total: \u00a3349 inc VAT  ---------------- Optional Repairs ----------------  * Keyboard Replacement: \u00a3249 Total: \u00a3598 inc VAT discounted to \u00a3499 (save \u00a399)  -------------- Repair Details --------------  Repairs will be completed within 2 working days once approved.",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11168365512",
+        "item_name": "BM 1375 ( Emily Lee ) *Unable to remove IC",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4894656742",
+        "message_id": "4994752793",
+        "created_at": "2026-03-10T09:54:54.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Roni Mykhailiuk arranging a collection for tomorrow. Don't give it to the courier today please because I cannot add it to today's collection",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11184745874",
+        "item_name": "Ge Yang",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4894437850",
+        "message_id": "4938315808",
+        "created_at": "2026-02-19T10:17:38.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Safan Patel please reassemble, BER. Client asked to collect today at around 4-5pm as she's leaving",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11195139350",
+        "item_name": "Becky (C/o Manteer Bhambra (Silver Fern))",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4898168118",
+        "message_id": "4928849379",
+        "created_at": "2026-02-16T15:34:08.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad courier collecting this one between now and 5pm. Can you please pack it up?",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11199158144",
+        "item_name": "Map out the In-Repair Status Updates + Fin AI Integration",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Thu 12th Feb",
+        "level": "reply",
+        "parent_update_id": "4919392928",
+        "message_id": "4919395592",
+        "created_at": "2026-02-12T10:44:29.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": ":clipboard: Repair Status Sync \u2014 Monday \u2192 Intercom \u2192 Finn  Objective: Enable Finn to auto-respond to customers chasing repair updates via a single repair_stage Intercom contact attribute synced from Monday.  Architecture: Monday status change (webhook) \u2192 Cloudflare Worker (conditional logic) \u2192 Intercom API (update contact attribute) \u2192 Finn checks attribute when customer messages  Step 1: Create \"Under QC\" Status on Monday Board: Main Board (349212843), Column: status4 Brief Ronnie: use \"Under QC\" instead of \"Diagnostics\" for QC.  Step 2: Create Intercom Contact Attribute Name: repair_stage | Type: String | Level: Contact  Step 3: Status Mapping (priority order, first match wins)  | # | Condition | Value | | --- | --------------------------------------------------------------------------------- | --------------------- | | 1 | Status = Queued For Repair | `queued_for_repair` | | 2 | Status = Diagnostics, Repair Type = Diagnostic, Diag column empty | `in_diagnostic` | | 3 | Status = Repair Paused, Repair Type = Diagnostic, Diag column empty | `diagnostic_paused` | | 4 | Status = Diagnostic Complete | `awaiting_quote` | | 5 | Status = Under Repair/Under Refurb + (Diag column filled OR Repair Type = Repair) | `under_repair` | | 6 | Status = Repaired + Repair column filled | `awaiting_qc` | | 7 | Status = Under QC (new) | `awaiting_qc` | | 8 | Status = Password Req + Passcode empty | `awaiting_password` | | 9 | Status = Password Req + Passcode filled | `password_incorrect` | | 10 | Status = Awaiting Part | `awaiting_part` | | 11 | Status = Client To Contact | `client_contact_needed` | | 12 | Status = Book Courier + Received date empty | `awaiting_dispatch` | | 13 | Status = Book Return Courier + Received date filled | `awaiting_dispatch` | | 14 | Status = Ready To Collect | `ready_to_collect` | | 15 | Status = Received | `received` | | 16 | Status = Shipped/Returned | `dispatched` | Monday Column IDs: status4 (Status), status24 (Repair Type), multiple_person_mkwqj321 (Diagnostic), multiple_person_mkwqy930 (Repair), text8 (Passcode), date4 (Received Date)  Step 4: Finn Response Templates  \u2022 received \u2192 \"We've received your device. It's in our intake queue and will be assigned shortly.\" \u2022 queued_for_repair \u2192 \"Your device is in our repair queue. A technician will pick it up as soon as a workstation is available.\" \u2022 in_diagnostic \u2192 \"Your device is currently being diagnosed. We'll update you once complete.\" \u2022 diagnostic_paused \u2192 \"The diagnostic has been paused temporarily. We'll resume shortly.\" \u2022 awaiting_quote \u2192 \"Diagnostic is complete. We're preparing a quote \u2014 you should receive it shortly.\" \u2022 under_repair \u2192 \"Your device is currently being repaired by one of our specialists.\" \u2022 awaiting_qc \u2192 \"Repair complete \u2014 currently undergoing quality control checks.\" \u2022 awaiting_password \u2192 \"We need your device passcode to proceed. Could you please share it?\" \u2022 password_incorrect \u2192 \"The passcode provided doesn't seem to work. Could you double-check?\" \u2022 awaiting_part \u2192 \"We're waiting on a part to arrive. We'll update you when work resumes.\" [10:42 AM]\u2022 client_contact_needed \u2192 \"Our team needs to discuss something about your repair. Someone will reach out shortly.\" \u2022 awaiting_dispatch \u2192 \"Your device is ready \u2014 we're arranging the courier. Tracking details coming soon.\" \u2022 ready_to_collect \u2192 \"Your repair is complete and ready for collection! Bring valid photo ID.\" \u2022 dispatched \u2192 \"Your device has been dispatched and is on its way back to you.\" \u2022 Empty/not set \u2192 \"Let me check on that \u2014 I'll get the team to look into your status.\" (escalate)  Implementation Checklist: \u2610 Create \"Under QC\" status on Monday \u2610 Brief Ronnie on new status \u2610 Create repair_stage attribute in Intercom \u2610 Build Cloudflare Worker with mapping logic \u2610 Set up Monday webhook on status4 changes \u2610 Test each mapping end-to-end \u2610 Update Finn guidance doc \u2610 Monitor first week  Full spec saved to docs. This does NOT affect existing automated emails (n8n workflow TDBSUDxpcW8e56y4).",
+        "pattern_labels": [
+          "quote_or_price",
+          "customer_update",
+          "routing_or_assignment",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection",
+          "parts_or_stock"
+        ]
+      },
+      {
+        "item_id": "11201564020",
+        "item_name": "Shopify changes",
+        "board_id": "18393875720",
+        "board_name": "Ferrari's Daily Work",
+        "group": "Backlog",
+        "level": "update",
+        "message_id": "4900507331",
+        "created_at": "2026-02-05T21:16:19.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "Add \"Why iCorrect\" social proof across collection and product pages (Est: 1 hr) We're the most expensive repair shop \u2014 need to justify it on every page, not just the homepage. Repurpose existing content: 100k+ repairs, corporate clients, 712 reviews, best-in-class Apple repair. Should follow users around the site. Claude builds the Liquid section.",
+        "pattern_labels": [
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11207445656",
+        "item_name": "Kaoutar",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Awaiting Collection",
+        "level": "reply",
+        "parent_update_id": "4902587024",
+        "message_id": "4977564289",
+        "created_at": "2026-03-04T10:53:19.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad we sent her 4 emails in total and she never replied. There must be an issue with the email address. I resent the email once again, can you please give her a ring and ask her if she's received it? If she hasn't, just queue the device for repair and let's take payment on collection",
+        "pattern_labels": [
+          "routing_or_assignment",
+          "payment_or_invoice",
+          "diagnostic_or_repair_decision",
+          "logistics_or_collection"
+        ]
+      },
+      {
+        "item_id": "11215756612",
+        "item_name": "BM 1405 ( Nick Ovey )",
+        "board_id": "349212843",
+        "board_name": "iCorrect Main Board",
+        "group": "Returned",
+        "level": "reply",
+        "parent_update_id": "4915800719",
+        "message_id": "4947897933",
+        "created_at": "2026-02-23T12:19:19.000Z",
+        "creator_id": "55780786",
+        "is_ferrari": true,
+        "text": "@Adil Azad we are shipping this one back because the client cannot remove iCloud. Collection arranged for Tuesday tomorrow. Coming between 1pm and 3pm.",
+        "pattern_labels": [
+          "logistics_or_collection"
+        ]
+      }
+    ]
+  }
+}

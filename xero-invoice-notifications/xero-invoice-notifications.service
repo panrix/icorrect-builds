@@ -1,0 +1,13 @@
+[Unit]
+Description=Xero Invoice Payment Notifications
+After=network.target
+
+[Service]
+Type=oneshot
+User=ricky
+Group=ricky
+WorkingDirectory=/home/ricky/builds/xero-invoice-notifications
+ExecStart=/home/ricky/builds/xero-invoice-notifications/check-invoices.sh
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+StandardOutput=append:/home/ricky/data/xero-invoice-check.log
+StandardError=append:/home/ricky/data/xero-invoice-check.log

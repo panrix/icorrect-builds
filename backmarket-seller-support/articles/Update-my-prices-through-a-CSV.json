@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000elBxQAI",
+  "articleNumber": "000001010",
+  "title": "Update my prices through a CSV",
+  "urlName": "Update-my-prices-through-a-CSV",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Update-my-prices-through-a-CSV",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-08-18T14:30:44.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahHWAQ",
+      "parent_topic_name": "Quality & Sales",
+      "topic_id": "0TO3X0000009aiUWAQ",
+      "topic_name": "Using The Back Office",
+      "urlName": "Update-my-prices-through-a-CSV"
+    }
+  ],
+  "bodyHtml": "<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">We know how important but complicated it can be to update prices through a CSV file. This is why we&#39;ve decided to create a whole category regarding product and listing information.</span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">You will find the guidelines to update your prices through a CSV file in <b><a href=\"https://backmarketportal.force.com/ssc/s/article/How-can-I-update-my-listing-on-the-Back-Market-s-Back-Office\" target=\"_blank\"><span style=\"color: #2980b9;\">this article.</span></a></b></span></p>"
+}

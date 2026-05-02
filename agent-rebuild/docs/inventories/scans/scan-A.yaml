@@ -1,0 +1,179 @@
+folder: ~/builds/backmarket
+size_on_disk: 47M
+file_count: 368
+last_git_commit: no git
+last_modified: "2026-04-30T06:31:16"
+state: active
+purpose: "Primary Back Market operations workspace for SOPs, listing and queue automation, webhook services, operational data, and research around seller-portal/customer-care workflows. It appears to be the main canonical repo for BM trade-in, listing, shipping, payout, and reporting work."
+suspected_owner_agent: backmarket
+ownership_confidence: high
+key_files:
+  - path: README.md
+    role: README and operational index
+  - path: CHANGELOG.md
+    role: deploy/change record
+  - path: scripts/list-device.js
+    role: main listing automation entry point
+  - path: reports/customer-care.md
+    role: customer-care API capability doc
+actionable_ideas:
+  - idea: build the morning brief from customer-care open-task data and post it on a schedule
+    source_path: /home/ricky/builds/backmarket/reports/customer-care.md
+    source_line: 278
+    state_hint: partial-built
+  - idea: move SKU generation upstream into the QC and repair-complete handoff instead of first creating it during listing
+    source_path: /home/ricky/builds/backmarket/reports/qc-sku-handoff-change-plan-2026-04-26.md
+    source_line: 5
+    state_hint: captured
+dependencies:
+  external: ["BACKMARKET_API_AUTH/BM_AUTH", "MONDAY_APP_TOKEN", "TELEGRAM_BOT_TOKEN", "Back Market APIs", "Monday.com", "Telegram", "nginx/mc.icorrect.co.uk"]
+  internal: ["~/builds/buyback-monitor", "~/builds/backmarket-browser", "~/builds/royal-mail-automation"]
+canonical_status: canonical
+notes: "SOPs are explicitly marked as source of truth in README. Folder contains live operational reports and customer/order snapshots, so treat reports/data as sensitive. No standalone .git directory at folder root."
+---
+folder: ~/builds/backmarket-browser
+size_on_disk: 1.3G
+file_count: 13013
+last_git_commit: no git
+last_modified: "2026-05-01T05:21:29"
+state: active
+purpose: "Controlled browser-ops runtime for Back Market seller-portal work that the existing API path does not cover safely, including auth handoff, frontend URL capture, SKU-fix canaries, and read-only customer-service monitoring. The docs still frame it as guarded design and scaffold work rather than a fully settled production runtime."
+suspected_owner_agent: backmarket
+ownership_confidence: high
+key_files:
+  - path: README.md
+    role: repo overview and guardrails
+  - path: SPEC-2026-04-25.md
+    role: runtime contract/spec
+  - path: BROWSER-AGENT-TODO-2026-04-26.md
+    role: active execution plan
+  - path: scripts/run-headful-cloudflare-auth-handoff.js
+    role: auth handoff runner
+actionable_ideas:
+  - idea: resolve the Cloudflare interactive browser path and retry the email-code login step
+    source_path: /home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md
+    source_line: 41
+    state_hint: partial-built
+  - idea: write the reusable browser-agent skill and runbook once the URL-capture and SKU canary paths are proven
+    source_path: /home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md
+    source_line: 83
+    state_hint: captured
+dependencies:
+  external: ["BM_PORTAL_EMAIL", "BM_PORTAL_PASSWORD", "BM_SMTP_*", "Back Market seller portal", "DataImpulse proxy", "Chromium/CDP", "Playwright"]
+  internal: ["~/builds/backmarket", "~/builds/monday"]
+canonical_status: draft
+notes: "Sampled rather than fully read because the folder is >50 MB (1.3G). Size is dominated by runtime/browser profile data under data/, including session-bearing profile stores such as local CDP and Chromium profile directories; newest file is inside a local browser profile."
+---
+folder: ~/builds/backmarket-seller-support
+size_on_disk: 4.5M
+file_count: 246
+last_git_commit: no git
+last_modified: "2026-04-30T04:14:51"
+state: active
+purpose: "Read-only extracted snapshot of the Back Market Seller Support Center knowledge base, including discovery notes, endpoint inventory, full content catalog, and per-article JSON bodies. It looks like a research/export dataset for operational reference rather than an automation runtime by itself."
+suspected_owner_agent: backmarket
+ownership_confidence: high
+key_files:
+  - path: discovery.md
+    role: extraction/discovery report
+  - path: api-inventory.json
+    role: endpoint inventory
+  - path: content-catalog.json
+    role: full article catalog
+  - path: bm-ssc-raw-articles.json
+    role: raw article body export
+actionable_ideas:
+  - idea: build the recommended read-only extraction skill for the Seller Support Center
+    source_path: /home/ricky/builds/backmarket-seller-support/discovery.md
+    source_line: 128
+    state_hint: captured
+  - idea: re-run the extract weekly and diff lastPublishedDate values to track seller-support changes
+    source_path: /home/ricky/builds/backmarket-seller-support/discovery.md
+    source_line: 141
+    state_hint: captured
+dependencies:
+  external: ["Back Market Seller Support Center", "Salesforce Experience Cloud", "sid session cookie", "aura.token", "Aura /ssc/s/sfsites/aura endpoints"]
+  internal: []
+canonical_status: snapshot-of-other
+notes: "Top-level discovery explicitly says authenticated read-only session was used. This folder is primarily a content snapshot/export of another live system, with one JSON file per article under articles/."
+---
+folder: ~/builds/bm-scripts
+size_on_disk: 24K
+file_count: 1
+last_git_commit: no git
+last_modified: "2026-03-27T19:01:32"
+state: dormant
+purpose: "Tiny leftover folder containing a single Back Market reconciliation output JSON. It does not currently look like a runnable script project or maintained workspace."
+suspected_owner_agent: backmarket
+ownership_confidence: low
+key_files:
+  - path: test-output/reconciliation-2026-03-27.json
+    role: output snapshot
+actionable_ideas: []
+dependencies:
+  external: []
+  internal: []
+canonical_status: snapshot-of-other
+notes: "Only one artifact remains and there is no README, source script, or visible runtime scaffold. This looks like a parked output dump rather than an active codebase."
+---
+folder: ~/builds/buyback-monitor
+size_on_disk: 61M
+file_count: 161
+last_git_commit: no git
+last_modified: "2026-05-01T05:20:17"
+state: active
+purpose: "Live buyback monitoring and price-management workspace for Back Market buyback listings, including sell-price scraping, profit modelling, buy-box checks, auto-bump logic, parts-cost pulls, and downstream reporting/sheet sync. The repo clearly supports an active cron-driven operational pipeline."
+suspected_owner_agent: backmarket
+ownership_confidence: high
+key_files:
+  - path: README.md
+    role: repo overview and operations guide
+  - path: buy_box_monitor.py
+    role: main monitoring and auto-bump entry point
+  - path: run-daily.sh
+    role: daily cron pipeline wrapper
+  - path: CODEX-V7-PIPELINE-REWRITE-BRIEF.md
+    role: rewrite brief for downstream pipeline
+actionable_ideas:
+  - idea: rewrite the downstream pipeline to consume the v7 scraper contract natively instead of using the old schema path
+    source_path: /home/ricky/builds/buyback-monitor/CODEX-V7-PIPELINE-REWRITE-BRIEF.md
+    source_line: 6
+    state_hint: captured
+dependencies:
+  external: ["BM_AUTH", "BM_UA", "MONDAY_AUTOMATIONS_TOKEN", "MONDAY_APP_TOKEN", "TELEGRAM_BOT_TOKEN", "Back Market API", "Monday.com API", "Google Sheets API", "Telegram"]
+  internal: ["~/builds/backmarket"]
+canonical_status: canonical
+notes: "Sampled rather than fully read because the folder is >50 MB (61M). Fresh generated data under data/buyback/ dated 2026-05-01 indicates live activity; raw sell-price JSON also contains redirect-error traces and placeholder URL captures that are worth treating as operational noise/risk."
+---
+folder: ~/builds/pricing-sync
+size_on_disk: 5.3M
+file_count: 27
+last_git_commit: no git
+last_modified: "2026-03-16T14:26:00"
+state: dormant
+purpose: "Cross-system pricing audit and sync project intended to use Shopify as source of truth and reconcile/update Monday and SumUp. The folder contains a dated implementation plan, pull/match/audit/update scripts, and one-shot output artifacts rather than evidence of ongoing scheduled automation."
+suspected_owner_agent: operations
+ownership_confidence: high
+key_files:
+  - path: plan.md
+    role: build plan and scope
+  - path: phase1-pull.py
+    role: live data extraction entry point
+  - path: phase4-monday-update.py
+    role: Monday mutation script
+  - path: phase5-sumup-gen.py
+    role: SumUp CSV generator
+actionable_ideas:
+  - idea: create the missing Monday items that exist in Shopify but not on the Monday pricing board
+    source_path: /home/ricky/builds/pricing-sync/reports/audit-2026-03-16.md
+    source_line: 922
+    state_hint: captured
+  - idea: populate Shopify IDs on matched Monday pricing items to anchor future syncs
+    source_path: /home/ricky/builds/pricing-sync/reports/audit-2026-03-16.md
+    source_line: 924
+    state_hint: captured
+dependencies:
+  external: ["SHOPIFY_ACCESS_TOKEN", "MONDAY_APP_TOKEN", "Shopify Admin API", "Monday.com API", "SumUp CSV export"]
+  internal: ["~/builds/backmarket"]
+canonical_status: draft
+notes: "Last meaningful activity is 2026-03-16. Outputs suggest a one-off audit/sync build that stopped after generating reports and helper scripts; there is no evidence here of a later cronified or resumed workflow."

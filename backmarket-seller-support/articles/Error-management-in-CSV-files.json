@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000SfFJQA0",
+  "articleNumber": "000001068",
+  "title": "Error management in CSV files",
+  "urlName": "Error-management-in-CSV-files",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Error-management-in-CSV-files",
+  "language": "en_GB",
+  "lastPublishedDate": "2023-02-20T14:01:13.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahWWAQ",
+      "parent_topic_name": "Products & Listings",
+      "topic_id": "0TO3X0000009akwWAA",
+      "topic_name": "Listing Creation",
+      "urlName": "Error-management-in-CSV-files"
+    }
+  ],
+  "bodyHtml": "<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Each time you upload a CSV file, it might take up to 2 minutes before we process the file.</span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Once the file is processed, you can see the results in the &#39;<strong>Notifications&#39;</strong> part of your Back Office, under the profile icon on the top right.</span></p>\n\n<p><img alt=\"my profile.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000SfFJ&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064TX4\"></img></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Then you will see a line called <strong>&#39;Product import completed&#39;</strong></span></p>\n\n<p><img alt=\"image 2.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000SfFJ&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064TXE\"></img></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">When you click on it, it will tell you the number of <strong>products</strong> and/or <strong>listings</strong> created. If there are any errors, download a detailed &quot;error report&quot; by clicking on the link.</span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">You will get an Excel file which is a modified version of the file you imported with additional columns. The first column is called &quot;Error&quot;.  There is an error in each line with a &quot;yes&quot; in the &quot;Error&quot; column. The origin of the error is described in the last column of the file.</span></p>"
+}

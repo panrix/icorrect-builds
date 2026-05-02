@@ -1,0 +1,11 @@
+{
+  "id": "ka03X0000003aFPQAY",
+  "articleNumber": "000001522",
+  "title": "How do I manually create a BackShip shipping label?",
+  "urlName": "How-do-I-manually-create-a-BackShip-shipping-label",
+  "url": "https://backmarket.my.site.com/ssc/s/article/How-do-I-manually-create-a-BackShip-shipping-label",
+  "language": "en_GB",
+  "lastPublishedDate": "2023-04-20T15:20:36.000Z",
+  "topics": [],
+  "bodyHtml": "<span style=\"font-family: Arial,Helvetica,sans-serif;\">If you use our BackShip service, you know delivery labels are automatically created when you confirm an order. However, there are a few situations when you may want to manually create a label:</span>\n<ul><li><span style=\"font-family: Arial,Helvetica,sans-serif;\">The automatically-generated label didn’t work or the label is unavailable.</span></li><li><span style=\"font-family: Arial,Helvetica,sans-serif;\">You want to ship multiple items within 1 order, but you need an additional delivery label.</span></li><li><span style=\"font-family: Arial,Helvetica,sans-serif;\">You use your own delivery labels and want to use the BackShip service occasionally.</span></li></ul>\n \n\n<h2><span style=\"font-family: Arial,Helvetica,sans-serif;\"><strong>How do I create a label?</strong></span></h2>\n<span style=\"font-family: Arial,Helvetica,sans-serif;\">To create a label, log into your Back Office &gt; “Orders” &gt; “Create BackShip label”<br><br><img alt=\"1.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X0000003aFP&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X00000AfLxr\"></img><br><br>Enter the order number and select a shipping provider. All other fields will be filled in automatically.<br><br><img alt=\"2.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X0000003aFP&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X00000AfLyB\"></img><br><br><br>If you use BackShip for all of your orders, make sure you include the parcel in the next scheduled pickup. If you have no scheduled pickup or you’re not a regular BackShip user, drop off the parcel at the appropriate collection point. </span><br> "
+}

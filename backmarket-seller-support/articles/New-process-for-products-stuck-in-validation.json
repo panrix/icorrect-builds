@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000ibdNQAQ",
+  "articleNumber": "000001383",
+  "title": "New process for products stuck in validation",
+  "urlName": "New-process-for-products-stuck-in-validation",
+  "url": "https://backmarket.my.site.com/ssc/s/article/New-process-for-products-stuck-in-validation",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-05-31T15:09:31.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahRWAQ",
+      "parent_topic_name": "News & Information About Back Market",
+      "topic_id": "0TO3X000000xUbbWAE",
+      "topic_name": "News And Information About Our Catalog",
+      "urlName": "New-process-for-products-stuck-in-validation"
+    }
+  ],
+  "bodyHtml": "<p>Since January 3rd, a new process has been put in place for products that are <strong>pending validation and cannot be validated by our teams</strong>. </p>\n\n<p><em>⚠️ As a reminder, all new products you create must first be validated. This validation phase takes between 24 and 48 hours. If the created products do not meet our validation criteria, they will remain stuck in validation. </em></p>\n\n<p>From now on, <strong>you will receive a notification</strong> from your email address informing you of <strong>the reason for the non-validation</strong> of your product. <br>For example: </p>\n\n<p style=\"text-align: center;\"><img alt=\"email.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000ibdN&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000085lze\"></img><br> </p>\n\n<p>Once informed of this non-validation, the products will be deleted from our platform. You will then have to recreate them taking into account the remarks. For example: </p>\n\n<p>- <strong><em>No picture size 500x500 available (Image)</em></strong> : you will need to provide higher quality images, greater than 500x500<br>- <strong><em>Missing information/Attribute impossible to find (processor)</em></strong> : you will need to provide the processor reference of the device</p>\n\n<p>Even though the products are deleted, <strong>the listings will still be visible from your Back Office</strong>, in the &#39;Validation&#39; section. You will be able to archive them and modify the SKU reference of each of them if you wish to use them again. </p>\n\n<p>On the other hand, if you are notified that the product is blacklisted, as below: <br><strong><em>Product not accepted on Back Market website (Blacklisted)</em></strong><br>you can directly archive this offer, it will not be validated.</p>\n\n<p>&#128161; For more information about products available for sale on Back Market, you can check<b><a href=\"https://backmarketportal.force.com/ssc/s/article/The-different-products-available-for-sale-on-Back-Market\" target=\"_blank\"><span style=\"color: #3498db;\"> </span></a></b><a href=\"https://backmarketportal.force.com/ssc/s/article/The-different-products-available-for-sale-on-Back-Market\" target=\"_blank\"><span style=\"color: #3498db;\">this article</span></a>.</p>"
+}

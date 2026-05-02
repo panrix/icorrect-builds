@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb0000004a1hIAA",
+  "articleNumber": "000001081",
+  "title": "How to put my listing live in other countries?",
+  "urlName": "How-to-put-my-listing-live-in-other-countries",
+  "url": "https://backmarket.my.site.com/ssc/s/article/How-to-put-my-listing-live-in-other-countries",
+  "language": "en_GB",
+  "lastPublishedDate": "2025-04-11T16:17:34.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahWWAQ",
+      "parent_topic_name": "Products & Listings",
+      "topic_id": "0TO3X0000009akyWAA",
+      "topic_name": "Practical Questions",
+      "urlName": "How-to-put-my-listing-live-in-other-countries"
+    }
+  ],
+  "bodyHtml": "<p><br>If, for instance, you are a German seller willing to sell in France, you would need to get your Back Office set-up for this (thanks to your SSM) and then, for your listing you would need to follow this tutorial.</p>\n<h2><strong>Good to know&#128161;</strong></h2>\n<p>First, please note that some fields that those are the fields, for the same listing, that <strong>can be different from one country to another:</strong></p>\n<ul><li>the description of the product</li><li>the original price/price new</li><li>the title</li><li>the price</li><li>the warranty delay</li></ul>\n<p> </p>\n<p>The quantity would remain the same for all countries, though. For instance: it is not possible to have a quantity of 2 in Spain and 0 in France for the same listing.</p>\n<p> </p>\n<p><b>Here, we will detail three methods of putting your listing live abroad:</b><br> </p>\n<h2><b>On the back Office manually</b></h2>\n<p>Go to the <strong><a href=\"https://www.backmarket.fr/bo-seller/listings-new\" target=\"_blank\"><span style=\"color: #3498db;\">listing page</span></a></strong> and then click on &quot;<b>Edit offer</b>&quot; :</p>\n<p>Then, just click on the flags to select the countries you want to sell your listing to. The mandatory fields to fill are:</p>\n<ul><li>price</li><li>translated description</li><li>warranty</li><li>shipping mode</li></ul>\n<p>You can also check in &quot;View details&quot; why your product is not live in some countries. Our alert system will indicate you if your product is waiting for validation or if there are missing fields.<br> </p>\n<h2><b>Using CSV Import</b></h2>\n<p>If you want your <strong>product</strong> to be available in several countries, you have to select &#39;<em>all</em>&#39; in the &#39;<strong>Language</strong>&#39; field of &#39;<strong>Import my offers</strong>&#39;.</p>\n<p>Be careful, you also have to add the &#39;<em>lang</em>&#39; column to your CSV file. In this column, you have to fill the <strong>country code</strong> of the country where you want to sell your <strong>product. </strong>Thereby, if, for example, you want to sell your <strong>product</strong> in 3 countries you will have to put 3 lines for this <strong>product</strong> in your CSV file, each with a different country code in the <strong>lang </strong>column.<br><br> </p>\n<h2><b>Via API</b></h2>\n<p>Using API, you can just change the country-code directly in the header of your request.</p>\n<p>You can find more information on our Technical documentation here: <strong><a href=\"https://doc.backmarket.fr/#getting-started\" target=\"_blank\"><span style=\"color: #3498db;\">https://doc.backmarket.fr/#getting-started</span></a><span style=\"color: #3498db;\">.</span></strong></p>"
+}

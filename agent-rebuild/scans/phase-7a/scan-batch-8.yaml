@@ -1,0 +1,224 @@
+batch_id: 8
+folders_processed: 6
+warnings_total: 9
+folders:
+  - folder: /home/ricky/builds/data-architecture
+    state_at_scan: dormant
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/data-architecture/README.md
+        to: /home/ricky/builds/data-architecture/briefs/README.md
+        rationale: "rubric: README of a stub-only research folder is proposal/intent content (status: Idea, parked) — fits briefs/. Kept link from new INDEX.md."
+      - from: /home/ricky/builds/data-architecture/snapshot/
+        to: /home/ricky/builds/data-architecture/archive/2026-02-22-snapshot/
+        rationale: "rubric: *-snapshot pattern → archive/<existing-date>-snapshot/. Subfolder name was literally 'snapshot'."
+    new_files_created:
+      - path: /home/ricky/builds/data-architecture/INDEX.md
+        description: "Dormant-state INDEX per template; covers structure, parked status, key docs, open questions."
+      - path: /home/ricky/builds/data-architecture/decisions/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/data-architecture/docs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/data-architecture/scratch/.gitkeep
+        description: "Empty subdir placeholder."
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:280"
+        ref: "/home/ricky/builds/data-architecture/snapshot/data-architecture-brief.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:281"
+        ref: "/home/ricky/builds/data-architecture/snapshot/data-architecture-brief.md"
+      - source: "/home/ricky/builds/agent-rebuild/briefs/folder-standard.md:190"
+        ref: "~/builds/data-architecture/"
+      - source: "/home/ricky/builds/INDEX.md:62"
+        ref: "data-architecture/"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md (data-architecture row)"
+        ref: "data-architecture (folder-level row, no specific path)"
+    warnings:
+      - "Two idea-inventory rows reference /builds/data-architecture/snapshot/data-architecture-brief.md (lines 280, 281). Path is now /builds/data-architecture/archive/2026-02-22-snapshot/data-architecture-brief.md — consolidation patch must rewrite."
+    status: success
+
+  - folder: /home/ricky/builds/documentation
+    state_at_scan: dormant
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/documentation/PROGRESS.md
+        to: /home/ricky/builds/documentation/scratch/PROGRESS.md
+        rationale: "rubric: working-notes / progress-tracker pattern (checkboxes, in-progress lists, stale dates) → scratch/. Not canonical, not a brief."
+      - from: /home/ricky/builds/documentation/raw-imports/
+        to: /home/ricky/builds/documentation/docs/raw-imports/
+        rationale: "rubric: imported domain reference docs (operational tone, schema/SOP content) → docs/. Existing subdir kept its name, nested under docs/."
+    new_files_created:
+      - path: /home/ricky/builds/documentation/INDEX.md
+        description: "Dormant-state INDEX listing 10 raw-imports + flagging stale PROGRESS.md."
+      - path: /home/ricky/builds/documentation/docs/raw-imports/INDEX.md
+        description: "Sub-INDEX for docs/raw-imports/ — required because directory has 10 files (>5)."
+      - path: /home/ricky/builds/documentation/briefs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/documentation/decisions/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/documentation/archive/.gitkeep
+        description: "Empty subdir placeholder."
+    sub_indexes_created: [/home/ricky/builds/documentation/docs/raw-imports/INDEX.md]
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:39"
+        ref: "/home/ricky/builds/documentation/PROGRESS.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:276"
+        ref: "/home/ricky/builds/documentation/PROGRESS.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:286"
+        ref: "/home/ricky/builds/documentation/PROGRESS.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:291"
+        ref: "/home/ricky/builds/documentation/PROGRESS.md"
+      - source: "/home/ricky/builds/INDEX.md:63"
+        ref: "documentation/"
+      - source: "/home/ricky/builds/agent-rebuild/archive/2026-04-01/technical/triage-executed/builds-raw-imports-triage-2026-03-31.md (multiple lines)"
+        ref: "documentation/raw-imports/ (historical archive references — not patched, archive content)"
+      - source: "/home/ricky/builds/agent-rebuild/archive/2026-04-01/technical/triage-executed/raw-imports-doc-triage-2026-03-31.md (multiple lines)"
+        ref: "documentation/raw-imports/ (historical archive references — not patched, archive content)"
+    warnings:
+      - "Four idea-inventory rows reference PROGRESS.md path (lines 39, 276, 286, 291). New path is scratch/PROGRESS.md — consolidation patch needs to rewrite."
+      - "Two archive files in agent-rebuild/archive/2026-04-01/technical/triage-executed/ reference old documentation/raw-imports/ paths. These are historical archive content; recommend NOT patching (would alter historical record). Flag for consolidation pass to confirm."
+    status: success
+
+  - folder: /home/ricky/builds/mutagen-guide
+    state_at_scan: active
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html
+        to: /home/ricky/builds/mutagen-guide/docs/mutagen-mac-to-vps.html
+        rationale: "rubric: how-to/guide content (canonical reference, runbook tone) → docs/. HTML is the source artifact for the published PDF."
+      - from: /home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.pdf
+        to: /home/ricky/builds/mutagen-guide/docs/mutagen-mac-to-vps.pdf
+        rationale: "rubric: PDF asset paired with its HTML source kept alongside in docs/. Strict reading of rubric would route to docs/assets/, but co-locating with source HTML is more useful here."
+    new_files_created:
+      - path: /home/ricky/builds/mutagen-guide/INDEX.md
+        description: "Active-state INDEX; main artifact is the guide itself, no in-flight work captured."
+      - path: /home/ricky/builds/mutagen-guide/briefs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/mutagen-guide/decisions/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/mutagen-guide/archive/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/mutagen-guide/scratch/.gitkeep
+        description: "Empty subdir placeholder."
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:277"
+        ref: "/home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:279"
+        ref: "/home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:284"
+        ref: "/home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html"
+    warnings:
+      - "Three idea-inventory rows reference mutagen-mac-to-vps.html at the old root path (lines 277, 279, 284). New path is docs/mutagen-mac-to-vps.html — consolidation patch must rewrite."
+      - "Active-state folder but no live in-flight work captured in INDEX. Owner=none means no agent is positioned to populate the Current state section. Surfaced as flag for Phase 7c."
+
+    status: success
+
+  - folder: /home/ricky/builds/research
+    state_at_scan: dormant
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, "docs/audits", archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/research/memory-problem.md
+        to: /home/ricky/builds/research/briefs/memory-problem.md
+        rationale: "rubric: file with status 'Open — gathering approaches' and proposal/spec tone (problem statement, current setup, what fails, approaches considered) → briefs/."
+      - from: /home/ricky/builds/research/vps-agent-audit-2026-02-24.md
+        to: /home/ricky/builds/research/docs/audits/vps-agent-audit-2026-02-24.md
+        rationale: "rubric: *-audit pattern + 'Read-only audit' header → docs/audits/. Title literally is 'VPS Agent Setup Audit'."
+    new_files_created:
+      - path: /home/ricky/builds/research/INDEX.md
+        description: "Dormant-state INDEX explaining likely supersession by agent-rebuild."
+      - path: /home/ricky/builds/research/decisions/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/research/archive/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/research/scratch/.gitkeep
+        description: "Empty subdir placeholder."
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:287"
+        ref: "/home/ricky/builds/research/memory-problem.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:288"
+        ref: "/home/ricky/builds/research/memory-problem.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:289"
+        ref: "/home/ricky/builds/research/vps-agent-audit-2026-02-24.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:290"
+        ref: "/home/ricky/builds/research/memory-problem.md"
+      - source: "/home/ricky/builds/INDEX.md:51"
+        ref: "research/"
+    warnings:
+      - "Four idea-inventory rows reference old root paths for memory-problem.md and vps-agent-audit-2026-02-24.md (lines 287-290). New paths are briefs/memory-problem.md and docs/audits/vps-agent-audit-2026-02-24.md — consolidation patch must rewrite."
+    status: success
+
+  - folder: /home/ricky/builds/scripts
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch, scripts]
+    file_moves:
+      - from: /home/ricky/builds/scripts/bm-price-history-load.py
+        to: /home/ricky/builds/scripts/scripts/bm-price-history-load.py
+        rationale: "rubric: code files in a folder named scripts; folder-standard says project-specific code → scripts/ subdir. Folder name and subdir name now both 'scripts' (nested), which is awkward but matches the standard."
+      - from: /home/ricky/builds/scripts/monday-repair-flow-traces.py
+        to: /home/ricky/builds/scripts/scripts/monday-repair-flow-traces.py
+        rationale: "rubric: code → scripts/ subdir."
+      - from: /home/ricky/builds/scripts/pdf-to-images.sh
+        to: /home/ricky/builds/scripts/scripts/pdf-to-images.sh
+        rationale: "rubric: code → scripts/ subdir."
+    new_files_created:
+      - path: /home/ricky/builds/scripts/INDEX.md
+        description: "Dormant-state INDEX flagging that the three scripts may belong to other domain folders."
+      - path: /home/ricky/builds/scripts/briefs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/scripts/decisions/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/scripts/docs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/scripts/archive/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/scripts/scratch/.gitkeep
+        description: "Empty subdir placeholder."
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/INDEX.md:53"
+        ref: "scripts/"
+      - source: "/home/ricky/builds/INDEX.md:27"
+        ref: "scripts/ (note: this row in INDEX.md actually refers to backmarket/scripts/, not /builds/scripts/)"
+    warnings:
+      - "Folder named 'scripts' now has a nested 'scripts/' subdir (path: /builds/scripts/scripts/). Awkward but per folder-standard. Phase 7c should consider redistributing the three files to their domain owners (backmarket, operations-system) and retiring this folder."
+      - "Owner tagged 'operations' in inventory but no operations-agent reference found in the workspace files swept; ownership is asserted by inventory only."
+    status: success
+
+  - folder: /home/ricky/builds/templates
+    state_at_scan: dormant
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/templates/INDEX.md
+        description: "Dormant-state INDEX. Documents the deviation: template files kept at root (template library is a flat-structure artifact per Phase 7a edge-case rule)."
+      - path: /home/ricky/builds/templates/briefs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/templates/decisions/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/templates/docs/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/templates/archive/.gitkeep
+        description: "Empty subdir placeholder."
+      - path: /home/ricky/builds/templates/scratch/.gitkeep
+        description: "Empty subdir placeholder."
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/INDEX.md:52"
+        ref: "templates/"
+    warnings:
+      - "DEVIATION FROM STANDARD: template files (SPEC-TEMPLATE.md, STUB-README-TEMPLATE.md) kept at root rather than moved to briefs/. Justification: Phase 7a spec edge-case rule allows this when a folder's whole point is being a template flat-structure / template library. Documented in the folder's INDEX.md. Flag for consolidation/QA review."
+    status: success

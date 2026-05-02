@@ -1,0 +1,181 @@
+=== Phase 7a path-patch — DRY-RUN ===
+
+WOULD PATCH    /home/ricky/.openclaw/openclaw.json (1 occurrence(s))
+                 /home/ricky/builds/whisper-api/transcribe.sh
+              -> /home/ricky/builds/whisper-api/scripts/transcribe.sh
+WOULD PATCH    /home/ricky/claude-audit-rebuild/VPS-MAP.md (2 occurrence(s))
+                 builds/server-config/crontab.txt
+              -> builds/server-config/data/crontab.txt
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/TODO.md (1 occurrence(s))
+                 /home/ricky/builds/elek-board-viewer/CODEX-SCHEMATIC-BATCH-BRIEF.md
+              -> /home/ricky/builds/elek-board-viewer/briefs/CODEX-SCHEMATIC-BATCH-BRIEF.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/MEMORY.md (1 occurrence(s))
+                 /home/ricky/builds/alex-triage-rebuild/CODEX-REMEDIATION-BRIEF-2026-04-11.md
+              -> /home/ricky/builds/alex-triage-rebuild/briefs/CODEX-REMEDIATION-BRIEF-2026-04-11.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/MEMORY.md (1 occurrence(s))
+                 /home/ricky/builds/alex-triage-rebuild/BUILD-BRIEF.md
+              -> /home/ricky/builds/alex-triage-rebuild/briefs/BUILD-BRIEF.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md (1 occurrence(s))
+                 /home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md
+              -> /home/ricky/builds/backmarket-browser/briefs/BROWSER-AGENT-TODO-2026-04-26.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md (1 occurrence(s))
+                 /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PROXY-BROWSER-PATH-2026-04-26.md
+              -> /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-PROXY-BROWSER-PATH-2026-04-26.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md (1 occurrence(s))
+                 /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md
+              -> /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md (1 occurrence(s))
+                 /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-MAILBOX-CODE-LOGIN-2026-04-26.md
+              -> /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-MAILBOX-CODE-LOGIN-2026-04-26.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md (1 occurrence(s))
+                 /home/ricky/builds/backmarket-browser/REPORT-HEADFUL-CLOUDFLARE-AUTH-HANDOFF-2026-04-26.md
+              -> /home/ricky/builds/backmarket-browser/docs/audits/REPORT-HEADFUL-CLOUDFLARE-AUTH-HANDOFF-2026-04-26.md
+WOULD PATCH    /home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md (1 occurrence(s))
+                 /home/ricky/builds/monday/monday-automations-api-investigation.md
+              -> /home/ricky/builds/monday/docs/audits/monday-automations-api-investigation.md
+WOULD PATCH    /home/ricky/kb/backmarket/spec-checker.md (1 occurrence(s))
+                 /home/ricky/builds/icloud-checker/SOP-BM-TRADEIN-CHECK.md
+              -> /home/ricky/builds/icloud-checker/docs/SOP-BM-TRADEIN-CHECK.md
+WOULD PATCH    /home/ricky/kb/operations/queue-management.md (1 occurrence(s))
+                 /home/ricky/builds/intake-system/SPEC.md
+              -> /home/ricky/builds/intake-system/briefs/SPEC.md
+WOULD PATCH    /home/ricky/kb/system/_phase-1.6-systems-fold-manifest.md (1 occurrence(s))
+                 /home/ricky/builds/inventory-system/SPEC.md
+              -> /home/ricky/builds/inventory-system/briefs/SPEC.md
+WOULD PATCH    /home/ricky/kb/monday/parts-board.md (1 occurrence(s))
+                 /home/ricky/builds/monday/board-schema.md
+              -> /home/ricky/builds/monday/docs/board-schema.md
+WOULD PATCH    /home/ricky/kb/monday/main-board.md (1 occurrence(s))
+                 /home/ricky/builds/monday/board-schema.md
+              -> /home/ricky/builds/monday/docs/board-schema.md
+WOULD PATCH    /home/ricky/kb/monday/main-board.md (1 occurrence(s))
+                 /home/ricky/builds/monday/main-board-column-audit.md
+              -> /home/ricky/builds/monday/docs/audits/main-board-column-audit.md
+WOULD PATCH    /home/ricky/kb/monday/main-board.md (1 occurrence(s))
+                 /home/ricky/builds/monday/automations.md
+              -> /home/ricky/builds/monday/docs/automations.md
+WOULD PATCH    /home/ricky/kb/monday/main-board.md (1 occurrence(s))
+                 /home/ricky/builds/monday/repair-flow-traces.md
+              -> /home/ricky/builds/monday/docs/repair-flow-traces.md
+WOULD PATCH    /home/ricky/kb/system/runtime/browser-automation.md (2 occurrence(s))
+                 /home/ricky/builds/monday/browser-harness-pilot-report.md
+              -> /home/ricky/builds/monday/docs/audits/browser-harness-pilot-report.md
+WOULD PATCH    /home/ricky/kb/system/runtime/browser-automation.md (2 occurrence(s))
+                 /home/ricky/builds/monday/browser-harness-monday-skill.md
+              -> /home/ricky/builds/monday/docs/browser-harness-monday-skill.md
+WOULD PATCH    /home/ricky/kb/system/runtime/browser-automation.md (1 occurrence(s))
+                 /home/ricky/builds/backmarket-browser/SPEC-2026-04-25.md
+              -> /home/ricky/builds/backmarket-browser/briefs/SPEC-2026-04-25.md
+WOULD PATCH    /home/ricky/kb/operations/queue-management.md (1 occurrence(s))
+                 /home/ricky/builds/monday/repair-flow-traces.md
+              -> /home/ricky/builds/monday/docs/repair-flow-traces.md
+WOULD PATCH    /home/ricky/kb/operations/queue-management.md (1 occurrence(s))
+                 /home/ricky/builds/monday/target-state.md
+              -> /home/ricky/builds/monday/briefs/target-state.md
+WOULD PATCH    /home/ricky/kb/customer-service/_draft/notification-triggers.md (1 occurrence(s))
+                 /home/ricky/builds/monday/automations.md
+              -> /home/ricky/builds/monday/docs/automations.md
+WOULD PATCH    /home/ricky/kb/customer-service/_draft/notification-triggers.md (1 occurrence(s))
+                 /home/ricky/builds/monday/icorrect-status-notification-documentation.md
+              -> /home/ricky/builds/monday/docs/icorrect-status-notification-documentation.md
+WOULD PATCH    /home/ricky/kb/customer-service/_draft/monday-workflow-map.md (102 occurrence(s))
+                 /home/ricky/builds/monday/automations.md
+              -> /home/ricky/builds/monday/docs/automations.md
+WOULD PATCH    /home/ricky/kb/customer-service/_draft/monday-workflow-map.md (39 occurrence(s))
+                 /home/ricky/builds/monday/repair-flow-traces.md
+              -> /home/ricky/builds/monday/docs/repair-flow-traces.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/alex-triage-classifier-rebuild/BUILD-BRIEF.md
+              -> /home/ricky/builds/alex-triage-classifier-rebuild/briefs/BUILD-BRIEF.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/alex-triage-rebuild/TODO.md
+              -> /home/ricky/builds/alex-triage-rebuild/scratch/TODO.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/intercom-agent/SPEC.md
+              -> /home/ricky/builds/intercom-agent/briefs/SPEC.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (4 occurrence(s))
+                 /home/ricky/builds/inventory-system/SPEC.md
+              -> /home/ricky/builds/inventory-system/briefs/SPEC.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/apple-ssr/discovery.md
+              -> /home/ricky/builds/apple-ssr/docs/discovery.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/apple-ssr/parts-catalog-summary.md
+              -> /home/ricky/builds/apple-ssr/docs/parts-catalog-summary.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/mobilesentrix/order-placement-discovery.md
+              -> /home/ricky/builds/mobilesentrix/docs/order-placement-discovery.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/icloud-checker/AUDIT-AND-DECOMPOSITION.md
+              -> /home/ricky/builds/icloud-checker/docs/audits/AUDIT-AND-DECOMPOSITION.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/royal-mail-automation/REPAIRS-DISPATCH-PLAN.md
+              -> /home/ricky/builds/royal-mail-automation/briefs/REPAIRS-DISPATCH-PLAN.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/royal-mail-automation/ADDRESSNOW-IMPLEMENTATION.md
+              -> /home/ricky/builds/royal-mail-automation/docs/ADDRESSNOW-IMPLEMENTATION.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/royal-mail-automation/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md
+              -> /home/ricky/builds/royal-mail-automation/docs/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/xero-invoice-automation/SETUP.md
+              -> /home/ricky/builds/xero-invoice-automation/docs/SETUP.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md
+              -> /home/ricky/builds/xero-invoice-notifications/briefs/BUILD-BRIEF.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/data/buy-box-check-2026-03-23.txt
+              -> /home/ricky/builds/data/scratch/buy-box-check-2026-03-23.txt
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/webhook-migration/TODO-MONDAY-STATUS-NOTIFICATIONS.md
+              -> /home/ricky/builds/webhook-migration/scratch/TODO-MONDAY-STATUS-NOTIFICATIONS.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/webhook-migration/TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md
+              -> /home/ricky/builds/webhook-migration/scratch/TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/webhook-migration/execution-checklist-shopify-contact-form.md
+              -> /home/ricky/builds/webhook-migration/docs/execution-checklist-shopify-contact-form.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/elek-board-viewer/PROJECT-STATE.md
+              -> /home/ricky/builds/elek-board-viewer/docs/PROJECT-STATE.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/shift-bot/COMPROMISES.md
+              -> /home/ricky/builds/shift-bot/docs/COMPROMISES.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/team-audits/PROJECT_OVERVIEW.md
+              -> /home/ricky/builds/team-audits/docs/PROJECT_OVERVIEW.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/team-audits/CODEX-EXTEND-FERRARI-TRACKING.md
+              -> /home/ricky/builds/team-audits/briefs/CODEX-EXTEND-FERRARI-TRACKING.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/diagnostics-deep-dive.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/diagnostics-deep-dive.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/qa-system/snapshot/QA-TRIGGER-PLAN.md
+              -> /home/ricky/builds/qa-system/archive/2026-02-22-snapshot/QA-TRIGGER-PLAN.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (2 occurrence(s))
+                 /home/ricky/builds/data-architecture/snapshot/data-architecture-brief.md
+              -> /home/ricky/builds/data-architecture/archive/2026-02-22-snapshot/data-architecture-brief.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (4 occurrence(s))
+                 /home/ricky/builds/documentation/PROGRESS.md
+              -> /home/ricky/builds/documentation/scratch/PROGRESS.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html
+              -> /home/ricky/builds/mutagen-guide/docs/mutagen-mac-to-vps.html
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (3 occurrence(s))
+                 /home/ricky/builds/research/memory-problem.md
+              -> /home/ricky/builds/research/briefs/memory-problem.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/research/vps-agent-audit-2026-02-24.md
+              -> /home/ricky/builds/research/docs/audits/vps-agent-audit-2026-02-24.md
+WOULD PATCH    /home/ricky/builds/agent-rebuild/idea-inventory.md (1 occurrence(s))
+                 /home/ricky/builds/buyback-monitor/CODEX-V7-PIPELINE-REWRITE-BRIEF.md
+              -> /home/ricky/builds/buyback-monitor/briefs/CODEX-V7-PIPELINE-REWRITE-BRIEF.md
+
+=== Summary ===
+Planned:                       57
+Would-patch (file present + string present): 57
+Skipped (historical archive):  0
+Skipped (non-patchable ext):   0
+Skipped (file missing):        0
+Skipped (string already gone): 0

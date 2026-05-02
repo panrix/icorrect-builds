@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000elQOQAY",
+  "articleNumber": "000001012",
+  "title": "Export my orders",
+  "urlName": "Export-my-orders",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Export-my-orders",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-08-23T08:44:36.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahHWAQ",
+      "parent_topic_name": "Quality & Sales",
+      "topic_id": "0TO3X0000009aiUWAQ",
+      "topic_name": "Using The Back Office",
+      "urlName": "Export-my-orders"
+    }
+  ],
+  "bodyHtml": "<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">You can easily export your orders via your Back Office. To do so, go to the &#39;<strong>Orders</strong>&#39; tab, where you will see the &#39;<strong>Export my orders</strong>&#39; button.</span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\"><img alt=\"export.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000elQO&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064FNP\"></img></span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Before clicking on this button, please fill in the time period you wish to export (example from July 1st to September 1st). </span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Once you have selected the dates, you can click on &#39;<strong>Export my orders</strong>&#39;. A pop-up will open. Please choose the format and language that suits you best:</span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\"><img alt=\"export 1.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000elQO&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064FNZ\"></img></span></p>\n\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">Finally, click on &#39;<strong>Save</strong>&#39;. The export is sent to you directly by e-mail. <strong>Please check the below attached file for an example of exported orders.</strong></span></p>"
+}

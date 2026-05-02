@@ -1,0 +1,209 @@
+---
+folder: "~/builds/agent-rebuild"
+size_on_disk: "90M"
+file_count: 100
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-05-01T05:20:07+00:00"
+state: active
+purpose: "Active rebuild workspace for the OpenClaw cleanup and KB/documentation program. It holds phase specs, audits, evidence, scripts, and synthetic fixtures used to map and verify the rebuild."
+suspected_owner_agent: none
+ownership_confidence: high
+key_files:
+  - path: "README.md"
+    role: "workspace guide"
+  - path: "PHASE-6.9-SPEC.md"
+    role: "inventory phase spec"
+  - path: "technical/README.md"
+    role: "active technical docs map"
+  - path: "c14_repair_history_rerun.py"
+    role: "analysis script for Monday repair-history mining"
+  - path: "fixtures/README.md"
+    role: "test fixture and replay guide"
+actionable_ideas:
+  - idea: "Build canonical inventories of every folder in ~/builds and tag each with an owning agent."
+    source_path: "/home/ricky/builds/agent-rebuild/PHASE-6.9-SPEC.md"
+    source_line: 4
+    state_hint: partial-built
+  - idea: "Promote verified durable knowledge into /home/ricky/kb instead of keeping a second canon in this workspace."
+    source_path: "/home/ricky/builds/agent-rebuild/README.md"
+    source_line: 24
+    state_hint: captured
+  - idea: "Archive historical, superseded, or evidence-only files instead of leaving them on the active surface."
+    source_path: "/home/ricky/builds/agent-rebuild/README.md"
+    source_line: 25
+    state_hint: captured
+dependencies:
+  external:
+    - "Monday.com API"
+    - "Python requests"
+  internal:
+    - "~/builds/backmarket"
+    - "~/builds/icloud-checker"
+canonical_status: draft
+notes: "Sampled rather than fully read because the folder is >50 MB. README explicitly says verified durable knowledge belongs in /home/ricky/kb, so this workspace is project-local rather than canonical. Largest visible artifact is RETIREMENT-AUDIT-2026-04-29.md, and c14_repair_history_rerun.py references /home/ricky/config/api-keys/.env outside this folder."
+---
+folder: "~/builds/claude-project-export"
+size_on_disk: "1.1M"
+file_count: 127
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-04-13T14:52:58+00:00"
+state: dormant
+purpose: "Exported Claude project corpus covering SOPs, business context, KB schema rules, and customer-service reference material. It appears to be a compiled reference set used to seed or verify other systems rather than the live source of truth."
+suspected_owner_agent: main
+ownership_confidence: medium
+key_files:
+  - path: "README.md"
+    role: "operations SOP index and gap list"
+  - path: "SCHEMA.md"
+    role: "KB maintenance rulebook"
+  - path: "COMPANY.md"
+    role: "business profile"
+  - path: "sop-project/foundation-GOALS.md"
+    role: "12-month strategic targets"
+  - path: "sop-project/alex-context.md"
+    role: "customer-service context brief"
+actionable_ideas:
+  - idea: "Write the eight missing SOPs covering walk-in, mail-in, and BackMarket flows."
+    source_path: "/home/ricky/builds/claude-project-export/README.md"
+    source_line: 23
+    state_hint: captured
+  - idea: "Add edge cases and what-ifs across all SOPs."
+    source_path: "/home/ricky/builds/claude-project-export/README.md"
+    source_line: 27
+    state_hint: captured
+  - idea: "Formalise parts allocation, ammeter thresholds, extra-fault approvals, QC retest rules, and courier-offer standards."
+    source_path: "/home/ricky/builds/claude-project-export/README.md"
+    source_line: 32
+    state_hint: captured
+  - idea: "Reverse-engineer the revenue target into monthly and quarterly milestones by revenue stream."
+    source_path: "/home/ricky/builds/claude-project-export/sop-project/foundation-GOALS.md"
+    source_line: 23
+    state_hint: captured
+  - idea: "Turn Ricky voice dumps into written SOPs and complete documentation of critical processes."
+    source_path: "/home/ricky/builds/claude-project-export/sop-project/foundation-GOALS.md"
+    source_line: 87
+    state_hint: partial-built
+dependencies:
+  external:
+    - "Monday.com"
+    - "Intercom"
+    - "Slack"
+    - "Shopify"
+    - "Back Market"
+    - "Telegram"
+  internal:
+    - "~/builds/agent-rebuild"
+    - "~/builds/system-audit-2026-03-31"
+canonical_status: snapshot-of-other
+notes: "README points SOP file locations to ../operations/ and TEAM.md defers to /home/ricky/kb for current roster data, which makes this look like an exported/staged corpus rather than the live canonical home."
+---
+folder: "~/builds/documentation"
+size_on_disk: "104K"
+file_count: 11
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-04-13T14:53:08+00:00"
+state: dormant
+purpose: "Small documentation-build staging area with a progress tracker and raw imported domain docs. It appears to support verification and agent-context enrichment rather than hold finalized reference docs."
+suspected_owner_agent: none
+ownership_confidence: high
+key_files:
+  - path: "PROGRESS.md"
+    role: "build tracker"
+  - path: "raw-imports/sops-operational-procedures.md"
+    role: "raw imported SOP source"
+  - path: "raw-imports/monday-schema.md"
+    role: "raw imported Monday schema source"
+  - path: "raw-imports/intercom-finn.md"
+    role: "raw imported customer-service source"
+actionable_ideas:
+  - idea: "Process the remaining nine Claude.ai docs and verify them against live systems."
+    source_path: "/home/ricky/builds/documentation/PROGRESS.md"
+    source_line: 23
+    state_hint: partial-built
+  - idea: "Update agent CLAUDE.md files with reference document paths."
+    source_path: "/home/ricky/builds/documentation/PROGRESS.md"
+    source_line: 43
+    state_hint: captured
+  - idea: "Pull the Parts Board schema from the Monday API."
+    source_path: "/home/ricky/builds/documentation/PROGRESS.md"
+    source_line: 44
+    state_hint: captured
+  - idea: "Build the Monday cleanup script to archive 4,000+ dead items."
+    source_path: "/home/ricky/builds/documentation/PROGRESS.md"
+    source_line: 46
+    state_hint: captured
+dependencies:
+  external:
+    - "Monday.com API"
+    - "Grok API"
+    - "Brave Search API"
+    - "GitHub"
+  internal: []
+canonical_status: draft
+notes: "The folder is mostly raw-imports plus a 2026-02-23 progress tracker, so it reads as an in-progress documentation pipeline rather than a curated finished set."
+---
+folder: "~/builds/research"
+size_on_disk: "24K"
+file_count: 2
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-02-24T08:20:32+00:00"
+state: dormant
+purpose: "Meta research folder for OpenClaw memory architecture and VPS/runtime audits. The contents are exploratory decision support rather than implementation assets."
+suspected_owner_agent: none
+ownership_confidence: high
+key_files:
+  - path: "memory-problem.md"
+    role: "research brief and option comparison"
+  - path: "vps-agent-audit-2026-02-24.md"
+    role: "runtime setup audit"
+actionable_ideas:
+  - idea: "Review the memory approaches and choose one or two prototypes to test."
+    source_path: "/home/ricky/builds/research/memory-problem.md"
+    source_line: 175
+    state_hint: captured
+  - idea: "Research community solutions in OpenClaw channels and GitHub before committing to an approach."
+    source_path: "/home/ricky/builds/research/memory-problem.md"
+    source_line: 176
+    state_hint: captured
+  - idea: "Test the selected memory approach on the BackMarket agent first and measure SOP-compliance impact."
+    source_path: "/home/ricky/builds/research/memory-problem.md"
+    source_line: 178
+    state_hint: captured
+  - idea: "Stop treating open-claw-research-setup as canonical implementation spec."
+    source_path: "/home/ricky/builds/research/vps-agent-audit-2026-02-24.md"
+    source_line: 80
+    state_hint: captured
+dependencies:
+  external:
+    - "OpenClaw"
+    - "Supabase"
+    - "PostgreSQL/pgvector"
+    - "LanceDB"
+    - "Kybernesis"
+    - "n8n"
+    - "systemd"
+  internal:
+    - "~/builds/agent-rebuild"
+canonical_status: draft
+notes: "Only two files are present, both from February 2026. The memory doc is explicitly open research, and the VPS audit itself marks builds content as planning/reference rather than operational truth."
+---
+folder: "~/builds/templates"
+size_on_disk: "12K"
+file_count: 2
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-02-22T05:46:19+00:00"
+state: dormant
+purpose: "Template library for lightweight project scaffolding docs. It provides markdown skeletons for specs and parked/stub README files."
+suspected_owner_agent: none
+ownership_confidence: high
+key_files:
+  - path: "SPEC-TEMPLATE.md"
+    role: "project spec template"
+  - path: "STUB-README-TEMPLATE.md"
+    role: "parked project README template"
+actionable_ideas: []
+dependencies:
+  external: []
+  internal: []
+canonical_status: canonical
+notes: "Minimal stable skeleton folder with no project-specific implementation content."

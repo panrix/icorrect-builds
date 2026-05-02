@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000ek8HQAQ",
+  "articleNumber": "000001447",
+  "title": "Why is the EAN number not accurate for this listing?",
+  "urlName": "Why-is-the-EAN-number-not-accurate-for-this-listing",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Why-is-the-EAN-number-not-accurate-for-this-listing",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-07-15T13:19:45.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahWWAQ",
+      "parent_topic_name": "Products & Listings",
+      "topic_id": "0TO3X0000009akwWAA",
+      "topic_name": "Listing Creation",
+      "urlName": "Why-is-the-EAN-number-not-accurate-for-this-listing"
+    }
+  ],
+  "bodyHtml": "<div style=\"text-align: center;\">\n<div style=\"text-align: left;\">Our catalogue definitely uses EANs, and they are required per listings, but the BMID is the number we use internally as the &quot;source/number of truth&quot;. EANs are required, but that is not the number we use to manage and clean the catalogue.<br> </div>\n\n<h2 style=\"text-align: left;\"><strong>So where does that leave us? And how can you create listings on your own?</strong></h2>\n\n<div style=\"text-align: left;\"><br>You can use the &#39;create listings&#39; feature to get a specific product&#39;s BMID. In the photo below, we used our search bar to get the BMID of a particular watch by looking up the features of the watch. The corresponding BMID is 422501. This is essentially what our BMID matching service does, just at scale.</div>\n<br><br><img alt=\"image (7).png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000ek8H&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000008dt4W\"></img><br> \n<div style=\"text-align: left;\"><br><br>If there is no matching BMID then you can create the listing by adding a price, pictures, description etc and when created the product will get a new BMID you can attribute to the listing and push via API. In the case there are duplicate listings, we choose the BMID with the lower value as that means it has been created earlier.</div>\n<br><strong>In summary; yes Back Market uses EANs, but they are not accurate internally,</strong> for this we use BMIDs as the source of truth. If EANs is what BuyBay uses, then that is great because it means the attributes for the products are consistent. We need to match those attributes to BMIDs to upload the listings to the Back Office using APIs.<br> </div>"
+}

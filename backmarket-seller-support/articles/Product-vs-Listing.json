@@ -1,0 +1,19 @@
+{
+  "id": "ka0aT000000LyvdQAC",
+  "articleNumber": "000001060",
+  "title": "Product vs. Listing",
+  "urlName": "Product-vs-Listing",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Product-vs-Listing",
+  "language": "en_GB",
+  "lastPublishedDate": "2026-02-04T14:47:47.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahWWAQ",
+      "parent_topic_name": "Products & Listings",
+      "topic_id": "0TO3X0000009akuWAA",
+      "topic_name": "Definitions",
+      "urlName": "Product-vs-Listing"
+    }
+  ],
+  "bodyHtml": "<p>To understand how our marketplace works, it&#39;s very important to understand the differences between a <strong>product</strong> and a <strong>listing</strong>. <br> </p>\n<ul><li><strong>A product refers to a device with several attributes</strong> (model, brand, color, weight, operator, processor, etc.)</li><li><strong>A listing refers to the offer that a seller makes on this product.</strong></li></ul>\n<p><img alt=\"en1.png\" src=\"/ssc/servlet/rtaImage?eid=ka0aT000000Lyvd&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064RAS\"></img></p>\n<p>Each seller can create a listing on an existing product in our database.</p>\n<p>If the product you want to sell does not exist in our system, you can create it. After that, each seller will be able to create a listing on the product you have created.</p>\n<p>You will be able to have various listings on the same product, just like other sellers: <br><br><img alt=\"2.png\" src=\"/ssc/servlet/rtaImage?eid=ka0aT000000Lyvd&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064RAr\"></img><br><br>You can also differentiate between product and listing information directly on our website: <br><br><br><br> </p>\n<p>Product information will never change, while listing information (such as price, warranty period, delivery options) may change over time.</p>"
+}

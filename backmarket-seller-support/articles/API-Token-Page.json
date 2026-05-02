@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb00000007pVIAQ",
+  "articleNumber": "000001325",
+  "title": "How do I connect my API token?",
+  "urlName": "API-Token-Page",
+  "url": "https://backmarket.my.site.com/ssc/s/article/API-Token-Page",
+  "language": "en_GB",
+  "lastPublishedDate": "2023-12-12T10:47:02.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009aheWAA",
+      "parent_topic_name": "Integration & Connection",
+      "topic_id": "0TO3X000000xTjSWAU",
+      "topic_name": "Testing My Connection",
+      "urlName": "API-Token-Page"
+    }
+  ],
+  "bodyHtml": "<p>Here’s what you need to know about getting your API token and setting up your integration. Just follow these steps. <br> </p>\n\n<p>Step 1. Go to the Back Office “Options” tab. </p>\n\n<p>Step 2. Select “API &amp; Integrations”.<br> </p>\n\n<p><img alt=\"Screenshot 2023-12-12 at 10.49.41.png\" src=\"/ssc/servlet/rtaImage?eid=ka0Sb00000007pV&amp;feoid=00N3X00000M5fJO&amp;refid=0EMSb000000Krxp\" style=\"width: 698px;height: 306px;\"></img></p>\n\n<p><br>Step 3. Select “Add new integration”. </p>\n\n<p>Step 4. Select your type of integration in the list.<br> </p>\n\n<p><img alt=\"Screenshot 2023-12-12 at 10.55.20.png\" src=\"/ssc/servlet/rtaImage?eid=ka0Sb00000007pV&amp;feoid=00N3X00000M5fJO&amp;refid=0EMSb000000KsYv\" style=\"width: 699px;height: 337px;\"></img></p>\n\n<p><br>Step 5. Enter your password to display your token.</p>\n\n<p>Step 6. Copy the token and use it to set up your integration.<br> </p>\n\n<p><img alt=\"Screenshot 2023-12-12 at 10.56.41.png\" src=\"/ssc/servlet/rtaImage?eid=ka0Sb00000007pV&amp;feoid=00N3X00000M5fJO&amp;refid=0EMSb000000KsnR\" style=\"width: 699px;height: 337px;\"></img></p>\n\n<p><br>For more info, <strong><a href=\"https://api.backmarket.dev/#/\" target=\"_blank\">check out our API guidelines</a></strong>.</p>\n\n<p>Keep in mind that:</p>\n\n<ul><li>Your API token will only be displayed once, so make sure to copy it. </li><li>If you’ve lost your token or need to refresh it for any reason, you’ll have to delete your integration, refresh the webpage, and re-add your integration. </li><li>If you change your token, you’ll need to enter the new one as soon as possible. Otherwise, you might run into issues and get blocked by our system.</li><li>The only person who can change tokens is the admin user of your account for security reasons. The admin user is the only one who can see the “Integrations” tab on the “Options” page.</li></ul>"
+}

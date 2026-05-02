@@ -1,0 +1,1 @@
+conversation_id,tier,action,primary_reason,review_reasons,state,source,delivered_as,ticket_state,created_by,updated_at,created_at,age_days,age_bucket,customer_replied_after_last_admin,last_customer_reply_at,last_admin_reply_at,customer_name,customer_email,customer_phone,subject,intercom_url

@@ -1,0 +1,259 @@
+folder: ~/builds/icorrect-parts-service
+size_on_disk: "27M"
+file_count: 42
+last_git_commit: 2026-04-29T13:37:01+00:00
+last_modified: 2026-05-01T02:34:56Z
+state: active
+purpose: "Node/Express service that reacts to Monday.com board changes to deduct parts, post stock-check updates, and trigger shortage alerts for iCorrect. It keeps runtime stock state in a local SQLite database and exposes webhook endpoints plus a health check."
+suspected_owner_agent: parts
+ownership_confidence: high
+key_files:
+  - path: src/index.js
+    role: main entry point
+  - path: CHANGELOG.md
+    role: release and ops history
+  - path: .env.example
+    role: env contract
+actionable_ideas:
+  - idea: "persist stock-check debounce state across service restarts"
+    source_path: /home/ricky/builds/icorrect-parts-service/CHANGELOG.md
+    source_line: 25
+    state_hint: partial-built
+  - idea: "guard against stale clear events cancelling newer pending stock-checks"
+    source_path: /home/ricky/builds/icorrect-parts-service/CHANGELOG.md
+    source_line: 26
+    state_hint: partial-built
+  - idea: "clean stale /home/ricky/projects path references from repo service configs"
+    source_path: /home/ricky/builds/icorrect-parts-service/CHANGELOG.md
+    source_line: 27
+    state_hint: partial-built
+dependencies:
+  external:
+    - MONDAY_API_TOKEN
+    - MONDAY_AUTOMATIONS_TOKEN
+    - PARTS_SHORTAGE_SLACK_WEBHOOK_URL
+    - Monday.com
+    - Slack webhook
+    - better-sqlite3
+  internal: []
+canonical_status: canonical
+notes: "Plaintext .env present at /home/ricky/builds/icorrect-parts-service/.env. Runtime SQLite files live under data/ (parts.db, WAL, SHM). CHANGELOG notes stale in-repo systemd/PM2 paths pointing at /home/ricky/projects while the live user unit points at /home/ricky/builds/icorrect-parts-service."
+---
+folder: ~/builds/icorrect-shopify-theme
+size_on_disk: "17M"
+file_count: 507
+last_git_commit: 2026-04-24T01:28:33+00:00
+last_modified: 2026-04-24T01:28:15Z
+state: active
+purpose: "Primary Shopify theme repo for icorrect.co.uk, including live theme code, analytics instrumentation, conversion/SEO work, and quote-wizard planning. The folder also carries prototypes, exports, and PostHog analysis used to drive website changes."
+suspected_owner_agent: arlo-website
+ownership_confidence: high
+key_files:
+  - path: layout/theme.liquid
+    role: main theme layout
+  - path: docs/quote-wizard-build-plan.md
+    role: implementation plan
+  - path: docs/dead-click-analysis-2026-04-23.md
+    role: UX analytics findings
+  - path: scripts/analysis/README.md
+    role: PostHog reporting workflow
+actionable_ideas:
+  - idea: "build the cookie banner mini CSS fix"
+    source_path: /home/ricky/builds/icorrect-shopify-theme/docs/marketing-status-2026-04-22.md
+    source_line: 16
+    state_hint: partial-built
+  - idea: "wrap each collection repair card in a single anchor hit area"
+    source_path: /home/ricky/builds/icorrect-shopify-theme/docs/dead-click-analysis-2026-04-23.md
+    source_line: 108
+    state_hint: captured
+  - idea: "make each quote-wizard contact method block a single anchor"
+    source_path: /home/ricky/builds/icorrect-shopify-theme/docs/dead-click-analysis-2026-04-23.md
+    source_line: 110
+    state_hint: captured
+  - idea: "switch FAQ accordion open-state tracking from style.maxHeight to a CSS class and verify mobile click handling"
+    source_path: /home/ricky/builds/icorrect-shopify-theme/docs/dead-click-analysis-2026-04-23.md
+    source_line: 111
+    state_hint: captured
+dependencies:
+  external:
+    - Shopify theme runtime
+    - Shopify Redirects API
+    - PostHog
+    - Google Analytics 4
+    - Meta Pixel
+    - n8n webhook
+  internal:
+    - ~/builds/intake-system
+    - ~/builds/system-audit-2026-03-31
+canonical_status: canonical
+notes: "Theme repo mixes production Liquid/assets with docs, prototypes, reports, and product exports (Products.csv, collections.xlsx). Quote-wizard planning assumes Shopify product coverage and references intake-system device-flow docs. No >50 MB sampling rule was triggered."
+---
+folder: ~/builds/xero-invoice-automation
+size_on_disk: "520K"
+file_count: 12
+last_git_commit: 2026-02-18T18:38:57+00:00
+last_modified: 2026-03-04T06:06:00Z
+state: active
+purpose: "Builder and runbook for the Monday.com to Xero draft-invoice workflow hosted in n8n Cloud. The folder contains the brief, setup guide, generated workflow JSON, and Python helpers used to upload or patch the workflow."
+suspected_owner_agent: operations
+ownership_confidence: medium
+key_files:
+  - path: build_workflow.py
+    role: workflow builder/uploader
+  - path: SETUP.md
+    role: operator runbook
+  - path: BRIEF.md
+    role: product spec
+  - path: WEBHOOK_URL.txt
+    role: deployment record
+actionable_ideas:
+  - idea: "add a Send Invoice action that approves the draft in Xero and emails the client"
+    source_path: /home/ricky/builds/xero-invoice-automation/SETUP.md
+    source_line: 128
+    state_hint: captured
+  - idea: "add batch invoicing for multiple Monday items"
+    source_path: /home/ricky/builds/xero-invoice-automation/SETUP.md
+    source_line: 129
+    state_hint: captured
+  - idea: "add a payment webhook that updates Monday and Slack when Xero marks an invoice paid"
+    source_path: /home/ricky/builds/xero-invoice-automation/SETUP.md
+    source_line: 130
+    state_hint: captured
+dependencies:
+  external:
+    - N8N_CLOUD_API_TOKEN
+    - MONDAY_API_TOKEN
+    - MONDAY_APP_TOKEN
+    - XERO_CLIENT_ID
+    - XERO_CLIENT_SECRET
+    - XERO_REFRESH_TOKEN
+    - XERO_TENANT_ID
+    - n8n Cloud
+    - Monday.com
+    - Xero
+  internal: []
+canonical_status: draft
+notes: "WEBHOOK_URL.txt records workflow 9jD6J2X3yCPk8Rjp as ACTIVE, which is why this folder is marked active despite older local timestamps. build_workflow.py reads MONDAY_APP_TOKEN even though the brief names MONDAY_API_TOKEN, and it still writes workflow.json plus WEBHOOK_URL.txt to /home/ricky/projects/xero-invoice-automation rather than this /home/ricky/builds path. Git working tree is dirty with modified builders and multiple untracked fix/workflow variants."
+---
+folder: ~/builds/xero-invoice-notifications
+size_on_disk: "52K"
+file_count: 9
+last_git_commit: "no git"
+last_modified: 2026-04-24T12:17:33Z
+state: active
+purpose: "Shell-based polling job for paid Xero invoices that is meant to update Monday.com and post Slack notifications on a 15-minute timer. The folder contains the brief/spec, the main orchestrator, helper libraries, and systemd unit files."
+suspected_owner_agent: operations
+ownership_confidence: medium
+key_files:
+  - path: check-invoices.sh
+    role: main orchestrator
+  - path: lib/monday-api.sh
+    role: Monday integration helper
+  - path: BUILD-BRIEF.md
+    role: build brief
+  - path: xero-invoice-notifications.timer
+    role: schedule definition
+actionable_ideas:
+  - idea: "re-auth Xero so the polling flow can refresh tokens again"
+    source_path: /home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md
+    source_line: 128
+    state_hint: broken
+  - idea: "deploy the scripts and systemd timer"
+    source_path: /home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md
+    source_line: 129
+    state_hint: partial-built
+  - idea: "test the flow with a recent paid invoice"
+    source_path: /home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md
+    source_line: 130
+    state_hint: captured
+dependencies:
+  external:
+    - MONDAY_APP_TOKEN
+    - SLACK_BOT_TOKEN
+    - XERO_TENANT_ID
+    - /home/ricky/config/xero_refresh.sh
+    - Monday.com
+    - Slack API
+    - Xero
+    - systemd
+    - jq
+    - curl
+    - bc
+  internal: []
+canonical_status: draft
+notes: "No git repo. Runtime state and logs live outside the folder at /home/ricky/data/xero-invoice-state.json and /home/ricky/data/xero-invoice-check.log. The brief says to match on the Xero invoice URL column and set payment date, but the current implementation matches by invoice number within group new_group6580 and monday_update_paid only sets status plus paid amount."
+---
+folder: ~/builds/mobilesentrix
+size_on_disk: "24K"
+file_count: 2
+last_git_commit: "no git"
+last_modified: 2026-04-28T06:18:23Z
+state: active
+purpose: "Read-only discovery pack for automating Mobilesentrix UK ordering against a private Magento 1.x stack. It captures the end-to-end endpoint inventory, auth model, checkout sequence, and unresolved risks before any live automation is attempted."
+suspected_owner_agent: parts
+ownership_confidence: high
+key_files:
+  - path: order-placement-discovery.md
+    role: discovery brief
+  - path: api-inventory.json
+    role: raw endpoint inventory
+actionable_ideas:
+  - idea: "capture the live payment method codes returned by loadpayment for a non-empty quote"
+    source_path: /home/ricky/builds/mobilesentrix/order-placement-discovery.md
+    source_line: 73
+    state_hint: unknown
+  - idea: "capture the exact payment body shape for each supported payment method"
+    source_path: /home/ricky/builds/mobilesentrix/order-placement-discovery.md
+    source_line: 74
+    state_hint: unknown
+  - idea: "codify the order-placement workflow as a reusable domain skill"
+    source_path: /home/ricky/builds/mobilesentrix/order-placement-discovery.md
+    source_line: 81
+    state_hint: captured
+dependencies:
+  external:
+    - Mobilesentrix UK
+    - Cloudflare WAF
+    - frontend session cookie
+    - FORM_KEY and ENCRYPT_FORM_KEY
+    - Braintree
+    - PayPal
+  internal: []
+canonical_status: draft
+notes: "Discovery explicitly stayed read-only and says the signed-in cart already contained two live items. Stock Magento REST is disabled; any automation will need HTML scraping plus private AJAX endpoints. Raw endpoint inventory is also mirrored outside this folder under /tmp and /Users/icorrect/Desktop."
+---
+folder: ~/builds/inventory-system
+size_on_disk: "8.0K"
+file_count: 1
+last_git_commit: "no git"
+last_modified: 2026-02-22T05:51:34Z
+state: dormant
+purpose: "Single-file product spec for a reservation-first inventory operating model covering stock commitment, refurbishment, reorder visibility, and reporting. It reads as a planning artefact rather than an implemented system."
+suspected_owner_agent: parts
+ownership_confidence: high
+key_files:
+  - path: SPEC.md
+    role: product spec
+actionable_ideas:
+  - idea: "clean critical stock data and links before building automation"
+    source_path: /home/ricky/builds/inventory-system/SPEC.md
+    source_line: 70
+    state_hint: captured
+  - idea: "build reservation, consumption, release, and receiving flows"
+    source_path: /home/ricky/builds/inventory-system/SPEC.md
+    source_line: 72
+    state_hint: captured
+  - idea: "build a dashboard for stock, reservations, and reorder signals"
+    source_path: /home/ricky/builds/inventory-system/SPEC.md
+    source_line: 74
+    state_hint: captured
+  - idea: "add low-stock, stale-reservation, and anomaly notifications"
+    source_path: /home/ricky/builds/inventory-system/SPEC.md
+    source_line: 76
+    state_hint: captured
+dependencies:
+  external:
+    - Monday boards
+  internal: []
+canonical_status: draft
+notes: "No git repo and no implementation files beyond SPEC.md. The spec references source material under ~/.openclaw agent workspaces and notes ownership ambiguity around reorder levels and supplier mappings."

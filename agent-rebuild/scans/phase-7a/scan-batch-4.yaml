@@ -1,0 +1,366 @@
+batch_id: 4
+folders_processed: 7
+warnings_total: 8
+folders:
+  - folder: /home/ricky/builds/icloud-checker
+    state_at_scan: active
+    owner: backmarket
+    existing_subdirs_kept: [src, lib, data, node_modules]
+    new_subdirs_created: [briefs, decisions, docs, docs/audits, docs/assets, archive, archive/2026-05-02-superseded-by-src, scratch, scripts]
+    file_moves:
+      - from: /home/ricky/builds/icloud-checker/BRIEF.md
+        to: /home/ricky/builds/icloud-checker/briefs/BRIEF.md
+        rationale: "*.md proposal/spec -> briefs/"
+      - from: /home/ricky/builds/icloud-checker/SOP-BM-TRADEIN-CHECK.md
+        to: /home/ricky/builds/icloud-checker/docs/SOP-BM-TRADEIN-CHECK.md
+        rationale: "SOP / runbook tone -> docs/"
+      - from: /home/ricky/builds/icloud-checker/AUDIT-AND-DECOMPOSITION.md
+        to: /home/ricky/builds/icloud-checker/docs/audits/AUDIT-AND-DECOMPOSITION.md
+        rationale: "*-audit / *-analysis -> docs/audits/"
+      - from: /home/ricky/builds/icloud-checker/BACKMARKET-FULL-AUDIT.md
+        to: /home/ricky/builds/icloud-checker/docs/audits/BACKMARKET-FULL-AUDIT.md
+        rationale: "*-audit -> docs/audits/"
+      - from: /home/ricky/builds/icloud-checker/APPLE-SPECS-TODO.md
+        to: /home/ricky/builds/icloud-checker/scratch/APPLE-SPECS-TODO.md
+        rationale: "TODO working note -> scratch/"
+      - from: /home/ricky/builds/icloud-checker/SLACK-SETUP-TODO.md
+        to: /home/ricky/builds/icloud-checker/scratch/SLACK-SETUP-TODO.md
+        rationale: "TODO working note -> scratch/"
+      - from: /home/ricky/builds/icloud-checker/debug.png
+        to: /home/ricky/builds/icloud-checker/docs/assets/debug.png
+        rationale: "asset (.png) -> docs/assets/"
+      - from: /home/ricky/builds/icloud-checker/recheck-state.json
+        to: /home/ricky/builds/icloud-checker/data/recheck-state.json
+        rationale: "runtime state JSON at root -> data/"
+      - from: /home/ricky/builds/icloud-checker/serial-check-state.json
+        to: /home/ricky/builds/icloud-checker/data/serial-check-state.json
+        rationale: "runtime state JSON at root -> data/"
+      - from: /home/ricky/builds/icloud-checker/specs-cache.json
+        to: /home/ricky/builds/icloud-checker/data/specs-cache.json
+        rationale: "runtime cache JSON at root -> data/"
+      - from: /home/ricky/builds/icloud-checker/apple-specs.js
+        to: /home/ricky/builds/icloud-checker/archive/2026-05-02-superseded-by-src/apple-specs.js
+        rationale: "older root copy superseded by src/apple-specs.js (Apr 23 vs Mar 24); systemd unit ExecStarts src/index.js"
+      - from: /home/ricky/builds/icloud-checker/index.js
+        to: /home/ricky/builds/icloud-checker/archive/2026-05-02-superseded-by-src/index.js
+        rationale: "older root copy superseded by src/index.js (May 2 vs Apr 1); systemd ExecStart points at src/index.js"
+      - from: /home/ricky/builds/icloud-checker/batch-spec-check.js
+        to: /home/ricky/builds/icloud-checker/scripts/batch-spec-check.js
+        rationale: "small standalone utility -> scripts/"
+    new_files_created:
+      - path: /home/ricky/builds/icloud-checker/INDEX.md
+        description: "active-state INDEX with structure + key documents + open questions"
+      - path: /home/ricky/builds/icloud-checker/data/INDEX.md
+        description: "sub-INDEX for data/ (>5 files threshold met)"
+      - path: /home/ricky/builds/icloud-checker/decisions/.gitkeep
+        description: "placeholder so empty decisions/ persists in git"
+    sub_indexes_created: [data/INDEX.md]
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/main/workspace/MEMORY.md:47"
+        ref: "/home/ricky/builds/icloud-checker/src/apple-specs.js (UNCHANGED — still at src/)"
+      - source: "/home/ricky/.openclaw/agents/operations/workspace/AGENTS.md:212"
+        ref: "~/builds/icloud-checker/ (folder ref, no file path change)"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/AGENTS.md:217"
+        ref: "~/builds/icloud-checker/ (folder ref)"
+      - source: "/home/ricky/.openclaw/shared/LEARNINGS.md:18"
+        ref: "icloud-checker (folder ref + systemd unit name)"
+      - source: "/home/ricky/kb/backmarket/README.md:9"
+        ref: "/home/ricky/builds/icloud-checker/src/apple-specs.js (UNCHANGED)"
+      - source: "/home/ricky/kb/backmarket/spec-checker.md:9"
+        ref: "/home/ricky/builds/icloud-checker/src/apple-specs.js (UNCHANGED)"
+      - source: "/home/ricky/kb/backmarket/spec-checker.md:26"
+        ref: "/home/ricky/builds/icloud-checker/src/apple-specs.js (UNCHANGED)"
+      - source: "/home/ricky/kb/backmarket/spec-checker.md:27"
+        ref: "/home/ricky/builds/icloud-checker/SOP-BM-TRADEIN-CHECK.md -> NOW docs/SOP-BM-TRADEIN-CHECK.md (NEEDS PATCH)"
+      - source: "/home/ricky/kb/customer-service/_draft/monday-workflow-map.md:243"
+        ref: "icloud-checker text4 column ref"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:230"
+        ref: "/home/ricky/builds/icloud-checker/AUDIT-AND-DECOMPOSITION.md -> NOW docs/audits/AUDIT-AND-DECOMPOSITION.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:240"
+        ref: "/home/ricky/builds/icloud-checker/AUDIT-AND-DECOMPOSITION.md -> NOW docs/audits/AUDIT-AND-DECOMPOSITION.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:33"
+        ref: "icloud-checker folder row"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:76"
+        ref: "icloud-checker (security note)"
+      - source: "/home/ricky/.config/systemd/user/icloud-checker.service"
+        ref: "WorkingDirectory=/home/ricky/builds/icloud-checker; ExecStart=/usr/bin/node src/index.js (UNCHANGED — src/index.js is canonical)"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:207"
+        ref: "icloud-checker structure note (now resolved by this reorg)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md (multiple lines)"
+        ref: "icloud-checker folder + service"
+    warnings:
+      - "Root index.js (Apr 1, 81KB) and apple-specs.js (Mar 24) were OLDER duplicates of src/ versions. Moved to archive/2026-05-02-superseded-by-src/ rather than deleted (per no-deletions rule). Verify no caller references root copies before any future archive cleanup."
+      - "Plaintext credential / basic-auth material flagged in folder-inventory security row (not read or moved). Phase 7c rotation pass required."
+      - "kb/backmarket/spec-checker.md:27 references SOP-BM-TRADEIN-CHECK.md at root; needs patch to docs/SOP-BM-TRADEIN-CHECK.md."
+      - "idea-inventory.md rows 230 and 240 reference AUDIT-AND-DECOMPOSITION.md at root; needs patch to docs/audits/AUDIT-AND-DECOMPOSITION.md."
+    status: success
+
+  - folder: /home/ricky/builds/llm-summary-endpoint
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept: [node_modules]
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/llm-summary-endpoint/INDEX.md
+        description: "active-state INDEX (minimal — single-file service)"
+      - path: /home/ricky/builds/llm-summary-endpoint/briefs/.gitkeep
+        description: "placeholder (empty briefs/)"
+      - path: /home/ricky/builds/llm-summary-endpoint/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/llm-summary-endpoint/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/llm-summary-endpoint/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/llm-summary-endpoint/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:41"
+        ref: "llm-summary-endpoint folder row"
+      - source: "/home/ricky/.config/systemd/user/llm-summary.service"
+        ref: "WorkingDirectory=/home/ricky/builds/llm-summary-endpoint; ExecStart=/usr/bin/node server.js (UNCHANGED — server.js stays at root)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:133"
+        ref: "/home/ricky/builds/llm-summary-endpoint/ size row"
+    warnings:
+      - "No README.md present; folder is single-file service. Operational deploy/restart notes could be promoted later if useful."
+    status: success
+
+  - folder: /home/ricky/builds/royal-mail-automation
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept: [node_modules, .claude, .git]
+    new_subdirs_created: [briefs, decisions, docs, docs/audits, archive, archive/2026-05-02-session-handoffs, archive/2026-05-02-one-offs-and-pilots, scratch, scripts]
+    file_moves:
+      - from: /home/ricky/builds/royal-mail-automation/DISPATCH-TASK.md
+        to: /home/ricky/builds/royal-mail-automation/briefs/DISPATCH-TASK.md
+        rationale: "*-task / spec -> briefs/"
+      - from: /home/ricky/builds/royal-mail-automation/REPAIRS-DISPATCH-PLAN.md
+        to: /home/ricky/builds/royal-mail-automation/briefs/REPAIRS-DISPATCH-PLAN.md
+        rationale: "*-plan -> briefs/"
+      - from: /home/ricky/builds/royal-mail-automation/TASK.md
+        to: /home/ricky/builds/royal-mail-automation/briefs/TASK.md
+        rationale: "task spec -> briefs/"
+      - from: /home/ricky/builds/royal-mail-automation/ADDRESSNOW-IMPLEMENTATION.md
+        to: /home/ricky/builds/royal-mail-automation/docs/ADDRESSNOW-IMPLEMENTATION.md
+        rationale: "implementation discovery / canonical reference -> docs/"
+      - from: /home/ricky/builds/royal-mail-automation/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md
+        to: /home/ricky/builds/royal-mail-automation/docs/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md
+        rationale: "discovery doc -> docs/"
+      - from: /home/ricky/builds/royal-mail-automation/SESSION-HANDOFF-2026-04-22.md
+        to: /home/ricky/builds/royal-mail-automation/archive/2026-05-02-session-handoffs/SESSION-HANDOFF-2026-04-22.md
+        rationale: "session-handoff snapshot -> archive (date-stamped)"
+      - from: /home/ricky/builds/royal-mail-automation/john-one-off.js
+        to: /home/ricky/builds/royal-mail-automation/archive/2026-05-02-one-offs-and-pilots/john-one-off.js
+        rationale: "named one-off; not part of live cron path -> archive"
+      - from: /home/ricky/builds/royal-mail-automation/pilot.js
+        to: /home/ricky/builds/royal-mail-automation/archive/2026-05-02-one-offs-and-pilots/pilot.js
+        rationale: "pilot script -> archive"
+      - from: /home/ricky/builds/royal-mail-automation/pilot-v2.js
+        to: /home/ricky/builds/royal-mail-automation/archive/2026-05-02-one-offs-and-pilots/pilot-v2.js
+        rationale: "pilot v2 script -> archive"
+      - from: /home/ricky/builds/royal-mail-automation/dump-selectors.js
+        to: /home/ricky/builds/royal-mail-automation/archive/2026-05-02-one-offs-and-pilots/dump-selectors.js
+        rationale: "debug dump utility from Mar 2; not part of live path -> archive"
+      - from: /home/ricky/builds/royal-mail-automation/dump-sender.js
+        to: /home/ricky/builds/royal-mail-automation/archive/2026-05-02-one-offs-and-pilots/dump-sender.js
+        rationale: "debug dump utility -> archive"
+      - from: /home/ricky/builds/royal-mail-automation/soak-review.sh
+        to: /home/ricky/builds/royal-mail-automation/scripts/soak-review.sh
+        rationale: "small standalone utility -> scripts/"
+    new_files_created:
+      - path: /home/ricky/builds/royal-mail-automation/INDEX.md
+        description: "active-state INDEX with cron-anchor explanation for root-kept *.js"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "crontab -l"
+        ref: "cd /home/ricky/builds/royal-mail-automation && /usr/bin/node dispatch.js (4 cron entries; UNCHANGED — dispatch.js + repairs-dispatch.js + buy-labels.js intentionally kept at root)"
+      - source: "/home/ricky/kb/customer-service/_draft/label-buying-workflow.md:57"
+        ref: "/home/ricky/builds/royal-mail-automation/dispatch.js (UNCHANGED)"
+      - source: "/home/ricky/kb/customer-service/_draft/label-buying-workflow.md:65"
+        ref: "/home/ricky/builds/royal-mail-automation/buy-labels.js (UNCHANGED)"
+      - source: "/home/ricky/kb/customer-service/_draft/label-buying-workflow.md:67"
+        ref: "/home/ricky/builds/royal-mail-automation/buy-labels.js (UNCHANGED)"
+      - source: "/home/ricky/kb/customer-service/_draft/label-buying-workflow.md:130"
+        ref: "/home/ricky/builds/royal-mail-automation/buy-labels.js + dispatch.js (UNCHANGED)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:65"
+        ref: "/home/ricky/builds/royal-mail-automation/REPAIRS-DISPATCH-PLAN.md -> NOW briefs/REPAIRS-DISPATCH-PLAN.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:86"
+        ref: "/home/ricky/builds/royal-mail-automation/ADDRESSNOW-IMPLEMENTATION.md -> NOW docs/ADDRESSNOW-IMPLEMENTATION.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:93"
+        ref: "/home/ricky/builds/royal-mail-automation/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md -> NOW docs/GOPHR-INTEGRATION-DISCOVERY-2026-04-24.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:52"
+        ref: "royal-mail-automation row"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:203"
+        ref: "structure observation (now resolved)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:369-370"
+        ref: "cron entries"
+    warnings:
+      - "Live cron path forces dispatch.js, repairs-dispatch.js, buy-labels.js to remain at root. Per rubric edge-case (>3 root code files = larger code base), these stay at root by design."
+      - "idea-inventory.md rows 65, 86, 93 reference REPAIRS-DISPATCH-PLAN.md / ADDRESSNOW-IMPLEMENTATION.md / GOPHR-INTEGRATION-DISCOVERY at root; needs patch."
+    status: success
+
+  - folder: /home/ricky/builds/telephone-inbound
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch, data]
+    file_moves:
+      - from: /home/ricky/builds/telephone-inbound/telephone-inbound.log
+        to: /home/ricky/builds/telephone-inbound/data/telephone-inbound.log
+        rationale: "*.log -> data/"
+    new_files_created:
+      - path: /home/ricky/builds/telephone-inbound/INDEX.md
+        description: "active-state INDEX with PII flag for the log"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.config/systemd/user/telephone-inbound.service"
+        ref: "WorkingDirectory=/home/ricky/builds/telephone-inbound; ExecStart=/usr/bin/python3 -u /home/ricky/builds/telephone-inbound/server.py (UNCHANGED)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:58"
+        ref: "telephone-inbound row"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:77"
+        ref: "PII risk row"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:38"
+        ref: "telephone-inbound entry"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:117,160,202,250,566"
+        ref: "telephone-inbound size + service rows"
+    warnings:
+      - "PII in data/telephone-inbound.log (per folder-inventory). Did NOT read log content (sensitive). Phase 7c redaction needed."
+      - "telephone-inbound.service file at root is a copy; live unit lives in ~/.config/systemd/user/. Kept at root as deployment artifact reference."
+    status: success
+
+  - folder: /home/ricky/builds/voice-note-pipeline
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch, data]
+    file_moves:
+      - from: /home/ricky/builds/voice-note-pipeline/voice-note-worker.log
+        to: /home/ricky/builds/voice-note-pipeline/data/voice-note-worker.log
+        rationale: "*.log -> data/ (~22MB rolling log)"
+      - from: /home/ricky/builds/voice-note-pipeline/.voice-note-state.json
+        to: /home/ricky/builds/voice-note-pipeline/data/.voice-note-state.json
+        rationale: "runtime state JSON -> data/"
+    new_files_created:
+      - path: /home/ricky/builds/voice-note-pipeline/INDEX.md
+        description: "active-state INDEX with PII flag"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.config/systemd/user/voice-note-worker.service"
+        ref: "WorkingDirectory=/home/ricky/builds/voice-note-pipeline; ExecStart=/usr/bin/python3 -u /home/ricky/builds/voice-note-pipeline/voice-note-worker.py (UNCHANGED)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:60"
+        ref: "voice-note-pipeline row"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:77"
+        ref: "PII risk row"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:135,307"
+        ref: "voice-note-pipeline size + process rows"
+    warnings:
+      - "PII in data/voice-note-worker.log (per folder-inventory). Did NOT read log content (sensitive). Phase 7c redaction + log rotation needed."
+      - "Worker.py path is absolute in systemd ExecStart so kept at root, not moved into src/."
+    status: success
+
+  - folder: /home/ricky/builds/xero-invoice-automation
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept: [.git]
+    new_subdirs_created: [briefs, decisions, docs, archive, archive/2026-05-02-workflow-versions, scratch, scripts, data]
+    file_moves:
+      - from: /home/ricky/builds/xero-invoice-automation/BRIEF.md
+        to: /home/ricky/builds/xero-invoice-automation/briefs/BRIEF.md
+        rationale: "*.md proposal -> briefs/"
+      - from: /home/ricky/builds/xero-invoice-automation/SETUP.md
+        to: /home/ricky/builds/xero-invoice-automation/docs/SETUP.md
+        rationale: "SETUP* -> docs/"
+      - from: /home/ricky/builds/xero-invoice-automation/WEBHOOK_URL.txt
+        to: /home/ricky/builds/xero-invoice-automation/docs/WEBHOOK_URL.txt
+        rationale: "config-style note -> docs/ (with sensitive flag)"
+      - from: /home/ricky/builds/xero-invoice-automation/workflow.json
+        to: /home/ricky/builds/xero-invoice-automation/archive/2026-05-02-workflow-versions/workflow.json
+        rationale: "superseded by workflow_v4 -> archive (date-stamped versions)"
+      - from: /home/ricky/builds/xero-invoice-automation/workflow_v2.json
+        to: /home/ricky/builds/xero-invoice-automation/archive/2026-05-02-workflow-versions/workflow_v2.json
+        rationale: "superseded version -> archive"
+      - from: /home/ricky/builds/xero-invoice-automation/workflow_v3.json
+        to: /home/ricky/builds/xero-invoice-automation/archive/2026-05-02-workflow-versions/workflow_v3.json
+        rationale: "superseded version -> archive"
+      - from: /home/ricky/builds/xero-invoice-automation/workflow_v4.json
+        to: /home/ricky/builds/xero-invoice-automation/data/workflow_v4.json
+        rationale: "current workflow definition (data) -> data/"
+      - from: /home/ricky/builds/xero-invoice-automation/build_workflow.py
+        to: /home/ricky/builds/xero-invoice-automation/scripts/build_workflow.py
+        rationale: "Python builder utility -> scripts/"
+      - from: /home/ricky/builds/xero-invoice-automation/fix_body_format.py
+        to: /home/ricky/builds/xero-invoice-automation/scripts/fix_body_format.py
+        rationale: "Python patcher utility -> scripts/"
+      - from: /home/ricky/builds/xero-invoice-automation/fix_challenge.py
+        to: /home/ricky/builds/xero-invoice-automation/scripts/fix_challenge.py
+        rationale: "Python utility -> scripts/"
+      - from: /home/ricky/builds/xero-invoice-automation/fix_query.py
+        to: /home/ricky/builds/xero-invoice-automation/scripts/fix_query.py
+        rationale: "Python utility -> scripts/"
+      - from: /home/ricky/builds/xero-invoice-automation/patch_workflow.py
+        to: /home/ricky/builds/xero-invoice-automation/scripts/patch_workflow.py
+        rationale: "Python patcher -> scripts/"
+    new_files_created:
+      - path: /home/ricky/builds/xero-invoice-automation/INDEX.md
+        description: "active-state INDEX with sensitive WEBHOOK_URL flag"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/ferrari/workspace/TOOLS.md:43"
+        ref: "~/builds/xero-invoice-automation/ (folder ref)"
+      - source: "/home/ricky/.openclaw/agents/ferrari/workspace/AGENTS.md:167"
+        ref: "~/builds/xero-invoice-automation/ (folder ref)"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/AGENTS.md:217"
+        ref: "~/builds/xero-invoice-automation/ (folder ref)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:63"
+        ref: "/home/ricky/builds/xero-invoice-automation/SETUP.md -> NOW docs/SETUP.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:64"
+        ref: "/home/ricky/builds/xero-invoice-automation/SETUP.md -> NOW docs/SETUP.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:87"
+        ref: "/home/ricky/builds/xero-invoice-automation/SETUP.md -> NOW docs/SETUP.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:65"
+        ref: "xero-invoice-automation row"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:80"
+        ref: "path drift note"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:125"
+        ref: "xero-invoice-automation size row"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:96"
+        ref: "xero-invoice-automation listing"
+    warnings:
+      - "WEBHOOK_URL.txt may contain a sensitive endpoint URL (not read). Phase 7c review."
+      - "idea-inventory.md rows 63, 64, 87 reference SETUP.md at root; needs patch to docs/SETUP.md."
+    status: success
+
+  - folder: /home/ricky/builds/xero-invoice-notifications
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept: [lib]
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md
+        to: /home/ricky/builds/xero-invoice-notifications/briefs/BUILD-BRIEF.md
+        rationale: "BRIEF-style spec -> briefs/"
+      - from: /home/ricky/builds/xero-invoice-notifications/SPEC.md
+        to: /home/ricky/builds/xero-invoice-notifications/briefs/SPEC.md
+        rationale: "SPEC -> briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/xero-invoice-notifications/INDEX.md
+        description: "active-state INDEX flagging Xero re-auth blocker"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.config/systemd/user/xero-invoice-notifications.service"
+        ref: "WorkingDirectory=/home/ricky/builds/xero-invoice-notifications; ExecStart=/home/ricky/builds/xero-invoice-notifications/check-invoices.sh (UNCHANGED — check-invoices.sh stays at root)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:69"
+        ref: "/home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md -> NOW briefs/BUILD-BRIEF.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:75"
+        ref: "/home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md -> NOW briefs/BUILD-BRIEF.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:80"
+        ref: "/home/ricky/builds/xero-invoice-notifications/BUILD-BRIEF.md -> NOW briefs/BUILD-BRIEF.md (NEEDS PATCH)"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:66"
+        ref: "xero-invoice-notifications row"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:32"
+        ref: "xero-invoice-notifications entry"
+    warnings:
+      - "idea-inventory.md rows 69, 75, 80 reference BUILD-BRIEF.md at root; needs patch to briefs/BUILD-BRIEF.md."
+      - "Xero auth currently broken per BUILD-BRIEF; not a 7a concern but flagged for context."
+    status: success

@@ -1,0 +1,76 @@
+{
+  "site": "selfservicerepair.eu (Apple Self Service Repair, EU/UK)",
+  "operator": "CTDI (Apple's contract operator: ssr*.ctdi.com)",
+  "stack": {
+    "frontend": "Angular SPA (Angular 17/18, lazy-loaded modules: order, account, auth)",
+    "backend": "ASP.NET Core on Microsoft IIS/10.0 behind AWS ALB",
+    "auth": "AWS Cognito (eu-west-1 user pool eu-west-1_CooYqUepb, app client 6gkffmi3bl2qdbu6os8bkfmn2n)",
+    "payments": ["Authorize.net (Accept.js, US/UK card)", "Radial Hosted Payments", "Stripe (incl. Apple Pay via Stripe)", "PayPal"],
+    "telemetry": "Sentry (sentry.selfservicerepair.eu) + GA4 (G-78MT2X3VGE)",
+    "chat": "LiveChat (cdn.livechatinc.com)"
+  },
+  "base_url": "https://selfservicerepair.eu",
+  "api_base": "https://selfservicerepair.eu/api",
+  "auth_pattern": {
+    "headers": {
+      "Authorization1": "Bearer <CognitoIdToken>  (NOTE: literal name is 'Authorization1' with a digit, not 'Authorization')",
+      "WEBSTORE_SESSION": "<token from /api/Orders/GetSessionToken>",
+      "Accept-Language": "en-GB",
+      "Content-Type": "application/json"
+    },
+    "notes": "Cognito ID token stored in localStorage under 'AUTH_TOKEN' as JSON {token, type:'Cognito'} and also under standard amplify keys CognitoIdentityServiceProvider.<clientId>.<username>.idToken / accessToken / refreshToken. Token TTL ~1 hour. WEBSTORE_SESSION is short-lived; refresh via GET /api/Orders/GetSessionToken."
+  },
+  "endpoints": [
+    {"method": "GET",  "path": "/api/Orders/GetSessionToken",     "auth": "none",   "purpose": "Issues WEBSTORE_SESSION token. Required for cart/order endpoints."},
+    {"method": "GET",  "path": "/api/DeviceTypes",                "auth": "none",   "purpose": "Public catalog of all device types and models. ~189 KB. Includes language-specific names + slugs in 24 languages."},
+    {"method": "GET",  "path": "/api/RepairTypes?modelId={id}",   "auth": "none",   "purpose": "Returns list of repair types valid for a given device model id. Includes language_specific_attributes for each repair-type id."},
+    {"method": "POST", "path": "/api/Orders/GetDeviceIdRecaptcha?sn={serial}", "auth": "bearer", "body": "{recaptchaToken: '<v3 token>'}", "purpose": "Validate Apple device serial -> {deviceModelId, deviceTypeId, deviceModel, deviceModelCode, productCode, manualId, color, error, findMy}. Requires reCAPTCHA v3 token (site key 6LeoZYIdAAAAAAjZn-24zcepMBi08U8a9zvgAFAs)."},
+    {"method": "GET",  "path": "/api/Spares/Search?q=...",        "auth": "bearer", "purpose": "Free-text spare-part search. Empty string returns []."},
+    {"method": "GET",  "path": "/api/Spares/SearchByDevice?deviceModelId={id}&repairTypeId={name}&sn={serial}", "auth": "bearer", "purpose": "Compatible parts for a given device + repair type. Returns array of spare objects (see schema in skill doc). 200 status, ~100 KB+ for a Display search on MacBook Pro."},
+    {"method": "GET",  "path": "/api/Account",                    "auth": "bearer+session", "purpose": "Logged-in user profile. Returns id, email, username, fullname, phone, country, default-address ids, etc."},
+    {"method": "GET",  "path": "/api/Addresses",                  "auth": "bearer+session", "purpose": "User's saved billing/shipping addresses."},
+    {"method": "POST", "path": "/api/Addresses/Add",              "auth": "bearer+session", "purpose": "Add address."},
+    {"method": "POST", "path": "/api/Addresses/Update",           "auth": "bearer+session", "purpose": "Update address."},
+    {"method": "POST", "path": "/api/Addresses/Verify",           "auth": "bearer+session", "purpose": "Address validation (likely against Radial / postal service)."},
+    {"method": "POST", "path": "/api/Addresses/SetDefaultShipToAddress", "auth": "bearer+session", "purpose": "Mark default ship-to."},
+    {"method": "POST", "path": "/api/Account/AddUpdateAccount",   "auth": "bearer+session", "purpose": "Update account profile."},
+    {"method": "POST", "path": "/api/Account/Activate",           "auth": "none",          "purpose": "Activate new account from email link."},
+    {"method": "POST", "path": "/api/Account/AddAccountRecaptcha","auth": "none",          "purpose": "Account creation with reCAPTCHA gate."},
+    {"method": "POST", "path": "/api/Account/ValidateRecaptcha",  "auth": "none",          "purpose": "Validate reCAPTCHA token."},
+    {"method": "GET",  "path": "/api/Orders/GetCart",             "auth": "bearer+session", "purpose": "Current shopping cart contents (server-side cart keyed by WEBSTORE_SESSION + user)."},
+    {"method": "POST", "path": "/api/Orders/AddUpdateCart",       "auth": "bearer+session", "body": "Cart object: {details:[{spare:{id,partnumber,...}, devicemodel:{id}, sn, orderedquantity, id_repairtypes, ...}], country:{id}, language:{id}, currency:{id}, shiptocountry, shiptostate, ordernumber, ...}", "purpose": "Add/update/remove cart line items. Replaces full cart."},
+    {"method": "DELETE","path": "/api/Orders/DeleteCart",         "auth": "bearer+session", "purpose": "Empty cart."},
+    {"method": "POST", "path": "/api/Orders/CheckoutAuth",        "auth": "bearer+session", "body": "{ordernumber}, opaque payment data via custom RDFUID header (Authorize.net Accept.js token).", "purpose": "Authorize.net card checkout."},
+    {"method": "POST", "path": "/api/Orders/CheckoutStripe",      "auth": "bearer+session", "body": "{ordernumber}", "purpose": "Initiates Stripe payment intent. Returns {clientSecret, type}. Confirmed client-side via Stripe Elements."},
+    {"method": "POST", "path": "/api/Orders/ValidateCheckoutStripe","auth": "bearer+session","purpose": "Validate Stripe checkout state."},
+    {"method": "POST", "path": "/api/Orders/FinalizeStripePayment","auth": "bearer+session","purpose": "Finalize Stripe payment after client-side confirmation."},
+    {"method": "POST", "path": "/api/Orders/FinalizeStripeSetup", "auth": "bearer+session", "purpose": "Finalize Stripe SetupIntent (saved card)."},
+    {"method": "POST", "path": "/api/Orders/CheckoutRadial",      "auth": "bearer+session", "body": "Radial payment response object (from radial-hostedpayments-js-sdk) + RDFUID header.", "purpose": "Radial hosted-payment checkout."},
+    {"method": "POST", "path": "/api/Orders/CheckoutApplePay",    "auth": "bearer+session", "body": "{dataDescriptor:'COMMON.APPLE.INAPP.PAYMENT', dataValue:'<JSON token.paymentData>'}", "purpose": "Apple Pay (via Authorize.net InApp). Also Stripe Apple Pay path exists."},
+    {"method": "POST", "path": "/api/Orders/RequestRadialApplePaySession","auth": "bearer+session","purpose": "Apple-Pay merchant-validation handshake."},
+    {"method": "POST", "path": "/api/paypal/createorder",         "auth": "bearer+session", "purpose": "PayPal Smart Buttons - createOrder."},
+    {"method": "POST", "path": "/api/paypal/captureorder",        "auth": "bearer+session", "purpose": "PayPal capture."},
+    {"method": "GET",  "path": "/api/Orders/GetMyOrders",         "auth": "bearer+session", "purpose": "Order history list (summary). 91 orders for this account at time of audit."},
+    {"method": "GET",  "path": "/api/Orders/GetOrderByNumber?ordernumber={on}","auth":"bearer+session","purpose": "Full order detail incl. details[] (line items), shippingaddress, billingaddress, financial_documents (invoice/credit-note URLs), tracking numbers."},
+    {"method": "GET",  "path": "/api/Orders/GetOrderByToken?token={t}","auth":"none","purpose": "Public order lookup by token (used for guest order status / shipping confirmation emails)."},
+    {"method": "POST", "path": "/api/Orders/ReturnLabel",         "auth": "bearer+session", "purpose": "Generate replaced-part return shipping label."},
+    {"method": "GET",  "path": "/api/Env/RadialSetup",            "auth": "bearer+session (POST 405; needs different verb / body)", "purpose": "Returns Radial SDK config for the user's country."}
+  ],
+  "constants": {
+    "cognito_user_pool": "eu-west-1_CooYqUepb",
+    "cognito_app_client_id": "6gkffmi3bl2qdbu6os8bkfmn2n",
+    "recaptcha_site_key": "6LeoZYIdAAAAAAjZn-24zcepMBi08U8a9zvgAFAs",
+    "ga4_id": "G-78MT2X3VGE",
+    "sentry_dsn_host": "sentry.selfservicerepair.eu",
+    "stripe_keys_referenced": ["stripeLtdPublishableKey (UK)", "stripeGmbhPublishableKey (EU)"]
+  },
+  "discovered_environments": [
+    "https://selfservicerepair.eu",
+    "https://selfservicerepair.com",
+    "https://uat.selfservicerepair.eu",
+    "https://dev.selfservicerepair.eu",
+    "https://ssrbeta.ctdi.com",
+    "https://ssrdev.ctdi.com",
+    "https://ssruat.ctdi.com"
+  ]
+}

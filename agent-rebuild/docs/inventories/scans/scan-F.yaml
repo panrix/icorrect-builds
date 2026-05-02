@@ -1,0 +1,160 @@
+---
+folder: ~/builds/voice-notes
+size_on_disk: "36K"
+file_count: 3
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-02-22T05:46:55+00:00"
+state: dormant
+purpose: "Stub research folder for a voice-note capture/transcription concept. It mainly preserves Otter transcript snapshots about intake-process failures and strategic planning."
+suspected_owner_agent: main
+ownership_confidence: medium
+key_files:
+  - path: README.md
+    role: README
+  - path: snapshot/otter-transcript-insights.md
+    role: extracted strategy notes
+  - path: "snapshot/Intake system_otter_ai.txt"
+    role: raw Otter transcript snapshot
+actionable_ideas:
+  - idea: "build voice-note capture and transcription into planning and SOP workflows"
+    source_path: /home/ricky/builds/voice-notes/README.md
+    source_line: 14
+    state_hint: captured
+  - idea: "build an intake flow that records phone/email/DM context into Monday and prompts missing diagnostic questions"
+    source_path: /home/ricky/builds/voice-notes/snapshot/Intake system_otter_ai.txt
+    source_line: 2
+    state_hint: captured
+dependencies:
+  external: ["Otter.ai", "Intercom", "Monday.com"]
+  internal: []
+canonical_status: draft
+notes: "Documentation only; no implementation beyond snapshots. Raw transcript text is stored directly under snapshot/."
+---
+folder: ~/builds/voice-note-pipeline
+size_on_disk: "22M"
+file_count: 4
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-05-01T05:21:37+00:00"
+state: active
+purpose: "Python worker that watches intake-related Slack threads for audio replies, transcribes them with Whisper, and posts the transcript back onto the matched Monday item. A user service file and local state/log files suggest it is running continuously."
+suspected_owner_agent: operations
+ownership_confidence: high
+key_files:
+  - path: voice-note-worker.py
+    role: main worker
+  - path: voice-note-worker.service
+    role: systemd unit
+  - path: .voice-note-state.json
+    role: processing checkpoint state
+  - path: voice-note-worker.log
+    role: runtime log
+actionable_ideas: []
+dependencies:
+  external: ["SLACK_BOT_TOKEN", "MONDAY_APP_TOKEN", "OPENAI_API_KEY", "Slack API", "OpenAI audio transcription API", "Monday.com API"]
+  internal: ["~/builds/telephone-inbound"]
+canonical_status: canonical
+notes: "Active log and state file were updated on 2026-05-01. `voice-note-worker.log` is the bulk of folder size and includes plaintext transcript snippets plus repeated Monday-name-search activity; sampled log inspection also showed earlier Slack DNS failures on 2026-04-23."
+---
+folder: ~/builds/telephone-inbound
+size_on_disk: "76K"
+file_count: 3
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-04-30T10:06:56+00:00"
+state: active
+purpose: "Flask-based Slack intake server for phone calls. It opens a modal, posts call notes to `#phone-enquiries`, and can optionally create Monday items and Intercom contacts."
+suspected_owner_agent: alex-cs
+ownership_confidence: medium
+key_files:
+  - path: server.py
+    role: main server
+  - path: telephone-inbound.service
+    role: systemd unit
+  - path: telephone-inbound.log
+    role: runtime log
+actionable_ideas: []
+dependencies:
+  external: ["SLACK_BOT_TOKEN", "SLACK_AUTOMATIONS_BOT_TOKEN", "SLACK_SIGNING_SECRET", "MONDAY_APP_TOKEN", "INTERCOM_ACCESS_TOKEN", "Slack API", "Monday.com API", "Intercom API"]
+  internal: []
+canonical_status: canonical
+notes: "Log shows live submissions through 2026-04-30. Early March smoke tests recorded `invalid_arguments`, `invalid_trigger_id`, `not_in_channel`, missing `SLACK_SIGNING_SECRET`, and missing `INTERCOM_ACCESS_TOKEN`; the runtime log also stores caller names and faults in plaintext."
+---
+folder: ~/builds/whisper-api
+size_on_disk: "8.0K"
+file_count: 1
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-03-10T02:01:05+00:00"
+state: dormant
+purpose: "Single bash helper that sends a local audio file to OpenAI transcription and writes a sidecar `.txt` transcript next to it. It looks like a small standalone utility rather than a full service."
+suspected_owner_agent: operations
+ownership_confidence: low
+key_files:
+  - path: transcribe.sh
+    role: CLI helper
+actionable_ideas: []
+dependencies:
+  external: ["openai:default auth profile", "OpenAI audio transcription API"]
+  internal: []
+canonical_status: scratch
+notes: "No README or surrounding project files. The script reads its API key from `/home/ricky/.openclaw/agents/main/agent/auth-profiles.json`, so a plaintext key store is referenced outside the folder."
+---
+folder: ~/builds/shift-bot
+size_on_disk: "175M"
+file_count: 25
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-04-29T13:40:47+00:00"
+state: active
+purpose: "Node/Slack Socket Mode bot for collecting technician shifts, syncing them to a shared Google Calendar, and posting the weekly rota to Slack. The docs describe Phases 1-5 as complete and deployment/verification as the remaining step."
+suspected_owner_agent: team
+ownership_confidence: high
+key_files:
+  - path: README.md
+    role: project overview
+  - path: spec.md
+    role: spec doc
+  - path: index.js
+    role: main entry point
+  - path: DEPLOY.md
+    role: deployment guide
+  - path: COMPROMISES.md
+    role: follow-ups and risk log
+actionable_ideas:
+  - idea: "add a `/shift status` command that shows who has submitted for the upcoming week"
+    source_path: /home/ricky/builds/shift-bot/COMPROMISES.md
+    source_line: 42
+    state_hint: captured
+  - idea: "add a `/shift cancel` admin command that deletes a submission and matching calendar events"
+    source_path: /home/ricky/builds/shift-bot/COMPROMISES.md
+    source_line: 43
+    state_hint: captured
+  - idea: "build a Slack home-tab rota view to replace the Monday post for pinned-app users"
+    source_path: /home/ricky/builds/shift-bot/COMPROMISES.md
+    source_line: 44
+    state_hint: captured
+dependencies:
+  external: ["SHIFT_BOT_TOKEN", "SHIFT_BOT_APP_TOKEN", "GOOGLE_CLIENT_ID", "GOOGLE_CLIENT_SECRET", "GOOGLE_REFRESH_TOKEN", "Slack Socket Mode", "Google Calendar API"]
+  internal: ["~/builds/agent-rebuild", "~/builds/scripts"]
+canonical_status: draft
+notes: "Sampled rather than fully read because folder size exceeds 50 MB; `node_modules/` dominates the disk usage. Docs say Phase 6 deploy/verify is still pending, `DEPLOY.md` step 2 is stale because `index.js` already reads `SHIFT_BOT_TOKEN`/`SHIFT_BOT_APP_TOKEN`, and the alert-script path differs between `spec.md` and `COMPROMISES.md`."
+---
+folder: ~/builds/hiring
+size_on_disk: "28K"
+file_count: 1
+last_git_commit: "2026-04-29T13:30:37+00:00"
+last_modified: "2026-03-09T05:01:56+00:00"
+state: dormant
+purpose: "Staged hiring collateral for a Technical Operations Coordinator role. The only file is a long-form job description plus application questions and Indeed response templates."
+suspected_owner_agent: team
+ownership_confidence: high
+key_files:
+  - path: docs/staged/2026-03-31/operations-coordinator-jd-v3.md
+    role: staged job description and application flow
+actionable_ideas:
+  - idea: "publish the Technical Operations Coordinator role via Indeed using the staged application questions"
+    source_path: /home/ricky/builds/hiring/docs/staged/2026-03-31/operations-coordinator-jd-v3.md
+    source_line: 90
+    state_hint: captured
+dependencies:
+  external: ["Indeed"]
+  internal: []
+canonical_status: draft
+notes: "Single-document folder under `docs/staged/`. The staged subdirectory is dated 2026-03-31, but the file's mtime is 2026-03-09."

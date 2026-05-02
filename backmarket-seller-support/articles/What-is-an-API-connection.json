@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb0000007LR7IAM",
+  "articleNumber": "000001323",
+  "title": "What's an API connection?",
+  "urlName": "What-is-an-API-connection",
+  "url": "https://backmarket.my.site.com/ssc/s/article/What-is-an-API-connection",
+  "language": "en_GB",
+  "lastPublishedDate": "2025-11-11T10:52:02.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009aheWAA",
+      "parent_topic_name": "Integration & Connection",
+      "topic_id": "0TO3X000000xTjNWAU",
+      "topic_name": "API Connection",
+      "urlName": "What-is-an-API-connection"
+    }
+  ],
+  "bodyHtml": "<p>API stands for Application Programming Interface. An API is a software that allows 2 applications to share information with each other. <br> </p>\n<p>This is relevant to you, because Back Market uses an API to help you connect your internal information with our marketplace.<br> </p>\n<p>These connections are made via something called an HTTP request — when 1 platform makes a request to pull information from the other platform. APIs handle lots of HTTP requests in order to show you the information you need from both platforms. </p>\n<p><br>When managing your Back Market catalog, you’ll be relying on HTTP requests to get and send information. Here are some examples:</p>\n<ul><li>\n<p>A “POST” request allows you to create offers and orders.</p>\n</li><li>\n<p>A “GET” request allows you to get information about your offers and your orders (for example, the stock for an offer or the state for an order).</p>\n</li><li>\n<p>A “PUT” request allows you to update your offers and orders.</p>\n</li></ul>\n<p><br>To manage your catalog via integrations, you’ll need to put an access token in your authorization header. <strong><a href=\"https://backmarket.my.site.com/ssc/s/article/API-Token-Page\" target=\"_blank\">Learn how to get your access token</a></strong><br> </p>\n<p>Want to know more about using integrations with Back Market? We’ve got you. </p>\n<p><br><strong><a href=\"https://backmarket.my.site.com/ssc/s/article/Create-my-product-with-API\" target=\"_blank\">Learn how to create your product with API</a><br><br><a href=\"https://backmarket.my.site.com/ssc/s/article/Create-my-listing-with-API\" target=\"_blank\">Learn how to create your listing with API</a><br><br><a href=\"https://api.backmarket.dev/#/\" target=\"_blank\">Check out in-depth information about Back Market&#39;s API system</a></strong></p>"
+}

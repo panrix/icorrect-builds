@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000icg4QAA",
+  "articleNumber": "000001059",
+  "title": "Listing - definition",
+  "urlName": "Listing-definition",
+  "url": "https://backmarket.my.site.com/ssc/s/article/Listing-definition",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-06-13T07:24:11.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahWWAQ",
+      "parent_topic_name": "Products & Listings",
+      "topic_id": "0TO3X0000009akuWAA",
+      "topic_name": "Definitions",
+      "urlName": "Listing-definition"
+    }
+  ],
+  "bodyHtml": "<p>Each seller can create a <strong>listing</strong> on a product to sell it on Back Market. It corresponds to the listing you are selling, taking into account different criteria, such as its condition, its stock or its selling price.</p>\n\n<p><strong>Products</strong> sold on Back Market are refurbished, and their aesthetic state can vary a great deal. In order to make the most informed choice, each <strong>listing</strong> is defined by one of the following aesthetic grades:</p>\n\n<ul><li><strong>Mint</strong>: Almost like new.</li><li><strong>Very good:</strong> Nearly invisible scratches.</li><li><strong>Good:</strong> Scratches invisible at more than 10 cm.</li><li><strong>Fair:</strong> Scratches visible at more than 10 cm.</li><li><strong>Stallone:</strong> This product survived many battles, but not without scratches.</li></ul>\n\n<p>These 5 grades are the ones you have to fill in when you create your listing. Once the listing is validated, these 5 grades are recalculated in order to display only 3 of them on the customer view: <br><br><img alt=\"listing.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000icg4&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X0000064QzK\"></img><br> </p>\n\n<p>For more information about our grade system and calculation, you can consult this article: <a href=\"https://backmarketportal.force.com/ssc/s/article/Back-Market-s-3-Customer-Grades\" target=\"_blank\"><span style=\"color: #3498db;\"><b>Back Market&#39;s 3 Customer Grades</b></span></a></p>\n\n<p>On the other hand, a listing has <strong>mandatory</strong> and <strong>optional</strong> fields.</p>\n\n<p>These fields are the same for each listing, regardless of the product category:</p>\n\n<ul><li>The product ID (the BMID)</li><li>THE EAN </li><li>The SKU</li><li>The quantity</li><li>The selling price</li><li>Aesthetic grade</li><li>The warranty period</li><li>The country of sale</li><li>Refurbisher comment</li></ul>\n\n<p>These fields can be modified <strong>at any time</strong> from your Back Office.</p>\n\n<p>&#128161; For more information about the listings&#39; update, you can consult the article <b><a href=\"https://backmarketportal.force.com/ssc/s/article/How-can-I-update-my-listing-on-the-Back-Market-s-Back-Office\" target=\"_blank\"><span style=\"color: #3498db;\">Update my listing on the Back Office</span></a></b></p>"
+}

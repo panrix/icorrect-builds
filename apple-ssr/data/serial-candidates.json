@@ -1,0 +1,1646 @@
+[
+  {
+    "prefix": "C02",
+    "count": 227,
+    "representative_serial": "C02H2GLDQ6L4",
+    "last_received": "2026-03-09"
+  },
+  {
+    "prefix": "FVF",
+    "count": 116,
+    "representative_serial": "FVFGWVSNQ05D",
+    "last_received": "2026-03-16"
+  },
+  {
+    "prefix": "DMP",
+    "count": 75,
+    "representative_serial": "DMPTM14JHPDY",
+    "last_received": "2025-11-25"
+  },
+  {
+    "prefix": "G99",
+    "count": 55,
+    "representative_serial": "G99XT6WNKDH3",
+    "last_received": "2023-12-21 18:00"
+  },
+  {
+    "prefix": "FHL",
+    "count": 41,
+    "representative_serial": "FHLTQP1HDY9",
+    "last_received": "2023-12-21 01:00"
+  },
+  {
+    "prefix": "DLX",
+    "count": 37,
+    "representative_serial": "DLXYX7DR7RG",
+    "last_received": "2026-01-06"
+  },
+  {
+    "prefix": "H4H",
+    "count": 33,
+    "representative_serial": "H4HDR7P9Q1YC",
+    "last_received": "2023-11-28 20:40"
+  },
+  {
+    "prefix": "GY6",
+    "count": 32,
+    "representative_serial": "GY6GT0D8Q1RQ",
+    "last_received": "2023-11-28 18:46"
+  },
+  {
+    "prefix": "F9F",
+    "count": 30,
+    "representative_serial": "F9FX3WTCJMVT",
+    "last_received": "2023-12-23 01:00"
+  },
+  {
+    "prefix": "FH7",
+    "count": 21,
+    "representative_serial": "FH7X90H6KDTT",
+    "last_received": "2023-11-15 18:08"
+  },
+  {
+    "prefix": "GG7",
+    "count": 13,
+    "representative_serial": "GG7GCGDWQ16Q",
+    "last_received": "2025-11-12"
+  },
+  {
+    "prefix": "DVP",
+    "count": 11,
+    "representative_serial": "DVPD84X7Q07V",
+    "last_received": "2023-11-30 22:31"
+  },
+  {
+    "prefix": "GJ9",
+    "count": 10,
+    "representative_serial": "GJ9HR24FJ5X4",
+    "last_received": "2023-07-04 22:00"
+  },
+  {
+    "prefix": "C17",
+    "count": 7,
+    "representative_serial": "C17Q8ATQ6L4",
+    "last_received": "2026-02-02"
+  },
+  {
+    "prefix": "G9C",
+    "count": 5,
+    "representative_serial": "G9CZ6T6BMLTQ",
+    "last_received": "2023-11-14 17:00"
+  },
+  {
+    "prefix": "CCQ",
+    "count": 4,
+    "representative_serial": "CCQLTNSPFMJF",
+    "last_received": "2023-04-25"
+  },
+  {
+    "prefix": "F9G",
+    "count": 4,
+    "representative_serial": "F9GZL0EYMF3Q",
+    "last_received": "2023-10-05 22:35"
+  },
+  {
+    "prefix": "F6Q",
+    "count": 4,
+    "representative_serial": "F6QRP008GMLL",
+    "last_received": "2023-10-04 21:05"
+  },
+  {
+    "prefix": "GQ3",
+    "count": 4,
+    "representative_serial": "GQ3ZT00PKDHD",
+    "last_received": "2023-09-20 22:43"
+  },
+  {
+    "prefix": "HLX",
+    "count": 4,
+    "representative_serial": "HLXX74N2P4",
+    "last_received": "2023-08-31 16:00"
+  },
+  {
+    "prefix": "D92",
+    "count": 4,
+    "representative_serial": "D92XR4GBKDTJ",
+    "last_received": "2023-09-01 00:46"
+  },
+  {
+    "prefix": "C1M",
+    "count": 3,
+    "representative_serial": "C1MS3CK1H3QF",
+    "last_received": "2023-12-01 12:30"
+  },
+  {
+    "prefix": "FHM",
+    "count": 3,
+    "representative_serial": "FHMV8USBJ5X4",
+    "last_received": "2023-11-07 17:00"
+  },
+  {
+    "prefix": "FVH",
+    "count": 3,
+    "representative_serial": "FVHDM0SXQ05D",
+    "last_received": "2023-09-25 21:39"
+  },
+  {
+    "prefix": "H9G",
+    "count": 3,
+    "representative_serial": "H9GFM06UQ1KP",
+    "last_received": "2023-08-22 17:39"
+  },
+  {
+    "prefix": "GCG",
+    "count": 3,
+    "representative_serial": "GCGVJF4DHLF9",
+    "last_received": "2023-08-01 00:00"
+  },
+  {
+    "prefix": "F71",
+    "count": 3,
+    "representative_serial": "F71W676ZHG7K",
+    "last_received": "2023-07-10 23:00"
+  },
+  {
+    "prefix": "M1Q",
+    "count": 2,
+    "representative_serial": "M1Q1XYC40X",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "T44",
+    "count": 2,
+    "representative_serial": "T44L25H3G2",
+    "last_received": "2025-10-03"
+  },
+  {
+    "prefix": "CO2",
+    "count": 2,
+    "representative_serial": "CO2W32HMHV29",
+    "last_received": "2024-01-03 02:00"
+  },
+  {
+    "prefix": "F0T",
+    "count": 2,
+    "representative_serial": "F0THG5V5M93D",
+    "last_received": ""
+  },
+  {
+    "prefix": "L0F",
+    "count": 2,
+    "representative_serial": "L0F71GVGD2",
+    "last_received": "2023-11-21 02:00"
+  },
+  {
+    "prefix": "VG2",
+    "count": 2,
+    "representative_serial": "VG20NQ2XGK",
+    "last_received": "2023-09-06 21:00"
+  },
+  {
+    "prefix": "DMQ",
+    "count": 2,
+    "representative_serial": "DMQFDJXHQ1GC",
+    "last_received": "2023-05-03"
+  },
+  {
+    "prefix": "HWP",
+    "count": 1,
+    "representative_serial": "HWPVVDJJ7X",
+    "last_received": "2026-04-02"
+  },
+  {
+    "prefix": "GDQ",
+    "count": 1,
+    "representative_serial": "GDQ6TFXG9W",
+    "last_received": "2025-05-30"
+  },
+  {
+    "prefix": "FF6",
+    "count": 1,
+    "representative_serial": "FF6MGDXWNP",
+    "last_received": "2026-03-23"
+  },
+  {
+    "prefix": "D6W",
+    "count": 1,
+    "representative_serial": "D6WY979JCH",
+    "last_received": "2026-04-02"
+  },
+  {
+    "prefix": "G4H",
+    "count": 1,
+    "representative_serial": "G4HG9X63RP",
+    "last_received": "2026-03-17"
+  },
+  {
+    "prefix": "TXQ",
+    "count": 1,
+    "representative_serial": "TXQCVQC9WT",
+    "last_received": "2026-03-18"
+  },
+  {
+    "prefix": "C77",
+    "count": 1,
+    "representative_serial": "C779L16V6N",
+    "last_received": "2026-03-12"
+  },
+  {
+    "prefix": "C1G",
+    "count": 1,
+    "representative_serial": "C1GD6B8Q6L4",
+    "last_received": "2026-03-10 00:00"
+  },
+  {
+    "prefix": "Y4K",
+    "count": 1,
+    "representative_serial": "Y4KGVX2LP",
+    "last_received": "2026-03-13"
+  },
+  {
+    "prefix": "M20",
+    "count": 1,
+    "representative_serial": "M204N7757W",
+    "last_received": "2026-03-05"
+  },
+  {
+    "prefix": "N17",
+    "count": 1,
+    "representative_serial": "N171T6FMH7L",
+    "last_received": "2026-03-04"
+  },
+  {
+    "prefix": "F7C",
+    "count": 1,
+    "representative_serial": "F7CK9744D3",
+    "last_received": "2026-03-04"
+  },
+  {
+    "prefix": "LR1",
+    "count": 1,
+    "representative_serial": "LR14K9RC7R",
+    "last_received": "2026-01-15"
+  },
+  {
+    "prefix": "VWD",
+    "count": 1,
+    "representative_serial": "VWDVTWWK6D",
+    "last_received": "2026-02-17"
+  },
+  {
+    "prefix": "KY3",
+    "count": 1,
+    "representative_serial": "KY3GR4645Q",
+    "last_received": ""
+  },
+  {
+    "prefix": "C2V",
+    "count": 1,
+    "representative_serial": "C2VZN9SVMD6M",
+    "last_received": "2026-02-11"
+  },
+  {
+    "prefix": "MPV",
+    "count": 1,
+    "representative_serial": "MPV791XL5Q",
+    "last_received": "2026-02-11"
+  },
+  {
+    "prefix": "CFN",
+    "count": 1,
+    "representative_serial": "CFNHQ3CQ2T",
+    "last_received": "2026-02-06"
+  },
+  {
+    "prefix": "C9Y",
+    "count": 1,
+    "representative_serial": "C9YNRJ63WV",
+    "last_received": "2026-01-29"
+  },
+  {
+    "prefix": "KM7",
+    "count": 1,
+    "representative_serial": "KM7WQFNR6Y",
+    "last_received": "2026-01-29"
+  },
+  {
+    "prefix": "LF4",
+    "count": 1,
+    "representative_serial": "LF49WJYTY9",
+    "last_received": "2025-12-12"
+  },
+  {
+    "prefix": "PXJ",
+    "count": 1,
+    "representative_serial": "PXJCHH6JTJ",
+    "last_received": "2026-02-12"
+  },
+  {
+    "prefix": "GCQ",
+    "count": 1,
+    "representative_serial": "GCQ9PWW7L3",
+    "last_received": "2026-01-29"
+  },
+  {
+    "prefix": "DQW",
+    "count": 1,
+    "representative_serial": "DQWYQX3FMQ",
+    "last_received": "2026-02-03"
+  },
+  {
+    "prefix": "FWJ",
+    "count": 1,
+    "representative_serial": "FWJ7Q561NY",
+    "last_received": "2026-02-02"
+  },
+  {
+    "prefix": "V3F",
+    "count": 1,
+    "representative_serial": "V3F6DK2JR4",
+    "last_received": "2026-01-23"
+  },
+  {
+    "prefix": "FXH",
+    "count": 1,
+    "representative_serial": "FXH3W6QD2L",
+    "last_received": "2025-12-22"
+  },
+  {
+    "prefix": "JY0",
+    "count": 1,
+    "representative_serial": "JY0W2H19VX",
+    "last_received": "2026-02-02"
+  },
+  {
+    "prefix": "L71",
+    "count": 1,
+    "representative_serial": "L71WMGVQ6N",
+    "last_received": "2026-02-06"
+  },
+  {
+    "prefix": "KPN",
+    "count": 1,
+    "representative_serial": "KPNRH2P4DY",
+    "last_received": "2026-01-29"
+  },
+  {
+    "prefix": "XYY",
+    "count": 1,
+    "representative_serial": "XYYJW3TQX3",
+    "last_received": "2026-01-29"
+  },
+  {
+    "prefix": "P9F",
+    "count": 1,
+    "representative_serial": "P9FNHV26Y2",
+    "last_received": "2026-01-28"
+  },
+  {
+    "prefix": "QPH",
+    "count": 1,
+    "representative_serial": "QPH3W9325L",
+    "last_received": "2026-01-22"
+  },
+  {
+    "prefix": "KH9",
+    "count": 1,
+    "representative_serial": "KH95K22WJD",
+    "last_received": ""
+  },
+  {
+    "prefix": "C04",
+    "count": 1,
+    "representative_serial": "C0497WWH7N",
+    "last_received": "2026-01-19"
+  },
+  {
+    "prefix": "XM6",
+    "count": 1,
+    "representative_serial": "XM6FM72HXW",
+    "last_received": "2025-09-29"
+  },
+  {
+    "prefix": "LV6",
+    "count": 1,
+    "representative_serial": "LV65MFQ093",
+    "last_received": "2026-01-09"
+  },
+  {
+    "prefix": "PQ0",
+    "count": 1,
+    "representative_serial": "PQ0DNHXC4Q",
+    "last_received": ""
+  },
+  {
+    "prefix": "YX9",
+    "count": 1,
+    "representative_serial": "YX9M6J4XVK",
+    "last_received": ""
+  },
+  {
+    "prefix": "VQK",
+    "count": 1,
+    "representative_serial": "VQK6M957CT",
+    "last_received": ""
+  },
+  {
+    "prefix": "FWQ",
+    "count": 1,
+    "representative_serial": "FWQ99FV27N",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "GY0",
+    "count": 1,
+    "representative_serial": "GY04K41144",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "F2L",
+    "count": 1,
+    "representative_serial": "F2LTV7WHKH",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "K21",
+    "count": 1,
+    "representative_serial": "K21L4Q7R64",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "H6R",
+    "count": 1,
+    "representative_serial": "H6RWGNX4C5",
+    "last_received": "2025-12-08"
+  },
+  {
+    "prefix": "MHC",
+    "count": 1,
+    "representative_serial": "MHCD6XC17V",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "F0J",
+    "count": 1,
+    "representative_serial": "F0JWR4NVFR",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "H5L",
+    "count": 1,
+    "representative_serial": "H5L0VC6FV2",
+    "last_received": "2025-12-10"
+  },
+  {
+    "prefix": "JY9",
+    "count": 1,
+    "representative_serial": "JY9FQ9H6FG",
+    "last_received": "2025-11-18"
+  },
+  {
+    "prefix": "KWJ",
+    "count": 1,
+    "representative_serial": "KWJVJ03XF0",
+    "last_received": "2025-11-25"
+  },
+  {
+    "prefix": "H61",
+    "count": 1,
+    "representative_serial": "H61RXV5P2C",
+    "last_received": "2026-01-20"
+  },
+  {
+    "prefix": "Q6P",
+    "count": 1,
+    "representative_serial": "Q6PF4KP3V7",
+    "last_received": "2025-11-28"
+  },
+  {
+    "prefix": "GVP",
+    "count": 1,
+    "representative_serial": "GVP79QN2LY",
+    "last_received": "2025-11-19"
+  },
+  {
+    "prefix": "VFX",
+    "count": 1,
+    "representative_serial": "VFXG19HXRP",
+    "last_received": "2025-10-27"
+  },
+  {
+    "prefix": "LPG",
+    "count": 1,
+    "representative_serial": "LPGWXXGVKQ",
+    "last_received": "2025-11-24"
+  },
+  {
+    "prefix": "RXH",
+    "count": 1,
+    "representative_serial": "RXH3Y7JXCK",
+    "last_received": "2025-11-13"
+  },
+  {
+    "prefix": "L49",
+    "count": 1,
+    "representative_serial": "L49K94VN7L",
+    "last_received": "2025-11-12"
+  },
+  {
+    "prefix": "FY7",
+    "count": 1,
+    "representative_serial": "FY7K2C9QTV",
+    "last_received": "2025-11-04"
+  },
+  {
+    "prefix": "VPG",
+    "count": 1,
+    "representative_serial": "VPGFDQ9H2K",
+    "last_received": "2025-11-11"
+  },
+  {
+    "prefix": "W4R",
+    "count": 1,
+    "representative_serial": "W4R3WFM254",
+    "last_received": "2025-11-13"
+  },
+  {
+    "prefix": "RGF",
+    "count": 1,
+    "representative_serial": "RGF540CQQF",
+    "last_received": "2025-11-03"
+  },
+  {
+    "prefix": "C9N",
+    "count": 1,
+    "representative_serial": "C9N7VC6H32",
+    "last_received": "2025-10-23"
+  },
+  {
+    "prefix": "C2X",
+    "count": 1,
+    "representative_serial": "C2X7BEEJG5H",
+    "last_received": "2025-10-18"
+  },
+  {
+    "prefix": "J2Q",
+    "count": 1,
+    "representative_serial": "J2QPH69K4W",
+    "last_received": "2025-10-23"
+  },
+  {
+    "prefix": "CRF",
+    "count": 1,
+    "representative_serial": "CRFNL2GWVP",
+    "last_received": "2025-10-31"
+  },
+  {
+    "prefix": "FV3",
+    "count": 1,
+    "representative_serial": "FV3P272D2L",
+    "last_received": "2025-10-13"
+  },
+  {
+    "prefix": "X3F",
+    "count": 1,
+    "representative_serial": "X3F12G7JW6",
+    "last_received": "2023-08-31 19:40"
+  },
+  {
+    "prefix": "DQ9",
+    "count": 1,
+    "representative_serial": "DQ9KCJ6J3N",
+    "last_received": "2025-10-22"
+  },
+  {
+    "prefix": "KXY",
+    "count": 1,
+    "representative_serial": "KXY12GV6TL",
+    "last_received": "2025-10-22"
+  },
+  {
+    "prefix": "H16",
+    "count": 1,
+    "representative_serial": "H169T79075",
+    "last_received": "2025-11-03"
+  },
+  {
+    "prefix": "J1X",
+    "count": 1,
+    "representative_serial": "J1XK3MG9Q7",
+    "last_received": "2025-10-14"
+  },
+  {
+    "prefix": "YTH",
+    "count": 1,
+    "representative_serial": "YTH1H4H636",
+    "last_received": "2025-10-16"
+  },
+  {
+    "prefix": "CPY",
+    "count": 1,
+    "representative_serial": "CPYFQ9RK44",
+    "last_received": "2025-10-10"
+  },
+  {
+    "prefix": "CXQ",
+    "count": 1,
+    "representative_serial": "CXQ6FQ6N30",
+    "last_received": "2025-10-03"
+  },
+  {
+    "prefix": "FPX",
+    "count": 1,
+    "representative_serial": "FPXN7GVFWR",
+    "last_received": "2025-10-04"
+  },
+  {
+    "prefix": "J9W",
+    "count": 1,
+    "representative_serial": "J9WDH2KGWT",
+    "last_received": "2025-10-03"
+  },
+  {
+    "prefix": "JT4",
+    "count": 1,
+    "representative_serial": "JT46PNYF90",
+    "last_received": "2025-09-29"
+  },
+  {
+    "prefix": "VMY",
+    "count": 1,
+    "representative_serial": "VMYXHWV4JF",
+    "last_received": "2025-10-06"
+  },
+  {
+    "prefix": "K4R",
+    "count": 1,
+    "representative_serial": "K4R50H4LD1",
+    "last_received": "2025-09-29"
+  },
+  {
+    "prefix": "XP7",
+    "count": 1,
+    "representative_serial": "XP7T6CK93M",
+    "last_received": "2023-12-21 02:00"
+  },
+  {
+    "prefix": "F6K",
+    "count": 1,
+    "representative_serial": "F6KGVEGNM93D",
+    "last_received": ""
+  },
+  {
+    "prefix": "QXX",
+    "count": 1,
+    "representative_serial": "QXX1L242QG",
+    "last_received": "2023-12-22 20:00"
+  },
+  {
+    "prefix": "JFC",
+    "count": 1,
+    "representative_serial": "JFCJX0MWTJ",
+    "last_received": "2023-12-19 22:00"
+  },
+  {
+    "prefix": "Y5L",
+    "count": 1,
+    "representative_serial": "Y5LFQXVM9J",
+    "last_received": "2023-11-25 01:00"
+  },
+  {
+    "prefix": "L0Q",
+    "count": 1,
+    "representative_serial": "L0Q1C9G76F",
+    "last_received": "2023-12-19 19:30"
+  },
+  {
+    "prefix": "GQ2",
+    "count": 1,
+    "representative_serial": "GQ2J40YCQ07V",
+    "last_received": "2023-12-19 02:00"
+  },
+  {
+    "prefix": "Y6L",
+    "count": 1,
+    "representative_serial": "Y6L6G75741",
+    "last_received": "2023-12-14 22:00"
+  },
+  {
+    "prefix": "DHJ",
+    "count": 1,
+    "representative_serial": "DHJ27PXXLT",
+    "last_received": ""
+  },
+  {
+    "prefix": "L2Y",
+    "count": 1,
+    "representative_serial": "L2Y0H9T2N0",
+    "last_received": "2023-12-06 23:50"
+  },
+  {
+    "prefix": "WTJ",
+    "count": 1,
+    "representative_serial": "WTJJQ99QXJ",
+    "last_received": "2023-12-11 18:46"
+  },
+  {
+    "prefix": "C47",
+    "count": 1,
+    "representative_serial": "C47FYY25G",
+    "last_received": "2023-12-11 18:48"
+  },
+  {
+    "prefix": "JJ9",
+    "count": 1,
+    "representative_serial": "JJ993WRY06",
+    "last_received": "2023-12-13 19:38"
+  },
+  {
+    "prefix": "K7D",
+    "count": 1,
+    "representative_serial": "K7D4DHHXL2",
+    "last_received": "2023-12-08 20:00"
+  },
+  {
+    "prefix": "Q0M",
+    "count": 1,
+    "representative_serial": "Q0MW9X6CM9",
+    "last_received": "2023-12-01 01:00"
+  },
+  {
+    "prefix": "GYF",
+    "count": 1,
+    "representative_serial": "GYFT7R5QFL",
+    "last_received": "2023-12-06 02:00"
+  },
+  {
+    "prefix": "Q43",
+    "count": 1,
+    "representative_serial": "Q43R04X9TV",
+    "last_received": "2023-12-07 23:00"
+  },
+  {
+    "prefix": "Q3K",
+    "count": 1,
+    "representative_serial": "Q3K90WM7T6",
+    "last_received": "2023-11-29 01:00"
+  },
+  {
+    "prefix": "JTW",
+    "count": 1,
+    "representative_serial": "JTW2QYJKV1",
+    "last_received": "2023-11-24 19:13"
+  },
+  {
+    "prefix": "CJ4",
+    "count": 1,
+    "representative_serial": "CJ4K2Q252W",
+    "last_received": ""
+  },
+  {
+    "prefix": "KMG",
+    "count": 1,
+    "representative_serial": "KMGTXG4H25",
+    "last_received": "2023-11-29 17:04"
+  },
+  {
+    "prefix": "JVW",
+    "count": 1,
+    "representative_serial": "JVWQXJLXQY",
+    "last_received": ""
+  },
+  {
+    "prefix": "DT7",
+    "count": 1,
+    "representative_serial": "DT7T6R9TD6",
+    "last_received": ""
+  },
+  {
+    "prefix": "LCX",
+    "count": 1,
+    "representative_serial": "LCXYPNP6VH",
+    "last_received": ""
+  },
+  {
+    "prefix": "J0X",
+    "count": 1,
+    "representative_serial": "J0X47YC4DJ",
+    "last_received": "2023-11-28 02:00"
+  },
+  {
+    "prefix": "NKV",
+    "count": 1,
+    "representative_serial": "NKV9M7X21H",
+    "last_received": "2023-11-23 00:28"
+  },
+  {
+    "prefix": "KKX",
+    "count": 1,
+    "representative_serial": "KKXK041QXN",
+    "last_received": "2023-11-25 01:00"
+  },
+  {
+    "prefix": "LC9",
+    "count": 1,
+    "representative_serial": "LC9J69YP0X",
+    "last_received": "2023-11-27 17:00"
+  },
+  {
+    "prefix": "Y72",
+    "count": 1,
+    "representative_serial": "Y725RWFLQ5",
+    "last_received": "2023-11-22 01:28"
+  },
+  {
+    "prefix": "GV4",
+    "count": 1,
+    "representative_serial": "GV4GW3YZN735",
+    "last_received": "2023-11-21 20:00"
+  },
+  {
+    "prefix": "DKV",
+    "count": 1,
+    "representative_serial": "DKVL20CRDFJ3",
+    "last_received": "2023-11-20 17:00"
+  },
+  {
+    "prefix": "R29",
+    "count": 1,
+    "representative_serial": "R290DY57J7",
+    "last_received": ""
+  },
+  {
+    "prefix": "G4Q",
+    "count": 1,
+    "representative_serial": "G4Q244YGKM",
+    "last_received": "2023-11-18 01:00"
+  },
+  {
+    "prefix": "GW3",
+    "count": 1,
+    "representative_serial": "GW3CW031K0TV",
+    "last_received": "2023-11-16 19:30"
+  },
+  {
+    "prefix": "X79",
+    "count": 1,
+    "representative_serial": "X794LX9WR3",
+    "last_received": "2023-11-15 21:00"
+  },
+  {
+    "prefix": "G5C",
+    "count": 1,
+    "representative_serial": "G5C3QRC2AN",
+    "last_received": "2023-11-15 01:30"
+  },
+  {
+    "prefix": "KC7",
+    "count": 1,
+    "representative_serial": "KC72PDFTV2",
+    "last_received": "2023-11-13 21:42"
+  },
+  {
+    "prefix": "MWW",
+    "count": 1,
+    "representative_serial": "MWWFF42PPQ",
+    "last_received": "2023-11-10 01:00"
+  },
+  {
+    "prefix": "PGX",
+    "count": 1,
+    "representative_serial": "PGXFPN2CQP",
+    "last_received": "2023-11-09 08:00"
+  },
+  {
+    "prefix": "R3C",
+    "count": 1,
+    "representative_serial": "R3CJY0F03L",
+    "last_received": "2023-11-09 18:00"
+  },
+  {
+    "prefix": "V07",
+    "count": 1,
+    "representative_serial": "V07HJRF923",
+    "last_received": "2023-11-09 22:00"
+  },
+  {
+    "prefix": "GVW",
+    "count": 1,
+    "representative_serial": "GVWYQFWYX4",
+    "last_received": "2023-11-10 17:37"
+  },
+  {
+    "prefix": "DMR",
+    "count": 1,
+    "representative_serial": "DMRFD8LCQ1GC",
+    "last_received": "2023-11-08 23:00"
+  },
+  {
+    "prefix": "FHR",
+    "count": 1,
+    "representative_serial": "FHRY6LP79H",
+    "last_received": "2023-11-08 01:00"
+  },
+  {
+    "prefix": "MN9",
+    "count": 1,
+    "representative_serial": "MN9XYCFVRR",
+    "last_received": "2023-11-03 17:00"
+  },
+  {
+    "prefix": "WMF",
+    "count": 1,
+    "representative_serial": "WMF3YLFM3P",
+    "last_received": "2023-11-03 21:15"
+  },
+  {
+    "prefix": "J49",
+    "count": 1,
+    "representative_serial": "J49R6T24V6",
+    "last_received": "2023-11-08 02:00"
+  },
+  {
+    "prefix": "M76",
+    "count": 1,
+    "representative_serial": "M76Y1FCXV6",
+    "last_received": "2023-11-02 00:19"
+  },
+  {
+    "prefix": "C1Q",
+    "count": 1,
+    "representative_serial": "C1Q7G00JFF",
+    "last_received": "2023-11-02 19:39"
+  },
+  {
+    "prefix": "MP2",
+    "count": 1,
+    "representative_serial": "MP2THG7H9C",
+    "last_received": "2023-11-01 17:31"
+  },
+  {
+    "prefix": "FVG",
+    "count": 1,
+    "representative_serial": "FVGTW743TV",
+    "last_received": "2023-11-01 22:20"
+  },
+  {
+    "prefix": "L4Q",
+    "count": 1,
+    "representative_serial": "L4Q2D42PT4",
+    "last_received": "2023-11-02 00:27"
+  },
+  {
+    "prefix": "LYY",
+    "count": 1,
+    "representative_serial": "LYYD6QPC2X",
+    "last_received": ""
+  },
+  {
+    "prefix": "F1D",
+    "count": 1,
+    "representative_serial": "F1DN1MA0D95",
+    "last_received": "2023-10-26 18:23"
+  },
+  {
+    "prefix": "GQQ",
+    "count": 1,
+    "representative_serial": "GQQWRDQDCJ",
+    "last_received": "2023-10-26 19:00"
+  },
+  {
+    "prefix": "H4J",
+    "count": 1,
+    "representative_serial": "H4JDRKSMQ1RP",
+    "last_received": "2023-10-23 23:34"
+  },
+  {
+    "prefix": "HKH",
+    "count": 1,
+    "representative_serial": "HKHXRMCWRG",
+    "last_received": "2023-10-19 22:00"
+  },
+  {
+    "prefix": "M9D",
+    "count": 1,
+    "representative_serial": "M9DJYL7WWD",
+    "last_received": "2023-10-18 16:00"
+  },
+  {
+    "prefix": "F6P",
+    "count": 1,
+    "representative_serial": "F6PFH01NK7RH",
+    "last_received": "2023-10-18 19:52"
+  },
+  {
+    "prefix": "H3C",
+    "count": 1,
+    "representative_serial": "H3CRG7CDV4",
+    "last_received": "2023-10-20 00:00"
+  },
+  {
+    "prefix": "TLC",
+    "count": 1,
+    "representative_serial": "TLCF3FX15G",
+    "last_received": "2023-10-20 01:00"
+  },
+  {
+    "prefix": "Q3L",
+    "count": 1,
+    "representative_serial": "Q3LRF7P6TV",
+    "last_received": "2023-10-18 01:00"
+  },
+  {
+    "prefix": "TGQ",
+    "count": 1,
+    "representative_serial": "TGQNHWQH12",
+    "last_received": "2023-10-17 20:44"
+  },
+  {
+    "prefix": "CPQ",
+    "count": 1,
+    "representative_serial": "CPQ2KGTWYN",
+    "last_received": "2023-10-06 16:00"
+  },
+  {
+    "prefix": "WYM",
+    "count": 1,
+    "representative_serial": "WYMC2QG270",
+    "last_received": "2023-10-06 18:00"
+  },
+  {
+    "prefix": "GGF",
+    "count": 1,
+    "representative_serial": "GGFXH003HDYM",
+    "last_received": "2023-09-29 18:30"
+  },
+  {
+    "prefix": "J2J",
+    "count": 1,
+    "representative_serial": "J2J7N6YK73",
+    "last_received": "2023-09-29 18:30"
+  },
+  {
+    "prefix": "DGK",
+    "count": 1,
+    "representative_serial": "DGKW5J72J1GQ",
+    "last_received": ""
+  },
+  {
+    "prefix": "VHK",
+    "count": 1,
+    "representative_serial": "VHKV3PV3QJ",
+    "last_received": "2023-09-28 21:00"
+  },
+  {
+    "prefix": "W90",
+    "count": 1,
+    "representative_serial": "W90NQ62M79",
+    "last_received": "2023-09-27 22:00"
+  },
+  {
+    "prefix": "GCK",
+    "count": 1,
+    "representative_serial": "GCKVHUC9HLF9",
+    "last_received": "2023-09-28 21:00"
+  },
+  {
+    "prefix": "MWG",
+    "count": 1,
+    "representative_serial": "MWGJC226NV",
+    "last_received": "2023-09-27 22:00"
+  },
+  {
+    "prefix": "HJ2",
+    "count": 1,
+    "representative_serial": "HJ29FH27MG",
+    "last_received": "2023-09-27 19:00"
+  },
+  {
+    "prefix": "XF1",
+    "count": 1,
+    "representative_serial": "XF1VQ45661",
+    "last_received": "2023-09-26 17:00"
+  },
+  {
+    "prefix": "NQ0",
+    "count": 1,
+    "representative_serial": "NQ0YJ5QHKF",
+    "last_received": "2023-09-25 19:45"
+  },
+  {
+    "prefix": "XXL",
+    "count": 1,
+    "representative_serial": "XXL37DDJ9Q",
+    "last_received": ""
+  },
+  {
+    "prefix": "JVP",
+    "count": 1,
+    "representative_serial": "JVPQYJL4C9",
+    "last_received": ""
+  },
+  {
+    "prefix": "HDW",
+    "count": 1,
+    "representative_serial": "HDWWG4L9HM",
+    "last_received": ""
+  },
+  {
+    "prefix": "JH7",
+    "count": 1,
+    "representative_serial": "JH7L44QC26",
+    "last_received": "2023-09-15 20:18"
+  },
+  {
+    "prefix": "J1Q",
+    "count": 1,
+    "representative_serial": "J1QJQ771YH",
+    "last_received": "2023-09-14 21:52"
+  },
+  {
+    "prefix": "H29",
+    "count": 1,
+    "representative_serial": "H291D4F0QV",
+    "last_received": "2023-09-15 16:10"
+  },
+  {
+    "prefix": "FHZ",
+    "count": 1,
+    "representative_serial": "FHZY459PKDTQ",
+    "last_received": ""
+  },
+  {
+    "prefix": "PV9",
+    "count": 1,
+    "representative_serial": "PV9YV79K2P",
+    "last_received": "2023-09-07 16:00"
+  },
+  {
+    "prefix": "CW5",
+    "count": 1,
+    "representative_serial": "CW52NK4WQD",
+    "last_received": "2023-09-06 01:00"
+  },
+  {
+    "prefix": "NQH",
+    "count": 1,
+    "representative_serial": "NQH6QT2Y7L",
+    "last_received": "2023-09-01 21:00"
+  },
+  {
+    "prefix": "KC9",
+    "count": 1,
+    "representative_serial": "KC9RQ4DCWV",
+    "last_received": "2023-08-31 17:00"
+  },
+  {
+    "prefix": "VFV",
+    "count": 1,
+    "representative_serial": "VFVYM7N6D1",
+    "last_received": "2023-08-31 18:41"
+  },
+  {
+    "prefix": "TFQ",
+    "count": 1,
+    "representative_serial": "TFQQCL2Y9J",
+    "last_received": "2023-08-31 23:10"
+  },
+  {
+    "prefix": "N6R",
+    "count": 1,
+    "representative_serial": "N6R0JV61Q",
+    "last_received": "2023-09-01 16:52"
+  },
+  {
+    "prefix": "V9N",
+    "count": 1,
+    "representative_serial": "V9NJWC2RYQ",
+    "last_received": "2023-08-30 17:00"
+  },
+  {
+    "prefix": "JCJ",
+    "count": 1,
+    "representative_serial": "JCJH2G00CF",
+    "last_received": "2023-08-23 21:00"
+  },
+  {
+    "prefix": "D6D",
+    "count": 1,
+    "representative_serial": "D6D93DY0H6",
+    "last_received": "2023-08-22 17:00"
+  },
+  {
+    "prefix": "CVD",
+    "count": 1,
+    "representative_serial": "CVDGJK0X2C",
+    "last_received": "2023-08-22 18:00"
+  },
+  {
+    "prefix": "Y2J",
+    "count": 1,
+    "representative_serial": "Y2JP4XHHPD",
+    "last_received": "2023-08-18 00:00"
+  },
+  {
+    "prefix": "TF9",
+    "count": 1,
+    "representative_serial": "TF9N30H32H",
+    "last_received": "2023-08-16 21:42"
+  },
+  {
+    "prefix": "JC4",
+    "count": 1,
+    "representative_serial": "JC4XLDQQLV",
+    "last_received": "2023-08-14 16:57"
+  },
+  {
+    "prefix": "NJ0",
+    "count": 1,
+    "representative_serial": "NJ04DCJ3YC",
+    "last_received": "2023-08-03 19:14"
+  },
+  {
+    "prefix": "D6L",
+    "count": 1,
+    "representative_serial": "D6LP9140KD",
+    "last_received": "2023-08-11 01:00"
+  },
+  {
+    "prefix": "MGG",
+    "count": 1,
+    "representative_serial": "MGG6GPQMC6",
+    "last_received": "2023-08-11 21:19"
+  },
+  {
+    "prefix": "W2Y",
+    "count": 1,
+    "representative_serial": "W2YY92N6DF",
+    "last_received": "2023-08-04 16:04"
+  },
+  {
+    "prefix": "C39",
+    "count": 1,
+    "representative_serial": "C39YK3YMT9",
+    "last_received": "2023-08-04 08:00"
+  },
+  {
+    "prefix": "THK",
+    "count": 1,
+    "representative_serial": "THK37HLQMM",
+    "last_received": "2023-08-01 23:20"
+  },
+  {
+    "prefix": "HG6",
+    "count": 1,
+    "representative_serial": "HG6TLFH749",
+    "last_received": "2023-07-28 20:37"
+  },
+  {
+    "prefix": "G0X",
+    "count": 1,
+    "representative_serial": "G0XKPY2JPF",
+    "last_received": "2023-07-25 22:09"
+  },
+  {
+    "prefix": "NHR",
+    "count": 1,
+    "representative_serial": "NHRVQP2K52",
+    "last_received": "2023-07-21 18:00"
+  },
+  {
+    "prefix": "P14",
+    "count": 1,
+    "representative_serial": "P149XG249M",
+    "last_received": "2023-07-14 23:20"
+  },
+  {
+    "prefix": "RYT",
+    "count": 1,
+    "representative_serial": "RYTF6PH962",
+    "last_received": "2023-07-14 16:00"
+  },
+  {
+    "prefix": "MX7",
+    "count": 1,
+    "representative_serial": "MX7F94M9J6",
+    "last_received": ""
+  },
+  {
+    "prefix": "PK9",
+    "count": 1,
+    "representative_serial": "PK9CX9DQFY",
+    "last_received": "2023-07-07 22:25"
+  },
+  {
+    "prefix": "LY7",
+    "count": 1,
+    "representative_serial": "LY7L603YCX",
+    "last_received": "2023-07-11 17:01"
+  },
+  {
+    "prefix": "G3R",
+    "count": 1,
+    "representative_serial": "G3R7HQY9J1",
+    "last_received": "2023-07-04 19:27"
+  },
+  {
+    "prefix": "LCF",
+    "count": 1,
+    "representative_serial": "LCFNYQ0D93",
+    "last_received": "2023-07-04 23:44"
+  },
+  {
+    "prefix": "DJH",
+    "count": 1,
+    "representative_serial": "DJHG3X4QKD",
+    "last_received": "2023-07-04 22:00"
+  },
+  {
+    "prefix": "JVF",
+    "count": 1,
+    "representative_serial": "JVFWQ0H7XR",
+    "last_received": "2023-07-03 23:00"
+  },
+  {
+    "prefix": "F85",
+    "count": 1,
+    "representative_serial": "F85LK2UMFP84",
+    "last_received": "2023-06-30 16:00"
+  },
+  {
+    "prefix": "LJ6",
+    "count": 1,
+    "representative_serial": "LJ6M2C4Q2G",
+    "last_received": "2023-06-30 00:00"
+  },
+  {
+    "prefix": "XCR",
+    "count": 1,
+    "representative_serial": "XCRWP7R61M",
+    "last_received": "2023-06-30 00:00"
+  },
+  {
+    "prefix": "GO2",
+    "count": 1,
+    "representative_serial": "GO2DK01VKDTM",
+    "last_received": ""
+  },
+  {
+    "prefix": "DMT",
+    "count": 1,
+    "representative_serial": "DMTGQPETDFHW",
+    "last_received": "2023-06-27 16:00"
+  },
+  {
+    "prefix": "J2H",
+    "count": 1,
+    "representative_serial": "J2HF4XX91Y",
+    "last_received": "2023-06-27 21:00"
+  },
+  {
+    "prefix": "MM6",
+    "count": 1,
+    "representative_serial": "MM62P59Q64",
+    "last_received": "2023-06-23 22:00"
+  },
+  {
+    "prefix": "HR9",
+    "count": 1,
+    "representative_serial": "HR9GV2FPQ127",
+    "last_received": "2023-06-22 16:00"
+  },
+  {
+    "prefix": "F8Q",
+    "count": 1,
+    "representative_serial": "F8QJP025NTH0",
+    "last_received": "2023-06-23 20:44"
+  },
+  {
+    "prefix": "ML6",
+    "count": 1,
+    "representative_serial": "ML6D2CC760",
+    "last_received": "2023-06-22 19:41"
+  },
+  {
+    "prefix": "GJC",
+    "count": 1,
+    "representative_serial": "GJCD8MUPJ5X0",
+    "last_received": "2023-06-13"
+  },
+  {
+    "prefix": "J63",
+    "count": 1,
+    "representative_serial": "J63MVMH2PG",
+    "last_received": "2023-06-13"
+  },
+  {
+    "prefix": "V0M",
+    "count": 1,
+    "representative_serial": "V0MNWQ27JY",
+    "last_received": "2023-06-12"
+  },
+  {
+    "prefix": "MTX",
+    "count": 1,
+    "representative_serial": "MTX2V95PF3",
+    "last_received": "2023-06-09"
+  },
+  {
+    "prefix": "Q1Y",
+    "count": 1,
+    "representative_serial": "Q1YDV6TXLK",
+    "last_received": "2023-04-17"
+  },
+  {
+    "prefix": "H8X",
+    "count": 1,
+    "representative_serial": "H8XFK50JQ1RP",
+    "last_received": "2023-06-08"
+  },
+  {
+    "prefix": "LCM",
+    "count": 1,
+    "representative_serial": "LCMJQ6F9OJ",
+    "last_received": "2023-06-02"
+  },
+  {
+    "prefix": "D3Q",
+    "count": 1,
+    "representative_serial": "D3Q71W4MVN",
+    "last_received": "2023-06-01"
+  },
+  {
+    "prefix": "LQK",
+    "count": 1,
+    "representative_serial": "LQKYV7Q20Q",
+    "last_received": "2023-06-02"
+  },
+  {
+    "prefix": "K49",
+    "count": 1,
+    "representative_serial": "K49F9FFVLQ",
+    "last_received": "2023-05-31"
+  },
+  {
+    "prefix": "TD3",
+    "count": 1,
+    "representative_serial": "TD3Y5CWR2C",
+    "last_received": "2023-05-25"
+  },
+  {
+    "prefix": "ML4",
+    "count": 1,
+    "representative_serial": "ML4GQL2QJ9",
+    "last_received": "2023-05-24"
+  },
+  {
+    "prefix": "KRF",
+    "count": 1,
+    "representative_serial": "KRFVXP6FJD",
+    "last_received": "2023-03-29"
+  },
+  {
+    "prefix": "CC9",
+    "count": 1,
+    "representative_serial": "CC9WTLW7VD",
+    "last_received": "2023-05-25"
+  },
+  {
+    "prefix": "PLX",
+    "count": 1,
+    "representative_serial": "PLXWDGVQX0",
+    "last_received": "2023-05-22"
+  },
+  {
+    "prefix": "K4C",
+    "count": 1,
+    "representative_serial": "K4C073T4J4",
+    "last_received": "2023-05-16"
+  },
+  {
+    "prefix": "MVP",
+    "count": 1,
+    "representative_serial": "MVP6X7LR7K",
+    "last_received": "2023-05-09"
+  },
+  {
+    "prefix": "LJX",
+    "count": 1,
+    "representative_serial": "LJX27CXQKK",
+    "last_received": "2023-05-22"
+  },
+  {
+    "prefix": "YL2",
+    "count": 1,
+    "representative_serial": "YL233V3GC6",
+    "last_received": "2023-05-18"
+  },
+  {
+    "prefix": "FRN",
+    "count": 1,
+    "representative_serial": "FRNZ602GJF8M",
+    "last_received": "2023-05-17"
+  },
+  {
+    "prefix": "YKC",
+    "count": 1,
+    "representative_serial": "YKCF44D9TP",
+    "last_received": "2023-05-11"
+  },
+  {
+    "prefix": "L90",
+    "count": 1,
+    "representative_serial": "L90KK6MF4Q",
+    "last_received": "2023-05-12"
+  },
+  {
+    "prefix": "P40",
+    "count": 1,
+    "representative_serial": "P40WC7YH20",
+    "last_received": "2023-05-04"
+  },
+  {
+    "prefix": "LWQ",
+    "count": 1,
+    "representative_serial": "LWQ2C9V73L",
+    "last_received": "2023-04-26"
+  },
+  {
+    "prefix": "DTP",
+    "count": 1,
+    "representative_serial": "DTP2Y6D4JY",
+    "last_received": "2023-04-26"
+  },
+  {
+    "prefix": "F0Q",
+    "count": 1,
+    "representative_serial": "F0QQWQY431",
+    "last_received": "2023-04-25"
+  },
+  {
+    "prefix": "R58",
+    "count": 1,
+    "representative_serial": "R58M73J2CXE",
+    "last_received": "2023-04-25"
+  },
+  {
+    "prefix": "GCH",
+    "count": 1,
+    "representative_serial": "GCHV3EDTHLF9",
+    "last_received": ""
+  },
+  {
+    "prefix": "HPC",
+    "count": 1,
+    "representative_serial": "HPCG13XMQ1RQ",
+    "last_received": "2023-04-20"
+  },
+  {
+    "prefix": "C42",
+    "count": 1,
+    "representative_serial": "C42VWVDY7F",
+    "last_received": "2023-03-31"
+  },
+  {
+    "prefix": "WQ6",
+    "count": 1,
+    "representative_serial": "WQ63924XVX",
+    "last_received": "2023-04-17"
+  },
+  {
+    "prefix": "M7L",
+    "count": 1,
+    "representative_serial": "M7L3XG2TJ4",
+    "last_received": "2023-04-19"
+  },
+  {
+    "prefix": "HP1",
+    "count": 1,
+    "representative_serial": "HP1GXCUKQ07V",
+    "last_received": "2023-04-14"
+  },
+  {
+    "prefix": "L5F",
+    "count": 1,
+    "representative_serial": "L5FPH91GPP",
+    "last_received": "2023-04-17"
+  },
+  {
+    "prefix": "CYF",
+    "count": 1,
+    "representative_serial": "CYFNQ2RQQK",
+    "last_received": "2023-04-12"
+  },
+  {
+    "prefix": "H7X",
+    "count": 1,
+    "representative_serial": "H7XRL4G23",
+    "last_received": "2023-04-13"
+  },
+  {
+    "prefix": "F4G",
+    "count": 1,
+    "representative_serial": "F4GTF1WSHG7F",
+    "last_received": "2023-04-11"
+  }
+]

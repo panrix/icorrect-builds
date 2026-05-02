@@ -1,0 +1,221 @@
+folder: ~/builds/alex-triage-classifier-rebuild
+size_on_disk: 16K
+file_count: 1
+last_git_commit: no git
+last_modified: 2026-04-10T10:47:57Z
+state: dormant
+purpose: Refactor brief for Alex's Intercom triage classifier. It specifies new conversation categories, pricing extraction fixes, and card/keyboard behavior changes for the existing triage system.
+suspected_owner_agent: alex-cs
+ownership_confidence: high
+key_files:
+  - path: BUILD-BRIEF.md
+    role: refactor brief
+actionable_ideas:
+  - idea: replace classifyConversation with the five-way decision tree described in the brief
+    source_path: /home/ricky/builds/alex-triage-classifier-rebuild/BUILD-BRIEF.md
+    source_line: 23
+    state_hint: captured
+  - idea: extract repair type from customer messages and wire fallback pricing into inbox triage
+    source_path: /home/ricky/builds/alex-triage-classifier-rebuild/BUILD-BRIEF.md
+    source_line: 74
+    state_hint: captured
+dependencies:
+  external:
+    - Intercom
+    - Monday.com
+    - Shopify
+    - Telegram
+  internal:
+    - /home/ricky/builds/alex-triage-rebuild
+canonical_status: draft
+notes: Single-file build brief only; no implementation files are present in this folder.
+---
+folder: ~/builds/alex-triage-rebuild
+size_on_disk: 20M
+file_count: 114
+last_git_commit: no git
+last_modified: 2026-05-01T05:00:38Z
+state: active
+purpose: Node-based Intercom triage and drafting workflow for Alex. It pulls conversations, enriches them with Monday and Shopify pricing data, drafts replies, and sends review cards to Telegram with a small edit app.
+suspected_owner_agent: alex-cs
+ownership_confidence: high
+key_files:
+  - path: BUILD-BRIEF.md
+    role: master build spec
+  - path: services/telegram-bot.js
+    role: main service entry point
+  - path: deploy/alex-triage.cron
+    role: cron schedule
+  - path: package.json
+    role: runtime script manifest
+actionable_ideas:
+  - idea: verify morning output against a manual Intercom inbox review
+    source_path: /home/ricky/builds/alex-triage-rebuild/TODO.md
+    source_line: 148
+    state_hint: captured
+  - idea: test the full send path from Telegram through Intercom, Monday, and SQLite
+    source_path: /home/ricky/builds/alex-triage-rebuild/TODO.md
+    source_line: 153
+    state_hint: partial-built
+  - idea: restore the missing generate-pricing-kb.js dependency expected by the pricing sync cron
+    source_path: /home/ricky/builds/alex-triage-rebuild/data/cron-pricing-sync.log
+    source_line: 31
+    state_hint: broken
+dependencies:
+  external:
+    - INTERCOM_API_TOKEN
+    - MONDAY_APP_TOKEN
+    - TELEGRAM_BOT_TOKEN
+    - ALEX_TELEGRAM_BOT_TOKEN
+    - OPENROUTER_API_KEY
+    - Supabase
+    - Intercom API
+    - Monday.com API
+    - Telegram Bot API
+    - Shopify Admin API
+    - OpenRouter
+  internal: []
+canonical_status: canonical
+notes: Active cron and systemd deployment is present. No git repo. data/cron-pricing-sync.log repeatedly reports a missing scripts/generate-pricing-kb.js module.
+---
+folder: ~/builds/customer-service
+size_on_disk: 60M
+file_count: 43
+last_git_commit: no git
+last_modified: 2026-04-30T20:45:22Z
+state: active
+purpose: Read-only customer-service audit workspace with generated Intercom and Monday reports, module logs, and archived task outputs. The visible contents are mostly operational analyses and evidence snapshots rather than a runnable app.
+suspected_owner_agent: alex-cs
+ownership_confidence: high
+key_files:
+  - path: reports/intercom-open-stale-3days-2026-04-27.md
+    role: stale inbox audit
+  - path: reports/intercom-backmarket-mentions-30d-2026-04-28.md
+    role: Back Market audit
+  - path: reports/anton-daly-issue-row-verification-2026-04-28.md
+    role: case verification memo
+  - path: modules/intake/data/intake.log
+    role: module activity log
+actionable_ideas:
+  - idea: triage stale open conversations into a Ferrari-ready queue after filtering spam and low-quality items
+    source_path: /home/ricky/builds/customer-service/reports/intercom-open-stale-3days-2026-04-27.md
+    source_line: 30
+    state_hint: partial-built
+  - idea: record the approved Anton Daly commercial resolution only after Ricky or Ferrari sign-off
+    source_path: /home/ricky/builds/customer-service/reports/anton-daly-issue-row-verification-2026-04-28.md
+    source_line: 127
+    state_hint: captured
+  - idea: separate genuine Back Market operational alerts from incidental mentions
+    source_path: /home/ricky/builds/customer-service/reports/intercom-backmarket-mentions-30d-2026-04-28.md
+    source_line: 21
+    state_hint: partial-built
+dependencies:
+  external:
+    - Intercom API
+    - Monday.com API
+  internal: []
+canonical_status: snapshot-of-other
+notes: Sampled rather than fully read because the folder is 60M. No top-level README. Contains SQLite db, WAL, and SHM files under modules/enquiry/data plus nested node_modules directories.
+---
+folder: ~/builds/intercom-agent
+size_on_disk: 12K
+file_count: 1
+last_git_commit: no git
+last_modified: 2026-02-22T05:51:18Z
+state: dormant
+purpose: Consolidated spec for a future Intercom backend agent service. It describes routing, escalation, audit logging, data model, and phased cutover away from inconsistent current behavior.
+suspected_owner_agent: alex-cs
+ownership_confidence: high
+key_files:
+  - path: SPEC.md
+    role: consolidated architecture spec
+actionable_ideas:
+  - idea: harden routing rules and no-silent-handoff behavior before any cutover
+    source_path: /home/ricky/builds/intercom-agent/SPEC.md
+    source_line: 86
+    state_hint: captured
+  - idea: run the service in parallel and verify metrics before switching default handling
+    source_path: /home/ricky/builds/intercom-agent/SPEC.md
+    source_line: 94
+    state_hint: captured
+dependencies:
+  external:
+    - Intercom
+    - Monday.com
+    - Supabase
+    - n8n
+  internal: []
+canonical_status: draft
+notes: Spec-only folder; no implementation or runtime files are present.
+---
+folder: ~/builds/intercom-config
+size_on_disk: 68K
+file_count: 4
+last_git_commit: no git
+last_modified: 2026-04-29T12:00:07Z
+state: active
+purpose: Research and strategy folder for Intercom private API deployment and inbox-view configuration. It combines endpoint discovery artifacts with a locked Phase 1 view strategy and corporate-detection plan.
+suspected_owner_agent: alex-cs
+ownership_confidence: high
+key_files:
+  - path: private-api-discovery.md
+    role: private API discovery report
+  - path: strategy/inbox-views.md
+    role: inbox-view deployment strategy
+  - path: api-inventory.json
+    role: endpoint inventory snapshot
+actionable_ideas:
+  - idea: deploy the Phase 1 corporate inbox view using the documented heuristic
+    source_path: /home/ricky/builds/intercom-config/strategy/inbox-views.md
+    source_line: 13
+    state_hint: captured
+  - idea: define and deploy the auto-tag workflow before enabling Phase 2 intent-based views
+    source_path: /home/ricky/builds/intercom-config/strategy/inbox-views.md
+    source_line: 75
+    state_hint: captured
+  - idea: migrate corporate detection to a customer_type attribute when the workflow ships
+    source_path: /home/ricky/builds/intercom-config/strategy/inbox-views.md
+    source_line: 78
+    state_hint: captured
+dependencies:
+  external:
+    - Intercom private /ember API
+    - Intercom UI session cookie
+    - X-CSRF-Token
+  internal:
+    - /home/ricky/builds/alex-triage-rebuild
+canonical_status: draft
+notes: No plaintext secrets found in-folder. strategy/inbox-views.md marks Phase 1 as locked and ready to deploy.
+---
+folder: ~/builds/quote-wizard
+size_on_disk: 216K
+file_count: 7
+last_git_commit: no git
+last_modified: 2026-03-18T15:18:05Z
+state: dormant
+purpose: Node script plus generated JSON for rebuilding Shopify quote-wizard navigation menus from collection data. It groups per-model collections into device menus and falls back to manual import when the current token lacks menu API scope.
+suspected_owner_agent: alex-cs
+ownership_confidence: medium
+key_files:
+  - path: rebuild-wizard-menus.js
+    role: main menu builder
+  - path: README.md
+    role: usage and maintenance doc
+  - path: wizard-macbook-models.json
+    role: generated menu export
+actionable_ideas:
+  - idea: obtain the online_store_navigation scope so menu creation can move from manual import to API writes
+    source_path: /home/ricky/builds/quote-wizard/README.md
+    source_line: 82
+    state_hint: captured
+  - idea: re-run the builder after new device collections are added
+    source_path: /home/ricky/builds/quote-wizard/README.md
+    source_line: 134
+    state_hint: shipped-but-unused
+dependencies:
+  external:
+    - SHOPIFY_ACCESS_TOKEN
+    - Shopify Admin API
+  internal: []
+canonical_status: draft
+notes: node_modules and package-lock.json were excluded from the scan. README says the current token lacks online_store_navigation, so generated JSON is used for manual import.

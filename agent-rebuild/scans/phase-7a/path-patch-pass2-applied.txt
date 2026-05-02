@@ -1,0 +1,83 @@
+=== Phase 7a path-patch PASS-2 — APPLY ===
+
+SKIP[already]   /home/ricky/.openclaw/shared/LEARNINGS.md (no occurrence of '/home/ricky/builds/scripts/pdf-to-images.sh')
+PATCHED        /home/ricky/builds/agent-rebuild/briefs/CODEX-BRIEFS.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/intake-notifications/REBUILD-BRIEF.md
+              -> /home/ricky/builds/intake-notifications/briefs/REBUILD-BRIEF.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/diagnostics-deep-dive.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/diagnostics-deep-dive.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (3 of 3 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/gsc-profitability-crossref-v2.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/gsc-profitability-crossref-v2.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/gsc-repair-profit-rankings.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/gsc-repair-profit-rankings.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/parts-cost-audit.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/parts-cost-audit.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/product-cards.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/product-cards.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/repair-profitability-model.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/repair-profitability-model.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (5 of 5 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/repair-profitability-v2.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/repair-profitability-v2.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/shopify-health-audit.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/shopify-health-audit.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/script-test-results.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/xero-revenue-by-repair.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/xero-revenue-by-repair.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/system-audit-digest.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/gsc-profitability-crossref-v2.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/gsc-profitability-crossref-v2.md
+PATCHED        /home/ricky/builds/agent-rebuild/docs/audits/system-audit-digest.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/system-audit-2026-03-31/product-cards.md
+              -> /home/ricky/builds/system-audit-2026-03-31/docs/audits/product-cards.md
+PATCHED        /home/ricky/builds/agent-rebuild/idea-inventory.md (2 of 2 occurrence(s))
+                 /home/ricky/builds/backmarket-seller-support/discovery.md
+              -> /home/ricky/builds/backmarket-seller-support/docs/discovery.md
+PATCHED        /home/ricky/builds/agent-rebuild/idea-inventory.md (3 of 3 occurrence(s))
+                 /home/ricky/builds/icorrect-shopify-theme/docs/dead-click-analysis-2026-04-23.md
+              -> /home/ricky/builds/icorrect-shopify-theme/docs/audits/dead-click-analysis-2026-04-23.md
+PATCHED        /home/ricky/builds/agent-rebuild/idea-inventory.md (2 of 2 occurrence(s))
+                 /home/ricky/builds/intake-notifications/plan.md
+              -> /home/ricky/builds/intake-notifications/briefs/plan.md
+PATCHED        /home/ricky/builds/agent-rebuild/idea-inventory.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/intake-system/plan.md
+              -> /home/ricky/builds/intake-system/briefs/plan.md
+PATCHED        /home/ricky/builds/agent-rebuild/idea-inventory.md (3 of 3 occurrence(s))
+                 /home/ricky/builds/monday/board-v2-build-status.md
+              -> /home/ricky/builds/monday/docs/board-v2-build-status.md
+PATCHED        /home/ricky/builds/agent-rebuild/idea-inventory.md (4 of 4 occurrence(s))
+                 /home/ricky/builds/website-conversion/SPEC.md
+              -> /home/ricky/builds/website-conversion/briefs/SPEC.md
+PATCHED        /home/ricky/kb/customer-service/_draft/label-buying-workflow.md (10 of 10 occurrence(s))
+                 /home/ricky/builds/monday/main-board-column-audit.md
+              -> /home/ricky/builds/monday/docs/audits/main-board-column-audit.md
+PATCHED        /home/ricky/kb/customer-service/_draft/quote-building.md (5 of 5 occurrence(s))
+                 /home/ricky/builds/alex-triage-rebuild/PHASE2-QUOTE-BUILDING-BRIEF.md
+              -> /home/ricky/builds/alex-triage-rebuild/briefs/PHASE2-QUOTE-BUILDING-BRIEF.md
+PATCHED        /home/ricky/kb/monday/board-relationships.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/monday/board-v2-build-status.md
+              -> /home/ricky/builds/monday/docs/board-v2-build-status.md
+PATCHED        /home/ricky/kb/monday/board-relationships.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/monday/board-v2-manifest.json
+              -> /home/ricky/builds/monday/data/board-v2-manifest.json
+PATCHED        /home/ricky/kb/monday/board-relationships.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/monday/main-board-column-audit.md
+              -> /home/ricky/builds/monday/docs/audits/main-board-column-audit.md
+PATCHED        /home/ricky/kb/operations/qc-workflow.md (1 of 1 occurrence(s))
+                 /home/ricky/builds/monday/main-board-column-audit.md
+              -> /home/ricky/builds/monday/docs/audits/main-board-column-audit.md
+
+=== Summary ===
+Planned:                       25
+Applied:                       24
+Skipped (historical archive):  0
+Skipped (non-patchable ext):   0
+Skipped (file missing):        0
+Skipped (string already gone): 1

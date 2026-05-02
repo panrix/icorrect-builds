@@ -1,0 +1,135 @@
+folder: ~/builds/marketing-intelligence
+size_on_disk: "88K"
+file_count: 6
+last_git_commit: "2026-02-22T05:47:34+00:00"
+last_modified: "2026-04-30T05:58:51+00:00"
+state: active
+purpose: "Stub and snapshot docs for iCorrect's self-hosted marketing intelligence platform. The local folder does not contain the deployed app code, but it documents the live FastAPI/SQLite/Playwright system and its rebuild gaps."
+suspected_owner_agent: marketing
+ownership_confidence: high
+key_files:
+  - path: README.md
+    role: "stub status and parking note"
+  - path: snapshot/MI-BUILD-BRIEF.md
+    role: "deployment snapshot and gap list"
+  - path: snapshot/marketing-intelligence-platform-spec.md
+    role: "full product/build spec"
+actionable_ideas:
+  - idea: "agree MVP scope and stack alignment"
+    source_path: /home/ricky/builds/marketing-intelligence/README.md
+    source_line: 10
+    state_hint: captured
+  - idea: "rebuild the dashboard as a proper React app"
+    source_path: /home/ricky/builds/marketing-intelligence/snapshot/MI-BUILD-BRIEF.md
+    source_line: 36
+    state_hint: partial-built
+  - idea: "build Phase 2-4 scrapers, API endpoints, and UI"
+    source_path: /home/ricky/builds/marketing-intelligence/snapshot/MI-BUILD-BRIEF.md
+    source_line: 37
+    state_hint: partial-built
+  - idea: "add a scan scheduling UI"
+    source_path: /home/ricky/builds/marketing-intelligence/snapshot/MI-BUILD-BRIEF.md
+    source_line: 39
+    state_hint: partial-built
+dependencies:
+  external: ["FastAPI", "SQLite", "Playwright", "Nginx", "systemd", "certbot", "Supabase", "OpenClaw cron"]
+  internal: []
+canonical_status: snapshot-of-other
+notes: "Local folder is mostly docs plus .remember logs; the live system is described as deployed elsewhere. Plaintext basic-auth credentials are present in snapshot/MI-BUILD-BRIEF.md."
+---
+folder: ~/builds/website-conversion
+size_on_disk: "12K"
+file_count: 1
+last_git_commit: "2026-02-22T06:07:01+00:00"
+last_modified: "2026-02-22T05:57:48+00:00"
+state: dormant
+purpose: "Single-spec folder for Shopify website conversion improvements on collection and product pages, with emphasis on mobile UX, trust cues, and measurable funnel fixes. No implementation files are present here."
+suspected_owner_agent: arlo-website
+ownership_confidence: high
+key_files:
+  - path: SPEC.md
+    role: "consolidated conversion spec"
+actionable_ideas:
+  - idea: "add clearer price anchors in collection cards"
+    source_path: /home/ricky/builds/website-conversion/SPEC.md
+    source_line: 41
+    state_hint: captured
+  - idea: "make collection cards fully clickable with clear interaction feedback"
+    source_path: /home/ricky/builds/website-conversion/SPEC.md
+    source_line: 42
+    state_hint: captured
+  - idea: "add a trust strip near booking CTAs on product pages"
+    source_path: /home/ricky/builds/website-conversion/SPEC.md
+    source_line: 44
+    state_hint: captured
+  - idea: "add model-identification helper content for uncertain users"
+    source_path: /home/ricky/builds/website-conversion/SPEC.md
+    source_line: 46
+    state_hint: captured
+dependencies:
+  external: ["Shopify", "site analytics"]
+  internal: []
+canonical_status: draft
+notes: "SPEC.md is duplicated verbatim within the same file starting again at line 83. Folder contains no code, theme files, or linked implementation assets."
+---
+folder: ~/builds/apple-ssr
+size_on_disk: "20M"
+file_count: 11
+last_git_commit: "no git"
+last_modified: "2026-04-29T14:35:45+00:00"
+state: active
+purpose: "Research and build artifacts for automating Apple Self Service Repair parts lookup, order-history analysis, and catalog generation for iCorrect/Panrix. Includes API discovery notes, Python builders, and large local JSON snapshots."
+suspected_owner_agent: parts
+ownership_confidence: high
+key_files:
+  - path: discovery.md
+    role: "API discovery and automation brief"
+  - path: parts-catalog-summary.md
+    role: "catalog coverage summary and next steps"
+  - path: build-catalog-phase4.py
+    role: "catalog builder for missing models"
+  - path: parts-catalog.json
+    role: "generated catalog dataset"
+actionable_ideas:
+  - idea: "probe add-to-cart to confirm live stock behavior"
+    source_path: /home/ricky/builds/apple-ssr/discovery.md
+    source_line: 93
+    state_hint: partial-built
+  - idea: "re-run the full builder weekly via cron once wired"
+    source_path: /home/ricky/builds/apple-ssr/parts-catalog-summary.md
+    source_line: 53
+    state_hint: captured
+  - idea: "join this catalog with Mobilesentrix to find the cheapest path per repair"
+    source_path: /home/ricky/builds/apple-ssr/parts-catalog-summary.md
+    source_line: 66
+    state_hint: captured
+  - idea: "wire API order automation after a canary order is approved"
+    source_path: /home/ricky/builds/apple-ssr/parts-catalog-summary.md
+    source_line: 68
+    state_hint: partial-built
+dependencies:
+  external: ["selfservicerepair.eu API", "AWS Cognito", "Google reCAPTCHA v3", "Stripe", "Authorize.net", "Radial", "PayPal"]
+  internal: []
+canonical_status: draft
+notes: "No path-specific git history was found for this folder. Contains a 16 MB order-detail snapshot and other operational data dumps; treat as sensitive internal data."
+---
+folder: ~/builds/llm-summary-endpoint
+size_on_disk: "12M"
+file_count: 2
+last_git_commit: "2026-04-15T03:37:01+00:00"
+last_modified: "2026-04-14T05:18:00+00:00"
+state: dormant
+purpose: "Minimal Node/Express service that accepts Monday.com repair updates, sends them to OpenRouter/Claude for summarization, and returns structured JSON for collection or drop-off workflows."
+suspected_owner_agent: operations
+ownership_confidence: medium
+key_files:
+  - path: package.json
+    role: "service manifest"
+  - path: server.js
+    role: "main endpoint implementation"
+actionable_ideas: []
+dependencies:
+  external: ["OPENROUTER_API_KEY", "LLM_SUMMARY_API_KEY", "OpenRouter", "Monday.com", "n8n cloud"]
+  internal: []
+canonical_status: canonical
+notes: "node_modules and package-lock.json are present but excluded from file_count. CORS is open to '*' and request auth is only enforced when LLM_SUMMARY_API_KEY is set; no README or deployment/service file is present here."

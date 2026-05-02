@@ -1,0 +1,166 @@
+folder: ~/builds/scripts
+size_on_disk: "52K"
+file_count: 3
+last_git_commit: "2026-04-11T09:26:50+00:00"
+last_modified: "2026-03-28T07:13:56+00:00"
+state: dormant
+purpose: "Small utility bundle for ad hoc Back Market, Monday, and document-conversion tasks. The folder contains one data-loading script, one repair-flow analysis/export script, and one PDF-to-images helper."
+suspected_owner_agent: none
+ownership_confidence: low
+key_files:
+  - path: bm-price-history-load.py
+    role: main data load script
+  - path: monday-repair-flow-traces.py
+    role: workflow analysis and report export script
+  - path: pdf-to-images.sh
+    role: PDF page conversion utility
+actionable_ideas: []
+dependencies:
+  external:
+    - MONDAY_APP_TOKEN
+    - BACKMARKET_API_AUTH
+    - SUPABASE_URL
+    - SUPABASE_SERVICE_ROLE_KEY
+    - SUPABASE_DB_URL
+    - Monday.com API
+    - Back Market API
+    - Supabase
+    - pdftoppm
+    - pdfinfo
+  internal:
+    - ~/builds/documentation
+canonical_status: scratch
+notes: "Mixed utility folder with no README. monday-repair-flow-traces.py writes outside this folder to /home/ricky/builds/documentation/monday/repair-flow-traces.md, which makes this look more like a staging/scratch toolbox than a canonical home."
+---
+folder: ~/builds/server-config
+size_on_disk: "124K"
+file_count: 26
+last_git_commit: "2026-03-23T16:02:31+00:00"
+last_modified: "2026-03-24T02:06:52+00:00"
+state: active
+purpose: "Snapshot of VPS runtime configuration and service inventory. It captures nginx configs, systemd user units, cron, listening-port inventories, and PM2 process dumps for the live environment."
+suspected_owner_agent: none
+ownership_confidence: high
+key_files:
+  - path: nginx-mission-control.conf
+    role: main reverse-proxy config snapshot
+  - path: crontab.txt
+    role: cron schedule snapshot
+  - path: systemd-user-units.txt
+    role: running user service inventory
+  - path: env-template.txt
+    role: redacted environment template
+  - path: pm2-dump-formatted.json
+    role: PM2 process and environment snapshot
+actionable_ideas: []
+dependencies:
+  external:
+    - nginx
+    - systemd
+    - PM2
+    - Let's Encrypt
+    - Telegram
+    - Monday.com
+    - Intercom
+    - Slack
+    - Xero
+    - Supabase
+    - Back Market
+    - Shopify
+    - Cloudflare
+    - n8n
+  internal:
+    - ~/builds/buyback-monitor
+canonical_status: snapshot-of-other
+notes: "Active-state classification is based on configured live cron jobs and service units rather than recent file edits. Redacted env-template.txt is present, and plaintext secrets are present in /home/ricky/builds/server-config/pm2-dump-formatted.json and /home/ricky/builds/server-config/pm2-dump.json."
+---
+folder: ~/builds/mutagen-guide
+size_on_disk: "68K"
+file_count: 2
+last_git_commit: "2026-04-28T12:59:03+00:00"
+last_modified: "2026-04-28T12:38:03+00:00"
+state: active
+purpose: "Standalone setup guide for mirroring a VPS to a local Mac with Mutagen over SSH. The folder contains an HTML source document and a PDF export of the same guide."
+suspected_owner_agent: none
+ownership_confidence: high
+key_files:
+  - path: mutagen-mac-to-vps.html
+    role: main guide source
+  - path: mutagen-mac-to-vps.pdf
+    role: printable/exported guide
+actionable_ideas:
+  - idea: install Mutagen on macOS
+    source_path: /home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html
+    source_line: 93
+    state_hint: captured
+  - idea: create your first sync session
+    source_path: /home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html
+    source_line: 128
+    state_hint: captured
+  - idea: add a mutagen.yml project file for reusable sync setup
+    source_path: /home/ricky/builds/mutagen-guide/mutagen-mac-to-vps.html
+    source_line: 192
+    state_hint: captured
+dependencies:
+  external:
+    - Mutagen
+    - Homebrew
+    - SSH
+    - scp
+  internal: []
+canonical_status: canonical
+notes: "Appears to be a finished infra how-to rather than a scratch doc. The PDF looks like a rendered export of the HTML source."
+---
+folder: ~/builds/webhook-migration
+size_on_disk: "400K"
+file_count: 27
+last_git_commit: "2026-04-11T09:26:50+00:00"
+last_modified: "2026-04-08T05:57:37+00:00"
+state: dormant
+purpose: "Documentation workspace for two webhook migration tracks: Monday status notifications moved to a VPS service, and a planned Shopify-to-Intercom attribution migration. It is organized into active docs, discovery artefacts, verification records, and archive material."
+suspected_owner_agent: operations
+ownership_confidence: low
+key_files:
+  - path: README.md
+    role: workspace index
+  - path: MASTER-TODO-2026-03-31.md
+    role: current execution entry point
+  - path: plan-status-notifications.md
+    role: Monday migration plan and cutover record
+  - path: plan-shopify-contact-form.md
+    role: Shopify/Intercom migration plan
+  - path: execution-checklist-shopify-contact-form.md
+    role: implementation gate and rollout checklist
+actionable_ideas:
+  - idea: monitor logs and Slack alerts for 48 hours
+    source_path: /home/ricky/builds/webhook-migration/TODO-MONDAY-STATUS-NOTIFICATIONS.md
+    source_line: 38
+    state_hint: partial-built
+  - idea: confirm automation usage drops
+    source_path: /home/ricky/builds/webhook-migration/TODO-MONDAY-STATUS-NOTIFICATIONS.md
+    source_line: 87
+    state_hint: partial-built
+  - idea: record the actual service directory
+    source_path: /home/ricky/builds/webhook-migration/TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md
+    source_line: 67
+    state_hint: broken
+  - idea: create the Shopify form service in the recorded service directory
+    source_path: /home/ricky/builds/webhook-migration/execution-checklist-shopify-contact-form.md
+    source_line: 165
+    state_hint: captured
+dependencies:
+  external:
+    - Monday.com
+    - Intercom
+    - Shopify
+    - Slack
+    - n8n
+    - Cloudflare Worker
+    - nginx
+    - systemd
+  internal:
+    - ~/builds/monday
+    - ~/builds/icorrect-shopify-theme
+    - ~/builds/intercom
+canonical_status: canonical
+notes: "Top-level docs present this as the source of truth for the migration work, but the folder has not been touched since 2026-04-08. Ownership is mixed across a live Monday ops cutover and an unimplemented Shopify/Intercom track, so the owner mapping is low-confidence."

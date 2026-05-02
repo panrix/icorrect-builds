@@ -1,0 +1,19 @@
+{
+  "id": "ka03X000000BX56QAG",
+  "articleNumber": "000001110",
+  "title": "How to provide a tracking link via the Back Office ?",
+  "urlName": "How-to-provide-a-tracking-link-via-the-Back-Office",
+  "url": "https://backmarket.my.site.com/ssc/s/article/How-to-provide-a-tracking-link-via-the-Back-Office",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-09-30T13:36:11.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahXWAQ",
+      "parent_topic_name": "CCBM - Orders & After Sales",
+      "topic_id": "0TO3X0000009alSWAQ",
+      "topic_name": "Manage Returns",
+      "urlName": "How-to-provide-a-tracking-link-via-the-Back-Office"
+    }
+  ],
+  "bodyHtml": "<p>This article will provide sellers guidance on how to provide a tracking link in the customer service request from their Back Office.</p>\n\n<h2><br><strong>When do sellers need to provide a tracking link in the Back Office?</strong></h2>\n\n<p>Sellers need to provide a tracking link in the Back Office when sending a repaired or an exchanged item to the customer. Providing a tracking link in the Back Office gives Back Market agents and the customer visibility into your actions, and handles your customer service requests more efficiently. </p>\n\n<p> </p>\n\n<h2><strong>How to provide a tracking link via the Back Office ?</strong></h2>\n\n<p><strong>1. Connect to your Back Office and select ‘Customer Care’: </strong></p>\n<img alt=\"picture_sav.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000BX56&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000009g5nI\"></img>\n<h3><strong>2. On the left hand side, select ‘Product returns’: </strong><br> </h3>\n\n<p>In this area you will find all customer returns that need to be processed. To remove a product return from this list, sellers can fill in the form to send back a product or refund the customer in full. <br><br><img alt=\"picture_sav2.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000BX56&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000009g5nN\"></img></p>\n\n<h3><br> </h3>\n\n<h3> </h3>\n\n<h3><strong>3. Click ‘Send a product back’:</strong></h3>\n<img alt=\"picture_sav3.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000BX56&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000009g5nX\"></img>\n<h3><br><br> </h3>\n\n<h3><strong>4. Fill the return address, tracking number and the courier of your choice:</strong></h3>\n\n<h3><img alt=\"picture_sav4.png\" src=\"/ssc/servlet/rtaImage?eid=ka03X000000BX56&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000009g5nr\"></img><br><br><strong>5. Click on ‘Validate’ and you are all set.</strong></h3>\n\n<p>Note that on BackShip orders, you can follow the same process and click on ‘Generate a return Label’. However, you do not have to manually fill out the required information, as this is done automatically.</p>"
+}

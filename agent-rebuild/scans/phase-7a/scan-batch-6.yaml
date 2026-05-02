@@ -1,0 +1,426 @@
+batch_id: 6
+folders_processed: 6
+warnings_total: 7
+folders:
+  - folder: /home/ricky/builds/icorrect-shopify-theme
+    state_at_scan: active
+    owner: arlo-website
+    existing_subdirs_kept:
+      - assets
+      - config
+      - docs
+      - layout
+      - locales
+      - reports
+      - scripts
+      - sections
+      - snapshots
+      - snippets
+      - templates
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs/audits
+      - archive
+      - scratch
+      - data
+    file_moves:
+      - from: /home/ricky/builds/icorrect-shopify-theme/meta-pixel-fix-brief.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/meta-pixel-fix-brief.md
+        rationale: "*-brief.md filename matches BRIEF-* / *-brief proposal-pattern -> briefs/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/page-speed-optimisation-brief.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/page-speed-optimisation-brief.md
+        rationale: "*-brief.md proposal pattern -> briefs/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/social-proof-first-fold-brief.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/social-proof-first-fold-brief.md
+        rationale: "*-brief.md proposal pattern -> briefs/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/Products.csv
+        to: /home/ricky/builds/icorrect-shopify-theme/data/Products.csv
+        rationale: "*.csv runtime/data file at root -> data/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/collections.xlsx
+        to: /home/ricky/builds/icorrect-shopify-theme/data/collections.xlsx
+        rationale: "Tabular data export at root -> data/ (xlsx not in rubric, treated as csv-like data)"
+      - from: /home/ricky/builds/icorrect-shopify-theme/icorrect-quote-wizard-final.html
+        to: /home/ricky/builds/icorrect-shopify-theme/scratch/icorrect-quote-wizard-final.html
+        rationale: "Stale HTML prototype, ambiguous artifact (Mar 22) -> scratch/ per ambiguous-file rule"
+      - from: /home/ricky/builds/icorrect-shopify-theme/prototype-quote-flow.html
+        to: /home/ricky/builds/icorrect-shopify-theme/scratch/prototype-quote-flow.html
+        rationale: "prototype-* HTML, working/exploratory artifact -> scratch/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/theme-audit-2026-03-31.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/theme-audit-2026-03-31.md
+        rationale: "*-audit.md -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/theme-audit-pr-qa-checklist-2026-03-31.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/theme-audit-pr-qa-checklist-2026-03-31.md
+        rationale: "audit-related QA checklist -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/theme-audit-qa-prompt-2026-03-31.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/theme-audit-qa-prompt-2026-03-31.md
+        rationale: "audit-related QA prompt -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-audit.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/quote-wizard-audit.md
+        rationale: "*-audit.md -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-qa-review.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/quote-wizard-qa-review.md
+        rationale: "*-qa-review.md = analysis report -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-qa-review-2026-03-23.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/quote-wizard-qa-review-2026-03-23.md
+        rationale: "*-qa-review.md -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-re-qa-2026-03-25.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/quote-wizard-re-qa-2026-03-25.md
+        rationale: "QA report -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-review-20-mar-2026.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/quote-wizard-review-20-mar-2026.md
+        rationale: "*-review.md = analysis report -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/dead-click-analysis-2026-04-23.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/dead-click-analysis-2026-04-23.md
+        rationale: "*-analysis.md -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/posthog-error-triage-2026-04-27.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/posthog-error-triage-2026-04-27.md
+        rationale: "Error-triage = investigation report -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/marketing-jarvis-audit-2026-04-21.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/marketing-jarvis-audit-2026-04-21.md
+        rationale: "*-audit.md -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/marketing-recording-analysis-tool-2026-04-22.md
+        to: /home/ricky/builds/icorrect-shopify-theme/docs/audits/marketing-recording-analysis-tool-2026-04-22.md
+        rationale: "*-analysis.md -> docs/audits/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/macbook-landing-pages-build-brief.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/macbook-landing-pages-build-brief.md
+        rationale: "*-build-brief.md = proposal/spec -> briefs/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-architecture-v2.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/quote-wizard-architecture-v2.md
+        rationale: "*-architecture.md = spec/proposal -> briefs/ (also -v2 implies new design)"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-build-plan.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/quote-wizard-build-plan.md
+        rationale: "*-plan.md proposal pattern -> briefs/"
+      - from: /home/ricky/builds/icorrect-shopify-theme/docs/quote-wizard-fix-plan.md
+        to: /home/ricky/builds/icorrect-shopify-theme/briefs/quote-wizard-fix-plan.md
+        rationale: "*-plan.md proposal pattern -> briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/icorrect-shopify-theme/INDEX.md
+        description: "Active-state INDEX.md per template"
+      - path: /home/ricky/builds/icorrect-shopify-theme/briefs/INDEX.md
+        description: "briefs/ sub-INDEX (7 files, > 5 threshold)"
+      - path: /home/ricky/builds/icorrect-shopify-theme/docs/INDEX.md
+        description: "docs/ sub-INDEX (17 files, > 5 threshold)"
+      - path: /home/ricky/builds/icorrect-shopify-theme/docs/audits/INDEX.md
+        description: "docs/audits/ sub-INDEX (12 files, > 5 threshold)"
+      - path: /home/ricky/builds/icorrect-shopify-theme/decisions/.gitkeep
+        description: "placeholder for empty subdir"
+      - path: /home/ricky/builds/icorrect-shopify-theme/archive/.gitkeep
+        description: "placeholder for empty subdir"
+    sub_indexes_created:
+      - briefs/INDEX.md
+      - docs/INDEX.md
+      - docs/audits/INDEX.md
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/arlo-website/workspace/MEMORY.md:4"
+        ref: "panrix/icorrect-shopify-theme (GitHub)"
+      - source: "/home/ricky/.openclaw/agents/arlo-website/workspace/MEMORY.md:6"
+        ref: "/home/ricky/builds/icorrect-shopify-theme"
+      - source: "/home/ricky/.openclaw/agents/arlo-website/workspace/CLAUDE.md:49"
+        ref: "/home/ricky/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/.openclaw/agents/arlo-website/workspace/TOOLS.md:7"
+        ref: "/home/ricky/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/.openclaw/agents/arlo-website/workspace/TOOLS.md:25"
+        ref: "panrix/icorrect-shopify-theme"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/AGENTS.md:216"
+        ref: "~/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/.openclaw/agents/marketing/workspace/AGENTS.md:40"
+        ref: "~/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/.openclaw/agents/marketing/workspace/AGENTS.md:213"
+        ref: "~/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/.openclaw/shared/CREDENTIALS.md:56"
+        ref: "panrix/icorrect-shopify-theme"
+      - source: "/home/ricky/.openclaw/shared/CREDENTIALS.md:140"
+        ref: "panrix/icorrect-shopify-theme"
+      - source: "/home/ricky/kb/system/runtime/gophr-end-to-end-map.md:26"
+        ref: "/home/ricky/builds/icorrect-shopify-theme/snippets/additional-repair.liquid"
+      - source: "/home/ricky/kb/system/runtime/gophr-end-to-end-map.md:27"
+        ref: "/home/ricky/builds/icorrect-shopify-theme/assets/product-form.js"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:96"
+        ref: "icorrect-shopify-theme/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:209"
+        ref: "icorrect-shopify-theme/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:134"
+        ref: "/home/ricky/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:607"
+        ref: "icorrect-shopify-theme"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:643"
+        ref: "icorrect-shopify-theme"
+      - source: "/home/ricky/claude-audit-rebuild/EXECUTION-PLAN.md:263"
+        ref: "~/builds/icorrect-shopify-theme/"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md"
+        ref: "icorrect-shopify-theme"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md"
+        ref: "icorrect-shopify-theme"
+    warnings:
+      - "Two HTML prototypes (icorrect-quote-wizard-final.html, prototype-quote-flow.html) classified as scratch/ per ambiguous-file rule. They are stale (Feb/Mar 2026) artifacts from earlier quote-wizard work; arlo-website may want to move them to archive/2026-05-02-superseded/ once quote-wizard v2 (in briefs/) is decided."
+      - "Existing reports/ and snapshots/ subdirs at root duplicate the standard archive/ purpose. Left in place per 'no code-dir restructuring' rule. Folder QA may flag this."
+      - "docs/deploy-macbook-landing-pages.sh and docs/posthog-web-pixel.js are non-markdown files left in docs/ where they pre-existed; rubric is unclear for in-docs scripts. Left in place."
+      - "13 GitHub-style references to 'panrix/icorrect-shopify-theme' (the repo URL, not a filesystem path) found across agent files and CREDENTIALS. These do NOT need patching — they reference the GitHub repo, not the local folder."
+    status: success
+
+  - folder: /home/ricky/builds/marketing-intelligence
+    state_at_scan: active
+    owner: marketing
+    existing_subdirs_kept:
+      - snapshot
+      - .remember
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/marketing-intelligence/INDEX.md
+        description: "Active-state INDEX.md per template (with security note re: basic-auth/env material)"
+      - path: /home/ricky/builds/marketing-intelligence/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/marketing-intelligence/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/marketing-intelligence/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/marketing-intelligence/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/marketing-intelligence/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/marketing/workspace/AGENTS.md:39"
+        ref: "~/builds/marketing-intelligence/"
+      - source: "/home/ricky/.openclaw/agents/marketing/workspace/AGENTS.md:212"
+        ref: "~/builds/marketing-intelligence/"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/AGENTS.md:215"
+        ref: "~/builds/marketing-intelligence/"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:34"
+        ref: "marketing-intelligence-api (service)"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:102"
+        ref: "marketing-intelligence/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:170"
+        ref: "marketing-intelligence"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:194"
+        ref: "marketing-intelligence/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:308"
+        ref: "marketing-intelligence/"
+      - source: "/home/ricky/claude-audit-rebuild/.remember/remember.md:38"
+        ref: "marketing-intelligence (security note)"
+      - source: "/home/ricky/claude-audit-rebuild/EXECUTION-PLAN.md:263"
+        ref: "~/builds/marketing-intelligence/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:118"
+        ref: "/home/ricky/builds/marketing-intelligence/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:614"
+        ref: "marketing-intelligence"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:199"
+        ref: "marketing-intelligence-api.service"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:563"
+        ref: "marketing-intelligence-api.service"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:728"
+        ref: "marketing-intelligence-api.service"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md"
+        ref: "marketing-intelligence"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md"
+        ref: "marketing-intelligence"
+    warnings:
+      - "SENSITIVE: per inventory + claude-audit-rebuild remember.md, this folder area is associated with plaintext basic-auth / env material (nginx /etc/nginx/.htpasswd shared with Mission Control). Did not echo or reproduce env contents. Phase 6.95 / 7c rotation required."
+      - "snapshot/ subdir name collides with the rubric's *-snapshot pattern but per the 'subdirs leave alone' rule, was kept in place. Owner may choose to migrate to archive/2026-02-22-mi-snapshot/ in a later pass."
+      - "marketing-intelligence-api.service references and nginx 'marketing-intel' route are unaffected by this folder reorg — the live service runs from elsewhere on the VPS, this folder is the planning/snapshot surface only."
+    status: success
+
+  - folder: /home/ricky/builds/quote-wizard
+    state_at_scan: dormant
+    owner: arlo-website
+    existing_subdirs_kept:
+      - node_modules
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+      - scripts
+      - data
+    file_moves:
+      - from: /home/ricky/builds/quote-wizard/rebuild-wizard-menus.js
+        to: /home/ricky/builds/quote-wizard/scripts/rebuild-wizard-menus.js
+        rationale: "Single .js script at root (<3 code files) -> scripts/"
+      - from: /home/ricky/builds/quote-wizard/wizard-ipad-models.json
+        to: /home/ricky/builds/quote-wizard/data/wizard-ipad-models.json
+        rationale: "Generated runtime JSON data -> data/"
+      - from: /home/ricky/builds/quote-wizard/wizard-iphone-models.json
+        to: /home/ricky/builds/quote-wizard/data/wizard-iphone-models.json
+        rationale: "Generated runtime JSON data -> data/"
+      - from: /home/ricky/builds/quote-wizard/wizard-macbook-models.json
+        to: /home/ricky/builds/quote-wizard/data/wizard-macbook-models.json
+        rationale: "Generated runtime JSON data -> data/"
+      - from: /home/ricky/builds/quote-wizard/wizard-watch-models.json
+        to: /home/ricky/builds/quote-wizard/data/wizard-watch-models.json
+        rationale: "Generated runtime JSON data -> data/"
+    new_files_created:
+      - path: /home/ricky/builds/quote-wizard/INDEX.md
+        description: "Dormant-state INDEX.md per template"
+      - path: /home/ricky/builds/quote-wizard/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/quote-wizard/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/quote-wizard/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/quote-wizard/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/quote-wizard/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:96"
+        ref: "quote-wizard/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:170"
+        ref: "quote-wizard"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:122"
+        ref: "/home/ricky/builds/quote-wizard/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:618"
+        ref: "quote-wizard"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md"
+        ref: "quote-wizard"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md"
+        ref: "quote-wizard"
+    warnings:
+      - "rebuild-wizard-menus.js was at root and previously executable (chmod +x); the move preserved permissions. README.md likely references it as './rebuild-wizard-menus.js' — kept README.md untouched per 'no editing' rule. If the script is invoked anywhere via that relative path, re-running from project root will now fail; consumers should call 'node scripts/rebuild-wizard-menus.js'. No external scheduler / openclaw / cron / systemd reference found for this script."
+    status: success
+
+  - folder: /home/ricky/builds/website-conversion
+    state_at_scan: dormant
+    owner: arlo-website
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/website-conversion/SPEC.md
+        to: /home/ricky/builds/website-conversion/briefs/SPEC.md
+        rationale: "SPEC* -> briefs/ per spec/proposal pattern"
+    new_files_created:
+      - path: /home/ricky/builds/website-conversion/INDEX.md
+        description: "Dormant-state INDEX.md per template (flags ownership conflict)"
+      - path: /home/ricky/builds/website-conversion/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/website-conversion/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/website-conversion/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/website-conversion/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:102"
+        ref: "website-conversion/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:187"
+        ref: "website-conversion/"
+      - source: "/home/ricky/claude-audit-rebuild/.remember/remember.md:15"
+        ref: "website-conversion (ownership conflict)"
+      - source: "/home/ricky/claude-audit-rebuild/.remember/remember.md:32"
+        ref: "website-conversion (ownership conflict)"
+      - source: "/home/ricky/claude-audit-rebuild/.remember/remember.md:51"
+        ref: "website-conversion ownership"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:108"
+        ref: "/home/ricky/builds/website-conversion/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:631"
+        ref: "website-conversion"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md"
+        ref: "website-conversion"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md"
+        ref: "website-conversion"
+    warnings:
+      - "Ownership conflict flagged in inventory: arlo-website (current) vs marketing (proposed claim). Pending Ricky's signoff in Phase 6.9e — INDEX surfaces this."
+    status: success
+
+  - folder: /home/ricky/builds/voice-notes
+    state_at_scan: dead
+    owner: main
+    existing_subdirs_kept:
+      - snapshot
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/voice-notes/INDEX.md
+        description: "DEAD-state INDEX.md per template (recommends Phase 7c archive)"
+      - path: /home/ricky/builds/voice-notes/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/voice-notes/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/voice-notes/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/voice-notes/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/voice-notes/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:102"
+        ref: "voice-notes/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:170"
+        ref: "voice-notes"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:194"
+        ref: "voice-notes/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:308"
+        ref: "voice-notes/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:112"
+        ref: "/home/ricky/builds/voice-notes/"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md"
+        ref: "voice-notes"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md"
+        ref: "voice-notes"
+    warnings:
+      - "kb/SCHEMA.md:16 references '/home/ricky/voice-notes/transcripts/' which is a path OUTSIDE ~/builds/ (not this folder). Live voice pipeline lives in /home/ricky/builds/voice-note-pipeline/ + voice-listener.service. This folder (~/builds/voice-notes) is dead-on-arrival per inventory and DOES NOT host the live pipeline. No live ref to patch for this folder."
+    status: success
+
+  - folder: /home/ricky/builds/whisper-api
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+      - scripts
+    file_moves:
+      - from: /home/ricky/builds/whisper-api/transcribe.sh
+        to: /home/ricky/builds/whisper-api/scripts/transcribe.sh
+        rationale: "Single .sh script at root (<3 code files) -> scripts/"
+    new_files_created:
+      - path: /home/ricky/builds/whisper-api/INDEX.md
+        description: "Dormant-state INDEX.md per template (flags openclaw.json:392 path ref to patch)"
+      - path: /home/ricky/builds/whisper-api/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/whisper-api/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/whisper-api/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/whisper-api/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/whisper-api/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.openclaw/openclaw.json:392"
+        ref: "/home/ricky/builds/whisper-api/transcribe.sh"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:104"
+        ref: "/home/ricky/builds/whisper-api/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:632"
+        ref: "whisper-api"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md"
+        ref: "whisper-api"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md"
+        ref: "whisper-api"
+    warnings:
+      - "CRITICAL PATCH REQUIRED: /home/ricky/.openclaw/openclaw.json:392 has command path '/home/ricky/builds/whisper-api/transcribe.sh' which after this reorg is '/home/ricky/builds/whisper-api/scripts/transcribe.sh'. The fleet-wide consolidation pass MUST update this reference, or OpenClaw's transcription tool will fail. This is the single most important patch in batch 6."
+    status: success

@@ -1,0 +1,9 @@
+[Unit]
+Description=Run Xero invoice payment checks every 15 minutes during business hours
+
+[Timer]
+OnCalendar=Mon-Fri *-*-* 07:00..18:00:00/15
+Persistent=true
+
+[Install]
+WantedBy=timers.target

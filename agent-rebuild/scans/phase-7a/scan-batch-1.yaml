@@ -1,0 +1,358 @@
+batch_id: 1
+folders_processed: 6
+warnings_total: 4
+folders:
+  - folder: /home/ricky/builds/backmarket
+    state_at_scan: active
+    owner: backmarket
+    existing_subdirs_kept:
+      - api-docs
+      - api-specs
+      - data
+      - docs
+      - knowledge
+      - pricing
+      - qa
+      - reports
+      - scripts
+      - services
+      - sops
+      - test
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs/audits
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/backmarket/CHANGELOG.md
+        to: /home/ricky/builds/backmarket/archive/CHANGELOG.md
+        rationale: "long-running CHANGELOG treated as historical; archive/ per spec for closed/historical content"
+      - from: /home/ricky/builds/backmarket/OVERNIGHT-BACKMARKET-RECOVERY-2026-04-25.md
+        to: /home/ricky/builds/backmarket/docs/audits/OVERNIGHT-BACKMARKET-RECOVERY-2026-04-25.md
+        rationale: "*.md named *-recovery / *-report-tone -> docs/audits/ (analysis report rule in rubric)"
+      - from: /home/ricky/builds/backmarket/tmp-check-sent-order-aiidm.js
+        to: /home/ricky/builds/backmarket/scratch/tmp-check-sent-order-aiidm.js
+        rationale: "tmp_* prefix per rubric -> scratch/"
+    new_files_created:
+      - path: /home/ricky/builds/backmarket/INDEX.md
+        description: "active-state INDEX per spec template"
+      - path: /home/ricky/builds/backmarket/docs/INDEX.md
+        description: "docs sub-INDEX (10 entries > 5-file threshold)"
+      - path: /home/ricky/builds/backmarket/briefs/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/backmarket/decisions/.gitkeep
+        description: "empty subdir tracker"
+    sub_indexes_created:
+      - /home/ricky/builds/backmarket/docs/INDEX.md
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/SOUL.md:13"
+        ref: "/home/ricky/builds/backmarket/"
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/CLAUDE.md:55,64,65,88,89,90,91,92,93,152"
+        ref: "/home/ricky/builds/backmarket/{README.md,sops/,sops/00-BACK-MARKET-MASTER.md,scripts/,data/listings-registry.json,data/bm-catalog.json}"
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/AGENTS.md:14,15,38,78"
+        ref: "/home/ricky/builds/backmarket/{README.md,sops/00-BACK-MARKET-MASTER.md}"
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/MEMORY.md:15,82,83,84"
+        ref: "/home/ricky/builds/backmarket/{scripts/,docs/staged/2026-04-01/BM-PROCESS-CURRENT-STATE.md,README.md,sops/00-BACK-MARKET-MASTER.md}"
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/TOOLS.md:7-21,49"
+        ref: "/home/ricky/builds/backmarket/{README.md,sops/,scripts/,data/{listings-registry.json,bm-catalog.json,catalog-corrections.json}}"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md:23-83,102,113,131,153-164"
+        ref: "/home/ricky/builds/backmarket/{reports/*,docs/SOP-BM-REPAIRS-RETURNS-2026-04-26.md,api-docs/,api-specs/,data/captures/*,README.md}"
+      - source: "/home/ricky/.openclaw/agents/operations/workspace/WORKING-STATE.md:12,15,18"
+        ref: "/home/ricky/builds/backmarket/{README.md,sops/*,reports/*}"
+      - source: "/home/ricky/kb/operations/intake-flow.md:79"
+        ref: "/home/ricky/builds/backmarket/sops/"
+      - source: "/home/ricky/kb/operations/sop-bm-trade-in.md:93"
+        ref: "/home/ricky/builds/backmarket/sops/"
+      - source: "/home/ricky/kb/backmarket/README.md:7,8"
+        ref: "/home/ricky/builds/backmarket/{README.md,sops/06-listing.md}"
+      - source: "/home/ricky/kb/backmarket/spec-checker.md:28"
+        ref: "/home/ricky/builds/backmarket/qa/ISSUES.md"
+      - source: "/home/ricky/kb/monday/bm-devices-board.md:8"
+        ref: "/home/ricky/builds/backmarket/docs/VERIFIED-COLUMN-REFERENCE.md"
+      - source: "/home/ricky/kb/customer-service/_draft/label-buying-workflow.md:8-12,61-77,114,122"
+        ref: "/home/ricky/builds/backmarket/{scripts/shipping.js,sops/09-shipping.md,sops/09.5-shipment-confirmation.md,services/bm-shipping/{bm-shipping.service,index.js}}"
+      - source: "/home/ricky/kb/backmarket/product-id-resolution.md:7-11,59"
+        ref: "/home/ricky/builds/backmarket/{knowledge/bm-product-ids.md,README.md,sops/06-listing.md,data/product-id-lookup.json}"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:229,236"
+        ref: "/home/ricky/builds/backmarket/reports/{customer-care.md,qc-sku-handoff-change-plan-2026-04-26.md}"
+      - source: "crontab -l (6 entries)"
+        ref: "/home/ricky/builds/backmarket/scripts/{sent-orders.js,sale-detection.js,board-housekeeping.js,buy-box-check.js,morning-briefing.js,reconcile-listings.js}"
+      - source: "/home/ricky/.config/systemd/user/bm-shipping.service"
+        ref: "/home/ricky/builds/backmarket/services/bm-shipping"
+      - source: "/home/ricky/.config/systemd/user/bm-payout.service"
+        ref: "/home/ricky/builds/backmarket/services/bm-payout"
+      - source: "/home/ricky/.config/systemd/user/bm-grade-check.service"
+        ref: "/home/ricky/builds/backmarket/services/bm-grade-check"
+    warnings:
+      - "Found .DS_Store and .codex-tasks/, .claude/ at root: left in place per spec (excluded from classification; .DS_Store is macOS detritus that could be deleted in a hygiene pass but no deletions allowed in 7a)"
+    status: success
+
+  - folder: /home/ricky/builds/backmarket-browser
+    state_at_scan: active
+    owner: backmarket
+    existing_subdirs_kept:
+      - config
+      - data
+      - lib
+      - operations
+      - reports
+      - scripts
+      - skills
+      - test
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - docs/audits
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/briefs/BROWSER-AGENT-TODO-2026-04-26.md
+        rationale: "TODO/proposal-toned .md (action plan) -> briefs/ per rubric (proposals/specs)"
+      - from: /home/ricky/builds/backmarket-browser/SPEC-2026-04-25.md
+        to: /home/ricky/builds/backmarket-browser/briefs/SPEC-2026-04-25.md
+        rationale: "SPEC-* prefix per rubric -> briefs/"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-EMAIL-STEP-CANARY-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-EMAIL-STEP-CANARY-2026-04-26.md
+        rationale: "REPORT-* prefix -> docs/audits/ per rubric"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-MAILBOX-CODE-LOGIN-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-MAILBOX-CODE-LOGIN-2026-04-26.md
+        rationale: "REPORT-* -> docs/audits/"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md
+        rationale: "REPORT-* -> docs/audits/"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PROXY-BROWSER-PATH-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-DATAIMPULSE-PROXY-BROWSER-PATH-2026-04-26.md
+        rationale: "REPORT-* -> docs/audits/"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-HEADFUL-CLOUDFLARE-AUTH-HANDOFF-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-HEADFUL-CLOUDFLARE-AUTH-HANDOFF-2026-04-26.md
+        rationale: "REPORT-* -> docs/audits/"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-READONLY-PORTAL-CANARY-2026-04-26-034401.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-READONLY-PORTAL-CANARY-2026-04-26-034401.md
+        rationale: "REPORT-* -> docs/audits/"
+      - from: /home/ricky/builds/backmarket-browser/REPORT-SKU-PORTAL-HARNESS-PATH-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/audits/REPORT-SKU-PORTAL-HARNESS-PATH-2026-04-26.md
+        rationale: "REPORT-* -> docs/audits/"
+      - from: /home/ricky/builds/backmarket-browser/RUNBOOK-BROWSER-SESSION-STRATEGY-2026-04-25.md
+        to: /home/ricky/builds/backmarket-browser/docs/RUNBOOK-BROWSER-SESSION-STRATEGY-2026-04-25.md
+        rationale: "RUNBOOK* prefix -> docs/ per rubric (canonical procedure)"
+      - from: /home/ricky/builds/backmarket-browser/RUNBOOK-LIVE-CLOUDFLARE-HANDOFF-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/RUNBOOK-LIVE-CLOUDFLARE-HANDOFF-2026-04-26.md
+        rationale: "RUNBOOK* -> docs/"
+      - from: /home/ricky/builds/backmarket-browser/RUNBOOK-SKU-PORTAL-CANARY-2026-04-26.md
+        to: /home/ricky/builds/backmarket-browser/docs/RUNBOOK-SKU-PORTAL-CANARY-2026-04-26.md
+        rationale: "RUNBOOK* -> docs/"
+      - from: /home/ricky/builds/backmarket-browser/RUNBOOK-VPS-HARNESS-PREFLIGHT-2026-04-25.md
+        to: /home/ricky/builds/backmarket-browser/docs/RUNBOOK-VPS-HARNESS-PREFLIGHT-2026-04-25.md
+        rationale: "RUNBOOK* -> docs/"
+    new_files_created:
+      - path: /home/ricky/builds/backmarket-browser/INDEX.md
+        description: "active-state INDEX per spec template"
+      - path: /home/ricky/builds/backmarket-browser/docs/INDEX.md
+        description: "docs root sub-INDEX (4 runbooks + audits subfolder); docs immediate file count is 4 so technically optional but created for consistency since audits has > 5 entries"
+      - path: /home/ricky/builds/backmarket-browser/docs/audits/INDEX.md
+        description: "audits sub-INDEX (7 REPORT-* files, > 5)"
+      - path: /home/ricky/builds/backmarket-browser/decisions/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/backmarket-browser/archive/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/backmarket-browser/scratch/.gitkeep
+        description: "empty subdir tracker"
+    sub_indexes_created:
+      - /home/ricky/builds/backmarket-browser/docs/INDEX.md
+      - /home/ricky/builds/backmarket-browser/docs/audits/INDEX.md
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md:59"
+        ref: "/home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md (-> briefs/)"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md:63"
+        ref: "/home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PROXY-BROWSER-PATH-2026-04-26.md (-> docs/audits/)"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md:68"
+        ref: "/home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-PASSWORD-STAGE-CANARY-2026-04-26.md (-> docs/audits/)"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md:70"
+        ref: "/home/ricky/builds/backmarket-browser/REPORT-DATAIMPULSE-MAILBOX-CODE-LOGIN-2026-04-26.md (-> docs/audits/)"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/LIVE-TODO.md:72"
+        ref: "/home/ricky/builds/backmarket-browser/REPORT-HEADFUL-CLOUDFLARE-AUTH-HANDOFF-2026-04-26.md (-> docs/audits/)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:232"
+        ref: "/home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md (-> briefs/)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:239"
+        ref: "/home/ricky/builds/backmarket-browser/BROWSER-AGENT-TODO-2026-04-26.md (-> briefs/)"
+      - source: "/home/ricky/kb/system/runtime/browser-automation.md:74"
+        ref: "/home/ricky/builds/backmarket-browser/SPEC-2026-04-25.md (-> briefs/)"
+    warnings:
+      - "TOP-LEVEL-ONLY scan honoured per spec; data/ subtree contains session-bearing Chromium profiles and was NOT entered. .codex-tasks/ at root left in place (excluded). skills/ is mode 0700 — left untouched."
+      - "All 8 inbound references at root level are now stale and need consolidation-pass patching: 5 in main/LIVE-TODO.md, 2 in idea-inventory.md, 1 in kb/system/runtime/browser-automation.md."
+    status: success
+
+  - folder: /home/ricky/builds/backmarket-seller-support
+    state_at_scan: active
+    owner: backmarket
+    existing_subdirs_kept:
+      - articles
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+      - data
+    file_moves:
+      - from: /home/ricky/builds/backmarket-seller-support/api-inventory.json
+        to: /home/ricky/builds/backmarket-seller-support/data/api-inventory.json
+        rationale: "*.json runtime data at root -> data/ per rubric"
+      - from: /home/ricky/builds/backmarket-seller-support/bm-ssc-raw-articles.json
+        to: /home/ricky/builds/backmarket-seller-support/data/bm-ssc-raw-articles.json
+        rationale: "*.json runtime data (1.9MB raw extract) -> data/"
+      - from: /home/ricky/builds/backmarket-seller-support/content-catalog.json
+        to: /home/ricky/builds/backmarket-seller-support/data/content-catalog.json
+        rationale: "*.json runtime data -> data/"
+      - from: /home/ricky/builds/backmarket-seller-support/discovery.md
+        to: /home/ricky/builds/backmarket-seller-support/docs/discovery.md
+        rationale: "canonical discovery notes (how-it-works tone) -> docs/ per rubric"
+    new_files_created:
+      - path: /home/ricky/builds/backmarket-seller-support/INDEX.md
+        description: "active-state INDEX per spec template"
+      - path: /home/ricky/builds/backmarket-seller-support/briefs/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/backmarket-seller-support/decisions/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/backmarket-seller-support/archive/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/backmarket-seller-support/scratch/.gitkeep
+        description: "empty subdir tracker"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:234"
+        ref: "/home/ricky/builds/backmarket-seller-support/discovery.md (-> docs/)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:237"
+        ref: "/home/ricky/builds/backmarket-seller-support/discovery.md (-> docs/)"
+    warnings:
+      - "data/ subdir was created (didn't exist before) to hold the 3 root JSONs per rubric (runtime data -> data/). Confirm ok with consolidation pass."
+    status: success
+
+  - folder: /home/ricky/builds/bm-scripts
+    state_at_scan: dormant
+    owner: backmarket
+    existing_subdirs_kept:
+      - test-output
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/bm-scripts/INDEX.md
+        description: "dormant-state INDEX per spec template; flagged Phase 7c review candidate (already documented as deprecated in backmarket workspace MEMORY.md)"
+      - path: /home/ricky/builds/bm-scripts/briefs/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/bm-scripts/decisions/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/bm-scripts/docs/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/bm-scripts/archive/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/bm-scripts/scratch/.gitkeep
+        description: "empty subdir tracker"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/MEMORY.md:15"
+        ref: "bm-scripts/ (already noted as deprecated)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:109"
+        ref: "/home/ricky/builds/bm-scripts/ (size measurement only)"
+      - source: "/home/ricky/kb/backmarket/product-id-resolution.md:102"
+        ref: "bm-scripts (informational note re obsolete path)"
+    warnings:
+      - "Dormant near-empty folder; only contents are test-output/reconciliation-2026-03-27.json. Already flagged deprecated in agent MEMORY but folder still exists. No path patches required (no references to specific files inside)."
+    status: success
+
+  - folder: /home/ricky/builds/buyback-monitor
+    state_at_scan: active
+    owner: backmarket
+    existing_subdirs_kept:
+      - analysis
+      - archive
+      - config
+      - data
+      - docs
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/buyback-monitor/CHANGELOG-2026-04-04.md
+        to: /home/ricky/builds/buyback-monitor/archive/CHANGELOG-2026-04-04.md
+        rationale: "dated changelog snapshot -> archive/ (historical, frozen-date naming)"
+      - from: /home/ricky/builds/buyback-monitor/CODEX-V7-PIPELINE-REWRITE-BRIEF.md
+        to: /home/ricky/builds/buyback-monitor/briefs/CODEX-V7-PIPELINE-REWRITE-BRIEF.md
+        rationale: "*-BRIEF.md per rubric -> briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/buyback-monitor/INDEX.md
+        description: "active-state INDEX per spec template"
+      - path: /home/ricky/builds/buyback-monitor/docs/INDEX.md
+        description: "docs sub-INDEX (10 entries > 5-file threshold)"
+      - path: /home/ricky/builds/buyback-monitor/decisions/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/buyback-monitor/scratch/.gitkeep
+        description: "empty subdir tracker"
+    sub_indexes_created:
+      - /home/ricky/builds/buyback-monitor/docs/INDEX.md
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/main/workspace/MEMORY.md:34"
+        ref: "/home/ricky/builds/buyback-monitor/ (general)"
+      - source: "/home/ricky/.openclaw/agents/backmarket/workspace/TOOLS.md:21"
+        ref: "/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json"
+      - source: "/home/ricky/kb/backmarket/product-id-resolution.md:10"
+        ref: "/home/ricky/builds/buyback-monitor/docs/BM-PRODUCT-PAGE-STRUCTURE.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:238"
+        ref: "/home/ricky/builds/buyback-monitor/CODEX-V7-PIPELINE-REWRITE-BRIEF.md (-> briefs/)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:359,378,~"
+        ref: "/home/ricky/builds/buyback-monitor/{run-weekly.sh,run-daily.sh,sync_tradein_orders.py}"
+      - source: "crontab -l (3 entries)"
+        ref: "/home/ricky/builds/buyback-monitor/{run-weekly.sh,run-daily.sh,sync_tradein_orders.py}"
+    warnings:
+      - "Per rubric, code at root (>3 files) constitutes 'larger code base' so .py/.js/.sh files NOT moved into scripts/ (would have broken cron + caused unauthorized restructuring). Confirmed correct."
+      - "Pre-existing archive/README.md was already there and was untouched; CHANGELOG-2026-04-04.md added alongside it."
+    status: success
+
+  - folder: /home/ricky/builds/data
+    state_at_scan: dormant
+    owner: backmarket
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/data/buyback-profitability-lookup.json
+        to: /home/ricky/builds/data/scratch/buyback-profitability-lookup.json
+        rationale: "ad-hoc one-off output (~324 KB lookup snapshot); folder tagged scratch in inventory; per rubric for ambiguous -> scratch/"
+      - from: /home/ricky/builds/data/buy-box-check-2026-03-23.txt
+        to: /home/ricky/builds/data/scratch/buy-box-check-2026-03-23.txt
+        rationale: "*.txt at root, manual one-off check report; per rubric scratch/ for working/ad-hoc artifacts"
+    new_files_created:
+      - path: /home/ricky/builds/data/INDEX.md
+        description: "dormant-state INDEX per spec template; flagged Phase 7c review candidate"
+      - path: /home/ricky/builds/data/briefs/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/data/decisions/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/data/docs/.gitkeep
+        description: "empty subdir tracker"
+      - path: /home/ricky/builds/data/archive/.gitkeep
+        description: "empty subdir tracker"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:233"
+        ref: "/home/ricky/builds/data/buy-box-check-2026-03-23.txt (-> scratch/)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:235"
+        ref: "/home/ricky/builds/data/buy-box-check-2026-03-23.txt (-> scratch/)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:123"
+        ref: "/home/ricky/builds/data/ (size measurement only)"
+    warnings:
+      - "Folder name 'data' is ambiguous and could collide visually with subdirs called 'data' inside other folders. Phase 7c should consider whether to keep, rename, or merge contents into ~/builds/backmarket/data/historical/."
+    status: success

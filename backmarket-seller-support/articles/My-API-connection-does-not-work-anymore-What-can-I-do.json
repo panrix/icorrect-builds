@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb0000007MNBIA2",
+  "articleNumber": "000001324",
+  "title": "My API connection does not work anymore - What can I do?",
+  "urlName": "My-API-connection-does-not-work-anymore-What-can-I-do",
+  "url": "https://backmarket.my.site.com/ssc/s/article/My-API-connection-does-not-work-anymore-What-can-I-do",
+  "language": "en_GB",
+  "lastPublishedDate": "2025-11-12T15:13:19.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009aheWAA",
+      "parent_topic_name": "Integration & Connection",
+      "topic_id": "0TO3X000000xTjNWAU",
+      "topic_name": "API Connection",
+      "urlName": "My-API-connection-does-not-work-anymore-What-can-I-do"
+    }
+  ],
+  "bodyHtml": "<h1> </h1>\n<p><span style=\"font-family: Arial,Helvetica,sans-serif;\">API issues could be related to the failure of response when attempting to call a specific end point, or to wrong information received when calling one particular end point.<br><br><strong>1. I receive a &quot;Forbidden&quot; or &quot;Unauthorized&quot; response</strong><br><br>The issue could be related to a password change of your Back Office login details, as the token is directly related to this:</span></p>\n<ul><li><span style=\"font-family: Arial,Helvetica,sans-serif;\"><strong>Password updated:</strong> The token is automatically modified (check our article “<u><strong><a href=\"https://backmarket.my.site.com/ssc/s/article/API-Token-Page\" target=\"_blank\"><span style=\"color: #3498db;\">How to connect my token to Back Market&#39;s APIs or integrators</span></a></strong></u> ” for guidelines)</span></li><li><span style=\"font-family: Arial,Helvetica,sans-serif;\"><strong>Password not updated:</strong> Your IP address may have been blocked by our firewall due to security reasons, and should therefore undergo a whitelisting process**. </span></li></ul>\n<p><br><span style=\"font-family: Arial,Helvetica,sans-serif;\">**In this case, please reach out to the SSC to send your IP address (you can easily find it by going to <u><strong><a href=\"https://www.whatismyip.com\" target=\"_blank\"><span style=\"color: #3498db;\">https://www.whatismyip.com/</span></a></strong></u> ).<br><br><strong>2. I have an issue with a specific end point</strong><br><br>Our<span style=\"color: #3498db;\"><u><strong> </strong></u></span></span><u><strong><a href=\"https://doc.backmarket.fr/#api-generics-guide\" target=\"_blank\"><span style=\"color: #3498db;\"><span style=\"font-family: Arial,Helvetica,sans-serif;\">API Generics guide</span></span></a><span style=\"color: #3498db;\"> </span></strong></u><span style=\"font-family: Arial,Helvetica,sans-serif;\"> gives you instructions to help you integrate your database to our marketplace in order to manage your products, listings and orders on our platform.<br>If you are experiencing issues with a specific end point, please reach out to the SSC by providing:</span></p>\n<ul><li><span style=\"font-family: Arial,Helvetica,sans-serif;\">The specific end point that is causing the issue</span></li><li><span style=\"font-family: Arial,Helvetica,sans-serif;\">The result you get when calling the end point</span></li><li><span style=\"font-family: Arial,Helvetica,sans-serif;\">The expected result (meaning, explain in your request what you are trying to achieve and why the result you are getting is not the correct one, in order to allow our team to propose an alternative solution)</span></li></ul>\n<p><br><span style=\"font-family: Arial,Helvetica,sans-serif;\">The more complete the information you provide is, the more chances there are for our team to be able to handle your request in short delays.</span><br><br><br><br> </p>"
+}

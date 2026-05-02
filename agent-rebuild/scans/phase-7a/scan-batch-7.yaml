@@ -1,0 +1,474 @@
+batch_id: 7
+folders_processed: 6
+warnings_total: 7
+folders:
+  - folder: /home/ricky/builds/elek-board-viewer
+    state_at_scan: active
+    owner: diagnostics
+    existing_subdirs_kept:
+      - data
+      - diagnostics
+      - maps
+      - research
+      - schematics
+      - scripts
+      - systemd
+      - .claude
+      - .git
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - docs/assets
+      - docs/audits
+      - archive
+      - archive/2026-05-02-superseded-plans
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/elek-board-viewer/CODEX-PROMPT.md
+        to: /home/ricky/builds/elek-board-viewer/briefs/CODEX-PROMPT.md
+        rationale: "*.md named CODEX-* / spec-like prompt → briefs/"
+      - from: /home/ricky/builds/elek-board-viewer/CODEX-REMEDIATION-BRIEF.md
+        to: /home/ricky/builds/elek-board-viewer/briefs/CODEX-REMEDIATION-BRIEF.md
+        rationale: "*-BRIEF → briefs/"
+      - from: /home/ricky/builds/elek-board-viewer/CODEX-REPASS-BRIEF.md
+        to: /home/ricky/builds/elek-board-viewer/briefs/CODEX-REPASS-BRIEF.md
+        rationale: "*-BRIEF → briefs/"
+      - from: /home/ricky/builds/elek-board-viewer/CODEX-REVIEWER-QA-BRIEF.md
+        to: /home/ricky/builds/elek-board-viewer/briefs/CODEX-REVIEWER-QA-BRIEF.md
+        rationale: "*-BRIEF → briefs/"
+      - from: /home/ricky/builds/elek-board-viewer/CODEX-SCHEMATIC-BATCH-BRIEF.md
+        to: /home/ricky/builds/elek-board-viewer/briefs/CODEX-SCHEMATIC-BATCH-BRIEF.md
+        rationale: "*-BRIEF → briefs/"
+      - from: /home/ricky/builds/elek-board-viewer/CODEX-V3-INFRASTRUCTURE-BRIEF.md
+        to: /home/ricky/builds/elek-board-viewer/briefs/CODEX-V3-INFRASTRUCTURE-BRIEF.md
+        rationale: "*-BRIEF → briefs/"
+      - from: /home/ricky/builds/elek-board-viewer/PROJECT-STATE.md
+        to: /home/ricky/builds/elek-board-viewer/docs/PROJECT-STATE.md
+        rationale: "canonical reference (project state-of-record) → docs/"
+      - from: /home/ricky/builds/elek-board-viewer/board-reference.md
+        to: /home/ricky/builds/elek-board-viewer/docs/board-reference.md
+        rationale: "*-reference → docs/"
+      - from: /home/ricky/builds/elek-board-viewer/SCHEMA-SPEC.md
+        to: /home/ricky/builds/elek-board-viewer/docs/SCHEMA-SPEC.md
+        rationale: "SCHEMA-* → docs/ (canonical schema reference)"
+      - from: /home/ricky/builds/elek-board-viewer/SCHEMA-AUDIT-REPORT.md
+        to: /home/ricky/builds/elek-board-viewer/docs/audits/SCHEMA-AUDIT-REPORT.md
+        rationale: "*-AUDIT-REPORT → docs/audits/"
+      - from: /home/ricky/builds/elek-board-viewer/QA-REPORT.md
+        to: /home/ricky/builds/elek-board-viewer/docs/audits/QA-REPORT.md
+        rationale: "*-REPORT (QA) → docs/audits/"
+      - from: /home/ricky/builds/elek-board-viewer/QA-REPASS-REPORT.md
+        to: /home/ricky/builds/elek-board-viewer/docs/audits/QA-REPASS-REPORT.md
+        rationale: "*-REPORT (QA) → docs/audits/"
+      - from: /home/ricky/builds/elek-board-viewer/REVIEW-REPORT-2026-04-11.md
+        to: /home/ricky/builds/elek-board-viewer/docs/audits/REVIEW-REPORT-2026-04-11.md
+        rationale: "*-REPORT (review) → docs/audits/"
+      - from: /home/ricky/builds/elek-board-viewer/REMEDIATION-REPORT.md
+        to: /home/ricky/builds/elek-board-viewer/docs/audits/REMEDIATION-REPORT.md
+        rationale: "*-REPORT (remediation) → docs/audits/"
+      - from: /home/ricky/builds/elek-board-viewer/plan.md
+        to: /home/ricky/builds/elek-board-viewer/archive/2026-05-02-superseded-plans/plan.md
+        rationale: "versioned plan siblings (plan/V2/V3) at root — archive per WORKSPACES-AUDIT findings; v1 superseded by V2/V3"
+      - from: /home/ricky/builds/elek-board-viewer/PLAN-V2.md
+        to: /home/ricky/builds/elek-board-viewer/archive/2026-05-02-superseded-plans/PLAN-V2.md
+        rationale: "versioned plan siblings → archive (superseded by V3)"
+      - from: /home/ricky/builds/elek-board-viewer/PLAN-V3.md
+        to: /home/ricky/builds/elek-board-viewer/archive/2026-05-02-superseded-plans/PLAN-V3.md
+        rationale: "versioned plan siblings collected together; PROJECT-STATE.md is the active state-of-record (kept under docs/)"
+      - from: /home/ricky/builds/elek-board-viewer/TODO.md
+        to: /home/ricky/builds/elek-board-viewer/scratch/TODO.md
+        rationale: "TODO is working notes → scratch/"
+      - from: "/home/ricky/builds/elek-board-viewer/diagnostics_complete_exploration (1).md"
+        to: /home/ricky/builds/elek-board-viewer/scratch/diagnostics_complete_exploration-1.md
+        rationale: "exported exploration with literal '(1)' in filename — working notes → scratch/; renamed to drop spaces/parentheses"
+    new_files_created:
+      - path: /home/ricky/builds/elek-board-viewer/INDEX.md
+        description: "Active-template INDEX with current-state, structure, key documents, open questions"
+      - path: /home/ricky/builds/elek-board-viewer/briefs/INDEX.md
+        description: "Sub-INDEX listing the 6 Codex briefs (>5 files)"
+      - path: /home/ricky/builds/elek-board-viewer/decisions/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/elek-board-viewer/docs/assets/.gitkeep
+        description: "Empty subdir placeholder"
+    sub_indexes_created:
+      - briefs/INDEX.md
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/USER-APPENDIX.md:37"
+        ref: "~/builds/elek-board-viewer/"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/TODO.md:13"
+        ref: "/home/ricky/builds/elek-board-viewer/CODEX-SCHEMATIC-BATCH-BRIEF.md"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/AGENTS.md:23"
+        ref: "~/builds/elek-board-viewer/schematics/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/AGENTS.md:23"
+        ref: "~/builds/elek-board-viewer/board-reference.md"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/AGENTS.md:42"
+        ref: "~/builds/elek-board-viewer/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/AGENTS.md:216"
+        ref: "~/builds/elek-board-viewer/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/MEMORY.md:31"
+        ref: "/home/ricky/builds/elek-board-viewer/schematics/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/TOOLS.md:7"
+        ref: "/home/ricky/builds/elek-board-viewer/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/TOOLS.md:8"
+        ref: "/home/ricky/builds/elek-board-viewer/schematics/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/TOOLS.md:22"
+        ref: "/home/ricky/builds/elek-board-viewer/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/TOOLS.md:23"
+        ref: "/home/ricky/builds/elek-board-viewer/data/board_index.json"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/TOOLS.md:24"
+        ref: "/home/ricky/builds/elek-board-viewer/data/schematic_index.json"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/TOOLS.md:36"
+        ref: "/home/ricky/builds/elek-board-viewer/schematics/"
+      - source: "/home/ricky/.openclaw/agents/diagnostics/workspace/USER.md:149"
+        ref: "~/builds/elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:11"
+        ref: "elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/VPS-MAP.md:105"
+        ref: "elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/EXECUTION-PLAN.md:393"
+        ref: "elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:15"
+        ref: "elek-board-viewer"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:142"
+        ref: "/home/ricky/builds/elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:277"
+        ref: "/home/ricky/builds/elek-board-viewer/data/boardview_state/runtime_xdg/..."
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:278"
+        ref: "/home/ricky/builds/elek-board-viewer/schematics/A2681 820-02536/PJM-MLB.brd"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:603"
+        ref: "elek-board-viewer"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:781"
+        ref: "/home/ricky/builds/elek-board-viewer"
+      - source: "/home/ricky/claude-audit-rebuild/PLAN.md:703"
+        ref: "elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:175"
+        ref: "elek-board-viewer (plan.md, PLAN-V2.md, PLAN-V3.md)"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:208"
+        ref: "elek-board-viewer/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:213"
+        ref: "elek-board-viewer/ (__pycache__)"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:149"
+        ref: "/home/ricky/builds/elek-board-viewer/PROJECT-STATE.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:150"
+        ref: "/home/ricky/builds/elek-board-viewer/PROJECT-STATE.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:151"
+        ref: "/home/ricky/builds/elek-board-viewer/PROJECT-STATE.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:31"
+        ref: "elek-board-viewer"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:79"
+        ref: "elek-board-viewer"
+      - source: "/home/ricky/.config/systemd/user/boardview-cleanup.service:6"
+        ref: "/home/ricky/builds/elek-board-viewer/scripts/cleanup_screenshots.py"
+      - source: "/home/ricky/.config/systemd/user/flexbv-headless.service:7"
+        ref: "/home/ricky/builds/elek-board-viewer/scripts/flexbv_session.sh"
+    warnings:
+      - "PROJECT-STATE.md (active state-of-record) was moved to docs/PROJECT-STATE.md. Diagnostics agent docs reference the folder root broadly, not PROJECT-STATE.md specifically — no broken refs from that move detected, but consolidation pass should cite the new path when updating diagnostics workspace docs."
+      - "main/workspace/TODO.md:13 references CODEX-SCHEMATIC-BATCH-BRIEF.md at the old root path — needs path patch to briefs/CODEX-SCHEMATIC-BATCH-BRIEF.md."
+      - "idea-inventory.md lines 149-151 reference PROJECT-STATE.md at old root path — needs path patch to docs/PROJECT-STATE.md."
+      - "Did NOT recurse into data/, diagnostics/, maps/, schematics/ per Phase 7a hard rule for this 4.5G folder. Top-level only."
+      - ".DS_Store left at root (macOS metadata, not a build artifact worth classifying)."
+    status: success
+
+  - folder: /home/ricky/builds/shift-bot
+    state_at_scan: active
+    owner: team
+    existing_subdirs_kept:
+      - calendar
+      - db
+      - lib
+      - scripts
+      - slack
+      - summary
+      - systemd
+      - node_modules
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/shift-bot/spec.md
+        to: /home/ricky/builds/shift-bot/briefs/spec.md
+        rationale: "*-spec / spec.md (proposals/specs) → briefs/"
+      - from: /home/ricky/builds/shift-bot/COMPROMISES.md
+        to: /home/ricky/builds/shift-bot/docs/COMPROMISES.md
+        rationale: "build trade-offs / deferred features (canonical reference for what was simplified) → docs/"
+      - from: /home/ricky/builds/shift-bot/DEPLOY.md
+        to: /home/ricky/builds/shift-bot/docs/DEPLOY.md
+        rationale: "deploy/restart runbook → docs/ (per rubric: SETUP*/INSTALL*/runbook → docs/)"
+    new_files_created:
+      - path: /home/ricky/builds/shift-bot/INDEX.md
+        description: "Active-template INDEX"
+      - path: /home/ricky/builds/shift-bot/decisions/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/shift-bot/archive/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/shift-bot/scratch/.gitkeep
+        description: "Empty subdir placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:144"
+        ref: "/home/ricky/builds/shift-bot/COMPROMISES.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:145"
+        ref: "/home/ricky/builds/shift-bot/COMPROMISES.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:146"
+        ref: "/home/ricky/builds/shift-bot/COMPROMISES.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:55"
+        ref: "shift-bot"
+      - source: "/home/ricky/.config/systemd/user/shift-bot.service:10"
+        ref: "/home/ricky/builds/shift-bot (WorkingDirectory)"
+      - source: "/home/ricky/.config/systemd/user/shift-bot.service:14"
+        ref: "/home/ricky/builds/shift-bot/index.js"
+    warnings:
+      - "idea-inventory.md lines 144-146 reference COMPROMISES.md at old root path — needs path patch to docs/COMPROMISES.md."
+      - "shift-bot.service systemd unit references /home/ricky/builds/shift-bot (WorkingDirectory) and index.js — index.js was kept at root (top-level operational entry), so no patch needed."
+    status: success
+
+  - folder: /home/ricky/builds/team-audits
+    state_at_scan: active
+    owner: team
+    existing_subdirs_kept:
+      - framework
+      - reports
+      - scripts
+      - .claude
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/team-audits/PROJECT_OVERVIEW.md
+        to: /home/ricky/builds/team-audits/docs/PROJECT_OVERVIEW.md
+        rationale: "canonical 'what this project is' reference → docs/"
+      - from: /home/ricky/builds/team-audits/CODEX-EXTEND-FERRARI-TRACKING.md
+        to: /home/ricky/builds/team-audits/briefs/CODEX-EXTEND-FERRARI-TRACKING.md
+        rationale: "CODEX-* extension brief / proposal → briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/team-audits/INDEX.md
+        description: "Active-template INDEX"
+      - path: /home/ricky/builds/team-audits/decisions/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/team-audits/archive/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/team-audits/scratch/.gitkeep
+        description: "Empty subdir placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:131"
+        ref: "/home/ricky/builds/team-audits/framework/AUDIT_FRAMEWORK.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:132"
+        ref: "/home/ricky/builds/team-audits/PROJECT_OVERVIEW.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:147"
+        ref: "/home/ricky/builds/team-audits/CODEX-EXTEND-FERRARI-TRACKING.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:57"
+        ref: "team-audits"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:76"
+        ref: "team-audits (credential material per inventory)"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:128"
+        ref: "/home/ricky/builds/team-audits/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:625"
+        ref: "team-audits"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:213"
+        ref: "team-audits/ (__pycache__)"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:326"
+        ref: "builds/team-audits/CLAUDE.md"
+    warnings:
+      - "idea-inventory.md line 132 references PROJECT_OVERVIEW.md at old root path — needs path patch to docs/PROJECT_OVERVIEW.md."
+      - "idea-inventory.md line 147 references CODEX-EXTEND-FERRARI-TRACKING.md at old root path — needs path patch to briefs/CODEX-EXTEND-FERRARI-TRACKING.md."
+      - "team-audits/.env contains credential material per folder-inventory.md line 76 — flagged for Phase 7c secrets rotation. Not moved or touched."
+      - "CLAUDE.md left at root (matches root rubric for manifest-like files; behaves like project-level memory akin to README). Worth Ricky review whether to fold into docs/ later."
+    status: success
+
+  - folder: /home/ricky/builds/hiring
+    state_at_scan: dormant
+    owner: team
+    existing_subdirs_kept:
+      - docs
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - archive
+      - scratch
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/hiring/INDEX.md
+        description: "Dormant-template INDEX"
+      - path: /home/ricky/builds/hiring/briefs/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/hiring/decisions/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/hiring/archive/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/hiring/scratch/.gitkeep
+        description: "Empty subdir placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:148"
+        ref: "/home/ricky/builds/hiring/docs/staged/2026-03-31/operations-coordinator-jd-v3.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md (hiring row)"
+        ref: "hiring"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:111"
+        ref: "/home/ricky/builds/hiring/"
+    warnings:
+      - "Folder had only docs/staged/2026-03-31/ before; created the full standard subdir skeleton with .gitkeeps to match Option A consistency."
+    status: success
+
+  - folder: /home/ricky/builds/system-audit-2026-03-31
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept:
+      - briefs
+      - client_journeys
+      - examples
+      - outputs
+      - platform_inventory
+      - research
+      - scripts
+    new_subdirs_created:
+      - decisions
+      - docs
+      - docs/audits
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/system-audit-2026-03-31/diagnostics-deep-dive.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/diagnostics-deep-dive.md
+        rationale: "*-deep-dive → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/gsc-profitability-crossref-v2.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/gsc-profitability-crossref-v2.md
+        rationale: "audit/analysis output → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/gsc-repair-profit-rankings.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/gsc-repair-profit-rankings.md
+        rationale: "audit/analysis output → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/parts-cost-audit.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/parts-cost-audit.md
+        rationale: "*-audit → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/product-cards.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/product-cards.md
+        rationale: "audit/analysis output → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/repair-profitability-model.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/repair-profitability-model.md
+        rationale: "audit/analysis output → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/repair-profitability-v2.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/repair-profitability-v2.md
+        rationale: "audit/analysis output → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/shopify-health-audit.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/shopify-health-audit.md
+        rationale: "*-audit → docs/audits/"
+      - from: /home/ricky/builds/system-audit-2026-03-31/xero-revenue-by-repair.md
+        to: /home/ricky/builds/system-audit-2026-03-31/docs/audits/xero-revenue-by-repair.md
+        rationale: "audit/analysis output → docs/audits/"
+    new_files_created:
+      - path: /home/ricky/builds/system-audit-2026-03-31/INDEX.md
+        description: "Dormant-template INDEX with KB inbound-refs callout"
+      - path: /home/ricky/builds/system-audit-2026-03-31/briefs/INDEX.md
+        description: "Sub-INDEX of 17 BRIEF-* Codex tasks (>5 files rule)"
+      - path: /home/ricky/builds/system-audit-2026-03-31/docs/audits/INDEX.md
+        description: "Sub-INDEX of 9 audit outputs (>5 files rule)"
+      - path: /home/ricky/builds/system-audit-2026-03-31/decisions/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/system-audit-2026-03-31/archive/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/system-audit-2026-03-31/scratch/.gitkeep
+        description: "Empty subdir placeholder"
+    sub_indexes_created:
+      - briefs/INDEX.md
+      - docs/audits/INDEX.md
+    inbound_references:
+      - source: "/home/ricky/kb/SCHEMA.md:17"
+        ref: "/home/ricky/builds/system-audit-2026-03-31/research/"
+      - source: "/home/ricky/kb/marketing/conversion-analysis.md:5-7"
+        ref: "research/marketing/* (3 files cited)"
+      - source: "/home/ricky/kb/marketing/meta-ads-setup.md:5-6"
+        ref: "research/marketing/* (2 files cited)"
+      - source: "/home/ricky/kb/marketing/README.md:5-9"
+        ref: "research/marketing/* (5 files cited)"
+      - source: "/home/ricky/kb/marketing/seo-baseline.md:5-8"
+        ref: "research/marketing/* (4 files cited)"
+      - source: "/home/ricky/kb/parts/README.md:5-8"
+        ref: "research/parts/* (4 files cited)"
+      - source: "/home/ricky/kb/parts/suppliers.md:5-7"
+        ref: "research/parts/* (3 files cited)"
+      - source: "/home/ricky/kb/parts/inventory-model.md:5-6"
+        ref: "research/parts/* (2 files cited)"
+      - source: "/home/ricky/kb/finance/revenue-channels.md:5-7"
+        ref: "research/finance/* (3 files cited)"
+      - source: "/home/ricky/kb/finance/payment-truth.md:5-8"
+        ref: "research/finance/* (4 files cited)"
+      - source: "/home/ricky/kb/finance/README.md:5-8"
+        ref: "research/finance/* (4 files cited)"
+      - source: "/home/ricky/kb/customer-service/README.md:5-6"
+        ref: "research/customer-service/* (2 files cited)"
+      - source: "/home/ricky/kb/customer-service/triage-rules.md:11-12"
+        ref: "research/customer-service/* (2 files cited)"
+      - source: "/home/ricky/kb/customer-service/_draft/notification-triggers.md:145"
+        ref: "research/operations/handoff-failure-matrix.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:15"
+        ref: "/home/ricky/builds/system-audit-2026-03-31/diagnostics-deep-dive.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:17"
+        ref: "/home/ricky/builds/system-audit-2026-03-31/README.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:56"
+        ref: "system-audit-2026-03-31"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:129"
+        ref: "/home/ricky/builds/system-audit-2026-03-31/"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:624"
+        ref: "system-audit-2026-03-31"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:170"
+        ref: "system-audit-2026-03-31"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:213"
+        ref: "system-audit-2026-03-31/ (__pycache__)"
+      - source: "/home/ricky/claude-audit-rebuild/PLAN.md:548"
+        ref: "system-audit-2026-03-31-index.md"
+    warnings:
+      - "research/ subfolder is heavily cited by ~/kb/ (28+ refs). Phase 7a left research/ untouched. Any future migration of this folder must update KB front-matter source: lists."
+      - "idea-inventory.md line 15 references diagnostics-deep-dive.md at old root path — needs path patch to docs/audits/diagnostics-deep-dive.md."
+      - "diagnostics-deep-dive.md was the only root-level audit output not paired with a research/ counterpart; moved to docs/audits/ accordingly."
+    status: success
+
+  - folder: /home/ricky/builds/qa-system
+    state_at_scan: dormant
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - archive/2026-02-22-snapshot
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/qa-system/snapshot/BUILD-QA-WORKFLOW.md
+        to: /home/ricky/builds/qa-system/archive/2026-02-22-snapshot/BUILD-QA-WORKFLOW.md
+        rationale: "snapshot/ subdir matches '*-snapshot/*' archive rule → archive/<date>-snapshot/; folder-inventory tags this folder as 'snapshot-of-other'"
+      - from: /home/ricky/builds/qa-system/snapshot/QA-TRIGGER-PLAN.md
+        to: /home/ricky/builds/qa-system/archive/2026-02-22-snapshot/QA-TRIGGER-PLAN.md
+        rationale: "same as above"
+    new_files_created:
+      - path: /home/ricky/builds/qa-system/INDEX.md
+        description: "Dormant-template INDEX"
+      - path: /home/ricky/builds/qa-system/briefs/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/qa-system/decisions/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/qa-system/docs/.gitkeep
+        description: "Empty subdir placeholder"
+      - path: /home/ricky/builds/qa-system/scratch/.gitkeep
+        description: "Empty subdir placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:282"
+        ref: "/home/ricky/builds/qa-system/snapshot/QA-TRIGGER-PLAN.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:283"
+        ref: "/home/ricky/builds/qa-system/snapshot/QA-TRIGGER-PLAN.md"
+      - source: "/home/ricky/claude-audit-rebuild/vps-audit.md:114"
+        ref: "/home/ricky/builds/qa-system/"
+      - source: "/home/ricky/claude-audit-rebuild/WORKSPACES-AUDIT.md:170"
+        ref: "qa-system"
+    warnings:
+      - "Removed empty snapshot/ dir after moving its 2 files to archive/2026-02-22-snapshot/."
+      - "idea-inventory.md lines 282-283 reference snapshot/QA-TRIGGER-PLAN.md at old path — needs path patch to archive/2026-02-22-snapshot/QA-TRIGGER-PLAN.md."
+    status: success

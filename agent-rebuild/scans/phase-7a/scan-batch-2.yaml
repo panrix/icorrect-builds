@@ -1,0 +1,276 @@
+batch_id: 2
+folders_processed: 6
+warnings_total: 6
+folders:
+  - folder: /home/ricky/builds/alex-triage-classifier-rebuild
+    state_at_scan: dormant
+    owner: alex-cs
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/alex-triage-classifier-rebuild/BUILD-BRIEF.md
+        to: /home/ricky/builds/alex-triage-classifier-rebuild/briefs/BUILD-BRIEF.md
+        rationale: "name matches BRIEF-* / *-spec pattern -> briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/alex-triage-classifier-rebuild/INDEX.md
+        description: "dormant-state INDEX.md per spec template"
+      - path: /home/ricky/builds/alex-triage-classifier-rebuild/decisions/.gitkeep
+        description: "placeholder in empty standard subdir"
+      - path: /home/ricky/builds/alex-triage-classifier-rebuild/docs/.gitkeep
+        description: "placeholder in empty standard subdir"
+      - path: /home/ricky/builds/alex-triage-classifier-rebuild/archive/.gitkeep
+        description: "placeholder in empty standard subdir"
+      - path: /home/ricky/builds/alex-triage-classifier-rebuild/scratch/.gitkeep
+        description: "placeholder in empty standard subdir"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:169"
+        ref: "/home/ricky/builds/alex-triage-classifier-rebuild/BUILD-BRIEF.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:186"
+        ref: "/home/ricky/builds/alex-triage-classifier-rebuild/BUILD-BRIEF.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:18"
+        ref: "/home/ricky/builds/alex-triage-classifier-rebuild"
+    warnings:
+      - "BUILD-BRIEF.md path moved to briefs/BUILD-BRIEF.md - 2 idea-inventory rows reference the old path; consolidation pass must patch."
+    status: success
+
+  - folder: /home/ricky/builds/alex-triage-rebuild
+    state_at_scan: active
+    owner: alex-cs
+    existing_subdirs_kept: [.claude, data, deploy, docs, lib, research, scripts, services, sql, web]
+    new_subdirs_created: [briefs, decisions, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/alex-triage-rebuild/BUILD-BRIEF.md
+        to: /home/ricky/builds/alex-triage-rebuild/briefs/BUILD-BRIEF.md
+        rationale: "BRIEF naming -> briefs/"
+      - from: /home/ricky/builds/alex-triage-rebuild/CODEX-DEVICE-VALUE-BRIEF.md
+        to: /home/ricky/builds/alex-triage-rebuild/briefs/CODEX-DEVICE-VALUE-BRIEF.md
+        rationale: "BRIEF naming -> briefs/"
+      - from: /home/ricky/builds/alex-triage-rebuild/CODEX-REMEDIATION-BRIEF-2026-04-11.md
+        to: /home/ricky/builds/alex-triage-rebuild/briefs/CODEX-REMEDIATION-BRIEF-2026-04-11.md
+        rationale: "BRIEF naming -> briefs/"
+      - from: /home/ricky/builds/alex-triage-rebuild/PHASE2-QUOTE-BUILDING-BRIEF.md
+        to: /home/ricky/builds/alex-triage-rebuild/briefs/PHASE2-QUOTE-BUILDING-BRIEF.md
+        rationale: "PHASE-/BRIEF- naming -> briefs/"
+      - from: /home/ricky/builds/alex-triage-rebuild/TODO.md
+        to: /home/ricky/builds/alex-triage-rebuild/scratch/TODO.md
+        rationale: "TODO is working notes / unshipped; matches scratch rule"
+      - from: /home/ricky/builds/alex-triage-rebuild/alex-triage-rebuild.service
+        to: /home/ricky/builds/alex-triage-rebuild/deploy/alex-triage-rebuild.service
+        rationale: "systemd unit fits the pre-existing deploy/ subdir alongside nginx + cron files"
+    new_files_created:
+      - path: /home/ricky/builds/alex-triage-rebuild/INDEX.md
+        description: "active-state INDEX.md"
+      - path: /home/ricky/builds/alex-triage-rebuild/docs/INDEX.md
+        description: "sub-INDEX (docs/ has 14 files, exceeds 5)"
+    sub_indexes_created: [docs/INDEX.md]
+    inbound_references:
+      - source: "/home/ricky/.openclaw/agents/alex-cs/workspace/AGENTS.md:59"
+        ref: "/home/ricky/builds/alex-triage-rebuild/data/"
+      - source: "/home/ricky/.openclaw/agents/alex-cs/workspace/CLAUDE.md:54"
+        ref: "/home/ricky/builds/alex-triage-rebuild/"
+      - source: "/home/ricky/.openclaw/agents/alex-cs/workspace/CLAUDE.md:132"
+        ref: "/home/ricky/builds/alex-triage-rebuild/"
+      - source: "/home/ricky/.openclaw/agents/alex-cs/workspace/MEMORY.md:7"
+        ref: "/home/ricky/builds/alex-triage-rebuild/"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/MEMORY.md:87"
+        ref: "/home/ricky/builds/alex-triage-rebuild/CODEX-REMEDIATION-BRIEF-2026-04-11.md"
+      - source: "/home/ricky/.openclaw/agents/main/workspace/MEMORY.md:90"
+        ref: "/home/ricky/builds/alex-triage-rebuild/BUILD-BRIEF.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:174"
+        ref: "/home/ricky/builds/alex-triage-rebuild/data/cron-pricing-sync.log"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:176"
+        ref: "/home/ricky/builds/alex-triage-rebuild/TODO.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:178"
+        ref: "/home/ricky/builds/alex-triage-rebuild/TODO.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:19"
+        ref: "/home/ricky/builds/alex-triage-rebuild"
+      - source: "crontab:line for shopify-pricing.js + generate-pricing-kb.js"
+        ref: "/home/ricky/builds/alex-triage-rebuild/scripts/shopify-pricing.js (+ generate-pricing-kb.js)"
+      - source: "crontab:line for learning-run.js"
+        ref: "/home/ricky/builds/alex-triage-rebuild/scripts/learning-run.js"
+      - source: "/home/ricky/.config/systemd/user/alex-triage-rebuild.service"
+        ref: "/home/ricky/builds/alex-triage-rebuild/ (working dir)"
+      - source: "/home/ricky/kb/customer-service/diagnostic-questions.md:multiple"
+        ref: "/home/ricky/builds/alex-triage-rebuild/data/ferrari-edit-analysis.json (+ many other kb/customer-service/*.md files cite alex-triage-rebuild/data/ paths)"
+    warnings:
+      - "main/MEMORY.md and idea-inventory.md reference BUILD-BRIEF.md and CODEX-REMEDIATION-BRIEF-2026-04-11.md at the old root path; TODO.md also referenced at old root. Consolidation pass must patch all three move targets."
+      - "alex-triage-rebuild.service moved into deploy/ but the actual systemd unit installed at ~/.config/systemd/user/alex-triage-rebuild.service is a separate file (ExecStart references /home/ricky/builds/alex-triage-rebuild/, working dir not affected). The in-repo service file in deploy/ is reference-only."
+      - "Many ~/kb/customer-service/*.md files cite paths inside alex-triage-rebuild/data/ - these data file paths were NOT moved (data/ is pre-existing, not restructured). Refs remain valid."
+    status: success
+
+  - folder: /home/ricky/builds/customer-service
+    state_at_scan: active
+    owner: alex-cs
+    existing_subdirs_kept: [modules, reports, session-archives]
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/customer-service/INDEX.md
+        description: "active-state INDEX.md"
+      - path: /home/ricky/builds/customer-service/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/customer-service/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/customer-service/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/customer-service/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/customer-service/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:175"
+        ref: "/home/ricky/builds/customer-service/reports/intercom-backmarket-mentions-30d-2026-04-28.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:177"
+        ref: "/home/ricky/builds/customer-service/reports/intercom-open-stale-3days-2026-04-27.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:185"
+        ref: "/home/ricky/builds/customer-service/reports/anton-daly-issue-row-verification-2026-04-28.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:line for customer-service"
+        ref: "/home/ricky/builds/customer-service"
+    warnings:
+      - "PII risk: reports/ and modules/*/data/ likely contain customer PII. Standard skeleton was created without reading content. Recommend tagging this folder for restricted access in Phase 7c."
+      - "Folder had no top-level files at scan time - only pre-existing subdirs. Standard skeleton (5 dirs) created empty for consistency per Option A."
+    status: success
+
+  - folder: /home/ricky/builds/intercom-agent
+    state_at_scan: dormant
+    owner: alex-cs
+    existing_subdirs_kept: []
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/intercom-agent/SPEC.md
+        to: /home/ricky/builds/intercom-agent/briefs/SPEC.md
+        rationale: "SPEC-/spec naming -> briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/intercom-agent/INDEX.md
+        description: "dormant-state INDEX.md"
+      - path: /home/ricky/builds/intercom-agent/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/intercom-agent/docs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/intercom-agent/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/intercom-agent/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:183"
+        ref: "/home/ricky/builds/intercom-agent/SPEC.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:187"
+        ref: "/home/ricky/builds/intercom-agent/SPEC.md"
+    warnings:
+      - "SPEC.md moved to briefs/ - 2 idea-inventory rows reference the old root path; consolidation pass must patch."
+    status: success
+
+  - folder: /home/ricky/builds/intercom-config
+    state_at_scan: active
+    owner: alex-cs
+    existing_subdirs_kept: [strategy]
+    new_subdirs_created: [briefs, decisions, docs, archive, scratch]
+    file_moves:
+      - from: /home/ricky/builds/intercom-config/private-api-discovery.md
+        to: /home/ricky/builds/intercom-config/docs/private-api-discovery.md
+        rationale: "canonical reference doc (API discovery write-up) -> docs/"
+      - from: /home/ricky/builds/intercom-config/api-inventory.json
+        to: /home/ricky/builds/intercom-config/docs/api-inventory.json
+        rationale: "endpoint inventory data, paired with private-api-discovery.md -> docs/"
+      - from: /home/ricky/builds/intercom-config/bundle-grep.json
+        to: /home/ricky/builds/intercom-config/docs/bundle-grep.json
+        rationale: "JS bundle reverse-engineering output, paired with discovery doc -> docs/"
+    new_files_created:
+      - path: /home/ricky/builds/intercom-config/INDEX.md
+        description: "active-state INDEX.md"
+      - path: /home/ricky/builds/intercom-config/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/intercom-config/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/intercom-config/archive/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/intercom-config/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:168"
+        ref: "/home/ricky/builds/intercom-config/strategy/inbox-views.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:173"
+        ref: "/home/ricky/builds/intercom-config/strategy/inbox-views.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:182"
+        ref: "/home/ricky/builds/intercom-config/strategy/inbox-views.md"
+    warnings:
+      - "private-api-discovery.md, api-inventory.json, bundle-grep.json moved from root to docs/. No external references to these specific files were found in the swept surfaces, but unknown if any code/scripts read them."
+      - "strategy/inbox-views.md left in pre-existing strategy/ subdir per 'no restructuring of pre-existing subdirs' rule. Idea-inventory references remain valid."
+    status: success
+
+  - folder: /home/ricky/builds/claude-project-export
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept: [sop-project]
+    new_subdirs_created: [briefs, decisions, docs, "docs/audits", "archive/2026-04-07-export-snapshot", scratch]
+    file_moves:
+      - from: /home/ricky/builds/claude-project-export/COMPANY.md
+        to: /home/ricky/builds/claude-project-export/docs/COMPANY.md
+        rationale: "canonical foundation doc -> docs/"
+      - from: /home/ricky/builds/claude-project-export/TEAM.md
+        to: /home/ricky/builds/claude-project-export/docs/TEAM.md
+        rationale: "canonical reference -> docs/"
+      - from: /home/ricky/builds/claude-project-export/SCHEMA.md
+        to: /home/ricky/builds/claude-project-export/docs/SCHEMA.md
+        rationale: "*-schema/SCHEMA -> docs/ rule"
+      - from: /home/ricky/builds/claude-project-export/iphone.md
+        to: /home/ricky/builds/claude-project-export/docs/iphone.md
+        rationale: "device reference (canonical) -> docs/"
+      - from: /home/ricky/builds/claude-project-export/macbook.md
+        to: /home/ricky/builds/claude-project-export/docs/macbook.md
+        rationale: "device reference (canonical) -> docs/"
+      - from: /home/ricky/builds/claude-project-export/main-board.md
+        to: /home/ricky/builds/claude-project-export/docs/main-board.md
+        rationale: "Monday board reference (canonical) -> docs/"
+      - from: /home/ricky/builds/claude-project-export/repair-history-analysis.md
+        to: /home/ricky/builds/claude-project-export/docs/audits/repair-history-analysis.md
+        rationale: "*-analysis -> docs/audits/ rule"
+      - from: /home/ricky/builds/claude-project-export/ricky-systems-dump.md
+        to: /home/ricky/builds/claude-project-export/archive/2026-04-07-export-snapshot/ricky-systems-dump.md
+        rationale: "*-dump -> archive/<date>-snapshot/ rule (date 2026-04-07 from file mtime)"
+    new_files_created:
+      - path: /home/ricky/builds/claude-project-export/INDEX.md
+        description: "dormant-state INDEX.md"
+      - path: /home/ricky/builds/claude-project-export/docs/INDEX.md
+        description: "sub-INDEX (docs/ has 7 files including audits/, exceeds 5)"
+      - path: /home/ricky/builds/claude-project-export/sop-project/INDEX.md
+        description: "sub-INDEX for pre-existing 118-file sop-project/ directory (categorical, not per-file)"
+      - path: /home/ricky/builds/claude-project-export/briefs/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/claude-project-export/decisions/.gitkeep
+        description: "placeholder"
+      - path: /home/ricky/builds/claude-project-export/scratch/.gitkeep
+        description: "placeholder"
+    sub_indexes_created: ["docs/INDEX.md", "sop-project/INDEX.md"]
+    inbound_references:
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:16"
+        ref: "/home/ricky/builds/claude-project-export/sop-project/foundation-GOALS.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:18"
+        ref: "/home/ricky/builds/claude-project-export/sop-project/foundation-GOALS.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:21"
+        ref: "/home/ricky/builds/claude-project-export/README.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:22"
+        ref: "/home/ricky/builds/claude-project-export/README.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:82"
+        ref: "/home/ricky/builds/claude-project-export/README.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:83"
+        ref: "/home/ricky/builds/claude-project-export/sop-project/alex-paid-not-contacted.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:85"
+        ref: "/home/ricky/builds/claude-project-export/README.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:96"
+        ref: "/home/ricky/builds/claude-project-export/README.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:179"
+        ref: "/home/ricky/builds/claude-project-export/sop-project/ops-sop-quoting-process.md"
+      - source: "/home/ricky/builds/agent-rebuild/idea-inventory.md:188"
+        ref: "/home/ricky/builds/claude-project-export/sop-project/ops-sop-quoting-process.md"
+      - source: "/home/ricky/builds/agent-rebuild/folder-inventory.md:line for claude-project-export"
+        ref: "/home/ricky/builds/claude-project-export"
+    warnings:
+      - "Heavy idea-inventory cross-referencing of sop-project/* paths (10+ rows). All sop-project/ paths LEFT INTACT - no restructuring of pre-existing subdir per Phase 7a rules. Idea-inventory references inside sop-project/ remain valid."
+      - "README.md kept at root because it's referenced 5+ times from idea-inventory.md as the entry point and matches the README-stays-at-root rule."
+      - "Six top-level reference files were moved from root into docs/. No external references to these specific files were found in the swept surfaces, but a fleet-wide grep for COMPANY.md / TEAM.md / SCHEMA.md / iphone.md / macbook.md / main-board.md / repair-history-analysis.md / ricky-systems-dump.md should be re-run during the consolidation pass to catch references not covered by the standard sweep paths."
+    status: success

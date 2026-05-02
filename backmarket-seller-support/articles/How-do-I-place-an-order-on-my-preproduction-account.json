@@ -1,0 +1,19 @@
+{
+  "id": "ka0Sb0000000E7pIAE",
+  "articleNumber": "000001326",
+  "title": "How do I place an order on my preproduction account?",
+  "urlName": "How-do-I-place-an-order-on-my-preproduction-account",
+  "url": "https://backmarket.my.site.com/ssc/s/article/How-do-I-place-an-order-on-my-preproduction-account",
+  "language": "en_GB",
+  "lastPublishedDate": "2022-06-21T09:06:45.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009aheWAA",
+      "parent_topic_name": "Integration & Connection",
+      "topic_id": "0TO3X000000xTjSWAU",
+      "topic_name": "Testing My Connection",
+      "urlName": "How-do-I-place-an-order-on-my-preproduction-account"
+    }
+  ],
+  "bodyHtml": "<p>Once you have online listings on your preproduction account, you can start to place orders to test the order flow.</p>\n\n<h2><strong>Step 1</strong></h2>\n\n<ul><li>Go to <a href=\"https://preprod.backmarket.co.uk/en-gb\" target=\"_blank\"><span style=\"color: #3498db;\">this website,</span></a> which is a replica of our Back Market website with the database of the preproduction back office.  </li><li>Search one of your product in the search bar and buy it like a normal product, as if you were a customer. During the checkout, you can put any values (on the name, address, etc.) but it needs to correspond to our format requirements.</li><li>On the payment page, choose a credit card and click on &#39;<strong>CLICK HERE TO GET TEST CARD NUMBERS</strong>&#39; at the bottom of the page to get test card numbers.</li><li>Choose one card and confirm the payment to finalize the order. To make sure that the payment works well - it is best to use a US Visa Credit Card. You will find it in the link we mention just above.</li></ul>\n<img alt=\"step 1.png\" src=\"/ssc/servlet/rtaImage?eid=ka0Sb0000000E7p&amp;feoid=00N3X00000M5fJO&amp;refid=0EM3X000007NmtZ\"></img>\n<h2><strong>Step 2</strong></h2>\n\n<p>Your order will soon appear in the order tab of your back office. Now you can start testing the delivery flow, the cancellation, refunds, customer claims etc.</p>"
+}

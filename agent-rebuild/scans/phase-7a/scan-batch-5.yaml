@@ -1,0 +1,509 @@
+batch_id: 5
+folders_processed: 6
+warnings_total: 7
+folders:
+  - folder: /home/ricky/builds/intake-notifications
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept:
+      - archive
+      - .claude
+      - specs
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/intake-notifications/plan.md
+        to: /home/ricky/builds/intake-notifications/briefs/plan.md
+        rationale: "rule: *.md named *-plan -> briefs/"
+      - from: /home/ricky/builds/intake-notifications/REBUILD-BRIEF.md
+        to: /home/ricky/builds/intake-notifications/briefs/REBUILD-BRIEF.md
+        rationale: "rule: *.md named BRIEF-* -> briefs/"
+    new_files_created:
+      - path: /home/ricky/builds/intake-notifications/INDEX.md
+        description: "dormant template; lists briefs + pre-existing archive + specs subdir"
+      - path: /home/ricky/builds/intake-notifications/decisions/.gitkeep
+        description: "keep empty decisions/ in tree"
+      - path: /home/ricky/builds/intake-notifications/docs/.gitkeep
+        description: "keep empty docs/ in tree"
+      - path: /home/ricky/builds/intake-notifications/scratch/.gitkeep
+        description: "keep empty scratch/ in tree"
+    sub_indexes_created: []
+    inbound_references:
+      - source: ".openclaw/agents/operations/workspace/MEMORY.md:25"
+        ref: "/home/ricky/builds/intake-notifications/"
+      - source: ".openclaw/agents/operations/workspace/TOOLS.md:8"
+        ref: "/home/ricky/builds/intake-notifications/"
+      - source: "claude-audit-rebuild/VPS-MAP.md:99"
+        ref: "intake-notifications/"
+      - source: "builds/agent-rebuild/idea-inventory.md:180"
+        ref: "/home/ricky/builds/intake-notifications/plan.md"
+      - source: "builds/agent-rebuild/idea-inventory.md:181"
+        ref: "/home/ricky/builds/intake-notifications/plan.md"
+    warnings: []
+    status: success
+
+  - folder: /home/ricky/builds/intake-system
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept:
+      - backend
+      - deploy
+      - device-flows
+      - docs
+      - flows
+      - frontend
+      - node_modules
+      - react-form
+      - reference
+      - shared
+      - supabase
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs/audits
+      - docs/assets
+      - archive
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/intake-system/BRIEF-CODEX-BUILD.md
+        to: /home/ricky/builds/intake-system/briefs/BRIEF-CODEX-BUILD.md
+        rationale: "rule: BRIEF-* -> briefs/"
+      - from: /home/ricky/builds/intake-system/BRIEF-CODEX-REDESIGN.md
+        to: /home/ricky/builds/intake-system/briefs/BRIEF-CODEX-REDESIGN.md
+        rationale: "rule: BRIEF-* -> briefs/"
+      - from: /home/ricky/builds/intake-system/BRIEF-CODEX-TRIAGE.md
+        to: /home/ricky/builds/intake-system/briefs/BRIEF-CODEX-TRIAGE.md
+        rationale: "rule: BRIEF-* -> briefs/"
+      - from: /home/ricky/builds/intake-system/DESIGN-SPEC.md
+        to: /home/ricky/builds/intake-system/briefs/DESIGN-SPEC.md
+        rationale: "rule: *-spec -> briefs/"
+      - from: /home/ricky/builds/intake-system/FORM-FLOW.md
+        to: /home/ricky/builds/intake-system/briefs/FORM-FLOW.md
+        rationale: "rule: spec/proposal content -> briefs/ (form-flow spec)"
+      - from: /home/ricky/builds/intake-system/FORM-FLOW-v3.md
+        to: /home/ricky/builds/intake-system/briefs/FORM-FLOW-v3.md
+        rationale: "rule: spec/proposal content -> briefs/"
+      - from: /home/ricky/builds/intake-system/SPEC.md
+        to: /home/ricky/builds/intake-system/briefs/SPEC.md
+        rationale: "rule: SPEC-* -> briefs/"
+      - from: /home/ricky/builds/intake-system/TASKLIST-CODEX.md
+        to: /home/ricky/builds/intake-system/briefs/TASKLIST-CODEX.md
+        rationale: "rule: spec/working tasklist -> briefs/"
+      - from: /home/ricky/builds/intake-system/TEAM-VIEW-SPEC.md
+        to: /home/ricky/builds/intake-system/briefs/TEAM-VIEW-SPEC.md
+        rationale: "rule: *-spec -> briefs/"
+      - from: /home/ricky/builds/intake-system/TEAM-VIEW-SPEC-v2.md
+        to: /home/ricky/builds/intake-system/briefs/TEAM-VIEW-SPEC-v2.md
+        rationale: "rule: *-spec -> briefs/"
+      - from: /home/ricky/builds/intake-system/plan.md
+        to: /home/ricky/builds/intake-system/briefs/plan.md
+        rationale: "rule: *-plan -> briefs/"
+      - from: /home/ricky/builds/intake-system/IMPLEMENTATION-NOTES.md
+        to: /home/ricky/builds/intake-system/docs/IMPLEMENTATION-NOTES.md
+        rationale: "rule: canonical reference (notes on how it works) -> docs/"
+      - from: /home/ricky/builds/intake-system/integrations.md
+        to: /home/ricky/builds/intake-system/docs/integrations.md
+        rationale: "rule: canonical reference -> docs/"
+      - from: /home/ricky/builds/intake-system/QA-PLAN-REVIEW.md
+        to: /home/ricky/builds/intake-system/docs/audits/QA-PLAN-REVIEW.md
+        rationale: "rule: *-review/audit/report -> docs/audits/"
+      - from: /home/ricky/builds/intake-system/QA-PLAN-REVIEW-ROUND2.md
+        to: /home/ricky/builds/intake-system/docs/audits/QA-PLAN-REVIEW-ROUND2.md
+        rationale: "rule: *-review -> docs/audits/"
+      - from: /home/ricky/builds/intake-system/QA-PLAN-REVIEW-ROUND3.md
+        to: /home/ricky/builds/intake-system/docs/audits/QA-PLAN-REVIEW-ROUND3.md
+        rationale: "rule: *-review -> docs/audits/"
+      - from: /home/ricky/builds/intake-system/QA-PLAN-REVIEW-FINAL.md
+        to: /home/ricky/builds/intake-system/docs/audits/QA-PLAN-REVIEW-FINAL.md
+        rationale: "rule: *-review -> docs/audits/"
+      - from: /home/ricky/builds/intake-system/QA-PLAN-REVIEW-SIGNOFF.md
+        to: /home/ricky/builds/intake-system/docs/audits/QA-PLAN-REVIEW-SIGNOFF.md
+        rationale: "rule: *-review (signoff) -> docs/audits/"
+    new_files_created:
+      - path: /home/ricky/builds/intake-system/INDEX.md
+        description: "active template; lists subfolders + key briefs/docs + open questions"
+      - path: /home/ricky/builds/intake-system/briefs/INDEX.md
+        description: "sub-INDEX (briefs has 11 files, > 5 threshold)"
+      - path: /home/ricky/builds/intake-system/decisions/.gitkeep
+        description: "keep empty decisions/ in tree"
+      - path: /home/ricky/builds/intake-system/archive/.gitkeep
+        description: "keep empty archive/ in tree"
+      - path: /home/ricky/builds/intake-system/scratch/.gitkeep
+        description: "keep empty scratch/ in tree"
+    sub_indexes_created:
+      - briefs/INDEX.md
+    inbound_references:
+      - source: ".openclaw/agents/operations/workspace/MEMORY.md:24"
+        ref: "/home/ricky/builds/intake-system/"
+      - source: ".openclaw/agents/operations/workspace/TOOLS.md:8"
+        ref: "/home/ricky/builds/intake-system/"
+      - source: ".openclaw/agents/operations/workspace/AGENTS.md:211"
+        ref: "~/builds/intake-system/"
+      - source: ".openclaw/agents/main/workspace/AGENTS.md:217"
+        ref: "~/builds/intake-system/"
+      - source: "claude-audit-rebuild/EXECUTION-PLAN.md:262"
+        ref: "~/builds/intake-system/"
+      - source: "claude-audit-rebuild/EXECUTION-PLAN.md:393"
+        ref: "intake-system/"
+      - source: "claude-audit-rebuild/VPS-MAP.md:99"
+        ref: "intake-system/"
+      - source: ".config/systemd/user/intake-form.service:7"
+        ref: "/home/ricky/builds/intake-system/react-form/dist"
+      - source: "kb/operations/queue-management.md:9"
+        ref: "/home/ricky/builds/intake-system/SPEC.md"
+      - source: "kb/system/_phase-1.6-systems-fold-manifest.md:8"
+        ref: "/home/ricky/builds/intake-system/"
+      - source: "kb/system/knowledge/kb-promotion-map.md:40"
+        ref: "/home/ricky/builds/intake-system"
+      - source: "kb/system/knowledge/builds-documentation-policy.md:140"
+        ref: "intake-system"
+      - source: "builds/agent-rebuild/idea-inventory.md:77"
+        ref: "/home/ricky/builds/intake-system/plan.md"
+      - source: "builds/agent-rebuild/idea-inventory.md:79"
+        ref: "/home/ricky/builds/intake-system/backend/README.md"
+    warnings:
+      - "pricing-data.json kept at root (not moved to data/) because it is imported via relative paths from frontend/src/lib/pricing.ts, react-form/src/pricing.ts, and backend/src/lib/telegram-intake.ts. Moving would break code imports."
+      - "logo.png kept at root (not moved to docs/assets/) because it is referenced from react-form/index.html, react-form/src/steps/Welcome.tsx, react-form/TASK.md, and react-form/DESIGN-SPEC.md. Moving would break asset references."
+      - "kb/operations/queue-management.md still references intake-system/SPEC.md; SPEC.md moved to briefs/SPEC.md. Consolidation pass must patch."
+    status: success
+
+  - folder: /home/ricky/builds/monday
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept:
+      - "automation screenshots"
+      - reports
+      - services
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - docs/audits
+      - archive
+      - scratch
+      - scripts
+      - data
+    file_moves:
+      - from: /home/ricky/builds/monday/automations.md
+        to: /home/ricky/builds/monday/docs/automations.md
+        rationale: "rule: canonical reference -> docs/"
+      - from: /home/ricky/builds/monday/board-schema.md
+        to: /home/ricky/builds/monday/docs/board-schema.md
+        rationale: "rule: *-schema -> docs/"
+      - from: /home/ricky/builds/monday/board-v2-build-status.md
+        to: /home/ricky/builds/monday/docs/board-v2-build-status.md
+        rationale: "rule: canonical status reference -> docs/"
+      - from: /home/ricky/builds/monday/browser-harness-monday-skill.md
+        to: /home/ricky/builds/monday/docs/browser-harness-monday-skill.md
+        rationale: "rule: canonical skill doc -> docs/"
+      - from: /home/ricky/builds/monday/cowork-manual-setup-checklist.md
+        to: /home/ricky/builds/monday/docs/cowork-manual-setup-checklist.md
+        rationale: "rule: SETUP*/checklist -> docs/"
+      - from: /home/ricky/builds/monday/icorrect-status-notification-documentation.md
+        to: /home/ricky/builds/monday/docs/icorrect-status-notification-documentation.md
+        rationale: "rule: *-documentation/canonical reference -> docs/"
+      - from: /home/ricky/builds/monday/repair-flow-traces.md
+        to: /home/ricky/builds/monday/docs/repair-flow-traces.md
+        rationale: "rule: canonical reference -> docs/"
+      - from: /home/ricky/builds/monday/automation-audit.md
+        to: /home/ricky/builds/monday/docs/audits/automation-audit.md
+        rationale: "rule: *-audit -> docs/audits/"
+      - from: /home/ricky/builds/monday/browser-harness-pilot-report.md
+        to: /home/ricky/builds/monday/docs/audits/browser-harness-pilot-report.md
+        rationale: "rule: *-report -> docs/audits/"
+      - from: /home/ricky/builds/monday/main-board-column-audit.md
+        to: /home/ricky/builds/monday/docs/audits/main-board-column-audit.md
+        rationale: "rule: *-audit -> docs/audits/"
+      - from: /home/ricky/builds/monday/monday-automations-api-investigation.md
+        to: /home/ricky/builds/monday/docs/audits/monday-automations-api-investigation.md
+        rationale: "rule: *-investigation -> docs/audits/"
+      - from: /home/ricky/builds/monday/cleanup-brief.md
+        to: /home/ricky/builds/monday/briefs/cleanup-brief.md
+        rationale: "rule: *-brief / proposal -> briefs/"
+      - from: /home/ricky/builds/monday/QUERY-SPEC.md
+        to: /home/ricky/builds/monday/briefs/QUERY-SPEC.md
+        rationale: "rule: SPEC-* -> briefs/"
+      - from: /home/ricky/builds/monday/target-state.md
+        to: /home/ricky/builds/monday/briefs/target-state.md
+        rationale: "rule: target-state is a forward proposal -> briefs/"
+      - from: /home/ricky/builds/monday/automations-export.csv
+        to: /home/ricky/builds/monday/data/automations-export.csv
+        rationale: "rule: *.csv -> data/"
+      - from: /home/ricky/builds/monday/board-v2-manifest.json
+        to: /home/ricky/builds/monday/data/board-v2-manifest.json
+        rationale: "rule: runtime data/manifest json -> data/"
+      - from: /home/ricky/builds/monday/build-new-board.py
+        to: /home/ricky/builds/monday/scripts/build-new-board.py
+        rationale: "rule: small (<3) code at root -> scripts/"
+    new_files_created:
+      - path: /home/ricky/builds/monday/INDEX.md
+        description: "active template"
+      - path: /home/ricky/builds/monday/docs/INDEX.md
+        description: "sub-INDEX (docs has 7 files, > 5 threshold)"
+      - path: /home/ricky/builds/monday/decisions/.gitkeep
+        description: "keep empty decisions/"
+      - path: /home/ricky/builds/monday/archive/.gitkeep
+        description: "keep empty archive/"
+      - path: /home/ricky/builds/monday/scratch/.gitkeep
+        description: "keep empty scratch/"
+    sub_indexes_created:
+      - docs/INDEX.md
+    inbound_references:
+      - source: ".openclaw/agents/main/workspace/TOOLS.md:146"
+        ref: "/home/ricky/builds/monday/"
+      - source: ".openclaw/agents/main/workspace/LIVE-TODO.md:165"
+        ref: "/home/ricky/builds/monday/README.md and /home/ricky/builds/monday/monday-automations-api-investigation.md"
+      - source: ".config/systemd/user/status-notifications.service:7"
+        ref: "/home/ricky/builds/monday/services/status-notifications"
+      - source: "claude-audit-rebuild/VPS-MAP.md:96"
+        ref: "monday/"
+      - source: "kb/customer-service/_draft/notification-triggers.md:141-143"
+        ref: "/home/ricky/builds/monday/automations.md, icorrect-status-notification-documentation.md, services/status-notifications/templates.js"
+      - source: "kb/monday/parts-board.md:7"
+        ref: "/home/ricky/builds/monday/board-schema.md"
+      - source: "kb/monday/main-board.md:7-10"
+        ref: "/home/ricky/builds/monday/board-schema.md, main-board-column-audit.md, automations.md, repair-flow-traces.md"
+      - source: "kb/system/runtime/browser-automation.md:24-27,72-73"
+        ref: "/home/ricky/builds/monday/browser-harness-pilot-report.md, browser-harness-monday-skill.md"
+      - source: "kb/operations/queue-management.md:7-8"
+        ref: "/home/ricky/builds/monday/repair-flow-traces.md, target-state.md"
+      - source: "kb/system/knowledge/kb-promotion-map.md:58"
+        ref: "/home/ricky/builds/monday"
+      - source: "kb/customer-service/_draft/monday-workflow-map.md (multiple lines)"
+        ref: "/home/ricky/builds/monday/automations.md, repair-flow-traces.md (50+ refs)"
+      - source: "builds/agent-rebuild/idea-inventory.md:68,76,90"
+        ref: "/home/ricky/builds/monday/board-v2-build-status.md"
+    warnings:
+      - "Heavy KB cross-referencing: monday/automations.md and monday/repair-flow-traces.md are referenced 50+ times across kb/customer-service/_draft/monday-workflow-map.md, kb/monday/, kb/operations/. The Phase 7a consolidation pass MUST patch all of these to docs/<file>.md form."
+      - "services/status-notifications is live (running via systemd unit status-notifications.service). The systemd unit references the existing path which was not changed - safe."
+      - "automation screenshots/ subdir contains a literal space in its name. Left as-is per 'no restructuring of code dirs' rule and to avoid breaking any references; flagging for Phase 7c hygiene to consider renaming to automation-screenshots/."
+    status: success
+
+  - folder: /home/ricky/builds/operations-system
+    state_at_scan: active
+    owner: operations
+    existing_subdirs_kept:
+      - docs
+      - tools
+      - .claude
+      - .remember
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - archive
+      - scratch
+    file_moves: []
+    new_files_created:
+      - path: /home/ricky/builds/operations-system/INDEX.md
+        description: "active template; references existing docs/INDEX.md as authoritative for docs/ contents"
+      - path: /home/ricky/builds/operations-system/briefs/.gitkeep
+        description: "keep empty briefs/"
+      - path: /home/ricky/builds/operations-system/decisions/.gitkeep
+        description: "keep empty decisions/"
+      - path: /home/ricky/builds/operations-system/archive/.gitkeep
+        description: "keep empty archive/"
+      - path: /home/ricky/builds/operations-system/scratch/.gitkeep
+        description: "keep empty scratch/"
+    sub_indexes_created: []
+    inbound_references:
+      - source: ".openclaw/agents/main/workspace/SOUL.md:44"
+        ref: "~/builds/operations-system/docs/domains/"
+      - source: ".openclaw/agents/operations/workspace/USER-APPENDIX.md:25"
+        ref: "~/builds/operations-system/docs/domains/"
+      - source: ".openclaw/agents/operations/workspace/USER.md:137"
+        ref: "~/builds/operations-system/docs/domains/"
+      - source: ".openclaw/agents/operations/workspace/MEMORY.md:23"
+        ref: "/home/ricky/builds/operations-system/README.md"
+      - source: ".openclaw/agents/operations/workspace/AGENTS.md:23,33,36,67,123,127,210"
+        ref: "~/builds/operations-system/docs/domains/, /docs/, multiple"
+      - source: ".openclaw/agents/main/workspace/AGENTS.md:214"
+        ref: "~/builds/operations-system/"
+      - source: ".openclaw/agents/team/workspace/AGENTS.md:229"
+        ref: "~/builds/operations-system/"
+      - source: "claude-audit-rebuild/EXECUTION-PLAN.md:262,447"
+        ref: "~/builds/operations-system/"
+      - source: "claude-audit-rebuild/VPS-MAP.md:108,129"
+        ref: "operations-system/, builds/operations-system/.claude/worktrees/"
+      - source: "builds/agent-rebuild/idea-inventory.md:66,92"
+        ref: "/home/ricky/builds/operations-system/README.md"
+    warnings:
+      - "operations-system/docs already had its own INDEX.md (Apr 25, 1464 bytes). Left untouched per 'no editing of existing file content' rule. Root INDEX.md cross-references it as authoritative."
+      - "Heavy inbound references to ~/builds/operations-system/docs/domains/ from agent workspaces (operations USER-APPENDIX, USER.md, AGENTS.md, main SOUL.md). All references point at paths that still exist - no patching required for this folder."
+    status: success
+
+  - folder: /home/ricky/builds/webhook-migration
+    state_at_scan: dormant
+    owner: operations
+    existing_subdirs_kept:
+      - archive
+      - discovery
+      - verification
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - docs/audits
+      - scratch
+    file_moves:
+      - from: /home/ricky/builds/webhook-migration/plan-shopify-contact-form.md
+        to: /home/ricky/builds/webhook-migration/briefs/plan-shopify-contact-form.md
+        rationale: "rule: *-plan -> briefs/"
+      - from: /home/ricky/builds/webhook-migration/plan-status-notifications.md
+        to: /home/ricky/builds/webhook-migration/briefs/plan-status-notifications.md
+        rationale: "rule: *-plan -> briefs/"
+      - from: /home/ricky/builds/webhook-migration/cutover-checklist-status-notifications.md
+        to: /home/ricky/builds/webhook-migration/docs/cutover-checklist-status-notifications.md
+        rationale: "rule: checklist/runbook-style canonical reference -> docs/"
+      - from: /home/ricky/builds/webhook-migration/execution-checklist-shopify-contact-form.md
+        to: /home/ricky/builds/webhook-migration/docs/execution-checklist-shopify-contact-form.md
+        rationale: "rule: checklist/runbook-style canonical reference -> docs/"
+      - from: /home/ricky/builds/webhook-migration/shopify-intercom-migration-matrix-2026-04-01.md
+        to: /home/ricky/builds/webhook-migration/docs/shopify-intercom-migration-matrix-2026-04-01.md
+        rationale: "rule: canonical reference (matrix) -> docs/"
+      - from: /home/ricky/builds/webhook-migration/research-shopify-intercom-phase0-2026-04-01.md
+        to: /home/ricky/builds/webhook-migration/docs/audits/research-shopify-intercom-phase0-2026-04-01.md
+        rationale: "rule: *-research/analysis -> docs/audits/"
+      - from: /home/ricky/builds/webhook-migration/MASTER-TODO-2026-03-31.md
+        to: /home/ricky/builds/webhook-migration/scratch/MASTER-TODO-2026-03-31.md
+        rationale: "rule: TODO/working notes -> scratch/"
+      - from: /home/ricky/builds/webhook-migration/TODO-MONDAY-STATUS-NOTIFICATIONS.md
+        to: /home/ricky/builds/webhook-migration/scratch/TODO-MONDAY-STATUS-NOTIFICATIONS.md
+        rationale: "rule: TODO/working notes -> scratch/"
+      - from: /home/ricky/builds/webhook-migration/TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md
+        to: /home/ricky/builds/webhook-migration/scratch/TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md
+        rationale: "rule: TODO/working notes -> scratch/"
+    new_files_created:
+      - path: /home/ricky/builds/webhook-migration/INDEX.md
+        description: "dormant template"
+      - path: /home/ricky/builds/webhook-migration/decisions/.gitkeep
+        description: "keep empty decisions/"
+    sub_indexes_created: []
+    inbound_references:
+      - source: "claude-audit-rebuild/VPS-MAP.md:96"
+        ref: "webhook-migration/"
+      - source: "kb/customer-service/_draft/notification-triggers.md:144"
+        ref: "/home/ricky/builds/webhook-migration/verification/status-notifications-live-cutover-2026-04-01.md"
+      - source: "builds/agent-rebuild/idea-inventory.md:67,74"
+        ref: "/home/ricky/builds/webhook-migration/TODO-MONDAY-STATUS-NOTIFICATIONS.md"
+      - source: "builds/agent-rebuild/idea-inventory.md:78"
+        ref: "/home/ricky/builds/webhook-migration/TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md"
+      - source: "builds/agent-rebuild/idea-inventory.md:89"
+        ref: "/home/ricky/builds/webhook-migration/execution-checklist-shopify-contact-form.md"
+    warnings:
+      - "TODO-MONDAY-STATUS-NOTIFICATIONS.md and TODO-SHOPIFY-INTERCOM-ATTRIBUTION.md are referenced from idea-inventory.md - moved to scratch/, consolidation pass must patch."
+      - "execution-checklist-shopify-contact-form.md referenced from idea-inventory.md - moved to docs/, consolidation pass must patch."
+    status: success
+
+  - folder: /home/ricky/builds/server-config
+    state_at_scan: active
+    owner: none
+    existing_subdirs_kept: []
+    new_subdirs_created:
+      - briefs
+      - decisions
+      - docs
+      - archive
+      - scratch
+      - data
+    file_moves:
+      - from: /home/ricky/builds/server-config/agent-trigger.service
+        to: /home/ricky/builds/server-config/docs/agent-trigger.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/icloud-checker.service
+        to: /home/ricky/builds/server-config/docs/icloud-checker.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/icorrect-parts.service
+        to: /home/ricky/builds/server-config/docs/icorrect-parts.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/intake-form.service
+        to: /home/ricky/builds/server-config/docs/intake-form.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/llm-summary.service
+        to: /home/ricky/builds/server-config/docs/llm-summary.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/marketing-intelligence-api.service
+        to: /home/ricky/builds/server-config/docs/marketing-intelligence-api.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/openclaw-gateway.service
+        to: /home/ricky/builds/server-config/docs/openclaw-gateway.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/telephone-inbound.service
+        to: /home/ricky/builds/server-config/docs/telephone-inbound.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/voice-note-worker.service
+        to: /home/ricky/builds/server-config/docs/voice-note-worker.service
+        rationale: "rule: config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/nginx.conf
+        to: /home/ricky/builds/server-config/docs/nginx.conf
+        rationale: "rule: nginx config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/nginx-default.conf
+        to: /home/ricky/builds/server-config/docs/nginx-default.conf
+        rationale: "rule: nginx config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/nginx-intake-form.conf
+        to: /home/ricky/builds/server-config/docs/nginx-intake-form.conf
+        rationale: "rule: nginx config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/nginx-marketing-intel.conf
+        to: /home/ricky/builds/server-config/docs/nginx-marketing-intel.conf
+        rationale: "rule: nginx config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/nginx-mission-control.conf
+        to: /home/ricky/builds/server-config/docs/nginx-mission-control.conf
+        rationale: "rule: nginx config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/nginx-n8n.conf
+        to: /home/ricky/builds/server-config/docs/nginx-n8n.conf
+        rationale: "rule: nginx config snapshot -> docs/"
+      - from: /home/ricky/builds/server-config/env-template.txt
+        to: /home/ricky/builds/server-config/docs/env-template.txt
+        rationale: "rule: template/reference -> docs/ (no real secrets, only placeholder names)"
+      - from: /home/ricky/builds/server-config/all-listening-ports.txt
+        to: /home/ricky/builds/server-config/data/all-listening-ports.txt
+        rationale: "rule: runtime data dump (.txt) -> data/"
+      - from: /home/ricky/builds/server-config/listening-ports.txt
+        to: /home/ricky/builds/server-config/data/listening-ports.txt
+        rationale: "rule: runtime data dump -> data/"
+      - from: /home/ricky/builds/server-config/crontab.txt
+        to: /home/ricky/builds/server-config/data/crontab.txt
+        rationale: "rule: runtime data dump -> data/"
+      - from: /home/ricky/builds/server-config/pm2-list.txt
+        to: /home/ricky/builds/server-config/data/pm2-list.txt
+        rationale: "rule: runtime data dump -> data/"
+      - from: /home/ricky/builds/server-config/pm2-show-0.txt
+        to: /home/ricky/builds/server-config/data/pm2-show-0.txt
+        rationale: "rule: runtime data dump -> data/"
+      - from: /home/ricky/builds/server-config/running-node-processes.txt
+        to: /home/ricky/builds/server-config/data/running-node-processes.txt
+        rationale: "rule: runtime data dump -> data/"
+      - from: /home/ricky/builds/server-config/systemd-user-unit-files.txt
+        to: /home/ricky/builds/server-config/data/systemd-user-unit-files.txt
+        rationale: "rule: runtime data dump -> data/"
+      - from: /home/ricky/builds/server-config/systemd-user-units.txt
+        to: /home/ricky/builds/server-config/data/systemd-user-units.txt
+        rationale: "rule: runtime data dump -> data/"
+    new_files_created:
+      - path: /home/ricky/builds/server-config/INDEX.md
+        description: "active template; explicit SECURITY warning re pm2-dump files"
+      - path: /home/ricky/builds/server-config/docs/INDEX.md
+        description: "sub-INDEX (docs has 16 files, > 5 threshold)"
+      - path: /home/ricky/builds/server-config/data/INDEX.md
+        description: "sub-INDEX (data has 8 files, > 5 threshold)"
+      - path: /home/ricky/builds/server-config/briefs/.gitkeep
+        description: "keep empty briefs/"
+      - path: /home/ricky/builds/server-config/decisions/.gitkeep
+        description: "keep empty decisions/"
+      - path: /home/ricky/builds/server-config/archive/.gitkeep
+        description: "keep empty archive/"
+      - path: /home/ricky/builds/server-config/scratch/.gitkeep
+        description: "keep empty scratch/"
+    sub_indexes_created:
+      - docs/INDEX.md
+      - data/INDEX.md
+    inbound_references:
+      - source: "claude-audit-rebuild/VPS-MAP.md:44"
+        ref: "builds/server-config/crontab.txt"
+    warnings:
+      - "SENSITIVE: pm2-dump.json (6910B) and pm2-dump-formatted.json (7671B) contain plaintext secrets (env vars from each pm2-managed process). They are KEPT AT ROOT per the batch instructions, NOT moved into data/, and their contents are NOT echoed anywhere. Any agent reading this folder must treat these files as authorized-secrets-only. Phase 7c (folded-in 6.95) is the canonical home for redaction/rotation. INDEX.md surfaces this warning prominently."
+      - "claude-audit-rebuild/VPS-MAP.md:44 references builds/server-config/crontab.txt - that file moved to data/crontab.txt. Consolidation pass must patch."
+      - "agent-trigger.service has no corresponding entry in ~/.config/systemd/user/ - likely retired or moved since the snapshot. Surfaced in docs/INDEX.md."
+    status: success

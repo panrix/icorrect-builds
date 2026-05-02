@@ -1,0 +1,19 @@
+{
+  "id": "ka0aT000000TJthQAG",
+  "articleNumber": "000001139",
+  "title": "What is my virtual wallet and where can I see the balance?",
+  "urlName": "What-is-my-virtual-wallet-and-where-can-I-see-the-balance",
+  "url": "https://backmarket.my.site.com/ssc/s/article/What-is-my-virtual-wallet-and-where-can-I-see-the-balance",
+  "language": "en_GB",
+  "lastPublishedDate": "2026-04-22T14:02:48.000Z",
+  "topics": [
+    {
+      "parent_topic_id": "0TO3X0000009ahbWAA",
+      "parent_topic_name": "Finance, Legal & Tax",
+      "topic_id": "0TO3X0000009anHWAQ",
+      "topic_name": "Deposit",
+      "urlName": "What-is-my-virtual-wallet-and-where-can-I-see-the-balance"
+    }
+  ],
+  "bodyHtml": "<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Your wallet, displayed under the ‘Money’ section of your Back Office, shows the real-time total of your sales earnings on Back Market that haven’t been paid to you yet.</span><br><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">On the same page, you can also view a schedule of your upcoming payouts.</span></p>\n<p> </p>\n<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Now, payouts are sent by Back Market every Wednesday. </span></p>\n<p> </p>\n<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Each payout covers all sales made and shipped during the previous days. In practical terms, if we call your most recent payout day as D, the amount paid includes the net amounts for the orders shipped between D-14 and D-8. The next payout, which will be sent on D+7, will include the net amounts for the orders placed between D-7 and D-1, and so on.</span></p>\n<p> </p>\n<p> </p>\n<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">To check your wallet balance, you need to follow these steps:</span></p>\n<p> </p>\n<ol><li style=\"color: #000000;font-family: arial, helvetica, sans-serif;\"><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Log in to your Back Office</span></li><li style=\"color: #000000;font-family: arial, helvetica, sans-serif;\"><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Go to ‘Money’ page</span></li><li style=\"color: #000000;font-family: arial, helvetica, sans-serif;\"><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Select the ‘Your wallet’ section</span></li><li style=\"color: #000000;font-family: arial, helvetica, sans-serif;\"><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">See ‘Your wallet balance’</span></li></ol>\n<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">In the top-left box, labeled ‘Your wallet balance’, you can see the total accumulated amount per currency. In the middle box, named ‘Upcoming payouts’, there’s a breakdown of the payments due to you from Back Market over the next two payout cycles. </span></p>\n<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">In the right-hand box, you can see the amount of the deposit currently held by Back Market.</span></p>\n<p> </p>\n<p> </p>\n<p><span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">Deferred payouts appear in your wallet as well. <span style=\"color: #000000;font-family: arial, helvetica, sans-serif;\">For more information on the deferred payout, please check out the dedicated <span style=\"color: #2980b9;\"><a href=\"https://backmarket.my.site.com/ssc/s/article/What-s-a-deferred-payout#d\" target=\"_blank\" style=\"color: #2980b9;\">What&#39;s a deferred payout?</a> </span>article.</span></span></p>"
+}
