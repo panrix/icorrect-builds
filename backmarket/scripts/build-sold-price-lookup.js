@@ -2,6 +2,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { normalizeHistoricalSku } = require("./lib/sku");
 
 const OUTPUT_PATH = "/home/ricky/builds/backmarket/data/sold-prices-latest.json";
 const ORDERS_URL = "https://www.backmarket.co.uk/ws/orders";
@@ -137,16 +138,16 @@ function canonicalizeSuffixGrade(rawSuffix) {
 }
 
 function getSkuSuffix(sku) {
-  const parts = String(sku || "").split(".");
+  const parts = normalizeHistoricalSku(sku).split(".");
   return parts.length ? parts[parts.length - 1] : "";
 }
 
 function getModelKey(sku) {
-  const parts = String(sku || "").split(".");
-  if (parts.length < 2) {
+  const parts = normalizeHistoricalSku(sku).split(".");
+  if (parts.length < 3) {
     return null;
   }
-  return `${parts[0].toUpperCase()}.${parts[1].toUpperCase()}`;
+  return `${parts[0].toUpperCase()}.${parts[1].toUpperCase()}.${parts[2].toUpperCase()}`;
 }
 
 function createBucket() {
@@ -243,7 +244,7 @@ function flattenOrders(orders, sinceDays) {
     }
 
     for (const line of order?.orderlines || []) {
-      const sku = String(line?.listing || "").trim();
+      const sku = normalizeHistoricalSku(line?.listing || "");
       const price = parseFloat(line?.price);
       const condition = Number(line?.condition);
       if (!sku || !Number.isFinite(price) || !Number.isFinite(condition)) {

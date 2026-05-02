@@ -29,7 +29,8 @@ const records = [
 
 const map = buildFrontendUrlMap(records);
 assert.equal(map.accepted.length, 1);
-assert.equal(map.rejected.length, 2);
+assert.equal(map.mismatches.length, 1);
+assert.equal(map.rejected.length, 1);
 
 assert.equal(normalizeFrontendUrl(records[0].frontend_url), records[0].frontend_url);
 assert.equal(normalizeFrontendUrl('https://example.com/nope'), '');
@@ -40,6 +41,12 @@ assert.equal(byListing.record.product_id, '9ef00207-1136-45f4-99c3-ade923986e43'
 
 const bySku = lookupFrontendUrl(map, { sku: 'MBP.A2338.M1.8GB.512GB.Silver.Fair' });
 assert.equal(bySku.matchedBy, 'sku');
+assert.equal(bySku.trusted, true);
+
+const mismatch = lookupFrontendUrl(map, { listing_id: 'mismatch' }, { includeMismatch: true });
+assert.equal(mismatch.matchedBy, 'listing_id');
+assert.equal(mismatch.trusted, false);
+assert.equal(mismatch.record.verification_status, 'captured_spec_mismatch');
 
 assert.equal(lookupFrontendUrl(map, { listing_id: 'missing' }), null);
 

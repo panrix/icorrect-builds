@@ -22,9 +22,10 @@ require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const path = require('path');
 const { mondayQuery, BOARDS, COLUMNS } = require('./lib/monday');
-const { constructBmSku, validateSku } = require('./lib/sku');
+const { constructBmSku, normalizeHistoricalSku, validateSku } = require('./lib/sku');
 const { BM_API_HEADERS, fetchSalesHistory } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
+const { loadFrontendUrlMap, lookupFrontendUrl } = require('./lib/frontend-url-map');
 const {
   findResolverSlot,
   isResolverSlotLiveSafe,
@@ -50,6 +51,7 @@ const BM_TELEGRAM_CHAT = '-1003888456344';
 const SCRAPER_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
 const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
 const REGISTRY_PATH = '/home/ricky/builds/backmarket/data/listings-registry.json';
+const SOLD_PRICES_PATH = '/home/ricky/builds/backmarket/data/sold-prices-latest.json';
 const SHIPPING_COST = 15;
 const LABOUR_RATE = 24; // £/hr
 const BM_BUY_FEE_RATE = 0.10;
@@ -221,6 +223,36 @@ function buildScrapeVerificationReason(verification) {
   return issues.length > 0
     ? `Unreconciled scrape target: ${issues.join('; ')}`
     : 'Unreconciled scrape target';
+}
+
+function parseCaptureJsonField(value) {
+  if (Array.isArray(value)) return value.filter(Boolean);
+  if (value && typeof value === 'object') return [value];
+  if (typeof value !== 'string' || !value.trim()) return [];
+  try {
+    const parsed = JSON.parse(value);
+    if (Array.isArray(parsed)) return parsed.filter(Boolean);
+    if (parsed && typeof parsed === 'object') return [parsed];
+    return [];
+  } catch (_) {
+    return [];
+  }
+}
+
+function summarizeFrontendCaptureMismatches(record) {
+  const mismatches = parseCaptureJsonField(record?.spec_snapshot?.sku_spec_mismatches);
+  if (mismatches.length > 0) {
+    return mismatches.map((entry) => {
+      if (typeof entry === 'string') return entry;
+      const field = entry?.field || 'unknown';
+      const expected = entry?.expected ? ` expected ${entry.expected}` : '';
+      return `${field}${expected}`;
+    });
+  }
+  const checks = parseCaptureJsonField(record?.spec_snapshot?.sku_spec_check);
+  return checks
+    .filter((entry) => entry && entry.ok === false)
+    .map((entry) => `${entry.field || 'unknown'} expected ${entry.expected || 'mismatch'}`);
 }
 
 const MODEL_NUMBER_TO_CATALOG_FAMILY = {
@@ -482,6 +514,9 @@ async function readDeviceSpecs(mainItemId, bmDeviceMap) {
 let _bmCatalog = null;
 let _bmCatalogIndex = null;
 let _registry = null;
+let _frontendUrlMap = null;
+let _soldPriceLookup = null;
+let _soldPriceLookupLoaded = false;
 
 function loadBmCatalog() {
   if (_bmCatalog) return _bmCatalog;
@@ -503,11 +538,182 @@ function loadListingsRegistry() {
   return _registry;
 }
 
+function loadListingFrontendUrls() {
+  if (_frontendUrlMap) return _frontendUrlMap;
+  _frontendUrlMap = loadFrontendUrlMap();
+  if (_frontendUrlMap.exists) {
+    console.log(`  Loaded frontend URL map: ${_frontendUrlMap.accepted.length} trusted capture(s), ${_frontendUrlMap.mismatches.length} mismatch capture(s)`);
+  }
+  return _frontendUrlMap;
+}
+
+function loadSoldPriceLookup() {
+  if (_soldPriceLookupLoaded) return _soldPriceLookup;
+  _soldPriceLookupLoaded = true;
+  if (!fs.existsSync(SOLD_PRICES_PATH)) {
+    return null;
+  }
+  try {
+    _soldPriceLookup = JSON.parse(fs.readFileSync(SOLD_PRICES_PATH, 'utf8'));
+    console.log(`  Loaded sold lookup: ${Object.keys(_soldPriceLookup.by_sku || {}).length} SKUs, ${Object.keys(_soldPriceLookup.by_model || {}).length} model-grade groups`);
+  } catch (error) {
+    console.warn(`  Failed to load sold lookup: ${error.message}`);
+    _soldPriceLookup = null;
+  }
+  return _soldPriceLookup;
+}
+
 function lookupRegistrySlot(sku) {
   const registry = loadListingsRegistry();
   const slot = findResolverSlot(registry, { sku: normalizeResolverSku(sku) });
   if (slot && isResolverSlotLiveSafe(slot)) return slot;
   return null;
+}
+
+function buildSoldLookupModelKey(sku) {
+  const parts = normalizeHistoricalSku(sku).split('.');
+  if (parts.length < 3) return null;
+  return `${parts[0].toUpperCase()}.${parts[1].toUpperCase()}.${parts[2].toUpperCase()}`;
+}
+
+function normalizeHistoricalSalesEntry(entry, source) {
+  return {
+    count: Number(entry?.count) || 0,
+    avg: Number(entry?.avg_price) || 0,
+    median: Number(entry?.median_price) || 0,
+    low: Number(entry?.min_price) || 0,
+    high: Number(entry?.max_price) || 0,
+    sales: [],
+    source,
+    lastSoldDate: entry?.last_sold_date || '',
+  };
+}
+
+function aggregateHistoricalSalesEntries(entries, source) {
+  if (!entries.length) return null;
+  if (entries.length === 1) {
+    return normalizeHistoricalSalesEntry(entries[0], source);
+  }
+
+  const count = entries.reduce((sum, entry) => sum + (Number(entry?.count) || 0), 0);
+  if (!count) return null;
+
+  const weightedAvg = entries.reduce((sum, entry) => sum + (Number(entry?.avg_price) || 0) * (Number(entry?.count) || 0), 0) / count;
+  const weightedMedian = entries.reduce((sum, entry) => sum + (Number(entry?.median_price) || 0) * (Number(entry?.count) || 0), 0) / count;
+  const low = entries.reduce((min, entry) => Math.min(min, Number(entry?.min_price) || Number.POSITIVE_INFINITY), Number.POSITIVE_INFINITY);
+  const high = entries.reduce((max, entry) => Math.max(max, Number(entry?.max_price) || 0), 0);
+  const lastSoldDate = entries.reduce((latest, entry) => {
+    const current = entry?.last_sold_date || '';
+    return current > latest ? current : latest;
+  }, '');
+
+  return {
+    count,
+    avg: Math.round(weightedAvg * 100) / 100,
+    median: Math.round(weightedMedian * 100) / 100,
+    low: Number.isFinite(low) ? low : 0,
+    high,
+    sales: [],
+    source,
+    lastSoldDate,
+  };
+}
+
+function resolveHistoricalSalesFromSoldLookup(sku, bmGrade, soldLookupOverride = null) {
+  if (!sku) return null;
+  const soldLookup = soldLookupOverride || loadSoldPriceLookup();
+  if (!soldLookup) return null;
+
+  const canonicalSku = normalizeHistoricalSku(sku);
+  const normalizedBySkuEntries = Object.entries(soldLookup.by_sku || {});
+
+  const exactSkuEntries = normalizedBySkuEntries
+    .filter(([rawSku]) => normalizeHistoricalSku(rawSku) === canonicalSku)
+    .map(([, entry]) => entry);
+  const exactSkuHistory = aggregateHistoricalSalesEntries(
+    exactSkuEntries,
+    `sold_lookup:by_sku_normalized:${canonicalSku}:aliases=${exactSkuEntries.length}`
+  );
+  if (exactSkuHistory && exactSkuHistory.count >= 2) {
+    return exactSkuHistory;
+  }
+
+  const modelKey = buildSoldLookupModelKey(canonicalSku);
+  if (!modelKey) return null;
+
+  const lookupGrade = BM_GRADE_TO_SCRAPER[String(bmGrade || '').toUpperCase()] || '';
+  const byGradeEntries = normalizedBySkuEntries
+    .filter(([rawSku, entry]) => {
+      const normalizedSku = normalizeHistoricalSku(rawSku);
+      return buildSoldLookupModelKey(normalizedSku) === modelKey && String(entry?.grade || '') === lookupGrade;
+    })
+    .map(([, entry]) => entry);
+  const byGradeHistory = aggregateHistoricalSalesEntries(
+    byGradeEntries,
+    `sold_lookup:by_model_normalized:${modelKey}:${lookupGrade}:aliases=${byGradeEntries.length}`
+  );
+  if (byGradeHistory && byGradeHistory.count >= 3) {
+    return byGradeHistory;
+  }
+
+  const fairEntries = normalizedBySkuEntries
+    .filter(([rawSku, entry]) => {
+      const normalizedSku = normalizeHistoricalSku(rawSku);
+      return buildSoldLookupModelKey(normalizedSku) === modelKey && String(entry?.grade || '') === 'Fair';
+    })
+    .map(([, entry]) => entry);
+  const fairHistory = aggregateHistoricalSalesEntries(
+    fairEntries,
+    `sold_lookup:by_model_normalized:${modelKey}:Fair:aliases=${fairEntries.length}`
+  );
+  if (fairHistory && fairHistory.count >= 3) {
+    return fairHistory;
+  }
+
+  return null;
+}
+
+function resolveProductFromFrontendCapture(specs, frontendCapture) {
+  const record = frontendCapture?.record;
+  if (!record?.product_id) return null;
+
+  const modelFamily = deriveCatalogModelFamily(specs);
+  const trusted = frontendCapture?.trusted !== false;
+  const mismatchSummary = summarizeFrontendCaptureMismatches(record);
+  const title = record?.spec_snapshot?.page_title || record?.spec_snapshot?.h1 || record?.frontend_url || '';
+
+  return {
+    source: 'frontend-url-map',
+    modelKey: modelFamily || '(frontend capture)',
+    modelFamily,
+    normalizedRam: normalizeRamForCatalog(specs.ram),
+    normalizedSsd: normalizeStorageForCatalog(specs.ssd),
+    normalizedColour: normalizeColour(specs.colour),
+    gradePrices: {},
+    ssdPicker: {},
+    colourPrices: {},
+    adjacentSsd: [],
+    ramPicker: {},
+    colourPicker: {},
+    cpuGpuPicker: {},
+    colourVerified: trusted,
+    liveEligible: trusted,
+    productId: record.product_id,
+    title,
+    lookupTitle: title,
+    backmarketId: record?.spec_snapshot?.active_listing_export_back_market_id || null,
+    resolutionConfidence: record.verification_status || (trusted ? 'captured_spec_match' : 'captured_spec_mismatch'),
+    verificationStatus: trusted ? 'verified' : 'captured_mismatch',
+    resolutionSource: trusted ? 'frontend-capture-exact' : 'frontend-capture-mismatch',
+    truthSource: record.source || 'listing-frontend-url-map',
+    frontendCapture: record,
+    blockReason: trusted
+      ? ''
+      : (mismatchSummary.length > 0
+          ? `Frontend capture contradicts SKU: ${mismatchSummary.join(', ')}`
+          : 'Frontend capture contradicts SKU'),
+    contradictionFlags: trusted ? [] : ['frontend_capture_spec_mismatch'],
+  };
 }
 
 function buildCatalogKey(modelFamily, ram, ssd, colour) {
@@ -702,8 +908,10 @@ function loadScraperData() {
   return JSON.parse(raw);
 }
 
-async function getLiveMarketData(productId, catalogResult) {
-  return scrapeWithFallback(productId, catalogResult, LIVE_SCRAPE_TIMEOUT_MS);
+async function getLiveMarketData(productId, catalogResult, scrapeTarget = null) {
+  return scrapeWithFallback(productId, catalogResult, LIVE_SCRAPE_TIMEOUT_MS, {
+    frontendUrl: scrapeTarget?.record?.frontend_url || '',
+  });
 }
 
 // ─── Path B: Create Fresh Listing ────────────────────────────────
@@ -1240,6 +1448,7 @@ function formatSummary(device) {
     const histParts = [`${historicalSales.count} sold @ avg £${historicalSales.avg}`];
     if (historicalSales.median) histParts.push(`median £${historicalSales.median}`);
     if (historicalSales.avgDaysToSell) histParts.push(`avg ${historicalSales.avgDaysToSell} days to sell`);
+    if (historicalSales.source) histParts.push(historicalSales.source);
     let salesLine = `Our history: ${histParts.join(' | ')}`;
     if (historicalSales.avg > p.proposed * 1.3) {
       salesLine += `\n         🔴 Historical avg significantly above market: prices have dropped`;
@@ -1281,8 +1490,18 @@ function formatSummary(device) {
     if (catalogResult.verificationStatus) lines.push(`Verify   ${catalogResult.verificationStatus}`);
     if (catalogResult.blockReason) lines.push(`Block    ${catalogResult.blockReason}`);
   }
+  if (catalogResult?.source === 'frontend-url-map') {
+    lines.push(`Source   Frontend capture`);
+    if (catalogResult.lookupTitle) lines.push(`BM title ${catalogResult.lookupTitle}`);
+    if (catalogResult.resolutionConfidence) lines.push(`Conf     ${catalogResult.resolutionConfidence}`);
+    if (catalogResult.verificationStatus) lines.push(`Verify   ${catalogResult.verificationStatus}`);
+    if (catalogResult.blockReason) lines.push(`Block    ${catalogResult.blockReason}`);
+  }
   if (catalogResult?.resolutionSource) {
     lines.push(`Resolve  ${catalogResult.resolutionSource}${catalogResult.colourVerified ? ' | colour verified' : ' | colour not independently verified'}`);
+  }
+  if (catalogResult?.frontendCapture?.frontend_url) {
+    lines.push(`Capture  ${catalogResult.frontendCapture.frontend_url}`);
   }
   if (device.liveMarketSource) {
     lines.push(`Live     ${device.liveMarketSource}`);
@@ -1380,8 +1599,14 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   }
 
   const registrySlot = lookupRegistrySlot(sku);
+  const frontendUrlMap = loadListingFrontendUrls();
+  const frontendCapture = lookupFrontendUrl(frontendUrlMap, {
+    listing_id: specs.storedListingId,
+    sku,
+    product_id: specs.storedUuid,
+  }, { includeMismatch: true });
 
-  // Step 4: Resolve product from canonical resolver truth, then BM catalog fallback
+  // Step 4: Resolve product from canonical resolver truth, then rebuilt capture truth, then BM catalog fallback
   console.log('[Step 4] Resolving product from canonical resolver truth...');
   let catalogResult;
   if (EFFECTIVE_PRODUCT_ID_OVERRIDE) {
@@ -1402,9 +1627,16 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   } else if (registrySlot?.product_id) {
     console.log(`  Resolver truth hit: ${registrySlot.sku} -> ${registrySlot.product_id}`);
     catalogResult = resolveProductFromRegistrySlot(registrySlot);
+  } else if (frontendCapture?.trusted && frontendCapture.record?.product_id) {
+    console.log(`  Resolver truth miss; rebuilt frontend capture hit (${frontendCapture.matchedBy}).`);
+    catalogResult = resolveProductFromFrontendCapture(specs, frontendCapture);
   } else {
     console.log('  Resolver truth miss; falling back to BM catalog exact lookup.');
     catalogResult = resolveProductFromCatalog(specs, scraperData);
+    if (!catalogResult?.productId && frontendCapture?.record?.product_id) {
+      console.log(`  Catalog blocked; rebuilt frontend capture shows ${frontendCapture.record.verification_status} via ${frontendCapture.matchedBy}.`);
+      catalogResult = resolveProductFromFrontendCapture(specs, frontendCapture);
+    }
   }
   const hasCatalogMatch = catalogResult && catalogResult.productId;
   console.log(`  Family: ${catalogResult.modelFamily || '(unmapped)'}`);
@@ -1412,6 +1644,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   if (hasCatalogMatch) {
     const sourceLabel = catalogResult.source === 'listings-registry'
       ? `resolver truth: "${catalogResult.trustClass || 'unknown'}"`
+      : catalogResult.source === 'frontend-url-map'
+        ? `frontend capture: "${catalogResult.resolutionConfidence || 'unknown'}"`
       : catalogResult.resolutionSource === 'product-id-override'
         ? 'MANUAL OVERRIDE'
         : `catalog: "${catalogResult.modelKey}"`;
@@ -1446,7 +1680,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       ? (catalogResult?.blockReason || 'No catalog product match')
       : catalogResult.resolutionConfidence === 'market_only'
         ? 'Catalog match is market_only and cannot authorize listing'
-        : `Catalog match status is ${catalogResult.verificationStatus}`;
+        : (catalogResult?.blockReason || `Catalog match status is ${catalogResult.verificationStatus}`);
     const blockedDecision = { decision: 'BLOCK', reason: blockReason };
     const blockedTrust = classifyTrust({
       hasProductResolution: !!hasCatalogMatch,
@@ -1482,14 +1716,30 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
   console.log('[Step 5] Live market check...');
   console.log(`  product_id: ${catalogResult.productId}`);
   console.log(`  model_family: ${catalogResult.modelFamily || catalogResult.modelKey}`);
-  const liveMarket = await getLiveMarketData(catalogResult.productId, catalogResult);
+  const scrapeTarget = (catalogResult.frontendCapture && frontendCapture?.trusted)
+    ? { matchedBy: frontendCapture.matchedBy, record: catalogResult.frontendCapture, trusted: true }
+    : lookupFrontendUrl(frontendUrlMap, {
+    listing_id: registrySlot?.listing_id || specs.storedListingId,
+    sku,
+    product_id: catalogResult.productId,
+  });
+  if (scrapeTarget) {
+    console.log(`  scrape_target: captured_frontend_url (${scrapeTarget.matchedBy})`);
+    console.log(`  frontend_url: ${scrapeTarget.record.frontend_url}`);
+  } else {
+    console.log('  scrape_target: product_id_fallback');
+  }
+  const liveMarket = await getLiveMarketData(catalogResult.productId, catalogResult, scrapeTarget);
   const scrapeVerification = buildReconciledScrapeTarget(
     buildScrapeVerificationCandidate(specs, grade.bmGrade, catalogResult),
     liveMarket
   );
   const marketResult = {
     ...catalogResult,
+    scrapeTargetSource: liveMarket.scrapeTargetSource || (scrapeTarget ? 'captured_frontend_url' : 'product_id_fallback'),
+    frontendUrlCapture: scrapeTarget?.record || null,
     gradePrices: Object.keys(liveMarket.gradePrices || {}).length > 0 ? liveMarket.gradePrices : catalogResult.gradePrices,
+    gradePicker: Object.keys(liveMarket.gradePicker || {}).length > 0 ? liveMarket.gradePicker : catalogResult.gradePicker,
     ramPicker: Object.keys(liveMarket.ramPicker || {}).length > 0 ? liveMarket.ramPicker : catalogResult.ramPicker,
     ssdPicker: Object.keys(liveMarket.ssdPicker || {}).length > 0 ? liveMarket.ssdPicker : catalogResult.ssdPicker,
     colourPicker: Object.keys(liveMarket.colourPicker || {}).length > 0 ? liveMarket.colourPicker : catalogResult.colourPicker,
@@ -1547,11 +1797,18 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     console.log('  Skipped ( --skip-history )');
   } else {
     try {
-      historicalSales = await fetchSalesHistory(catalogResult.productId, grade.bmGrade, 90);
-      if (historicalSales.count > 0) {
-        console.log(`  Found ${historicalSales.count} sales: avg £${historicalSales.avg}, median £${historicalSales.median} (£${historicalSales.low}-£${historicalSales.high})`);
+      const soldLookupHistory = resolveHistoricalSalesFromSoldLookup(sku, grade.bmGrade);
+      if (soldLookupHistory) {
+        historicalSales = soldLookupHistory;
+        console.log(`  Sold lookup hit: ${historicalSales.count} sales, avg £${historicalSales.avg}, median £${historicalSales.median} (£${historicalSales.low}-£${historicalSales.high})`);
       } else {
-        console.log('  No sales history (new model or no completed orders in 90 days)');
+        historicalSales = await fetchSalesHistory(catalogResult.productId, grade.bmGrade, 90);
+        historicalSales.source = 'bm_orders_api';
+        if (historicalSales.count > 0) {
+          console.log(`  BM orders API hit: ${historicalSales.count} sales: avg £${historicalSales.avg}, median £${historicalSales.median} (£${historicalSales.low}-£${historicalSales.high})`);
+        } else {
+          console.log('  No sales history (sold lookup miss and no completed BM orders in 90 days)');
+        }
       }
     } catch (e) {
       console.log(`  Sales history lookup failed: ${e.message}`);
@@ -1644,6 +1901,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           gradePrices: gp,
           adjacentSsd: result.catalogResult?.adjacentSsd || [],
           colourPrices: result.catalogResult?.colourPrices || {},
+          scrapeTargetSource: result.catalogResult?.scrapeTargetSource || 'product_id_fallback',
+          frontendUrl: result.catalogResult?.frontendUrlCapture?.frontend_url || null,
           ladderOk,
           ladderNote: ladderOk ? '' : `INVERTED`,
         },
@@ -2101,6 +2360,8 @@ module.exports = {
   loadListingsRegistry,
   lookupRegistrySlot,
   processItem,
+  resolveHistoricalSalesFromSoldLookup,
   resolveProductFromRegistrySlot,
+  summarizeFrontendCaptureMismatches,
   verifyListing,
 };

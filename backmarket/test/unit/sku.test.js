@@ -1,5 +1,5 @@
 const assert = require('assert');
-const { constructBmSku, validateSku, normalizeStorage, normalizeColour } = require('../../scripts/lib/sku');
+const { constructBmSku, normalizeHistoricalSku, validateSku, normalizeStorage, normalizeColour } = require('../../scripts/lib/sku');
 
 assert.equal(
   constructBmSku({
@@ -30,6 +30,10 @@ assert.equal(
 assert.equal(normalizeStorage('1000GB'), '1TB');
 assert.equal(normalizeStorage('2000GB'), '2TB');
 assert.equal(normalizeColour('Space Grey'), 'Grey');
+assert.equal(normalizeHistoricalSku('MBP.A2338.M2.8GB.256GB.Grey.Fair'), 'MBP.A2338.M2.8GB.256GB.Grey.Fair');
+assert.equal(normalizeHistoricalSku('MBP.M2.A2338.8GB.256GB.Grey.Fair'), 'MBP.A2338.M2.8GB.256GB.Grey.Fair');
+assert.equal(normalizeHistoricalSku('MBP13.A2338M2.8GB.256GB.Grey.Fair'), 'MBP.A2338.M2.8GB.256GB.Grey.Fair');
+assert.equal(normalizeHistoricalSku('MBP.M1A2338.8GB.256GB.Gray.VGood'), 'MBP.A2338.M1.8GB.256GB.Grey.Excellent');
 
 assert.deepEqual(
   validateSku({ storedSku: '', expectedSku: 'MBA.A2337.M1.7C.8GB.256GB.Gold.Good' }),

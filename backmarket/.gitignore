@@ -2,5 +2,6 @@ node_modules/
 data/cache/
 data/logs/
 data/exports/
+data/sold-price-lookup.log
 .claude/
 backmarket/data/n8n-listing-flow-export.json

@@ -49,6 +49,8 @@ const BM_DEVICES_BOARD = 3892194968;
 const BM_SALEABLE_GROUP = 'new_group'; // BM Devices saleable stock group (BM To List / Listed / Sold)
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 const BM_TELEGRAM_CHAT = '-1003888456344';
+const MAIN_BOARD_WRITE_VERIFY_ATTEMPTS = 3;
+const MAIN_BOARD_WRITE_VERIFY_DELAY_MS = 1500;
 
 const isDryRun = process.argv.includes('--dry-run');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -204,21 +206,67 @@ async function clearBmDeviceListingId(bmDeviceItem) {
   return !!d.data;
 }
 
+async function readMainBoardSaleFields(mainItemId) {
+  const q = `{ items(ids: [${mainItemId}]) { column_values(ids: ["status24", "date_mkq34t04", "text_mm2vf3nk", "text_mm2v7ysq"]) { id text ... on StatusValue { index } } } }`;
+  const d = await mondayApi(q);
+  const cols = d?.data?.items?.[0]?.column_values || [];
+  const statusCol = cols.find(cv => cv.id === 'status24');
+  return {
+    statusIndex: typeof statusCol?.index === 'number' ? statusCol.index : null,
+    dateSold: cols.find(cv => cv.id === 'date_mkq34t04')?.text?.trim() || '',
+    orderId: cols.find(cv => cv.id === 'text_mm2vf3nk')?.text?.trim() || '',
+    listingId: cols.find(cv => cv.id === 'text_mm2v7ysq')?.text?.trim() || '',
+  };
+}
+
 // ─── Step 5b+5c: Update Main Board ───────────────────────────────
 async function updateMainBoard(mainItemId, dateSold, orderId, listingId) {
   // Status → Sold (index 10), Date Sold, BM Sales Order ID, BM Listing ID
   // Order ID + Listing ID are written here (not via board_relation5) so
   // bm-shipping (SOP 09.5) and icloud-checker can read them directly off
   // the Main Board without traversing a connect-boards link.
+  const expectedOrderId = String(orderId || '').trim();
+  const expectedListingId = String(listingId || '').trim();
   const values = JSON.stringify({
     status24: { index: 10 },
     date_mkq34t04: { date: dateSold },
-    text_mm2vf3nk: String(orderId),
-    text_mm2v7ysq: String(listingId),
+    text_mm2vf3nk: expectedOrderId,
+    text_mm2v7ysq: expectedListingId,
   });
   const q = `mutation { change_multiple_column_values(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_values: ${JSON.stringify(values)}) { id } }`;
-  const d = await mondayApi(q);
-  return !!d.data;
+
+  let lastObserved = null;
+  for (let attempt = 1; attempt <= MAIN_BOARD_WRITE_VERIFY_ATTEMPTS; attempt++) {
+    const d = await mondayApi(q);
+    if (!d.data) {
+      return { ok: false, attempt, error: 'mutation_failed' };
+    }
+
+    const observed = await readMainBoardSaleFields(mainItemId);
+    lastObserved = observed;
+    const verified =
+      observed.statusIndex === 10 &&
+      observed.dateSold === dateSold &&
+      observed.orderId === expectedOrderId &&
+      observed.listingId === expectedListingId;
+
+    if (verified) {
+      return { ok: true, attempt, observed };
+    }
+
+    if (attempt < MAIN_BOARD_WRITE_VERIFY_ATTEMPTS) {
+      console.warn(`  WARN: Main Board sale write verification failed on attempt ${attempt}/${MAIN_BOARD_WRITE_VERIFY_ATTEMPTS}; retrying...`);
+      await sleep(MAIN_BOARD_WRITE_VERIFY_DELAY_MS);
+    }
+  }
+
+  return {
+    ok: false,
+    attempt: MAIN_BOARD_WRITE_VERIFY_ATTEMPTS,
+    error: 'verification_failed',
+    expected: { statusIndex: 10, dateSold, orderId: expectedOrderId, listingId: expectedListingId },
+    observed: lastObserved,
+  };
 }
 
 // ─── Step 5d: Rename Main Board item ──────────────────────────────
@@ -393,8 +441,17 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
       if (mainItemId) {
         const today = new Date().toISOString().slice(0, 10);
         console.log(`  [Step 5b+5c] Updating Main Board status → Sold, date → ${today}, order ${orderId}, listing ${listingId}...`);
-        const mainOk = await updateMainBoard(mainItemId, today, orderId, listingId);
-        console.log(`  Main Board: ${mainOk ? '✅' : '❌'}`);
+        const mainWrite = await updateMainBoard(mainItemId, today, orderId, listingId);
+        console.log(`  Main Board: ${mainWrite.ok ? '✅' : '❌'}`);
+        if (!mainWrite.ok) {
+          const observed = mainWrite.observed
+            ? `observed status=${mainWrite.observed.statusIndex ?? '<none>'} date=${mainWrite.observed.dateSold || '<none>'} order=${mainWrite.observed.orderId || '<none>'} listing=${mainWrite.observed.listingId || '<none>'}`
+            : 'observed fields unavailable';
+          console.error(`  ❌ Main Board verification failed after sale accept: ${observed}`);
+          await postTelegram(`⚠️ BM order ${orderId} was accepted for ${availableItem.name}, but Main Board writeback did not verify. Check item ${mainItemId}. Expected order ${orderId} / listing ${listingId}. ${observed}`);
+          summary.errors++;
+          continue;
+        }
 
         // Step 5d: Rename
         console.log(`  [Step 5d] Renaming Main Board item to "${visibleIdentity}"...`);

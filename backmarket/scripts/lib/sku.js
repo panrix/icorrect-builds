@@ -31,6 +31,30 @@ const CHIP_PATTERNS = [
   { re: /M1/i, chip: 'M1' },
 ];
 
+const GRADE_TOKEN_MAP = {
+  FAIR: 'Fair',
+  GOOD: 'Good',
+  EXCELLENT: 'Excellent',
+  PREMIUM: 'Excellent',
+  MINT: 'Excellent',
+  VGOOD: 'Excellent',
+  VERYGOOD: 'Excellent',
+  VERY_GOOD: 'Excellent',
+};
+
+const COLOUR_TOKEN_MAP = {
+  GREY: 'Grey',
+  GRAY: 'Grey',
+  SPACEGREY: 'Grey',
+  SPACEGRAY: 'Grey',
+  SILVER: 'Silver',
+  GOLD: 'Gold',
+  MIDNIGHT: 'Midnight',
+  STARLIGHT: 'Starlight',
+  BLACK: 'Black',
+  SPACEBLACK: 'Space Black',
+};
+
 function normalizeModel(model) {
   return String(model || '').trim().toUpperCase();
 }
@@ -51,6 +75,102 @@ function normalizeColour(colour) {
   col = String(col).trim();
   col = col.replace('Space Gray', 'Grey').replace('Space Grey', 'Grey');
   return col;
+}
+
+function normalizeGradeToken(grade) {
+  const token = String(grade || '').trim().toUpperCase().replace(/[\s-]+/g, '_');
+  return GRADE_TOKEN_MAP[token] || '';
+}
+
+function normalizeColourToken(colour) {
+  const token = String(colour || '').trim().toUpperCase().replace(/[\s-]+/g, '');
+  return COLOUR_TOKEN_MAP[token] || '';
+}
+
+function normalizeTypeToken(type) {
+  const token = String(type || '').trim().toUpperCase();
+  if (token.startsWith('MBA')) return 'MBA';
+  if (token.startsWith('MBP')) return 'MBP';
+  return token;
+}
+
+function normalizeHistoricalSku(rawSku) {
+  const raw = String(rawSku || '').trim();
+  if (!raw) return '';
+
+  const parts = raw.split('.').filter(Boolean);
+  if (!parts.length) return '';
+
+  const type = normalizeTypeToken(parts[0]);
+  let model = '';
+  let chip = '';
+  let gpuPart = '';
+  let ram = '';
+  let storage = '';
+  let colour = '';
+  let grade = '';
+
+  for (const part of parts.slice(1)) {
+    const token = String(part || '').trim();
+    const upper = token.toUpperCase().replace(/\s+/g, '');
+    if (!upper) continue;
+
+    if (!model && /^A\d{4}$/.test(upper)) {
+      model = upper;
+      continue;
+    }
+
+    let combinedMatch = upper.match(/^(A\d{4})(M[1-4](?:PRO|MAX)?|I[3579]|I9|INTEL)$/);
+    if (!model && combinedMatch) {
+      model = combinedMatch[1];
+      chip = chip || combinedMatch[2];
+      continue;
+    }
+
+    combinedMatch = upper.match(/^(M[1-4](?:PRO|MAX)?|I[3579]|I9|INTEL)(A\d{4})$/);
+    if (!model && combinedMatch) {
+      chip = chip || combinedMatch[1];
+      model = combinedMatch[2];
+      continue;
+    }
+
+    if (!chip && /^(M[1-4](?:PRO|MAX)?|I[3579]|I9|INTEL)$/.test(upper)) {
+      chip = upper;
+      continue;
+    }
+
+    if (!gpuPart && /^\d+C$/.test(upper)) {
+      gpuPart = upper;
+      continue;
+    }
+
+    if (/^\d+(GB|TB)$/.test(upper)) {
+      if (!ram) {
+        ram = normalizeRam(upper);
+      } else if (!storage) {
+        storage = normalizeStorage(upper);
+      }
+      continue;
+    }
+
+    const normalizedGrade = normalizeGradeToken(token);
+    if (!grade && normalizedGrade) {
+      grade = normalizedGrade;
+      continue;
+    }
+
+    const normalizedColour = normalizeColourToken(token);
+    if (!colour && normalizedColour) {
+      colour = normalizedColour;
+      continue;
+    }
+  }
+
+  if (!type || !model || !chip || !ram || !storage) {
+    return raw;
+  }
+
+  return [type, model, chip, gpuPart, ram, storage, colour, grade].filter(Boolean).join('.');
 }
 
 function deriveType(specs = {}) {
@@ -162,4 +282,6 @@ module.exports = {
   deriveType,
   deriveChip,
   deriveGpuPart,
+  normalizeHistoricalSku,
+  normalizeGradeToken,
 };

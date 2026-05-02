@@ -48,12 +48,15 @@ function normalizeCaptureRecord(record) {
   if (!frontendUrl) return null;
   return {
     listing_id: normalizeKey(record.listing_id),
+    listing_uuid: normalizeKey(record.listing_uuid),
     sku: normalizeKey(record.sku),
     product_id: normalizeKey(record.product_id),
     frontend_url: frontendUrl,
+    seller_portal_url: normalizeKey(record.seller_portal_url),
     verification_status: normalizeKey(record.verification_status) || 'captured_unchecked',
     captured_at: normalizeKey(record.captured_at),
     source: normalizeKey(record.source) || 'listing-frontend-url-map',
+    spec_snapshot: record?.spec_snapshot || null,
   };
 }
 

@@ -17,6 +17,11 @@ const bm1527LiveLikeScrape = {
   finalUrl: 'https://www.backmarket.co.uk/en-gb/p/placeholder/9ef00207-1136-45f4-99c3-ade923986e43?l=10',
   pageTitle: 'MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 512GB - QWERTY - English',
   gradePrices: { Fair: 405, Good: 458, Excellent: 569 },
+  gradePicker: {
+    Fair: { price: 405, available: true, productId: '9ef00207-1136-45f4-99c3-ade923986e43' },
+    Good: { price: 458, available: true, productId: '9ef00207-1136-45f4-99c3-ade923986e43' },
+    Excellent: { price: 569, available: true, productId: '9ef00207-1136-45f4-99c3-ade923986e43' },
+  },
   ramPicker: {
     '8 GB': { price: 569, available: true, productId: '9ef00207-1136-45f4-99c3-ade923986e43' },
   },
@@ -39,6 +44,11 @@ const wrong256SelectedScrape = {
   finalUrl: 'https://www.backmarket.co.uk/en-gb/p/placeholder/0dfd2e16-45be-4594-afaa-ee5a19662985?l=10',
   pageTitle: 'MacBook Pro 13-inch (2020) - Apple M1 8-core and 8-core GPU - 8GB RAM - SSD 256GB - QWERTY - English',
   gradePrices: { Fair: 405, Good: 458, Excellent: 518 },
+  gradePicker: {
+    Fair: { price: 405, available: true, productId: '0dfd2e16-45be-4594-afaa-ee5a19662985' },
+    Good: { price: 458, available: true, productId: '0dfd2e16-45be-4594-afaa-ee5a19662985' },
+    Excellent: { price: 518, available: true, productId: '0dfd2e16-45be-4594-afaa-ee5a19662985' },
+  },
   ramPicker: {
     '8 GB': { price: 497, available: true, productId: '0dfd2e16-45be-4594-afaa-ee5a19662985' },
   },
@@ -67,5 +77,19 @@ assert.equal(mismatch.ok, false);
 assert.equal(mismatch.trusted, false);
 assert.equal(mismatch.reconciledProductId, '');
 assert(mismatch.hardFailures.some(msg => msg.includes('picker product_id divergence')));
+
+const mixedGradeScrape = {
+  ...bm1527LiveLikeScrape,
+  gradePicker: {
+    Fair: { price: 405, available: true, productId: '8948b82c-f746-4be0-a8b0-0758b1dc4acc' },
+    Good: { price: 458, available: true, productId: '8948b82c-f746-4be0-a8b0-0758b1dc4acc' },
+    Excellent: { price: 569, available: true, productId: '9ef00207-1136-45f4-99c3-ade923986e43' },
+  },
+};
+
+const mixedGrade = buildReconciledScrapeTarget(bm1527Candidate, mixedGradeScrape);
+assert.equal(mixedGrade.ok, false);
+assert.equal(mixedGrade.trusted, false);
+assert(mixedGrade.hardFailures.some(msg => msg.includes('picker product_id divergence')));
 
 console.log('v7-scraper-reconcile.test passed');

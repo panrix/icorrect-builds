@@ -26,7 +26,7 @@
 - `scratch/` — working scratch (`tmp-check-sent-order-aiidm.js`)
 - `api-docs/` — Back Market private API docs (kept as-is)
 - `api-specs/` — Back Market private API OpenAPI specs (kept as-is)
-- `data/` — runtime data stores (listings-registry.json, bm-catalog.json, captures/) — kept as-is
+- `data/` — runtime data stores (listings-registry.json, bm-catalog.json, captures/, `sold-prices-latest.json`, `sold-price-lookup.log`) — kept as-is
 - `knowledge/` — BM product/lookup knowledge files — kept as-is
 - `pricing/` — parked pricing module — kept as-is
 - `qa/` — QA issue tracker — kept as-is
