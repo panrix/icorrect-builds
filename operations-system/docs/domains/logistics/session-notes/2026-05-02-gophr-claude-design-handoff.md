@@ -56,6 +56,8 @@ Core decision captured 2026-05-02:
 - Return draft should be an internal booking-module draft first, not an automatic Gophr draft. Gophr draft may be possible, but duplicate/manual return booking risk is higher if external drafts exist too early.
 - Return quick-book should be triggerable from Monday `Book Return Courier` and from a Telegram `Book Return Now` action on the linked booking card.
 - Same-day collection+return capacity is consumed at parent booking/inbound booking time, not when the return leg is confirmed.
+- Shopify same-day collection+return should be presented as one bundled customer-facing courier product/price. Internal accounting still tracks both leg costs and subsidy separately.
+- Manual/corporate flows can retain separate leg pricing/handling where staff need flexibility.
 
 ## Website module brief
 
@@ -204,6 +206,7 @@ Minimum fields:
 - `gophr_quote_gross`
 - `estimated_repair_margin`
 - `customer_charge`
+- `customer_charge_mode` (`bundled`, `per_leg`)
 - `subsidy_amount`
 - `margin_after_subsidy`
 - `service_tier`
