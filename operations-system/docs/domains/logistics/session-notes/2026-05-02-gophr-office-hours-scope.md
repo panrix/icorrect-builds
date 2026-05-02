@@ -108,6 +108,8 @@ Decision captured 2026-05-02:
 - Manual/corporate flows may still handle/price individual legs separately when staff need that flexibility.
 - Shopify customer courier pricing should be dynamic but capped/rounded from real Gophr cost and margin policy, not fixed-only.
 - Policy must support free collection and delivery above a configurable qualifying amount, as long as margin/subsidy guardrails still pass.
+- Working v1 threshold: repair/order value over £250 qualifies for courier subsidy.
+- Working v1 subsidy: £10 each way, i.e. up to £20 total for collection + return. This is a subsidy, not necessarily fully free courier if live Gophr cost is higher.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
@@ -129,7 +131,9 @@ Recommendation:
   - `min_margin_after_subsidy_gbp`
   - `min_margin_after_subsidy_percent`
   - `max_subsidy_per_leg_gbp`
-  - `free_collection_delivery_threshold_gbp`
+  - `free_collection_delivery_threshold_gbp` default candidate: `250`
+  - `subsidy_per_leg_gbp` default candidate: `10`
+  - `max_collection_return_subsidy_gbp` default candidate: `20`
   - `free_courier_requires_margin_pass`
   - `customer_price_cap_gbp`
   - `customer_price_rounding_rule`

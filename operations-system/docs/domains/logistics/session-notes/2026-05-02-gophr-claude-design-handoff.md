@@ -60,6 +60,7 @@ Core decision captured 2026-05-02:
 - Manual/corporate flows can retain separate leg pricing/handling where staff need flexibility.
 - Shopify courier pricing should be dynamic but capped/rounded from live Gophr cost and margin policy.
 - Policy must support free collection and delivery above a configurable qualifying amount, provided margin/subsidy guardrails pass.
+- Working v1 policy: over £250 qualifies for £10 subsidy each way, up to £20 total for collection + return. Treat this as subsidy against live Gophr cost, not guaranteed full free courier if courier cost exceeds subsidy.
 
 ## Website module brief
 
@@ -212,6 +213,8 @@ Minimum fields:
 - `customer_charge_mode` (`bundled`, `per_leg`)
 - `pricing_policy_applied`
 - `free_courier_threshold_qualified`
+- `subsidy_per_leg`
+- `max_subsidy_amount`
 - `subsidy_amount`
 - `margin_after_subsidy`
 - `service_tier`
