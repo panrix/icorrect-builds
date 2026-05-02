@@ -53,6 +53,7 @@ Core decision captured 2026-05-02:
 - Monday `Book Courier` should be able to start a Telegram module/card that gathers or confirms the required Gophr data.
 - Monday has two trigger statuses: `Book Courier` for inbound/collection courier and `Book Return Courier` for outbound/return courier.
 - Same-day collection + return should create a booked inbound leg and a linked draft return leg for quick booking once repair readiness is confirmed.
+- Return draft should be an internal booking-module draft first, not an automatic Gophr draft. Gophr draft may be possible, but duplicate/manual return booking risk is higher if external drafts exist too early.
 
 ## Website module brief
 
@@ -195,7 +196,7 @@ Minimum fields:
 - `gophr_job_id`
 - `parent_booking_id` or `booking_group_id` for linked collection/return legs
 - `leg_type` (`collection`, `return`)
-- `leg_status` (`draft`, `booked`, `cancelled`, `failed`)
+- `leg_status` (`internal_draft`, `gophr_draft`, `booked`, `cancelled`, `failed`)
 - `gophr_tracking_url`
 - `gophr_quote_net`
 - `gophr_quote_gross`
@@ -241,7 +242,7 @@ Recommended endpoints:
 - `POST /api/courier/bookings/:id/approve`
   - staff approval;
   - confirms Gophr job or marks approved for confirmation depending on Gophr API flow;
-  - for same-day two-leg bookings, allows inbound leg to be confirmed while return leg remains draft/quick-book;
+  - for same-day two-leg bookings, allows inbound leg to be confirmed while return leg remains internal draft/quick-book;
   - writes Monday after real booking exists.
 
 - `POST /api/courier/bookings/:id/reject`
@@ -271,7 +272,8 @@ Rules:
 - Monday writeback should be idempotent.
 - Monday should trigger and reflect courier state, not be the primary rich booking form.
 - `Book Courier` should route to collection/inbound booking flow; `Book Return Courier` should route to return/outbound booking flow.
-- Same-day collection+return is represented as linked legs: inbound confirmed first, return held as draft/quick-book until repair completion/return readiness.
+- Same-day collection+return is represented as linked legs: inbound confirmed first, return held as internal draft/quick-book until repair completion/return readiness.
+- External Gophr draft return jobs should not be created automatically in v1 unless duplicate-booking controls are proven.
 - If Gophr succeeds and Monday fails, booking remains real and must enter `monday_sync_failed` or equivalent alert state.
 - If Monday succeeds and customer notification fails, booking remains real and must enter `customer_notify_failed` or equivalent alert state.
 
