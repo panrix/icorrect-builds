@@ -11,7 +11,7 @@
  *
  * SOP 08 Step Checklist:
  *   Step 1: Fetch new orders (state=1)                    ✅ fetchNewOrders()
- *   Step 2: Match to BM Devices Board by listing_id       ✅ matchToBmDevice()
+ *   Step 2: Match to BM Devices Board by SKU              ✅ matchToBmDevice()
  *   Step 3: Verify stock (text4 empty, not in returns)    ✅ verifyStock()
  *   Step 4: Accept order (POST with order SKU)            ✅ acceptOrder()
  *   Step 5a: Update BM Devices (buyer, order ID, price)   ✅ updateBmDevices()
@@ -29,7 +29,7 @@
  * CRITICAL RULES:
  *   - Accept uses SKU from ORDER LINE (line.listing), NOT from Monday
  *   - Accept uses order_id, NOT line item id
- *   - Listing ID source of truth is BM Devices text_mkyd4bx3
+ *   - SKU source of truth is BM Devices text89
  *   - Only items in the BM Devices saleable group (group new_group / BM To List / Listed / Sold) are eligible for matching
  *   - Every field must match 1:1: model, spec, grade, colour
  */
@@ -104,13 +104,16 @@ async function fetchNewOrders() {
 
 // ─── Step 2: Match to BM Devices Board ────────────────────────────
 // SAFE MATCH RULES:
-//   1. Must be in the saleable group (BM_SALEABLE_GROUP)
-//   2. If multiple matches on the same listing_id (e.g. return + resell share a slot),
-//      verify via Main Board link that the item isn't already in a terminal state
-//      (Sold status + non-empty date sold → discard).
-//      If still ambiguous after filtering, return empty and alert — never auto-pick.
-async function matchToBmDevice(listingId) {
-  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text_mkyd4bx3", compare_value: ["${listingId}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+//   1. Match by SKU (BM Devices text89), not listing_id.
+//   2. Must be in the saleable group (BM_SALEABLE_GROUP).
+//   3. If multiple saleable devices share a SKU, verify via Main Board link that
+//      the item isn't already in a terminal state (Sold status + non-empty date
+//      sold → discard). If still ambiguous after filtering, return empty and
+//      alert — never auto-pick.
+async function matchToBmDevice(orderLineSku) {
+  const safeSku = String(orderLineSku || '').replace(/"/g, '\\"');
+  if (!safeSku) return [];
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text89", compare_value: ["${safeSku}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "text_mkyd4bx3", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
   const items = d.data?.boards?.[0]?.items_page?.items || [];
   const saleable = items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
@@ -118,8 +121,8 @@ async function matchToBmDevice(listingId) {
   // If only one match, return it directly
   if (saleable.length <= 1) return saleable;
 
-  // Multiple items share this listing_id — verify via Main Board to disambiguate
-  console.log(`  ⚠️ Multiple BM Devices items match listing_id ${listingId}: ${saleable.map(i => i.name).join(', ')}`);
+  // Multiple items share this SKU — verify via Main Board to disambiguate
+  console.log(`  ⚠️ Multiple BM Devices items match SKU ${orderLineSku}: ${saleable.map(i => i.name).join(', ')}`);
   console.log(`  Checking Main Board status to disambiguate...`);
 
   const filtered = [];
@@ -190,12 +193,18 @@ async function updateBmDevices(bmDeviceId, visibleIdentity, orderId, salePrice) 
 }
 
 // ─── Step 5b+5c: Update Main Board ───────────────────────────────
-async function updateMainBoard(mainItemId, dateSold) {
-  // Status → Sold (index 10) + Date Sold
-  const q = `mutation {
-    m1: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "status24", value: "{\\"index\\": 10}") { id }
-    m2: change_column_value(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_id: "date_mkq34t04", value: "{\\"date\\": \\"${dateSold}\\"}") { id }
-  }`;
+async function updateMainBoard(mainItemId, dateSold, orderId, listingId) {
+  // Status → Sold (index 10), Date Sold, BM Sales Order ID, BM Listing ID
+  // Order ID + Listing ID are written here (not via board_relation5) so
+  // bm-shipping (SOP 09.5) and icloud-checker can read them directly off
+  // the Main Board without traversing a connect-boards link.
+  const values = JSON.stringify({
+    status24: { index: 10 },
+    date_mkq34t04: { date: dateSold },
+    text_mm2vf3nk: String(orderId),
+    text_mm2v7ysq: String(listingId),
+  });
+  const q = `mutation { change_multiple_column_values(board_id: ${MAIN_BOARD}, item_id: ${mainItemId}, column_values: ${JSON.stringify(values)}) { id } }`;
   const d = await mondayApi(q);
   return !!d.data;
 }
@@ -283,13 +292,13 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
       console.log(`  Price: £${price}`);
 
       // Step 2: Match to BM Devices
-      console.log(`\n  [Step 2] Matching listing_id ${listingId} to BM Devices...`);
-      const matches = await matchToBmDevice(listingId);
+      console.log(`\n  [Step 2] Matching SKU ${orderLineSku} to BM Devices...`);
+      const matches = await matchToBmDevice(orderLineSku);
       console.log(`  Found ${matches.length} BM Device items`);
 
       if (matches.length === 0) {
         console.log(`  ⛔ NO MATCH. Cannot accept. Manual investigation needed.`);
-        await postTelegram(`⚠️ BM order ${orderId} for listing ${listingId} (${orderLineSku}) — no unambiguous Monday match found. Multiple devices may share this listing slot (e.g. return + resell). Manual assignment needed.`);
+        await postTelegram(`⚠️ BM order ${orderId} for SKU ${orderLineSku} (listing ${listingId}) — no unambiguous Monday match found. Check BM Devices text89/SKU and duplicate saleable stock. Manual assignment needed.`);
         summary.noMatch++;
         continue;
       }
@@ -308,7 +317,7 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
           const soldTo = m.column_values.find(cv => cv.id === 'text4')?.text;
           console.log(`    ${m.name}: Sold to "${soldTo}"`);
         }
-        await postTelegram(`⚠️ Double checkout? Order ${orderId} for listing ${listingId} but all matched devices already have buyers. Manual assignment needed.`);
+        await postTelegram(`⚠️ Double checkout? Order ${orderId} for SKU ${orderLineSku} but all matched devices already have buyers. Manual assignment needed.`);
         summary.noMatch++;
         continue;
       }
@@ -360,8 +369,8 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
       // Step 5b+5c: Update Main Board
       if (mainItemId) {
         const today = new Date().toISOString().slice(0, 10);
-        console.log(`  [Step 5b+5c] Updating Main Board status → Sold, date → ${today}...`);
-        const mainOk = await updateMainBoard(mainItemId, today);
+        console.log(`  [Step 5b+5c] Updating Main Board status → Sold, date → ${today}, order ${orderId}, listing ${listingId}...`);
+        const mainOk = await updateMainBoard(mainItemId, today, orderId, listingId);
         console.log(`  Main Board: ${mainOk ? '✅' : '❌'}`);
 
         // Step 5d: Rename
