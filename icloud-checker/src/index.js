@@ -37,8 +37,16 @@ const BM_SSD_COLUMN = "color2";
 const BM_CPU_COLUMN = "status7__1";
 const BM_GPU_COLUMN = "status8__1";
 const COLOUR_COLUMN = "status8";
-const DEVICE_BOARD_RELATION = "board_relation5";
-const BM_BOARD_RELATION = "board_relation";
+// BM Listing ID is written by sale-detection.js onto the Main Board so we
+// can locate the BM Devices entry without traversing a connect-boards link
+// (board_relation5 points at the wrong board; the reverse `board_relation`
+// query returned empty for many items). Symmetric with dispatch.js lookup.
+const MAIN_BOARD_BM_LISTING_COLUMN = "text_mm2v7ysq";
+const MAIN_BOARD_TRADEIN_ORDER_COLUMN = BM_TRADEIN_ID_COLUMN;
+const BM_TRADEIN_ORDER_LOOKUP_COLUMN = "lookup_mm1vzeam"; // BM Devices mirror: Trade-in Order ID
+const MAIN_BOARD_ICLOUD_SPEC_REFERENCE_COLUMN = process.env.MAIN_BOARD_ICLOUD_SPEC_REFERENCE_COLUMN || "long_text_mkqhfapq";
+const SPEC_REFERENCE_START = "--- ICLOUD_SPEC_REFERENCE_START ---";
+const SPEC_REFERENCE_END = "--- ICLOUD_SPEC_REFERENCE_END ---";
 
 // --- Shipping confirmation webhook constants ---
 const STATUS4_COLUMN = "status4";
@@ -142,10 +150,45 @@ async function moveItemToGroup(itemId, groupId) {
   await mondayQuery(`mutation { move_item_to_group( item_id: ${itemId}, group_id: "${groupId}" ) { id } }`);
 }
 
+async function findMainTradeInOrderId(mainItemId) {
+  const mainQ = `{ items(ids: [${mainItemId}]) { column_values(ids: ["${MAIN_BOARD_TRADEIN_ORDER_COLUMN}"]) { id text } } }`;
+  const mainData = await mondayQuery(mainQ);
+  return mainData?.data?.items?.[0]?.column_values?.[0]?.text?.trim() || "";
+}
+
+async function findBmDeviceItemIdByTradeInOrderId(orderPublicId) {
+  const target = String(orderPublicId || "").trim().toUpperCase();
+  if (!target) return null;
+
+  const matches = [];
+  let cursor = null;
+  do {
+    const pageQ = cursor
+      ? `{ next_items_page(limit: 500, cursor: ${JSON.stringify(cursor)}) { cursor items { id name group { id title } column_values(ids: ["${BM_TRADEIN_ORDER_LOOKUP_COLUMN}"]) { id text ... on MirrorValue { display_value } } } } }`
+      : `{ boards(ids: [${BM_BOARD_ID}]) { items_page(limit: 500) { cursor items { id name group { id title } column_values(ids: ["${BM_TRADEIN_ORDER_LOOKUP_COLUMN}"]) { id text ... on MirrorValue { display_value } } } } } }`;
+    const pageData = await mondayQuery(pageQ);
+    const page = cursor ? pageData?.data?.next_items_page : pageData?.data?.boards?.[0]?.items_page;
+    const items = page?.items || [];
+    for (const item of items) {
+      const orderColumn = item.column_values?.find((c) => c.id === BM_TRADEIN_ORDER_LOOKUP_COLUMN);
+      const orderText = (orderColumn?.display_value || orderColumn?.text || "").trim().toUpperCase();
+      if (orderText === target) matches.push(item);
+    }
+    cursor = page?.cursor || null;
+  } while (cursor && matches.length <= 1);
+
+  if (matches.length !== 1) {
+    console.warn(`BM Devices trade-in order lookup for ${target}: ${matches.length} matches`);
+    return null;
+  }
+  return matches[0].id;
+}
+
 async function findBmDeviceItemIdByMainItemId(mainItemId) {
-  const searchQuery = `{ boards(ids: [${BM_BOARD_ID}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "${BM_BOARD_RELATION}", compare_value: ["${mainItemId}"] }] }) { items { id } } } }`;
-  const data = await mondayQuery(searchQuery);
-  return data?.data?.boards?.[0]?.items_page?.items?.[0]?.id || null;
+  // Source of truth for intake/spec matching is the BM trade-in order number on
+  // the Main Board, not the old board_relation / listing_id path.
+  const orderPublicId = await findMainTradeInOrderId(mainItemId);
+  return findBmDeviceItemIdByTradeInOrderId(orderPublicId);
 }
 
 async function getBmClaimedSpecs(mainItemId) {
@@ -175,6 +218,26 @@ async function updateMainBoardColour(itemId, colour) {
   if (!colour) return;
   const columnValues = JSON.stringify({ [COLOUR_COLUMN]: colour }).replace(/"/g, '\\"');
   await mondayQuery(`mutation { change_multiple_column_values( board_id: ${BOARD_ID}, item_id: ${itemId}, column_values: "${columnValues}" ) { id } }`);
+}
+
+function mergeGeneratedReference(existing, generated) {
+  const block = `${SPEC_REFERENCE_START}\n${generated}\n${SPEC_REFERENCE_END}`;
+  if (!existing) return block;
+  const pattern = new RegExp(`${SPEC_REFERENCE_START}[\\s\\S]*?${SPEC_REFERENCE_END}`);
+  if (pattern.test(existing)) return existing.replace(pattern, block);
+  return `${existing}\n\n${block}`;
+}
+
+async function updateMainBoardIcloudSpecReference(itemId, generated) {
+  if (!generated) return;
+  const fetchQ = `{ items(ids: [${itemId}]) { column_values(ids: ["${MAIN_BOARD_ICLOUD_SPEC_REFERENCE_COLUMN}"]) { id text } } }`;
+  const currentData = await mondayQuery(fetchQ);
+  const existing = currentData?.data?.items?.[0]?.column_values?.[0]?.text || "";
+  const merged = mergeGeneratedReference(existing, generated);
+  const values = JSON.stringify({ [MAIN_BOARD_ICLOUD_SPEC_REFERENCE_COLUMN]: { text: merged } });
+  const q = `mutation { change_multiple_column_values(board_id: ${BOARD_ID}, item_id: ${itemId}, column_values: ${JSON.stringify(values)}) { id } }`;
+  const d = await mondayQuery(q);
+  if (d.errors) throw new Error(JSON.stringify(d.errors));
 }
 
 // Normalize colour strings: "Space Grey" / "SpaceGray" / "Space Gray" → "spacegrey"
@@ -709,7 +772,7 @@ app.post("/webhook/icloud-check", async (req, res) => {
         // Compare against BM claimed specs
         const claimed = await getBmClaimedSpecs(itemId);
         if (!claimed) {
-          specLines.push("", "⚠️ Could not verify specs — linked BM Devices item not found via board_relation");
+          specLines.push("", "⚠️ Could not verify specs — BM Devices item not found from Main Board trade-in order ID");
         } else {
           const mismatches = compareSpecs(appleSpecs, claimed);
           if (mismatches.length > 0) {
@@ -735,6 +798,20 @@ app.post("/webhook/icloud-check", async (req, res) => {
       await sendSlackAlert(
         `⚠️ *Apple spec lookup threw* for ${itemName} (serial \`${serial}\`)\nException: ${err.message}`
       );
+    }
+
+    const referenceText = [
+      `iCloud Check: ${icloudOn ? "ON" : "OFF"}`,
+      `Serial: ${serial}`,
+      result.model ? `SickW Model: ${result.model}` : null,
+      specComment || null,
+      `Checked: ${new Date().toISOString()}`,
+    ].filter(Boolean).join("\n");
+    try {
+      await updateMainBoardIcloudSpecReference(itemId, referenceText);
+    } catch (err) {
+      console.error(`Failed to write iCloud/spec reference to Main Board ${itemId}:`, err.message);
+      await sendSlackAlert(`⚠️ *iCloud/spec reference write FAILED* for ${itemName}\nMain Board item: ${itemId}\n${err.message}`);
     }
 
     if (icloudOn) {
