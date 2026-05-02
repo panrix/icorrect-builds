@@ -43,6 +43,11 @@ Shopify owns:
 - checkout handoff;
 - non-technical fallback states.
 
+Core decision captured 2026-05-02:
+- Build a booking module/ledger where courier orders are saved.
+- Same-day options are shown only when the backend/module says they are available.
+- Corporate courier orders must be addable into the same module, not handled as a separate side process.
+
 ## Website module brief
 
 ### User journeys
@@ -74,6 +79,7 @@ Same as Journey A, with extra constraints:
 - before 10:30 cutoff;
 - launch cap 2/day;
 - hard cap 3/day;
+- same-day option appears only if backend availability check returns true;
 - wording must avoid exact return ETA promise.
 
 Recommended copy boundary:
@@ -213,6 +219,11 @@ Recommended endpoints:
   - stores quote/booking intent;
   - returns customer-safe quote response.
 
+- `POST /api/courier/bookings`
+  - creates booking records from Shopify checkout, staff/manual entry, or corporate order input;
+  - stores source, addresses, customer/corporate account context, and requested service;
+  - does not require a Gophr job yet.
+
 - `POST /api/courier/bookings/:id/create-draft`
   - creates draft Gophr job only after required data exists;
   - stores Gophr job id and raw response;
@@ -286,7 +297,7 @@ Before implementation:
 
 ## Open decisions for Ricky / Office Hours
 
-- Is same-day iPhone collection+return customer-facing in v1, or staff-confirmed only?
+- Confirmed direction: same-day can be customer-facing, but only when the booking module/backend says availability exists.
 - What minimum margin-after-subsidy should be protected?
 - What under-threshold prices should customer see for Standard and Fastest?
 - Who can approve Telegram courier draft cards?

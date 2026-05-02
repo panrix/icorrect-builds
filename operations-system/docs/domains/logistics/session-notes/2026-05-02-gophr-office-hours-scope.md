@@ -90,11 +90,14 @@ Recommended starting answer:
 - Same-day iPhone collection+return is a limited-capacity premium product.
 - v1 does not promise exact return ETA; it promises collection/booking window and staff-confirmed progression.
 
-Decision needed:
-- Should the website say “same-day return available for selected iPhone repairs before 10:30”, or keep same-day return staff-approved only in v1?
+Decision captured 2026-05-02:
+- Build a booking module/ledger where courier orders are saved.
+- Website should only show same-day if the module says same-day capacity/eligibility is available.
+- Same-day availability is therefore system-driven, not static website copy.
+- Corporate orders must be addable into the same booking module when they arrive.
 
-Recommendation:
-- Keep customer-facing same-day return as “subject to confirmation” for v1. Let the backend enforce capacity, but do not over-promise before repair-time prediction exists.
+Recommendation updated:
+- The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
 
 ### 2. What commercial rule protects margin?
 
@@ -160,13 +163,14 @@ Recommendation:
 ### 6. What is the first useful build slice?
 
 Recommended first slice:
-1. Backend quote endpoint with policy calculation, no booking.
-2. Supabase `courier_bookings` table storing quote attempts and decisions.
-3. Telegram draft card generated from a stored booking record.
-4. Monday writeback in dry-run first.
-5. Shopify module consuming backend quote endpoint.
-6. Draft Gophr job creation.
-7. Manual approval to confirm booking.
+1. Booking module/ledger as the core object model, supporting Shopify and manually-entered corporate orders.
+2. Backend quote endpoint with policy calculation and same-day availability checks.
+3. Supabase `courier_bookings` table storing quote attempts, booking intents, corporate/manual bookings, and decisions.
+4. Telegram draft card generated from a stored booking record.
+5. Monday writeback in dry-run first.
+6. Shopify module consuming backend quote/availability endpoint.
+7. Draft Gophr job creation.
+8. Manual approval to confirm booking.
 
 Why:
 - This isolates design from live mutation risk.
