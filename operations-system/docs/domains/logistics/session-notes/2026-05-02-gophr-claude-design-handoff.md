@@ -61,7 +61,7 @@ Core decision captured 2026-05-02:
 - Shopify courier pricing should be dynamic but capped/rounded from live Gophr cost and margin policy.
 - Policy must support free collection and delivery above a configurable qualifying amount, provided margin/subsidy guardrails pass.
 - Working v1 policy: over £250 qualifies for £10 subsidy each way, up to £20 total for collection + return. Treat this as subsidy against live Gophr cost, not guaranteed full free courier if courier cost exceeds subsidy.
-- Customer-facing pitch unresolved. Ricky's direction: Zone 1 / central London should likely be pitched as free collection and delivery. Design must allow geography-based free courier rules, not just order-value subsidy.
+- Customer-facing pitch direction: free collection and delivery in Zone 1 / central London, but only over £250. All free/subsidised courier rules require the £250 threshold.
 
 ## Website module brief
 
@@ -214,6 +214,7 @@ Minimum fields:
 - `customer_charge_mode` (`bundled`, `per_leg`)
 - `pricing_policy_applied`
 - `free_courier_threshold_qualified`
+- `threshold_required_for_subsidy`
 - `free_courier_zone_qualified`
 - `service_zone`
 - `subsidy_per_leg`
