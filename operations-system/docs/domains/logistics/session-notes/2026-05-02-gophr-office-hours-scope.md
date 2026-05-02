@@ -103,6 +103,7 @@ Decision captured 2026-05-02:
 - For same-day collection + return, the first/inbound leg should be booked first, while the return leg is created as a linked draft/quick-book leg for later confirmation once repair readiness is known.
 - Return draft should be internal first, not an immediate Gophr draft, even if Gophr drafts can sit without expiry/pricing drift. Reason: manual return booking while Gophr drafts also exist creates duplicate-booking/mess risk.
 - Return quick-book should be triggerable from both Monday `Book Return Courier` and a Telegram `Book Return Now` action on the linked booking card.
+- Same-day collection+return capacity is consumed at parent booking/inbound booking time, not when the return leg is finally confirmed. This prevents overselling the same-day promise.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
