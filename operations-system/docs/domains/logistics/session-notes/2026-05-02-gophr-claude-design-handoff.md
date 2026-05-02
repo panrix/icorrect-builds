@@ -54,6 +54,7 @@ Core decision captured 2026-05-02:
 - Monday has two trigger statuses: `Book Courier` for inbound/collection courier and `Book Return Courier` for outbound/return courier.
 - Same-day collection + return should create a booked inbound leg and a linked draft return leg for quick booking once repair readiness is confirmed.
 - Return draft should be an internal booking-module draft first, not an automatic Gophr draft. Gophr draft may be possible, but duplicate/manual return booking risk is higher if external drafts exist too early.
+- Return quick-book should be triggerable from Monday `Book Return Courier` and from a Telegram `Book Return Now` action on the linked booking card.
 
 ## Website module brief
 
@@ -274,6 +275,7 @@ Rules:
 - `Book Courier` should route to collection/inbound booking flow; `Book Return Courier` should route to return/outbound booking flow.
 - Same-day collection+return is represented as linked legs: inbound confirmed first, return held as internal draft/quick-book until repair completion/return readiness.
 - External Gophr draft return jobs should not be created automatically in v1 unless duplicate-booking controls are proven.
+- Return booking can be initiated either by Monday status or Telegram action; both should resolve to the same internal return leg so duplicate bookings are blocked.
 - If Gophr succeeds and Monday fails, booking remains real and must enter `monday_sync_failed` or equivalent alert state.
 - If Monday succeeds and customer notification fails, booking remains real and must enter `customer_notify_failed` or equivalent alert state.
 
