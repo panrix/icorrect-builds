@@ -97,6 +97,8 @@ Decision captured 2026-05-02:
 - Same-day availability is therefore system-driven, not static website copy.
 - Corporate orders must be addable into the same booking module when they arrive.
 - Booking sources confirmed for v1: Shopify frontend, manual non-corporate, manual corporate.
+- Monday is not the full data-entry UX for Gophr because it cannot comfortably capture all required courier metrics/fields.
+- Monday `Book Courier` can act as a trigger to start the Telegram booking module, where staff complete/confirm the richer Gophr data.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
@@ -168,11 +170,12 @@ Recommended first slice:
 1. Booking module/ledger as the core object model, supporting three v1 sources: Shopify frontend, manual non-corporate, and manual corporate.
 2. Backend quote endpoint with policy calculation and same-day availability checks.
 3. Supabase `courier_bookings` table storing quote attempts, booking intents, corporate/manual bookings, and decisions.
-4. Telegram draft card generated from a stored booking record.
-5. Monday writeback in dry-run first.
-6. Shopify module consuming backend quote/availability endpoint.
-7. Draft Gophr job creation.
-8. Manual approval to confirm booking.
+4. Monday `Book Courier` trigger starts a Telegram data-completion/review module when the booking did not originate from Shopify/internal form.
+5. Telegram draft card generated from a stored booking record.
+6. Monday writeback in dry-run first.
+7. Shopify module consuming backend quote/availability endpoint.
+8. Draft Gophr job creation.
+9. Manual approval to confirm booking.
 
 Why:
 - This isolates design from live mutation risk.

@@ -49,6 +49,8 @@ Core decision captured 2026-05-02:
 - Corporate courier orders must be addable into the same module, not handled as a separate side process.
 - V1 booking sources confirmed: Shopify frontend, manual non-corporate, and manual corporate.
 - Shopify is fully frontend/customer-facing; manual booking is the staff path for both non-corporate and corporate jobs.
+- Monday is not the full data-entry UX for Gophr; it should trigger booking flow when needed, not carry every courier metric.
+- Monday `Book Courier` should be able to start a Telegram module/card that gathers or confirms the required Gophr data.
 
 ## Website module brief
 
@@ -241,6 +243,12 @@ Recommended endpoints:
   - records reason;
   - no customer tracking sent.
 
+- `POST /api/courier/monday/book-courier-trigger`
+  - receives/detects Monday `Book Courier` intent;
+  - creates or locates a booking record;
+  - posts Telegram data-completion/review card;
+  - does not assume Monday contains all Gophr-required fields.
+
 - `POST /api/courier/bookings/:id/monday-sync`
   - idempotent Monday projection/writeback.
 
@@ -255,6 +263,7 @@ Fields to reconfirm live before any code writes:
 Rules:
 - Do not write customer-facing tracking/time window until a real booking exists.
 - Monday writeback should be idempotent.
+- Monday should trigger and reflect courier state, not be the primary rich booking form.
 - If Gophr succeeds and Monday fails, booking remains real and must enter `monday_sync_failed` or equivalent alert state.
 - If Monday succeeds and customer notification fails, booking remains real and must enter `customer_notify_failed` or equivalent alert state.
 
