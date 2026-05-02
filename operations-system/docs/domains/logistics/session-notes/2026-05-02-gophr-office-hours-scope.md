@@ -111,6 +111,7 @@ Decision captured 2026-05-02:
 - Working v1 threshold: repair/order value over £250 qualifies for courier subsidy.
 - Working v1 subsidy: £10 each way, i.e. up to £20 total for collection + return. This is a subsidy, not necessarily fully free courier if live Gophr cost is higher.
 - Customer-facing pitch direction: free collection and delivery in Zone 1 / central London, but only for repairs/orders over £250. Everything free/subsidised should require the £250 threshold.
+- Under £250, courier should still be shown as available if Gophr can quote it, but as paid courier with no free/subsidy treatment.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.

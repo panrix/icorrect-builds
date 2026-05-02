@@ -62,6 +62,7 @@ Core decision captured 2026-05-02:
 - Policy must support free collection and delivery above a configurable qualifying amount, provided margin/subsidy guardrails pass.
 - Working v1 policy: over £250 qualifies for £10 subsidy each way, up to £20 total for collection + return. Treat this as subsidy against live Gophr cost, not guaranteed full free courier if courier cost exceeds subsidy.
 - Customer-facing pitch direction: free collection and delivery in Zone 1 / central London, but only over £250. All free/subsidised courier rules require the £250 threshold.
+- Under £250, courier remains visible/available where serviceable, but is paid courier with no free/subsidy treatment.
 
 ## Website module brief
 
@@ -165,6 +166,7 @@ Failure states:
 - `OUTSIDE_CUTOFF`
 - `CAPACITY_FULL`
 - `QUOTE_UNAVAILABLE`
+- `PAID_COURIER_UNDER_THRESHOLD`
 - `MISSING_REQUIRED_FIELDS`
 - `STAFF_REVIEW_REQUIRED`
 
