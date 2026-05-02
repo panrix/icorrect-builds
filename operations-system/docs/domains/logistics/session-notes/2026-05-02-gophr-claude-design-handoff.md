@@ -58,6 +58,8 @@ Core decision captured 2026-05-02:
 - Same-day collection+return capacity is consumed at parent booking/inbound booking time, not when the return leg is confirmed.
 - Shopify same-day collection+return should be presented as one bundled customer-facing courier product/price. Internal accounting still tracks both leg costs and subsidy separately.
 - Manual/corporate flows can retain separate leg pricing/handling where staff need flexibility.
+- Shopify courier pricing should be dynamic but capped/rounded from live Gophr cost and margin policy.
+- Policy must support free collection and delivery above a configurable qualifying amount, provided margin/subsidy guardrails pass.
 
 ## Website module brief
 
@@ -137,6 +139,7 @@ Claude should design UI against this shape, not raw Gophr:
       "tier": "standard",
       "label": "Standard courier",
       "customer_charge_gross": 0,
+      "pricing_policy": "free_over_threshold_margin_passed",
       "currency": "GBP",
       "display_window": "Collection window to be confirmed",
       "same_day": false
@@ -207,6 +210,8 @@ Minimum fields:
 - `estimated_repair_margin`
 - `customer_charge`
 - `customer_charge_mode` (`bundled`, `per_leg`)
+- `pricing_policy_applied`
+- `free_courier_threshold_qualified`
 - `subsidy_amount`
 - `margin_after_subsidy`
 - `service_tier`
