@@ -19,9 +19,10 @@ iCorrect wants Gophr to become the London same-day / local courier layer, not a 
 
 The integration must support three business jobs:
 
-1. Website customer self-service: collection + return delivery quote/booking from Shopify.
-2. Internal staff booking: especially corporate saved-address bookings and return delivery after walk-in repair.
-3. Operational control: draft-first review in Telegram, then Monday writeback once a real booking exists.
+1. Website customer self-service: collection + return delivery quote/booking from Shopify. This is fully frontend/customer-facing.
+2. Manual staff booking for non-corporate customer courier needs, including walk-in return delivery and ad-hoc collections.
+3. Manual staff booking for corporate courier orders, using saved corporate addresses where possible.
+4. Operational control: draft-first review in Telegram, then Monday writeback once a real booking exists.
 
 The old Systems work proved Gophr is viable, but it is not yet scoped cleanly enough for website design or automation build.
 
@@ -95,6 +96,7 @@ Decision captured 2026-05-02:
 - Website should only show same-day if the module says same-day capacity/eligibility is available.
 - Same-day availability is therefore system-driven, not static website copy.
 - Corporate orders must be addable into the same booking module when they arrive.
+- Booking sources confirmed for v1: Shopify frontend, manual non-corporate, manual corporate.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
@@ -163,7 +165,7 @@ Recommendation:
 ### 6. What is the first useful build slice?
 
 Recommended first slice:
-1. Booking module/ledger as the core object model, supporting Shopify and manually-entered corporate orders.
+1. Booking module/ledger as the core object model, supporting three v1 sources: Shopify frontend, manual non-corporate, and manual corporate.
 2. Backend quote endpoint with policy calculation and same-day availability checks.
 3. Supabase `courier_bookings` table storing quote attempts, booking intents, corporate/manual bookings, and decisions.
 4. Telegram draft card generated from a stored booking record.

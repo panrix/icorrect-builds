@@ -47,6 +47,8 @@ Core decision captured 2026-05-02:
 - Build a booking module/ledger where courier orders are saved.
 - Same-day options are shown only when the backend/module says they are available.
 - Corporate courier orders must be addable into the same module, not handled as a separate side process.
+- V1 booking sources confirmed: Shopify frontend, manual non-corporate, and manual corporate.
+- Shopify is fully frontend/customer-facing; manual booking is the staff path for both non-corporate and corporate jobs.
 
 ## Website module brief
 
@@ -176,7 +178,7 @@ Minimum fields:
 - `id`
 - `created_at`
 - `updated_at`
-- `source` (`shopify`, `walk_in`, `corporate`, `manual`)
+- `source` (`shopify_frontend`, `manual_non_corporate`, `manual_corporate`)
 - `status`
 - `customer_name`
 - `customer_phone`
@@ -220,7 +222,7 @@ Recommended endpoints:
   - returns customer-safe quote response.
 
 - `POST /api/courier/bookings`
-  - creates booking records from Shopify checkout, staff/manual entry, or corporate order input;
+  - creates booking records from Shopify checkout, staff/manual non-corporate entry, or staff/manual corporate order input;
   - stores source, addresses, customer/corporate account context, and requested service;
   - does not require a Gophr job yet.
 
