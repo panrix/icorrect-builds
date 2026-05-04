@@ -15,6 +15,7 @@
 | [`PHASE-6.95-SECURITY-FOLLOWUP-SPEC.md`](PHASE-6.95-SECURITY-FOLLOWUP-SPEC.md) | 6.95 | folded into Phase 7 (decision 2026-05-02) |
 | [`PHASE-7-SECURITY-REMEDIATION-NOTE.md`](PHASE-7-SECURITY-REMEDIATION-NOTE.md) | 7 | working note for file-level redactions completed before Phase 7b |
 | [`PHASE-7B-DESTINATION-MAP-DRAFT.md`](PHASE-7B-DESTINATION-MAP-DRAFT.md) | 7b | draft top-level destination map for Ricky approval before migration |
+| [`DIRTY-WIP-CLASSIFICATION-2026-05-04.md`](DIRTY-WIP-CLASSIFICATION-2026-05-04.md) | 7b prereq | read-only classification of parent-repo dirty work before cleanup/migration |
 | [`REPO-OWNERSHIP-MANIFEST-DRAFT.md`](REPO-OWNERSHIP-MANIFEST-DRAFT.md) | 7b prereq | draft parent-owned / repo-owned / runtime-only classification for every build folder |
 | [`VPS-GITHUB-SOURCE-OF-TRUTH-ADVICE.md`](VPS-GITHUB-SOURCE-OF-TRUTH-ADVICE.md) | 7b prereq | recommendation for resolving VPS/GitHub ownership before moving folders |
 | [`PHASE-2-MANIFEST-2026-04-29.md`](PHASE-2-MANIFEST-2026-04-29.md) | 2 | shipped 2026-04-29 (retirement manifest) |
