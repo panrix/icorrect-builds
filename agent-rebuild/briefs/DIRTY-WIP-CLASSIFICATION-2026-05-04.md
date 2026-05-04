@@ -60,6 +60,12 @@ Resolved in this branch:
 | `buyback-monitor/buy_box_monitor.py` | BM/buyback WIP | Commit on Back Market lane after verification. |
 | `buyback-monitor/pull_parts_data_v3.py` | BM/buyback WIP | Commit on Back Market lane after verification. |
 
+Verification note, 2026-05-04:
+
+- `backmarket-browser`: `npm test` passed.
+- `buyback-monitor`: `python3 -m py_compile buyback-monitor/buy_box_monitor.py buyback-monitor/pull_parts_data_v3.py` passed.
+- No Back Market lane files were staged or committed during this verification.
+
 ### Intake lane
 
 | Path | Classification | Recommended action |
