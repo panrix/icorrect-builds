@@ -80,6 +80,12 @@ Verification note, 2026-05-04:
 | `intake-system/shared/types.ts` | intake WIP | Same lane. |
 | `intake-system/react-form` | dirty gitlink | Handle in gitlink normalization, not as normal parent-repo source. |
 
+Verification note, 2026-05-04:
+
+- `intake-system/backend`: `npm test` was attempted but blocked because `vitest` is not installed in the local mirrored checkout (`sh: vitest: command not found`).
+- No `npm install` was run and no intake files were staged or committed during this verification.
+- `intake-system/react-form` is a separate dirty nested repo/gitlink with untracked app files; preserve it before parent-level gitlink normalization.
+
 ### Operations lane
 
 | Path | Classification | Recommended action |
