@@ -850,6 +850,7 @@ if (require.main === module) {
 
 module.exports = {
   BM_TO_DEVICE_MAP,
+  buildPreparedOrderData,
   extractBMModel,
   normalizeBMModelPeriod,
   parseSpecsFromTitle,
