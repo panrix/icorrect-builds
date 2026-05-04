@@ -520,3 +520,27 @@ The script creates the order, but `board_relation5` is only written when device 
 **Context / notes:** Source fix on 2026-05-04: `scripts/lib/notifications.js` is now the canonical BM notifications module. It owns `BM_TELEGRAM_CHAT`, sales/trade-in/dispatch/grade-check Slack channel defaults, Telegram/Slack API response validation, Slack webhook fallback, and `notificationHealthCheck()`. `scripts/notifications-health.js` prints the live wiring state and supports `--probe` for Telegram `getMe` / Slack `auth.test` without sending chat messages. Main BM notification senders now use this module instead of hardcoded routing.
 
 **Status:** CLAIMED by Codex on 2026-05-04 — shared notifications area implemented in source; remaining work is live VPS env verification for `TELEGRAM_BOT_TOKEN`, `BM_TELEGRAM_CHAT`, and Slack token/channel access.
+
+---
+
+## 2026-05-04 — QC handoff and To List approval card automation missing
+
+**Reported by:** Ricky / Codex
+**Affected:** `scripts/qc-generate-sku.js`, `scripts/list-device.js`, `scripts/listing-bot.js`, Monday webhooks / QC To List Watch
+**Symptom:** The intended QC-to-listing handoff is not fully automated. When Ronny changes a repaired BM device to "Ready to Collect", that should be treated as "past QC" and should generate/write the canonical BM SKU so the item is ready for listing. Separately, when the Main Board Repair Type / `status24` changes to "To List", the automation should run an SOP 06 dry-run/card JSON and post the listing approval card to the BackMarket Telegram Listings topic for approve/override/skip.
+**Repro:** Current source shows the building blocks are present but not wired as event-driven automation:
+- `scripts/qc-generate-sku.js` can compute and optionally write BM Devices `text89`, but it is a manual CLI helper (`--item`, optional `--write`).
+- `scripts/listing-bot.js` can fetch all current "To List" rows and post approval cards, but it is an interactive polling bot, not a Monday webhook triggered by a specific `status24 -> To List` change.
+- The existing open "QC To List Watch cron" issue only says the cron is failing; it does not cover the desired trigger chain or listing-card behavior.
+**Suspected cause:** QC handoff and listing approval are split across manual helpers / stale cron assumptions instead of one VPS-owned webhook or watcher flow.
+**Impact:** silent failure / operational delay — devices can pass QC without SKU readiness, and devices changed to "To List" may not immediately appear in Telegram for approval.
+**Priority:** urgent
+
+**Context / notes:**
+- Desired trigger A: `status4` / workshop state changes to "Ready to Collect" → run `qc-generate-sku.js` logic for that Main Board item. Write BM Devices `text89` only when required fields pass and expected SKU is provable.
+- Desired trigger B: `status24` changes to "To List" → run `node scripts/list-device.js --dry-run --item <id> --card-json`, then post the generated approval card to Telegram topic `Listings` (`message_thread_id 5618`) with approve / override / skip controls.
+- Keep live listing gated behind operator approval. The trigger should post a dry-run card only, not create/publish a listing automatically.
+- If SKU generation fails, final grade/specs are missing, or dry-run/card JSON is blocked by trust gates, post a clear warning to the Telegram `Issues` topic.
+- This should be VPS-owned. Do not repair or reintroduce n8n/Flow 6 for this path.
+
+**Status:** OPEN — needs source implementation and live webhook/cron verification.

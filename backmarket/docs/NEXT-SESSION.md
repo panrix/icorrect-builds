@@ -38,6 +38,7 @@ Context in `backmarket/docs/pricing-architecture.md`.
 
 ### Hugo's other 5 issues (in `backmarket/qa/ISSUES.md`)
 - QC To List Watch cron erroring since 2026-03-10 (6 weeks silent — check cron logs)
+- QC handoff / To List approval-card automation: Ready to Collect should generate BM SKU, and status24 -> To List should post SOP 06 dry-run card to Telegram Listings for approval.
 - Notifications live env probe: run `node scripts/notifications-health.js --probe` on the VPS and confirm `TELEGRAM_BOT_TOKEN`, `BM_TELEGRAM_CHAT`, and Slack auth/channel access.
 - Monday Total Costs formula (`formula_mm0za8kh`) always null (blocks margin calcs)
 - Reconciliation UUID count cosmetic bug (backlog)
