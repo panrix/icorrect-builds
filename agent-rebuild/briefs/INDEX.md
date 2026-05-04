@@ -1,6 +1,6 @@
 # briefs/ — Index
 
-**Updated:** 2026-05-02
+**Updated:** 2026-05-04
 **Owner:** main (this folder)
 **Purpose:** Proposals, specs, ideas at any maturity stage. The canonical idea-capture target for `agent-rebuild/`.
 
@@ -14,6 +14,12 @@
 | [`PHASE-6.9-SCAN-BRIEFING.md`](PHASE-6.9-SCAN-BRIEFING.md) | 6.9 | the scan briefing the 9 batch BUILDERs followed |
 | [`PHASE-6.95-SECURITY-FOLLOWUP-SPEC.md`](PHASE-6.95-SECURITY-FOLLOWUP-SPEC.md) | 6.95 | folded into Phase 7 (decision 2026-05-02) |
 | [`PHASE-2-MANIFEST-2026-04-29.md`](PHASE-2-MANIFEST-2026-04-29.md) | 2 | shipped 2026-04-29 (retirement manifest) |
+
+## Phase 7 cleanup briefs
+
+| File | Topic |
+|---|---|
+| [`NESTED-REPO-AUDIT-2026-05-04.md`](NESTED-REPO-AUDIT-2026-05-04.md) | Read-only audit of repo-owned candidates, remotes, dirty state, and decisions needed before Phase 7b moves |
 
 ## Research briefs (rebuild research, 2026-04)
 
