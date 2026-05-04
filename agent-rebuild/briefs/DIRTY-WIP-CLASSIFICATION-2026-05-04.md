@@ -2,20 +2,25 @@
 
 **Branch audited:** `codex/agent-rebuild`
 **Checkout:** `/Users/ricky/vps/builds`
-**Status:** read-only classification; no cleanup actions taken
+**Status:** updated after initial cleanup commits; no feature work or folder moves performed
 
 ## Summary
 
-After the agent-rebuild docs checkpoint commit (`7891fb8`), the parent repo still has four distinct kinds of dirt:
+After the agent-rebuild docs checkpoint (`7891fb8`), dirty classification report (`b2020e7`), file-level redaction batch (`67e435d`), and `.claude/` ignore batch (`b0ca5d5`), the parent repo has two main kinds of dirt left:
 
 | Class | Count | Meaning |
 |---|---:|---|
-| Meaningful modified entries | 34 | Human-authored or source/config/doc changes that need task classification. |
-| Runtime/security artifacts | 2 | Redacted PM2 dump snapshots; not product work. |
+| Meaningful modified entries | 30 | Human-authored or source/config/doc changes that need task classification. |
 | Dependency/vendor deletion noise | 2,220 | Tracked `node_modules` deletions in `llm-summary-endpoint`, `buyback-monitor`, and `quote-wizard`. |
-| Agent runtime/worktree noise | 1,431 | Mostly `operations-system/.claude/worktrees/...`; should not be source. |
 
-The terrifying total is mostly noise. The risky part is that the 34 meaningful entries belong to several unrelated work lanes.
+The terrifying total is still mostly dependency noise. The risky part is that the 30 meaningful entries belong to several unrelated work lanes.
+
+Resolved in this branch:
+
+- Agent-rebuild source-of-truth docs committed in `7891fb8`.
+- This classification report committed in `b2020e7`.
+- File-level redactions / PM2 dump redactions committed in `67e435d`.
+- `.claude/` runtime/worktree folders ignored in `b0ca5d5`.
 
 ## Meaningful Modified Entries
 
@@ -23,7 +28,7 @@ The terrifying total is mostly noise. The risky part is that the 34 meaningful e
 
 | Path | Classification | Recommended action |
 |---|---|---|
-| `.gitignore` | cleanup support | Commit with dependency/runtime ignore cleanup, not with feature work. |
+| `.gitignore` | cleanup support | Resolved in `67e435d` and `b0ca5d5`. |
 
 ### Back Market / browser automation lane
 
@@ -79,11 +84,11 @@ The terrifying total is mostly noise. The risky part is that the 34 meaningful e
 
 | Path | Classification | Recommended action |
 |---|---|---|
-| `icloud-checker/briefs/BRIEF.md` | file-level redaction | Commit with security redaction batch if desired. |
-| `marketing-intelligence/snapshot/MI-BUILD-BRIEF.md` | file-level redaction | Commit with security redaction batch if desired. |
-| `server-config/docs/openclaw-gateway.service` | file-level redaction | Commit with security redaction batch if desired. |
-| `server-config/pm2-dump.json` | runtime/security artifact | Do not treat as source; keep redacted if committed, or remove from tracking in dedicated cleanup. |
-| `server-config/pm2-dump-formatted.json` | runtime/security artifact | Same as above. |
+| `icloud-checker/briefs/BRIEF.md` | file-level redaction | Resolved in `67e435d`. |
+| `marketing-intelligence/snapshot/MI-BUILD-BRIEF.md` | file-level redaction | Resolved in `67e435d`. |
+| `server-config/docs/openclaw-gateway.service` | file-level redaction | Resolved in `67e435d`. |
+| `server-config/pm2-dump.json` | runtime/security artifact | Redacted in `67e435d`; still consider removing from tracking later. |
+| `server-config/pm2-dump-formatted.json` | runtime/security artifact | Redacted in `67e435d`; still consider removing from tracking later. |
 
 ## Noise Buckets
 
@@ -99,15 +104,14 @@ The terrifying total is mostly noise. The risky part is that the 34 meaningful e
 
 | Area | Count | Recommended action |
 |---|---:|---|
-| `operations-system/.claude/worktrees/...` | 1,427 | Add ignore / remove from source consideration. Do not commit. |
-| `.claude/`, `alex-triage-rebuild/.claude/`, `intake-notifications/.claude/`, `team-audits/.claude/` | 4 | Runtime/editor config; ignore unless explicitly curated. |
+| `operations-system/.claude/worktrees/...` | 1,427 | Resolved from status noise by `.gitignore` in `b0ca5d5`. Files remain on disk; they are not source. |
+| `.claude/`, `alex-triage-rebuild/.claude/`, `intake-notifications/.claude/`, `team-audits/.claude/` | 4 | Resolved from status noise by `.gitignore` in `b0ca5d5`. |
 
 ## Recommended Next Commits
 
-1. **Security redaction batch** (optional, low urgency per Ricky): `.gitignore`, `icloud-checker/briefs/BRIEF.md`, `marketing-intelligence/snapshot/MI-BUILD-BRIEF.md`, `server-config/docs/openclaw-gateway.service`, and decide whether to keep or remove the redacted PM2 dumps.
-2. **Dependency cleanup batch:** remove tracked `node_modules` from parent repo and keep ignore rules.
-3. **Lane commits:** Back Market/browser, intake, operations, Alex/customer-service, each on its own lane.
-4. **Gitlink normalization:** Shopify, Royal Mail, and `intake-system/react-form` after preserving current branch/WIP.
+1. **Dependency cleanup batch:** remove tracked `node_modules` from parent repo and keep ignore rules.
+2. **Lane commits:** Back Market/browser, intake, operations, Alex/customer-service, each on its own lane.
+3. **Gitlink normalization:** Shopify, Royal Mail, and `intake-system/react-form` after preserving current branch/WIP.
 
 ## Do Not Do Yet
 
