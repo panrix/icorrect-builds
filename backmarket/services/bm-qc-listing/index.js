@@ -9,8 +9,8 @@
  * Telegram polling:
  *   - Handles approve / override / skip callbacks from listing cards.
  *
- * Port: 8014 (127.0.0.1)
- * Nginx route: /webhook/bm/qc-listing → 127.0.0.1:8014
+ * Port: 8015 (127.0.0.1)
+ * Nginx route: /webhook/bm/qc-listing -> 127.0.0.1:8015
  */
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env', quiet: true });
@@ -33,7 +33,7 @@ const {
   sendMessage,
 } = require('../../scripts/listing-bot');
 
-const PORT = 8014;
+const PORT = 8015;
 const HOST = '127.0.0.1';
 const MAIN_BOARD = '349212843';
 const STATUS_COLUMN = 'status24';

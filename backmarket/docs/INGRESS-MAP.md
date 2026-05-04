@@ -17,7 +17,7 @@
 | 8011 | `127.0.0.1` | bm-grade-check | `bm-grade-check.service` | Live. nginx proxies `/webhook/bm/grade-check` to 8011. |
 | 8012 | `127.0.0.1` | bm-payout | `bm-payout.service` | Live. nginx proxies `/webhook/bm/payout` to 8012. |
 | 8013 | `127.0.0.1` | bm-shipping | `bm-shipping.service` | Live. nginx proxies `/webhook/bm/shipping-confirmed` to 8013. |
-| 8014 | `127.0.0.1` | bm-qc-listing | `bm-qc-listing.service` | QC SKU handoff + To List approval cards. nginx should proxy `/webhook/bm/qc-listing` to 8014. |
+| 8015 | `127.0.0.1` | bm-qc-listing | `bm-qc-listing.service` | QC SKU handoff + To List approval cards. nginx should proxy `/webhook/bm/qc-listing` to 8015. |
 
 Port 8010 is **not reachable on the public IP**. All traffic goes through nginx (`mc.icorrect.co.uk`) with SSL.
 
@@ -30,7 +30,7 @@ All BM and iCloud webhook routes. No auth (Monday and Slack are the callers).
 | `/webhook/bm/grade-check` | `127.0.0.1:8011` | Live standalone service. |
 | `/webhook/bm/payout` | `127.0.0.1:8012` | Live standalone service. |
 | `/webhook/bm/shipping-confirmed` | `127.0.0.1:8013` | Live standalone service. |
-| `/webhook/bm/qc-listing` | `127.0.0.1:8014` | QC SKU handoff + To List approval cards. |
+| `/webhook/bm/qc-listing` | `127.0.0.1:8015` | QC SKU handoff + To List approval cards. |
 | `/webhook/bm/counter-offer-action` | `127.0.0.1:8010` | Stays in monolith until decomposition. |
 | `/webhook/icloud-check/slack-interact` | `127.0.0.1:8003` | telephone-inbound, forwards non-phone actions to 8010. |
 | `/webhook/icloud-check/spec-check` | `127.0.0.1:8010` | Read-only Apple spec lookup. |
