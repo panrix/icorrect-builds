@@ -206,8 +206,12 @@ function normalizeBMModelPeriod(bmModel, deviceTitle = '') {
   if (year === '2020' && prefix === 'MacBook Air 13') {
     return chipName === 'M1' ? `${prefix} (Late 2020)` : `${prefix} (Mid 2020)`;
   }
+  if (year === '2020' && prefix === 'MacBook Pro 13') {
+    return chipName === 'M1' ? `${prefix} (Late 2020)` : `${prefix} (Mid 2020)`;
+  }
   if (year === '2021' && /^MacBook Pro (14|16)$/.test(prefix)) return `${prefix} (Late 2021)`;
   if (year === '2022' && prefix === 'MacBook Air 13') return `${prefix} (Mid 2022)`;
+  if (year === '2022' && prefix === 'MacBook Pro 13') return `${prefix} (Mid 2022)`;
   if (year === '2023' && /^MacBook Pro (14|16)$/.test(prefix)) {
     if (chipName.startsWith('M3')) return `${prefix} (Late 2023)`;
     return `${prefix} (Early 2023)`;
