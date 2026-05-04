@@ -95,6 +95,11 @@ Verification note, 2026-05-04:
 | `operations-system/docs/domains/logistics/session-notes/2026-05-02-gophr-office-hours-scope.md` | operations docs WIP | Same lane. |
 | `monday/services/status-notifications/index.js` | operations/webhook WIP | Verify and commit on operations lane. |
 
+Verification note, 2026-05-04:
+
+- `monday/services/status-notifications/index.js`: `node --check` passed.
+- Operations docs are Markdown-only changes; no runtime test applies.
+
 ### Other single-lane changes
 
 | Path | Classification | Recommended action |
@@ -102,6 +107,10 @@ Verification note, 2026-05-04:
 | `alex-triage-rebuild/scripts/intercom-cleanup-2025plus-dry-run.js` | Alex/customer-service WIP | Commit on customer-service/Alex lane after review. |
 | `icorrect-shopify-theme` | dirty gitlink | Marketing repo-owned; handle in gitlink normalization. |
 | `royal-mail-automation` | dirty gitlink | Operations repo-owned; handle in gitlink normalization. |
+
+Verification note, 2026-05-04:
+
+- `alex-triage-rebuild/scripts/intercom-cleanup-2025plus-dry-run.js`: `node --check` passed.
 
 ### File-level redactions / security artifacts
 
