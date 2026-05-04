@@ -28,6 +28,39 @@ export type FaultCategory =
 export type DataBackupStatus = 'yes' | 'no' | 'unknown';
 export type DeliveryPreference = 'deliver' | 'collect';
 export type MondaySyncStatus = 'pending' | 'synced' | 'failed';
+export type PurchaseCondition = 'new' | 'refurbished' | 'second_hand' | 'unknown';
+export type DataImportance = 'preserve' | 'not_important';
+export type SoftwareUpdatePermission = 'allow' | 'deny';
+export type PasscodeVerificationStatus = 'tested' | 'recorded' | 'later' | 'untestable';
+export type StockCheckStatus = 'in_stock' | 'order_required' | 'manual_review';
+export type TurnaroundConfirmationStatus = 'confirmed' | 'custom';
+export type TelegramActionId =
+  | 'check_stock'
+  | 'take_passcode'
+  | 'write_notes'
+  | 'view_previous_notes'
+  | 'change_model'
+  | 'complete_intake'
+  | 'fill_missing_fields';
+export type TelegramMissingFieldId =
+  | 'phone'
+  | 'model'
+  | 'fault_description'
+  | 'repaired_before'
+  | 'repaired_before_details'
+  | 'apple_seen'
+  | 'apple_seen_details'
+  | 'purchase_condition'
+  | 'other_issues'
+  | 'data_backed_up'
+  | 'data_importance'
+  | 'software_update_permission'
+  | 'passcode'
+  | 'passcode_password'
+  | 'delivery_preference'
+  | 'stock_check'
+  | 'turnaround_confirmation'
+  | 'passcode_verification';
 
 export interface MondayItem {
   id: string;
@@ -38,6 +71,42 @@ export interface MondayItem {
   group: { id: string; title: string };
   bookingDate: string | null;
   intercomLink: string | null;
+  customerEmail?: string | null;
+  customerPhone?: string | null;
+  lastUpdateAt?: string | null;
+}
+
+export interface CustomerHistoryRepair {
+  itemId: string;
+  device: string;
+  service: string;
+  status: string;
+  date: string | null;
+  lastUpdatedAt: string | null;
+  lastNote: string | null;
+}
+
+export interface CustomerHistorySummary {
+  isReturningCustomer: boolean;
+  previousRepairCount: number;
+  repairs: CustomerHistoryRepair[];
+  intercomLink: string | null;
+}
+
+export interface HistoricalNote {
+  id: string;
+  itemId: string;
+  author: string;
+  text: string;
+  createdAt: string;
+}
+
+export interface StockCheckResult {
+  status: StockCheckStatus;
+  partLabel: string | null;
+  quantity: number | null;
+  eta: string | null;
+  notes: string | null;
 }
 
 export interface IntakeFormData {
@@ -54,14 +123,53 @@ export interface IntakeFormData {
   declineReason: string;
   wantsQuoteEmailed: boolean | null;
   repairedBefore: boolean | null;
+  repairedBeforeDetails: string;
   appleSeen: boolean | null;
+  appleSeenDetails: string;
+  purchaseCondition: PurchaseCondition | null;
+  otherIssues: string;
   dataBackedUp: DataBackupStatus | null;
+  dataImportance: DataImportance | null;
+  softwareUpdatePermission: SoftwareUpdatePermission | null;
+  passcode: string;
+  passcodePassword: string;
   passcodeAcknowledged: boolean;
   deliveryPreference: DeliveryPreference | null;
   selectedBooking: MondayItem | null;
   bookingConfirmed: boolean;
   additionalNotes: string;
   collectionQuestions: string;
+}
+
+export interface TelegramOperatorData {
+  confirmedModel: string;
+  repairedBefore: boolean | null;
+  repairedBeforeDetails: string;
+  appleSeen: boolean | null;
+  appleSeenDetails: string;
+  purchaseCondition: PurchaseCondition | null;
+  otherIssues: string;
+  dataBackedUp: DataBackupStatus | null;
+  dataImportance: DataImportance | null;
+  softwareUpdatePermission: SoftwareUpdatePermission | null;
+  passcode: string;
+  passcodePassword: string;
+  passcodeVerificationStatus: PasscodeVerificationStatus | null;
+  passcodeVerificationNotes: string;
+  deliveryPreference: DeliveryPreference | null;
+  stockCheck: StockCheckResult | null;
+  turnaroundConfirmationStatus: TurnaroundConfirmationStatus | null;
+  turnaroundConfirmationNotes: string;
+  acceptedAt: string | null;
+  acceptedBy: string | null;
+}
+
+export interface TelegramThreadState {
+  chatId: string | null;
+  threadId: string | null;
+  messageId: string | null;
+  syncedAt: string | null;
+  lastRenderedText: string | null;
 }
 
 export interface IntakeCheck {
@@ -83,6 +191,8 @@ export interface IntakeSession {
   customerEmail: string;
   customerPhone: string | null;
   formData: IntakeFormData;
+  operatorData: TelegramOperatorData;
+  telegramThread: TelegramThreadState;
   mondayItemId: string | null;
   mondaySyncStatus: MondaySyncStatus;
   claimedBy: string | null;
@@ -115,6 +225,22 @@ export interface CustomerLookupResponse {
 
 export interface TodayIntakesResponse {
   sessions: IntakeSession[];
+}
+
+export interface TelegramMissingField {
+  id: TelegramMissingFieldId;
+  label: string;
+  prompt: string;
+}
+
+export interface TelegramThreadSummary {
+  intakeId: string;
+  status: IntakeStatus;
+  renderedText: string;
+  availableActions: TelegramActionId[];
+  missingFields: TelegramMissingField[];
+  thread: TelegramThreadState;
+  customerHistory: CustomerHistorySummary;
 }
 
 export interface UpdateIntakeRequest {
@@ -152,6 +278,51 @@ export interface RecordCheckRequest {
   passed: boolean;
   operatorName: string;
   notes?: string;
+}
+
+export interface TelegramSyncRequest {
+  chatId: string;
+  threadId?: string;
+  messageId?: string;
+}
+
+export interface TelegramFieldCaptureRequest {
+  operatorName: string;
+  field: TelegramMissingFieldId;
+  value: string | boolean;
+}
+
+export interface TelegramPasscodeRequest {
+  operatorName: string;
+  passcode: string;
+  password?: string;
+  verificationStatus: PasscodeVerificationStatus;
+  notes?: string;
+}
+
+export interface TelegramStockCheckRequest {
+  operatorName: string;
+  notes?: string;
+}
+
+export interface TelegramTurnaroundRequest {
+  operatorName: string;
+  status: TurnaroundConfirmationStatus;
+  notes?: string;
+}
+
+export interface TelegramModelChangeRequest {
+  operatorName: string;
+  model: string;
+}
+
+export interface TelegramNotesRequest {
+  operatorName: string;
+  text: string;
+}
+
+export interface TelegramPreviousNotesResponse {
+  notes: HistoricalNote[];
 }
 
 export interface HealthResponse {
@@ -200,12 +371,51 @@ export const INITIAL_FORM_DATA: IntakeFormData = {
   declineReason: '',
   wantsQuoteEmailed: null,
   repairedBefore: null,
+  repairedBeforeDetails: '',
   appleSeen: null,
+  appleSeenDetails: '',
+  purchaseCondition: null,
+  otherIssues: '',
   dataBackedUp: null,
+  dataImportance: null,
+  softwareUpdatePermission: null,
+  passcode: '',
+  passcodePassword: '',
   passcodeAcknowledged: false,
   deliveryPreference: null,
   selectedBooking: null,
   bookingConfirmed: false,
   additionalNotes: '',
   collectionQuestions: '',
+};
+
+export const INITIAL_TELEGRAM_OPERATOR_DATA: TelegramOperatorData = {
+  confirmedModel: '',
+  repairedBefore: null,
+  repairedBeforeDetails: '',
+  appleSeen: null,
+  appleSeenDetails: '',
+  purchaseCondition: null,
+  otherIssues: '',
+  dataBackedUp: null,
+  dataImportance: null,
+  softwareUpdatePermission: null,
+  passcode: '',
+  passcodePassword: '',
+  passcodeVerificationStatus: null,
+  passcodeVerificationNotes: '',
+  deliveryPreference: null,
+  stockCheck: null,
+  turnaroundConfirmationStatus: null,
+  turnaroundConfirmationNotes: '',
+  acceptedAt: null,
+  acceptedBy: null,
+};
+
+export const INITIAL_TELEGRAM_THREAD_STATE: TelegramThreadState = {
+  chatId: null,
+  threadId: null,
+  messageId: null,
+  syncedAt: null,
+  lastRenderedText: null,
 };

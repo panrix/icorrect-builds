@@ -8,6 +8,7 @@ export interface BackendEnv {
   openAiApiKey: string;
   supabaseUrl: string;
   supabaseServiceRoleKey: string;
+  telegramBotToken: string;
 }
 
 export function getEnv(): BackendEnv {
@@ -19,5 +20,6 @@ export function getEnv(): BackendEnv {
     openAiApiKey: process.env.OPENAI_API_KEY ?? '',
     supabaseUrl: process.env.SUPABASE_URL ?? '',
     supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY ?? '',
+    telegramBotToken: process.env.TELEGRAM_BOT_TOKEN ?? '',
   };
 }
