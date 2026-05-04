@@ -131,6 +131,8 @@ Once FIXED or WON'T FIX is marked, don't delete the entry — it's the audit tra
 
 **Context / notes:** First noted in MEMORY.md on 2026-03-16. No further investigation done yet.
 
+**Status:** RESOLVED/SUPERSEDED by Codex on 2026-05-04 — the cron path is no longer the active control plane. `bm-qc-listing.service` is live on `127.0.0.1:8015`, and Monday webhooks now trigger the QC/listing handoff directly.
+
 ---
 
 ## 2026-04-23 — n8n Flow 6 skips items where text4 (buyer name) is non-empty
@@ -519,7 +521,7 @@ The script creates the order, but `board_relation5` is only written when device 
 
 **Context / notes:** Source fix on 2026-05-04: `scripts/lib/notifications.js` is now the canonical BM notifications module. It owns `BM_TELEGRAM_CHAT`, sales/trade-in/dispatch/grade-check Slack channel defaults, Telegram/Slack API response validation, Slack webhook fallback, and `notificationHealthCheck()`. `scripts/notifications-health.js` prints the live wiring state and supports `--probe` for Telegram `getMe` / Slack `auth.test` without sending chat messages. Main BM notification senders now use this module instead of hardcoded routing.
 
-**Status:** CLAIMED by Codex on 2026-05-04 — shared notifications area implemented in source; remaining work is live VPS env verification for `TELEGRAM_BOT_TOKEN`, `BM_TELEGRAM_CHAT`, and Slack token/channel access.
+**Status:** RESOLVED by Codex on 2026-05-04 — shared notifications area implemented and deployed. Live VPS probe passed with `ICORRECT_TELEGRAM_BOT_TOKEN`, `BM_TELEGRAM_CHAT=-1003888456344`, Slack auth, and BackMarket Telegram topic routing.
 
 ---
 
@@ -543,4 +545,4 @@ The script creates the order, but `board_relation5` is only written when device 
 - If SKU generation fails, final grade/specs are missing, or dry-run/card JSON is blocked by trust gates, post a clear warning to the Telegram `Issues` topic.
 - This should be VPS-owned. Do not repair or reintroduce n8n/Flow 6 for this path.
 
-**Status:** CLAIMED by Codex on 2026-05-04 — building standalone VPS service `bm-qc-listing` for QC SKU handoff and To List approval cards.
+**Status:** RESOLVED by Codex on 2026-05-04 — `bm-qc-listing.service` is deployed and enabled on the VPS at `127.0.0.1:8015`. nginx proxies `https://mc.icorrect.co.uk/webhook/bm/qc-listing` to the service. Monday webhooks are registered: `574562325` for `status4 = Ready To Collect` and `574562357` for `status24 = To List`.

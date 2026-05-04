@@ -50,6 +50,8 @@ All webhooks point to `https://mc.icorrect.co.uk/...` — updated and tested 24 
 | 349212843 (Main) | status4 | "Diagnostic Complete" | `https://mc.icorrect.co.uk/webhook/bm/grade-check` |
 | 349212843 (Main) | status24 | "Pay-Out" | `https://mc.icorrect.co.uk/webhook/bm/payout` |
 | 349212843 (Main) | status4 | "Shipped" | `https://mc.icorrect.co.uk/webhook/bm/shipping-confirmed` |
+| 349212843 (Main) | status4 | "Ready To Collect" | `https://mc.icorrect.co.uk/webhook/bm/qc-listing` |
+| 349212843 (Main) | status24 | "To List" | `https://mc.icorrect.co.uk/webhook/bm/qc-listing` |
 
 ### Slack Interactivity Routing (Live, confirmed)
 
@@ -227,5 +229,6 @@ These should be locked down separately. Not part of the BM rebuild.
 | payout (standalone 8012) | Monday webhook: status24 → Pay-Out on BM 1536 | ✅ Pre-flight passed, BM API 422 (already validated) — correct | 26 Mar |
 | shipping (standalone 8013) | Monday webhook: status4 → Shipped on BM 1402 | ✅ Tracking found, hard-gated on missing BM order ID — correct | 26 Mar |
 | grade-check (standalone 8011) | Monday webhook: status4 → Diagnostic Complete on BM 1508 | ✅ A2485 matched, Fair grade, £698 sell, 97% margin — PROFITABLE | 26 Mar |
+| qc-listing (standalone 8015) | Public challenge `POST /webhook/bm/qc-listing`; Monday webhooks `574562325` and `574562357` | ✅ nginx routed to 8015; service health OK; challenge returned JSON | 04 May |
 | Slack recheck button | Clicked on BM 1504 (iCloud locked) | ✅ SickW check ran, "still locked" | 24 Mar |
 | Public IP refused | `curl http://46.225.53.159:8010/...` | ✅ Connection refused | 24 Mar |
