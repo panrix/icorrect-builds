@@ -63,6 +63,11 @@ Core decision captured 2026-05-02:
 - Working v1 policy: over £250 qualifies for £10 subsidy each way, up to £20 total for collection + return. Treat this as subsidy against live Gophr cost, not guaranteed full free courier if courier cost exceeds subsidy.
 - Customer-facing pitch direction: free collection and delivery in Zone 1 / central London, but only over £250. All free/subsidised courier rules require the £250 threshold.
 - Under £250, courier remains visible/available where serviceable, but is paid courier with no free/subsidy treatment.
+- Same-day collection+return availability/pricing is a three-window chain: courier collection to iCorrect, repair+QC capacity, and courier return delivery. The design must model this as an availability product, not just a Gophr service tier.
+- Same-day option appears only when collection window, repair eligibility, repair/QC window, return courier feasibility, and capacity all pass.
+- V1 repair/QC capacity source: simple eligibility + cap logic. Use eligible repair types, 10:30 cutoff, 2/day launch cap, 3/day hard max, and staff override.
+- V1 same-day collection+return eligibility is iPhone-only, focused on predictable screen/battery-style repairs. MacBook same-day collection+return stays out of v1.
+- Future capacity source: proper workshop queue management system, not a random-day cap. The design should leave an interface for live queue/scheduling data later.
 
 ## Website module brief
 
@@ -126,6 +131,27 @@ Optional later:
 - address line 2;
 - notes/access instructions;
 - coordinates/address validation ID.
+
+
+### Same-day availability model
+
+Same-day collection + return is not a pure courier tier. It is an end-to-end availability product made of three windows:
+
+1. customer-to-iCorrect courier collection window;
+2. internal repair + QC window;
+3. iCorrect-to-customer courier return window.
+
+The backend should only expose the same-day option when all checks pass:
+- Gophr can collect early enough;
+- repair type/device is eligible;
+- v1 simple repair/QC capacity gate passes;
+- return courier can still be booked;
+- same-day parent capacity slot is available;
+- pricing/subsidy guardrails pass.
+
+The capacity gate should be designed behind an interface so v1 can use simple rules, while v2 can use the proper workshop queue management system.
+
+If any layer fails, the website should fall back to standard courier collection/return arrangement rather than overpromising same-day return.
 
 ### Backend quote response contract
 
@@ -231,6 +257,10 @@ Minimum fields:
 - `pickup_window_label`
 - `delivery_window_label`
 - `same_day_flag`
+- `collection_window_status`
+- `repair_qc_window_status`
+- `return_window_status`
+- `same_day_availability_result`
 - `capacity_bucket`
 - `telegram_message_id`
 - `review_decision_by`

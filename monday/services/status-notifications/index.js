@@ -21,7 +21,7 @@ const PORT = 8014;
 const HOST = "127.0.0.1";
 
 // ─── Config ───────────────────────────────────────────────────────
-const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
+const MONDAY_TOKEN = process.env.MONDAY_AUTOMATIONS_TOKEN;
 const INTERCOM_TOKEN = process.env.INTERCOM_API_TOKEN;
 const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
 const SHADOW_MODE = process.env.SHADOW_MODE === "true";
