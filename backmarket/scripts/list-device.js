@@ -120,7 +120,8 @@ function writeDiskCache(name, data) {
 async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function postTelegram(text) {
-  await sendTelegram(text, { parseMode: 'HTML', logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(text) ? 'issues' : 'listings';
+  await sendTelegram(text, { parseMode: 'HTML', logger: console, topic });
 }
 
 async function bmApiFetch(urlPath, opts = {}) {

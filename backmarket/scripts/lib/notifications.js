@@ -9,6 +9,14 @@ require('dotenv').config({ path: '/home/ricky/config/api-keys/.env', quiet: true
 
 const DEFAULTS = Object.freeze({
   bmTelegramChat: '-1003888456344',
+  telegramTopics: Object.freeze({
+    tradeIns: '5617',
+    listings: '5618',
+    sales: '5619',
+    shipping: '5620',
+    payouts: '5621',
+    issues: '5622',
+  }),
   slackChannels: Object.freeze({
     dispatch: 'C024H7518J3',
     sales: 'C0A21J30M1C',
@@ -24,12 +32,29 @@ const CHANNEL_ENV = Object.freeze({
   gradeCheck: 'BM_GRADE_CHECK_SLACK_CHANNEL',
 });
 
+const TOPIC_ENV = Object.freeze({
+  tradeIns: 'BM_TELEGRAM_TOPIC_TRADEINS',
+  listings: 'BM_TELEGRAM_TOPIC_LISTINGS',
+  sales: 'BM_TELEGRAM_TOPIC_SALES',
+  shipping: 'BM_TELEGRAM_TOPIC_SHIPPING',
+  payouts: 'BM_TELEGRAM_TOPIC_PAYOUTS',
+  issues: 'BM_TELEGRAM_TOPIC_ISSUES',
+});
+
 function getNotificationConfig(env = process.env) {
   return {
     telegram: {
       token: env.ICORRECT_TELEGRAM_BOT_TOKEN || env.TELEGRAM_BOT_TOKEN || '',
       tokenSource: env.ICORRECT_TELEGRAM_BOT_TOKEN ? 'ICORRECT_TELEGRAM_BOT_TOKEN' : 'TELEGRAM_BOT_TOKEN',
       chatId: env.BM_TELEGRAM_CHAT || DEFAULTS.bmTelegramChat,
+      topics: {
+        tradeIns: env.BM_TELEGRAM_TOPIC_TRADEINS || DEFAULTS.telegramTopics.tradeIns,
+        listings: env.BM_TELEGRAM_TOPIC_LISTINGS || DEFAULTS.telegramTopics.listings,
+        sales: env.BM_TELEGRAM_TOPIC_SALES || DEFAULTS.telegramTopics.sales,
+        shipping: env.BM_TELEGRAM_TOPIC_SHIPPING || DEFAULTS.telegramTopics.shipping,
+        payouts: env.BM_TELEGRAM_TOPIC_PAYOUTS || DEFAULTS.telegramTopics.payouts,
+        issues: env.BM_TELEGRAM_TOPIC_ISSUES || DEFAULTS.telegramTopics.issues,
+      },
     },
     slack: {
       token: env.SLACK_BOT_TOKEN || '',
@@ -42,6 +67,14 @@ function getNotificationConfig(env = process.env) {
       },
     },
   };
+}
+
+function resolveTelegramTopic(topic, env = process.env) {
+  if (!topic) return null;
+  if (DEFAULTS.telegramTopics[topic]) {
+    return env[TOPIC_ENV[topic]] || DEFAULTS.telegramTopics[topic];
+  }
+  return String(topic);
 }
 
 function resolveSlackChannel(channel = 'dispatch', env = process.env) {
@@ -65,6 +98,8 @@ async function postTelegram(text, options = {}) {
     dryRun = false,
     parseMode,
     chatId,
+    topic,
+    messageThreadId,
     logger,
     fetchImpl = fetch,
     throwOnError = false,
@@ -73,10 +108,11 @@ async function postTelegram(text, options = {}) {
   const config = getNotificationConfig(options.env);
   const token = options.token || config.telegram.token;
   const targetChat = chatId || config.telegram.chatId;
+  const targetThreadId = messageThreadId || resolveTelegramTopic(topic, options.env);
 
   if (dryRun) {
     log.log?.(`  [DRY RUN] Would send to Telegram: ${String(text).slice(0, 150)}...`);
-    return { ok: true, service: 'telegram', dryRun: true, chatId: targetChat };
+    return { ok: true, service: 'telegram', dryRun: true, chatId: targetChat, messageThreadId: targetThreadId };
   }
   if (!token) {
     log.warn?.('[notifications] TELEGRAM_BOT_TOKEN not set; skipping Telegram.');
@@ -85,6 +121,10 @@ async function postTelegram(text, options = {}) {
 
   try {
     const body = { chat_id: targetChat, text };
+    if (targetThreadId) {
+      const numericThreadId = Number(targetThreadId);
+      if (Number.isFinite(numericThreadId)) body.message_thread_id = numericThreadId;
+    }
     if (parseMode) body.parse_mode = parseMode;
     const resp = await fetchImpl(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
@@ -95,7 +135,7 @@ async function postTelegram(text, options = {}) {
     if (!resp.ok || result.ok === false) {
       throw new Error(`Telegram ${resp.status}: ${result.description || 'sendMessage failed'}`);
     }
-    return { ok: true, service: 'telegram', chatId: targetChat, response: result };
+    return { ok: true, service: 'telegram', chatId: targetChat, messageThreadId: targetThreadId, response: result };
   } catch (error) {
     log.warn?.(`[notifications] Telegram failed: ${error.message}`);
     if (throwOnError) throw error;
@@ -169,6 +209,8 @@ async function notifyBm(text, options = {}) {
         logger: options.logger,
         env: options.env,
         fetchImpl: options.fetchImpl,
+        topic: options.telegramTopic || options.telegramOptions?.topic,
+        messageThreadId: options.telegramMessageThreadId || options.telegramOptions?.messageThreadId,
       })
     : Promise.resolve({ ok: true, service: 'telegram', skipped: true });
   const slack = options.slack !== false
@@ -199,6 +241,7 @@ async function notificationHealthCheck(options = {}) {
       token: Boolean(config.telegram.token),
       tokenSource: config.telegram.token ? config.telegram.tokenSource : null,
       chatId: config.telegram.chatId,
+      topics: config.telegram.topics,
     },
     slack: {
       configured: Boolean(config.slack.token || config.slack.webhookUrl),
@@ -262,5 +305,6 @@ module.exports = {
   notifyBm,
   postSlack,
   postTelegram,
+  resolveTelegramTopic,
   resolveSlackChannel,
 };

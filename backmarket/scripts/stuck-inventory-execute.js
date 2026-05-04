@@ -114,7 +114,7 @@ function latestAuditCsvPath() {
 
 async function postTelegram(text) {
   if (IS_DRY_RUN) return;
-  await sendTelegram(text, { logger: console });
+  await sendTelegram(text, { logger: console, topic: 'issues' });
 }
 
 async function bmApiFetch(urlPath, options = {}) {

@@ -96,7 +96,8 @@ async function mondayApi(query) {
 }
 
 async function postTelegram(msg) {
-  await sendTelegram(msg, { logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(msg) ? 'issues' : 'listings';
+  await sendTelegram(msg, { logger: console, topic });
 }
 
 // ─── Step 1a: Get Monday "Listed" items ───────────────────────────

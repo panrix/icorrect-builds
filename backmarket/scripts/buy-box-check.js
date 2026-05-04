@@ -284,7 +284,8 @@ async function postTelegram(msg) {
     console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 150)}...`);
     return;
   }
-  await sendTelegram(msg, { parseMode: 'HTML', logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(msg) ? 'issues' : 'listings';
+  await sendTelegram(msg, { parseMode: 'HTML', logger: console, topic });
 }
 
 // ─── Step 1: Get active listings ──────────────────────────────────

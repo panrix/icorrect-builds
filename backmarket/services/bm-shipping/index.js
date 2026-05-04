@@ -83,7 +83,8 @@ async function mondayQuery(query) {
 }
 
 async function notify(text) {
-  await notifyBm(text, { slackChannel: "sales", logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(text) ? "issues" : "shipping";
+  await notifyBm(text, { slackChannel: "sales", telegramTopic: topic, logger: console });
 }
 
 // ─── Monday comment ───────────────────────────────────────────────

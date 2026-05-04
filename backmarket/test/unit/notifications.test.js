@@ -5,6 +5,7 @@ const {
   notifyBm,
   postSlack,
   postTelegram,
+  resolveTelegramTopic,
   resolveSlackChannel,
 } = require('../../scripts/lib/notifications');
 
@@ -12,6 +13,7 @@ const env = {
   TELEGRAM_BOT_TOKEN: 'jarvis-token',
   ICORRECT_TELEGRAM_BOT_TOKEN: 'icorrect-token',
   BM_TELEGRAM_CHAT: '-1001',
+  BM_TELEGRAM_TOPIC_TRADEINS: '111',
   SLACK_BOT_TOKEN: 'slack-token',
   BM_SALES_SLACK_CHANNEL: 'sales-channel',
   BM_TRADEIN_SLACK_CHANNEL: 'trade-channel',
@@ -22,7 +24,10 @@ const config = getNotificationConfig(env);
 assert.equal(config.telegram.chatId, '-1001');
 assert.equal(config.telegram.token, 'icorrect-token');
 assert.equal(config.telegram.tokenSource, 'ICORRECT_TELEGRAM_BOT_TOKEN');
+assert.equal(config.telegram.topics.tradeIns, '111');
 assert.equal(config.slack.channels.sales, 'sales-channel');
+assert.equal(resolveTelegramTopic('tradeIns', env), '111');
+assert.equal(resolveTelegramTopic('5620', env), '5620');
 assert.equal(resolveSlackChannel('tradeIn', env), 'trade-channel');
 assert.equal(resolveSlackChannel('C123', env), 'C123');
 
@@ -37,11 +42,12 @@ const okFetch = async (url, options = {}) => {
 };
 
 (async () => {
-  await postTelegram('hello', { env, fetchImpl: okFetch, parseMode: 'HTML' });
+  await postTelegram('hello', { env, fetchImpl: okFetch, parseMode: 'HTML', topic: 'tradeIns' });
   assert.equal(calls[0].url, 'https://api.telegram.org/boticorrect-token/sendMessage');
   assert.deepEqual(JSON.parse(calls[0].options.body), {
     chat_id: '-1001',
     text: 'hello',
+    message_thread_id: 111,
     parse_mode: 'HTML',
   });
 
@@ -56,6 +62,7 @@ const okFetch = async (url, options = {}) => {
     env,
     fetchImpl: okFetch,
     slackChannel: 'tradeIn',
+    telegramTopic: 'sales',
   });
   assert.equal(combined.ok, true);
   assert.equal(calls.length, 4);

@@ -411,7 +411,7 @@ function mergeNotes(existingNotes, action, nextProposedAction, previousProposedA
 
 async function postTelegram(text) {
   if (IS_DRY_RUN) return;
-  await sendTelegram(text, { logger: { log: info, warn: info } });
+  await sendTelegram(text, { logger: { log: info, warn: info }, topic: 'issues' });
 }
 
 async function loadBmDevices() {

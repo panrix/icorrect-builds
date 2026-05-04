@@ -45,6 +45,7 @@ const DEVICE_LOOKUP_BOARD = 3923707691;
 const MAIN_BOARD_GROUP = 'new_group34198';       // "Incoming Future"
 const BM_DEVICES_GROUP = 'group_mkq3wkeq';      // "BM Trade-Ins"
 const DEVICE_LOOKUP_GROUP = 'new_group';
+const TRADE_INS_LOG_PATH = path.join(__dirname, '..', 'data', 'trade-ins-created.jsonl');
 
 const args = process.argv.slice(2);
 const isLive = args.includes('--live');
@@ -270,7 +271,39 @@ async function postTelegram(msg) {
     console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 120)}...`);
     return;
   }
-  await sendTelegram(msg, { logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(msg) ? 'issues' : 'tradeIns';
+  await sendTelegram(msg, { logger: console, topic });
+}
+
+function buildTradeInNotification(prepared) {
+  const status = /non[-\s]?functional|not functional/i.test(prepared.assessments.functionalLabel || prepared.assessments.functional || '')
+    ? '🔴 Non-Functional'
+    : '✅ Functional';
+  const product = prepared.deviceLookup.mappedDeviceName !== 'NOT_FOUND'
+    ? prepared.deviceLookup.mappedDeviceName
+    : prepared.deviceTitle;
+  return [
+    `🆕 ${prepared.bmName} - ${product} - £${prepared.exVatPrice}`,
+    `Customer: ${prepared.customerName} | Status: ${status}`,
+  ].join('\n');
+}
+
+function appendTradeInCreatedLog(prepared, mainItem, bmDeviceItem) {
+  const entry = {
+    createdAt: new Date().toISOString(),
+    publicId: prepared.publicId,
+    bmName: prepared.bmName,
+    product: prepared.deviceLookup.mappedDeviceName !== 'NOT_FOUND'
+      ? prepared.deviceLookup.mappedDeviceName
+      : prepared.deviceTitle,
+    customerName: prepared.customerName,
+    exVatPrice: prepared.exVatPrice,
+    functionalLabel: prepared.assessments.functionalLabel,
+    mainItemId: mainItem?.id || null,
+    bmDeviceItemId: bmDeviceItem?.id || null,
+  };
+  fs.mkdirSync(path.dirname(TRADE_INS_LOG_PATH), { recursive: true });
+  fs.appendFileSync(TRADE_INS_LOG_PATH, `${JSON.stringify(entry)}\n`);
 }
 
 // ─── Step 1: Fetch SENT orders from BM buyback API ───────────────
@@ -780,13 +813,8 @@ async function main() {
 
     // Step 6: Notification
     console.log(`  [Step 6] Sending notification...`);
-    await postTelegram(
-      `📦 New BM trade-in SENT\n` +
-      `Order: ${publicId}\n` +
-      `BM: ${prepared.bmName}\n` +
-      `Product: ${prepared.deviceTitle}\n` +
-      `Price: £${prepared.exVatPrice}`
-    );
+    appendTradeInCreatedLog(prepared, mainItem, bmDeviceItem);
+    await postTelegram(buildTradeInNotification(prepared));
 
     console.log(`\n  ── TRADE-IN CREATED ──`);
     console.log(`  Order: ${publicId}`);

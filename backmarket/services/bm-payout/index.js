@@ -69,7 +69,8 @@ async function mondayQuery(query) {
 }
 
 async function notify(text) {
-  await notifyBm(text, { slackChannel: "tradeIn", logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(text) ? "issues" : "payouts";
+  await notifyBm(text, { slackChannel: "tradeIn", telegramTopic: topic, logger: console });
 }
 
 // ─── Monday comment ───────────────────────────────────────────────

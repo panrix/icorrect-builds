@@ -78,7 +78,8 @@ async function mondayApi(query) {
 
 async function postTelegram(msg) {
   if (isDryRun) { console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 100)}...`); return; }
-  await sendTelegram(msg, { logger: console });
+  const topic = /^[⚠️❌⛔]/u.test(msg) ? 'issues' : 'sales';
+  await sendTelegram(msg, { logger: console, topic });
 }
 
 // ─── Step 1: Fetch new orders ─────────────────────────────────────

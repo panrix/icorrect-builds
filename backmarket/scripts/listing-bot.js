@@ -23,6 +23,7 @@ const { getNotificationConfig } = require('./lib/notifications');
 const NOTIFICATION_CONFIG = getNotificationConfig();
 const TELEGRAM_BOT_TOKEN = NOTIFICATION_CONFIG.telegram.token;
 const CHAT_ID = NOTIFICATION_CONFIG.telegram.chatId;
+const LISTINGS_THREAD_ID = Number(NOTIFICATION_CONFIG.telegram.topics.listings);
 const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 const MAIN_BOARD = 349212843;
 const TO_LIST_GROUP = 'new_group88387__1';
@@ -49,7 +50,7 @@ async function tgCall(method, params) {
 }
 
 async function sendMessage(text, extra = {}) {
-  return tgCall('sendMessage', { chat_id: CHAT_ID, text, parse_mode: 'HTML', ...extra });
+  return tgCall('sendMessage', { chat_id: CHAT_ID, message_thread_id: LISTINGS_THREAD_ID, text, parse_mode: 'HTML', ...extra });
 }
 
 async function editMessage(messageId, text, extra = {}) {
