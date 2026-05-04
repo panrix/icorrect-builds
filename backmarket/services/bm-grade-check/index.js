@@ -20,7 +20,10 @@
 
 const express = require("express");
 const fs = require("fs");
-const { postSlack: sendSlack } = require("../../scripts/lib/notifications");
+const {
+  notificationHealthCheck,
+  postSlack: sendSlack,
+} = require("../../scripts/lib/notifications");
 const A_NUMBER_MAP_DATA = require("../../data/A_NUMBER_MAP.json");
 
 if (
@@ -561,6 +564,15 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
   } catch (err) {
     console.error("[grade-check] Error:", err);
   }
+});
+
+app.get("/health", async (req, res) => {
+  res.json({
+    service: "bm-grade-check",
+    status: "ok",
+    port: PORT,
+    notifications: await notificationHealthCheck(),
+  });
 });
 
 app.listen(PORT, HOST, () => {
