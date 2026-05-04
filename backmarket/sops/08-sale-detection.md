@@ -3,19 +3,17 @@
 **Version:** 1.0
 **Date:** 2026-03-20
 **Scope:** Detecting new BM sales orders, matching to inventory, accepting orders, and updating Monday boards.
-**Owner:** VPS script (replacement for n8n Flow 6)
+**Owner:** VPS script
 
 ---
 
 ## Background
 
-This was n8n Flow 6 (`HsDqOaIDwT5DEjCn`), which ran hourly (8-18 weekdays, 9/13/17 weekends).
+Sale detection is owned by the VPS script at `/home/ricky/builds/backmarket/scripts/sale-detection.js`.
 
-The VPS replacement now exists at `/home/ricky/builds/backmarket/scripts/sale-detection.js`.
+n8n/Flow 6 is retired. Do not repair or route sale detection through n8n.
 
-Policy has changed from the old n8n flow:
-- old n8n flow: detect/update only, no auto-accept
-- current VPS script: auto-accept when match is confirmed and stock is verified
+Current policy: the VPS script auto-accepts only when SKU match is unambiguous and stock is verified.
 
 ---
 
@@ -48,7 +46,8 @@ BM order states:
 | 9 | Shipped/complete |
 
 Each order contains `orderlines[]` with one or more line items. Each line item has:
-- `listing_id` (numeric): matches to our Monday BM Devices Board
+- `listing` (SKU): primary match key for the BM Devices Board
+- `listing_id` (numeric): secondary metadata for Main Board writeback and shipping cleanup
 - `product_id`: BM product identifier
 - `price`: sale price
 - `quantity`: units ordered
@@ -57,15 +56,15 @@ Each order contains `orderlines[]` with one or more line items. Each line item h
 
 ## Step 2: Match to BM Devices Board
 
-For each `orderlines[].listing_id` (numeric), query BM Devices Board:
+For each `orderlines[].listing` SKU, query BM Devices Board:
 
 ```graphql
 { boards(ids: [3892194968]) {
   items_page(limit: 500, query_params: {
-    rules: [{ column_id: "text_mkyd4bx3", compare_value: ["{listing_id}"] }]
+    rules: [{ column_id: "text89", compare_value: ["{order_line_sku}"] }]
   }) {
     items { id name group { id title }
-      column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5"]) { id text }
+      column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "text_mkyd4bx3", "board_relation"]) { id text }
     }
   }
 } }
@@ -73,25 +72,28 @@ For each `orderlines[].listing_id` (numeric), query BM Devices Board:
 
 | Column ID | Title | Board | Purpose |
 |-----------|-------|-------|---------|
-| `text_mkyd4bx3` | BM Listing ID | BM Devices (3892194968) | Numeric listing_id for matching |
+| `text89` | BackMarket SKU | BM Devices (3892194968) | Primary sale match key |
+| `text_mkyd4bx3` | BM Listing ID | BM Devices | Secondary metadata; not the primary match key |
 | `text4` | Sold to | BM Devices | Buyer name (MUST be empty for assignment) |
 | `text_mkye7p1c` | BM Sales Order ID | BM Devices | Real BM order ID |
-| `text89` | BackMarket SKU | BM Devices | Cross-check only; not the source used for BM acceptance |
 | `numeric5` | Sale Price (ex VAT) | BM Devices | Sale price |
 
 ### Match Logic
-1. Find all BM Devices items where `text_mkyd4bx3` = `listing_id`
-2. For single-unit listings (qty=1): there should be exactly one match
-3. For multi-unit listings (qty>1): pick the FIRST item where `text4` (Sold to) is **empty**
-4. If NO match found: flag immediately (see Edge Cases)
+1. Find all BM Devices items where `text89` exactly equals the order line SKU.
+2. Only consider items in the saleable BM Devices group.
+3. If one saleable item matches and stock fields are empty, use it.
+4. If multiple saleable items match the SKU, inspect their linked Main Board item and discard terminal/returned rows.
+5. If ambiguity remains, do not auto-accept. Alert for manual assignment.
+6. `listing_id` is written to Main Board for shipping/cleanup, but it is not the sale identity.
 
 ---
 
 ## Step 3: Verify Stock
 
 Before accepting, confirm:
-- Device item exists on BM Devices Board with matching listing_id
+- Device item exists on BM Devices Board with matching SKU
 - `text4` (Sold to) is empty (not already assigned to another buyer)
+- `text_mkye7p1c` is empty (not already assigned to another BM order)
 - Device is in an appropriate group (not in "BM Returns" or "Rejected")
 
 ---
@@ -240,7 +242,7 @@ Multiple physical devices share one listing. When a sale comes in:
 
 ### Already Processed Order
 If `text4` on the matched BM Devices item is already populated:
-- Flow 6 or a previous run already processed this order
+- The VPS sale-detection script or a previous manual recovery already processed this order
 - Skip. Do not double-assign.
 
 ---
@@ -281,10 +283,9 @@ If `text4` on the matched BM Devices item is already populated:
 
 | Component | Location | Status |
 |-----------|----------|--------|
-| n8n Flow 6 | `HsDqOaIDwT5DEjCn` | Legacy reference |
-| VPS script | `/home/ricky/builds/backmarket/scripts/sale-detection.js` | Built |
+| VPS script | `/home/ricky/builds/backmarket/scripts/sale-detection.js` | Built and active |
 | Scheduler | Live crontab | Active |
-| Notifications | BM Telegram `-1003888456344` | Active in script |
+| Notifications | `BM_TELEGRAM_CHAT` env fallback `-1003888456344` | Active in script |
 
 ## Usage
 - `node scripts/sale-detection.js`

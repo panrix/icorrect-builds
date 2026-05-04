@@ -47,6 +47,27 @@ Once FIXED or WON'T FIX is marked, don't delete the entry — it's the audit tra
 
 ## Open issues
 
+## 2026-05-04 — Full automation audit status
+
+**Reported by:** Codex
+**Affected:** `scripts/sent-orders.js`, `scripts/list-device.js`, `scripts/lib/bm-api.js`, `scripts/lib/v7-scraper.js`, `services/bm-payout/index.js`, `services/bm-shipping/index.js`, `scripts/sale-detection.js`, `scripts/reconcile-listings.js`
+**Symptom:** QA issues were spread across intake, listing, VPS sale detection, shipping, payout, notifications, and reconciliation, making it unclear which bugs were source-fixable vs live-ops/config issues.
+**Repro:** Review this issue log against the source-tracked automation stages and run the unit suite.
+**Suspected cause:** Control-plane behavior was split across code, services, Monday config, notifications config, and historical notes.
+**Impact:** blocker / silent failure / operational churn
+**Priority:** urgent
+
+**Context / notes:** Source-tracked fixes landed in the working tree on 2026-05-04:
+- SENT intake normalizes BM date-title variants and 2025 Air wording before device lookup, and warns when Main Board device relation would still be blank.
+- Listing flow explicitly trusts exact registry-slot colour evidence, routes weak/loss economics to operator review, hardens live scrape waits/retry, blocks live listing on unreconciled scrape specs, and caches/time-bounds historical sales lookup.
+- Payout and shipping services now write explicit Monday failure markers when hard gates or BM API calls block the automation.
+- VPS sale detection and reconciliation align with the target trust rules: SKU-first sale matching, dry-run-default reconciliation, and shared listing IDs valid only for exact spec pools.
+- Telegram sends on critical BM paths now read `BM_TELEGRAM_CHAT` from env and surface Telegram API errors instead of swallowing them.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — source fixes applied; live cron/Monday-board checks and shared notifications-area migration still need ops verification.
+
+---
+
 ## 2026-04-23 — Scraper grade data is noise
 
 **Reported by:** Hugo
@@ -94,6 +115,8 @@ Once FIXED or WON'T FIX is marked, don't delete the entry — it's the audit tra
 - Alternative: write Main Board item ID to a column that `dispatch.js` can match directly, bypassing the listing_id ambiguity.
 - Related: `memory/feedback_board_relation_ship_confirm.md` documents the silent skip when `board_relation` is missing entirely.
 
+**Status:** CLAIMED by Codex on 2026-05-04 — current `sale-detection.js` is SKU-first and writes BM order/listing IDs directly to Main Board columns for shipping; `bm-shipping` no longer traverses the wrong `board_relation5` path.
+
 ---
 
 ## 2026-04-23 — QC To List Watch cron erroring since ~2026-03-10
@@ -122,6 +145,8 @@ Once FIXED or WON'T FIX is marked, don't delete the entry — it's the audit tra
 
 **Context / notes:** This may be intentional (to prevent overwriting) but it's causing operational overhead. Review whether the skip condition should be more nuanced (e.g., check status instead of buyer name).
 
+**Status:** WON'T FIX — n8n/Flow 6 is retired. Sale detection must stay on the VPS path in `scripts/sale-detection.js`; do not spend time repairing old n8n flow behavior.
+
 ---
 
 ## 2026-04-23 — Reconciliation script UUID count bug at line 242
@@ -135,6 +160,54 @@ Once FIXED or WON'T FIX is marked, don't delete the entry — it's the audit tra
 **Priority:** backlog
 
 **Context / notes:** First noted in MEMORY.md. Low priority since it doesn't affect actual reconciliation.
+
+---
+
+## 2026-05-03 — SOP 06 reused-slot verifier blocks trusted colour matches on title omission
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/list-device.js`
+**Symptom:** A reused exact registry slot can fail live verification with `TITLE COLOUR MISMATCH` even when the slot `product_id`, canonical SKU lineage, and vetted listing data all indicate the correct colour. Public BM titles do not always carry colour text, so title omission is being treated as a hard mismatch.
+**Repro:** `BM 1549 ( Lily Doherty )` dry-run/live reuse path against registry slot `5606597` / product `b5ebc79d-0304-41a6-b1ae-d2a487afa11f`. Device colour is `Space Grey`; slot lineage is the grey variant; verifier still hard-fails because the public title omits colour.
+**Suspected cause:** `verifyListing()` only skips title-colour enforcement when `colourVerifiedByCatalog` is set, but reused/manual slot paths are not carrying enough trust to bypass title colour checks.
+**Impact:** blocker / operational churn — exact slot reuse is prevented even when colour is already provable from trusted catalog/registry evidence.
+**Priority:** urgent
+
+**Context / notes:** Colour should be trusted from `product_id` + canonical SKU lineage + vetted slot data when those agree. Title colour should be fallback evidence, not a hard gate, on an exact trusted reused slot.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — live verification now passes explicit `colourVerifiedByTrustedSlot` evidence for registry slots instead of depending on public-title colour text.
+
+---
+
+## 2026-05-03 — SOP 06 profit loss-makers hard-block instead of routing to human review
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/list-device.js`
+**Symptom:** Devices with negative or weak profitability are returned as `BLOCK`, which prevents normal live/manual review workflows even when ops explicitly wants to list at proposed price. The only reason a listing should hard-block is identity/trust mismatch, not economics.
+**Repro:** `BM 1549 ( Lily Doherty )` returns `BLOCK — Loss at min_price`; multiple other queue items hit the same decision gate even when identity resolution is clean.
+**Suspected cause:** `decisionGate()` treats negative net or below-threshold margin as `BLOCK` rather than a review state.
+**Impact:** blocker / manual churn — ops has to bypass the script instead of using the normal listing workflow to review and publish loss-makers.
+**Priority:** urgent
+
+**Context / notes:** Economics should route to `REVIEW` / `PROPOSE` with explicit warning text. Only spec/colour/grade/listing trust mismatches should remain hard blockers.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — economics now stays in `PROPOSE`/review and requires an operator override before live execution.
+
+---
+
+## 2026-05-03 — Trusted listing catalog and SKU remap drift allows stale slot ownership
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/build-listings-registry.js`, `/home/ricky/builds/backmarket/scripts/lib/resolver-truth.js`, `/home/ricky/builds/backmarket/scripts/lib/frontend-url-map.js`, `/home/ricky/builds/backmarket-browser/scripts/export-frontend-url-map.js`
+**Symptom:** Listing ownership and slot trust drift over time because colour/grade/spec/model alignment is not being remapped into one trusted exact catalog. That leaves offline/reused listing slots attached to the wrong BM Devices row on Monday and forces repeated manual triage.
+**Repro:** `listing_id 5606597` remained attached to `BM 1303` on Monday while `BM 1549` resolved to the same exact slot via registry/product lineage. Similar drift is visible in `captured_spec_mismatch` evidence and in queue items that still carry stale listing linkage.
+**Suspected cause:** Browser capture evidence, registry trust, and Monday slot ownership are not being reconciled into one exact canonical map with one-owner-per-listing-id enforcement.
+**Impact:** data drift / repeated operational churn — the team keeps revisiting the same SKU/listing ambiguity and cannot trust reused slots.
+**Priority:** urgent
+
+**Context / notes:** Required outcome is a trusted catalog where canonical SKU fully encodes model/spec/grade/colour, ambiguous/shared slots are surfaced for repair, and a live/reused `listing_id` has exactly one BM Devices owner on Monday at a time.
+
+**Status:** DEFERRED — source guardrails are improved, but full ownership repair requires a live Monday/browser-capture reconciliation run.
 
 ---
 
@@ -177,6 +250,8 @@ _(None yet — add below this line.)_
   - wait for actual `__NUXT_DATA__` / concrete selector instead of fixed sleeps
   - retry once on transient navigation failure, then fallback fast
 
+**Status:** CLAIMED by Codex on 2026-05-04 — `v7-scraper.js` now waits for `__NUXT_DATA__`, retries transient page failures once, and lazily loads browser dependencies so non-browser tests do not fail when Playwright is absent.
+
 ## 2026-04-24 — SOP 06 historical sales lookup scans too much BM order history on cold cache
 
 **Reported by:** Hugo
@@ -203,6 +278,8 @@ _(None yet — add below this line.)_
   - stop paging once pages are older than cutoff
   - query one state first, expand only if needed
   - add progress logging so it is obvious the lookup is alive
+
+**Status:** CLAIMED by Codex on 2026-05-04 — `fetchSalesHistory()` now has persisted disk cache, request/overall timeouts, early stop on old pages, and state expansion only when the first state has no matching product/grade signal.
 
 ## 2026-04-24 — SENT trade-in orders are creating Main Board items without device relation
 
@@ -247,6 +324,8 @@ The script creates the order, but `board_relation5` is only written when device 
   - emit explicit warning / Telegram alert when device lookup fails instead of silently creating blank relation
   - query `linked_items` when validating Monday board-relation columns, because `text` / `value` may stay null even when the relation exists
 
+**Status:** CLAIMED by Codex on 2026-05-04 — `sent-orders.js` now normalizes ISO-date title variants, adds the 2025 Air mapping, and warns via Telegram when a relation would still be blank.
+
 ## 2026-04-24 — Shipping webhook is live but failing operationally, forcing manual BM confirmation
 
 **Reported by:** Hugo
@@ -280,6 +359,8 @@ The script creates the order, but `board_relation5` is only written when device 
   - verify linked BM Devices item always carries BM order ID before dispatch stage
   - add a post-run audit that flags `status4 = Shipped` items with no automation success marker within a short window
 
+**Status:** CLAIMED by Codex on 2026-05-04 — `bm-shipping` now writes Monday failure markers for missing tracking, serial, BM Sales Order ID, and BM API failures. A post-run audit still needs a live scheduled/check script.
+
 ## 2026-04-24 — Payout webhook is live but lacks recent outcome evidence proving automation success
 
 **Reported by:** Hugo
@@ -308,3 +389,134 @@ The script creates the order, but `board_relation5` is only written when device 
   - confirm whether Monday webhook is still pointed at `/webhook/bm/payout`
   - emit explicit Monday/Telegram failure markers whenever payout pre-flight blocks execution
   - add an auditable reconciliation check for items moved to `Pay-Out` that do not gain `Purchased` + `Payout validated` within expected time
+
+**Status:** CLAIMED by Codex on 2026-05-04 — `bm-payout` now writes Monday failure markers for stale webhook, missing trade-in ID, iCloud lock, and BM API failures. Live webhook/log verification remains required.
+
+## 2026-05-03 — Reused exact slots hard-block on title colour omission even when colour is already trusted
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/list-device.js`
+**Symptom:** SOP 06 can refuse to reuse an exact trusted slot because the public listing title omits colour text, even when the slot `product_id`, SKU lineage, and vetted/export data already prove the slot colour.
+**Repro:**
+- Main item `11507101485` — `BM 1549 ( Lily Doherty )`
+- Expected SKU: `MBA.A2337.M1.7C.8GB.256GB.Grey.Fair`
+- Resolver/registry points to slot `5606597`, product `b5ebc79d-0304-41a6-b1ae-d2a487afa11f`
+- Live verification raised `⛔ TITLE COLOUR MISMATCH` because the listing title omitted `Space Grey`, then took the listing back offline
+- Repo-local vetted/export data for `5606597` still maps the slot to the grey variant
+**Suspected cause:** `verifyListing()` falls back to title-based colour matching unless `colourVerifiedByCatalog` is set. Reused registry slots are not carrying enough trusted colour context into that verification path.
+**Impact:** blocker / operational friction — trusted exact slots cannot be reused cleanly, forcing manual work and repeated false mismatch loops
+**Priority:** urgent
+
+**Context / notes:**
+- This is not evidence that slot `5606597` is the wrong colour. It is evidence that title-only colour verification is too strict for trusted reused slots.
+- Correct trust order should be: exact `product_id` + canonical SKU lineage + vetted/export colour > public title wording.
+- Any fix must preserve hard blocks for real colour mismatches, not just missing colour text in titles.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — live verification now passes explicit trusted-slot colour evidence for registry slots.
+
+## 2026-05-03 — Profit losses are treated as hard BLOCK instead of operator review
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/list-device.js`
+**Symptom:** SOP 06 hard-blocks devices purely because `net < 0` at `min_price`, even when identity, catalogue resolution, and slot trust are otherwise clean.
+**Repro:**
+- `BM 1549 ( Lily Doherty )` dry-run: trusted resolver hit, trusted scrape, valid slot, but `Decision: BLOCK — Loss at min_price`
+- Same pattern observed on other clean identity cases where ops may still choose to publish manually
+**Suspected cause:** `decisionGate()` returns `BLOCK` for negative net and other profit thresholds, instead of routing those cases to a review/propose state.
+**Impact:** blocker / operational friction — ops cannot move forward on reviewed loss-makers without side-stepping SOP 06
+**Priority:** urgent
+
+**Context / notes:**
+- User requirement is that only identity/trust mismatches should hard-block live listing.
+- Profitability failures should downgrade to review, not outright block.
+- This issue is separate from resolver/catalog trust: a listing can be commercially bad while still being operationally safe to publish with operator approval.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — profitability failures now stay in `PROPOSE`/review and require operator override before live listing.
+
+## 2026-05-03 — Trusted listing ownership and canonical SKU remap are still drifting across browser capture, registry, and Monday
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/build-listings-registry.js`, `/home/ricky/builds/backmarket/scripts/lib/resolver-truth.js`, `/home/ricky/builds/backmarket/scripts/lib/frontend-url-map.js`, `/home/ricky/builds/backmarket-browser/scripts/export-frontend-url-map.js`
+**Symptom:** Model/spec/grade/colour alignment is not strong enough across the trusted slot catalogue, browser capture exports, and Monday BM Devices ownership. This causes repeated ambiguity about which listing slot should be reused and whether rows sharing a listing slot are truly in the same exact canonical SKU pool.
+**Repro:**
+- Queue/relist work repeatedly loops on the same MacBook Air / MacBook Pro slots because colour/spec/grade trust is split across resolver truth, browser-captured URL maps, and stale Monday listing ownership
+- Reused/offline slot `5606597` remained attached to `BM 1303` on Monday while `BM 1549` wanted to reuse the same exact slot
+- Browser capture already stores mismatch evidence (`captured_spec_mismatch`) but it is not yet feeding a stronger canonical remap / repair flow
+**Suspected cause:** Canonical SKU matching and listing ownership are not being rebuilt from one fully trusted source. Ambiguous/shared slot mappings are surfaced inconsistently, and Monday can retain stale listing ownership after a device returns to `To List`.
+**Impact:** data drift / blocker / repeated manual loops — ops revisits the same slot ambiguity instead of relying on a stable trusted catalogue
+**Priority:** urgent
+
+**Context / notes:**
+- User requirement is explicit:
+  - remap SKUs so colour + grade + spec + model are exact again
+  - map out which listing each canonical SKU should use
+  - maintain a trusted catalogue so this ambiguity does not recur
+- Correct ownership rule:
+  - multiple BM Devices rows may share one `listing_id` only when they are the same exact canonical SKU pool
+  - the bug is not “more than one owner exists”; the bug is “pool membership is untrusted or drifts after relist/status changes”
+  - shared `listing_id` is INVALID only when model/spec/grade/colour drift exists inside that pool
+- Fix scope should surface ambiguous/shared slot mappings explicitly and make it obvious when shared slot use is valid vs invalid.
+
+**Status:** DEFERRED — source guardrails are improved, but final ownership repair requires live Monday/browser-capture reconciliation.
+
+---
+
+## 2026-05-03 — Frontend scrape targets are not yet canonical per exact model/spec/colour/grade combination
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/lib/frontend-url-map.js`, `/home/ricky/builds/backmarket-browser/scripts/export-frontend-url-map.js`, `/home/ricky/builds/backmarket/data/listing-frontend-url-map.json`
+**Symptom:** Browser-captured frontend URLs exist, but they are not yet enforced as one trusted scrape target per exact canonical listing combination. That leaves open the risk of scraping the wrong public page or using the wrong picker state when model/spec/colour/grade alignment has drifted.
+**Repro:**
+- Current browser capture system stores both trusted matches and mismatch evidence (`captured_spec_mismatch`)
+- Listing reuse/review still falls back through mixed evidence paths instead of one canonical frontend scrape target keyed to exact model + spec + colour + grade
+- `BM 1446` / `BM 1549` class issues show how a captured or historical slot can point at the right family while still needing exact variant trust
+**Suspected cause:** Frontend URL capture is being exported as evidence, but not yet promoted into a strict canonical scrape-target catalogue with exact variant ownership rules.
+**Impact:** data drift / blocker — live market checks can scrape a product-family page that is not fully trusted as the exact model/spec/colour/grade target.
+**Priority:** urgent
+
+**Context / notes:**
+- User requirement is explicit: we need the correct frontend scrape target for each exact device/model/spec/colour/grade combination.
+- That target may be `URL + trusted picker state`, not necessarily a literally unique URL for every grade.
+- Mismatch captures should remain triage evidence only.
+- Trusted captures should become the primary scrape target source once exact canonical mapping is proven.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — trusted frontend captures are used as scrape targets, scrape verification now waits for concrete NUXT evidence, and live listing is blocked unless RAM/SSD/colour/grade/product evidence reconciles. Full catalogue promotion still needs live capture export.
+
+---
+
+## 2026-05-03 — Listing trust rules need explicit tightening across sale-detection and reconciliation
+
+**Reported by:** Codex
+**Affected:** `/home/ricky/builds/backmarket/scripts/sale-detection.js`, `/home/ricky/builds/backmarket/scripts/reconcile-listings.js`, related SOP docs
+**Symptom:** Operational rules are being remembered loosely in chat rather than encoded tightly: sale matching, shared listing ownership, and auto-offline behavior are not being described with the exact boundaries ops wants.
+**Repro:** During 2026-05-03 listing triage, three rules had to be re-tightened verbally:
+- sale detection should match by SKU only
+- shared `listing_id` is valid only for an exact canonical SKU pool
+- reconciliation should auto-offline only true model/spec/grade/colour mismatches, not generic state drift
+**Suspected cause:** Control-plane rules are split across code, SOPs, and operator memory, so the practical invariants are easy to blur.
+**Impact:** repeated operational loops / wrong fixes applied / trust drift
+**Priority:** urgent
+
+**Context / notes:**
+- Tight target rules:
+  - `sale-detection.js` remains SKU-first; `listing_id` is secondary metadata, not the primary sale identity
+  - multiple devices may share one `listing_id` only if they are exact canonical SKU matches
+  - reconciliation should route generic Monday/BM state disagreement to review / reset flows, and reserve auto-offline for true identity mismatches
+
+**Status:** CLAIMED by Codex on 2026-05-04 — VPS sale detection is SKU-first and reconciliation is dry-run-default with exact-spec shared-slot checks. n8n/Flow 6 is retired and should not be repaired.
+
+---
+
+## 2026-05-04 — Notifications area and Telegram/Slack mapping drift
+
+**Reported by:** Ricky / Codex
+**Affected:** `scripts/lib/notifications.js`, `scripts/notifications-health.js`, `scripts/list-device.js`, `scripts/sent-orders.js`, `scripts/sale-detection.js`, `services/bm-shipping/index.js`, `services/bm-payout/index.js`, `scripts/lib/slack.js`
+**Symptom:** Telegram notifications are not reliably arriving, and Slack/Telegram destination mapping is spread across individual scripts/services instead of one notifications area.
+**Repro:** Listing/shipping/payout paths can execute without an obvious Telegram delivery failure because some call sites use hardcoded chat IDs and only log network exceptions.
+**Suspected cause:** Notification routing is duplicated per automation path; `BM_TELEGRAM_CHAT` / Slack channel mapping is not centralized or audited.
+**Impact:** silent failure / operational blindness — the automation can complete or block without the team seeing the expected confirmation.
+**Priority:** urgent
+
+**Context / notes:** Source fix on 2026-05-04: `scripts/lib/notifications.js` is now the canonical BM notifications module. It owns `BM_TELEGRAM_CHAT`, sales/trade-in/dispatch/grade-check Slack channel defaults, Telegram/Slack API response validation, Slack webhook fallback, and `notificationHealthCheck()`. `scripts/notifications-health.js` prints the live wiring state and supports `--probe` for Telegram `getMe` / Slack `auth.test` without sending chat messages. Main BM notification senders now use this module instead of hardcoded routing.
+
+**Status:** CLAIMED by Codex on 2026-05-04 — shared notifications area implemented in source; remaining work is live VPS env verification for `TELEGRAM_BOT_TOKEN`, `BM_TELEGRAM_CHAT`, and Slack token/channel access.

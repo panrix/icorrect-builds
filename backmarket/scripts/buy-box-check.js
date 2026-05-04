@@ -36,21 +36,20 @@ const {
 const {
   launchBatchBrowser, closeBatchBrowser, scrapeWithContext,
 } = require('./lib/v7-scraper');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
 const BM_AUTH = process.env.BACKMARKET_API_AUTH;
 const BM_LANG = process.env.BACKMARKET_API_LANG || 'en-gb';
 const BM_UA = process.env.BACKMARKET_API_UA;
-const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
+const MONDAY_TOKEN = process.env.MONDAY_AUTOMATIONS_TOKEN;
 
 const BM_DEVICES_BOARD = 3892194968;
 const MAIN_BOARD = 349212843;
 const BM_SELL_FEE_RATE = 0.10;
 const VAT_RATE = 0.1667;
 const MIN_PRICE_FACTOR = 0.97;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const BM_TELEGRAM_CHAT = '-1003888456344';
 
 const PROFITABILITY_LOOKUP_PATH = path.join(__dirname, '..', 'data', 'buyback-profitability-lookup.json');
 const BM_CATALOG_PATH = path.join(__dirname, '..', 'data', 'bm-catalog.json');
@@ -285,13 +284,7 @@ async function postTelegram(msg) {
     console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 150)}...`);
     return;
   }
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text: msg, parse_mode: 'HTML' }),
-    });
-  } catch (e) { console.warn(`  Telegram failed: ${e.message}`); }
+  await sendTelegram(msg, { parseMode: 'HTML', logger: console });
 }
 
 // ─── Step 1: Get active listings ──────────────────────────────────

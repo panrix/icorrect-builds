@@ -9,13 +9,57 @@
  *   - buy-box-check.js (SOP 07) — grade ladder scrape for live listings
  */
 
-const { chromium } = require('/home/ricky/builds/buyback-monitor/node_modules/playwright-extra');
-const StealthPlugin = require('/home/ricky/builds/buyback-monitor/node_modules/puppeteer-extra-plugin-stealth');
+const path = require('path');
 
-chromium.use(StealthPlugin());
+function requireBrowserDependency(packageName) {
+  const roots = [
+    process.env.BUYBACK_MONITOR_DIR,
+    '/home/ricky/builds/buyback-monitor',
+    path.resolve(__dirname, '../../../buyback-monitor'),
+  ].filter(Boolean);
+
+  const attempts = roots.map(root => path.join(root, 'node_modules', packageName));
+  attempts.push(packageName);
+
+  let lastError;
+  for (const attempt of attempts) {
+    try {
+      return require(attempt);
+    } catch (error) {
+      lastError = error;
+    }
+  }
+  throw lastError;
+}
+
+let chromiumWithStealth = null;
+
+function getChromium() {
+  if (chromiumWithStealth) return chromiumWithStealth;
+  const { chromium } = requireBrowserDependency('playwright-extra');
+  const StealthPlugin = requireBrowserDependency('puppeteer-extra-plugin-stealth');
+  chromium.use(StealthPlugin());
+  chromiumWithStealth = chromium;
+  return chromiumWithStealth;
+}
 
 const BM_BASE = 'https://www.backmarket.co.uk';
 const DEFAULT_TIMEOUT_MS = 15000;
+
+function productUrl(productId) {
+  return `${BM_BASE}/en-gb/p/placeholder/${productId}?l=10`;
+}
+
+function normalizeScrapeUrl(value) {
+  const raw = String(value || '').trim();
+  if (!raw) return '';
+  const url = new URL(raw);
+  const host = url.hostname.toLowerCase();
+  if (host !== 'www.backmarket.co.uk' && host !== 'backmarket.co.uk') {
+    throw new Error('frontend_url must be a Back Market UK URL');
+  }
+  return url.toString();
+}
 
 // ─── NUXT Data Parsing ──────────────────────────────────────────
 
@@ -70,6 +114,7 @@ function findNuxtPickers(arr) {
 function extractNuxtDataCategories(arr) {
   const categorised = {
     gradePrices: {},
+    gradePicker: {},
     ramPicker: {},
     ssdPicker: {},
     colourPicker: {},
@@ -93,6 +138,7 @@ function extractNuxtDataCategories(arr) {
     const category = categorisePickerLabel(label);
     if (category === 'grade') {
       categorised.gradePrices[label] = entry.price;
+      categorised.gradePicker[label] = entry;
     } else if (category === 'ram') {
       categorised.ramPicker[label] = entry;
     } else if (category === 'ssd') {
@@ -237,6 +283,7 @@ function buildReconciledScrapeTarget(candidate = {}, scrape = {}) {
   const pageTitle = scrape.pageTitle || '';
   const finalUrl = scrape.finalUrl || scrape.url || '';
   const gradePrices = scrape.gradePrices || {};
+  const gradePicker = scrape.gradePicker || {};
   const gradeLabel = expectedGradeLabel(candidate.grade);
   const gradePrice = gradeLabel ? gradePrices[gradeLabel] || null : null;
 
@@ -304,6 +351,30 @@ function buildReconciledScrapeTarget(candidate = {}, scrape = {}) {
     unresolved.push(`expected grade "${candidate.grade || ''}" is not mapped for scrape verification`);
   } else if (!gradePrice) {
     hardFailures.push(`missing expected grade price for ${gradeLabel}`);
+  } else {
+    const gradeMatch = findMatchingPickerEntry(gradePicker, gradeLabel, 'grade');
+    if (gradeMatch) {
+      const productId = String(gradeMatch.entry?.productId || '').trim();
+      assertions.push({
+        category: 'grade',
+        ok: true,
+        expected: gradeLabel,
+        actual: gradeMatch.label,
+        productId,
+      });
+      if (productId) matchedProductIds.grade = productId;
+    } else if (Object.keys(gradePicker).length > 0) {
+      assertions.push({
+        category: 'grade',
+        ok: false,
+        expected: gradeLabel,
+        actual: Object.keys(gradePicker),
+        productId: '',
+      });
+      hardFailures.push(`grade picker mismatch for expected ${gradeLabel}`);
+    } else {
+      unresolved.push(`grade picker product_id not exposed for expected ${gradeLabel}`);
+    }
   }
 
   const fair = gradePrices.Fair;
@@ -380,6 +451,20 @@ async function extractNuxtDataFromPage(page) {
   });
 }
 
+async function waitForNuxtData(page, timeoutMs = 8000) {
+  await page.waitForFunction(() => {
+    const scripts = document.querySelectorAll('script#__NUXT_DATA__');
+    for (const script of scripts) {
+      try {
+        const data = JSON.parse(script.textContent);
+        if (Array.isArray(data) && data.length > 0) return true;
+      } catch (_) {}
+    }
+    return false;
+  }, { timeout: timeoutMs });
+  return extractNuxtDataFromPage(page);
+}
+
 async function extractPageMetadata(page) {
   return await page.evaluate(() => ({
     finalUrl: window.location.href,
@@ -404,14 +489,15 @@ async function isCloudflareBlocked(page) {
  * Launches its own browser instance.
  *
  * @param {string} productId - BM product UUID
- * @returns {object} { ok, source, url, gradePrices, ramPicker, ssdPicker, colourPicker, cpuGpuPicker }
+ * @returns {object} { ok, source, url, gradePrices, gradePicker, ramPicker, ssdPicker, colourPicker, cpuGpuPicker }
  */
-async function scrapeSingleProduct(productId) {
-  const url = `${BM_BASE}/en-gb/p/placeholder/${productId}?l=10`;
+async function scrapeSingleProduct(productId, options = {}) {
+  const url = options.frontendUrl ? normalizeScrapeUrl(options.frontendUrl) : productUrl(productId);
+  const targetSource = options.frontendUrl ? 'captured_frontend_url' : 'product_id_fallback';
   let browser;
   let context;
   try {
-    browser = await chromium.launch({
+    browser = await getChromium().launch({
       headless: true,
       args: [
         '--no-sandbox',
@@ -423,31 +509,38 @@ async function scrapeSingleProduct(productId) {
     context = await createStealthContext(browser);
     const page = await context.newPage();
 
-    // Cloudflare warmup — visit homepage first to set cookies before hitting product page
-    await page.goto(BM_BASE, { waitUntil: 'domcontentloaded', timeout: 12000 });
-    await page.waitForTimeout(1500);
+    let lastError;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
 
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
-    await page.waitForTimeout(2500);
+        if (await isCloudflareBlocked(page)) {
+          throw new Error('cloudflare_blocked');
+        }
 
-    if (await isCloudflareBlocked(page)) {
-      throw new Error('cloudflare_blocked');
+        const nuxtData = await waitForNuxtData(page);
+        if (!nuxtData) {
+          throw new Error('no_nuxt_data');
+        }
+        const extracted = extractNuxtDataCategories(nuxtData);
+        const metadata = await extractPageMetadata(page);
+        await page.close();
+        return {
+          ok: true,
+          source: attempt === 1 ? 'live single-page scrape' : 'live single-page scrape retry',
+          scrapeTargetSource: targetSource,
+          url,
+          ...metadata,
+          ...extracted,
+        };
+      } catch (error) {
+        lastError = error;
+        if (attempt === 2 || error.message === 'cloudflare_blocked') break;
+        await page.waitForTimeout(500);
+      }
     }
 
-    const nuxtData = await extractNuxtDataFromPage(page);
-    if (!nuxtData) {
-      throw new Error('no_nuxt_data');
-    }
-    const extracted = extractNuxtDataCategories(nuxtData);
-    const metadata = await extractPageMetadata(page);
-    await page.close();
-    return {
-      ok: true,
-      source: 'live single-page scrape',
-      url,
-      ...metadata,
-      ...extracted,
-    };
+    throw lastError || new Error('single_page_scrape_failed');
   } finally {
     try { if (context) await context.close(); } catch (_) {}
     try { if (browser) await browser.close(); } catch (_) {}
@@ -460,32 +553,43 @@ async function scrapeSingleProduct(productId) {
  *
  * @param {object} context - Playwright browser context (from createStealthContext)
  * @param {string} productId - BM product UUID
- * @returns {object} { ok, source, url, gradePrices, ramPicker, ssdPicker, colourPicker, cpuGpuPicker }
+ * @returns {object} { ok, source, url, gradePrices, gradePicker, ramPicker, ssdPicker, colourPicker, cpuGpuPicker }
  */
-async function scrapeWithContext(context, productId) {
-  const url = `${BM_BASE}/en-gb/p/placeholder/${productId}?l=10`;
+async function scrapeWithContext(context, productId, options = {}) {
+  const url = options.frontendUrl ? normalizeScrapeUrl(options.frontendUrl) : productUrl(productId);
+  const targetSource = options.frontendUrl ? 'captured_frontend_url' : 'product_id_fallback';
   const page = await context.newPage();
   try {
-    await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
-    await page.waitForTimeout(2500);
+    let lastError;
+    for (let attempt = 1; attempt <= 2; attempt++) {
+      try {
+        await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 12000 });
 
-    if (await isCloudflareBlocked(page)) {
-      throw new Error('cloudflare_blocked');
-    }
+        if (await isCloudflareBlocked(page)) {
+          throw new Error('cloudflare_blocked');
+        }
 
-    const nuxtData = await extractNuxtDataFromPage(page);
-    if (!nuxtData) {
-      throw new Error('no_nuxt_data');
+        const nuxtData = await waitForNuxtData(page);
+        if (!nuxtData) {
+          throw new Error('no_nuxt_data');
+        }
+        const extracted = extractNuxtDataCategories(nuxtData);
+        const metadata = await extractPageMetadata(page);
+        return {
+          ok: true,
+          source: attempt === 1 ? 'live single-page scrape' : 'live single-page scrape retry',
+          scrapeTargetSource: targetSource,
+          url,
+          ...metadata,
+          ...extracted,
+        };
+      } catch (error) {
+        lastError = error;
+        if (attempt === 2 || error.message === 'cloudflare_blocked') break;
+        await page.waitForTimeout(500);
+      }
     }
-    const extracted = extractNuxtDataCategories(nuxtData);
-    const metadata = await extractPageMetadata(page);
-    return {
-      ok: true,
-      source: 'live single-page scrape',
-      url,
-      ...metadata,
-      ...extracted,
-    };
+    throw lastError || new Error('context_scrape_failed');
   } finally {
     try { await page.close(); } catch (_) {}
   }
@@ -499,10 +603,10 @@ async function scrapeWithContext(context, productId) {
  * @param {number} timeoutMs - timeout in ms (default 15000)
  * @returns {object} scrape result or fallback
  */
-async function scrapeWithFallback(productId, catalogFallback = {}, timeoutMs = DEFAULT_TIMEOUT_MS) {
+async function scrapeWithFallback(productId, catalogFallback = {}, timeoutMs = DEFAULT_TIMEOUT_MS, options = {}) {
   try {
     const scrape = await Promise.race([
-      scrapeSingleProduct(productId),
+      scrapeSingleProduct(productId, options),
       new Promise((_, reject) => setTimeout(() => reject(new Error('live_scrape_timeout')), timeoutMs)),
     ]);
     return scrape;
@@ -510,8 +614,11 @@ async function scrapeWithFallback(productId, catalogFallback = {}, timeoutMs = D
     return {
       ok: false,
       source: 'catalog fallback',
+      scrapeTargetSource: options.frontendUrl ? 'captured_frontend_url' : 'product_id_fallback',
+      url: options.frontendUrl || productUrl(productId),
       error: e.message,
       gradePrices: catalogFallback.gradePrices || {},
+      gradePicker: catalogFallback.gradePicker || {},
       ramPicker: catalogFallback.ramPicker || {},
       ssdPicker: catalogFallback.ssdPicker || {},
       colourPicker: catalogFallback.colourPicker || {},
@@ -528,7 +635,7 @@ async function scrapeWithFallback(productId, catalogFallback = {}, timeoutMs = D
  * @returns {{ browser, context }}
  */
 async function launchBatchBrowser() {
-  const browser = await chromium.launch({
+  const browser = await getChromium().launch({
     headless: true,
     args: [
       '--no-sandbox',
@@ -557,9 +664,13 @@ module.exports = {
   findNuxtPickers,
   extractNuxtDataCategories,
   buildReconciledScrapeTarget,
+  productUrl,
+  normalizeScrapeUrl,
+  getChromium,
   // Browser helpers
   createStealthContext,
   extractNuxtDataFromPage,
+  waitForNuxtData,
   extractPageMetadata,
   isCloudflareBlocked,
   // Main scrape functions

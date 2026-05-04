@@ -6,6 +6,7 @@ const fs = require('fs');
 const path = require('path');
 const { mondayQuery, BOARDS } = require('./lib/monday');
 const { calculateProfitability } = require('./lib/profitability');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 
 const TODAY = new Date().toISOString().slice(0, 10);
 const DATA_DIR = '/home/ricky/builds/backmarket/data';
@@ -14,8 +15,6 @@ const BUYBACK_MONITOR_DATA_DIR = '/home/ricky/builds/buyback-monitor/data';
 const SHIPPING_COST = 15;
 const MAIN_BOARD = BOARDS.MAIN;
 const BM_DEVICES_BOARD = BOARDS.BM_DEVICES;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
-const BM_TELEGRAM_CHAT = '-1003888456344';
 const IS_DRY_RUN = process.argv.includes('--dry-run');
 
 const CSV_COLUMNS = [
@@ -412,15 +411,7 @@ function mergeNotes(existingNotes, action, nextProposedAction, previousProposedA
 
 async function postTelegram(text) {
   if (IS_DRY_RUN) return;
-  if (!TELEGRAM_BOT_TOKEN) {
-    info('[TG] TELEGRAM_BOT_TOKEN not set; skipping Telegram summary.');
-    return;
-  }
-  await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text }),
-  });
+  await sendTelegram(text, { logger: { log: info, warn: info } });
 }
 
 async function loadBmDevices() {

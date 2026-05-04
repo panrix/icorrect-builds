@@ -20,6 +20,7 @@
 
 const express = require("express");
 const fs = require("fs");
+const { postSlack: sendSlack } = require("../../scripts/lib/notifications");
 const A_NUMBER_MAP_DATA = require("../../data/A_NUMBER_MAP.json");
 
 if (
@@ -37,14 +38,13 @@ app.use(express.json());
 const PORT = 8011;
 const HOST = "127.0.0.1";
 
-const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
-const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
-const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
-
+const MONDAY_TOKEN = process.env.MONDAY_AUTOMATIONS_TOKEN;
 const BOARD_ID = "349212843";
 const STATUS4_COLUMN = "status4";
 const BM_BOARD_RELATION = "board_relation5";
-const SLACK_CHANNEL = "C09VB5G7CTU";
+const BM_PRICING_SOURCE = (process.env.BM_PRICING_SOURCE || "sold_first")
+  .trim()
+  .toLowerCase();
 
 const GRADE_CHECK_CONSTANTS = {
   TOP_CASE_GRADE_COLUMN: "status_2_mkmcj0tz",
@@ -55,6 +55,7 @@ const GRADE_CHECK_CONSTANTS = {
   SHIPPING_COST: 15,
   BM_COMMISSION: 0.1,
   SELL_PRICES_PATH: "/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json",
+  SOLD_PRICES_PATH: "/home/ricky/builds/backmarket/data/sold-prices-latest.json",
   PURCHASE_COST_COLUMN: "numeric",
   PARTS_COST_COLUMN: "lookup_mkx1xzd7",
   LABOUR_HOURS_COLUMN: "formula__1",
@@ -87,6 +88,9 @@ const A_NUMBER_TO_SCRAPER_MODEL = Object.fromEntries(
 
 const gradeCheckCache = new Map();
 const GRADE_CHECK_DEDUP_MS = 10 * 60 * 1000;
+let soldPriceLookupCache = null;
+let soldPriceLookupLoaded = false;
+let lastSoldLookupSource = "";
 
 function dedup(itemId) {
   const now = Date.now();
@@ -132,25 +136,7 @@ async function mondayQuery(query, label = "Monday query") {
 }
 
 async function slackPost(text) {
-  if (SLACK_BOT_TOKEN) {
-    await fetch("https://slack.com/api/chat.postMessage", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ channel: SLACK_CHANNEL, text }),
-    });
-    return;
-  }
-
-  if (SLACK_WEBHOOK_URL) {
-    await fetch(SLACK_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
-    });
-  }
+  await sendSlack(text, { channel: "gradeCheck", logger: console });
 }
 
 async function postMondayComment(itemId, body) {
@@ -213,6 +199,83 @@ function matchModelToScraper(deviceUuid, deviceName, sellPriceData) {
         return { key: scraperKey, method: "a-number", aNumber: aMatch[0] };
       }
     }
+  }
+
+  return null;
+}
+
+function loadSoldPriceLookup() {
+  if (soldPriceLookupLoaded) {
+    return soldPriceLookupCache;
+  }
+
+  soldPriceLookupLoaded = true;
+
+  try {
+    soldPriceLookupCache = JSON.parse(
+      fs.readFileSync(GRADE_CHECK_CONSTANTS.SOLD_PRICES_PATH, "utf8")
+    );
+    console.log(
+      `[grade-check] Loaded sold lookup: ${Object.keys(soldPriceLookupCache.by_sku || {}).length} SKUs, ${Object.keys(soldPriceLookupCache.by_model || {}).length} models`
+    );
+    return soldPriceLookupCache;
+  } catch (err) {
+    console.error(
+      `[grade-check] Could not load sold lookup: ${err.message}`
+    );
+    return null;
+  }
+}
+
+function buildSoldLookupModelKey(sku) {
+  const parts = String(sku || "").split(".");
+  if (parts.length < 2) {
+    return null;
+  }
+  return `${parts[0].toUpperCase()}.${parts[1].toUpperCase()}`;
+}
+
+function resolveSellPriceFromSoldLookup(sku, grade) {
+  lastSoldLookupSource = "";
+
+  if (!sku) {
+    return null;
+  }
+
+  const soldLookup = loadSoldPriceLookup();
+  if (!soldLookup) {
+    return null;
+  }
+
+  const skuEntry = soldLookup.by_sku?.[sku];
+  if (skuEntry && Number(skuEntry.count) >= 2 && skuEntry.avg_price !== undefined) {
+    lastSoldLookupSource = `by_sku:${sku}`;
+    return Number(skuEntry.avg_price);
+  }
+
+  const modelKey = buildSoldLookupModelKey(sku);
+  if (!modelKey) {
+    return null;
+  }
+
+  const gradeEntry = soldLookup.by_model?.[modelKey]?.[grade];
+  if (
+    gradeEntry &&
+    Number(gradeEntry.count) >= 3 &&
+    gradeEntry.avg_price !== undefined
+  ) {
+    lastSoldLookupSource = `by_model:${modelKey}:${grade}`;
+    return Number(gradeEntry.avg_price);
+  }
+
+  const fairEntry = soldLookup.by_model?.[modelKey]?.Fair;
+  if (
+    fairEntry &&
+    Number(fairEntry.count) >= 3 &&
+    fairEntry.avg_price !== undefined
+  ) {
+    lastSoldLookupSource = `by_model:${modelKey}:Fair`;
+    return Number(fairEntry.avg_price);
   }
 
   return null;
@@ -324,24 +387,27 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
 
     let deviceName = item.name;
     let deviceUuid = null;
+    let deviceSku = "";
     if (deviceItemId) {
       const deviceData = await mondayQuery(`{
         items(ids: [${deviceItemId}]) {
           name
-          column_values(ids: ["lookup", "text_mm1dt53s"]) {
+          column_values(ids: ["lookup", "text_mm1dt53s", "text89"]) {
             id text
             ... on MirrorValue { display_value }
           }
         }
       }`, `fetch linked BM Device item ${deviceItemId}`);
-      const device = deviceData?.data?.items?.[0];
+        const device = deviceData?.data?.items?.[0];
       if (device) {
         const lookupCol = device.column_values?.find((c) => c.id === "lookup");
         const uuidCol = device.column_values?.find((c) => c.id === "text_mm1dt53s");
+        const skuCol = device.column_values?.find((c) => c.id === "text89");
         deviceName = lookupCol?.display_value || device.name || item.name;
         deviceUuid = (uuidCol?.text || "").trim() || null;
+        deviceSku = (skuCol?.text || "").trim();
         console.log(
-          `[grade-check] ${item.name}: BM Device="${device.name}", deviceName="${deviceName}", uuid="${deviceUuid || "none"}"`
+          `[grade-check] ${item.name}: BM Device="${device.name}", deviceName="${deviceName}", uuid="${deviceUuid || "none"}", sku="${deviceSku || "none"}"`
         );
       }
     } else {
@@ -370,45 +436,70 @@ app.post("/webhook/bm/grade-check", async (req, res) => {
       `[grade-check] ${item.name}: Predicted grade=${predictedGradeKey}`
     );
 
-    let sellPriceData;
-    try {
-      sellPriceData = JSON.parse(
-        fs.readFileSync(GRADE_CHECK_CONSTANTS.SELL_PRICES_PATH, "utf8")
+    let predictedSellPrice = null;
+    let sellPriceSource = "";
+
+    if (BM_PRICING_SOURCE === "sold_first" && deviceSku) {
+      predictedSellPrice = resolveSellPriceFromSoldLookup(
+        deviceSku,
+        predictedGradeKey
       );
-    } catch (err) {
-      console.error(
-        `[grade-check] Could not load sell prices: ${err.message}`
-      );
-      await slackPost(
-        `⚠️ Grade check for ${item.name}: sell price data unavailable. Cannot predict profitability.`
-      );
-      return;
+      if (predictedSellPrice !== null) {
+        sellPriceSource = `sold:${lastSoldLookupSource || "unknown"}`;
+        console.log(
+          `[grade-check] ${item.name}: resolved sell price from ${sellPriceSource} -> £${predictedSellPrice}`
+        );
+      }
     }
 
-    const modelMatch = matchModelToScraper(deviceUuid, deviceName, sellPriceData);
-    if (!modelMatch) {
+    if (predictedSellPrice === null) {
+      let sellPriceData;
+      try {
+        sellPriceData = JSON.parse(
+          fs.readFileSync(GRADE_CHECK_CONSTANTS.SELL_PRICES_PATH, "utf8")
+        );
+      } catch (err) {
+        console.error(
+          `[grade-check] Could not load sell prices: ${err.message}`
+        );
+        await slackPost(
+          `⚠️ Grade check for ${item.name}: sell price data unavailable. Cannot predict profitability.`
+        );
+        return;
+      }
+
+      const modelMatch = matchModelToScraper(deviceUuid, deviceName, sellPriceData);
+      if (!modelMatch) {
+        console.log(
+          `[grade-check] ${item.name}: no scraper match for device="${deviceName}"`
+        );
+        await slackPost(
+          `⚠️ Grade check for ${item.name}: no sell price data found for device "${deviceName}". Predicted grade: ${predictedGradeKey}.`
+        );
+        return;
+      }
+
+      const modelKey = modelMatch.key;
       console.log(
-        `[grade-check] ${item.name}: no scraper match for device="${deviceName}"`
+        `[grade-check] ${item.name}: matched to scraper "${modelKey}" via ${modelMatch.method}${modelMatch.aNumber ? ` (${modelMatch.aNumber})` : ""}`
       );
-      await slackPost(
-        `⚠️ Grade check for ${item.name}: no sell price data found for device "${deviceName}". Predicted grade: ${predictedGradeKey}.`
-      );
-      return;
+
+      const gradeData = sellPriceData.models?.[modelKey]?.grades?.[predictedGradeKey];
+      predictedSellPrice = gradeData?.price || null;
+      if (predictedSellPrice !== null) {
+        sellPriceSource = `scraper:${modelKey}:${predictedGradeKey}`;
+        console.log(
+          `[grade-check] ${item.name}: resolved sell price from ${sellPriceSource} -> £${predictedSellPrice}`
+        );
+      }
     }
 
-    const modelKey = modelMatch.key;
-    console.log(
-      `[grade-check] ${item.name}: matched to scraper "${modelKey}" via ${modelMatch.method}${modelMatch.aNumber ? ` (${modelMatch.aNumber})` : ""}`
-    );
-
-    const gradeData = sellPriceData.models?.[modelKey]?.grades?.[predictedGradeKey];
-    const predictedSellPrice = gradeData?.price;
     if (!predictedSellPrice) {
       console.log(
-        `[grade-check] ${item.name}: no sell price for ${modelKey} / ${predictedGradeKey}`
+        `[grade-check] ${item.name}: no sell price for predicted grade ${predictedGradeKey}`
       );
       await slackPost(
-        `⚠️ Grade check for ${item.name}: no sell price data for ${modelKey} Grade ${predictedGradeKey}.`
+        `⚠️ Grade check for ${item.name}: no sell price data for predicted grade ${predictedGradeKey}.`
       );
       return;
     }

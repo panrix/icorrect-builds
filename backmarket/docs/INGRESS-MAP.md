@@ -205,7 +205,7 @@ These ports are publicly exposed but are NOT BackMarket-related:
 | 18789 | OpenClaw Gateway | Medium (has auth token) | Infrastructure |
 | 8765 | Xero OAuth temp | Low (temporary) | Infrastructure |
 | 4174/4175 | Intake form | Low (static content) | Infrastructure |
-| 5678 | n8n | Low (has own auth) | Infrastructure |
+| 5678 | n8n | Retired for BackMarket; infrastructure only if still running | Infrastructure |
 
 These should be locked down separately. Not part of the BM rebuild.
 

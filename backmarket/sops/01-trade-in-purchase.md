@@ -208,40 +208,40 @@ Group: `group_mkq3wkeq`
 
 ### Findings
 1. Severity: high
-   What is wrong: The rebuilt script does not extract `deviceTitle` from the packing slip PDF the way Flow 0 node 8 does. It always uses `orderDetail.listing.title`.
-   Why it matters: Device title drives spec parsing, BM-to-device mapping, CPU detection, and device-board linking. If the API title and PDF title differ, the rebuilt script can write different RAM / SSD / GPU / CPU / relation values than n8n.
-   Evidence: `scripts/sent-orders.js` sets `const deviceTitle = apiData.listing?.title || ''` in `parsePdfAssessments()` and later uses `pdfData.deviceTitle || extractProductName(orderDetail)`; Flow 0 node 8 extracts `Device:` through `Price:` from the PDF before falling back to `apiData.listing.title`.
-   Recommended fix: Parse `deviceTitle` from the PDF body first, matching Flow 0 node 8 exactly, then fall back to `listing.title` only when the PDF field is missing.
+   What is wrong: The script must prefer the packing-slip device title when present, then fall back to BM API title.
+   Why it matters: Device title drives spec parsing, BM-to-device mapping, CPU detection, and device-board linking.
+   Evidence: `scripts/sent-orders.js` parses PDF assessments and uses `pdfData.deviceTitle || extractProductName(orderDetail)`.
+   Recommended fix: Keep PDF-first title extraction and add regression examples for new BM title variants.
 
 2. Severity: high
-   What is wrong: Intel CPU handling can drift from Flow 0. The rebuilt script can emit `Intel` as the CPU value, while Flow 0 node 9 plus node 12 emit `i3` / `i5` / `i7` style labels.
+   What is wrong: Intel CPU handling can emit `Intel` instead of `i3` / `i5` / `i7` style labels.
    Why it matters: This changes Main Board `dropdown` and BM Devices `status7__1`, which are explicitly in scope for this QA.
-   Evidence: `scripts/sent-orders.js` stores `result.cpu = 'Intel'` for Intel titles in `parseSpecsFromTitle()` and passes that through `detectCPU()`; Flow 0 node 9 extracts `Core i(\d+)` into `cpuFromTitleValue = "i" + digit`, and node 12 preserves that Intel label.
-   Recommended fix: Change the Intel parser path to emit `i3` / `i5` / `i7` values, matching Flow 0 node 9 and node 12.
+   Evidence: `scripts/sent-orders.js` stores `result.cpu = 'Intel'` for Intel titles in `parseSpecsFromTitle()` and passes that through `detectCPU()`.
+   Recommended fix: Change the Intel parser path to emit `i3` / `i5` / `i7` values where the BM title exposes that detail.
 
 3. Severity: medium
-   What is wrong: The rebuilt script writes extra Monday columns that Flow 0 nodes 13 and 16 do not write.
-   Why it matters: This means the rebuild is not mutation-equivalent to the n8n reference even when the core required columns match.
-   Evidence: Main Board adds `date_mkqgbbtp`; BM Devices adds `text81`. Neither column exists in Flow 0 node 13 or node 16 mutation payloads.
-   Recommended fix: If strict Flow 0 parity is required, remove those writes. If the new writes are intentional, keep them and treat the script as a deliberate fork rather than a byte-for-byte rebuild.
+   What is wrong: The script writes operational helper fields beyond the minimum intake fields.
+   Why it matters: Extra writes must be intentional and documented so operators know which columns are controlled by the VPS path.
+   Evidence: Main Board adds `date_mkqgbbtp`; BM Devices adds `text81`.
+   Recommended fix: Keep intentional helper fields documented in this SOP and avoid adding new mutation columns without a rollback note.
 
 4. Severity: medium
-   What is wrong: Duplicate detection no longer matches Flow 0. The rebuilt script de-dups on Main Board `text_mky01vb4`, while Flow 0 checks BM Devices `text_mkqy3576` in `group_mkq3wkeq`.
-   Why it matters: Partial-failure scenarios behave differently. A run that created only one board item can be considered duplicate by one implementation and not the other.
-   Evidence: `scripts/sent-orders.js` queries Main Board `text_mky01vb4`; Flow 0 node 3 fetches BM Devices items and node 8.5 checks `text_mkqy3576`.
-   Recommended fix: Decide which board is the canonical de-dup source and align both the script and the SOP to that decision. The SOP now documents the script's current Main Board behavior.
+   What is wrong: Duplicate detection must have one canonical source.
+   Why it matters: Partial-failure scenarios behave differently if Main Board and BM Devices disagree.
+   Evidence: `scripts/sent-orders.js` queries Main Board `text_mky01vb4`.
+   Recommended fix: Treat Main Board `text_mky01vb4` as the canonical de-dup key and add a repair report for partial BM Devices creation failures.
 
 5. Severity: medium
-   What is wrong: Notification and operational follow-up behavior differ from Flow 0. The rebuilt script uses Telegram and adds a limited post-create verification step; Flow 0 uses Slack and has no equivalent verification read-back in the reviewed node path.
-   Why it matters: Alert routing and operator expectations are different, so "rebuilt flow matches n8n" is not accurate operationally.
-   Evidence: `scripts/sent-orders.js` sends Telegram via `sendMessage` and verifies `numeric`, `text0`, and `link`; Flow 0 nodes 15d, 18d, and 22 send Slack webhooks.
-   Recommended fix: Accept the new operational behavior as intentional, or restore Slack / exact n8n follow-up behavior if parity is the goal.
+   What is wrong: Notification routing is split between Telegram and Slack call sites.
+   Why it matters: Alert routing and operator expectations can drift, and missing Telegram delivery can hide automation outcomes.
+   Evidence: `scripts/sent-orders.js` sends Telegram via `sendMessage` and verifies `numeric`, `text0`, and `link`.
+   Recommended fix: Move intake notifications onto the shared notifications area once built.
 
 6. Severity: low
-   What is wrong: Assessment normalization is not an exact replica of Flow 0 node 8 and node 9. The rebuilt script trims trailing text after runs of double spaces and accepts some extra aliases.
-   Why it matters: In edge-case PDFs, the rebuilt script may map a label where Flow 0 would fall back to `Battery Reported`, `Screen Reported`, `Casing Reported`, or `Function Reported`.
-   Evidence: `cleanAssessment()` in `scripts/sent-orders.js` truncates after `\s{2,}`, and the script-level maps include `Service` and `Flawless appearance`; Flow 0 node 8 only `.trim()`s the extracted strings, and node 9 uses a narrower raw-value map.
-   Recommended fix: Remove the extra normalization if exact Flow 0 parity is required.
+   What is wrong: Assessment normalization accepts aliases and trims trailing PDF layout noise.
+   Why it matters: In edge-case PDFs, the script may map a label that should be left as reported.
+   Evidence: `cleanAssessment()` in `scripts/sent-orders.js` truncates after `\s{2,}`, and the script-level maps include `Service` and `Flawless appearance`.
+   Recommended fix: Keep aliases only when backed by current BM packing-slip examples.
 
 ### Open Questions / Assumptions
 - None that block documenting the current script behavior. The main unresolved point is whether strict Flow 0 parity is still the objective, or whether the rebuilt script is allowed to be a controlled divergence.
