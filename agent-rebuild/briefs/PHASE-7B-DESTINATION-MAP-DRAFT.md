@@ -104,4 +104,4 @@ Ownership calls are now mostly resolved. These are the remaining blockers before
 
 - The three KB files named in `QA-PHASE-7a-report.md` now point at `monday/docs/...`; stale old-path strings remain only in audit/report evidence.
 - `~/builds/INDEX.md` is stale and still describes the pre-7a world. Rebuild it after 7b, not before.
-- There are 2220 tracked `node_modules` files under `buyback-monitor/`; the working tree currently reports many deletions there. Decide separately whether to remove tracked dependencies in a cleanup commit.
+- Tracked `node_modules` cleanup was completed in `cb3a535`; remaining dirty status now represents real lane work and gitlink/nested-repo cleanup.

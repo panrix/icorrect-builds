@@ -26,7 +26,7 @@
 | backmarket-browser | Parent-owned with Runtime-only subdirs | `~/backmarket/browser/` | Source/docs parent-owned; browser profiles/session data runtime-only. |
 | backmarket-seller-support | Parent-owned | `~/backmarket/seller-support/` | Snapshot docs. |
 | bm-scripts | Archive | `~/backmarket/archive/bm-scripts/` | Tiny dormant leftover. |
-| buyback-monitor | Parent-owned with cleanup needed | `~/backmarket/buyback-monitor/` | Parent-owned currently; tracked `node_modules` cleanup required. |
+| buyback-monitor | Parent-owned | `~/backmarket/buyback-monitor/` | Parent-owned currently; tracked `node_modules` cleanup completed in `cb3a535`. |
 | claude-project-export | Parent-owned | `~/operations/claude-project-export/` | Snapshot/corpus. |
 | customer-service | Parent-owned | `~/customer-service/audit-snapshot/` | Audit snapshot. |
 | data | Archive or Parent-owned scratch | `~/backmarket/scratch/data/` | Ambiguous BM data drop; review before preserving. |
@@ -103,7 +103,7 @@ These should be ignored or moved outside git before/while migrating:
 ## Next Passes
 
 1. Dirty-WIP classification by folder/task.
-2. Dependency cleanup commit for tracked `node_modules`.
+2. Dependency cleanup commit for tracked `node_modules` completed in `cb3a535`.
 3. Broken gitlink pointer-doc conversion.
 4. `scripts/` split manifest.
 5. `system-audit-2026-03-31/` split manifest.

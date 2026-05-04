@@ -2,18 +2,28 @@
 
 **Branch audited:** `codex/agent-rebuild`
 **Checkout:** `/Users/ricky/vps/builds`
-**Status:** updated after initial cleanup commits; no feature work or folder moves performed
+**Status:** updated after dependency cleanup commit `cb3a535`; no feature work or folder moves performed
 
 ## Summary
 
-After the agent-rebuild docs checkpoint (`7891fb8`), dirty classification report (`b2020e7`), file-level redaction batch (`67e435d`), and `.claude/` ignore batch (`b0ca5d5`), the parent repo has two main kinds of dirt left:
+After the agent-rebuild docs checkpoint (`7891fb8`), dirty classification report (`b2020e7`), file-level redaction batch (`67e435d`), `.claude/` ignore batch (`b0ca5d5`), and tracked dependency cleanup (`cb3a535`), the parent repo has only meaningful lane dirt left:
 
 | Class | Count | Meaning |
 |---|---:|---|
-| Meaningful modified entries | 30 | Human-authored or source/config/doc changes that need task classification. |
-| Dependency/vendor deletion noise | 2,220 | Tracked `node_modules` deletions in `llm-summary-endpoint`, `buyback-monitor`, and `quote-wizard`. |
+| Meaningful status entries | 30 | Human-authored or source/config/doc changes that need task classification. |
+| Dependency/vendor deletion noise | 0 | Resolved by `cb3a535`; `node_modules` is no longer tracked in the parent repo. |
 
-The terrifying total is still mostly dependency noise. The risky part is that the 30 meaningful entries belong to several unrelated work lanes.
+The terrifying dependency total is gone. The remaining risk is that the 30 meaningful entries belong to several unrelated work lanes.
+
+Current status shape, excluding `node_modules`:
+
+| status | count | meaning |
+|---|---:|---|
+| `M` | 28 | Modified parent-tracked files or gitlinks. |
+| `m` | 1 | Modified nested repo content under a parent gitlink. |
+| `?` | 1 | Dirty/untracked nested repo under a parent gitlink. |
+
+Current diff size, excluding `node_modules`: 29 files changed, 2,764 insertions, 993 deletions.
 
 Resolved in this branch:
 
@@ -21,6 +31,7 @@ Resolved in this branch:
 - This classification report committed in `b2020e7`.
 - File-level redactions / PM2 dump redactions committed in `67e435d`.
 - `.claude/` runtime/worktree folders ignored in `b0ca5d5`.
+- Tracked `node_modules` removed from the parent repo in `cb3a535`.
 
 ## Meaningful Modified Entries
 
@@ -96,9 +107,9 @@ Resolved in this branch:
 
 | Area | Count | Recommended action |
 |---|---:|---|
-| `llm-summary-endpoint/node_modules/` | 1,304 | Dedicated dependency cleanup commit or restore before cleanup. Do not mix with features. |
-| `buyback-monitor/node_modules/` | 903 | Dedicated dependency cleanup commit or restore before cleanup. |
-| `quote-wizard/node_modules/` | 13 | Dedicated dependency cleanup commit or restore before cleanup. |
+| `llm-summary-endpoint/node_modules/` | 0 | Resolved in `cb3a535`. |
+| `buyback-monitor/node_modules/` | 0 | Resolved in `cb3a535`. |
+| `quote-wizard/node_modules/` | 0 | Resolved in `cb3a535`. |
 
 ### Agent runtime/worktree noise
 
@@ -109,9 +120,11 @@ Resolved in this branch:
 
 ## Recommended Next Commits
 
-1. **Dependency cleanup batch:** remove tracked `node_modules` from parent repo and keep ignore rules.
-2. **Lane commits:** Back Market/browser, intake, operations, Alex/customer-service, each on its own lane.
-3. **Gitlink normalization:** Shopify, Royal Mail, and `intake-system/react-form` after preserving current branch/WIP.
+1. **Back Market/browser lane review:** inspect and test `backmarket-browser/`, `backmarket/data/sold-prices-latest.json`, and `buyback-monitor/` as one possible BM lane, but commit generated data only if intentionally source-like.
+2. **Intake lane review:** inspect/test backend/shared changes; handle `intake-system/react-form` as a gitlink/repo decision, not as normal parent source.
+3. **Operations lane review:** inspect `monday/` and `operations-system/` docs together.
+4. **Alex/customer-service lane review:** inspect the large Intercom dry-run script change before committing.
+5. **Gitlink normalization:** Shopify, Royal Mail, and `intake-system/react-form` after preserving current branch/WIP.
 
 ## Do Not Do Yet
 
