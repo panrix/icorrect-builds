@@ -1,5 +1,4 @@
 const CAPTURE_REQUIRED_FIELDS = [
-  'listing_id',
   'sku',
   'seller_portal_url',
   'frontend_url',
@@ -29,6 +28,16 @@ function isBackMarketUrl(value, { allowSeller = false } = {}) {
     const host = url.hostname.toLowerCase();
     if (allowSeller) return host.endsWith('backmarket.co.uk');
     return host === 'www.backmarket.co.uk' || host === 'backmarket.co.uk';
+  } catch (_) {
+    return false;
+  }
+}
+
+function isBackMarketProductUrl(value) {
+  if (!isBackMarketUrl(value)) return false;
+  try {
+    const url = new URL(String(value || '').trim());
+    return /\/en-gb\/p\//.test(url.pathname);
   } catch (_) {
     return false;
   }
@@ -72,8 +81,8 @@ function validateFrontendUrlCaptureRecord(record) {
     errors.push('seller_portal_url must be a Back Market portal/dashboard URL');
   }
 
-  if (record.frontend_url && !isBackMarketUrl(record.frontend_url)) {
-    errors.push('frontend_url must be a Back Market UK public URL');
+  if (record.frontend_url && !isBackMarketProductUrl(record.frontend_url)) {
+    errors.push('frontend_url must be a Back Market UK public product URL');
   }
 
   const specSnapshot = validateSpecSnapshot(record.spec_snapshot);
@@ -143,4 +152,5 @@ module.exports = {
   VERIFICATION_STATUSES,
   validateFrontendUrlCaptureRecord,
   buildFrontendUrlCapturePlan,
+  isBackMarketProductUrl,
 };

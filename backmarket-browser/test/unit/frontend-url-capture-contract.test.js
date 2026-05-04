@@ -3,6 +3,7 @@ const {
   VERIFICATION_STATUSES,
   validateFrontendUrlCaptureRecord,
   buildFrontendUrlCapturePlan,
+  isBackMarketProductUrl,
 } = require('../../lib/frontend-url-capture-contract');
 
 const validRecord = {
@@ -24,6 +25,8 @@ const validRecord = {
 
 assert.equal(VERIFICATION_STATUSES.includes(validRecord.verification_status), true);
 assert.equal(validateFrontendUrlCaptureRecord(validRecord).ok, true);
+assert.equal(isBackMarketProductUrl(validRecord.frontend_url), true);
+assert.equal(isBackMarketProductUrl('https://www.backmarket.co.uk/en-gb/quality'), false);
 
 const invalidRecord = {
   ...validRecord,

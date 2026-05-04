@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { spawn, spawnSync } = require('child_process');
 const { acquireLock, releaseLock, buildLockRecord, defaultLockPath } = require('../lib/runtime-lock');
+const { resolveHarnessBin } = require('../lib/harness-path');
 const {
   DEFAULT_CDP_HTTP,
   DEFAULT_PROFILE_DIR,
@@ -45,7 +46,7 @@ async function main() {
   const cdpPort = Number(new URL(cdpHttp).port || 9222);
   const profileDir = argValue('--profile-dir', process.env.BM_CHROMIUM_PROFILE_DIR || DEFAULT_PROFILE_DIR);
   const lockPath = argValue('--lock', process.env.BM_LOCK_PATH || defaultLockPath());
-  const harnessBin = argValue('--harness-bin', process.env.BROWSER_HARNESS_BIN || '/home/ricky/.local/bin/browser-harness');
+  const harnessBin = argValue('--harness-bin', resolveHarnessBin());
   const waitMs = Number(argValue('--wait-ms', process.env.BM_CDP_WAIT_MS || 10000));
 
   const plan = {

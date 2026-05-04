@@ -3,6 +3,7 @@
   "updated": "2026-04-25",
   "pages": {
     "listings": {
+      "activeListingsUrl": { "url": "https://www.backmarket.co.uk/bo-seller/listings/active?orderBy=-quantity&pageSize=10", "css": "body", "required": true },
       "navListings": { "text": "Listings", "required": true },
       "pageTitle": { "text": "Your listings", "required": true },
       "filterButton": { "text": "Filter", "required": true },
@@ -19,6 +20,8 @@
       "saveButton": { "text": "Save", "required": true }
     },
     "customerCare": {
+      "allRequestsUrl": { "url": "https://www.backmarket.co.uk/bo-seller/customer-care/all-requests", "css": "body", "required": true },
+      "openTasksUrl": { "url": "https://www.backmarket.co.uk/bo-seller/customer-care/open-tasks", "css": "body", "required": true },
       "navCustomerCare": { "text": "Customer Care", "required": true },
       "pageTitle": { "text": "Customer care", "required": true },
       "openTasksTab": { "text": "Open tasks", "required": true },

@@ -66,8 +66,10 @@ HEADERS = {
 OUTPUT_DIR = Path("/home/ricky/.openclaw/agents/main/workspace/data/buyback")
 PROGRESS_FILE = OUTPUT_DIR / "buy-box-progress.json"
 FREEZE_STATE_PATH = Path("/home/ricky/builds/backmarket/data/freeze-state.json")
+SOLD_LOOKUP_PATH = Path("/home/ricky/builds/backmarket/data/sold-prices-latest.json")
 COMPETITOR_DELAY = 2  # seconds between competitor requests
 SAVE_EVERY = 100
+BM_PRICING_SOURCE = (os.environ.get("BM_PRICING_SOURCE") or "sold_first").strip().lower()
 
 # SKU prefix -> Apple model number mapping
 SKU_TO_MODEL = {
@@ -151,6 +153,10 @@ DEFAULT_SELL_PRICE = 500
 BUMP_BUFFER = 1  # £1 above price_to_win
 BUMP_RATE_LIMIT = 1.0  # seconds between API updates
 MAX_BUMP_FAILURES = 5  # abort after N consecutive failures
+
+_sold_price_lookup_cache = None
+_sold_price_lookup_loaded = False
+_sold_lookup_last_source = ""
 
 logging.basicConfig(
     level=logging.INFO,
@@ -440,9 +446,122 @@ def load_freeze_state() -> dict:
     return data
 
 
+def load_sold_price_lookup() -> Optional[dict]:
+    global _sold_price_lookup_cache, _sold_price_lookup_loaded
+
+    if _sold_price_lookup_loaded:
+        return _sold_price_lookup_cache
+
+    _sold_price_lookup_loaded = True
+    if not SOLD_LOOKUP_PATH.exists():
+        log.warning(f"Sold-price lookup not found at {SOLD_LOOKUP_PATH}")
+        return None
+
+    try:
+        _sold_price_lookup_cache = json.loads(SOLD_LOOKUP_PATH.read_text())
+        log.info(
+            "Loaded sold-price lookup: %d SKUs, %d models from %s",
+            len(_sold_price_lookup_cache.get("by_sku", {})),
+            len(_sold_price_lookup_cache.get("by_model", {})),
+            SOLD_LOOKUP_PATH,
+        )
+        return _sold_price_lookup_cache
+    except Exception as e:
+        log.error(f"Failed to load sold-price lookup from {SOLD_LOOKUP_PATH}: {e}")
+        return None
+
+
+def _normalize_sold_lookup_grade(grade: str) -> Optional[str]:
+    grade_upper = (grade or "").upper().replace(".", "_")
+    policy_grade = get_policy_grade(grade_upper)
+    return BM_GRADE_TO_SCRAPER.get(policy_grade) or BM_GRADE_TO_SCRAPER.get(grade_upper)
+
+
+def _build_sold_lookup_model_key(sku: str) -> Optional[str]:
+    family = extract_model_family(sku)
+    apple_model = extract_apple_model(sku)
+    if family == "UNKNOWN" or not apple_model:
+        return None
+
+    if family.startswith("MBA"):
+        prefix = "MBA"
+    elif family == "MBP13":
+        prefix = "MBP"
+    else:
+        prefix = family
+
+    return f"{prefix}.{apple_model}".upper()
+
+
+def resolve_sell_price_from_sold_lookup(sku: str, grade: str) -> Optional[float]:
+    global _sold_lookup_last_source
+
+    _sold_lookup_last_source = ""
+
+    if not sku:
+        return None
+
+    lookup = load_sold_price_lookup()
+    if not lookup:
+        return None
+
+    by_sku = lookup.get("by_sku", {})
+    sku_entry = by_sku.get(sku)
+    if isinstance(sku_entry, dict):
+        count = int(sku_entry.get("count", 0) or 0)
+        avg_price = sku_entry.get("avg_price")
+        if count >= 2 and avg_price is not None:
+            _sold_lookup_last_source = f"by_sku:{sku}"
+            return float(avg_price)
+
+    model_key = _build_sold_lookup_model_key(sku)
+    if not model_key:
+        return None
+
+    grade_key = _normalize_sold_lookup_grade(grade)
+    by_model = lookup.get("by_model", {})
+    model_entry = by_model.get(model_key)
+    if not isinstance(model_entry, dict):
+        return None
+
+    if grade_key:
+        grade_entry = model_entry.get(grade_key)
+        if isinstance(grade_entry, dict):
+            count = int(grade_entry.get("count", 0) or 0)
+            avg_price = grade_entry.get("avg_price")
+            if count >= 3 and avg_price is not None:
+                _sold_lookup_last_source = f"by_model:{model_key}:{grade_key}"
+                return float(avg_price)
+
+    fair_entry = model_entry.get("Fair")
+    if isinstance(fair_entry, dict):
+        count = int(fair_entry.get("count", 0) or 0)
+        avg_price = fair_entry.get("avg_price")
+        if count >= 3 and avg_price is not None:
+            _sold_lookup_last_source = f"by_model:{model_key}:Fair"
+            return float(avg_price)
+
+    return None
+
+
 def resolve_sell_price_from_lookup(lookup: dict, sku: str, grade: str = "") -> Optional[float]:
     """Resolve from generated lookup first, raw V7 fallback second."""
-    if not sku or not lookup:
+    if not sku:
+        return None
+
+    if BM_PRICING_SOURCE == "sold_first":
+        sold_price = resolve_sell_price_from_sold_lookup(sku, grade)
+        if sold_price is not None:
+            log.info(
+                "Resolved sell price from sold lookup (%s): sku=%s grade=%s price=£%.2f",
+                _sold_lookup_last_source or "unknown",
+                sku,
+                grade,
+                sold_price,
+            )
+            return sold_price
+
+    if not lookup:
         return None
 
     # Preferred: generated sell-price-lookup.json schema
@@ -461,13 +580,39 @@ def resolve_sell_price_from_lookup(lookup: dict, sku: str, grade: str = "") -> O
                 grade_key = "excellent"
             entry = lookup.get("by_spec", {}).get(spec_key)
             if entry:
-                return entry.get(grade_key) or entry.get("fair")
+                price = entry.get(grade_key) or entry.get("fair")
+                if price is not None:
+                    log.info(
+                        "Resolved sell price from scraper lookup (by_spec:%s:%s): sku=%s grade=%s price=£%.2f",
+                        spec_key,
+                        grade_key,
+                        sku,
+                        grade,
+                        float(price),
+                    )
+                    return price
             prefix = f"{model}.{year}.{chip}"
             by_family = lookup.get("by_family", {})
             if prefix in by_family:
-                return by_family[prefix]
+                price = by_family[prefix]
+                log.info(
+                    "Resolved sell price from scraper lookup (by_family:%s): sku=%s grade=%s price=£%.2f",
+                    prefix,
+                    sku,
+                    grade,
+                    float(price),
+                )
+                return price
             if model in by_family:
-                return by_family[model]
+                price = by_family[model]
+                log.info(
+                    "Resolved sell price from scraper lookup (by_family:%s): sku=%s grade=%s price=£%.2f",
+                    model,
+                    sku,
+                    grade,
+                    float(price),
+                )
+                return price
         return None
 
     # Legacy/raw V7 fallback
@@ -494,10 +639,27 @@ def resolve_sell_price_from_lookup(lookup: dict, sku: str, grade: str = "") -> O
     for try_grade in [scraper_grade, "Fair", "Good"]:
         entry = grades.get(try_grade)
         if entry and isinstance(entry, dict) and entry.get("price"):
-            return float(entry["price"])
+            price = float(entry["price"])
+            log.info(
+                "Resolved sell price from scraper lookup (%s:%s): sku=%s grade=%s price=£%.2f",
+                scraper_model,
+                try_grade,
+                sku,
+                grade,
+                price,
+            )
+            return price
     for entry in grades.values():
         if isinstance(entry, dict) and entry.get("price"):
-            return float(entry["price"])
+            price = float(entry["price"])
+            log.info(
+                "Resolved sell price from scraper lookup (%s:any): sku=%s grade=%s price=£%.2f",
+                scraper_model,
+                sku,
+                grade,
+                price,
+            )
+            return price
     return None
 
 

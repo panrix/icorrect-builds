@@ -780,7 +780,7 @@ async function main() {
 
     if (
       portalState.state === 'logged_in' &&
-      !/dashboard|listings|bo-seller/i.test(page.url())
+      !/dashboard|listings|bo-seller|bo_merchant/i.test(page.url())
     ) {
       await page.goto(listingsUrl, { waitUntil: 'domcontentloaded', timeout: timeoutMs }).catch(() => null);
       await waitForSettledPage(page, 2500);

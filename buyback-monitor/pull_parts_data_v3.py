@@ -24,7 +24,7 @@ sys.stdout.reconfigure(line_buffering=True)
 from dotenv import load_dotenv
 load_dotenv("/home/ricky/config/api-keys/.env")
 
-MONDAY_TOKEN = os.environ["MONDAY_APP_TOKEN"]
+MONDAY_TOKEN = os.environ["MONDAY_AUTOMATIONS_TOKEN"]
 API_URL = "https://api.monday.com/v2"
 HEADERS = {
     "Authorization": MONDAY_TOKEN,

@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const DEFAULT_ENV_FILE = '/home/ricky/config/api-keys/.env';
 const DEFAULT_PROXY_PORT = 823;
-const DEFAULT_PORTAL_URL = 'https://www.backmarket.co.uk/bo-seller';
+const DEFAULT_PORTAL_URL = 'https://www.backmarket.co.uk/bo-seller/';
 const DEFAULT_LISTINGS_URL = 'https://www.backmarket.co.uk/en-gb/dashboard/seller/listings';
 const DEFAULT_PORTAL_EMAIL = 'jarvis@icorrect.co.uk';
 
@@ -205,6 +205,7 @@ function detectPortalState({
   if (
     normalizedUrl.includes('/dashboard/seller') ||
     normalizedUrl.includes('/bo-seller') ||
+    normalizedUrl.includes('/bo_merchant') ||
     listingsMarkerCount > 0
   ) {
     return {

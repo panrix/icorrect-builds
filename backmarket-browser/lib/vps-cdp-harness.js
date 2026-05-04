@@ -44,6 +44,10 @@ async function fetchCdpWebSocketUrl(cdpHttp = DEFAULT_CDP_HTTP, fetchImpl = fetc
 function resolveChromiumBinary(env = process.env) {
   const candidates = [
     env.BM_CHROMIUM_BIN,
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    path.join(process.env.HOME || '', 'Applications/Google Chrome.app/Contents/MacOS/Google Chrome'),
+    path.join(process.env.HOME || '', 'Applications/Chromium.app/Contents/MacOS/Chromium'),
     '/usr/bin/chromium-browser',
     '/usr/bin/chromium',
     '/usr/bin/google-chrome',

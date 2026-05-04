@@ -1,7 +1,8 @@
 const { spawnSync } = require('child_process');
 const fs = require('fs');
+const { resolveHarnessBin } = require('./harness-path');
 
-function runHarnessDoctor(binary = process.env.BROWSER_HARNESS_BIN || '/home/ricky/.local/bin/browser-harness') {
+function runHarnessDoctor(binary = resolveHarnessBin()) {
   if (!fs.existsSync(binary)) {
     return { ok: false, binary, exists: false, reason: 'missing_binary', livePortalAccess: false };
   }

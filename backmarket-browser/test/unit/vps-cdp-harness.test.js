@@ -3,6 +3,7 @@ const {
   isLocalCdpUrl,
   normalizeCdpHttp,
   discoverWebSocketUrlFromVersion,
+  resolveChromiumBinary,
   buildChromiumArgs,
   buildHarnessProbeInput,
   assertNeutralPageInfo,
@@ -18,6 +19,8 @@ assert.equal(
   'ws://127.0.0.1:9222/devtools/browser/abc'
 );
 assert.throws(() => discoverWebSocketUrlFromVersion({ webSocketDebuggerUrl: 'ws://example.com/devtools/browser/abc' }), /localhost/);
+const resolvedChrome = resolveChromiumBinary({ BM_CHROMIUM_BIN: '/definitely/not/chrome', HOME: '/definitely/not/home' });
+assert(resolvedChrome === null || resolvedChrome.endsWith('Google Chrome') || resolvedChrome.endsWith('Chromium') || resolvedChrome.includes('/usr/bin/'));
 const args = buildChromiumArgs({ cdpPort: 9333, profileDir: '/tmp/bm-profile', headless: true });
 assert(args.includes('--remote-debugging-port=9333'));
 assert(args.includes('--user-data-dir=/tmp/bm-profile'));
