@@ -112,6 +112,11 @@ Decision captured 2026-05-02:
 - Working v1 subsidy: £10 each way, i.e. up to £20 total for collection + return. This is a subsidy, not necessarily fully free courier if live Gophr cost is higher.
 - Customer-facing pitch direction: free collection and delivery in Zone 1 / central London, but only for repairs/orders over £250. Everything free/subsidised should require the £250 threshold.
 - Under £250, courier should still be shown as available if Gophr can quote it, but as paid courier with no free/subsidy treatment.
+- Same-day collection+return is hard because availability/pricing is a three-window chain: courier collection to iCorrect, internal repair+QC capacity, then courier return delivery to customer. The system must model this chain rather than treating same-day as a simple Gophr tier.
+- Same-day should be shown only when all layers pass: collection window, eligible repair, repair/QC capacity, return courier feasibility, and remaining same-day capacity.
+- V1 repair/QC capacity should use simple eligibility + cap logic: eligible repair types, 10:30 cutoff, 2/day launch cap, 3/day hard max, and staff override.
+- V1 same-day collection+return eligibility is iPhone-only, focused on predictable screen/battery-style repairs. MacBook same-day collection+return should stay out of v1.
+- Future target is live workshop queue management: capacity should eventually come from technician availability, queue state, QC capacity, parts readiness, and real repair scheduling rather than a random day/cap-only model.
 
 Recommendation updated:
 - The booking module becomes the control point. Website, Telegram, and Monday all read/progress bookings from the same ledger. Same-day can be customer-facing only when availability is true; otherwise the website falls back to standard/future courier or staff contact.
@@ -200,6 +205,18 @@ Why:
 - This isolates design from live mutation risk.
 - It lets Claude design the website against a stable contract.
 - It lets automations prove Monday writeback safely before customer-facing auto-confirm.
+
+## Queue management dependency
+
+V1 can safely launch with simple same-day capacity gates, but this must be treated as a bridge, not the final system. The long-term requirement is a proper workshop queue management system that can answer whether a same-day repair + QC window is genuinely available. Courier same-day logic should therefore expose a capacity interface now that can later be backed by live queue/scheduling data.
+
+Future queue-backed capacity should consider:
+- eligible repair type and expected repair duration;
+- technician skill/capacity;
+- current queue load and priority;
+- parts availability;
+- QC capacity;
+- return courier cutoff.
 
 ## Recommended Office Hours outcome
 
