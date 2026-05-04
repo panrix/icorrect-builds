@@ -27,8 +27,8 @@ const CHANNEL_ENV = Object.freeze({
 function getNotificationConfig(env = process.env) {
   return {
     telegram: {
-      token: env.BM_TELEGRAM_BOT_TOKEN || env.TELEGRAM_BOT_TOKEN || '',
-      tokenSource: env.BM_TELEGRAM_BOT_TOKEN ? 'BM_TELEGRAM_BOT_TOKEN' : 'TELEGRAM_BOT_TOKEN',
+      token: env.ICORRECT_TELEGRAM_BOT_TOKEN || env.TELEGRAM_BOT_TOKEN || '',
+      tokenSource: env.ICORRECT_TELEGRAM_BOT_TOKEN ? 'ICORRECT_TELEGRAM_BOT_TOKEN' : 'TELEGRAM_BOT_TOKEN',
       chatId: env.BM_TELEGRAM_CHAT || DEFAULTS.bmTelegramChat,
     },
     slack: {

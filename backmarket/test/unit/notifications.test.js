@@ -10,7 +10,7 @@ const {
 
 const env = {
   TELEGRAM_BOT_TOKEN: 'jarvis-token',
-  BM_TELEGRAM_BOT_TOKEN: 'bm-token',
+  ICORRECT_TELEGRAM_BOT_TOKEN: 'icorrect-token',
   BM_TELEGRAM_CHAT: '-1001',
   SLACK_BOT_TOKEN: 'slack-token',
   BM_SALES_SLACK_CHANNEL: 'sales-channel',
@@ -20,8 +20,8 @@ const env = {
 
 const config = getNotificationConfig(env);
 assert.equal(config.telegram.chatId, '-1001');
-assert.equal(config.telegram.token, 'bm-token');
-assert.equal(config.telegram.tokenSource, 'BM_TELEGRAM_BOT_TOKEN');
+assert.equal(config.telegram.token, 'icorrect-token');
+assert.equal(config.telegram.tokenSource, 'ICORRECT_TELEGRAM_BOT_TOKEN');
 assert.equal(config.slack.channels.sales, 'sales-channel');
 assert.equal(resolveSlackChannel('tradeIn', env), 'trade-channel');
 assert.equal(resolveSlackChannel('C123', env), 'C123');
@@ -38,7 +38,7 @@ const okFetch = async (url, options = {}) => {
 
 (async () => {
   await postTelegram('hello', { env, fetchImpl: okFetch, parseMode: 'HTML' });
-  assert.equal(calls[0].url, 'https://api.telegram.org/botbm-token/sendMessage');
+  assert.equal(calls[0].url, 'https://api.telegram.org/boticorrect-token/sendMessage');
   assert.deepEqual(JSON.parse(calls[0].options.body), {
     chat_id: '-1001',
     text: 'hello',
