@@ -4,7 +4,7 @@
 
 A self-hosted marketing intelligence platform replacing £5-20k/year of SaaS tools. Automated data collection for SEO rankings, site health, competitive intelligence, and social analytics for iCorrect (Apple repair business, London).
 
-**Live URL:** https://mi.icorrect.co.uk (behind Nginx basic auth: `ricky` / `iCorrect2026`)
+**Live URL:** https://mi.icorrect.co.uk (behind Nginx basic auth: `<REDACTED_USER>` / `<REDACTED_PASSWORD>`)
 
 ---
 

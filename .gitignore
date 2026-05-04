@@ -30,6 +30,8 @@ icloud-checker/src/index.js.bak-pre-removal
 .env.local
 .env.*
 !.env.example
+pm2-dump*.json
+**/pm2-dump*.json
 
 # Log files
 *.log
@@ -57,6 +59,10 @@ team-audits/reports/**/*.csv
 
 # node_modules anywhere
 **/node_modules/
+
+# Codex/Claude local runtime state
+.claude/
+**/.claude/
 
 # n8n flow exports (contain Slack webhook URLs)
 backmarket/data/n8n-*.json

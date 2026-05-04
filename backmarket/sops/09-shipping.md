@@ -166,7 +166,6 @@ Use this when follow-up labels must be posted into an existing Slack dispatch th
 | Component | Location | Status |
 |-----------|----------|--------|
 | Label buying | `/home/ricky/builds/royal-mail-automation/dispatch.js` | Active, weekday cron |
-| n8n Flow 7 | `D4a5qbCtQmSCUIeT` | Legacy/manual reference |
 
 ---
 

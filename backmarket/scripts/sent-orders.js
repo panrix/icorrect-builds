@@ -30,6 +30,7 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const { execFileSync } = require('child_process');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -44,8 +45,6 @@ const DEVICE_LOOKUP_BOARD = 3923707691;
 const MAIN_BOARD_GROUP = 'new_group34198';       // "Incoming Future"
 const BM_DEVICES_GROUP = 'group_mkq3wkeq';      // "BM Trade-Ins"
 const DEVICE_LOOKUP_GROUP = 'new_group';
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const BM_TELEGRAM_CHAT = '-1003888456344';
 
 const args = process.argv.slice(2);
 const isLive = args.includes('--live');
@@ -60,8 +59,10 @@ const CASING_MAP = { Flawless: 'Excellent', 'Flawless appearance': 'Excellent', 
 const FUNCTIONAL_MAP = { 'Product is functional': 'Functional', "Product isn't functional": 'Not Functional' };
 const BM_TO_DEVICE_MAP = {
   'MacBook Air 13 (Late 2020)': 'MacBook Air 13 M1 A2337',
+  'MacBook Air 13 (2020-01-01T00:00:00+00:00)': 'MacBook Air 13 M1 A2337',
   'MacBook Air 13 (Mid 2022)': 'MacBook Air 13 M2 A2681',
   'MacBook Air 13 (Mid 2024)': 'MacBook Air 13 M3 A3113',
+  'MacBook Air 13 (Early 2025)': 'MacBook Air 13 M4 A3240',
   'MacBook Air 13 (Mid 2020)': 'MacBook Air 13 A2179',
   'MacBook Air 13 (Mid 2018)': 'MacBook Air 13 A1932',
   'MacBook Air 15 (Mid 2023)': 'MacBook Air 15 M2 A2941',
@@ -74,6 +75,7 @@ const BM_TO_DEVICE_MAP = {
   'MacBook Pro 13 Touch Bar (Mid 2018)': 'MacBook Pro 13 Touch Bar A1706',
   'MacBook Pro 13 4TB (Mid 2020)': 'MacBook Pro 13 4TB 3 A2251',
   'MacBook Pro 14 (Late 2021)': 'MacBook Pro 14 M1 Pro/Max A2442',
+  'MacBook Pro 14 (2021-01-01T00:00:00+00:00)': 'MacBook Pro 14 M1 Pro/Max A2442',
   'MacBook Pro 14 (Early 2023)': 'MacBook Pro 14 M2 Pro/Max A2779',
   'MacBook Pro 14 (Late 2023)': 'MacBook Pro 14 M3 A2918',
   'MacBook Pro 14 (Mid 2024)': 'MacBook Pro 14 M3 A2992',
@@ -83,6 +85,7 @@ const BM_TO_DEVICE_MAP = {
   'MacBook Pro 15 (Mid 2018)': 'MacBook Pro 15 A1707',
   'MacBook Pro 16 (Late 2019)': 'MacBook Pro 16 A2141',
   'MacBook Pro 16 (Late 2021)': 'MacBook Pro 16 M1 Pro/Max A2485',
+  'MacBook Pro 16 (2021-01-01T00:00:00+00:00)': 'MacBook Pro 16 M1 Pro/Max A2485',
   'MacBook Pro 16 (Early 2023)': 'MacBook Pro 16 M2 Pro/Max A2780',
   'MacBook Pro 16 (Late 2023)': 'MacBook Pro 16 M3 Pro/Max A2991',
   'MacBook 12 (Mid 2019)': 'MacBook 12 A1534',
@@ -187,10 +190,40 @@ async function findDeviceItemByName(deviceName) {
   return items.find(item => item.name === deviceName) || null;
 }
 
+function normalizeBMModelPeriod(bmModel, deviceTitle = '') {
+  const match = String(bmModel || '').match(/^(MacBook (?:Air|Pro) \d+) \(([^)]+)\)$/i);
+  if (!match) return bmModel;
+
+  const prefix = match[1];
+  const period = match[2];
+  const title = String(deviceTitle || '');
+  const isoYear = period.match(/^(\d{4})-\d{2}-\d{2}T/);
+  const year = isoYear ? isoYear[1] : '';
+  const chip = title.match(/\bApple\s+(M\d)(?:\s+(Pro|Max))?/i);
+  const chipName = chip ? `${chip[1].toUpperCase()}${chip[2] ? ` ${chip[2]}` : ''}` : '';
+
+  if (year === '2020' && prefix === 'MacBook Air 13') {
+    return chipName === 'M1' ? `${prefix} (Late 2020)` : `${prefix} (Mid 2020)`;
+  }
+  if (year === '2021' && /^MacBook Pro (14|16)$/.test(prefix)) return `${prefix} (Late 2021)`;
+  if (year === '2022' && prefix === 'MacBook Air 13') return `${prefix} (Mid 2022)`;
+  if (year === '2023' && /^MacBook Pro (14|16)$/.test(prefix)) {
+    if (chipName.startsWith('M3')) return `${prefix} (Late 2023)`;
+    return `${prefix} (Early 2023)`;
+  }
+  if (year === '2024' && prefix.startsWith('MacBook Air')) return `${prefix} (Mid 2024)`;
+  if (year === '2025' && prefix === 'MacBook Air 13') return `${prefix} (Early 2025)`;
+
+  return bmModel;
+}
+
 function extractBMModel(deviceTitle) {
   if (!deviceTitle) return null;
   const match = deviceTitle.match(/(MacBook (?:Air|Pro)) (\d+)"?\s*\(([^)]+)\)/i);
-  if (match) return `${match[1]} ${match[2]} (${match[3]})`;
+  if (match) {
+    const rawModel = `${match[1]} ${match[2]} (${match[3]})`;
+    return normalizeBMModelPeriod(rawModel, deviceTitle);
+  }
   return null;
 }
 
@@ -237,19 +270,7 @@ async function postTelegram(msg) {
     console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 120)}...`);
     return;
   }
-  if (!TELEGRAM_BOT_TOKEN) {
-    console.log('  [TG] No token, skipping');
-    return;
-  }
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text: msg }),
-    });
-  } catch (e) {
-    console.warn(`  Telegram failed: ${e.message}`);
-  }
+  await sendTelegram(msg, { logger: console });
 }
 
 // ─── Step 1: Fetch SENT orders from BM buyback API ───────────────
@@ -618,7 +639,7 @@ function logPreparedOrder(prepared) {
 }
 
 // ─── Main ─────────────────────────────────────────────────────────
-(async () => {
+async function main() {
   console.log('═'.repeat(60));
   console.log(`  SOP 01: Trade-in SENT Orders — ${isDryRun ? 'DRY RUN' : 'LIVE'}`);
   console.log(`  ${new Date().toISOString()}`);
@@ -700,6 +721,11 @@ function logPreparedOrder(prepared) {
       console.error(`  ❌ Failed to prepare order payload: ${e.message}`);
       summary.errors++;
       continue;
+    }
+    if (!prepared.deviceLookup.deviceItemId) {
+      const lookupMsg = `⚠️ Device lookup failed for ${publicId}: "${prepared.deviceTitle}" resolved as "${prepared.deviceLookup.bmModel || 'unknown'}". Main Board device relation will be blank unless fixed manually.`;
+      console.warn(`  ${lookupMsg}`);
+      await postTelegram(`SOP 01 warning\n${lookupMsg}`);
     }
 
     if (isDryRun) {
@@ -785,4 +811,18 @@ function logPreparedOrder(prepared) {
       `Skipped: ${summary.skipped} | Errors: ${summary.errors}`
     );
   }
-})();
+}
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(`Fatal error: ${error.message}`);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  BM_TO_DEVICE_MAP,
+  extractBMModel,
+  normalizeBMModelPeriod,
+  parseSpecsFromTitle,
+};

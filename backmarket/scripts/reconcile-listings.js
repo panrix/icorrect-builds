@@ -13,6 +13,7 @@
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 
 // ─── Run mode: --dry-run (default) or --live ──────────────────────
 // Phase 0.7: mutations are gated behind explicit --live flag.
@@ -72,9 +73,6 @@ const LABOUR_RATE = 24;
 const SHIPPING = 15;
 const BUY_FEE_RATE = 0.10;
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const BM_TELEGRAM_CHAT = '-1003888456344';
-
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 // ─── API helpers ──────────────────────────────────────────────────
@@ -98,13 +96,7 @@ async function mondayApi(query) {
 }
 
 async function postTelegram(msg) {
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text: msg }),
-    });
-  } catch (e) { console.warn(`Telegram failed: ${e.message}`); }
+  await sendTelegram(msg, { logger: console });
 }
 
 // ─── Step 1a: Get Monday "Listed" items ───────────────────────────

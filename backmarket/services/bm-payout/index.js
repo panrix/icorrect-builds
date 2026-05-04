@@ -18,6 +18,7 @@
  */
 
 const express = require("express");
+const { notificationHealthCheck, notifyBm } = require("../../scripts/lib/notifications");
 const app = express();
 app.use(express.json());
 
@@ -27,8 +28,6 @@ const HOST = "127.0.0.1";
 // ─── Config ───────────────────────────────────────────────────────
 const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 const BM_AUTH = process.env.BM_AUTH;
-const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
 const BOARD_ID = "349212843";
 const STATUS_COLUMN = "status24";
@@ -45,10 +44,6 @@ const BM_API_HEADERS = {
   Authorization: BM_AUTH,
   "User-Agent": "BM-iCorrect-Payout/2.0;ricky@icorrect.co.uk",
 };
-
-const BM_TRADEIN_SLACK_CHANNEL =
-  process.env.BM_TRADEIN_SLACK_CHANNEL || "C09VB5G7CTU";
-const BM_TELEGRAM_CHAT = "-1003888456344";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const inflightPayouts = new Set();
@@ -73,42 +68,8 @@ async function mondayQuery(query) {
   return data;
 }
 
-// ─── Slack ────────────────────────────────────────────────────────
-async function slackPost(text) {
-  if (!SLACK_BOT_TOKEN) return;
-  try {
-    await fetch("https://slack.com/api/chat.postMessage", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ channel: BM_TRADEIN_SLACK_CHANNEL, text }),
-    });
-  } catch (e) {
-    console.warn("[payout] Slack failed:", e.message);
-  }
-}
-
-// ─── Telegram ─────────────────────────────────────────────────────
-async function telegramPost(text) {
-  if (!TELEGRAM_BOT_TOKEN) return;
-  try {
-    await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text }),
-      }
-    );
-  } catch (e) {
-    console.warn("[payout] Telegram failed:", e.message);
-  }
-}
-
 async function notify(text) {
-  await Promise.all([slackPost(text), telegramPost(text)]);
+  await notifyBm(text, { slackChannel: "tradeIn", logger: console });
 }
 
 // ─── Monday comment ───────────────────────────────────────────────
@@ -120,6 +81,17 @@ async function postMondayComment(itemId, body) {
   await mondayQuery(
     `mutation { create_update( item_id: ${itemId}, body: "${escaped}" ) { id } }`
   );
+}
+
+async function postFailureMarker(itemId, reason, detail = "") {
+  try {
+    await postMondayComment(
+      itemId,
+      `⚠️ Payout automation blocked\nReason: ${reason}${detail ? `\n${detail}` : ""}`
+    );
+  } catch (error) {
+    console.warn("[payout] Failed to write Monday failure marker:", error.message);
+  }
 }
 
 // ─── Webhook handler ──────────────────────────────────────────────
@@ -193,6 +165,7 @@ app.post("/webhook/bm/payout", async (req, res) => {
       console.log(
         `[payout] ${itemName}: status24 is now index ${currentStatus.index}, not Pay-Out. Stale webhook, skipping.`
       );
+      await postFailureMarker(itemId, "stale webhook", `Current status index: ${currentStatus.index}`);
       return;
     }
 
@@ -201,6 +174,7 @@ app.post("/webhook/bm/payout", async (req, res) => {
       cols.find((c) => c.id === BM_TRADEIN_ID_COLUMN)?.text?.trim() || "";
     if (!bmTradeInId) {
       console.log(`[payout] ${itemName}: no BM trade-in ID found`);
+      await postFailureMarker(itemId, "missing BM trade-in ID", `Column: ${BM_TRADEIN_ID_COLUMN}`);
       await notify(
         `⚠️ ${itemName} marked Pay-Out but no BM trade-in ID found. Manual payout needed.`
       );
@@ -217,6 +191,7 @@ app.post("/webhook/bm/payout", async (req, res) => {
       console.log(
         `[payout] ${itemName}: iCloud is "${icloudStatus}" — BLOCKED`
       );
+      await postFailureMarker(itemId, "iCloud locked", `iCloud status: ${icloudStatus}`);
       await notify(
         `⛔ ${itemName} marked Pay-Out but iCloud is ${icloudStatus}. Payout BLOCKED. Resolve iCloud lock before retrying.`
       );
@@ -310,12 +285,14 @@ app.post("/webhook/bm/payout", async (req, res) => {
           );
         } catch (retryErr) {
           console.error("[payout] Retry also failed:", retryErr.message);
+          await postFailureMarker(itemId, "BM payout validate failed after retry", `BM Trade-in: ${bmTradeInId}\n${retryErr.message.substring(0, 200)}`);
           await notify(
             `❌ Payout FAILED for ${itemName} — ${bmTradeInId}: ${retryErr.message.substring(0, 200)}. Left as Pay-Out for safety net cron.`
           );
         }
       } else {
         // 4xx — don't retry, don't change status
+        await postFailureMarker(itemId, `BM payout validate failed (${err.statusCode || "unknown status"})`, `BM Trade-in: ${bmTradeInId}\n${err.message.substring(0, 200)}`);
         await notify(
           `❌ Payout FAILED for ${itemName} — ${bmTradeInId}: ${err.message.substring(0, 200)}. Status NOT changed.`
         );
@@ -332,8 +309,13 @@ app.post("/webhook/bm/payout", async (req, res) => {
 });
 
 // ─── Health check ─────────────────────────────────────────────────
-app.get("/health", (req, res) => {
-  res.json({ service: "bm-payout", status: "ok", port: PORT });
+app.get("/health", async (req, res) => {
+  res.json({
+    service: "bm-payout",
+    status: "ok",
+    port: PORT,
+    notifications: await notificationHealthCheck(),
+  });
 });
 
 // ─── Start ────────────────────────────────────────────────────────

@@ -36,6 +36,7 @@
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -47,8 +48,6 @@ const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 const MAIN_BOARD = 349212843;
 const BM_DEVICES_BOARD = 3892194968;
 const BM_SALEABLE_GROUP = 'new_group'; // BM Devices saleable stock group (BM To List / Listed / Sold)
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const BM_TELEGRAM_CHAT = '-1003888456344';
 const MAIN_BOARD_WRITE_VERIFY_ATTEMPTS = 3;
 const MAIN_BOARD_WRITE_VERIFY_DELAY_MS = 1500;
 
@@ -79,13 +78,7 @@ async function mondayApi(query) {
 
 async function postTelegram(msg) {
   if (isDryRun) { console.log(`  [DRY RUN] Would send to Telegram: ${msg.slice(0, 100)}...`); return; }
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text: msg }),
-    });
-  } catch (e) { console.warn(`  Telegram failed: ${e.message}`); }
+  await sendTelegram(msg, { logger: console });
 }
 
 // ─── Step 1: Fetch new orders ─────────────────────────────────────

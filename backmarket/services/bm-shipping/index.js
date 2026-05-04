@@ -23,6 +23,7 @@
  */
 
 const express = require("express");
+const { notificationHealthCheck, notifyBm } = require("../../scripts/lib/notifications");
 const app = express();
 app.use(express.json());
 
@@ -30,18 +31,21 @@ const PORT = 8013;
 const HOST = "127.0.0.1";
 
 // ─── Config ───────────────────────────────────────────────────────
-const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
+const MONDAY_TOKEN = process.env.MONDAY_AUTOMATIONS_TOKEN;
 const BM_AUTH = process.env.BM_AUTH;
-const SLACK_BOT_TOKEN = process.env.SLACK_BOT_TOKEN;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
 
 const BOARD_ID = "349212843";
 const BM_DEVICES_BOARD_ID = "3892194968";
 const STATUS4_COLUMN = "status4";
 const TRACKING_COLUMN = "text53";
 const SERIAL_COLUMN = "text4";
-const BM_BOARD_RELATION = "board_relation5"; // Main Board → BM Devices Board
-const BM_SALES_ORDER_COLUMN = "text_mkye7p1c";
+// BM Sales Order ID is read directly from the Main Board now (text_mm2vf3nk),
+// written by sale-detection.js. The previous board_relation5 traversal is gone:
+// that column links to the generic Devices catalog, not BM Devices, so the
+// hop never resolved an order ID. See SOP 09.5.
+const MAIN_BOARD_BM_ORDER_COLUMN = "text_mm2vf3nk";
+const MAIN_BOARD_BM_LISTING_COLUMN = "text_mm2v7ysq";
+// BM Devices columns still used for the post-success cleanup writes.
 const BM_DEVICE_LISTING_ID_COLUMN = "text_mkyd4bx3";
 const BM_DEVICE_SOLD_TO_COLUMN = "text4";
 const SHIPPED_INDEX = 160;
@@ -55,10 +59,6 @@ const BM_API_HEADERS = {
   Authorization: BM_AUTH,
   "User-Agent": "BM-iCorrect-Shipping/2.0;ricky@icorrect.co.uk",
 };
-
-const BM_SALES_SLACK_CHANNEL =
-  process.env.BM_SALES_SLACK_CHANNEL || "C0A21J30M1C";
-const BM_TELEGRAM_CHAT = "-1003888456344";
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -82,42 +82,8 @@ async function mondayQuery(query) {
   return data;
 }
 
-// ─── Slack ────────────────────────────────────────────────────────
-async function slackPost(text) {
-  if (!SLACK_BOT_TOKEN) return;
-  try {
-    await fetch("https://slack.com/api/chat.postMessage", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${SLACK_BOT_TOKEN}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ channel: BM_SALES_SLACK_CHANNEL, text }),
-    });
-  } catch (e) {
-    console.warn("[shipping] Slack failed:", e.message);
-  }
-}
-
-// ─── Telegram ─────────────────────────────────────────────────────
-async function telegramPost(text) {
-  if (!TELEGRAM_BOT_TOKEN) return;
-  try {
-    await fetch(
-      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text }),
-      }
-    );
-  } catch (e) {
-    console.warn("[shipping] Telegram failed:", e.message);
-  }
-}
-
 async function notify(text) {
-  await Promise.all([slackPost(text), telegramPost(text)]);
+  await notifyBm(text, { slackChannel: "sales", logger: console });
 }
 
 // ─── Monday comment ───────────────────────────────────────────────
@@ -129,6 +95,17 @@ async function postMondayComment(itemId, body) {
   await mondayQuery(
     `mutation { create_update( item_id: ${itemId}, body: "${escaped}" ) { id } }`
   );
+}
+
+async function postFailureMarker(itemId, reason, detail = "") {
+  try {
+    await postMondayComment(
+      itemId,
+      `⚠️ BM shipment automation blocked\nReason: ${reason}${detail ? `\n${detail}` : ""}`
+    );
+  } catch (error) {
+    console.warn("[shipping] Failed to write Monday failure marker:", error.message);
+  }
 }
 
 async function clearBmDeviceSaleFields(bmDeviceItemId) {
@@ -189,12 +166,11 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
       return;
     }
 
-    // ── Fetch tracking, serial, and linked BM Device from Main Board ──
+    // ── Fetch tracking, serial, BM order ID, BM listing ID from Main Board ──
     const itemData = await mondayQuery(`{
       items(ids: [${itemId}]) {
-        column_values(ids: ["${TRACKING_COLUMN}", "${SERIAL_COLUMN}", "${BM_BOARD_RELATION}"]) {
+        column_values(ids: ["${TRACKING_COLUMN}", "${SERIAL_COLUMN}", "${MAIN_BOARD_BM_ORDER_COLUMN}", "${MAIN_BOARD_BM_LISTING_COLUMN}"]) {
           id text
-          ... on BoardRelationValue { linked_item_ids }
         }
       }
     }`);
@@ -205,12 +181,15 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
     const trackingNumber = trackingRaw.replace(/\s/g, ""); // Strip spaces
     const serialNumber =
       cols.find((c) => c.id === SERIAL_COLUMN)?.text?.trim() || "";
-    const linkCol = cols.find((c) => c.id === BM_BOARD_RELATION);
-    const bmDeviceItemId = linkCol?.linked_item_ids?.[0] || null;
+    const bmOrderId =
+      cols.find((c) => c.id === MAIN_BOARD_BM_ORDER_COLUMN)?.text?.trim() || "";
+    const bmListingId =
+      cols.find((c) => c.id === MAIN_BOARD_BM_LISTING_COLUMN)?.text?.trim() || "";
 
     // ── HARD GATE: No tracking number ──
     if (!trackingNumber) {
       console.log(`[shipping] ${itemName}: no tracking number found`);
+      await postFailureMarker(itemId, "missing tracking number");
       await notify(
         `⚠️ ${itemName} marked Shipped but no tracking number found. Manual BM update needed.`
       );
@@ -221,41 +200,43 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
     // ── HARD GATE: No serial number ──
     if (!serialNumber) {
       console.log(`[shipping] ${itemName}: no serial number found`);
+      await postFailureMarker(itemId, "missing serial number", `Tracking: ${trackingNumber}`);
       await notify(
         `⚠️ ${itemName} marked Shipped (tracking: ${trackingNumber}) but no serial number found on the Main Board. BM was not notified. Add the serial and retry.`
       );
       return;
     }
 
-    // ── HARD GATE: No linked BM Devices item ──
-    if (!bmDeviceItemId) {
-      console.log(
-        `[shipping] ${itemName}: no linked BM Devices item (board_relation5 empty)`
-      );
-      await notify(
-        `⚠️ ${itemName} marked Shipped (tracking: ${trackingNumber}) but no linked BM device found. Manual BM update needed.`
-      );
-      return;
-    }
-
-    // ── Fetch BM order ID from BM Devices Board ──
-    const bmData = await mondayQuery(
-      `{ items(ids: [${bmDeviceItemId}]) { column_values(ids: ["${BM_SALES_ORDER_COLUMN}"]) { id text } } }`
-    );
-    const bmOrderId =
-      bmData?.data?.items?.[0]?.column_values?.[0]?.text?.trim() || "";
-
-    // ── HARD GATE: No BM order ID ──
+    // ── HARD GATE: No BM order ID on Main Board ──
     if (!bmOrderId) {
       console.log(
-        `[shipping] ${itemName}: no BM order ID on devices board item ${bmDeviceItemId}`
+        `[shipping] ${itemName}: no BM Sales Order ID on Main Board (${MAIN_BOARD_BM_ORDER_COLUMN} empty)`
       );
+      await postFailureMarker(itemId, "missing BM Sales Order ID on Main Board", `Tracking: ${trackingNumber}\nColumn: ${MAIN_BOARD_BM_ORDER_COLUMN}`);
       await notify(
-        `⚠️ ${itemName} has tracking ${trackingNumber} but no BM order ID found on devices board. Manual BM update needed.`
+        `⚠️ ${itemName} has tracking ${trackingNumber} but no BM Sales Order ID on the Main Board. Backfill or check sale-detection.js. Manual BM update needed.`
       );
       return;
     }
-    console.log(`[shipping] BM Order: ${bmOrderId}, Serial: ${serialNumber}`);
+    console.log(`[shipping] BM Order: ${bmOrderId}, Serial: ${serialNumber}, Listing: ${bmListingId || '<none>'}`);
+
+    // ── Resolve BM Devices item by listing_id (used only for cleanup writes after BM API success) ──
+    let bmDeviceItemId = null;
+    if (bmListingId) {
+      try {
+        const devLookup = await mondayQuery(
+          `{ items_page_by_column_values(board_id: ${BM_DEVICES_BOARD_ID}, columns: [{column_id: "${BM_DEVICE_LISTING_ID_COLUMN}", column_values: ["${bmListingId}"]}], limit: 5) { items { id name } } }`
+        );
+        const candidates = devLookup?.data?.items_page_by_column_values?.items || [];
+        if (candidates.length === 1) {
+          bmDeviceItemId = candidates[0].id;
+        } else if (candidates.length > 1) {
+          console.log(`[shipping] ${candidates.length} BM Devices entries match listing ${bmListingId} — skipping device-side cleanup`);
+        }
+      } catch (e) {
+        console.warn(`[shipping] BM Devices lookup failed: ${e.message}`);
+      }
+    }
 
     // ── Notify BM of shipment ──
     console.log(
@@ -310,36 +291,45 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
         `✅ BM notified of shipment: ${itemName} — Order ${bmOrderId} — Tracking ${trackingNumber}`
       );
 
-      console.log(
-        `[shipping] Clearing BM listing_id and sold-to on BM Device ${bmDeviceItemId}`
-      );
-      try {
-        await clearBmDeviceSaleFields(bmDeviceItemId);
-        console.log("[shipping] BM Device sale fields cleared");
-      } catch (clearErr) {
-        console.error(
-          "[shipping] Failed to clear BM Device sale fields:",
-          clearErr.message
+      if (bmDeviceItemId) {
+        console.log(
+          `[shipping] Clearing BM listing_id and sold-to on BM Device ${bmDeviceItemId}`
         );
-        await notify(
-          `⚠️ BM notified for ${itemName} but failed to clear BM listing_id / Sold to on the BM Device item. Manual clear needed.`
-        );
-      }
+        try {
+          await clearBmDeviceSaleFields(bmDeviceItemId);
+          console.log("[shipping] BM Device sale fields cleared");
+        } catch (clearErr) {
+          console.error(
+            "[shipping] Failed to clear BM Device sale fields:",
+            clearErr.message
+          );
+          await notify(
+            `⚠️ BM notified for ${itemName} but failed to clear BM listing_id / Sold to on the BM Device item. Manual clear needed.`
+          );
+        }
 
-      // Move BM Devices item to Shipped group
-      console.log(`[shipping] Moving BM Device ${bmDeviceItemId} to Shipped group`);
-      try {
-        await mondayQuery(
-          `mutation { move_item_to_group( item_id: ${bmDeviceItemId}, group_id: "${SHIPPED_GROUP}" ) { id } }`
-        );
-        console.log(`[shipping] BM Device moved to Shipped group`);
-      } catch (moveErr) {
-        console.error(
-          "[shipping] Failed to move BM Device to Shipped group:",
-          moveErr.message
+        // Move BM Devices item to Shipped group
+        console.log(`[shipping] Moving BM Device ${bmDeviceItemId} to Shipped group`);
+        try {
+          await mondayQuery(
+            `mutation { move_item_to_group( item_id: ${bmDeviceItemId}, group_id: "${SHIPPED_GROUP}" ) { id } }`
+          );
+          console.log(`[shipping] BM Device moved to Shipped group`);
+        } catch (moveErr) {
+          console.error(
+            "[shipping] Failed to move BM Device to Shipped group:",
+            moveErr.message
+          );
+          await notify(
+            `⚠️ BM notified for ${itemName} but failed to move BM Device to Shipped group. Manual move needed.`
+          );
+        }
+      } else {
+        console.log(
+          `[shipping] No BM Devices item resolved (listing ${bmListingId || '<none>'}) — skipping device-side cleanup`
         );
         await notify(
-          `⚠️ BM notified for ${itemName} but failed to move BM Device to Shipped group. Manual move needed.`
+          `⚠️ BM notified for ${itemName} (Order ${bmOrderId}) but no unique BM Devices entry was resolved from listing ${bmListingId || '<none>'}. Manual cleanup of BM Devices entry needed.`
         );
       }
     } catch (err) {
@@ -369,32 +359,36 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
             `✅ BM notified of shipment (retry): ${itemName} — Order ${bmOrderId} — Tracking ${trackingNumber}`
           );
 
-          try {
-            await clearBmDeviceSaleFields(bmDeviceItemId);
-          } catch (clearErr) {
-            console.error(
-              "[shipping] Failed to clear BM Device sale fields after retry:",
-              clearErr.message
-            );
-            await notify(
-              `⚠️ BM notified for ${itemName} on retry but failed to clear BM listing_id / Sold to on the BM Device item. Manual clear needed.`
-            );
-          }
+          if (bmDeviceItemId) {
+            try {
+              await clearBmDeviceSaleFields(bmDeviceItemId);
+            } catch (clearErr) {
+              console.error(
+                "[shipping] Failed to clear BM Device sale fields after retry:",
+                clearErr.message
+              );
+              await notify(
+                `⚠️ BM notified for ${itemName} on retry but failed to clear BM listing_id / Sold to on the BM Device item. Manual clear needed.`
+              );
+            }
 
-          // Move on retry success too
-          try {
-            await mondayQuery(
-              `mutation { move_item_to_group( item_id: ${bmDeviceItemId}, group_id: "${SHIPPED_GROUP}" ) { id } }`
-            );
-          } catch {}
+            // Move on retry success too
+            try {
+              await mondayQuery(
+                `mutation { move_item_to_group( item_id: ${bmDeviceItemId}, group_id: "${SHIPPED_GROUP}" ) { id } }`
+              );
+            } catch {}
+          }
         } catch (retryErr) {
           console.error("[shipping] Retry also failed:", retryErr.message);
+          await postFailureMarker(itemId, "BM API update failed after retry", `Order: ${bmOrderId}\nTracking: ${trackingNumber}\n${retryErr.message.substring(0, 200)}`);
           await notify(
             `❌ BM update FAILED for ${itemName} — Order ${bmOrderId}: ${retryErr.message.substring(0, 200)}. Manual update needed.`
           );
         }
       } else {
         // 4xx — don't retry
+        await postFailureMarker(itemId, `BM API update failed (${err.statusCode || "unknown status"})`, `Order: ${bmOrderId}\nTracking: ${trackingNumber}\n${err.message.substring(0, 200)}`);
         await notify(
           `❌ BM update FAILED for ${itemName} — Order ${bmOrderId}: ${err.message.substring(0, 200)}. No retry on ${err.statusCode}. Manual update needed.`
         );
@@ -406,8 +400,13 @@ app.post("/webhook/bm/shipping-confirmed", async (req, res) => {
 });
 
 // ─── Health check ─────────────────────────────────────────────────
-app.get("/health", (req, res) => {
-  res.json({ service: "bm-shipping", status: "ok", port: PORT });
+app.get("/health", async (req, res) => {
+  res.json({
+    service: "bm-shipping",
+    status: "ok",
+    port: PORT,
+    notifications: await notificationHealthCheck(),
+  });
 });
 
 // ─── Start ────────────────────────────────────────────────────────

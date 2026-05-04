@@ -1,5 +1,7 @@
 const assert = require('assert');
 const {
+  decisionGate,
+  classifyTrust,
   resolveHistoricalSalesFromSoldLookup,
   summarizeFrontendCaptureMismatches,
 } = require('../../scripts/list-device');
@@ -101,4 +103,23 @@ assert.equal(sameGenerationHistory.high, 640);
 assert.equal(
   sameGenerationHistory.source,
   'sold_lookup:by_sku_normalized:MBP.A2338.M2.8GB.256GB.Grey.Fair:aliases=2'
+);
+
+const lossDecision = decisionGate({ margin: -12.5, net: -42 });
+assert.equal(lossDecision.decision, 'PROPOSE');
+assert.equal(lossDecision.reviewRequired, true);
+assert.equal(lossDecision.requiresMinMarginOverride, true);
+assert.match(lossDecision.reason, /Loss/);
+
+assert.deepEqual(
+  classifyTrust({
+    hasProductResolution: true,
+    liveEligible: false,
+    decision: { decision: 'BLOCK', reason: 'Unreconciled scrape target: ram mismatch for expected "16GB"' },
+    missingGrade: false,
+  }),
+  {
+    classification: 'blocked',
+    reason: 'Unreconciled scrape target: ram mismatch for expected "16GB"',
+  }
 );

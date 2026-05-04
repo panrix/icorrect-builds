@@ -183,7 +183,7 @@ Agent only sets two statuses in this chain: **Purchased** (this SOP) and **Liste
 - This SOP does NOT handle counter-offers (that's SOP 12)
 - This SOP does NOT list the device (that's SOP 06)
 - This SOP does NOT check device specs: that should already be done at intake
-- n8n Flow 4 (auto-validate) is DISABLED: all payouts go through this webhook handler
+- All payouts go through this webhook handler; legacy external flow paths are retired.
 - No batch payout: each device is processed individually via Monday webhook
 
 ---
@@ -203,7 +203,6 @@ Agent only sets two statuses in this chain: **Purchased** (this SOP) and **Liste
 | Webhook handler | `/home/ricky/builds/backmarket/services/bm-payout/index.js` |
 | Endpoint | `POST /webhook/bm/payout` → `127.0.0.1:8012` via nginx |
 | Monday webhook | Triggers on `status24` column change on board 349212843 |
-| n8n Flow 4 | DISABLED (was auto-validate, disabled because team triggered payouts incorrectly) |
 
 ---
 

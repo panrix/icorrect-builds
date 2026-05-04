@@ -26,6 +26,7 @@ const { constructBmSku, normalizeHistoricalSku, validateSku } = require('./lib/s
 const { BM_API_HEADERS, fetchSalesHistory } = require('./lib/bm-api');
 const { createLogger } = require('./lib/logger');
 const { loadFrontendUrlMap, lookupFrontendUrl } = require('./lib/frontend-url-map');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 const {
   findResolverSlot,
   isResolverSlotLiveSafe,
@@ -46,8 +47,6 @@ const BM_DEVICES_BOARD = BOARDS.BM_DEVICES; // 3892194968
 const TO_LIST_GROUP = 'new_group88387__1';
 const TO_LIST_INDEX = 8;
 const LISTED_INDEX = 7;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const BM_TELEGRAM_CHAT = '-1003888456344';
 const SCRAPER_DATA_PATH = '/home/ricky/builds/buyback-monitor/data/sell-prices-latest.json';
 const BM_CATALOG_PATH = '/home/ricky/builds/backmarket/data/bm-catalog.json';
 const REGISTRY_PATH = '/home/ricky/builds/backmarket/data/listings-registry.json';
@@ -121,14 +120,7 @@ function writeDiskCache(name, data) {
 async function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 async function postTelegram(text) {
-  if (!TELEGRAM_BOT_TOKEN) { console.log('[TG] No token, skipping:', text); return; }
-  try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text, parse_mode: 'HTML' })
-    });
-  } catch (e) { console.error('[TG] Post failed:', e.message); }
+  await sendTelegram(text, { parseMode: 'HTML', logger: console });
 }
 
 async function bmApiFetch(urlPath, opts = {}) {
@@ -183,6 +175,31 @@ function lookupTitleHasExpectedColour(title, colour) {
   };
 
   return (acceptable[colourNorm] || [colourNorm.toLowerCase()]).some(option => titleNorm.includes(option));
+}
+
+function shouldSkipColourTitleCheck(expected = {}) {
+  if (expected.colourVerifiedByCatalog) {
+    return {
+      skip: true,
+      reason: 'catalog',
+      log: '  Colour: ✅ verified by catalog (skipping title check)',
+    };
+  }
+  if (expected.colourVerifiedByTrustedSlot) {
+    return {
+      skip: true,
+      reason: 'trusted_slot',
+      log: '  Colour: ✅ verified by trusted slot lineage (skipping title check)',
+    };
+  }
+  if (expected.skipColourTitleCheckForManualOverride) {
+    return {
+      skip: true,
+      reason: 'manual_override',
+      log: '  Colour: ⚠️ skipping title check (--product-id override — colour in product_id)',
+    };
+  }
+  return { skip: false, reason: '', log: '' };
 }
 
 function normalizeStorageForCatalog(ssd) {
@@ -311,6 +328,9 @@ function classifyTrust({ hasProductResolution, liveEligible, decision, missingGr
   }
   if (decision?.decision === 'BLOCK') {
     return { classification: 'blocked', reason: decision.reason };
+  }
+  if (decision?.requiresMinMarginOverride) {
+    return { classification: 'manual_review', reason: decision.reason };
   }
   if (!liveEligible) {
     return { classification: 'manual_review', reason: 'Product/spec/colour resolution is not exact enough for live listing' };
@@ -1187,22 +1207,29 @@ function calculateProfitability(proposed, specs) {
 
 function decisionGate(profitability) {
   const { margin, net } = profitability;
+  const reviewDecision = (reason, extra = {}) => ({
+    decision: 'PROPOSE',
+    reviewRequired: true,
+    requiresMinMarginOverride: true,
+    ...extra,
+    reason,
+  });
 
   if (MIN_MARGIN_OVERRIDE !== null) {
     const minMargin = MIN_MARGIN_OVERRIDE;
     const minNet = MIN_MARGIN_OVERRIDE;
 
     if (net < 0) return { decision: 'PROPOSE', reason: `⚠️ Loss maker (net £${net}) — approved via --min-margin override` };
-    if (net < minNet) return { decision: 'BLOCK', reason: `Net £${net} < £${minNet} minimum at min_price` };
-    if (margin < minMargin) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < ${minMargin}% at min_price` };
+    if (net < minNet) return reviewDecision(`Review required — Net £${net} < £${minNet} override floor at min_price`);
+    if (margin < minMargin) return reviewDecision(`Review required — Margin ${margin.toFixed(1)}% < ${minMargin}% override floor at min_price`);
     return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
   }
 
-  if (net < 0) return { decision: 'BLOCK', reason: `Loss at min_price (net £${net})` };
+  if (net < 0) return reviewDecision(`Review required — Loss at min_price (net £${net})`);
 
   if (USE_LEGACY_GATES) {
-    if (net < 50) return { decision: 'BLOCK', reason: `Net £${net} < £50 minimum at min_price` };
-    if (margin < 15) return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 15% at min_price` };
+    if (net < 50) return reviewDecision(`Review required — Net £${net} < £50 minimum at min_price`);
+    if (margin < 15) return reviewDecision(`Review required — Margin ${margin.toFixed(1)}% < 15% at min_price`);
     return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net}` };
   }
 
@@ -1210,14 +1237,13 @@ function decisionGate(profitability) {
     return { decision: 'PROPOSE', reason: `Margin ${margin.toFixed(1)}%, net £${net} — primary gate met` };
   }
   if (net >= 100 && margin >= 20) {
-    return {
-      decision: 'PROPOSE',
-      reason: `Margin ${margin.toFixed(1)}%, net £${net} — secondary gate only; --min-margin override required to proceed live`,
-      requiresMinMarginOverride: true,
-    };
+    return reviewDecision(
+      `Review required — Margin ${margin.toFixed(1)}%, net £${net} — secondary gate only`,
+      { requiresMinMarginOverride: true }
+    );
   }
-  if (net < 100) return { decision: 'BLOCK', reason: `Net £${net} < £100 secondary minimum at min_price` };
-  return { decision: 'BLOCK', reason: `Margin ${margin.toFixed(1)}% < 20% secondary minimum at min_price` };
+  if (net < 100) return reviewDecision(`Review required — Net £${net} < £100 secondary minimum at min_price`);
+  return reviewDecision(`Review required — Margin ${margin.toFixed(1)}% < 20% secondary minimum at min_price`);
 }
 
 // ─── Step 11: Verify Listing ──────────────────────────────────────
@@ -1263,12 +1289,9 @@ async function verifyListing(listingId, expected) {
   // Colour verification: two-tier approach
   // If catalog already verified colour at Step 4 (catalog-exact + colourVerified), skip title check
   // BM titles don't always include colour — the product_id IS the colour verification
-  if (expected.colourVerifiedByCatalog) {
-    console.log(`  Colour: ✅ verified by catalog (skipping title check)`);
-  } else if (expected.skipColourTitleCheckForManualOverride) {
-    // When --product-id is manually supplied, BM titles often omit colour (e.g. M2 Airs).
-    // The product_id itself is the colour signal — skip title colour check for manual overrides.
-    console.log(`  Colour: ⚠️ skipping title check (--product-id override — colour in product_id)`);
+  const colourCheck = shouldSkipColourTitleCheck(expected);
+  if (colourCheck.skip) {
+    console.log(colourCheck.log);
   } else if (expected.colour) {
     if (!lookupTitleHasExpectedColour(listing.title || '', expected.colour)) {
       issues.push(`⛔ TITLE COLOUR MISMATCH: title="${listing.title}", expected colour=${expected.colour}`);
@@ -1831,7 +1854,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
     decision,
     missingGrade: !grade?.bmGrade,
   });
-  if (isDryRun && !scrapeVerification.trusted) {
+  if (!scrapeVerification.trusted) {
     decision = { decision: 'BLOCK', reason: buildScrapeVerificationReason(scrapeVerification) };
     trust = classifyTrust({
       hasProductResolution: !!hasCatalogMatch,
@@ -1839,7 +1862,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
       decision,
       missingGrade: !grade?.bmGrade,
     });
-    console.log(`  Decision override (dry-run only): ${decision.decision} — ${decision.reason}`);
+    console.log(`  Decision override: ${decision.decision} — ${decision.reason}`);
   }
   console.log(`  Trust: ${trust.classification} — ${trust.reason}`);
 
@@ -2001,10 +2024,12 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
 
   // ─── Live mode: registry-first flow ────────────────────────────
   const exactResolutionForLive = !!catalogResult?.liveEligible;
+  const exactScrapeForLive = !!scrapeVerification?.trusted;
   const liveModeAllowed = isLive && !!singleItemId;
   const shouldExecuteLive =
     liveModeAllowed &&
     exactResolutionForLive &&
+    exactScrapeForLive &&
     decision.decision !== 'BLOCK' &&
     !decision.requiresMinMarginOverride;
 
@@ -2039,7 +2064,8 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         }
       }
 
-      const colourVerifiedByCatalog = !EFFECTIVE_PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && (catalogResult?.resolutionSource === 'catalog-exact' || catalogResult?.source === 'listings-registry');
+      const colourVerifiedByCatalog = !EFFECTIVE_PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.resolutionSource === 'catalog-exact';
+      const colourVerifiedByTrustedSlot = !EFFECTIVE_PRODUCT_ID_OVERRIDE && catalogResult?.colourVerified && catalogResult?.source === 'listings-registry';
       if (createdViaPathB) {
         console.log('[Step 8c] Verifying draft listing...');
         const draftVerification = await verifyListing(newListingId, {
@@ -2050,6 +2076,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           ssd: specs.ssd,
           colour: specs.colour,
           colourVerifiedByCatalog,
+          colourVerifiedByTrustedSlot,
           skipColourTitleCheckForManualOverride: !!PRODUCT_ID_OVERRIDE,
           pubState: undefined,
         });
@@ -2137,6 +2164,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
         ssd: specs.ssd,
         colour: specs.colour,
         colourVerifiedByCatalog,
+        colourVerifiedByTrustedSlot,
         skipColourTitleCheckForManualOverride: !!PRODUCT_ID_OVERRIDE,
         pubState: 2, // published
       });
@@ -2162,6 +2190,7 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           ssd: specs.ssd,
           colour: specs.colour,
           colourVerifiedByCatalog,
+          colourVerifiedByTrustedSlot,
           skipColourTitleCheckForManualOverride: !!PRODUCT_ID_OVERRIDE,
           pubState: 2,
         });
@@ -2356,6 +2385,8 @@ if (require.main === module) {
 
 module.exports = {
   buildProbeReport,
+  classifyTrust,
+  decisionGate,
   determineProbeVerdict,
   loadListingsRegistry,
   lookupRegistrySlot,

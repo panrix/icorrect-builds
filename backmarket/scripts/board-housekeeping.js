@@ -20,10 +20,9 @@
  */
 
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
+const { postSlack: sendSlack } = require('./lib/notifications');
 
-const MONDAY_TOKEN   = process.env.MONDAY_APP_TOKEN;
-const SLACK_TOKEN    = process.env.SLACK_BOT_TOKEN;
-const SLACK_CHANNEL  = process.env.DISPATCH_SLACK_CHANNEL || 'C024H7518J3';
+const MONDAY_TOKEN   = process.env.MONDAY_AUTOMATIONS_TOKEN;
 
 const BM_DEVICES_BOARD = 3892194968;
 
@@ -61,14 +60,7 @@ async function mondayApi(query, variables = null) {
 
 async function postSlack(text) {
   if (isDryRun) { console.log(`  [DRY RUN] Slack: ${text.slice(0, 120)}`); return; }
-  if (!SLACK_TOKEN) return;
-  try {
-    await fetch('https://slack.com/api/chat.postMessage', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${SLACK_TOKEN}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ channel: SLACK_CHANNEL, text }),
-    });
-  } catch (e) { console.warn(`  Slack failed: ${e.message}`); }
+  await sendSlack(text, { channel: 'dispatch', logger: console });
 }
 
 // ─── Fetch items in a group ────────────────────────────────────────

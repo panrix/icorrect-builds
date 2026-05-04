@@ -4,7 +4,7 @@
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 
 const MONDAY_API = 'https://api.monday.com/v2';
-const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
+const MONDAY_TOKEN = process.env.MONDAY_AUTOMATIONS_TOKEN;
 
 const BOARDS = {
   MAIN: 349212843,

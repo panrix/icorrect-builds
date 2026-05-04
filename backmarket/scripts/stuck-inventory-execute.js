@@ -7,6 +7,7 @@ const path = require('path');
 const { spawnSync } = require('child_process');
 const { mondayQuery, BOARDS } = require('./lib/monday');
 const { BM_API_HEADERS } = require('./lib/bm-api');
+const { postTelegram: sendTelegram } = require('./lib/notifications');
 
 const DATA_DIR = '/home/ricky/builds/backmarket/data';
 const ROLLBACK_LOG_PATH = '/home/ricky/builds/backmarket/docs/rollback-log.md';
@@ -14,8 +15,6 @@ const TODAY = new Date().toISOString().slice(0, 10);
 const BM_BASE = process.env.BACKMARKET_API_BASE || 'https://www.backmarket.co.uk';
 const BM_DEVICES_BOARD = BOARDS.BM_DEVICES;
 const MAIN_BOARD = BOARDS.MAIN;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN || '';
-const BM_TELEGRAM_CHAT = '-1003888456344';
 const DRY_RUN_FLAG = process.argv.includes('--dry-run');
 const LIVE_FLAG = process.argv.includes('--live');
 const IS_LIVE = LIVE_FLAG;
@@ -115,15 +114,7 @@ function latestAuditCsvPath() {
 
 async function postTelegram(text) {
   if (IS_DRY_RUN) return;
-  if (!TELEGRAM_BOT_TOKEN) {
-    console.log('[TG] TELEGRAM_BOT_TOKEN not set; skipping Telegram summary.');
-    return;
-  }
-  await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ chat_id: BM_TELEGRAM_CHAT, text }),
-  });
+  await sendTelegram(text, { logger: console });
 }
 
 async function bmApiFetch(urlPath, options = {}) {

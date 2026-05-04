@@ -18,9 +18,11 @@ require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 
 const { spawnSync } = require('child_process');
 const path = require('path');
+const { getNotificationConfig } = require('./lib/notifications');
 
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const CHAT_ID = '-1003888456344';
+const NOTIFICATION_CONFIG = getNotificationConfig();
+const TELEGRAM_BOT_TOKEN = NOTIFICATION_CONFIG.telegram.token;
+const CHAT_ID = NOTIFICATION_CONFIG.telegram.chatId;
 const MONDAY_TOKEN = process.env.MONDAY_APP_TOKEN;
 const MAIN_BOARD = 349212843;
 const TO_LIST_GROUP = 'new_group88387__1';
