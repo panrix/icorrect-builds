@@ -60,6 +60,10 @@ team-audits/reports/**/*.csv
 # node_modules anywhere
 **/node_modules/
 
+# Codex/Claude local runtime state
+.claude/
+**/.claude/
+
 # n8n flow exports (contain Slack webhook URLs)
 backmarket/data/n8n-*.json
 
