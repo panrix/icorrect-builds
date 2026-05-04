@@ -543,4 +543,4 @@ The script creates the order, but `board_relation5` is only written when device 
 - If SKU generation fails, final grade/specs are missing, or dry-run/card JSON is blocked by trust gates, post a clear warning to the Telegram `Issues` topic.
 - This should be VPS-owned. Do not repair or reintroduce n8n/Flow 6 for this path.
 
-**Status:** OPEN — needs source implementation and live webhook/cron verification.
+**Status:** CLAIMED by Codex on 2026-05-04 — building standalone VPS service `bm-qc-listing` for QC SKU handoff and To List approval cards.

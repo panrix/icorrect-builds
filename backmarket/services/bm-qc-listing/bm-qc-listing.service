@@ -1,0 +1,14 @@
+[Unit]
+Description=BM QC Listing Webhook Service (SOP 05/06)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/ricky/builds/backmarket/services/bm-qc-listing
+ExecStart=/usr/bin/node index.js
+Restart=on-failure
+RestartSec=5
+EnvironmentFile=/home/ricky/config/.env
+
+[Install]
+WantedBy=default.target

@@ -255,7 +255,7 @@ async function waitForAction(itemId, offset, expectingPrice = false) {
 
 // ─── Main ─────────────────────────────────────────────────────────
 
-(async () => {
+async function runReviewQueue() {
   console.log('═'.repeat(55));
   console.log('  BM Listing Bot');
   console.log(`  ${new Date().toISOString()}`);
@@ -365,4 +365,26 @@ async function waitForAction(itemId, offset, expectingPrice = false) {
   console.log('\n' + '═'.repeat(55));
   console.log(`  Done. Reviewed: ${total}  Approved: ${approved}  Overridden: ${overridden}  Skipped: ${skipped}`);
   console.log('═'.repeat(55));
-})();
+}
+
+if (require.main === module) {
+  runReviewQueue().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  answerCallback,
+  buildButtons,
+  buildCard,
+  drainUpdates,
+  editMessage,
+  getCardData,
+  getToListItems,
+  getUpdates,
+  runLive,
+  runReviewQueue,
+  sendMessage,
+  tgCall,
+};
