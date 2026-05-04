@@ -45,7 +45,7 @@ Monday.com (serial number column changed)
 ## Environment Variables (Cloudflare Worker secrets)
 
 ```
-SICKW_API_KEY=X5A-L05-OKT-ZV6-HFD-LZS-43L-79Z
+SICKW_API_KEY=<REDACTED - see /home/ricky/config/.env:SICKW_API_KEY>
 MONDAY_API_TOKEN=<monday API token>
 MONDAY_SIGNING_SECRET=<for webhook verification>
 SLACK_WEBHOOK_URL=<slack incoming webhook URL>

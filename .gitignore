@@ -30,6 +30,8 @@ icloud-checker/src/index.js.bak-pre-removal
 .env.local
 .env.*
 !.env.example
+pm2-dump*.json
+**/pm2-dump*.json
 
 # Log files
 *.log
