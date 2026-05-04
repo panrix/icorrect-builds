@@ -1,6 +1,0 @@
-[Unit]
-Description=Cleanup old boardview screenshots and logs
-
-[Service]
-Type=oneshot
-ExecStart=/home/ricky/builds/elek-board-viewer/scripts/cleanup_screenshots.py
