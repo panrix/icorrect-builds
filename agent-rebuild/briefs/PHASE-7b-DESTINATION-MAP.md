@@ -10,7 +10,7 @@
 1. `~/builds/` becomes only active experiments and unfinished build lanes.
 2. Mature operating systems move to domain roots by business meaning.
 3. Repo-owned projects keep their own GitHub repo as source of truth; the parent `icorrect-builds` repo keeps only pointer docs or control-plane notes.
-4. Back Market, Intake, and Shopify active work lanes are not moved mid-session.
+4. Back Market, Intake, Inventory, and Shopify active work lanes are not moved mid-session.
 5. Split folders are handled by audit-first copy/move plans, not by one blind rename.
 6. Archive means date-stamped archive with an `INDEX.md` explaining why it moved.
 
@@ -42,8 +42,8 @@
 | 0 | Merge GitHub pointer/source-of-truth PRs and remove temporary local masking | PRs #7, #8, #9, #10 |
 | 1 | Low-risk archive and fleet-meta moves | Complete 2026-05-05; see `PHASE-7b-BATCH-1-REPORT.md` |
 | 2 | Repo-owned standalone projects | Shopify, Parts, Royal Mail, Xero, Elek |
-| 3 | Domain roots with active services | Operations, Inventory, Finance, Team, Customer Service, Diagnostics |
-| 4 | Active lanes only after their sessions are quiet | Back Market, Intake, Shopify website work |
+| 3 | Domain roots with active services | Operations, Finance, Team, Customer Service, Diagnostics; Inventory deferred while active |
+| 4 | Active lanes only after their sessions are quiet | Back Market, Intake, Inventory, Shopify website work |
 | 5 | Split-only folders | `scripts`, `system-audit-2026-03-31`, `webhook-migration`, ambiguous `data` |
 
 ## Per-Folder Destination Map
@@ -53,7 +53,7 @@
 | `agent-rebuild` | `~/fleet/agent-rebuild` | move later | Keep in place until current cleanup PRs settle; this is the active control plane. |
 | `alex-triage-classifier-rebuild` | `~/customer-service/alex-triage/archive/classifier-rebuild` | archive into domain | Dormant brief; preserve under Alex triage history. |
 | `alex-triage-rebuild` | `~/customer-service/alex-triage` | move | Canonical Alex customer-service triage workflow. |
-| `apple-ssr` | `~/inventory/suppliers/apple-ssr` | move | Supplier/parts research. |
+| `apple-ssr` | `~/inventory/suppliers/apple-ssr` | defer active | Supplier/parts research; freeze while Inventory lane is active. |
 | `backmarket` | `~/backmarket/ops` | defer active | Active Back Market lane; move only when BM sessions are quiet. |
 | `backmarket-browser` | `~/backmarket/browser` | defer active | Large browser runtime; audit session/profile data before moving. |
 | `backmarket-seller-support` | `~/backmarket/seller-support` | defer active | Snapshot/support KB for BM automation. |
@@ -67,16 +67,16 @@
 | `elek-board-viewer` | `~/diagnostics/elek-board-viewer` | move repo clone | Canonical repo is `panrix/elek-board-viewer`; large assets remain outside normal Git. |
 | `hiring` | `~/team/hiring` | move | Team domain. |
 | `icloud-checker` | `~/backmarket/icloud-checker` | defer active | BM trade-in intake service; cross-reference from `~/intake/INDEX.md`. |
-| `icorrect-parts-service` | `~/inventory/parts-service` | move repo clone | Canonical repo is `panrix/icorrect-parts-service`. |
+| `icorrect-parts-service` | `~/inventory/parts-service` | defer active | Canonical repo is `panrix/icorrect-parts-service`; active branch is `codex/inventory-system`. |
 | `icorrect-shopify-theme` | `~/marketing/shopify-theme` | defer active | Canonical repo is `panrix/icorrect-shopify-theme`; current Shopify website work should use this repo directly. |
 | `intake-notifications` | `~/intake/notifications` | defer active | Move with Intake stack. |
 | `intake-system` | `~/intake/system` | defer active | Active Intake lane; includes unresolved `react-form` repo decision. |
 | `intercom-agent` | `~/customer-service/intercom-agent` | move | Dormant future Intercom service spec. |
 | `intercom-config` | `~/customer-service/intercom-config` | move | Active Intercom configuration research. |
-| `inventory-system` | `~/inventory/system` | move | Inventory operating model spec. |
+| `inventory-system` | `~/inventory/system` | defer active | Inventory operating model spec; do not move while Inventory agent is building. |
 | `llm-summary-endpoint` | `~/operations/llm-summary-endpoint` | move with service check | Confirm systemd/nginx paths before move. |
 | `marketing-intelligence` | `~/marketing/intelligence` | move after auth audit | Contains auth/basic-auth references; handle with Phase 7c security notes. |
-| `mobilesentrix` | `~/inventory/suppliers/mobilesentrix` | move | Supplier automation discovery. |
+| `mobilesentrix` | `~/inventory/suppliers/mobilesentrix` | defer active | Supplier automation discovery; freeze while Inventory lane is active. |
 | `monday` | `~/operations/monday` | move | Monday schema and automation workspace. |
 | `mutagen-guide` | `~/fleet/mutagen-guide` | move | Fleet setup guide. |
 | `operations-system` | `~/operations/system` | move | Operations target-state build. |
