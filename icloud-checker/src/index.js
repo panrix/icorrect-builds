@@ -6,6 +6,14 @@ const { mapColour } = require("./lib/colour-map");
 const { mapGrade } = require("./lib/grade-map");
 const { calculateProfitability, formatBreakdown } = require("./lib/profitability");
 const { findActiveListings, findOfflineListings, findAnyListings, findListingsBySpecs } = require("./lib/bm-listings-cache");
+const {
+  getBmMessageBody,
+  getBmMessageDate,
+  getCustomerMessageKey,
+  getLatestCustomerMessage,
+  isCustomerBmMessage,
+  mergeRecheckState,
+} = require("./lib/recheck-dedupe");
 const counterOffer = require("./lib/counter-offer");
 const app = express();
 app.use(express.json());
@@ -56,8 +64,10 @@ const BM_SALES_ORDER_COLUMN = "text_mkye7p1c"; // BM sales order ID on BM Device
 const BM_SALES_API_BASE = "https://www.backmarket.co.uk/ws/orders";
 
 const RECHECK_INTERVAL_MS = 30 * 60 * 1000;
-const STATE_FILE = path.join(__dirname, "..", "recheck-state.json");
-const SERIAL_DEDUPE_FILE = path.join(__dirname, "..", "serial-check-state.json");
+const DATA_DIR = path.join(__dirname, "..", "data");
+const STATE_FILE = path.join(DATA_DIR, "recheck-state.json");
+const LEGACY_STATE_FILE = path.join(__dirname, "..", "recheck-state.json");
+const SERIAL_DEDUPE_FILE = path.join(DATA_DIR, "serial-check-state.json");
 
 const BM_API_BASE = "https://www.backmarket.co.uk/ws/buyback/v1/orders";
 const BM_API_HEADERS = {
@@ -81,12 +91,18 @@ const RECHECK_KEYWORDS = [
 
 // --- State management ---
 
+function loadJsonFile(filePath) {
+  try { return JSON.parse(fs.readFileSync(filePath, "utf8")); } catch { return {}; }
+}
+
 function loadState() {
-  try { return JSON.parse(fs.readFileSync(STATE_FILE, "utf8")); } catch { return {}; }
+  return mergeRecheckState(loadJsonFile(STATE_FILE), loadJsonFile(LEGACY_STATE_FILE));
 }
 
 function saveState(state) {
+  fs.mkdirSync(DATA_DIR, { recursive: true });
   fs.writeFileSync(STATE_FILE, JSON.stringify(state, null, 2));
+  try { fs.writeFileSync(LEGACY_STATE_FILE, JSON.stringify(state, null, 2)); } catch {}
 }
 
 function loadSerialCheckState() {
@@ -523,17 +539,17 @@ async function recheckCron() {
       const msgResult = await getBmMessages(item.bmTradeInId);
       if (!msgResult.success) continue;
 
-      const customerMessages = msgResult.messages.filter((m) => m.author !== "Merchant" && m.author !== "BackMarket");
+      const customerMessages = msgResult.messages.filter(isCustomerBmMessage);
       const customerCount = customerMessages.length;
-      const lastKnown = state[item.bmTradeInId]?.customerCount || 0;
+      const stateEntry = state[item.bmTradeInId] || {};
+      const lastKnown = stateEntry.customerCount || stateEntry.messageCount || 0;
+      const latestMessage = getLatestCustomerMessage(msgResult.messages);
+      const latestMessageKey = getCustomerMessageKey(latestMessage);
 
-      if (customerCount <= lastKnown) continue;
+      if (customerCount <= lastKnown || (latestMessageKey && latestMessageKey === stateEntry.lastCustomerMessageKey)) continue;
 
-      const latestMsg = customerMessages[0]?.body || "";
+      const latestMsg = getBmMessageBody(latestMessage);
       console.log(`${item.name}: new customer message (${lastKnown} → ${customerCount}): "${latestMsg.slice(0, 80)}"`);
-
-      // Update state immediately so we don't re-process
-      state[item.bmTradeInId] = { customerCount };
 
       if (hasRecheckKeyword(latestMsg)) {
         // Keyword match — auto-recheck
@@ -545,6 +561,14 @@ async function recheckCron() {
         console.log(`${item.name}: no keyword match, sending Slack alert`);
         await sendSlackCustomerReplyAlert(item, latestMsg);
       }
+
+      state[item.bmTradeInId] = {
+        customerCount,
+        lastCustomerMessageKey: latestMessageKey,
+        lastCustomerMessageAt: getBmMessageDate(latestMessage),
+        updatedAt: new Date().toISOString(),
+      };
+      saveState(state);
     } catch (err) {
       console.error(`${item.name}: recheck error —`, err.message);
     }
@@ -1269,11 +1293,23 @@ app.get("/webhook/icloud-check/health", (req, res) => {
 });
 
 // Start
-app.listen(PORT, '127.0.0.1', () => {
-  console.log(`iCloud Checker running on 127.0.0.1:${PORT}`);
-  console.log(`Recheck cron: every ${RECHECK_INTERVAL_MS / 60000} minutes`);
-  setTimeout(() => {
-    recheckCron().catch((err) => console.error("Recheck cron error:", err));
-    setInterval(() => recheckCron().catch((err) => console.error("Recheck cron error:", err)), RECHECK_INTERVAL_MS);
-  }, 60000);
-});
+if (require.main === module) {
+  app.listen(PORT, '127.0.0.1', () => {
+    console.log(`iCloud Checker running on 127.0.0.1:${PORT}`);
+    console.log(`Recheck cron: every ${RECHECK_INTERVAL_MS / 60000} minutes`);
+    setTimeout(() => {
+      recheckCron().catch((err) => console.error("Recheck cron error:", err));
+      setInterval(() => recheckCron().catch((err) => console.error("Recheck cron error:", err)), RECHECK_INTERVAL_MS);
+    }, 60000);
+  });
+}
+
+module.exports = {
+  app,
+  getBmMessageBody,
+  getBmMessageDate,
+  getCustomerMessageKey,
+  getLatestCustomerMessage,
+  isCustomerBmMessage,
+  mergeRecheckState,
+};
