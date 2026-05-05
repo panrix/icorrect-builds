@@ -81,11 +81,13 @@ For each `orderlines[].listing` SKU, query BM Devices Board:
 
 ### Match Logic
 1. Find all BM Devices items where `text89` exactly equals the order line SKU.
-2. Only consider items in the saleable BM Devices group.
-3. If one saleable item matches and stock fields are empty, use it.
-4. If multiple saleable items match the SKU, inspect their linked Main Board item and discard terminal/returned rows.
-5. If ambiguity remains, do not auto-accept. Alert for manual assignment.
-6. `listing_id` is written to Main Board for shipping/cleanup, but it is not the sale identity.
+2. If that misses because BM sent an older short-form SKU, derive the canonical SKU from order product/model/spec/grade/colour using the same SKU construction logic as QC/listing.
+3. Only consider items in the saleable BM Devices group by default.
+4. If one saleable item matches and stock fields are empty, use it.
+5. If multiple saleable items match the SKU, inspect their linked Main Board item and discard terminal/returned rows.
+6. If the canonical SKU/spec pool is still ambiguous, `listing_id` may only be used as a late tie-breaker after SKU/spec matching has already succeeded. It must never be the primary match key.
+7. If ambiguity remains, do not auto-accept. Alert for manual assignment.
+8. `listing_id` is written to Main Board for shipping/cleanup, but it is not the sale identity.
 
 ---
 
@@ -96,6 +98,8 @@ Before accepting, confirm:
 - `text4` (Sold to) is empty (not already assigned to another buyer)
 - `text_mkye7p1c` is empty (not already assigned to another BM order)
 - Device is in an appropriate group (not in "BM Returns" or "Rejected")
+
+Exception: if a returned/relisted device is the only item carrying the sold `listing_id` after the canonical SKU/spec pool has matched, sale detection may accept it with an explicit group override log. This handles stale group ownership without falling back to listing-id-only matching.
 
 ---
 

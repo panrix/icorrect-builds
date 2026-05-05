@@ -37,6 +37,7 @@
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env' });
 const fs = require('fs');
 const { postTelegram: sendTelegram } = require('./lib/notifications');
+const { constructBmSku, normalizeHistoricalSku, normalizeStorage, normalizeColour } = require('./lib/sku');
 
 // ─── Config ───────────────────────────────────────────────────────
 const BM_BASE = 'https://www.backmarket.co.uk';
@@ -95,6 +96,70 @@ function parsePartsCost(value) {
   return String(value || '')
     .split(',')
     .reduce((sum, part) => sum + (parseFloat(part.trim()) || 0), 0);
+}
+
+function parseOrderSkuParts(orderLineSku) {
+  const parts = String(orderLineSku || '').split('.').filter(Boolean);
+  const type = parts[0] || '';
+  const model = parts.find(part => /^A\d{4}$/i.test(part)) || '';
+  const ram = parts.find(part => /^\d+\s*GB$/i.test(part)) || '';
+  const ssd = parts.find((part, index) => index > parts.indexOf(ram) && /^\d+\s*(GB|TB)$/i.test(part)) || '';
+  const colour = parts.map(normalizeColour).find(part => ['Grey', 'Silver', 'Gold', 'Midnight', 'Starlight', 'Space Black'].includes(part)) || '';
+  const grade = parts.find(part => /^(Fair|Good|Excellent|Very_Good|VGood)$/i.test(part)) || '';
+  return { type, model, ram, ssd, colour, grade };
+}
+
+function parseOrderProductSpecs(product, orderLineSku) {
+  const text = String(product || '');
+  const skuParts = parseOrderSkuParts(orderLineSku);
+  const model = skuParts.model || (text.match(/\bA\d{4}\b/i) || [])[0] || '';
+  const ram = skuParts.ram || (text.match(/\b\d+\s*GB\s+RAM\b/i) || [])[0]?.replace(/\s*RAM/i, '') || '';
+  const ssd = skuParts.ssd || (text.match(/\bSSD\s+\d+\s*(GB|TB)\b/i) || [])[0]?.replace(/SSD\s*/i, '') || '';
+  const cpuCore = (text.match(/(\d+)[-\s]*core/i) || [])[1] || '';
+  const gpuCore = (text.match(/(\d+)[-\s]*core\s+GPU/i) || [])[1] || '';
+  const type = /^MBA/i.test(skuParts.type) || /MacBook Air/i.test(text) ? 'MBA' : /^MBP/i.test(skuParts.type) || /MacBook Pro/i.test(text) ? 'MBP' : '';
+  const deviceName = type === 'MBA'
+    ? `MacBook Air ${model}`.trim()
+    : type === 'MBP'
+      ? `MacBook Pro ${model}`.trim()
+      : text;
+
+  return {
+    model,
+    ram,
+    ssd,
+    colour: skuParts.colour,
+    cpu: cpuCore ? `${cpuCore}-Core` : '',
+    gpu: gpuCore ? `${gpuCore}-Core` : '',
+    deviceName: `${deviceName} ${text}`,
+    grade: skuParts.grade,
+  };
+}
+
+function buildCandidateOrderSkus(orderLineSku, product) {
+  const candidates = [];
+  const add = (sku) => {
+    const value = String(sku || '').trim();
+    if (value && !candidates.includes(value)) candidates.push(value);
+  };
+
+  add(orderLineSku);
+  add(normalizeHistoricalSku(orderLineSku));
+
+  const specs = parseOrderProductSpecs(product, orderLineSku);
+  if (specs.model && specs.ram && specs.ssd && specs.grade) {
+    add(constructBmSku({
+      model: specs.model,
+      cpu: specs.cpu,
+      gpu: specs.gpu,
+      ram: specs.ram,
+      ssd: normalizeStorage(specs.ssd),
+      colour: specs.colour,
+      deviceName: specs.deviceName,
+    }, specs.grade));
+  }
+
+  return candidates;
 }
 
 function calculateSaleEconomics(salePrice, inputs = {}) {
@@ -172,13 +237,69 @@ async function fetchNewOrders() {
 //      the item isn't already in a terminal state (Sold status + non-empty date
 //      sold → discard). If still ambiguous after filtering, return empty and
 //      alert — never auto-pick.
-async function matchToBmDevice(orderLineSku) {
-  const safeSku = String(orderLineSku || '').replace(/"/g, '\\"');
+async function queryBmDevicesBySku(sku) {
+  const safeSku = String(sku || '').replace(/"/g, '\\"');
   if (!safeSku) return [];
   const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text89", compare_value: ["${safeSku}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric", "numeric5", "numeric_mm1mgcgn", "text_mkyd4bx3", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
-  const items = d.data?.boards?.[0]?.items_page?.items || [];
+  return d.data?.boards?.[0]?.items_page?.items || [];
+}
+
+function isUnassignedBmDevice(item) {
+  return !columnText(item, 'text4').trim() && !columnText(item, 'text_mkye7p1c').trim();
+}
+
+function columnText(item, columnId) {
+  return item?.column_values?.find(cv => cv.id === columnId)?.text || '';
+}
+
+async function matchToBmDevice(orderLineSku, product = '', listingId = '') {
+  const candidateSkus = buildCandidateOrderSkus(orderLineSku, product);
+  const seenIds = new Set();
+  let items = [];
+  let matchedSku = '';
+  for (const sku of candidateSkus) {
+    const found = await queryBmDevicesBySku(sku);
+    if (found.length > 0) {
+      matchedSku = sku;
+      for (const item of found) {
+        if (!seenIds.has(String(item.id))) {
+          seenIds.add(String(item.id));
+          items.push(item);
+        }
+      }
+      const saleableFound = found.filter(item => item.group?.id === BM_SALEABLE_GROUP);
+      if (saleableFound.length > 0) {
+        items = found;
+        break;
+      }
+    }
+  }
+
   const saleable = items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
+  if (matchedSku && matchedSku !== orderLineSku) {
+    console.log(`  SKU fallback: order "${orderLineSku}" resolved to canonical "${matchedSku}"`);
+  }
+  const excluded = items.filter(item => item.group?.id !== BM_SALEABLE_GROUP);
+  if (saleable.length === 0 && excluded.length > 0) {
+    console.log(
+      `  Matched SKU/spec but all candidates are excluded by group: ${excluded.map(item => `${item.name} (${item.group?.title || 'no group'})`).join(', ')}`
+    );
+  }
+
+  const listingMatched = items.filter(item =>
+    String(columnText(item, 'text_mkyd4bx3')).trim() === String(listingId || '').trim() &&
+    isUnassignedBmDevice(item)
+  );
+  if (listingMatched.length === 1) {
+    listingMatched[0]._saleDetectionGroupOverride = 'listing_id_after_canonical_sku_match';
+    console.log(`  Listing-slot tie-break after SKU/spec match: ${listingMatched[0].name} carries listing ${listingId}`);
+    return listingMatched;
+  }
+  if (listingMatched.length > 1) {
+    console.log(`  ❌ Listing-slot tie-break is still ambiguous for listing ${listingId}: ${listingMatched.map(item => item.name).join(', ')}`);
+    return [];
+  }
 
   // If only one match, return it directly
   if (saleable.length <= 1) return saleable;
@@ -232,6 +353,9 @@ function verifyStock(bmDeviceItem) {
 
   if (soldTo.trim()) return { ok: false, reason: `Already sold to: ${soldTo}` };
   if (existingOrder.trim()) return { ok: false, reason: `Already has order: ${existingOrder}` };
+  if (bmDeviceItem._saleDetectionGroupOverride === 'listing_id_after_canonical_sku_match') {
+    return { ok: true, reason: `Group override allowed after canonical SKU + listing-slot match (${bmDeviceItem.group?.title || 'no group'})` };
+  }
   if (EXCLUDED_GROUPS.some(g => groupTitle.includes(g))) return { ok: false, reason: `Device in excluded group: ${bmDeviceItem.group.title}` };
   return { ok: true };
 }
@@ -413,7 +537,7 @@ async function main() {
 
       // Step 2: Match to BM Devices
       console.log(`\n  [Step 2] Matching SKU ${orderLineSku} to BM Devices...`);
-      const matches = await matchToBmDevice(orderLineSku);
+      const matches = await matchToBmDevice(orderLineSku, product, listingId);
       console.log(`  Found ${matches.length} BM Device items`);
 
       if (matches.length === 0) {
@@ -588,8 +712,11 @@ if (require.main === module) {
 
 module.exports = {
   calculateSaleEconomics,
+  buildCandidateOrderSkus,
   getSaleEconomicsInputs,
   main,
+  parseOrderProductSpecs,
+  parseOrderSkuParts,
   parsePartsCost,
   roundMoney,
 };
