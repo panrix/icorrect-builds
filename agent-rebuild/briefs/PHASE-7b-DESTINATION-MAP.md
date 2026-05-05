@@ -71,7 +71,7 @@
 | `icorrect-shopify-theme` | `~/marketing/shopify-theme` | defer active | Canonical repo is `panrix/icorrect-shopify-theme`; current Shopify website work should use this repo directly. |
 | `intake-notifications` | `~/intake/notifications` | defer active | Move with Intake stack. |
 | `intake-system` | `~/intake/system` | defer active | Active Intake lane; includes unresolved `react-form` repo decision. |
-| `intercom-agent` | `~/customer-service/intercom-agent` | move | Dormant future Intercom service spec. |
+| `intercom-agent` | `~/customer-service/alex-triage/archive/intercom-agent-spec` | archived 2026-05-05 | Dormant future Intercom service spec; preserve under Alex history and mine ideas during Phase 7c. |
 | `intercom-config` | `~/customer-service/intercom-config` | move | Active Intercom configuration research. |
 | `inventory-system` | `~/inventory/system` | defer active | Inventory operating model spec; do not move while Inventory agent is building. |
 | `llm-summary-endpoint` | `~/operations/llm-summary-endpoint` | move with service check | Confirm systemd/nginx paths before move. |
