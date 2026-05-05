@@ -3,6 +3,24 @@
 **Scope:** read-only audit of repo-owned candidates under `/Users/ricky/vps/builds`
 **Purpose:** identify what must be preserved, given a remote, moved, or archived before Phase 7b folder moves.
 **Do not do yet:** do not delete local nested repos; do not fold their source into `panrix/icorrect-builds`; do not move them until remotes/source-of-truth are settled.
+**Ricky decisions:** approved 2026-05-04; see decision section below.
+
+## Approved Decisions - 2026-05-04
+
+Ricky approved the recommended source-of-truth model:
+
+- Fold `intake-system/react-form` into parent-owned `intake-system/frontend`.
+- Create/use `panrix/royal-mail-automation` for Royal Mail automation.
+- Create/use `panrix/xero-invoice-automation` for Xero invoice automation.
+- Create/use `panrix/elek-board-viewer` for Elek diagnostics source.
+- Keep Elek's 7.8G schematic/reference/runtime assets outside normal Git for now; only source, docs, templates, and curated small fixtures go to GitHub.
+
+Repository existence check, 2026-05-04:
+
+- `panrix/royal-mail-automation`: not found.
+- `panrix/xero-invoice-automation`: not found.
+- `panrix/elek-board-viewer`: not found.
+- `gh` CLI is not installed in the current Codex environment, so repo creation must be done through GitHub UI or a machine with `gh`.
 
 ## Summary
 
@@ -58,9 +76,9 @@ Recommendation:
 2. Do not commit `dist/` as source unless there is a specific deployment reason.
 3. Preserve the app files before removing the old parent gitlink.
 
-Decision needed from Ricky:
+Decision:
 
-- Should `intake-system/react-form` become its own GitHub repo, or should its source be merged into `intake-system/frontend`?
+- Fold source into `intake-system/frontend`; do not create a dedicated repo for `react-form`.
 
 ### `royal-mail-automation`
 
@@ -76,9 +94,9 @@ Recommendation:
 2. Commit source/docs cleanup in that repo, excluding `node_modules`.
 3. Move as repo-owned checkout under operations after remote is live.
 
-Decision needed from Ricky:
+Decision:
 
-- Should we create/use `panrix/royal-mail-automation` as the remote?
+- Create/use `panrix/royal-mail-automation` as the remote.
 
 ### `icorrect-parts-service`
 
@@ -111,9 +129,9 @@ Recommendation:
 2. Commit the restructuring in that repo after checking generated workflow/data files.
 3. Move checkout to finance domain after remote is live.
 
-Decision needed from Ricky:
+Decision:
 
-- Should we create/use `panrix/xero-invoice-automation` as the remote?
+- Create/use `panrix/xero-invoice-automation` as the remote.
 
 ### `elek-board-viewer`
 
@@ -132,18 +150,14 @@ Recommendation:
    - Exclude caches, generated parser output, and large schematic/runtime exports unless Git LFS or external storage is chosen.
 3. Move checkout to diagnostics domain after source/data policy is clear.
 
-Decision needed from Ricky:
+Decision:
 
-- Should `elek-board-viewer` become a dedicated diagnostics repo?
-- Are large schematic/reference assets meant to live in GitHub, Git LFS, or outside Git entirely?
+- Create/use `panrix/elek-board-viewer` as the diagnostics source repo.
+- Keep large schematic/reference/runtime assets outside normal Git for now.
 
 ## Decision Queue For Ricky
 
-1. `intake-system/react-form`: dedicated repo, or fold into `intake-system/frontend`?
-2. `royal-mail-automation`: approve `panrix/royal-mail-automation` as a new remote?
-3. `xero-invoice-automation`: approve `panrix/xero-invoice-automation` as a new remote?
-4. `elek-board-viewer`: approve dedicated diagnostics repo?
-5. `elek-board-viewer`: where should the 7.8G of schematic/reference/runtime assets live?
+Resolved 2026-05-04. No decision blockers remain; the next blockers are repo creation and per-repo preservation.
 
 ## Recommended Execution Order
 
@@ -154,7 +168,16 @@ Decision needed from Ricky:
 3. Create remotes and preserve smaller no-remote repos:
    - Royal Mail automation
    - Xero invoice automation
-4. Decide `intake-system/react-form` source model before touching frontend files.
+4. Fold `intake-system/react-form` source into `intake-system/frontend`, excluding `dist/`.
 5. Design Elek data/source split before any GitHub push.
 6. Only then proceed to Phase 7b folder moves.
 
+## Repo Creation Commands
+
+Run from a machine with GitHub CLI authenticated as `panrix`, or create equivalent private repositories in the GitHub UI:
+
+```bash
+gh repo create panrix/royal-mail-automation --private --description "Royal Mail and fulfillment automation for iCorrect operations"
+gh repo create panrix/xero-invoice-automation --private --description "Xero invoice automation and finance workflow source"
+gh repo create panrix/elek-board-viewer --private --description "Elek diagnostics board viewer source and curated docs"
+```
