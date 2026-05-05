@@ -1,6 +1,6 @@
 # docs/audits/ — Index
 
-**Updated:** 2026-05-02
+**Updated:** 2026-05-05
 **Owner:** main
 **Purpose:** Point-in-time audit reports and analysis from the agent rebuild program. Historical context — referenced occasionally but not actively maintained. Promote to `docs/` root if a finding becomes canonical reference.
 
@@ -17,6 +17,7 @@
 | [`system-audit-digest.md`](system-audit-digest.md) | Digest of the March 2026 system audit pack |
 | [`systems-deep-map.md`](systems-deep-map.md) | Deep map of system topology, services, dependencies |
 | [`ricky-systems-dump.md`](ricky-systems-dump.md) | Ricky's systems vision (referenced by KB SOPs) |
+| [`mutagen-vps-core-conflict-audit-2026-05-05.md`](mutagen-vps-core-conflict-audit-2026-05-05.md) | VPS core Mutagen rebuild status and active conflict hold list |
 
 ## Per-agent / per-domain
 
