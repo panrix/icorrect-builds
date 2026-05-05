@@ -49,7 +49,7 @@ The system audit folder is larger and already internally domain-organized:
 
 The folder should be treated as a frozen source pack first, then extracted from. Do not edit or partially move its internal source pack in place.
 
-**2026-05-05 read-only audit update:** no cron/systemd callers were found, but many KB files still cite `/home/ricky/builds/system-audit-2026-03-31/...` directly. A physical move must wait for a source-reference update batch.
+**2026-05-05 update:** no cron/systemd callers were found. KB references were updated and the frozen pack was moved to `/home/ricky/fleet/system-audit-2026-03-31`.
 
 ## System Audit Extraction Map
 
@@ -64,17 +64,16 @@ The folder should be treated as a frozen source pack first, then extracted from.
 | `research/team/` | `team/docs/audits/` | Staff performance and team operations. |
 | `client_journeys/` | `operations/docs/client-journeys/` plus customer-service references | Journey docs cut across operations and CS; keep canonical copy under operations unless Ricky decides otherwise. |
 | `platform_inventory/` | `fleet/platform-inventory/` | Cross-platform inventory belongs in fleet, with domain references out to owners. |
-| `scripts/` | Archive with frozen pack first; re-run only from a new audited scripts area | Many scripts read `/home/ricky/config/api-keys/.env` and write hard-coded `/home/ricky/builds/system-audit-2026-03-31` outputs. |
+| `scripts/` | Archive with frozen pack first; re-run only from a new audited scripts area | Many scripts read `/home/ricky/config/api-keys/.env` and write hard-coded `/home/ricky/fleet/system-audit-2026-03-31` outputs. |
 
 ## System Audit Split Sequence
 
-1. Choose and document the frozen destination, likely `fleet/system-audit-2026-03-31`.
-2. Update KB `source:` lists and markdown links that currently point at `/home/ricky/builds/system-audit-2026-03-31/...`.
-3. Preserve the original folder as frozen source under the chosen fleet destination.
-4. Create domain extraction folders with `INDEX.md` files.
-5. Copy domain docs into their destination areas with source links back to the frozen pack.
-6. Do not re-run audit scripts during the move; they are historical capture scripts with hard-coded paths and API credentials.
-7. After extraction, replace the old root folder with a pointer README or remove it from the parent repo in a dedicated PR.
+1. Create domain extraction folders with `INDEX.md` files.
+2. Copy domain docs into their destination areas with source links back to the frozen pack.
+3. Build the SOP inventory from current SOP homes plus system-audit evidence.
+4. Build the KB inventory from current KB homes plus system-audit evidence.
+5. Turn SOP/KB gaps into domain-owned work queues.
+6. Do not re-run audit scripts during extraction; they are historical capture scripts with hard-coded paths and API credentials.
 
 ## Active Lane Constraints
 

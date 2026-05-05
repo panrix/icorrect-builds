@@ -13,7 +13,7 @@ No Back Market, Intake, Inventory, Shopify, cron, systemd, OpenClaw config, or l
 
 ## Live Reference Check
 
-No direct references to `/home/ricky/builds/scripts` or `/home/ricky/builds/system-audit-2026-03-31` were found in:
+No direct references to `/home/ricky/builds/scripts` or `/home/ricky/fleet/system-audit-2026-03-31` were found in:
 
 - live user crontab
 - user systemd unit files
@@ -49,7 +49,7 @@ It is already internally domain-organized:
 - `platform_inventory`
 - `scripts`
 
-The folder has 142 tracked files in the parent repo. The 14 tracked Python scripts are research/audit capture scripts with hard-coded `/home/ricky/builds/system-audit-2026-03-31` output paths and direct API credential use from `/home/ricky/config/api-keys/.env`.
+The folder has 142 tracked files in the parent repo. The 14 tracked Python scripts are research/audit capture scripts with hard-coded `/home/ricky/fleet/system-audit-2026-03-31` output paths and direct API credential use from `/home/ricky/config/api-keys/.env`.
 
 ## Hard Reference Blocker
 
@@ -57,7 +57,7 @@ Do not physically move `system-audit-2026-03-31` yet.
 
 The KB still treats the current path as canonical:
 
-- `/home/ricky/kb/SCHEMA.md` names `/home/ricky/builds/system-audit-2026-03-31/research/` as a canonical source path.
+- `/home/ricky/kb/SCHEMA.md` names `/home/ricky/fleet/system-audit-2026-03-31/research/` as a canonical source path.
 - KB pages in finance, parts, marketing, and customer-service cite specific files under the current path.
 - Draft KB workflow maps also cite `client_journeys/` and `research/operations/` under the current path.
 

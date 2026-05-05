@@ -12,9 +12,9 @@ Sources: Phase 6.9a scan actionable_ideas (9 YAML files), automation-blueprint.m
 
 | id | idea (1-line) | source_paths | source_lines | state_hint | suggested_owner | suggested_priority | first_seen_date | notes |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| c5826c1c | Enforce meaningful diagnostic write-ups before items are allowed to reach Diag. Complete. | /home/ricky/builds/system-audit-2026-03-31/docs/audits/diagnostics-deep-dive.md | 51 | broken | main | P2 | 2026-04-06 |  |
+| c5826c1c | Enforce meaningful diagnostic write-ups before items are allowed to reach Diag. Complete. | /home/ricky/fleet/system-audit-2026-03-31/docs/audits/diagnostics-deep-dive.md | 51 | broken | main | P2 | 2026-04-06 |  |
 | 470e6ee1 | Reverse-engineer the revenue target into monthly and quarterly milestones by revenue stream. | /home/ricky/builds/claude-project-export/sop-project/foundation-GOALS.md | 23 | captured | main | P2 | 2026-04-08 |  |
-| d0114f4b | Run verification test passes on the 14 audit scripts before treating them as production-ready. | /home/ricky/builds/system-audit-2026-03-31/README.md | 92 | partial-built | main | P2 | 2026-04-05 |  |
+| d0114f4b | Run verification test passes on the 14 audit scripts before treating them as production-ready. | /home/ricky/fleet/system-audit-2026-03-31/README.md | 92 | partial-built | main | P2 | 2026-04-05 |  |
 | fde8697d | Turn Ricky voice dumps into written SOPs and complete documentation of critical processes. | /home/ricky/builds/claude-project-export/sop-project/foundation-GOALS.md | 87 | partial-built | main | P2 | 2026-04-08 |  |
 | e8c32481 | Build an intake flow that records phone/email/DM context into Monday and prompts missing diagnostic questions | /home/ricky/builds/voice-notes/snapshot/Intake system_otter_ai.txt | 2 | captured | main | P3 | 2026-02-22 |  |
 | 2494bed0 | Build voice-note capture and transcription into planning and SOP workflows | /home/ricky/builds/voice-notes/README.md | 14 | captured | main | P3 | 2026-02-22 |  |

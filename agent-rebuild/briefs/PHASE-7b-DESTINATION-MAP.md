@@ -89,7 +89,7 @@
 | `scripts` | split | read-only audit done 2026-05-05 | Three scripts only: BM price history to Back Market later, Monday repair flow traces to operations after path patch, PDF helper to fleet utilities. |
 | `server-config` | `~/fleet/server-config` | move after redaction plan | Sensitive VPS config snapshot; do not expose as normal docs. |
 | `shift-bot` | `~/team/shift-bot` | move with service check | Active team scheduling bot. |
-| `system-audit-2026-03-31` | split/reference-aware extraction | read-only audit done 2026-05-05 | Preserve as frozen pack, but do not move until KB source paths are updated. Then extract docs by domain and keep scripts frozen until verified. |
+| `system-audit-2026-03-31` | `~/fleet/system-audit-2026-03-31` | moved 2026-05-05 | Preserved as frozen source pack after KB source paths were updated. Next: extract SOP/KB gaps by domain and keep scripts frozen until verified. |
 | `team-audits` | `~/team/audits` | move after credential review | Active team audit project; local secrets flagged by scans. |
 | `telephone-inbound` | `~/operations/telephone-inbound` | move with service check | Active call intake server; PII/log handling belongs in Phase 7c. |
 | `templates` | `~/fleet/templates` | move | Fleet template library. |
