@@ -40,7 +40,7 @@ Context in `backmarket/docs/pricing-architecture.md`.
 - QC To List Watch cron issue is superseded by live `bm-qc-listing.service` on 8015. Monday webhooks now handle `status4 = Ready To Collect` and `status24 = To List`.
 - QC handoff / To List approval-card automation is live: Ready To Collect generates the BM SKU; To List posts an SOP 06 dry-run card to Telegram Listings for approval.
 - Notifications live env probe passed on the VPS with `ICORRECT_TELEGRAM_BOT_TOKEN`, `BM_TELEGRAM_CHAT`, Slack auth, and Telegram topics.
-- Monday Total Costs formula (`formula_mm0za8kh`) always null (blocks margin calcs)
+- Monday Total Costs formula (`formula_mm0za8kh`) is deprecated for automation; fixed/projected/actual economics are code-derived.
 - Reconciliation UUID count cosmetic bug (backlog)
 - Scraper noise + iCloud silent-failure (already fixed — these are audit trail, close them out)
 

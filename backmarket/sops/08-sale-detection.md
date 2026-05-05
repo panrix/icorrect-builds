@@ -76,7 +76,8 @@ For each `orderlines[].listing` SKU, query BM Devices Board:
 | `text_mkyd4bx3` | BM Listing ID | BM Devices | Secondary metadata; not the primary match key |
 | `text4` | Sold to | BM Devices | Buyer name (MUST be empty for assignment) |
 | `text_mkye7p1c` | BM Sales Order ID | BM Devices | Real BM order ID |
-| `numeric5` | Sale Price (ex VAT) | BM Devices | Sale price |
+| `numeric5` | Sale Price (ex VAT) | BM Devices | Actual sale price |
+| `numeric_mm1mgcgn` | Total Fixed Cost | BM Devices | Stored pre-sale fixed cost |
 
 ### Match Logic
 1. Find all BM Devices items where `text89` exactly equals the order line SKU.
@@ -147,6 +148,21 @@ mutation { change_multiple_column_values(
 | `text4` | Sold to | Visible sale identity written from BM order context |
 | `text_mkye7p1c` | BM Sales Order ID | `order_id` from BM (NOT line item ID) |
 | `numeric5` | Sale Price (ex VAT) | Sale price from `orderlines[].price` |
+
+### Actual Economics
+
+At sale time, the script calculates actual economics from the real BM orderline sale price:
+
+```
+fixed_cost = purchase + parts + labour + shipping + BM buy fee
+bm_sell_fee = sale_price * 0.10
+vat = max(0, (sale_price - purchase) * 0.1667)
+actual_total_cost = fixed_cost + bm_sell_fee + vat
+actual_net = sale_price - actual_total_cost
+actual_margin = actual_net / sale_price
+```
+
+`formula_mm0za8kh` is deprecated for automation. It is not a reliable source for pre-sale or post-sale economics because fee/tax depend on sale price and the formula/mirror wiring can return null. `numeric_mm1mgcgn` stores fixed cost only; projected and actual economics are calculated by VPS code.
 
 **Identity rule:**
 - If buyer/account name and shipping/addressee name are the same, write the single human name normally.

@@ -311,6 +311,8 @@ net = min_price - total_costs
 margin = (net / min_price) × 100
 ```
 
+`numeric_mm1mgcgn` stores only Total Fixed Cost (`purchase + parts + labour + shipping + bm_buy_fee`). `formula_mm0za8kh` is deprecated for automation because total cost depends on a sale/listing price and the Monday formula/mirror wiring can return null. Projected total costs are calculated during listing review; actual total costs are calculated by sale detection from the real BM order price.
+
 ### 6.4 Decision Gates
 
 | Condition | Decision |

@@ -50,6 +50,11 @@ const BM_DEVICES_BOARD = 3892194968;
 const BM_SALEABLE_GROUP = 'new_group'; // BM Devices saleable stock group (BM To List / Listed / Sold)
 const MAIN_BOARD_WRITE_VERIFY_ATTEMPTS = 3;
 const MAIN_BOARD_WRITE_VERIFY_DELAY_MS = 1500;
+const SHIPPING_COST = 15;
+const LABOUR_RATE = 24;
+const BM_BUY_FEE_RATE = 0.10;
+const BM_SELL_FEE_RATE = 0.10;
+const VAT_RATE = 0.1667;
 
 const isDryRun = process.argv.includes('--dry-run');
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -82,6 +87,67 @@ async function postTelegram(msg) {
   await sendTelegram(msg, { logger: console, topic });
 }
 
+function roundMoney(value) {
+  return Math.round((Number(value) || 0) * 100) / 100;
+}
+
+function parsePartsCost(value) {
+  return String(value || '')
+    .split(',')
+    .reduce((sum, part) => sum + (parseFloat(part.trim()) || 0), 0);
+}
+
+function calculateSaleEconomics(salePrice, inputs = {}) {
+  const purchasePrice = Number(inputs.purchasePrice) || 0;
+  const partsCost = Number(inputs.partsCost) || 0;
+  const labourHours = Number(inputs.labourHours) || 0;
+  const labourCost = roundMoney(labourHours * LABOUR_RATE);
+  const bmBuyFee = roundMoney(purchasePrice * BM_BUY_FEE_RATE);
+  const fixedCost = roundMoney(purchasePrice + partsCost + labourCost + SHIPPING_COST + bmBuyFee);
+  const bmSellFee = roundMoney((Number(salePrice) || 0) * BM_SELL_FEE_RATE);
+  const vat = roundMoney(Math.max(0, ((Number(salePrice) || 0) - purchasePrice) * VAT_RATE));
+  const totalCost = roundMoney(fixedCost + bmSellFee + vat);
+  const net = roundMoney((Number(salePrice) || 0) - totalCost);
+  const margin = Number(salePrice) > 0 ? roundMoney((net / Number(salePrice)) * 100) : 0;
+
+  return {
+    basis: 'actual_sale_price',
+    salePrice: roundMoney(salePrice),
+    purchasePrice: roundMoney(purchasePrice),
+    partsCost: roundMoney(partsCost),
+    labourHours: roundMoney(labourHours),
+    labourCost,
+    shipping: SHIPPING_COST,
+    bmBuyFee,
+    fixedCost,
+    bmSellFee,
+    vat,
+    totalCost,
+    net,
+    margin,
+  };
+}
+
+async function getSaleEconomicsInputs(bmDeviceItem, mainItemId) {
+  const purchasePrice = parseFloat(bmDeviceItem.column_values.find(cv => cv.id === 'numeric')?.text) || 0;
+  const storedFixedCost = parseFloat(bmDeviceItem.column_values.find(cv => cv.id === 'numeric_mm1mgcgn')?.text) || 0;
+
+  if (!mainItemId) {
+    return { purchasePrice, storedFixedCost, partsCost: 0, labourHours: 0, source: 'bm_device_only' };
+  }
+
+  const q = `{ items(ids:[${mainItemId}]) { column_values(ids:["lookup_mkx1xzd7","formula__1"]) { id ... on MirrorValue { display_value } ... on FormulaValue { display_value } } } }`;
+  const d = await mondayApi(q);
+  const cols = d.data?.items?.[0]?.column_values || [];
+  return {
+    purchasePrice,
+    storedFixedCost,
+    partsCost: parsePartsCost(cols.find(cv => cv.id === 'lookup_mkx1xzd7')?.display_value || ''),
+    labourHours: parseFloat(cols.find(cv => cv.id === 'formula__1')?.display_value) || 0,
+    source: 'main_board_live_costs',
+  };
+}
+
 // ─── Step 1: Fetch new orders ─────────────────────────────────────
 async function fetchNewOrders() {
   const all = [];
@@ -109,7 +175,7 @@ async function fetchNewOrders() {
 async function matchToBmDevice(orderLineSku) {
   const safeSku = String(orderLineSku || '').replace(/"/g, '\\"');
   if (!safeSku) return [];
-  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text89", compare_value: ["${safeSku}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric5", "text_mkyd4bx3", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
+  const q = `{ boards(ids:[${BM_DEVICES_BOARD}]) { items_page(limit: 500, query_params: { rules: [{ column_id: "text89", compare_value: ["${safeSku}"] }] }) { items { id name group { id title } column_values(ids: ["text4", "text_mkye7p1c", "text89", "numeric", "numeric5", "numeric_mm1mgcgn", "text_mkyd4bx3", "board_relation"]) { id text ... on BoardRelationValue { linked_item_ids } } } } } }`;
   const d = await mondayApi(q);
   const items = d.data?.boards?.[0]?.items_page?.items || [];
   const saleable = items.filter(item => item.group?.id === BM_SALEABLE_GROUP);
@@ -283,7 +349,7 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
 }
 
 // ─── Main ─────────────────────────────────────────────────────────
-(async () => {
+async function main() {
   console.log('═'.repeat(60));
   console.log(`  SOP 08: Sale Detection & Acceptance — ${isDryRun ? 'DRY RUN' : 'LIVE'}`);
   console.log(`  ${new Date().toISOString()}`);
@@ -312,7 +378,7 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
     return;
   }
 
-  const summary = { accepted: 0, noMatch: 0, alreadyProcessed: 0, errors: 0 };
+  const summary = { accepted: 0, noMatch: 0, alreadyProcessed: 0, errors: 0, sales: [] };
 
   for (const order of orders) {
     const orderId = order.order_id;
@@ -388,6 +454,14 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
       const relCol = availableItem.column_values.find(cv => cv.id === 'board_relation');
       const mainItemId = relCol?.linked_item_ids?.[0];
       console.log(`  Main Board item: ${mainItemId || 'NOT LINKED'}`);
+      const economicsInputs = await getSaleEconomicsInputs(availableItem, mainItemId);
+      const economics = calculateSaleEconomics(price, economicsInputs);
+      console.log(
+        `  Actual economics: fixed £${economics.fixedCost} + sell fee £${economics.bmSellFee} + VAT £${economics.vat} = total £${economics.totalCost}; net £${economics.net} (${economics.margin}%)`
+      );
+      if (economicsInputs.storedFixedCost && Math.abs(economicsInputs.storedFixedCost - economics.fixedCost) > 1) {
+        console.warn(`  WARN: Stored fixed cost £${economicsInputs.storedFixedCost} differs from live calculated fixed cost £${economics.fixedCost}`);
+      }
 
       // Step 3: Verify stock
       console.log(`\n  [Step 3] Verifying stock...`);
@@ -463,7 +537,9 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
         `Device: ${availableItem.name}\n` +
         `Buyer: ${buyer}\n` +
         `Order: ${orderId}\n` +
-        `Price: £${price}`
+        `Price: £${price}\n` +
+        `Net: £${economics.net} (${economics.margin}%)\n` +
+        `Cost: fixed £${economics.fixedCost} + fee £${economics.bmSellFee} + VAT £${economics.vat}`
       );
 
       console.log(`\n  ── SALE CONFIRMED ──`);
@@ -471,7 +547,17 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
       console.log(`  Buyer: ${buyer}`);
       console.log(`  Order: ${orderId}`);
       console.log(`  Price: £${price}`);
+      console.log(`  Net: £${economics.net} (${economics.margin}%)`);
 
+      summary.sales.push({
+        bmDeviceId: availableItem.id,
+        device: availableItem.name,
+        mainItemId: mainItemId || null,
+        orderId,
+        listingId,
+        price,
+        economics,
+      });
       summary.accepted++;
     }
 
@@ -491,4 +577,19 @@ async function renameMainBoardItem(mainItemId, visibleIdentity) {
   const outDir = '/home/ricky/builds/backmarket/data';
   fs.mkdirSync(outDir, { recursive: true });
   fs.writeFileSync(`${outDir}/sale-detection-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(summary, null, 2));
-})();
+}
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
+
+module.exports = {
+  calculateSaleEconomics,
+  getSaleEconomicsInputs,
+  main,
+  parsePartsCost,
+  roundMoney,
+};

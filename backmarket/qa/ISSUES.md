@@ -225,6 +225,10 @@ Once FIXED or WON'T FIX is marked, don't delete the entry — it's the audit tra
 
 **Context / notes:** The workaround is to reconstruct costs manually from parts + labour columns. A fix would need to update the Monday formula or replace it with an automation.
 
+**2026-05-05 update:** This is not a column syntax bug to rescue. `formula_mm0za8kh` is on BM Devices and depends on sale-price-derived fee/tax columns, plus a stale parts mirror that points at deleted Main Board `formula_mkx13zr7`. Pre-sale automation must not depend on it. `numeric_mm1mgcgn` remains the safe Total Fixed Cost write target. Projected and actual fee/tax/net/margin are now calculated in VPS code from source data.
+
+**Status:** RESOLVED/DEPRECATED by Codex on 2026-05-05 — `formula_mm0za8kh` is deprecated for automation. Use `numeric_mm1mgcgn` for fixed cost and code-derived economics for projected/actual totals.
+
 ---
 
 _(None yet — add below this line.)_

@@ -127,7 +127,7 @@ Discrepancies: {count or "None"}
 
 ## Profitability Per Device
 
-The BM Devices Board has formula columns for per-device profitability:
+The BM Devices Board still has historical formula columns for per-device profitability:
 
 | Column ID | Title | Calculation |
 |-----------|-------|-------------|
@@ -138,7 +138,12 @@ The BM Devices Board has formula columns for per-device profitability:
 | `formula_mm0za8kh` | Total costs | Purchase + parts + labour + shipping |
 | `formula_mm0ykbya` | % net Profit | Net profit as percentage |
 
-These are formula columns calculated from existing data. They require `numeric5` (Sale Price) and `numeric` (Purchase Price) to be populated.
+These are display/historical columns only. Automation must not rely on them:
+- `formula_mm0za8kh` is deprecated; it depends on sale-price-derived columns and stale mirror wiring, so it is not a stable pre-sale cost source.
+- `formula_mm0xekc4` / `formula_mm0ykbya` can be UI-only or GraphQL-null when formula/mirror dependencies are involved.
+- `numeric5` is the actual sale price written by SOP 08 after a real BM order is detected.
+
+Use `numeric_mm1mgcgn` as the stored Total Fixed Cost (`purchase + parts + labour + shipping + BM buy fee`). Projected and actual fee/tax/net/margin must be calculated in VPS code from source data and the relevant sale/listing price.
 
 ---
 

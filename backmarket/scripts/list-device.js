@@ -1204,6 +1204,19 @@ function calculateProfitability(proposed, specs) {
   };
 }
 
+function buildProjectedEconomics(profitability) {
+  return {
+    basis: 'projected_min_price',
+    salePrice: profitability?.minPrice || 0,
+    fixedCost: profitability?.totalFixedCost || 0,
+    bmSellFee: profitability?.bmSellFee || 0,
+    vat: profitability?.vat || 0,
+    totalCost: profitability?.totalCosts || 0,
+    net: profitability?.net || 0,
+    margin: profitability?.margin || 0,
+  };
+}
+
 // ─── Step 9: Decision Gate ────────────────────────────────────────
 
 function decisionGate(profitability) {
@@ -1945,6 +1958,13 @@ async function processItem(mainItemId, scraperData, bmDeviceMap) {
           net: result.profitability?.net || 0,
           margin: result.profitability?.margin || 0,
         },
+        economics: {
+          fixed: {
+            basis: 'pre_sale',
+            totalFixedCost: result.profitability?.totalFixedCost || 0,
+          },
+          projected: buildProjectedEconomics(result.profitability || {}),
+        },
         decision: result.decision?.decision || 'BLOCK',
         decisionReason: result.decision?.reason || '',
         listingId: result.registrySlot?.listing_id || null,
@@ -2386,6 +2406,8 @@ if (require.main === module) {
 
 module.exports = {
   buildProbeReport,
+  buildProjectedEconomics,
+  calculateProfitability,
   classifyTrust,
   decisionGate,
   determineProbeVerdict,

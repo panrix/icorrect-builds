@@ -1,10 +1,43 @@
 const assert = require('assert');
 const {
+  buildProjectedEconomics,
+  calculateProfitability,
   decisionGate,
   classifyTrust,
   resolveHistoricalSalesFromSoldLookup,
   summarizeFrontendCaptureMismatches,
 } = require('../../scripts/list-device');
+
+const profitability = calculateProfitability(500, {
+  purchasePrice: 250,
+  partsCost: 40,
+  labourHours: 2,
+});
+
+assert.equal(profitability.minPrice, 485);
+assert.equal(profitability.labourCost, 48);
+assert.equal(profitability.bmBuyFee, 25);
+assert.equal(profitability.bmSellFee, 48.5);
+assert.equal(profitability.vat, 39.17);
+assert.equal(profitability.totalFixedCost, 378);
+assert.equal(profitability.totalCosts, 465.67);
+assert.equal(profitability.net, 19.33);
+assert.equal(profitability.margin, 3.98);
+assert.equal(profitability.breakEven, 459);
+
+assert.deepEqual(
+  buildProjectedEconomics(profitability),
+  {
+    basis: 'projected_min_price',
+    salePrice: 485,
+    fixedCost: 378,
+    bmSellFee: 48.5,
+    vat: 39.17,
+    totalCost: 465.67,
+    net: 19.33,
+    margin: 3.98,
+  }
+);
 
 assert.deepEqual(
   summarizeFrontendCaptureMismatches({
