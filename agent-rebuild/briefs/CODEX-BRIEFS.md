@@ -12,7 +12,7 @@ All tasks are read-only research unless stated otherwise. Outputs go to `builds/
 
 **Output:** `builds/agent-rebuild/script-test-results.md`
 
-Run each of the 14 Python scripts in `/home/ricky/builds/system-audit-2026-03-31/scripts/` with `--help` or `--dry-run` flags if available. If no dry-run flag, run with minimal input to test imports and basic execution.
+Run each of the 14 Python scripts in `/home/ricky/fleet/system-audit-2026-03-31/scripts/` with `--help` or `--dry-run` flags if available. If no dry-run flag, run with minimal input to test imports and basic execution.
 
 For each script report:
 - Does it start without import errors?
@@ -29,7 +29,7 @@ Source credentials from `/home/ricky/config/api-keys/.env`. Do NOT modify any pr
 **Output:** `/home/ricky/kb/finance/` (new files)
 
 Read:
-- `/home/ricky/builds/system-audit-2026-03-31/research/finance/` (all 4 files)
+- `/home/ricky/fleet/system-audit-2026-03-31/research/finance/` (all 4 files)
 - `/home/ricky/kb/SCHEMA.md` (page format)
 
 Create initial KB pages:
@@ -47,7 +47,7 @@ Follow SCHEMA.md page format. Mark all pages as `status: unverified`.
 **Output:** `/home/ricky/kb/customer-service/` (new files)
 
 Read:
-- `/home/ricky/builds/system-audit-2026-03-31/research/customer-service/` (all 5 files)
+- `/home/ricky/fleet/system-audit-2026-03-31/research/customer-service/` (all 5 files)
 - `/home/ricky/.openclaw/agents/alex-cs/workspace/docs/` (Alex's SOPs and templates)
 - `/home/ricky/kb/SCHEMA.md`
 
@@ -64,7 +64,7 @@ Create initial KB pages:
 **Output:** `/home/ricky/kb/marketing/` (new files)
 
 Read:
-- `/home/ricky/builds/system-audit-2026-03-31/research/marketing/` (all 7 files)
+- `/home/ricky/fleet/system-audit-2026-03-31/research/marketing/` (all 7 files)
 - `/home/ricky/.openclaw/agents/marketing/workspace/docs/` (marketing briefs and audits)
 - `/home/ricky/kb/SCHEMA.md`
 
@@ -81,7 +81,7 @@ Create initial KB pages:
 **Output:** `/home/ricky/kb/parts/` (new files)
 
 Read:
-- `/home/ricky/builds/system-audit-2026-03-31/research/parts/` (all 4 files)
+- `/home/ricky/fleet/system-audit-2026-03-31/research/parts/` (all 4 files)
 - `/home/ricky/.openclaw/agents/parts/workspace/docs/`
 - `/home/ricky/.openclaw/agents/parts/workspace/scripts/` (understand what exists)
 - `/home/ricky/kb/SCHEMA.md`
@@ -217,8 +217,8 @@ Read:
 - `/home/ricky/kb/operations/README.md` (current SOPs)
 - `/home/ricky/kb/monday/main-board.md` (Monday schema)
 - `/home/ricky/kb/monday/bm-devices-board.md` (BM board schema)
-- `/home/ricky/builds/system-audit-2026-03-31/research/operations/` (operations research)
-- `/home/ricky/builds/system-audit-2026-03-31/client_journeys/` (customer journey maps)
+- `/home/ricky/fleet/system-audit-2026-03-31/research/operations/` (operations research)
+- `/home/ricky/fleet/system-audit-2026-03-31/client_journeys/` (customer journey maps)
 - `/home/ricky/.openclaw/shared/COMPANY.md` and `TEAM.md`
 
 For each of the 11 systems in the dump, produce:

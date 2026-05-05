@@ -1,7 +1,7 @@
 # System Audit Digest
 
-Date: 2026-04-04  
-Scope: `/home/ricky/builds/system-audit-2026-03-31/` and linked research outputs  
+Date: 2026-04-04
+Scope: `/home/ricky/fleet/system-audit-2026-03-31/` and linked research outputs
 Method: read-only research only; no existing files modified
 
 ---
@@ -464,7 +464,7 @@ If this digest is being used to decide what to do with the audit pack, the right
 
 ## 9.1 Preserve the pack as a frozen research source
 Keep:
-- `/home/ricky/builds/system-audit-2026-03-31/`
+- `/home/ricky/fleet/system-audit-2026-03-31/`
 as a historical audit bundle.
 
 Do not treat it as a live source-of-truth folder.
@@ -528,38 +528,38 @@ This audit pack is one of the most valuable business-analysis artifacts in the c
 ## Sources checked
 
 ### Core audit documents
-- `/home/ricky/builds/system-audit-2026-03-31/README.md`
-- `/home/ricky/builds/system-audit-2026-03-31/business-viability-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/channel-economics.md`
-- `/home/ricky/builds/system-audit-2026-03-31/financial-mapping.md`
-- `/home/ricky/builds/system-audit-2026-03-31/staff-performance-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/marketing-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/customer-retention-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/logistics-supplier-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/physical-capacity-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/competitor-benchmarking.md`
-- `/home/ricky/builds/system-audit-2026-03-31/monday-updates-analysis.md`
-- `/home/ricky/builds/system-audit-2026-03-31/data_flows.md`
-- `/home/ricky/builds/system-audit-2026-03-31/access_matrix.md`
-- `/home/ricky/builds/system-audit-2026-03-31/payment-truth-target-state.md`
-- `/home/ricky/builds/system-audit-2026-03-31/loopback-verification-2026-04-01.md`
-- `/home/ricky/builds/system-audit-2026-03-31/MASTER-QUESTIONS-FOR-JARVIS.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/README.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/business-viability-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/channel-economics.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/financial-mapping.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/staff-performance-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/marketing-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/customer-retention-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/logistics-supplier-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/physical-capacity-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/competitor-benchmarking.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/monday-updates-analysis.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/data_flows.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/access_matrix.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/payment-truth-target-state.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/loopback-verification-2026-04-01.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/MASTER-QUESTIONS-FOR-JARVIS.md`
 
 ### High-value generated outputs
-- `/home/ricky/builds/system-audit-2026-03-31/docs/audits/product-cards.md`
-- `/home/ricky/builds/system-audit-2026-03-31/gsc-profitability-crossref.md`
-- `/home/ricky/builds/system-audit-2026-03-31/docs/audits/gsc-profitability-crossref-v2.md`
-- `/home/ricky/builds/system-audit-2026-03-31/repair-profitability-v2-compact.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/docs/audits/product-cards.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/gsc-profitability-crossref.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/docs/audits/gsc-profitability-crossref-v2.md`
+- `/home/ricky/fleet/system-audit-2026-03-31/repair-profitability-v2-compact.md`
 
 ### Script inventory sampled
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/repair_profitability_v2.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/gsc_crossref_lean.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/gsc_profitability_crossref.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/product_cards.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/monday_zombie_triage.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/intercom_deep_metrics.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/shopify_health_audit.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/parts_cost_audit.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/xero_revenue_by_repair.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/n8n_workflow_triage.py`
-- `/home/ricky/builds/system-audit-2026-03-31/scripts/diagnostics_deep_dive.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/repair_profitability_v2.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/gsc_crossref_lean.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/gsc_profitability_crossref.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/product_cards.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/monday_zombie_triage.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/intercom_deep_metrics.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/shopify_health_audit.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/parts_cost_audit.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/xero_revenue_by_repair.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/n8n_workflow_triage.py`
+- `/home/ricky/fleet/system-audit-2026-03-31/scripts/diagnostics_deep_dive.py`

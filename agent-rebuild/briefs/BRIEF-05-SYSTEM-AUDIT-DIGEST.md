@@ -12,10 +12,10 @@ In late March/early April 2026, Jarvis spawned multiple Codex research agents th
 ## Task
 
 ### 1. Read the index
-Start with `/home/ricky/builds/system-audit-2026-03-31/README.md` to understand the full scope.
+Start with `/home/ricky/fleet/system-audit-2026-03-31/README.md` to understand the full scope.
 
 ### 2. Read and summarise each major research file
-Location: `/home/ricky/builds/system-audit-2026-03-31/`
+Location: `/home/ricky/fleet/system-audit-2026-03-31/`
 
 Priority files (read in full, summarise key findings):
 - `business-viability-analysis.md` — overall business health
@@ -40,7 +40,7 @@ Also check for:
 Check for any per-product profitability data — files like `gsc-profitability-crossref*.md` or product card files.
 
 ### 4. Check what scripts were built
-`/home/ricky/builds/system-audit-2026-03-31/scripts/` — list all scripts, what they do, whether they're reusable.
+`/home/ricky/fleet/system-audit-2026-03-31/scripts/` — list all scripts, what they do, whether they're reusable.
 
 ### 5. Read the master questions file
 `MASTER-QUESTIONS-FOR-JARVIS.md` — what questions were flagged as unanswered?
