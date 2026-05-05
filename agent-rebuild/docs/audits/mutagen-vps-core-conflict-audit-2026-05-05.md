@@ -9,11 +9,17 @@
 - Mode: `two-way-safe`
 - VCS: ignored
 - Symlinks: ignored
-- Synchronizable payload: 1.2G on both sides
+- Synchronizable payload: 911M on both sides after adding `/worktrees` to the ignore list
 - VPS disk after cleanup: 51G used, 21G free, 71%
 - Mutagen remote state after rebuild: about 184M
 
-The old failure mode was Mutagen staging huge `.git` packs and runtime/cache trees into a full VPS. The new session excludes Git internals, dependency folders, tool runtime folders, browser/runtime state, archives, backups, OpenClaw live state, and large generated data.
+The old failure mode was Mutagen staging huge `.git` packs and runtime/cache trees into a full VPS. The new session excludes Git internals, dependency folders, tool runtime folders, browser/runtime state, archives, backups, OpenClaw live state, mirrored VPS worktrees, and large generated data.
+
+## Worktree Mirror Rule
+
+`/Users/ricky/vps/worktrees` is no longer a managed Mutagen path. It is a VPS mirror artifact, not a valid place to open Mac-side Codex worktrees, because the checked-out `.git` pointer files refer to `/home/ricky/...` paths on the VPS.
+
+Use fresh local Codex worktrees under `/Users/ricky/.codex/worktrees/...` for Mac-side sessions. Use `/home/ricky/worktrees/...` only when working directly on the VPS.
 
 ## Active Conflicts
 
