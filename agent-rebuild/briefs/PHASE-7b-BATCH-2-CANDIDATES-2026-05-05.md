@@ -24,11 +24,11 @@ Do not touch these active product lanes:
 
 ## Candidate Batch 2
 
-These folders are dormant or documentation-heavy and can be handled after the active checkout is quiet.
+These folders are dormant or documentation-heavy and can be handled after the active checkout is quiet or when the move is small enough to isolate cleanly in a parent cleanup PR.
 
 | Folder | Current state | Proposed destination | Action | Risk |
 |---|---|---|---|---|
-| `hiring` | dormant single job-description draft | `~/team/hiring` | move with `INDEX.md` preserved | low |
+| `hiring` | dormant single job-description draft | `~/team/hiring` | completed 2026-05-05; see `PHASE-7b-BATCH-2-HIRING-MOVE-REPORT-2026-05-05.md` | low |
 | `repair-analysis` | dormant scripts superseded by system audit profitability work | `~/workshop/repair-analysis` or archive under `~/fleet/archive/repair-analysis-2026-05` | archive or move after deciding whether scripts are still useful | low-medium |
 | `intercom-agent` | dormant superseded Intercom backend-agent spec | `~/customer-service/alex-triage/archive/intercom-agent-spec` | archive/merge selected ideas into Alex CS queue | low-medium |
 | `alex-triage-classifier-rebuild` | dormant single classifier refactor brief | `~/customer-service/alex-triage/archive/classifier-rebuild` | archive/merge into Alex triage briefs after Alex conflict is resolved | medium because Alex has a current Mutagen conflict |
@@ -59,7 +59,7 @@ These looked movable from the map, but are not safe for Batch 2:
 
 1. Wait for the active Back Market checkout to be committed/pushed or move cleanup to a clean VPS worktree.
 2. Merge active-lane guardrail PRs before any move PR.
-3. Execute only `hiring` first as the smallest physical proof of Batch 2.
+3. `hiring` was executed first as the smallest physical proof of Batch 2.
 4. Then decide `repair-analysis`: archive if superseded, or move to workshop if Ricky wants to keep it as a working analysis surface.
 5. Handle Alex/Intercom docs only after the Alex Mutagen conflict is resolved.
 6. Leave all active service folders for a dedicated service-path patch batch.
