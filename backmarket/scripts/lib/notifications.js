@@ -16,6 +16,8 @@ const DEFAULTS = Object.freeze({
     shipping: '5620',
     payouts: '5621',
     issues: '5622',
+    icloudSpec: '5637',
+    icloudLocked: '5638',
   }),
   slackChannels: Object.freeze({
     dispatch: 'C024H7518J3',
@@ -39,6 +41,8 @@ const TOPIC_ENV = Object.freeze({
   shipping: 'BM_TELEGRAM_TOPIC_SHIPPING',
   payouts: 'BM_TELEGRAM_TOPIC_PAYOUTS',
   issues: 'BM_TELEGRAM_TOPIC_ISSUES',
+  icloudSpec: 'BM_TELEGRAM_TOPIC_ICLOUD_SPEC',
+  icloudLocked: 'BM_TELEGRAM_TOPIC_ICLOUD_LOCKED',
 });
 
 function getNotificationConfig(env = process.env) {
@@ -54,6 +58,8 @@ function getNotificationConfig(env = process.env) {
         shipping: env.BM_TELEGRAM_TOPIC_SHIPPING || DEFAULTS.telegramTopics.shipping,
         payouts: env.BM_TELEGRAM_TOPIC_PAYOUTS || DEFAULTS.telegramTopics.payouts,
         issues: env.BM_TELEGRAM_TOPIC_ISSUES || DEFAULTS.telegramTopics.issues,
+        icloudSpec: env.BM_TELEGRAM_TOPIC_ICLOUD_SPEC || DEFAULTS.telegramTopics.icloudSpec,
+        icloudLocked: env.BM_TELEGRAM_TOPIC_ICLOUD_LOCKED || DEFAULTS.telegramTopics.icloudLocked,
       },
     },
     slack: {

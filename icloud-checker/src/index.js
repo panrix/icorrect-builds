@@ -14,6 +14,7 @@ const {
   isCustomerBmMessage,
   mergeRecheckState,
 } = require("./lib/recheck-dedupe");
+const { getTelegramConfig, postTelegramTopic } = require("./lib/telegram-topics");
 const counterOffer = require("./lib/counter-offer");
 const app = express();
 app.use(express.json());
@@ -409,6 +410,26 @@ async function sendSlackCustomerReplyAlert(item, customerMessage) {
     text: `📩 Customer replied — ${item.name}: "${customerMessage.slice(0, 100)}"`,
     blocks,
   });
+
+  await notifyIcloudLocked(
+    [
+      `📩 Customer replied — ${item.name}`,
+      item.bmTradeInId ? `BM Trade-in: ${item.bmTradeInId}` : null,
+      item.serial ? `Serial: ${item.serial}` : null,
+      "",
+      customerMessage.slice(0, 900),
+      "",
+      "Action needed: recheck iCloud or reply to the customer.",
+    ].filter(Boolean).join("\n")
+  );
+}
+
+async function notifyIcloudSpecCheck(text) {
+  return postTelegramTopic(text, { topic: "icloudSpec", logger: console });
+}
+
+async function notifyIcloudLocked(text) {
+  return postTelegramTopic(text, { topic: "icloudLocked", logger: console });
 }
 
 // --- iCloud locked dedup: prevent repeated alerts for same item ---
@@ -434,6 +455,14 @@ async function handleIcloudLocked(itemId, itemName, serial, model, bmTradeInId) 
     await postMondayComment(itemId, msg);
     await sendSlackAlert(msg);
     await moveItemToGroup(itemId, ICLOUD_LOCKED_GROUP);
+    await notifyIcloudLocked(
+      [
+        `🔒 iCloud locked hold — ${itemName}`,
+        serial ? `Serial: ${serial}` : null,
+        "",
+        msg,
+      ].filter(Boolean).join("\n")
+    );
     return;
   }
 
@@ -459,6 +488,15 @@ async function handleIcloudLocked(itemId, itemName, serial, model, bmTradeInId) 
   const msg = parts.filter(Boolean).join("\n");
   await postMondayComment(itemId, msg);
   await sendSlackAlert(msg);
+  await notifyIcloudLocked(
+    [
+      `🔒 iCloud locked hold — ${itemName}`,
+      serial ? `Serial: ${serial}` : null,
+      bmTradeInId ? `BM Trade-in: ${bmTradeInId}` : null,
+      "",
+      msg,
+    ].filter(Boolean).join("\n")
+  );
   console.log(`${itemName}: iCloud ON flow complete`);
 }
 
@@ -487,6 +525,15 @@ async function handleRecheckUnlocked(item, slackContext) {
   } else {
     await sendSlackAlert(slackMsg);
   }
+  await notifyIcloudLocked(
+    [
+      `✅ iCloud unlocked — ${item.name}`,
+      item.bmTradeInId ? `BM Trade-in: ${item.bmTradeInId}` : null,
+      item.serial ? `Serial: ${item.serial}` : null,
+      "Moved to Today's Repairs",
+      bmMsgSent ? "Customer notified via BackMarket" : null,
+    ].filter(Boolean).join("\n")
+  );
 }
 
 // --- Recheck a single item (used by cron auto-recheck and Slack button) ---
@@ -517,6 +564,14 @@ async function recheckItem(item, slackContext) {
       if (item.bmTradeInId) await sendBmMessage(item.bmTradeInId, BM_MSG_ICLOUD_ON);
       await sendSlackAlert(stillLockedMsg + "\nCustomer messaged again");
     }
+    await notifyIcloudLocked(
+      [
+        `❌ iCloud still locked — ${item.name}`,
+        item.bmTradeInId ? `BM Trade-in: ${item.bmTradeInId}` : null,
+        item.serial ? `Serial: ${item.serial}` : null,
+        slackContext?.respond ? "Manual recheck result" : "Auto-recheck result; customer messaged again",
+      ].filter(Boolean).join("\n")
+    );
     return { unlocked: false };
   }
 }
@@ -767,6 +822,14 @@ app.post("/webhook/icloud-check", async (req, res) => {
 
     if (!result.success) {
       await postMondayComment(itemId, `❌ iCloud Check Failed for serial ${serial}: ${result.error}`);
+      await notifyIcloudSpecCheck(
+        [
+          `❌ iCloud/spec check failed — ${itemName}`,
+          `Serial: ${serial}`,
+          itemData.bmTradeInId ? `BM Trade-in: ${itemData.bmTradeInId}` : null,
+          `Error: ${result.error}`,
+        ].filter(Boolean).join("\n")
+      );
       return res.status(200).send("SickW error");
     }
 
@@ -837,6 +900,29 @@ app.post("/webhook/icloud-check", async (req, res) => {
       console.error(`Failed to write iCloud/spec reference to Main Board ${itemId}:`, err.message);
       await sendSlackAlert(`⚠️ *iCloud/spec reference write FAILED* for ${itemName}\nMain Board item: ${itemId}\n${err.message}`);
     }
+
+    const specOutcome = specComment.includes("SPEC MISMATCH")
+      ? "MISMATCH"
+      : specComment.includes("Specs Match")
+        ? "MATCH"
+        : specComment.includes("Could not verify specs")
+          ? "UNVERIFIED"
+          : specComment.includes("unavailable")
+            ? "UNAVAILABLE"
+            : specComment
+              ? "INFO"
+              : "NO SPEC RESULT";
+    await notifyIcloudSpecCheck(
+      [
+        `${icloudOn ? "🔒" : "✅"} iCloud/spec check — ${itemName}`,
+        `iCloud: ${icloudOn ? "LOCKED" : "UNLOCKED"}`,
+        `Spec: ${specOutcome}`,
+        `Serial: ${serial}`,
+        itemData.bmTradeInId ? `BM Trade-in: ${itemData.bmTradeInId}` : null,
+        result.model ? `SickW Model: ${result.model}` : null,
+        specComment ? `\n${specComment}` : null,
+      ].filter(Boolean).join("\n")
+    );
 
     if (icloudOn) {
       await handleIcloudLocked(itemId, itemName, serial, result.model, itemData.bmTradeInId);
@@ -1088,8 +1174,23 @@ app.post("/webhook/icloud-check/slack-interact", async (req, res) => {
           });
         }
         console.log(`${meta.itemName}: reply sent via BM`);
+        await notifyIcloudLocked(
+          [
+            `💬 Reply sent to customer — ${meta.itemName}`,
+            meta.bmTradeInId ? `BM Trade-in: ${meta.bmTradeInId}` : null,
+            "",
+            replyText.slice(0, 900),
+          ].filter(Boolean).join("\n")
+        );
       } else {
         await sendSlackAlert(`❌ Failed to send reply for ${meta.itemName}: ${result.error}`);
+        await notifyIcloudLocked(
+          [
+            `❌ Customer reply failed — ${meta.itemName}`,
+            meta.bmTradeInId ? `BM Trade-in: ${meta.bmTradeInId}` : null,
+            result.error,
+          ].filter(Boolean).join("\n")
+        );
         console.log(`${meta.itemName}: reply failed — ${result.error}`);
       }
       return;
@@ -1289,7 +1390,19 @@ app.post("/webhook/bm/to-list", (req, res) => {
 // Health check
 app.get("/webhook/icloud-check/health", (req, res) => {
   const state = loadState();
-  res.json({ status: "ok", service: "icloud-checker", trackedOrders: Object.keys(state).length, recheckIntervalMin: RECHECK_INTERVAL_MS / 60000 });
+  const telegram = getTelegramConfig();
+  res.json({
+    status: "ok",
+    service: "icloud-checker",
+    trackedOrders: Object.keys(state).length,
+    recheckIntervalMin: RECHECK_INTERVAL_MS / 60000,
+    telegram: {
+      configured: Boolean(telegram.token && telegram.chatId),
+      tokenSource: telegram.tokenSource,
+      chatId: telegram.chatId,
+      topics: telegram.topics,
+    },
+  });
 });
 
 // Start
