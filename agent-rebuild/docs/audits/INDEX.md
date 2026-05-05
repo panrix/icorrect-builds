@@ -4,7 +4,7 @@
 **Owner:** main
 **Purpose:** Point-in-time audit reports and analysis from the agent rebuild program. Historical context — referenced occasionally but not actively maintained. Promote to `docs/` root if a finding becomes canonical reference.
 
-24 files. All dated by content (most are from late March / April 2026). Phase 7 hygiene may consolidate or further-archive these.
+25 files. All dated by content (most are from late March / April 2026). Phase 7 hygiene may consolidate or further-archive these.
 
 ## Audits — fleet-level
 
@@ -15,6 +15,7 @@
 | [`LIVE-CRON-SOURCE-TRUTH-2026-05-05.md`](LIVE-CRON-SOURCE-TRUTH-2026-05-05.md) | Current live VPS user crontab source-of-truth for Phase 7b move planning |
 | [`memory-archive-report.md`](memory-archive-report.md) | Memory-file archive sweep report |
 | [`RETIREMENT-AUDIT-2026-04-29.md`](RETIREMENT-AUDIT-2026-04-29.md) | Phase 1 retirement audit — 9 retired agents, what was wired where |
+| [`ROYAL-MAIL-CRON-PATH-MIGRATION-2026-05-05.md`](ROYAL-MAIL-CRON-PATH-MIGRATION-2026-05-05.md) | Royal Mail live crontab path migration from `~/builds` to `~/operations` |
 | [`system-audit-digest.md`](system-audit-digest.md) | Digest of the March 2026 system audit pack |
 | [`systems-deep-map.md`](systems-deep-map.md) | Deep map of system topology, services, dependencies |
 | [`ricky-systems-dump.md`](ricky-systems-dump.md) | Ricky's systems vision (referenced by KB SOPs) |
