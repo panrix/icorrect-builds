@@ -10,7 +10,8 @@ This is a source-of-truth guardrail for future folder moves: any folder with a l
 
 - The KPI Google Sheets updater is **not** currently scheduled in the live crontab.
 - Most active scheduled work still points at `/home/ricky/builds/...`.
-- Back Market and Royal Mail paths are live and must stay frozen while their active agents are working.
+- Back Market paths are live and must stay frozen while their active agents are working.
+- Royal Mail cron paths were migrated to `/home/ricky/operations/royal-mail-automation` later on 2026-05-05; see `ROYAL-MAIL-CRON-PATH-MIGRATION-2026-05-05.md`.
 - The crontab contains several blank/comment-only legacy sections; these are not harmful, but they make it harder to see what is live.
 - The old April cron audit is now stale; use this dated file when planning Phase 7b moves.
 
@@ -28,8 +29,8 @@ This is a source-of-truth guardrail for future folder moves: any folder with a l
 | Daily 06:00 UTC | `/home/ricky/builds/backmarket/scripts/sent-orders.js --live` | Back Market | Frozen while BM work is active. |
 | Weekdays hourly 07-17 UTC | `/home/ricky/builds/backmarket/scripts/sale-detection.js` | Back Market | Frozen while BM work is active. |
 | Weekends 08/12/16 UTC | `/home/ricky/builds/backmarket/scripts/sale-detection.js` | Back Market | Frozen while BM work is active. |
-| Weekdays 07:00 UTC | `/home/ricky/builds/royal-mail-automation/dispatch.js` | Operations/Royal Mail | Live path; repo already moved under `~/operations`, cron still points to old `~/builds` clone. |
-| Weekdays 12:00 UTC | `/home/ricky/builds/royal-mail-automation/dispatch.js` | Operations/Royal Mail | Live path; needs dedicated cron-path migration. |
+| Weekdays 07:00 UTC | `/home/ricky/operations/royal-mail-automation/dispatch.js` | Operations/Royal Mail | Migrated from `~/builds` on 2026-05-05; keep old clone until scheduled run succeeds. |
+| Weekdays 12:00 UTC | `/home/ricky/operations/royal-mail-automation/dispatch.js` | Operations/Royal Mail | Migrated from `~/builds` on 2026-05-05; keep old clone until scheduled run succeeds. |
 | Weekdays 07:30 UTC | `/home/ricky/builds/backmarket/scripts/board-housekeeping.js` | Back Market | Frozen while BM work is active. |
 | Daily 05:00 UTC | `/home/ricky/builds/buyback-monitor/run-daily.sh` | Back Market | Frozen while BM work is active. |
 | Daily 05:00 UTC | `/home/ricky/builds/alex-triage-rebuild/scripts/shopify-pricing.js` then `generate-pricing-kb.js` | Customer Service / Alex pricing | Defer until Alex conflict is resolved. |
@@ -40,8 +41,8 @@ This is a source-of-truth guardrail for future folder moves: any folder with a l
 | Weekdays 08:00 UTC | `/home/ricky/builds/backmarket/scripts/morning-briefing.js` | Back Market | Frozen while BM work is active. |
 | Sundays 04:00 UTC | `/home/ricky/builds/backmarket/scripts/reconcile-listings.js --dry-run` | Back Market | Frozen while BM work is active. |
 | Every 30 min | `/home/ricky/config/gsc_keepalive.sh` | Marketing/Google Search Console | Config-owned; keep outside repo. |
-| Weekdays 12:00 UTC | `/home/ricky/builds/royal-mail-automation/repairs-dispatch.js` | Operations/Royal Mail | Live path; needs dedicated cron-path migration. |
-| Weekdays 15:00 UTC | `/home/ricky/builds/royal-mail-automation/repairs-dispatch.js` | Operations/Royal Mail | Live path; needs dedicated cron-path migration. |
+| Weekdays 12:00 UTC | `/home/ricky/operations/royal-mail-automation/repairs-dispatch.js` | Operations/Royal Mail | Migrated from `~/builds` on 2026-05-05; keep old clone until scheduled run succeeds. |
+| Weekdays 15:00 UTC | `/home/ricky/operations/royal-mail-automation/repairs-dispatch.js` | Operations/Royal Mail | Migrated from `~/builds` on 2026-05-05; keep old clone until scheduled run succeeds. |
 | Daily 02:15 UTC | `/home/ricky/builds/backmarket/scripts/build-sold-price-lookup.js --live` | Back Market | Frozen while BM work is active. |
 | Daily 08:01 UTC | `/home/ricky/builds/backmarket/scripts/trade-ins-daily-brief.js` | Back Market | Frozen while BM work is active. |
 
@@ -77,25 +78,16 @@ No KPI cron entry was found on 2026-05-05. Do not add one until the KPI dry run 
 
 - `backmarket`
 - `buyback-monitor`
-- `royal-mail-automation`
 - `alex-triage-rebuild`
 - OpenClaw runtime scripts under `~/.openclaw`
 - Config token scripts under `~/config`
 
-### Next Recommended Path Batch
+### Completed Path Batch
 
-The first live-path migration should be Royal Mail, because the canonical repo has already been moved to:
+Royal Mail was the first live-path migration completed after this snapshot.
 
-`/home/ricky/operations/royal-mail-automation`
+See:
 
-But cron still runs:
+`ROYAL-MAIL-CRON-PATH-MIGRATION-2026-05-05.md`
 
-`/home/ricky/builds/royal-mail-automation`
-
-That migration should be its own batch with:
-
-1. Backup current crontab.
-2. Confirm `/home/ricky/operations/royal-mail-automation` is clean and runnable.
-3. Patch the four Royal Mail cron paths.
-4. Run syntax/entry-point checks for `dispatch.js` and `repairs-dispatch.js`.
-5. Keep the old builds clone in place until the next successful scheduled run.
+The old builds clone should remain in place until both scheduled Royal Mail scripts have completed successfully from the operations path.
