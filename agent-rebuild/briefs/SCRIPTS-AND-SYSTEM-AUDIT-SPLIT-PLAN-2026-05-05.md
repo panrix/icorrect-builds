@@ -12,6 +12,7 @@ The root `scripts/` folder is small and dormant:
 - files: 9 total, including standard empty folder markers
 - active scripts: 3
 - current `INDEX.md` already marks the folder dormant
+- live reference check on 2026-05-05 found no cron/systemd callers for `/home/ricky/builds/scripts`
 
 | Script | Runtime | Inputs/secrets | Current behavior | Recommended destination |
 |---|---|---|---|---|
@@ -48,6 +49,8 @@ The system audit folder is larger and already internally domain-organized:
 
 The folder should be treated as a frozen source pack first, then extracted from. Do not edit or partially move its internal source pack in place.
 
+**2026-05-05 read-only audit update:** no cron/systemd callers were found, but many KB files still cite `/home/ricky/builds/system-audit-2026-03-31/...` directly. A physical move must wait for a source-reference update batch.
+
 ## System Audit Extraction Map
 
 | Source area | Destination after extraction | Notes |
@@ -65,11 +68,13 @@ The folder should be treated as a frozen source pack first, then extracted from.
 
 ## System Audit Split Sequence
 
-1. Preserve the original folder as frozen source under `fleet/system-audit-2026-03-31`.
-2. Create domain extraction folders with `INDEX.md` files.
-3. Copy domain docs into their destination areas with source links back to the frozen pack.
-4. Do not re-run audit scripts during the move; they are historical capture scripts with hard-coded paths and API credentials.
-5. After extraction, replace the old root folder with a pointer README or remove it from the parent repo in a dedicated PR.
+1. Choose and document the frozen destination, likely `fleet/system-audit-2026-03-31`.
+2. Update KB `source:` lists and markdown links that currently point at `/home/ricky/builds/system-audit-2026-03-31/...`.
+3. Preserve the original folder as frozen source under the chosen fleet destination.
+4. Create domain extraction folders with `INDEX.md` files.
+5. Copy domain docs into their destination areas with source links back to the frozen pack.
+6. Do not re-run audit scripts during the move; they are historical capture scripts with hard-coded paths and API credentials.
+7. After extraction, replace the old root folder with a pointer README or remove it from the parent repo in a dedicated PR.
 
 ## Active Lane Constraints
 
