@@ -14,6 +14,7 @@
 | [`PHASE-6.9-SCAN-BRIEFING.md`](PHASE-6.9-SCAN-BRIEFING.md) | 6.9 | the scan briefing the 9 batch BUILDERs followed |
 | [`PHASE-6.95-SECURITY-FOLLOWUP-SPEC.md`](PHASE-6.95-SECURITY-FOLLOWUP-SPEC.md) | 6.95 | folded into Phase 7 (decision 2026-05-02) |
 | [`PHASE-7b-DESTINATION-MAP.md`](PHASE-7b-DESTINATION-MAP.md) | 7b | proposed top-level VPS destination map and migration waves |
+| [`PHASE-7b-BATCH-1-REPORT.md`](PHASE-7b-BATCH-1-REPORT.md) | 7b | low-risk fleet/archive physical move batch report |
 | [`PHASE-2-MANIFEST-2026-04-29.md`](PHASE-2-MANIFEST-2026-04-29.md) | 2 | shipped 2026-04-29 (retirement manifest) |
 
 ## Phase 7 cleanup briefs

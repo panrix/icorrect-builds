@@ -40,7 +40,7 @@
 | Wave | Purpose | Folders |
 |---|---|---|
 | 0 | Merge GitHub pointer/source-of-truth PRs and remove temporary local masking | PRs #7, #8, #9, #10 |
-| 1 | Low-risk archive and fleet-meta moves | `voice-notes`, `data-architecture`, `qa-system`, `templates`, `mutagen-guide`, `research`, `documentation` |
+| 1 | Low-risk archive and fleet-meta moves | Complete 2026-05-05; see `PHASE-7b-BATCH-1-REPORT.md` |
 | 2 | Repo-owned standalone projects | Shopify, Parts, Royal Mail, Xero, Elek |
 | 3 | Domain roots with active services | Operations, Inventory, Finance, Team, Customer Service, Diagnostics |
 | 4 | Active lanes only after their sessions are quiet | Back Market, Intake, Shopify website work |
