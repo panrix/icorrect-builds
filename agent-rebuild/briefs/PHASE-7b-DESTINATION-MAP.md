@@ -65,7 +65,7 @@
 | `data-architecture` | `~/fleet/archive/data-architecture` | archive | Ricky direction: archive/fleet reference, not active build. |
 | `documentation` | `~/fleet/documentation` | move | Fleet documentation staging area. |
 | `elek-board-viewer` | `~/diagnostics/elek-board-viewer` | move repo clone | Canonical repo is `panrix/elek-board-viewer`; large assets remain outside normal Git. |
-| `hiring` | `~/team/hiring` | move | Team domain. |
+| `hiring` | `~/team/hiring` | moved 2026-05-05 | Team domain. |
 | `icloud-checker` | `~/backmarket/icloud-checker` | defer active | BM trade-in intake service; cross-reference from `~/intake/INDEX.md`. |
 | `icorrect-parts-service` | `~/inventory/parts-service` | defer active | Canonical repo is `panrix/icorrect-parts-service`; active branch is `codex/inventory-system`. |
 | `icorrect-shopify-theme` | `~/marketing/shopify-theme` | defer active | Canonical repo is `panrix/icorrect-shopify-theme`; current Shopify website work should use this repo directly. |
