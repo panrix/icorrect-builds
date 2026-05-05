@@ -31,7 +31,7 @@
 
 - [`briefs/`](briefs/INDEX.md) — proposals and specs in flight or recently shipped (20 entries). **Idea-capture target.** Has its own INDEX.
 - `decisions/` — append-only decision log. Empty for now; major prior decisions (rebind, FerrariBot split, anti-fab protocol) to be backfilled in Phase 7 or left in `archive/`.
-- [`docs/`](docs/) — canonical reference: 3 root files + [`audits/`](docs/audits/INDEX.md) (22 historical analysis reports, has own INDEX) + [`inventories/`](docs/inventories/INDEX.md) (6.9 outputs, has own INDEX).
+- [`docs/`](docs/) — canonical reference: 4 root files + [`audits/`](docs/audits/INDEX.md) (23 historical analysis reports, has own INDEX) + [`inventories/`](docs/inventories/INDEX.md) (6.9 outputs, has own INDEX).
 - `archive/` — closed work from prior cleanup passes. New 2026-05-02 subfolder: `2026-05-02-superseded-plans/` (restored `PLAN-CORE-FILES-AND-RETIREMENT.md` from git HEAD; v1 of the rebuild plan, superseded by `~/claude-audit-rebuild/PLAN.md` + `EXECUTION-PLAN.md`).
 - `data/` — runtime data.
 - `fixtures/` — Phase 0 test fixtures (capture-to-ship, hygiene, dispatch).
@@ -56,8 +56,9 @@
 ### Canonical reference
 - [`docs/system-rethink.md`](docs/system-rethink.md) — master rebuild doc (also referenced from `~/CLAUDE.md`)
 - [`docs/RECOVERY-RUNBOOK.md`](docs/RECOVERY-RUNBOOK.md) — restore procedures for openclaw / cron / agents
+- [`docs/MUTAGEN-VPS-CORE-RUNBOOK.md`](docs/MUTAGEN-VPS-CORE-RUNBOOK.md) — safe Mac/VPS core-file mirror rules and health checks
 - [`docs/telegram-channels.md`](docs/telegram-channels.md) — canonical Telegram supergroup + topic IDs
-- [`docs/audits/`](docs/audits/) — 22 point-in-time analysis reports (audits, gap analyses, deep dives)
+- [`docs/audits/`](docs/audits/) — 23 point-in-time analysis reports (audits, gap analyses, deep dives)
 - [`docs/inventories/scans/`](docs/inventories/scans/) — 6.9 raw scan output
 - [`docs/inventories/ownership-manifests/`](docs/inventories/ownership-manifests/) — per-agent ownership manifests
 

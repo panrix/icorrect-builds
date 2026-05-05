@@ -4,7 +4,7 @@
 **Owner:** main
 **Purpose:** Point-in-time audit reports and analysis from the agent rebuild program. Historical context — referenced occasionally but not actively maintained. Promote to `docs/` root if a finding becomes canonical reference.
 
-22 files. All dated by content (most are from late March / April 2026). Phase 7 hygiene may consolidate or further-archive these.
+23 files. All dated by content (most are from late March / April 2026). Phase 7 hygiene may consolidate or further-archive these.
 
 ## Audits — fleet-level
 
