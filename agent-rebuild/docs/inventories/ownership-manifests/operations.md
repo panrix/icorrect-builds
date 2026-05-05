@@ -19,7 +19,7 @@ Source: folder-inventory.md (Phase 6.9b)
 | monday | active | canonical | 11M | Primary Monday board rebuild, automation, and integration workspace is core operations infrastructure. |
 | operations-system | active | draft | 73M | Working rebuild of iCorrect's operating system is explicitly operations-owned design space. |
 | pricing-sync | dormant | draft | 5.3M | Cross-system pricing governance is anchored on Monday and workflow control, which fits operations best. |
-| repair-analysis | dormant | scratch | 41K | One-off repair profitability analysis scripts support operational decision-making more than any other agent lane. |
+| repair-analysis | archived | scratch | 41K | Archived to `~/fleet/archive/repair-analysis-2026-05` on 2026-05-05 because the hardcoded one-off scripts are superseded by the `system-audit-2026-03-31` repair profitability pack. |
 | royal-mail-automation | active | canonical | 227K | Shared dispatch and label-buying automation is a core fulfillment rail across workshop flows. |
 | scripts | dormant | scratch | 52K | Mixed utility folder was overridden to operations because its strongest live breadcrumb is Monday/ops analysis tooling. |
 | system-audit-2026-03-31 | dormant | snapshot-of-other | 6.8M | Frozen audit pack is cross-domain, but Ricky explicitly overrode it to operations and the evidence base is ops-heavy. |
@@ -31,7 +31,8 @@ Source: folder-inventory.md (Phase 6.9b)
 | xero-invoice-notifications | active | draft | 52K | Paid-invoice polling back into Monday and Slack is an operational finance automation. |
 
 ## Notes
-- Low and medium confidence folders worth re-checking: `claude-project-export`, `intake-notifications`, `llm-summary-endpoint`, `repair-analysis`, `scripts`, `system-audit-2026-03-31`, `telephone-inbound`, `webhook-migration`, `whisper-api`, `xero-invoice-automation`, and `xero-invoice-notifications`.
+- Low and medium confidence folders worth re-checking: `claude-project-export`, `intake-notifications`, `llm-summary-endpoint`, `scripts`, `system-audit-2026-03-31`, `telephone-inbound`, `webhook-migration`, `whisper-api`, `xero-invoice-automation`, and `xero-invoice-notifications`.
+- `repair-analysis` has been archived; future repair profitability work should start from the newer `system-audit-2026-03-31` v2 pack rather than the archived scratch scripts.
 - `voice-note-pipeline` contains plaintext transcript snippets and customer details in logs; treat it as live PII-bearing data.
 - `llm-summary-endpoint` was scanned with open `*` CORS and conditional auth only, so ownership may stay `operations` while security posture still needs review.
 - `webhook-migration` now explicitly records the shipped Monday-status slice versus the still-unbuilt Shopify/Intercom slice; keep that nuance visible during Ricky review.

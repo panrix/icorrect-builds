@@ -18,6 +18,7 @@
 | [`PHASE-7b-BATCH-1-REPORT.md`](PHASE-7b-BATCH-1-REPORT.md) | 7b | low-risk fleet/archive physical move batch report |
 | [`PHASE-7b-BATCH-2-CANDIDATES-2026-05-05.md`](PHASE-7b-BATCH-2-CANDIDATES-2026-05-05.md) | 7b | safe candidate list for the next physical cleanup batch around active product work |
 | [`PHASE-7b-BATCH-2-HIRING-MOVE-REPORT-2026-05-05.md`](PHASE-7b-BATCH-2-HIRING-MOVE-REPORT-2026-05-05.md) | 7b | records the physical `~/builds/hiring` to `~/team/hiring` proof move |
+| [`PHASE-7b-BATCH-2-REPAIR-ANALYSIS-ARCHIVE-REPORT-2026-05-05.md`](PHASE-7b-BATCH-2-REPAIR-ANALYSIS-ARCHIVE-REPORT-2026-05-05.md) | 7b | records the physical `~/builds/repair-analysis` to `~/fleet/archive/repair-analysis-2026-05` archive move |
 | [`SCRIPTS-AND-SYSTEM-AUDIT-SPLIT-PLAN-2026-05-05.md`](SCRIPTS-AND-SYSTEM-AUDIT-SPLIT-PLAN-2026-05-05.md) | 7b | audit-first split plan for root scripts and the frozen 2026-03-31 system audit pack |
 | [`PHASE-2-MANIFEST-2026-04-29.md`](PHASE-2-MANIFEST-2026-04-29.md) | 2 | shipped 2026-04-29 (retirement manifest) |
 

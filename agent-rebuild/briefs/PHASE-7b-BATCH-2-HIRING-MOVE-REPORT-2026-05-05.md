@@ -43,7 +43,4 @@ The parent `panrix/icorrect-builds` repo now removes the old tracked `hiring/` f
 
 ## Follow-up
 
-The next Batch 2 candidate is `repair-analysis`, but it should be reviewed before moving because it may belong in either:
-
-- `~/workshop/repair-analysis`, if Ricky wants it as a working analysis surface.
-- `~/fleet/archive/repair-analysis-2026-05`, if it is superseded by the system audit profitability work.
+`repair-analysis` was reviewed next and archived under `~/fleet/archive/repair-analysis-2026-05`; see `PHASE-7b-BATCH-2-REPAIR-ANALYSIS-ARCHIVE-REPORT-2026-05-05.md`.
