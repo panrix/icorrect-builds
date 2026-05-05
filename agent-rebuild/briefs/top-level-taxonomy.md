@@ -2,7 +2,7 @@
 
 **Created:** 2026-05-02
 **Owner:** Ricky decides; main maintains the standard once decided
-**Status:** Decision made (Option E — Hybrid). Migration plan + per-folder destination map pending Ricky's review of standardized folders (post-Phase-7a).
+**Status:** Decision made (Option E — Hybrid). Per-folder destination map drafted in [`PHASE-7b-DESTINATION-MAP.md`](PHASE-7b-DESTINATION-MAP.md) after Phase 7a standardization.
 **Order flipped 2026-05-02 (Ricky directive):** Originally proposed top-level migration before standardization. Reversed because moving messy folders into clean domain roots just relocates the mess. New order: standardize internally first (Phase 7a), then merge clean units (Phase 7b). Reasoning: easier to merge clean units than to consolidate chaos.
 **Gates:** Phase 7b (top-level migration) gated on Phase 7a (standardization) completing.
 
@@ -89,7 +89,9 @@ E was chosen because it preserves what's good about each: maturity signal (B), d
 
 ---
 
-## Migration plan — per-folder destination map (pending Ricky)
+## Migration plan — per-folder destination map
+
+**2026-05-05 update:** the proposed execution map now lives at [`PHASE-7b-DESTINATION-MAP.md`](PHASE-7b-DESTINATION-MAP.md). It includes the target top-level shape, migration waves, all current `~/builds/` folders, split-folder rules for `scripts`, `system-audit-2026-03-31`, and `webhook-migration`, plus the first low-risk physical move batch.
 
 Ricky is reviewing the 50-folder inventory and proposing a per-folder destination tag. Format he'll send back:
 

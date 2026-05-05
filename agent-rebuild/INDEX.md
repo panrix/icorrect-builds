@@ -22,13 +22,14 @@
 - **Phase 6** (2026-04-29) — USER-CORE + per-agent USER-APPENDIX rolled out to main, marketing, team, operations, diagnostics.
 
 ### Next up
+- **Phase 7b destination map** — proposed map drafted at [`briefs/PHASE-7b-DESTINATION-MAP.md`](briefs/PHASE-7b-DESTINATION-MAP.md). Physical moves wait for GitHub pointer PRs #7-#10 and active-lane quiet windows.
 - **Phase 6.9e signoff** (Ricky's hands)
 - **Phase 7** — workspace hygiene (folder-standard rollout to remaining 49 `~/builds/` folders) + secrets rotation (folded in from 6.95) + PII log redaction (folded in from 6.95)
 - **Phase 8 follow-ups** — cross-fleet topic map for sharper redirects; build Meta-spend cron so Main has a citable source
 
 ## Structure
 
-- [`briefs/`](briefs/INDEX.md) — proposals and specs in flight or recently shipped (19 entries). **Idea-capture target.** Has its own INDEX.
+- [`briefs/`](briefs/INDEX.md) — proposals and specs in flight or recently shipped (20 entries). **Idea-capture target.** Has its own INDEX.
 - `decisions/` — append-only decision log. Empty for now; major prior decisions (rebind, FerrariBot split, anti-fab protocol) to be backfilled in Phase 7 or left in `archive/`.
 - [`docs/`](docs/) — canonical reference: 3 root files + [`audits/`](docs/audits/INDEX.md) (22 historical analysis reports, has own INDEX) + [`inventories/`](docs/inventories/INDEX.md) (6.9 outputs, has own INDEX).
 - `archive/` — closed work from prior cleanup passes. New 2026-05-02 subfolder: `2026-05-02-superseded-plans/` (restored `PLAN-CORE-FILES-AND-RETIREMENT.md` from git HEAD; v1 of the rebuild plan, superseded by `~/claude-audit-rebuild/PLAN.md` + `EXECUTION-PLAN.md`).
