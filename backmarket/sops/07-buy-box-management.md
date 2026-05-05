@@ -4,9 +4,10 @@
 Monitor live listings' buy box position and adjust prices to win while maintaining profitability. Uses stored Total Fixed Cost from listing time to avoid recalculating from Monday every check.
 
 ## Trigger
-- No active live cron entry is currently installed for `scripts/buy-box-check.js` as of 2026-04-01.
-- The Monday `0 5 * * 1` cron runs `/home/ricky/builds/buyback-monitor/run-weekly.sh`, which executes the older Python `buy_box_monitor.py` buyback pipeline, not this sell-side SOP 07 script.
-- On-demand when requested
+- Weekday check-only cron is installed: `30 6 * * 1-5` runs `node scripts/buy-box-check.js`.
+- The script does not mutate prices unless `--auto-bump` is explicitly supplied.
+- The Monday `0 5 * * 1` cron still runs `/home/ricky/builds/buyback-monitor/run-weekly.sh`, which executes the buyback-side Python pipeline, not this sell-side SOP 07 script.
+- On-demand when requested.
 
 ## Flow
 

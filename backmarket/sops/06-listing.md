@@ -246,15 +246,15 @@ margin = (net / min_price) × 100
 
 | Condition | Decision |
 |-----------|----------|
-| Net ≥ £50 and margin ≥ 15% | PROPOSE |
-| Net ≥ £50 and margin < 15% | PROPOSE (flag low margin) |
-| Net < £50 | BLOCK (unless `--min-margin 0` override) |
-| Net < £0 | BLOCK (unless `--min-margin 0` override) |
+| Net ≥ £150 and margin ≥ 25% | PROPOSE; live execution can proceed if identity/scrape gates also pass |
+| Net ≥ £100 and margin ≥ 20% | PROPOSE with review; requires explicit `--min-margin` override for live listing |
+| Net < £100 or margin < 20% | PROPOSE with review; requires explicit `--min-margin` override for live listing |
+| Net < £0 | PROPOSE with loss-maker warning; live listing requires explicit `--min-margin` override |
 
-`--min-margin 0` requires explicit Ricky approval. It overrides BOTH the margin gate AND the £50 net minimum for devices Ricky has approved to clear stock. Any other value (e.g. `--min-margin 5`) sets both the minimum margin % and minimum net £ to that value.
+Economics review is not a product-identity hard block. Hard blocks are reserved for unsafe SKU, product, grade, colour, or scrape verification. `--min-margin 0` requires explicit Ricky approval. It overrides BOTH the margin gate and the net-profit floor for devices Ricky has approved to clear stock. Any other value (e.g. `--min-margin 5`) sets both the minimum margin % and minimum net £ to that value.
 
 **In dry-run:** shows the decision and stops here.
-**In live mode with `--item`:** proceeds to listing.
+**In live mode with `--item`:** proceeds only when identity/scrape gates pass and the decision does not require an explicit override.
 
 ---
 
@@ -387,7 +387,7 @@ Calculate `min_price = ceil(final_price × 0.97)`.
 
 ### Final profitability check:
 
-Recalculate P&L with the final price. If net < £0 and no `--min-margin` override → set qty=0, alert Telegram.
+Recalculate P&L with the final price. If the final price turns the listing into an unapproved loss-maker, set qty=0 and alert Telegram rather than leaving a live loss-making listing active.
 
 ---
 

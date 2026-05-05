@@ -10,6 +10,8 @@ Device arrives at the workshop. Team matches it to the Monday item, enters the s
 - Bind: `127.0.0.1:8010`
 - Public ingress: nginx proxies `https://mc.icorrect.co.uk/webhook/icloud-check*` to `127.0.0.1:8010`
 - Slack interactivity ingress: `https://mc.icorrect.co.uk/webhook/icloud-check/slack-interact` goes to `127.0.0.1:8003` (`telephone-inbound`), which forwards non-phone actions to `127.0.0.1:8010/webhook/icloud-check/slack-interact`
+- Telegram routing: iCloud/spec checker results go to topic `5637`; customer replies or recheck-needed events after an iCloud lock go to topic `5638`
+- Health check: `GET /webhook/icloud-check/health`
 
 ## Trigger
 - Physical: device arrives via Royal Mail
@@ -60,6 +62,7 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 
 **4.6 Posts combined results**
 - Single Monday comment: iCloud status + Apple specs + match/mismatch result
+- Telegram topic `iCloud & Spec Checker` receives matched, not matched, locked, and unlocked check results
 
 **4.7a — If iCloud ON (locked):**
 - Dedup check: 6-hour cooldown per item (`_icloudAlertCache`), skips if already alerted recently
@@ -69,16 +72,17 @@ Triggered by: Monday webhook fires when `text4` is written on board 349212843.
 - Moves item to iCloud Locked group (`group_mktsw34v`) on Main Board
 - Messages customer via BM messages API (`POST /ws/buyback/v1/orders/{orderPublicId}/messages`):
   > "Thank you for your message. Unfortunately, your iCloud account is still linked to the MacBook – could you please double-check that the device is no longer showing in the Find My menu on your iCloud.com account?..."
-- Posts to Monday comment + Slack alert
+- Posts to Monday comment + Slack/Telegram alert
 - 30-min recheck scheduler runs inside the `icloud-checker` service (not crontab):
   - Checks BM messages for new customer replies
   - Keyword detection (e.g. "removed", "done", "unlocked")
   - If keyword match: auto-rechecks SickW
-  - If unlocked: updates status to "IC OFF", moves to Today's Repairs group, messages customer confirmation, posts Slack
-  - If no keyword: posts Slack alert with Recheck/Reply buttons
+  - If unlocked: updates status to "IC OFF", moves to Today's Repairs group, messages customer confirmation, posts Slack/Telegram
+  - If no keyword: posts Slack alert with Recheck/Reply buttons and Telegram notice to the iCloud Locked topic
+  - Customer reply alerts are deduped by message fingerprint so the same reply should not be reposted on every poll
 
 **4.7b — If iCloud OFF + spec mismatch:**
-- Posts mismatch alert to Slack
+- Posts mismatch alert to Slack and Telegram iCloud/spec topic
 - Calls `handleSpecMismatch()`:
   - Assesses mismatch direction (better/equivalent/worse)
   - If received spec is better/equivalent: logs "pay_original", proceeds normally

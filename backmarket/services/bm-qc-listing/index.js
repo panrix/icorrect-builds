@@ -16,6 +16,7 @@
 require('dotenv').config({ path: '/home/ricky/config/api-keys/.env', quiet: true });
 
 const http = require('http');
+const crypto = require('crypto');
 const fs = require('fs');
 const path = require('path');
 const { spawnSync } = require('child_process');
@@ -29,6 +30,7 @@ const {
   editMessage,
   getCardData,
   getUpdates,
+  parseCallbackData,
   runLive,
   sendMessage,
 } = require('../../scripts/listing-bot');
@@ -98,6 +100,10 @@ function eventItemName(event) {
 
 function telegramMessageKey(message) {
   return `${String(message?.chat?.id || '')}:${String(message?.message_thread_id || '')}`;
+}
+
+function createCardNonce() {
+  return crypto.randomBytes(4).toString('hex');
 }
 
 function isListingsTopicMessage(message) {
@@ -203,8 +209,9 @@ async function postListingCard(itemId, itemName, { force = false } = {}) {
   }
 
   const cardText = buildCard(data, 1, 1);
+  const nonce = createCardNonce();
   const message = await sendMessage(cardText, {
-    reply_markup: { inline_keyboard: buildButtons(data) },
+    reply_markup: { inline_keyboard: buildButtons(data, { nonce }) },
   });
   if (!message) {
     await postTelegram(
@@ -218,6 +225,7 @@ async function postListingCard(itemId, itemName, { force = false } = {}) {
     postedAt: new Date().toISOString(),
     messageId: message.message_id,
     itemName,
+    nonce,
     dryRunDecision: data.decision,
     action: null,
   };
@@ -253,7 +261,7 @@ async function handleMondayEvent(event) {
 }
 
 async function handleCallback(callback) {
-  const [action, itemId] = String(callback.data || '').split(':');
+  const { action, itemId, nonce } = parseCallbackData(callback.data);
   if (!['approve', 'override', 'skip'].includes(action) || !itemId) return;
 
   if (!isListingsTopicMessage(callback.message)) return;
@@ -265,8 +273,16 @@ async function handleCallback(callback) {
     await answerCallback(callback.id, 'This listing card is stale.');
     return;
   }
+  if (card.nonce && nonce !== card.nonce) {
+    await answerCallback(callback.id, 'This listing card is stale.');
+    return;
+  }
   if (card.action) {
     await answerCallback(callback.id, 'This listing card was already handled.');
+    return;
+  }
+  if (action === 'override' && pendingOverrides.has(telegramMessageKey(callback.message))) {
+    await answerCallback(callback.id, 'Finish the current price override first.');
     return;
   }
 
@@ -298,7 +314,8 @@ async function handleCallback(callback) {
   }
 
   if (action === 'override') {
-    pendingOverrides.set(telegramMessageKey(callback.message), { itemId, messageId, baseText });
+    const pendingKey = telegramMessageKey(callback.message);
+    pendingOverrides.set(pendingKey, { itemId, messageId, baseText, nonce });
     await sendMessage(`⚡ <b>Override listing price</b>\nItem: <code>${itemId}</code>\n\nEnter your listing price:`);
   }
 }
@@ -441,6 +458,9 @@ module.exports = {
   handleReadyToCollect,
   postListingCard,
   runQcSkuWrite,
+  createCardNonce,
+  handleCallback,
+  handleTextMessage,
   isListingsTopicMessage,
   statusIndex,
   statusLabel,

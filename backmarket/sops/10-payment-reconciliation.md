@@ -182,16 +182,17 @@ Use `numeric_mm1mgcgn` as the stored Total Fixed Cost (`purchase + parts + labou
 
 | Component | Location | Status |
 |-----------|----------|--------|
-| Profitability check script | `/home/ricky/builds/backmarket/scripts/profitability-check.js` | Active support tool |
-| Reconcile script | `/home/ricky/builds/backmarket/scripts/reconcile.js` | Active support tool |
+| Listing economics | `scripts/list-device.js`, `scripts/lib/profitability.js` | Support only; projected economics at listing review |
+| Sale writeback | `scripts/sale-detection.js` | Writes actual sale price/order IDs used by this SOP |
+| Listings reconciliation | `scripts/reconcile-listings.js` | Support only; listing/inventory integrity, not payment reconciliation |
 | Automated reconciliation | Not yet built | NEEDED |
-| Notifications | BM Telegram `-1003888456344` | Target channel |
+| Notifications | BM Telegram Payouts/Issues topics via `scripts/lib/notifications.js` | Target routing |
 
 ## QA Notes (2026-03-28)
 
 ### Findings
-1. `PASS` Dead `bm-scripts/` paths corrected.
-   The referenced scripts now live under `/home/ricky/builds/backmarket/scripts/`.
+1. `PASS` Dead script paths clarified.
+   The old `profitability-check.js` and `reconcile.js` references are not active source-tracked scripts in this repo. Use the listed support scripts only for economics/listing context.
 
 2. `PASS` Actual payout-column question preserved and clarified.
    The unresolved question about where to store actual BM payment amounts remains valid, and none of the referenced scripts resolves it today.
@@ -208,9 +209,10 @@ Use `numeric_mm1mgcgn` as the stored Total Fixed Cost (`purchase + parts + labou
    The supporting scripts also use additional profitability/listing columns outside the core SOP flow.
 
 4. `MEDIUM` The referenced scripts do not implement the full SOP end-to-end.
-   - `profitability-check.js` is a daily support tool for live-listing profitability and buy-box monitoring
-   - `reconcile.js` is a listing reconciliation tool (ghost listings, qty mismatches, orphans)
-   - neither script is a dedicated BM payment-reconciliation engine that compares actual bank receipts to expected payouts
+   - `list-device.js` / `scripts/lib/profitability.js` provide projected listing economics
+   - `sale-detection.js` writes actual BM sale price and order IDs
+   - `reconcile-listings.js` is a listing reconciliation tool (ghost listings, qty mismatches, orphans)
+   - no script is a dedicated BM payment-reconciliation engine that compares actual bank receipts to expected payouts
    So the SOP should be treated as a manual/agent process with supporting tools, not as an automated workflow already implemented in code.
 
 5. `PASS` Manual/agent ownership clarified.
@@ -228,8 +230,7 @@ Use `numeric_mm1mgcgn` as the stored Total Fixed Cost (`purchase + parts + labou
 
 ### Known Operational Limits
 - There is still no dedicated automated payment-reconciliation system comparing BM receipts or bank statement values against expected revenue.
-- `profitability-check.js` posts to Slack and focuses on listing profitability, not revenue receipt reconciliation.
-- `reconcile.js` focuses on listing/inventory integrity, not payments.
+- Current support scripts focus on listing economics, sale writeback, and listing/inventory integrity, not payment receipt reconciliation.
 - Actual payout amount writeback to Monday remains unresolved.
 
 ### Verdict

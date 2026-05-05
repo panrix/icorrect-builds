@@ -34,7 +34,7 @@ BM takes 10% on both sides (buy + sell).
 | Language env var | `BACKMARKET_API_LANG` (`en-gb`) |
 | User agent env var | `BACKMARKET_API_UA` |
 | Monday token | `MONDAY_APP_TOKEN` |
-| Telegram | `TELEGRAM_BOT_TOKEN` + `BM_TELEGRAM_CHAT` |
+| Telegram | `ICORRECT_TELEGRAM_BOT_TOKEN` (preferred) or `TELEGRAM_BOT_TOKEN` + `BM_TELEGRAM_CHAT` |
 | Env file | `/home/ricky/config/.env` (or `/home/ricky/config/api-keys/.env`) |
 
 **All 3 BM headers required on EVERY call:**
@@ -317,10 +317,12 @@ margin = (net / min_price) × 100
 
 | Condition | Decision |
 |-----------|----------|
-| Net ≥ £50 and margin ≥ 15% | PROPOSE |
-| Net ≥ £50 and margin < 15% | PROPOSE (flag low margin) |
-| Net < £50 | BLOCK (unless `--min-margin 0` override) |
-| Net < £0 | BLOCK (unless `--min-margin 0` override) |
+| Net ≥ £150 and margin ≥ 25% | PROPOSE, live execution allowed if identity/scrape gates also pass |
+| Net ≥ £100 and margin ≥ 20% | PROPOSE with review; requires explicit `--min-margin` override for live listing |
+| Net < £100 or margin < 20% | PROPOSE with review; requires explicit `--min-margin` override for live listing |
+| Net < £0 | PROPOSE with loss-maker warning; live listing requires explicit `--min-margin` override |
+
+Economics should route to human review, not identity hard-blocks. Hard blocks are reserved for unsafe identity, SKU, product, grade, colour, or scrape verification failures.
 
 **Buy box auto-bump gates (SOP 07):**
 
@@ -418,6 +420,7 @@ margin = (net / min_price) × 100
 | bm-grade-check | 8011 | `/webhook/bm/grade-check` | 03 | `bm-grade-check.service` |
 | bm-payout | 8012 | `/webhook/bm/payout` | 03b | `bm-payout.service` |
 | bm-shipping | 8013 | `/webhook/bm/shipping-confirmed` | 09.5 | `bm-shipping.service` |
+| bm-qc-listing | 8015 | `/webhook/bm/qc-listing` | 05/06 | `bm-qc-listing.service` |
 
 All behind nginx at `mc.icorrect.co.uk`. Port 8010 not exposed publicly.
 
@@ -426,10 +429,13 @@ All behind nginx at `mc.icorrect.co.uk`. Port 8010 not exposed publicly.
 | Script | SOP | Purpose |
 |--------|-----|---------|
 | `sent-orders.js` | 01 | BM SENT orders → Monday (BM numbering, PDF assessments, device matching) |
+| `qc-generate-sku.js` | 05 | QC handoff helper: writes canonical BM Devices `text89` only after validation |
 | `list-device.js` | 06 | Listing: registry lookup, live scrape, clean-create, backbox pricing |
 | `reconcile-listings.js` | 06.5 | Monday ↔ BM listings reconciliation |
 | `buy-box-check.js` | 07 | Buy box monitoring and auto-bump |
 | `sale-detection.js` | 08 | Sale detection and auto-accept |
+| `trade-ins-daily-brief.js` | 01 | Daily Telegram summary of new BM trade-ins |
+| `notifications-health.js` | — | Telegram/Slack config health probe |
 | `build-listings-registry.js` | — | Pre-create and verify listing slots |
 
 All scripts at `backmarket/scripts/`. Shared lib at `scripts/lib/`.
@@ -449,8 +455,10 @@ All scripts at `backmarket/scripts/`. Shared lib at `scripts/lib/`.
 | `0 6 * * *` | `sent-orders.js --live` | Active |
 | `0 7-17 * * 1-5` and `0 8,12,16 * * 6,0` | `sale-detection.js` | Active |
 | `0 7 * * 1-5` and `0 12 * * 1-5` | `dispatch.js` | Active |
-| — | `reconcile-listings.js` | No live cron |
-| — | `buy-box-check.js` | No live cron |
+| `30 6 * * 1-5` | `buy-box-check.js` | Active, check-only; no auto-bump unless `--auto-bump` is explicitly supplied |
+| `0 4 * * 0` | `reconcile-listings.js --dry-run` | Active, weekly dry-run |
+| `15 2 * * *` | `build-sold-price-lookup.js --live` | Active |
+| `1 8 * * *` | `trade-ins-daily-brief.js` | Active |
 
 ---
 
@@ -491,15 +499,15 @@ Script reactivated a dormant listing with a stale price. Backbox returned 404 (l
 | 03 | Diagnostic | `bm-grade-check` (8011) | QA'd ✅ |
 | 03b | Trade-in Payout | `bm-payout` (8012) | QA'd ✅ |
 | 04 | Repair & Refurb | Manual process | QA'd ✅ |
-| 05 | QC & Final Grade | Not documented | Gap |
+| 05 | QC & Final Grade | Manual QC + `bm-qc-listing`/`qc-generate-sku.js` | QA'd ✅; automation handles SKU handoff |
 | 06 | Listing | `list-device.js` | QA'd ✅ v2.1 |
-| 06.5 | Listings Reconciliation | `reconcile-listings.js` | QA'd ✅ (on-demand; no live cron) |
-| 05 | QC & Final Grade | Manual process | Placeholder (see SOP 05) |
-| 07 | Buy Box Management | `buy-box-check.js` | QA'd ✅ (on-demand; no live cron) |
+| 06.5 | Listings Reconciliation | `reconcile-listings.js` | QA'd ✅ + weekly dry-run cron |
+| 07 | Buy Box Management | `buy-box-check.js` | QA'd ✅ + weekday check-only cron |
 | 08 | Sale Detection | `sale-detection.js` | QA'd ✅ + live cron |
 | 09 | Label Buying | `dispatch.js` | QA'd ✅ + weekday dispatch cron |
 | 09.5 | Shipment Confirmation | `bm-shipping` (8013) | QA'd ✅ + webhook-driven |
-| 10 | Payment Reconciliation | Manual process | QA'd ✅ |
+| 10 | Payment Reconciliation | Manual process | QA'd ✅; no dedicated reconciliation engine yet |
+| 11 | Tuesday Cutoff Protocol | Not yet built | Monitoring gap |
 | 12 | Returns & Aftercare | Manual + counter-offer buttons; auto via Phase 4.9 (`backmarket-browser/operations/returns.js`) — in build | QA'd ✅ |
 
-**SOP 11 removed 2026-04-17:** dropped from active scope per rebuild plan v2. Payout-cycle SLA enforcement handled via SOP 10 + `stuck-inventory-audit.js` (Phase 1).
+**SOP 11 status:** active SOP document, but no scheduled monitor exists yet. Keep it in scope as a read-only Monday/Tuesday cutoff alerting gap.

@@ -158,8 +158,8 @@ The profitability calculation from SOP 3's grade-check webhook will have already
    - `formula__1` = labour hours / total RR&D time
    These match SOP 06, SOP 06.5, and the current scripts.
 
-3. `MEDIUM` SOP 5 reference remains a documentation gap.
-   SOP 04 still hands off to `SOP 5: QC & Final Grade`, but there is no tracked SOP 05 file in the rebuild docs yet.
+3. `PASS` SOP 05 handoff is documented.
+   SOP 04 hands off to SOP 05 for final grade assignment and automated BM SKU handoff.
 
 4. `PASS` Column IDs are plausible against the rest of the rebuild.
    The parts, labour, timers, people columns, and repair-phase fields are consistent with other SOPs and downstream scripts.
@@ -173,7 +173,7 @@ The profitability calculation from SOP 3's grade-check webhook will have already
 ### Per-check Summary
 1. Parts cost field accuracy vs downstream consumers: `PASS` after clarification
 2. Labour fields vs SOP 06 / SOP 07 consumers: `PASS`
-3. SOP 05 reference status: `OPEN DOC GAP`
+3. SOP 05 reference status: `PASS`
 4. Column ID plausibility: `PASS`
 5. V6/V7 references: `PASS`
 6. NFU cap reference vs current grade-check service: `PASS` after correction
@@ -181,7 +181,7 @@ The profitability calculation from SOP 3's grade-check webhook will have already
 ### Known Operational Limits
 - This SOP is manual-process documentation; there is no dedicated repair/refurb webhook or script to enforce it.
 - The Monday board may still expose both a display formula (`formula_mkx13zr7`) and a downstream mirror (`lookup_mkx1xzd7`) for parts cost, which is why the documentation must distinguish them.
-- Because SOP 05 is still missing, the repair-to-QC handoff remains only partially documented in the rebuild set.
+- The repair-to-QC handoff is documented in SOP 05, but final grade selection remains manual.
 
 ### Verdict
 SOP 04 is broadly accurate as a manual process SOP, but it needed the parts-cost source clarified and the stale NFU-cap note removed so it no longer conflicts with the downstream automation layer.

@@ -233,8 +233,8 @@ The repair tech picks up from here. If the profitability alert flagged the devic
 5. `PASS` No V6/V7 mismatch in the active SOP path.
    The service reads the sell-price data file directly; the SOP does not need a V6/V7 label here.
 
-6. `MEDIUM` SOP 5 reference remains unresolved.
-   The flow still references `SOP 5: QC & Final Grade`, but there is no tracked SOP 05 file in the rebuild docs. This is a documentation gap outside this service.
+6. `PASS` SOP 05 reference is now resolved.
+   SOP 05 exists and documents the manual final-grade step plus the automated QC SKU handoff handled by `bm-qc-listing.service`.
 
 7. `PASS` Dedup timing verified.
    Dedup is 10 minutes per item via in-memory cache.
@@ -254,4 +254,4 @@ The repair tech picks up from here. If the profitability alert flagged the devic
 - Dedup is in-memory only, so a service restart clears the 10-minute cache.
 
 ### Verdict
-SOP 03 now matches the standalone `bm-grade-check` service closely enough for operational use. The remaining documentation gap is the missing SOP 05 reference, not the grade-check implementation itself.
+SOP 03 now matches the standalone `bm-grade-check` service closely enough for operational use. SOP 05 owns the downstream QC/final-grade handoff and BM SKU generation.

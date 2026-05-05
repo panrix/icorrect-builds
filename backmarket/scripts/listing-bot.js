@@ -187,13 +187,30 @@ function buildCard(d, position, total) {
   return lines.join('\n');
 }
 
-function buildButtons(d) {
+function callbackData(action, itemId, nonce = '') {
+  return [action, itemId, nonce].filter((part) => part !== '').join(':');
+}
+
+function parseCallbackData(data) {
+  const [action, itemId, nonce = ''] = String(data || '').split(':');
+  return { action, itemId, nonce };
+}
+
+function isListingsTopicMessage(message) {
+  return (
+    String(message?.chat?.id || '') === String(CHAT_ID) &&
+    Number(message?.message_thread_id) === LISTINGS_THREAD_ID
+  );
+}
+
+function buildButtons(d, options = {}) {
+  const nonce = options.nonce || '';
   const row = [];
   if (d.decision === 'PROPOSE') {
-    row.push({ text: `✅ Approve £${Math.round(d.pricing.proposed)}`, callback_data: `approve:${d.itemId}` });
+    row.push({ text: `✅ Approve £${Math.round(d.pricing.proposed)}`, callback_data: callbackData('approve', d.itemId, nonce) });
   }
-  row.push({ text: '⚡ Override (set price)', callback_data: `override:${d.itemId}` });
-  row.push({ text: '❌ Skip', callback_data: `skip:${d.itemId}` });
+  row.push({ text: '⚡ Override (set price)', callback_data: callbackData('override', d.itemId, nonce) });
+  row.push({ text: '❌ Skip', callback_data: callbackData('skip', d.itemId, nonce) });
   return [row];
 }
 
@@ -234,13 +251,14 @@ async function waitForAction(itemId, offset, expectingPrice = false) {
       if (!expectingPrice && u.callback_query) {
         const cb = u.callback_query;
         await answerCallback(cb.id);
-        const [action, cbItemId] = (cb.data || '').split(':');
+        if (!isListingsTopicMessage(cb.message)) continue;
+        const { action, itemId: cbItemId } = parseCallbackData(cb.data);
         if (cbItemId !== String(itemId)) continue; // stale button from a previous card
         return { offset, type: 'action', action };
       }
 
-      // Price text (only from CHAT_ID)
-      if (expectingPrice && u.message?.text && String(u.message.chat.id) === CHAT_ID) {
+      // Price text (only from the Listings topic)
+      if (expectingPrice && u.message?.text && isListingsTopicMessage(u.message)) {
         const raw = u.message.text.trim().replace(/^£/, '');
         const price = parseFloat(raw);
         if (isNaN(price) || price <= 0) {
@@ -378,11 +396,14 @@ module.exports = {
   answerCallback,
   buildButtons,
   buildCard,
+  callbackData,
   drainUpdates,
   editMessage,
   getCardData,
   getToListItems,
   getUpdates,
+  isListingsTopicMessage,
+  parseCallbackData,
   runLive,
   runReviewQueue,
   sendMessage,
