@@ -9,6 +9,7 @@
 | File | Phase | Status |
 |---|---|---|
 | [`folder-standard.md`](folder-standard.md) | meta | approved 2026-05-02; live (this is the spec being demonstrated by the agent-rebuild structure) |
+| [`ACTIVE-LANE-FREEZE-2026-05-05.md`](ACTIVE-LANE-FREEZE-2026-05-05.md) | 7b | active guardrail: Back Market, Intake, and Inventory protected during cleanup |
 | [`PHASE-6.9-SPEC.md`](PHASE-6.9-SPEC.md) | 6.9 | a-d shipped 2026-05-01; 6.9e in Ricky's review |
 | [`PHASE-6.9-HANDOFF-PROMPT.md`](PHASE-6.9-HANDOFF-PROMPT.md) | 6.9 | the prompt that fired the 6.9 work |
 | [`PHASE-6.9-SCAN-BRIEFING.md`](PHASE-6.9-SCAN-BRIEFING.md) | 6.9 | the scan briefing the 9 batch BUILDERs followed |
