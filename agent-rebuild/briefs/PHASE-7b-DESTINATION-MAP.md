@@ -95,7 +95,7 @@
 | `templates` | `~/fleet/templates` | move | Fleet template library. |
 | `voice-note-pipeline` | `~/archive/2026-05-voice-note-pipeline-retired` | retire/archive | Stop worker first; module deprecated by Ricky. |
 | `voice-notes` | `~/archive/2026-05-voice-notes-dead` | archive | Dead folder per inventory. |
-| `webhook-migration` | `~/operations/webhook-migration` | split/close shipped slice | Monday-status slice shipped; Shopify/Intercom slice unbuilt. |
+| `webhook-migration` | `~/operations/webhook-migration` | moved 2026-05-05 | Documentation/control workspace moved. Monday-status slice shipped; Shopify/Intercom slice unbuilt. Live status-notifications runtime remains under `monday/services/status-notifications` until a service-path migration. |
 | `website-conversion` | `~/marketing/website-conversion` | move | Ricky direction: marketing/website conversion. |
 | `whisper-api` | `~/fleet/whisper-api` | move with config patch | OpenClaw audio helper path is referenced from config; patch and verify voice note transcription. |
 | `xero-invoice-automation` | `~/finance/xero-invoice-automation` | move repo clone | Canonical repo is `panrix/xero-invoice-automation`. |

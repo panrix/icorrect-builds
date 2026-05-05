@@ -32,7 +32,7 @@ These folders are dormant or documentation-heavy and can be handled after the ac
 | `repair-analysis` | dormant scripts superseded by system audit profitability work | `~/fleet/archive/repair-analysis-2026-05` | archived 2026-05-05; see `PHASE-7b-BATCH-2-REPAIR-ANALYSIS-ARCHIVE-REPORT-2026-05-05.md` | low |
 | `intercom-agent` | dormant superseded Intercom backend-agent spec | `~/customer-service/alex-triage/archive/intercom-agent-spec` | archived 2026-05-05; see `PHASE-7b-BATCH-2-INTERCOM-AGENT-ARCHIVE-REPORT-2026-05-05.md` | low |
 | `alex-triage-classifier-rebuild` | dormant single classifier refactor brief | `~/customer-service/alex-triage/archive/classifier-rebuild` | archive/merge into Alex triage briefs after Alex conflict is resolved | medium because Alex has a current Mutagen conflict |
-| `webhook-migration` | dormant control folder; Monday slice shipped, Shopify/Intercom slice unbuilt | `~/operations/webhook-migration` | split shipped status-notifications notes from unbuilt Shopify/Intercom brief | medium |
+| `webhook-migration` | dormant control folder; Monday slice shipped, Shopify/Intercom slice unbuilt | `~/operations/webhook-migration` | moved 2026-05-05; see `PHASE-7b-BATCH-2-WEBHOOK-MIGRATION-MOVE-REPORT-2026-05-05.md` | low-medium |
 | `website-conversion` | dormant Shopify conversion spec | defer | do not move while Shopify website work is active | deferred |
 
 ## Not Batch 2
@@ -63,7 +63,8 @@ These looked movable from the map, but are not safe for Batch 2:
 4. `repair-analysis` was archived because no live caller was found and the newer repair profitability source is in `system-audit-2026-03-31`.
 5. `intercom-agent` was archived without touching live `alex-triage-rebuild` cron/systemd paths.
 6. Handle `alex-triage-classifier-rebuild` only after the Alex Mutagen conflict is resolved.
-7. Leave all active service folders for a dedicated service-path patch batch.
+7. `webhook-migration` was moved as documentation/control material; the live `status-notifications.service` runtime remains under `monday/services/status-notifications`.
+8. Leave all active service folders for a dedicated service-path patch batch.
 
 ## Acceptance Checks
 

@@ -25,7 +25,7 @@ Source: folder-inventory.md (Phase 6.9b)
 | system-audit-2026-03-31 | dormant | snapshot-of-other | 6.8M | Frozen audit pack is cross-domain, but Ricky explicitly overrode it to operations and the evidence base is ops-heavy. |
 | telephone-inbound | active | canonical | 76K | Live phone-intake server posts to Slack and can create Monday/Intercom records, so it belongs with operations. |
 | voice-note-pipeline | active | canonical | 22M | Live intake-thread transcription feeds Monday workflows and sits directly inside day-to-day operations. |
-| webhook-migration | dormant | canonical | 400K | Monday status-notification slice is shipped, while the Shopify/Intercom attribution slice remains unbuilt, so `operations` still owns the parked mixed-domain folder. |
+| webhook-migration | moved | canonical | 400K | Moved to `~/operations/webhook-migration` on 2026-05-05 as an operations documentation/control workspace; live status-notifications runtime remains in `monday/services/status-notifications`. |
 | whisper-api | dormant | scratch | 8.0K | Small transcription helper sits closest to operational intake/audio tooling, though ownership is weak. |
 | xero-invoice-automation | active | draft | 520K | Monday-to-Xero invoicing workflow is an operations and finance execution tool rather than a strategy doc. |
 | xero-invoice-notifications | active | draft | 52K | Paid-invoice polling back into Monday and Slack is an operational finance automation. |
@@ -35,5 +35,5 @@ Source: folder-inventory.md (Phase 6.9b)
 - `repair-analysis` has been archived; future repair profitability work should start from the newer `system-audit-2026-03-31` v2 pack rather than the archived scratch scripts.
 - `voice-note-pipeline` contains plaintext transcript snippets and customer details in logs; treat it as live PII-bearing data.
 - `llm-summary-endpoint` was scanned with open `*` CORS and conditional auth only, so ownership may stay `operations` while security posture still needs review.
-- `webhook-migration` now explicitly records the shipped Monday-status slice versus the still-unbuilt Shopify/Intercom slice; keep that nuance visible during Ricky review.
+- `webhook-migration` now lives under operations and explicitly records the shipped Monday-status slice versus the still-unbuilt Shopify/Intercom slice; keep that nuance visible during Ricky review.
 - `royal-mail-automation` and `pricing-sync` both have credible second claims from `backmarket`; if Phase 7 splits shared rails, those are likely transfer candidates.
