@@ -24,6 +24,7 @@
 | [`SCRIPTS-AND-SYSTEM-AUDIT-SPLIT-PLAN-2026-05-05.md`](SCRIPTS-AND-SYSTEM-AUDIT-SPLIT-PLAN-2026-05-05.md) | 7b | audit-first split plan for root scripts and the frozen 2026-03-31 system audit pack |
 | [`PHASE-7b-SCRIPTS-SYSTEM-AUDIT-READONLY-AUDIT-2026-05-05.md`](PHASE-7b-SCRIPTS-SYSTEM-AUDIT-READONLY-AUDIT-2026-05-05.md) | 7b | read-only evidence pass for root scripts and the frozen system audit pack; records why a blind move is unsafe |
 | [`PHASE-7b-SYSTEM-AUDIT-FLEET-MOVE-REPORT-2026-05-05.md`](PHASE-7b-SYSTEM-AUDIT-FLEET-MOVE-REPORT-2026-05-05.md) | 7b | records the physical `~/builds/system-audit-2026-03-31` to `~/fleet/system-audit-2026-03-31` frozen source move and SOP/KB gap-audit path |
+| [`PHASE-7b-SOP-KB-INVENTORY-2026-05-05.md`](PHASE-7b-SOP-KB-INVENTORY-2026-05-05.md) | 7b | read-only SOP and KB inventory; defines canonical source layers, priority SOP gaps, KB build queue, and OpenClaw discipline rules to add |
 | [`PHASE-2-MANIFEST-2026-04-29.md`](PHASE-2-MANIFEST-2026-04-29.md) | 2 | shipped 2026-04-29 (retirement manifest) |
 
 ## Phase 7 cleanup briefs
