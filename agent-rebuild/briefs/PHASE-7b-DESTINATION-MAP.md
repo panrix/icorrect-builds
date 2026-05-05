@@ -83,7 +83,7 @@
 | `pricing-sync` | `~/operations/pricing-sync` | move | Cross-system pricing process; cross-reference Marketing/Shopify. |
 | `qa-system` | `~/fleet/qa-system` | move/archive | Ricky direction: fleet QA system, not a standalone build. |
 | `quote-wizard` | `~/marketing/quote-wizard` | move | Shopify/conversion tool. |
-| `repair-analysis` | `~/workshop/repair-analysis` | move | Workshop profitability/repair analysis. |
+| `repair-analysis` | `~/fleet/archive/repair-analysis-2026-05` | archived 2026-05-05 | Dormant hardcoded scratch scripts superseded by `system-audit-2026-03-31` repair profitability work. Rebuild a current workshop surface from the newer v2 pack if needed. |
 | `research` | `~/fleet/research` | move/split later | Mixed fleet research; keep together for now. |
 | `royal-mail-automation` | `~/operations/royal-mail-automation` | move repo clone | Canonical repo is `panrix/royal-mail-automation`. |
 | `scripts` | split | audit first | Ricky direction: split into Back Market, operations, and utility/fleet scripts. |

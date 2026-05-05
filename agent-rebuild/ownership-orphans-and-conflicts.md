@@ -123,7 +123,7 @@ Source: folder-inventory.md (Phase 6.9b)
 - claude-project-export [medium] -> tagged operations: exported cross-domain corpus now follows Ricky's override, but README and notes still point to other live homes and `/home/ricky/kb`.
 - data [medium] -> tagged backmarket: filenames point to BM pricing and buy-box analysis, though parts and operations both consume the outputs.
 - llm-summary-endpoint [medium] -> tagged operations: it summarizes Monday repair updates for intake flows, but deployment context is thin and the service has open-auth caveats.
-- repair-analysis [medium] -> tagged operations: repair-profitability scripts are operationally useful, but this is a small scratch folder with hardcoded external paths.
+- repair-analysis [resolved 2026-05-05] -> archived under `~/fleet/archive/repair-analysis-2026-05`: hardcoded scratch scripts were superseded by `system-audit-2026-03-31` repair profitability work and no live caller was found.
 - voice-notes [medium] -> tagged main: strategic transcripts are fleet-level, but intake-specific content overlaps operations and `alex-cs`.
 - webhook-migration [low] -> tagged operations: the Monday cutover is ops-owned, but the Shopify and Intercom migration track introduces rival claims.
 - whisper-api [low] -> tagged operations: it sits near intake audio tooling, but it is really a one-file helper reading auth from a main-agent profile.
